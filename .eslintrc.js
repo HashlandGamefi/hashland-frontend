@@ -27,5 +27,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment':['off'], // 不要使用“@ts ignore”，因为它会改变编译错误
     'camelcase': [0, {properties: 'always'}], // 没有使用驼峰命名法的报错解决
     'no-irregular-whitespace':'off', // 键间距值前缺少空格----不规则空格的报错
+    'comma-dangle':'off',
+    'key-spacing':'off'
   }
 }

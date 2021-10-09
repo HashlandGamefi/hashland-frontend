@@ -75,9 +75,9 @@ export default {
     // @ts-ignore
     const lang = (navigator.systemLanguage? navigator.systemLanguage: navigator.language).substr(0, 2);
     if (lang == "zh") {
-      return "zh-CN";
+      return "cn";
     } else {
-      return "en-US";
+      return "en";
     }
   },
   // 小数点后边有0  去掉0
