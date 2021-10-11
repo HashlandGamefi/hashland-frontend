@@ -16,8 +16,8 @@
         <span class="span1 span2">去市场 >>></span>
       </div>
     </div>
-    <div class="compositeCard">合成卡牌</div>
     <div class="card_content">
+      <div class="compositeCard">合成卡牌</div>
       <img src="../../assets/images/compositecard.png" class="img" />
       <div class="cardboxs">
         <div class="one_box">
@@ -57,7 +57,59 @@
             <span class="span2">2021.10.16</span>
           </div>
         </div>
-        <div class=""></div>
+        <div class="hashland_bottom">
+          <div class="onebox">
+            <span class="span1">今日产出</span>
+            <span class="span2">2,700</span>
+          </div>
+          <div class="onebox">
+            <span class="span1">总量/产出比</span>
+            <span class="span2">21,000,000/0.0128%</span>
+          </div>
+          <div class="onebox">
+            <span class="span1">流通量</span>
+            <span class="span2">2,700</span>
+          </div>
+          <div class="onebox">
+            <span class="span1">销毁量</span>
+            <span class="span2">2,700</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page_bottom">
+      <div class="embedded_box">
+        <span class="span1">平台币使用背景</span>
+        <div class="horizontal">
+          <div class="horizontal_onebox">
+            <div class="top">
+              <img src="../../assets/images/use1.png" class="img" />
+              <span class="span1_">卡牌升级</span>
+            </div>
+            <span class="bottom">节约合成高星级卡片时间</span>
+          </div>
+          <div class="horizontal_onebox">
+            <div class="top">
+              <img src="../../assets/images/use2.png" class="img" />
+              <span class="span1_">盲盒卡牌</span>
+            </div>
+            <span class="bottom">节约合成高星级卡片时间</span>
+          </div>
+          <div class="horizontal_onebox">
+            <div class="top">
+              <img src="../../assets/images/use3.png" class="img" />
+              <span class="span1_">多重算力卡牌</span>
+            </div>
+            <span class="bottom">获得其他算力的收益</span>
+          </div>
+          <div class="horizontal_onebox">
+            <div class="top">
+              <img src="../../assets/images/use4.png" class="img" />
+              <span class="span1_">挖矿</span>
+            </div>
+            <span class="bottom">农场、pool池  LP挖矿</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -153,22 +205,23 @@ export default {
       }
     }
   }
-  .compositeCard{
-    width: 100%;
-    padding-left: 60px;
-    font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #FFFFFF;
-    line-height: 84px;
-    letter-spacing: 4px;
-    margin-top: 95px;
-  }
   .card_content{
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    margin-top: 95px;
+    .compositeCard{
+      width: 100%;
+      font-size: 40px;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 84px;
+      letter-spacing: 4px;
+      padding-left: 40px;
+    }
     .img{
       width: 1226px;
       object-fit: contain;
@@ -213,7 +266,7 @@ export default {
   .hashland_boxs{
     width: 100%;
     margin-top: 100px;
-    padding-left: 60px;
+    padding: 20px;
     .hashland_content{
       width: 100%;
       // background-image: url("../../assets/images/hashland.png");
@@ -222,6 +275,7 @@ export default {
       padding: 10px;
       display: flex;
       flex-direction: column;
+      padding: 0 40px;
       .img{
         width: 252px;
         object-fit: contain;
@@ -298,6 +352,84 @@ export default {
             color: #00E7F0;
             line-height: 56px;
           }
+        }
+      }
+      .hashland_bottom{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 40px 0;
+        .onebox{
+          display: flex;
+          flex-direction: column;
+          .span1{
+            font-size: 26px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 55px;
+          }
+          .span2{
+            font-size: 40px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #00E7F0;
+            line-height: 55px;
+          }
+        }
+      }
+    }
+  }
+  .page_bottom{
+    width: 100%;
+    padding: 40px;
+    .embedded_box{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .span1{
+      font-size: 40px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #D8D8D8;
+      line-height: 56px;
+      letter-spacing: 2px;
+    }
+    .horizontal{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      .horizontal_onebox{
+        display: flex;
+        flex-direction: column;
+        .top{
+          display: flex;
+          align-items: center;
+          .img{
+            width: 61px;
+            object-fit: contain;
+          }
+          .span1_{
+            font-size: 26px;
+            font-family: PingFangSC-Medium, PingFang SC;
+            font-weight: 500;
+            color: #FFFFFF;
+            line-height: 38px;
+          }
+        }
+        .bottom{
+          font-size: 16px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #DDD9D9;
+          line-height: 28px;
+          margin-left: 65px;
         }
       }
     }

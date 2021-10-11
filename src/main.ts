@@ -5,10 +5,10 @@ import store from './store'
 import './style/reset.scss'
 import './style/style.scss'
 
+import i18n from './i18n/index'
+
 import common from "./utils/common";
 Vue.prototype.$common = common;
-
-import i18n from './i18n/index'
 
 Vue.config.productionTip = false
 

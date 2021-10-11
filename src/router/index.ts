@@ -6,8 +6,17 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
   {
     path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: () => import('../views/Home/index.vue')
+  },
+  {
+    path: '/buy',
+    name: 'Buy',
+    component: () => import('../views/Buy/index.vue')
   }
 ]
 
