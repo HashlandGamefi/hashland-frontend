@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
-    '@vue/standard',
+    // '@vue/standard',
     '@vue/typescript/recommended'
   ],
   parserOptions: {
@@ -28,6 +28,6 @@ module.exports = {
     'camelcase': [0, {properties: 'always'}], // 没有使用驼峰命名法的报错解决
     'no-irregular-whitespace':'off', // 键间距值前缺少空格----不规则空格的报错
     'comma-dangle':'off',
-    'key-spacing':'off'
+    'key-spacing':0
   }
 }

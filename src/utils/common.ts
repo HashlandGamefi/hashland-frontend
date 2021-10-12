@@ -1,3 +1,5 @@
+import { wallet } from 'hashland-sdk';
+import store from '../store/index'
 export default {
   // 设置cookie过期时间
   setCookie(key: string, value: any, time: any) {
@@ -237,5 +239,69 @@ export default {
     }
     calback({ h: H, m: M, s: S });
     endtime = endtime - 1;
-  }
+  },
+  // 链接钱包
+  // LinkWallet(that:any){
+  //   let obj = {
+  //     account:'',
+  //     chain:'',
+  //     status:false
+  //   }
+  //   wallet.getAccount().then(sdk_account => {
+  //     console.log('链接钱包sdk_account: ', sdk_account);
+  //     // @ts-ignore
+  //     obj.account = sdk_account
+
+  //     wallet.getChainId().then(chain => {
+  //       console.log('获取网络chain: ', chain);
+  //       // @ts-ignore
+  //       if(chain == store.state.chain){
+  //         // @ts-ignore
+  //         obj.chain = chain
+  //         obj.status = true
+  //       }else{
+  //         // @ts-ignore
+  //         obj.chain = chain
+  //         obj.status = false
+  //       }
+  //       store.commit("setSDK", JSON.stringify(obj))
+  //       localStorage.setItem("setSDK", JSON.stringify(obj))
+  //       that.reload()
+  //     }).catch(() => {
+  //       obj.chain = ''
+  //       obj.status = false
+  //       store.commit("setSDK", JSON.stringify(obj))
+  //       localStorage.setItem("setSDK", JSON.stringify(obj))
+  //       that.reload()
+  //     })
+  //   }).catch(() => {
+  //     obj.account = ''
+  //     obj.status = false
+  //   })
+
+  //   // 账号切换
+  //   wallet.onAccountChanged( (res:any) => {
+  //     // @ts-ignore
+  //     obj.account = res[0]
+  //     store.commit("setSDK", JSON.stringify(obj))
+  //     localStorage.setItem("setSDK", JSON.stringify(obj))
+  //     that.reload()
+  //   })
+  //   // 网络切换
+  //   wallet.onChainChanged( (res:any) => {
+  //     console.log('切换网络res: ', res);
+  //     if (res == store.state.chain){
+  //       obj.chain = res
+  //       obj.status = true
+  //       store.commit("setSDK", JSON.stringify(obj))
+  //       localStorage.setItem("setSDK", JSON.stringify(obj))
+  //     }else {
+  //       obj.chain = res
+  //       obj.status = false
+  //       store.commit("setSDK", JSON.stringify(obj))
+  //       localStorage.setItem("setSDK", JSON.stringify(obj))
+  //     }
+  //     that.reload()
+  //   })
+  // }
 };

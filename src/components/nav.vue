@@ -18,7 +18,8 @@
       </ul>
     </div>
     <div class="connect_box">
-      <span class="span1">登录</span>
+      <span class="span1" v-if="accountStatus && linkStatus">{{getSubtringAccount}}</span>
+      <span class="span1" @click="signIn" v-else>Connect</span>
       <div class="lang_box">
         <img src="../assets/images/cn.png" class="cnimg" />
         <span class="lang_txt">CN</span>
@@ -29,14 +30,18 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { wallet,network } from 'hashland-sdk';
 export default {
+  inject: ['reload'],
   data () {
     return {
-      navarr: ['message.nav.title1', 'message.nav.title2', 'message.nav.title3', 'message.nav.title4','message.nav.title5']
+      navarr: ['message.nav.title1', 'message.nav.title2', 'message.nav.title3', 'message.nav.title4','message.nav.title5'],
+      accountStatus:false, //账号链接状态
+      linkStatus:false//网络链接状态
     }
   },
   computed: {
-    ...mapGetters(["getMenuIndex"])
+    ...mapGetters(["getMenuIndex","getSubtringAccount"])
   },
   methods:{
     // 菜单栏切换状态
@@ -54,6 +59,53 @@ export default {
           break;
       }
     },
+    // 登录
+    signIn(){
+      this.commonLink()
+    },
+    // 链接钱包方法
+    commonLink(){
+      // let obj = { account:'' }
+      let net = network() // 获取sdk返回的当前的环境
+      wallet.getAccount() //链接钱包
+      wallet.getChainId().then(chain => {
+        if(chain == net.chainId){
+          this.linkStatus = true
+        }else{
+          wallet.addChain().then(res => {
+            console.log('手动切换网络res: ', res);
+          }).catch(err =>{
+            console.log('手动切换网络err: ', err);
+          })
+        }
+      })
+      // 监听账号
+      wallet.onAccountChanged(res => {
+        console.log('账号切换res: ', res);
+        if(res.length == 0){
+          this.accountStatus = false
+          this.$store.commit("setSDK",'')
+          localStorage.setItem("setSDK",'')
+        }else{
+          this.accountStatus = true
+          this.$store.commit("setSDK", res[0])
+          localStorage.setItem("setSDK",res[0])
+        }
+      })
+
+      // 监听网络
+      wallet.onChainChanged(res => {
+        console.log('监听网络res: ', res);
+        if (res == net.chainId){
+          this.linkStatus = true
+        }else {
+          this.linkStatus = false
+        }
+      })
+    }
+  },
+  mounted(){
+    console.log("导航的mounted")
   }
 }
 </script>
@@ -77,13 +129,14 @@ export default {
     top: 0;
     left: 20px;
     width: 223px;
+    cursor: pointer;
     .imgs{
       width: 100%;
       object-fit: contain;
     }
   }
   .menu_box{
-    width: calc(100% - 200px);
+    width: calc(100% - 320px);
     .ul_{
       width: 100%;
       display: flex;
@@ -160,11 +213,12 @@ export default {
     display: flex;
     align-items: center;
     .span1{
-      font-size: 26px;
+      font-size: 20px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       line-height: 37px;
+      cursor: pointer;
     }
     .lang_box{
       display: flex;

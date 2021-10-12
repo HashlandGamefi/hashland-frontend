@@ -5,8 +5,8 @@ Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale:common.isLang(),
   messages: {
-    'cn': require('./cn'),
-    'en': require('./en')
+    cn: require('./cn'),
+    en: require('./en')
   }
 })
 export default i18n

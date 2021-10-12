@@ -13,7 +13,7 @@
 
 <script>
 import CompositeCard from './compositecard.vue'
-import { getSigner,hn,util,hnBox } from 'hashland-sdk';
+import { getSigner,hn,util,hnBox,wallet } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -26,25 +26,40 @@ export default {
   methods: {
     async connect(){
       console.log("点击函数")
-      let zccount = await window.ethereum.enable();
-      console.log('账号: ', zccount);
+      // let account = await wallet.getAccount()
+      // let chain = await wallet.getChainId()
+      // let addchain = await wallet.addChain()
+      await wallet.onAccountChanged(res => {
+        console.log('切换账号res: ', res);
+      })
+      await wallet.onChainChanged(res => {
+        console.log('切换网络res: ', res);
+      })
 
+      // console.log('addchain: ', addchain);
+      console.log('chain: ', chain);
+      console.log('walet: ', account);
       // const tx = await signer.sendTransaction({
       //   to: "0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C",
       //   value: util.parseEther("0.001")
       // });
       // console.log("tx:",tx)
-      let box = hnBox()
-      console.log('box: ', box);
-      const a =await box.boxTokenPrices(0)
-      console.log('a: ', a);
+
+      // let box = hnBox()
+      // console.log('box: ', box);
+      // const a =await box.boxTokenPrices(0)
+      // console.log('a: ', a);
 
       let hnContract = hn();
       const totalSupply = await hnContract.totalSupply();
-      console.log('totalSupply: ', util.formatEther(totalSupply));
+      console.log('直接获取合约返回的数转tostring():', totalSupply.toString());
+      console.log('传的数转bignumber直接能被合约调用:',util.parseUnits('5', 18))
+      console.log('把十八位数转换成十进制数:', util.formatEther('2000000000000000000'));
+      console.log('把十八位数转换成十进制数:', util.formatEther(''+3*1e18));
+      console.log('把整数转换成相应的小数位:',util.formatUnits('123456000000000000', 18)) // 0.123456
 
-      let trasfer = await hnContract.connect(getSigner()).transferFrom('0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C','0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',0)
-      console.log('trasfer: ', trasfer);
+      // let trasfer = await hnContract.connect(getSigner()).transferFrom('0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C','0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',0)
+      // console.log('trasfer: ', trasfer);
 
       // const tx1 = await hnContract.renameHn(0, "123");
       // console.log('tx: ', tx1);
