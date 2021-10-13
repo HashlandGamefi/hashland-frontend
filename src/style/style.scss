@@ -2,6 +2,18 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
+@font-face {
+  font-family: 'PingFangSC-Light';
+  src: url('../assets/font/PingFangSC-Light.ttf');
+}
+@font-face {
+  font-family: 'PingFangSC-Semibold';
+  src:url('../assets/font/PingFangSC-Semibold.ttf');
+}
+@font-face {
+  font-family: 'PingFangSC-Regular';
+  src: url('../assets/font/PingFangSC-Regular.ttf');
+}
 html,
 body {
   width: 100%;

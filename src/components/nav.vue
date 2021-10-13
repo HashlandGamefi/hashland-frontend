@@ -11,14 +11,13 @@
             <div class="box_nft">
               <div class="span1" @click.stop="nftFun('card')">NFT卡牌 <span class="icon-v-right"></span></div>
               <div class="span1" @click.stop="nftFun('mining')">NFT挖矿 <span class="icon-v-right"></span></div>
-              <div class="span1" @click.stop="nftFun('market')">NFT市场 <span class="icon-v-right"></span></div>
             </div>
           </div>
         </li>
       </ul>
     </div>
     <div class="connect_box">
-      <span class="span1" v-if="accountStatus && linkStatus">{{getSubtringAccount}}</span>
+      <span class="span1" v-if="getIstrue">{{getSubtringAccount}}</span>
       <span class="span1" @click="signIn" v-else>Connect</span>
       <div class="lang_box">
         <img src="../assets/images/cn.png" class="cnimg" />
@@ -35,13 +34,12 @@ export default {
   inject: ['reload'],
   data () {
     return {
-      navarr: ['message.nav.title1', 'message.nav.title2', 'message.nav.title3', 'message.nav.title4','message.nav.title5'],
-      accountStatus:false, //账号链接状态
-      linkStatus:false//网络链接状态
+      navarr: ['message.nav.title1', 'message.nav.title2', 'message.nav.title3', 'message.nav.title6', 'message.nav.title4','message.nav.title5'],
+
     }
   },
   computed: {
-    ...mapGetters(["getMenuIndex","getSubtringAccount"])
+    ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue"])
   },
   methods:{
     // 菜单栏切换状态
@@ -63,49 +61,52 @@ export default {
     signIn(){
       this.commonLink()
     },
-    // 链接钱包方法
-    commonLink(){
-      // let obj = { account:'' }
+    // 账号链接抽离方法
+    connectFun(res){
+      console.log('账号切换res: ', res);
+      if(res.length == 0){
+        this.$store.commit("setAccount",'no')
+        localStorage.setItem("setAccount",'no')
+      }else{
+        this.$store.commit("setAccount", res[0])
+        localStorage.setItem("setAccount",res[0])
+      }
+    },
+    // 网络链接抽离方法(第一次连接,用户网络不对的情况下帮他切换网络)
+    networkFun(chainID){
       let net = network() // 获取sdk返回的当前的环境
-      wallet.getAccount() //链接钱包
-      wallet.getChainId().then(chain => {
-        if(chain == net.chainId){
-          this.linkStatus = true
-        }else{
-          wallet.addChain().then(res => {
-            console.log('手动切换网络res: ', res);
-          }).catch(err =>{
-            console.log('手动切换网络err: ', err);
-          })
-        }
-      })
+      if(chainID == net.chainId){
+        this.$store.commit("setChain", chainID)
+        localStorage.setItem("setChain",chainID)
+      }else{
+        wallet.addChain()
+      }
+    },
+    // 网络链接抽离方法(用户自己手动切换其他网络的操作)
+    OnNetworkFun(res){
+      let net = network() // 获取sdk返回的当前的环境
+      if (res == net.chainId){
+        this.$store.commit("setChain", res)
+        localStorage.setItem("setChain",res)
+      }else {
+        this.$store.commit("setChain", '')
+        localStorage.removeItem("setChain")
+      }
+    },
+    // 链接钱包方法
+    async commonLink(){
+      const account = await wallet.getAccount() //链接钱包
+      this.connectFun(account)
+
+      const chainID = await wallet.getChainId() // 连接网络
+      this.networkFun(chainID)
+
       // 监听账号
-      wallet.onAccountChanged(res => {
-        console.log('账号切换res: ', res);
-        if(res.length == 0){
-          this.accountStatus = false
-          this.$store.commit("setSDK",'')
-          localStorage.setItem("setSDK",'')
-        }else{
-          this.accountStatus = true
-          this.$store.commit("setSDK", res[0])
-          localStorage.setItem("setSDK",res[0])
-        }
-      })
+      wallet.onAccountChanged(this.connectFun)
 
       // 监听网络
-      wallet.onChainChanged(res => {
-        console.log('监听网络res: ', res);
-        if (res == net.chainId){
-          this.linkStatus = true
-        }else {
-          this.linkStatus = false
-        }
-      })
+      wallet.onChainChanged(this.OnNetworkFun)
     }
-  },
-  mounted(){
-    console.log("导航的mounted")
   }
 }
 </script>
@@ -136,14 +137,14 @@ export default {
     }
   }
   .menu_box{
-    width: calc(100% - 320px);
+    width: calc(100% - 280px);
     .ul_{
       width: 100%;
       display: flex;
       align-items: center;
       li{
         position: relative;
-        padding: 0 38px;
+        padding: 0 25px;
         font-size: 26px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
@@ -244,7 +245,11 @@ export default {
   }
 }
 @media screen and (min-width: 981px) and (max-width: 1439px) {
-
+.nav_box{
+  .menu_box{
+    width: calc(100% - 200px);
+  }
+}
 }
 @media screen and (max-width: 980px) {
 

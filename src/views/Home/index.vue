@@ -1,19 +1,18 @@
 <template>
   <div class="home_page">
-    <div class="box" :style="{ height: pageHeight }">
-      <div class="topbox">这是一张持续增值的卡牌</div>
-      <div class="bottom">
-        <div class="bottombox">得到您的第一张卡牌</div>
+    <div class="box">
+      <div class="topbox">
+        <img src="../../assets/images/homebg.png" class="homebgimg">
       </div>
-    </div>
-    <div class="content">
-      <div class="left">
-        <span class="span1">高达180%的APY</span>
-        <span class="span1">去农场 >>></span>
-      </div>
-      <div class="left">
-        <span class="span1 span2">收集NFT卡牌</span>
-        <span class="span1 span2">去市场 >>></span>
+      <div class="content">
+        <div class="left">
+          <span class="span1">高达180%的APY</span>
+          <span class="span1">去农场 >>></span>
+        </div>
+        <div class="left">
+          <span class="span1 span2">收集NFT卡牌</span>
+          <span class="span1 span2">去市场 >>></span>
+        </div>
       </div>
     </div>
     <div class="card_content">
@@ -23,17 +22,17 @@
         <div class="one_box">
           <img src="../../assets/images/issue.png" class="img" />
           <span class="span1">已发行</span>
-          <span class="span2">3000</span>
+          <span class="span2">{{issued}}</span>
         </div>
         <div class="one_box">
           <img src="../../assets/images/sale.png" class="img" />
-          <span class="span1">已发行</span>
-          <span class="span2">3000</span>
+          <span class="span1">待销售</span>
+          <span class="span2">{{sold}}</span>
         </div>
         <div class="one_box">
           <img src="../../assets/images/destroy.png" class="img" />
-          <span class="span1">已发行</span>
-          <span class="span2">3000</span>
+          <span class="span1">已销毁</span>
+          <span class="span2">{{Destroy}}</span>
         </div>
       </div>
     </div>
@@ -60,19 +59,19 @@
         <div class="hashland_bottom">
           <div class="onebox">
             <span class="span1">今日产出</span>
-            <span class="span2">2,700</span>
+            <span class="span2">{{todynums}}</span>
           </div>
           <div class="onebox">
             <span class="span1">总量/产出比</span>
-            <span class="span2">21,000,000/0.0128%</span>
+            <span class="span2">21,000,000/{{proportion}}%</span>
           </div>
           <div class="onebox">
             <span class="span1">流通量</span>
-            <span class="span2">2,700</span>
+            <span class="span2">{{totalSupply}}</span>
           </div>
           <div class="onebox">
             <span class="span1">销毁量</span>
-            <span class="span2">2,700</span>
+            <span class="span2">{{hcDestroy}}</span>
           </div>
         </div>
       </div>
@@ -115,14 +114,56 @@
   </div>
 </template>
 <script>
+import { hc,hn,hnPool } from 'hashland-sdk';
 export default {
   data(){
     return {
       pageHeight:0,//当前可视区域的高度
+      issued:0,//已发行
+      Destroy:0,//已销毁
+      sold:'NAN',//待销售
+      todynums:0,//今日产出
+      totalSupply:0,//流通量
+      hcDestroy:0,//hc销毁量
+      proportion:0,//比例
+    }
+  },
+  methods:{
+    async getSDKInfo(){
+      // 已发行
+      const hn_totalSupply = await hn().totalSupply();
+      this.$common.checkNumber(hn_totalSupply.toString(),res => {
+        this.issued = res
+      })
+      // 已销毁
+      let hn_destroyed = await hn().balanceOf('0x0000000000000000000000000000000000000002') / 1e18
+      this.$common.checkNumber(hn_destroyed.toString(),res => {
+        this.Destroy = res
+      })
+      // 流通量
+      const hc_totalSupply = await hc().totalSupply() / 1e18;
+      console.log('hc_totalSupply: ', hc_totalSupply.toString());
+      this.$common.checkNumber( hc_totalSupply.toString(),res => {
+        this.totalSupply = res
+      })
+      // 已销毁
+      let hc_destroyed = await hc().balanceOf('0x0000000000000000000000000000000000000002') / 1e18
+      this.$common.checkNumber(hc_destroyed.toString(),res => {
+        this.hcDestroy = res
+      })
+
+      this.proportion = this.$common.useBigNumberDiv(this.totalSupply,4,21000000) // 产出比
+
+      // 今日产出
+      let product = await hnPool().tokenReleaseSpeeds(0) / 1e18
+      console.log('product: ', product.toString());
+      this.$common.checkNumber( product.toString(),res => {
+        this.todynums = res
+      },4)
     }
   },
   mounted(){
-    this.pageHeight = document.body.clientHeight + 'px'
+    this.getSDKInfo()
   }
 }
 </script>
@@ -135,73 +176,47 @@ export default {
   align-items: center;
   .box{
     width: 100%;
-    background-image: url("../../assets/images/homebg.png");
-    background-size:100% 100%;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 155px;
     .topbox{
-      width: 492px;
-      height: 101px;
-      background-image: url("../../assets/images/bg1.png");
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      text-align: center;
-      font-size: 35px;
-      font-family: AliHYAiHei;
-      color: #7D4516;
-      line-height: 101px;
-      cursor: pointer;
+      width: 100%;
+      .homebgimg{
+        width: 100%;
+        object-fit: contain;
+      }
     }
-    .bottom{
+    .content{
       width: 100%;
       display: flex;
-      justify-content: flex-end;
-      padding-right: 135px;
-      cursor: pointer;
-      .bottombox{
-        width: 348px;
-        height: 185px;
-        background-image: url("../../assets/images/bg2.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        text-align: center;
-        font-size: 26px;
-        font-family: AliHYAiHei;
-        color: #7B3000;
-        line-height: 147px;
-      }
-    }
-  }
-  .content{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 60px;
-    .left{
-      width: 49.5%;
-      height: 318px;
-      background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
-      box-shadow: 0px 17px 44px 0px rgba(0, 0, 0, 0.5);
-      border: 4px solid;
-      border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      padding-top: 30px;
-      .span1{
-        font-size: 50px;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
-        color: #00E7F0;
-        line-height: 70px;
-      }
-      .span2{
-        color: #fff;
+      justify-content: space-between;
+      .left{
+        width: 49.9%;
+        height: 200px;
+        background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
+        box-shadow: 0px 17px 44px 0px rgba(0, 0, 0, 0.5);
+        border: 4px solid;
+        border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        .span1{
+          font-size: 36px;
+          font-family: PingFangSC-Medium, PingFang SC;
+          font-weight: 500;
+          color: #00E7F0;
+          line-height: 70px;
+          // text-shadow: 0 0 10px #fff,
+          // 0 0 10px #fff,
+          // 0 0 20px #fff,
+          // 0 0 30px #00E7F0,
+          // 0 0 30px #00E7F0,
+          // 0 0 30px #00E7F0,
+          // 0 0 40px #00E7F0,
+          // 0 0 60px #00E7F0;
+        }
+        .span2{
+          color: #fff;
+        }
       }
     }
   }
@@ -211,14 +226,14 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    margin-top: 95px;
+    margin-top: 25px;
     .compositeCard{
       width: 100%;
       font-size: 40px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
-      line-height: 84px;
+      line-height: 60px;
       letter-spacing: 4px;
       padding-left: 40px;
     }

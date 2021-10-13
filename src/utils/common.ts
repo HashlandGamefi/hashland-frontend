@@ -1,5 +1,4 @@
-import { wallet } from 'hashland-sdk';
-import store from '../store/index'
+import BigNumber from 'bignumber.js'
 export default {
   // 设置cookie过期时间
   setCookie(key: string, value: any, time: any) {
@@ -135,14 +134,54 @@ export default {
     }
     return v;
   },
-  // 截取小数点后的位数(bit传3,默认为2位)
-  getBit(value: any, bit = 3) {
+  // 截取小数点后的位数---已调用cutZero函数,截取出来的小数最后有0则去掉0
+  getBit(value: any, bit = 2) {
     if (value == 0) return 0;
     let str = value.toString();
     let strIndex = str.indexOf(".");
     if (strIndex === -1) return this.cutZero(str);
-    str = str.substring(0, strIndex + bit);
+    str = str.substring(0, strIndex + bit + 1);
     return this.cutZero(str);
+  },
+  // 使用bignumbers计算  保留小数位  eg:num / 1e18保留8位
+  useBigNumberDiv(num:any,bit = 8,nums = 1000000000000000000){
+    let big_number = new BigNumber(num)
+    let last_num = big_number.div(nums)
+    if(bit == 0){
+      return this.editE(last_num.toNumber())
+    }else{
+      return this.editE(last_num.dp(bit).toNumber())
+    }
+  },
+  //bignumbers---乘法
+  useBignumberMultipliedBy(num:number,nums:number,bit = 0){
+    let x = new BigNumber(num)
+    let result = x.times(nums) // 1.8
+    if(bit == 0){
+      return result.toNumber()
+    }else{
+      return result.dp(bit).toNumber()
+    }
+  },
+  //bignumbers---加法
+  useBignumberPlus(num:number,nums:number,bit = 0){
+    let x = new BigNumber(num)
+    let result = x.plus(nums)
+    if(bit == 0){
+      return result.toNumber()
+    }else{
+      return result.dp(bit).toNumber()
+    }
+  },
+  //bignumbers---减法
+  useBignumberMinus(num:number,nums:number,bit = 0){
+    let x = new BigNumber(num)
+    let result = x.minus(nums)
+    if(bit == 0){
+      return result.toNumber()
+    }else{
+      return result.dp(bit).toNumber()
+    }
   },
   /** 应用场景:获取到的时间转换为固定的时间格式;参数:时间;返回值:yy-mm-dd hh:mm:ss:ms */
   formatDate(date: any) {
@@ -240,6 +279,14 @@ export default {
     calback({ h: H, m: M, s: S });
     endtime = endtime - 1;
   },
+  // 数字中是否带有e,有的话截取固定位数小数(bit),保留e的位数,没有则按正常显示(digit为要保留的小数位)
+  checkNumber(str:string,callback:any,digit = 8,bit = 4){
+    if(str.indexOf('e') != -1){
+      callback(str.substring(0,str.indexOf('.') + bit) + str.substring(str.indexOf('e')))
+    }else{
+      callback(this.numFormat(this.getBit(str,digit)))
+    }
+  }
   // 链接钱包
   // LinkWallet(that:any){
   //   let obj = {
