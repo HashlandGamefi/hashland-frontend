@@ -11,7 +11,7 @@
       </div>
     </div>
     <span class="bottom_title">购买的NFT卡牌可前往“NFT挖矿”中质押挖矿</span>
-    <div class="connect_box">确认</div>
+    <div class="connect_box" @click="closepage">确认</div>
   </div>
 </template>
 
@@ -23,8 +23,8 @@ export default {
       default: false
     },
     boxarr: {
-      type: [],
-      default: []
+      type: Array,
+      default: function () { return [] }
     }
   },
   methods: {
@@ -38,26 +38,33 @@ export default {
 
 <style lang='scss' scoped>
 .record_page{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999999;
   width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 149px;
   .win_img{
     width: 470px;
+    height: 180px;
     object-fit: contain;
   }
   .boxarr{
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     padding: 0 90px;
     padding-right: 40px;
-    margin-top: 70px;
     max-height: 980px;
     overflow-y: auto;
     .onebox{
+      position: relative;
       width: 214px;
       height: 305px;
       display: flex;
@@ -70,6 +77,9 @@ export default {
         object-fit: contain;
       }
       .bottom{
+        position: absolute;
+        bottom: 0;
+        left: 0;
         width: 100%;
         background: rgba(0,0,0,0.3);
         display: flex;

@@ -33,7 +33,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,contract,getSigner,constant,getProvider } from 'hashland-sdk';
+import { hnBox,contract,getSigner,constant,getProvider,util } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -51,33 +51,34 @@ export default {
   methods: {
     // 监听盲盒开奖结果
     watchResult(){
-      let hccc = hnBox()
-      console.log('hccc: ', hccc.interface.events);
-      // return
-      hnBox().interface.events.SpawnHns({},function(error, event){
-        console.log('error: ', error);
-      }).on("connected", function(subscriptionId){
-        console.log('此次抽奖结果的id',subscriptionId);
-      }).on('data', async event =>{
-        console.log('此次中奖的信息data',event);
-        // if(event.returnValues.user.toLocaleLowerCase() == account.toLocaleLowerCase()){
-        //   let imgarr = []
-        //   for(let i = 0;i < event.returnValues.alienIds.length;i++){
-        //     let ele = event.returnValues.alienIds[i]
-        //     let src = await Token1.methods.aliens(ele).call()
-        //     imgarr.push(src)
-        //   }
-        //   callback(imgarr)
-        // }
-      })
+      hnBox().on("SpawnHns", (user, boxslengths, boxarrID, event) => {
+        if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
+          let imgarr = []
+          for(let i = 0;i < event.args.hnIds.length;i++){
+            let obj = {}
+            obj.ele = event.args.hnIds[i].toString()
+            obj.src = require('../../assets/images/record193.png')
+            obj.hc = 99
+            obj.btc = 100
+            imgarr.push(obj)
+          }
+          let lastObj = {
+            minserDis:true,
+            boxarr:imgarr
+          }
+          this.$store.commit("setrewardsInfo", lastObj);
+        }
+        // console.log('user:', user);
+        // console.log('boxslengths:', boxslengths.toString());
+        // console.log('boxarr:', boxarrID.toString());
+        // console.log('event:',event.args.hnIds);
+      });
     },
     // 购买盒子
     async buyBox(){
-      this.watchResult()
-      return
       if(this.buy_isloading || !this.boxnums)return
       this.buy_isloading = true
-      console.log("购买盒子:",this.getAccount,contract().HNBox,this.total)
+      // console.log("购买盒子:",this.getAccount,contract().HNBox,this.total)
       // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
       await getSigner().sendTransaction({
         to: contract().HNBox,
