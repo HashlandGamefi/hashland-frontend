@@ -10,6 +10,9 @@ import i18n from './i18n/index'
 import common from "./utils/common";
 Vue.prototype.$common = common;
 
+import BtnLoading from './components/btnloading.vue'
+Vue.component('BtnLoading', BtnLoading)
+
 Vue.config.productionTip = false
 
 new Vue({

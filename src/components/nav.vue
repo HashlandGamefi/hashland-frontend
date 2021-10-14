@@ -107,6 +107,9 @@ export default {
       // 监听网络
       wallet.onChainChanged(this.OnNetworkFun)
     }
+  },
+  mounted(){
+    this.commonLink()
   }
 }
 </script>

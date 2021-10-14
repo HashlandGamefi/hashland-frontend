@@ -26,17 +26,18 @@
         <span class="right_span1">插入卡槽后可获得挖矿奖励（BTC+平台币），算力越高，奖励越多</span>
       </div>
     </div>
-    <div class="btn_box" v-if="getIstrue" @click="buyBox">购买</div>
+    <div class="btn_box" v-if="getIstrue" @click="buyBox">购买<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="btn_box" v-else>连接钱包</div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,contract,getSigner,constant } from 'hashland-sdk';
+import { hnBox,contract,getSigner,constant,getProvider } from 'hashland-sdk';
 export default {
   data () {
     return {
+      buy_isloading:false,// 按钮loading
       surplusNums:0, //盲盒剩余数量
       boxnums:'',//购买数量
       boxPrice:0,//盲盒价格
@@ -48,8 +49,34 @@ export default {
     ...mapGetters(["getIstrue","getAccount"])
   },
   methods: {
+    // 监听盲盒开奖结果
+    watchResult(){
+      let hccc = hnBox()
+      console.log('hccc: ', hccc.interface.events);
+      // return
+      hnBox().interface.events.SpawnHns({},function(error, event){
+        console.log('error: ', error);
+      }).on("connected", function(subscriptionId){
+        console.log('此次抽奖结果的id',subscriptionId);
+      }).on('data', async event =>{
+        console.log('此次中奖的信息data',event);
+        // if(event.returnValues.user.toLocaleLowerCase() == account.toLocaleLowerCase()){
+        //   let imgarr = []
+        //   for(let i = 0;i < event.returnValues.alienIds.length;i++){
+        //     let ele = event.returnValues.alienIds[i]
+        //     let src = await Token1.methods.aliens(ele).call()
+        //     imgarr.push(src)
+        //   }
+        //   callback(imgarr)
+        // }
+      })
+    },
     // 购买盒子
     async buyBox(){
+      this.watchResult()
+      return
+      if(this.buy_isloading || !this.boxnums)return
+      this.buy_isloading = true
       console.log("购买盒子:",this.getAccount,contract().HNBox,this.total)
       // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
       await getSigner().sendTransaction({
@@ -57,15 +84,20 @@ export default {
         value: this.originalPrice.mul(this.boxnums)
       }).then(res => {
         console.log('购买盒子res: ', res);
+        this.buy_isloading = false
+        this.watchResult()
       }).catch(err => {
         console.log('购买盒子err: ', err);
-
+        this.buy_isloading = false
       })
     },
     inputchangeFun () {
       console.log("输入框改变事件")
       if(this.boxnums == ''){
         this.total = 0
+      }else if(this.boxnums > 100){
+        this.boxnums = 100
+        this.total = 100 * this.boxPrice
       }else{
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
       }

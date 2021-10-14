@@ -316,13 +316,13 @@ export default {
           font-size: 30px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
-          color: #000;
+          color: #fff;
         }
       }
       .trend_boxs{
         width: 100%;
         display: flex;
-        margin-top: 30px;
+        margin-top: 10px;
         .imgbox{
           flex: 2;
           position: relative;
@@ -359,6 +359,7 @@ export default {
             font-weight: 600;
             color: #FFFFFF;
             line-height: 37px;
+            margin-top: 30px;
           }
           .span2{
             font-size: 40px;

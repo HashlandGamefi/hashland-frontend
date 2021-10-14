@@ -5,15 +5,22 @@
       <router-view v-if="isRouterAlive" />
     </transition>
     <Footer></Footer>
+    <WinningPopup :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @closepage="closepageFun"></WinningPopup>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import Nav from './components/nav.vue'
 import Footer from './components/footer.vue'
+import WinningPopup from './components/winningpopup.vue'
 export default {
   components: {
     Nav,
-    Footer
+    Footer,
+    WinningPopup
+  },
+  computed: {
+    ...mapGetters(["getrewardsInfo"])
   },
   provide () {    //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
     return {
@@ -34,6 +41,13 @@ export default {
     },
     setRem () {
       console.log('当前窗口宽度:', document.body.clientWidth)// 当前窗口的宽度
+    },
+    closepageFun(){
+      let obj = {
+        minserDis:false,
+        boxarr:[]
+      }
+      this.$store.commit("setrewardsInfo", obj);
     }
   },
   mounted () {

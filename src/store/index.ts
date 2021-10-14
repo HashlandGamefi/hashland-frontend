@@ -5,11 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    rewardsInfo:{
+      minserDis:false,
+      boxarr:[]
+    },//中奖信息
     account:localStorage.getItem("setAccount") || '',// 账号
     chain:localStorage.getItem("setChain") || '',//链
     HashMenuActive: sessionStorage.getItem('HashMenu') || -1, // 导航栏菜单索引
   },
   getters: {
+    getrewardsInfo(state){
+      return state.rewardsInfo;
+    },
     // 获取导航栏状态
     getMenuIndex(state) {
       return state.HashMenuActive;
@@ -47,6 +54,10 @@ export default new Vuex.Store({
     // 接收sdk返回的链
     setChain(state, data) {
       state.chain = data;
+    },
+    // 设置中奖信息
+    setrewardsInfo(state,status) {
+      state.rewardsInfo = status;
     },
   },
   actions: {

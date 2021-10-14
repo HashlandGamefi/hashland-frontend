@@ -2,7 +2,7 @@
 node_modules
 /dist
 *.zip
-
+/prod
 
 # local env files
 .env.local

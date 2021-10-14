@@ -5,13 +5,7 @@
         <span class="luckey_span1">幸运抽奖</span>
         <span class="luckey_span2">随机获取高星级卡牌及卡槽</span>
       </div>
-      <div class="left_btnbox">
-        <div class="btnbox">编号00001</div>
-        <div class="record" @click="recordClick">
-          <span class="record_span1">记录</span>
-          <span class="record_span2">点击查看详情</span>
-        </div>
-      </div>
+      <div class="btn">编号00001</div>
       <span class="composite_span1">价格</span>
       <span class="composite_span2">0.25 BNB</span>
       <span class="composite_line"></span>
@@ -52,9 +46,6 @@ export default {
     inputchangeFun () {
       console.log("输入框改变事件")
     },
-    recordClick(){
-      this.$router.push('/record')
-    }
   },
   created () {
     console.log('created')
@@ -84,6 +75,20 @@ export default {
     top: 60px;
     display: flex;
     flex-direction: column;
+    .btn {
+      width: 308px;
+      height: 87px;
+      background-image: url("../../assets/images/SpeciaBtn1.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      text-align: center;
+      line-height: 87px;
+      font-size: 40px;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
     .top_box {
       width: 100%;
       display: flex;
@@ -103,49 +108,6 @@ export default {
         color: #ffffff;
         line-height: 40px;
         margin-top: 30px;
-      }
-    }
-    .left_btnbox {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      .btnbox {
-        width: 308px;
-        height: 87px;
-        background-image: url("../../assets/images/SpeciaBtn1.png");
-        background-size: contain;
-        background-repeat: no-repeat;
-        text-align: center;
-        line-height: 87px;
-        font-size: 40px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #ffffff;
-      }
-      .record {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 10px;
-        cursor: pointer;
-        .record_span1 {
-          font-size: 40px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
-          color: #ffffff;
-          line-height: 56px;
-        }
-        .record_span2 {
-          background: #00e7f0;
-          border-radius: 25px;
-          text-align: center;
-          padding: 0 15px;
-          font-size: 14px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
-          color: #ffffff;
-          line-height: 20px;
-        }
       }
     }
     .composite_span1 {
