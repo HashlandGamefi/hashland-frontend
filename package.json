@@ -7,7 +7,7 @@
     "build:dev": "vue-cli-service build --mode development",
     "build:prod": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "publish":"npm run build:prod && rimraf -- prod && cpr -- dist prod"
+    "publish": "npm run build:prod && rimraf -- prod && cpr -- dist prod"
   },
   "dependencies": {
     "bignumber.js": "^9.0.1",
@@ -38,10 +38,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
     "rimraf": "^3.0.2",
-    "sass-loader": "^10.1.1",
+    "sass-loader": "^10.0.0",
     "typescript": "~4.1.5",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.46.0"
   }
 }
