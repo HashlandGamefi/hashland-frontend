@@ -42,6 +42,16 @@ export default {
     ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue"])
   },
   methods:{
+    // nfts子菜单选择项
+    nftFun(data){
+      this.$store.commit("HashMenu", 0);
+      sessionStorage.setItem("HashMenu", 0);
+      if(data == 'card'){
+        this.$router.push('/buy')
+      }else if(data == 'mining'){
+        this.$router.push('/nftmining')
+      }
+    },
     // 菜单栏切换状态
     menuClick (index) {
       this.$store.commit("HashMenu", index);
