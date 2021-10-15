@@ -7,6 +7,7 @@
       <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">特权卡牌</div>
     </div>
     <BasicCards v-if="tabIndex == 0"></BasicCards>
+    <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
     <div class="apy_title">APY  180.88%</div>
     <div class="footer_box">
       <div class="left_footer">
@@ -45,9 +46,11 @@
 
 <script>
 import BasicCards from './basiccards.vue'
+import PrivilegeCard from './privilegecard.vue'
 export default {
   components: {
-    BasicCards
+    BasicCards,
+    PrivilegeCard
   },
   data () {
     return {
@@ -125,7 +128,7 @@ export default {
     font-weight: 600;
     color: #FFFFFF;
     line-height: 56px;
-    margin-top: 160px;
+    margin-top: 60px;
   }
   .footer_box{
     width: 100%;

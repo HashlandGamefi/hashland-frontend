@@ -7,6 +7,9 @@ import './style/style.scss'
 
 import i18n from './i18n/index'
 
+import 'swiper/dist/css/swiper.min.css'
+import 'swiper/dist/js/swiper.min'
+
 import common from "./utils/common";
 Vue.prototype.$common = common;
 

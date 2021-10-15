@@ -27,6 +27,16 @@ const routes: Array<RouteConfig> = [
     path: '/carddetails',
     name: 'CardDetails',
     component: () => import('../views/NFTmining/carddetails.vue')
+  },
+  {
+    path: '/insertcard',
+    name: 'InsertCard',
+    component: () => import('../views/NFTmining/insertcard.vue')
+  },
+  {
+    path: '/synthesis',
+    name: 'Synthesis',
+    component: () => import('../views/NFTmining/synthesis.vue')
   }
 ]
 
