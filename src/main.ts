@@ -13,6 +13,9 @@ import 'swiper/dist/js/swiper.min'
 import common from "./utils/common";
 Vue.prototype.$common = common;
 
+import Proup from '@/components/proup.vue'
+Vue.component('Proup', Proup);
+
 import BtnLoading from './components/btnloading.vue'
 Vue.component('BtnLoading', BtnLoading)
 

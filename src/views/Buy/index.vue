@@ -7,15 +7,17 @@
       <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">盲盒卡牌</div>
       <div class="oneTab" :class="{activeTab:tabIndex == 2}" @click="tabIndex = 2">特权卡牌</div>
     </div>
-    <CompositeCard v-if="tabIndex == 0"></CompositeCard>
+    <BasicsCard v-if="tabIndex == 0"></BasicsCard>
     <BlindBoxCard v-if="tabIndex == 1"></BlindBoxCard>
+    <PrivilegeCard v-if="tabIndex == 2"></PrivilegeCard>
   </div>
 </template>
 
 <script>
-import CompositeCard from './compositecard.vue'
+import BasicsCard from './basicscard.vue'
 import BlindBoxCard from './blindboxcard.vue'
-import { getSigner,hn,util,hnBox } from 'hashland-sdk';
+import PrivilegeCard from './privilegecard.vue'
+import { getSigner,hn } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -23,8 +25,9 @@ export default {
     }
   },
   components: {
-    CompositeCard,
-    BlindBoxCard
+    BasicsCard,
+    BlindBoxCard,
+    PrivilegeCard
   },
   methods: {
     async connect(){

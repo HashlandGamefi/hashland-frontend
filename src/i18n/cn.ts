@@ -7,5 +7,6 @@ export const message = {
     title4:'DAO',
     title5:'白皮书',
   },
-  placeholder:'请输入数量'
+  placeholder:'请输入数量',
+  msg:'提示',
 }

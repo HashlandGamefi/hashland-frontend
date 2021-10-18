@@ -11,7 +11,7 @@
     <!-- 我的钱包卡牌 -->
     <div class="myCardBox">
       <div class="occupationBitmap">
-        <img src="../../assets/images/card1.png" class="card_img" />
+        <img src="../../assets/images/buybg.png" class="card_img" />
       </div>
       <div class="btn_box">购买NFT卡牌</div>
     </div>

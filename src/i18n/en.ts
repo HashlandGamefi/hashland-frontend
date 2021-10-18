@@ -7,5 +7,6 @@ export const message = {
     title4:'DAO',
     title5:'',
   },
-  placeholder:''
+  placeholder:'',
+  msg:'Note'
 }

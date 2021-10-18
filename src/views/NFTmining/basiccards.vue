@@ -8,7 +8,7 @@
       </div>
       <div class="synthesis_btn" @click="synthesisClick">合成升级</div>
     </div>
-    <!-- 我的轮播 -->
+    <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in gradeArr" :key="index">
@@ -64,8 +64,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Swiper from 'swiper'
 import Vue from 'vue'
+import { hn } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -73,27 +75,27 @@ export default {
         {
           src:require("../../assets/images/swiper1.png"),
           level:1,
-          hold:1
+          hold:0
         },
         {
           src:require("../../assets/images/swiper1.png"),
           level:2,
-          hold:10
+          hold:0
         },
         {
           src:require("../../assets/images/swiper1.png"),
           level:3,
-          hold:100
+          hold:0
         },
         {
           src:require("../../assets/images/swiper1.png"),
           level:4,
-          hold:32
+          hold:0
         },
         {
           src:require("../../assets/images/swiper1.png"),
           level:5,
-          hold:45
+          hold:0
         }
       ],
       cardsoltArr:[
@@ -112,6 +114,9 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters(["getIstrue","getAccount"])
+  },
   methods: {
     // 插入卡槽
     insertClick(item){
@@ -123,7 +128,9 @@ export default {
     },
     // 我的卡牌跳转
     jumpDetails(item){
-      this.$router.push('/carddetails')
+      console.log('item: ', item);
+      // this.$router.push('/carddetails')
+      this.$router.push({ path: '/carddetails', query: { 'level': item.level} })
     },
     Unlock(index){
       this.cardsoltArr[index].btnstatus = 1
@@ -136,7 +143,35 @@ export default {
     }
   },
   created () {
-    console.log('created')
+    hn().tokensOfOwnerBySize(this.getAccount,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+      console.log('用户卡牌res: ', res);
+      let arr = []
+      for(let i = 0;i < res[0].length;i++){
+        let obj = {}
+        obj.level = await hn().level(res[0][i])
+        arr.push(obj)
+      }
+      arr.forEach(item => {
+        if(item.level == 1){
+          this.gradeArr[0].hold++
+        }
+        if(item.level == 2){
+          this.gradeArr[1].hold++
+        }
+        if(item.level == 3){
+          this.gradeArr[2].hold++
+        }
+        if(item.level == 4){
+          this.gradeArr[3].hold++
+        }
+        if(item.level == 5){
+          this.gradeArr[4].hold++
+        }
+      })
+      console.log('arr:', arr);
+    }).catch(err => {
+      console.log('用户卡牌err: ', err);
+    })
   },
   mounted () {
     new Swiper('.swiper-container', {
