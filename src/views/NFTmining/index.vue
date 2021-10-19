@@ -6,7 +6,9 @@
       <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">基础卡牌</div>
       <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">特权卡牌</div>
     </div>
+    <!-- 基础卡牌 -->
     <BasicCards v-if="tabIndex == 0"></BasicCards>
+    <!-- 特权卡牌 -->
     <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
     <div class="apy_title">APY  180.88%</div>
     <div class="footer_box">
@@ -57,13 +59,7 @@ export default {
       tabIndex:0
     }
   },
-  methods: {},
-  created () {
-    console.log('created')
-  },
-  mounted () {
-    console.log('mounted')
-  }
+  methods: {}
 }
 </script>
 

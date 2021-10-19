@@ -67,7 +67,7 @@
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
 import Vue from 'vue'
-import { hn } from 'hashland-sdk';
+import { hnPool } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -99,23 +99,53 @@ export default {
         }
       ],
       cardsoltArr:[
-        {
-          src:'',//require("../../assets/images/record.png"),
-          btnstatus:1,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        },
-        {
-          src:require("../../assets/images/record.png"),
-          btnstatus:2,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        },
-        {
-          src:require("../../assets/images/cardlock.png"),
-          btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        }
+        // {
+        //   src:'',//require("../../assets/images/record.png"),
+        //   btnstatus:1,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
+        // },
+        // {
+        //   src:require("../../assets/images/record.png"),
+        //   btnstatus:2,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
+        // },
+        // {
+        //   src:require("../../assets/images/cardlock.png"),
+        //   btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
+        // }
       ]
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount"])
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    dataInfo:function(){
+      return this.getUserCardInfo
+    }
+  },
+  watch:{
+    "dataInfo":{
+      handler: function (newValue, oldValue) {
+        if(newValue.length > 0){
+          JSON.parse(newValue).forEach(item => {
+            if(item.level == 1){
+              this.gradeArr[0].hold++
+            }
+            if(item.level == 2){
+              this.gradeArr[1].hold++
+            }
+            if(item.level == 3){
+              this.gradeArr[2].hold++
+            }
+            if(item.level == 4){
+              this.gradeArr[3].hold++
+            }
+            if(item.level == 5){
+              this.gradeArr[4].hold++
+            }
+          })
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     // 插入卡槽
@@ -140,40 +170,49 @@ export default {
         btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
       })
       console.log('this.cardsoltArr: ', this.cardsoltArr);
+    },
+    async getCardSlotInfo(){
+      // 获取某用户的总卡槽数量cardSlot
+      let cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
+      // console.log('获取某用户的总卡槽数量cardSlotcardSlot: ', cardSlot);
+      // 获取某用户的空卡槽数量
+      let emptyCardSlot = (await hnPool().getUserLeftSlots(this.getAccount)).toString()
+      // console.log('获取某用户的空卡槽数量emptyCardSlot: ', emptyCardSlot);
+      // 获取最大卡槽数量
+      let maxCardSlot = (await hnPool().maxSlots()).toString()
+      // console.log('获取最大卡槽数量maxCardSlot: ', maxCardSlot);
+      let obj1 = {
+        src:'',
+        btnstatus:1,//1---插入卡槽
+      }
+      let obj2 = {
+        src:require("../../assets/images/record.png"),
+        btnstatus:2,//2----解除卡槽
+      }
+      let obj3 = {
+        src:require("../../assets/images/cardlock.png"),
+        btnstatus:3,//3-----解锁卡槽
+      }
+      // 添加质押卡槽
+      for (let index2 = 0; index2 < Number(cardSlot) - Number(emptyCardSlot); index2++) {
+        this.cardsoltArr.push(obj2)
+      }
+      // 添加空卡槽
+      for (let index1 = 0; index1 < emptyCardSlot; index1++) {
+          this.cardsoltArr.push(obj1)
+        }
+      // 是否添加解锁卡槽
+      if(Number(cardSlot) < Number(maxCardSlot)){
+        this.cardsoltArr.push(obj3)
+      }
+
+      // 获取某用户购买新卡槽的HC金额
+      let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
+      console.log('获取某用户购买新卡槽的HC金额，除1e18buyMoney: ', buyMoney);
     }
   },
-  created () {
-    hn().tokensOfOwnerBySize(this.getAccount,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-      console.log('用户卡牌res: ', res);
-      let arr = []
-      for(let i = 0;i < res[0].length;i++){
-        let obj = {}
-        obj.level = await hn().level(res[0][i])
-        arr.push(obj)
-      }
-      arr.forEach(item => {
-        if(item.level == 1){
-          this.gradeArr[0].hold++
-        }
-        if(item.level == 2){
-          this.gradeArr[1].hold++
-        }
-        if(item.level == 3){
-          this.gradeArr[2].hold++
-        }
-        if(item.level == 4){
-          this.gradeArr[3].hold++
-        }
-        if(item.level == 5){
-          this.gradeArr[4].hold++
-        }
-      })
-      console.log('arr:', arr);
-    }).catch(err => {
-      console.log('用户卡牌err: ', err);
-    })
-  },
   mounted () {
+    this.getCardSlotInfo()
     new Swiper('.swiper-container', {
       // loop: true,//循环播放
       // pagination: '.swiper-pagination',// 如果需要分页器

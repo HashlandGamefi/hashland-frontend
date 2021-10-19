@@ -1,5 +1,8 @@
 <template>
   <div class="card_details_page">
+    <div class="title" @click="back">
+      <img src="../../assets/images/back.png" class="backimg" />
+    </div>
     <span class="span_title">详情</span>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
@@ -10,11 +13,11 @@
           </div>
           <div class="hc_coefficient">
             <img src="../../assets/images/hclogo.png" class="imgcard" />
-            <span class="span1">20%</span>
+            <span class="span1">{{item.hc}}%</span>
           </div>
           <div class="hc_coefficient">
             <img src="../../assets/images/btclogo.png" class="imgcard" />
-            <span class="span1">20%</span>
+            <span class="span1">{{item.btc}}%</span>
           </div>
         </div>
       </div>
@@ -26,7 +29,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hn } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -34,27 +36,29 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount"])
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    dataInfo:function(){
+      return this.getUserCardInfo
+    }
   },
-  methods: {},
-  created () {
-    hn().tokensOfOwnerBySize(this.getAccount,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-      // console.log('用户卡牌res: ', res);
-      let arr = []
-      for(let i = 0;i < res[0].length;i++){
-        let obj = {}
-        obj.level = (await hn().level(res[0][i])).toString() //卡牌等级
-        if(obj.level == this.$route.query.level){
-          obj.hc = (await hn().hashrates(res[0][i], 0)).toString() // hc 算力
-          obj.btc = (await hn().hashrates(res[0][i], 1)).toString()// btc 算力
-          arr.push(obj)
+  watch:{
+    "dataInfo":{
+      handler: function (newValue, oldValue) {
+        if(newValue.length > 0){
+          let res = JSON.parse(newValue).filter((item) => {
+            return item.level == this.$route.query.level
+          })
+          this.boxarr = res
         }
-      }
-      this.boxarr = arr
-      console.log('卡牌详情arr:', arr);
-    }).catch(err => {
-      console.log('卡牌详情err: ', err);
-    })
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    back(){
+      this.$router.go(-1)
+    }
   },
 }
 </script>
@@ -66,6 +70,17 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-top: 149px;
+  .title{
+    position: absolute;
+    top: 160px;
+    left: 90px;
+    width: 121px;
+    cursor: pointer;
+    .backimg{
+      width: 100%;
+      object-fit: contain;
+    }
+  }
   .span_title{
     font-size: 60px;
     font-family: PingFangSC-Semibold, PingFang SC;
@@ -83,28 +98,27 @@ export default {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding: 0 90px;
-    padding-right: 40px;
+    padding: 0 40px;
+    // padding-right: 40px;
     margin-top: 70px;
     max-height: 980px;
     overflow-y: auto;
     .onebox{
       position: relative;
-      width: 320px;
+      width: 470px;
       // height: 305px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      align-items: center;
       margin-right: calc((100% - 1480px) / 5);
-      margin-bottom: 30px;
+      // margin-bottom: 30px;
       .imgcard{
         width: 100%;
         object-fit: contain;
       }
       .bottom{
         position: absolute;
-        top: 30px;
-        left: 0;
+        top: 60px;
         // width: 100%;
         background-image: url("../../assets/images/cardtop.png");
         background-size: 100% 100%;
@@ -112,7 +126,7 @@ export default {
         display: flex;
         align-items: center;
         padding:10px 8px;
-        transform: scale(0.5);
+        transform: scale(0.7);
         // transform: translate(-50%,-50%);
         .five_pointed_star{
           display: flex;
@@ -141,7 +155,7 @@ export default {
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             color: #FFFFFF;
-            line-height: 37px;
+            // line-height: 37px;
           }
         }
       }

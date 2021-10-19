@@ -6,7 +6,6 @@
         <span class="span1">我的钱包卡牌</span>
         <span class="span2">未插入卡槽不产生收益</span>
       </div>
-      <!-- <div class="synthesis_btn">合成升级</div> -->
     </div>
     <!-- 我的钱包卡牌 -->
     <div class="myCardBox">

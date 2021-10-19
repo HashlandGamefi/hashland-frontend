@@ -13,6 +13,7 @@ import { mapGetters } from "vuex";
 import Nav from './components/nav.vue'
 import Footer from './components/footer.vue'
 import WinningPopup from './components/winningpopup.vue'
+import { hn } from 'hashland-sdk';
 export default {
   components: {
     Nav,
@@ -20,7 +21,7 @@ export default {
     WinningPopup
   },
   computed: {
-    ...mapGetters(["getrewardsInfo"])
+    ...mapGetters(["getrewardsInfo","getAccount"])
   },
   provide () {    //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
     return {
@@ -48,7 +49,26 @@ export default {
         boxarr:[]
       }
       this.$store.commit("setrewardsInfo", obj);
+    },
+    // 获取用户的卡牌信息
+    getUserCardInfo(){
+      hn().tokensOfOwnerBySize(this.getAccount,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+        // console.log('用户卡牌arr: ', res[0]);
+        let arr = []
+        for(let i = 0;i < res[0].length;i++){
+          let obj = {}
+          obj.level = (await hn().level(res[0][i])).toString() // 等级
+          obj.hc = (await hn().hashrates(res[0][i], 0)).toString() // hc 算力
+          obj.btc = (await hn().hashrates(res[0][i], 1)).toString()// btc 算力
+          arr.push(obj)
+        }
+        this.$store.commit("setCardInfo",JSON.stringify(arr))
+        localStorage.setItem("setCardInfo",JSON.stringify(arr))
+      })
     }
+  },
+  created(){
+    this.getUserCardInfo()
   },
   mounted () {
     window.addEventListener('load', this.setRem)

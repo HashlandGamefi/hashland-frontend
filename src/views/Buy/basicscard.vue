@@ -72,7 +72,7 @@ export default {
           let imgarr = []
           for(let i = 0;i < arr.length;i++){
             let obj = {}
-            let round = await hn().getRandomNumber(arr[i],"race", 1, 3) // 卡牌随机数
+            let round = await hn().getRandomNumber(arr[i],"class", 1, 3) // 卡牌随机数
             obj.level = (await hn().level(arr[i])).toString() // 卡牌等级
             obj.src = require('../../assets/images/record193.png')
             obj.hc = (await hn().hashrates(arr[i], 0)).toString()
@@ -99,7 +99,9 @@ export default {
         this.BeSureFun('请输入购买数量','1223')
         return
       }
-      if(this.boxnums > this.surplusNums){
+      console.log('this.boxnums: ', this.boxnums,this.surplusNums);
+      if(Number(this.boxnums) > Number(this.surplusNums)){
+        console.log('可购买数量不足')
         this.BeSureFun('可购买数量不足','1223')
         return
       }

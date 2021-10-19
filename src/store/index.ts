@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    userCardInfo:localStorage.getItem('setCardInfo') || [],//用户卡牌信息
     rewardsInfo:{
       minserDis:false,
       boxarr:[]
@@ -41,6 +42,10 @@ export default new Vuex.Store({
         return false
       }
     },
+    // 获取用户卡牌信息
+    getUserCardInfo(state) {
+      return state.userCardInfo
+    }
   },
   mutations: {
     // 设置导航栏状态
@@ -56,10 +61,12 @@ export default new Vuex.Store({
       state.chain = data;
     },
     // 设置中奖信息
-    setrewardsInfo(state,status) {
-      state.rewardsInfo = status;
+    setrewardsInfo(state,data) {
+      state.rewardsInfo = data;
     },
-  },
-  actions: {
+    // 设置用户卡牌信息
+    setCardInfo(state,data) {
+      state.userCardInfo = data;
+    },
   }
 })

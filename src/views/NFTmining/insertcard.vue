@@ -1,10 +1,13 @@
 <template>
   <div class='insertcard_page'>
+    <div class="title" @click="back">
+      <img src="../../assets/images/back.png" class="backimg" />
+    </div>
     <div class="title_title">插入卡槽</div>
     <span class="title1_txt">选择您想要插入卡槽的卡牌</span>
     <span class="title1_txt title2_txt">卡牌增长系数越高，算力越高，收益越多</span>
     <div class="content_box">
-      <div class="stratbox" v-for="(ele,index1) in arr" :key="index1">
+      <div class="stratbox" v-for="(ele,index1) in starArr" :key="index1">
         <div class="top_line">
           <span class="span1">{{ele.name}}星（共{{ele.num}}张）</span>
           <span class="span2">卡槽有限，可合成后再质押</span>
@@ -12,9 +15,9 @@
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in ele.gradeArr" :key="index">
+            <div class="swiper-slide" v-for="(item,index) in ele.num" :key="index">
               <div class="swiper_content_box">
-                <img :src="item.src" class="swiper_img" />
+                <img src="../../assets/images/record.png" class="swiper_img" />
                 <img src="../../assets/images/select.png" class="select_img" />
               </div>
             </div>
@@ -27,140 +30,83 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Swiper from 'swiper'
 export default {
   data () {
     return {
-      arr:[
+      starArr: [
         {
-          name:1,
-          num:31,
-          gradeArr:[
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-          ]
+          name: 1,
+          num: 0,
+          checkstatus:false,
+          arr:[{status:false}]
         },
         {
-          name:2,
-          num:10,
-          gradeArr:[
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-          ],
+          name: 2,
+          num: 0,
+          checkstatus:false,
+          arr:[{status:false}]
         },
         {
-          name:3,
-          num:30,
-          gradeArr:[
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-          ],
+          name: 3,
+          num: 0,
+          checkstatus:false,
+          arr:[{status:false}]
         },
         {
-          name:4,
-          num:40,
-          gradeArr:[
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-          ],
+          name: 4,
+          num: 0,
+          checkstatus:false,
+          arr:[{status:false}]
         },
         {
-          name:5,
-          num:50,
-          gradeArr:[
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-            {
-              src:require("../../assets/images/record.png")
-            },{
-              src:require("../../assets/images/record.png")
-            },
-          ],
+          name: 5,
+          num: 0,
+          checkstatus:false,
+          arr:[{status:false}]
         }
       ]
     }
   },
-  methods: {},
+  computed: {
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    dataInfo:function(){
+      return this.getUserCardInfo
+    }
+  },
+  watch:{
+    "dataInfo":{
+      handler: function (newValue, oldValue) {
+        if(newValue.length > 0){
+          JSON.parse(newValue).forEach(item => {
+            if(item.level == 1){
+              this.starArr[0].num++
+            }
+            if(item.level == 2){
+              this.starArr[1].num++
+            }
+            if(item.level == 3){
+              this.starArr[2].num++
+            }
+            if(item.level == 4){
+              this.starArr[3].num++
+            }
+            if(item.level == 5){
+              this.starArr[4].num++
+            }
+          })
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    back(){
+      this.$router.go(-1)
+    }
+  },
   mounted () {
     new Swiper('.swiper-container', {
       slidesPerView: 4,
@@ -177,6 +123,17 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-top: 130px;
+  .title{
+    position: absolute;
+    top: 160px;
+    left: 90px;
+    width: 121px;
+    cursor: pointer;
+    .backimg{
+      width: 100%;
+      object-fit: contain;
+    }
+  }
   .title_title{
     font-size: 60px;
     font-family: AaJXH;
@@ -257,9 +214,9 @@ export default {
               }
               .select_img{
                 position: absolute;
-                right: 0px;
-                top: 19px;
-                width: 100px;
+                right: 35px;
+                top: 7px;
+                width: 43px;
                 object-fit: contain;
               }
             }
