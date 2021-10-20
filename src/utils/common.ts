@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js'
+import i18n from '../i18n/index'
+import { hn,getSigner } from 'hashland-sdk'
+import store from '@/store';
 export default {
   // 设置cookie过期时间
   setCookie(key: string, value: any, time: any) {
@@ -286,69 +289,48 @@ export default {
     }else{
       callback(this.numFormat(this.getBit(str,digit)))
     }
+  },
+  // 中英文环境
+  selectLang(chinse:string,english:string,that:any){
+    if (i18n.locale == 'cn') {
+      that.word = chinse //'提取成功'
+      that.btntxt = '确认'
+    } else {
+      that.word = english //'Claim success'
+      that.btntxt = 'Confirm'
+    }
+    that.proupDis = true
+  },
+  // 是否授权
+  async isApproveFun(account:string,contractAdrdess:string){
+    return await hn().isApprovedForAll(account,contractAdrdess)
+  },
+  // 去授权
+  async delegatingFun(contractAdrdess:string){
+    return await hn().connect(getSigner()).setApprovalForAll(contractAdrdess,true)
+  },
+  // 获取用户的所有卡牌信息
+  async getUserCardInfoFun(account:string){
+    hn().tokensOfOwnerBySize(account,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+      console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+      let infoArr:any = []
+      res[0].map(async item => {
+        let obj = {
+          cardID:'',
+          level:'',
+          hc:'',
+          btc:'',
+          status:false //设置一个状态供需要的地方使用
+        }
+        obj.cardID = item.toString() // 卡牌的id
+        obj.level = (await hn().level(item)).toString() // 等级
+        let race = await hn().getHashrates(item) // hc 算力
+        obj.hc = race[0].toString()
+        obj.btc = race[1].toString()// btc 算力
+        infoArr.push(obj)
+        store.commit("setCardInfo",JSON.stringify(infoArr))
+        localStorage.setItem("setCardInfo",JSON.stringify(infoArr))
+      })
+    })
   }
-  // 链接钱包
-  // LinkWallet(that:any){
-  //   let obj = {
-  //     account:'',
-  //     chain:'',
-  //     status:false
-  //   }
-  //   wallet.getAccount().then(sdk_account => {
-  //     console.log('链接钱包sdk_account: ', sdk_account);
-  //     // @ts-ignore
-  //     obj.account = sdk_account
-
-  //     wallet.getChainId().then(chain => {
-  //       console.log('获取网络chain: ', chain);
-  //       // @ts-ignore
-  //       if(chain == store.state.chain){
-  //         // @ts-ignore
-  //         obj.chain = chain
-  //         obj.status = true
-  //       }else{
-  //         // @ts-ignore
-  //         obj.chain = chain
-  //         obj.status = false
-  //       }
-  //       store.commit("setSDK", JSON.stringify(obj))
-  //       localStorage.setItem("setSDK", JSON.stringify(obj))
-  //       that.reload()
-  //     }).catch(() => {
-  //       obj.chain = ''
-  //       obj.status = false
-  //       store.commit("setSDK", JSON.stringify(obj))
-  //       localStorage.setItem("setSDK", JSON.stringify(obj))
-  //       that.reload()
-  //     })
-  //   }).catch(() => {
-  //     obj.account = ''
-  //     obj.status = false
-  //   })
-
-  //   // 账号切换
-  //   wallet.onAccountChanged( (res:any) => {
-  //     // @ts-ignore
-  //     obj.account = res[0]
-  //     store.commit("setSDK", JSON.stringify(obj))
-  //     localStorage.setItem("setSDK", JSON.stringify(obj))
-  //     that.reload()
-  //   })
-  //   // 网络切换
-  //   wallet.onChainChanged( (res:any) => {
-  //     console.log('切换网络res: ', res);
-  //     if (res == store.state.chain){
-  //       obj.chain = res
-  //       obj.status = true
-  //       store.commit("setSDK", JSON.stringify(obj))
-  //       localStorage.setItem("setSDK", JSON.stringify(obj))
-  //     }else {
-  //       obj.chain = res
-  //       obj.status = false
-  //       store.commit("setSDK", JSON.stringify(obj))
-  //       localStorage.setItem("setSDK", JSON.stringify(obj))
-  //     }
-  //     that.reload()
-  //   })
-  // }
 };

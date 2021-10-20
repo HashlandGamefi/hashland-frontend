@@ -70,16 +70,17 @@ export default {
         let arr = str.split(',')
         if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
           let imgarr = []
-          for(let i = 0;i < arr.length;i++){
+          arr.map(async item => {
             let obj = {}
-            let round = await hn().getRandomNumber(arr[i],"class", 1, 3) // 卡牌随机数
-            obj.level = (await hn().level(arr[i])).toString() // 卡牌等级
+            // obj.round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
+            obj.level = (await hn().level(item)).toString() // 卡牌等级
             obj.src = require('../../assets/images/record193.png')
-            obj.hc = (await hn().hashrates(arr[i], 0)).toString()
-            obj.btc = (await hn().hashrates(arr[i], 1)).toString()
+            let race = await hn().getHashrates(item)
+            obj.hc = race[0].toString()// hc 算力
+            obj.btc = race[1].toString()// btc 算力
             imgarr.push(obj)
-          }
-          console.log('imgarr: ', imgarr);
+          })
+
           let lastObj = {
             minserDis:true,
             boxarr:imgarr
@@ -96,29 +97,32 @@ export default {
     async buyBox(){
       if(this.buy_isloading)return
       if(!this.boxnums){
-        this.BeSureFun('请输入购买数量','1223')
+        this.$common.selectLang('请输入购买数量','1223',this)
         return
       }
       console.log('this.boxnums: ', this.boxnums,this.surplusNums);
       if(Number(this.boxnums) > Number(this.surplusNums)){
         console.log('可购买数量不足')
-        this.BeSureFun('可购买数量不足','1223')
+        this.$common.selectLang('可购买数量不足','1223',this)
         return
       }
       if(this.total > this.balance){
-        this.BeSureFun('余额不足','1223')
+        this.$common.selectLang('余额不足','1223',this)
         return
       }
       this.buy_isloading = true
       console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
-      hnBox().connect(getSigner()).buyBoxes(this.boxnums,0,{value: this.originalPrice.mul(this.boxnums)}).then(res => {
+      hnBox().connect(getSigner()).buyBoxes(this.boxnums,0,{value: this.originalPrice.mul(this.boxnums)}).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
         this.watchResult()
-        this.BeSureFun('购买成功','1223')
+        this.$common.selectLang('购买成功','1223',this)
         this.boxnums = ''
         this.total = 0
         this.getSDKInfo()
+        const etReceipt = await res.wait();
+        console.log('etReceipt: ', etReceipt);
+        console.log(etReceipt.confirmations, 'Blocks Confirmations');
       }).catch(err => {
         console.log('购买盒子err: ', err);
         this.buy_isloading = false
@@ -131,7 +135,7 @@ export default {
       }else if(this.boxnums > 100){
         this.boxnums = 100
         this.total = 100 * this.boxPrice
-        this.BeSureFun('最大购买数量100','1223')
+        this.$common.selectLang('最大购买数量100','1223',this)
       }else{
         this.proupDis = false
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
@@ -154,16 +158,6 @@ export default {
 
       let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
       this.surplusNums = surplusNums.toString()
-    },
-    BeSureFun(chinse,english){
-      if (this.$i18n.locale == 'cn') {
-        this.word = chinse //'提取成功'
-        this.btntxt = '确认'
-      } else {
-        this.word = english //'Claim success'
-        this.btntxt = 'Confirm'
-      }
-      this.proupDis = true
     },
   },
   mounted () {

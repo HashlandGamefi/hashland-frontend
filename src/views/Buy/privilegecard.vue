@@ -72,7 +72,7 @@ export default {
           let imgarr = []
           for(let i = 0;i < arr.length;i++){
             let obj = {}
-            let round = await hn().getRandomNumber(arr[i],"class", 1, 3) // 卡牌随机数
+            let round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
             obj.level = (await hn().level(arr[i])).toString() // 卡牌等级
             obj.src = require('../../assets/images/record193.png')
             obj.hc = (await hn().hashrates(arr[i], 0)).toString()
@@ -95,34 +95,7 @@ export default {
     // 购买盒子
     async buyBox(){
       if(this.buy_isloading)return
-      if(!this.boxnums){
-        this.BeSureFun('请输入购买数量','1223')
-        return
-      }
-      if(this.boxnums > this.surplusNums){
-        this.BeSureFun('可购买数量不足','1223')
-        return
-      }
-      if(this.total > this.balance){
-        this.BeSureFun('余额不足','1223')
-        return
-      }
       this.buy_isloading = true
-
-      // 后续要换
-      getSigner().sendTransaction({
-        to: contract().HNBox,
-        value: this.originalPrice.mul(this.boxnums)
-      }).then(res => {
-        console.log('购买盒子res: ', res);
-        this.buy_isloading = false
-        this.watchResult()
-        this.BeSureFun('购买成功','1223')
-        this.boxnums = ''
-      }).catch(err => {
-        console.log('购买盒子err: ', err);
-        this.buy_isloading = false
-      })
     },
     inputchangeFun () {
       console.log("输入框改变事件")
@@ -131,38 +104,14 @@ export default {
       }else if(this.boxnums > 100){
         this.boxnums = 100
         this.total = 100 * this.boxPrice
-        this.BeSureFun('最大购买数量100','1223')
+        this.$common.selectLang('最大购买数量100','1223',this)
       }else{
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
       }
     },
-    // 刷新
-    // refesh(){
-    //   console.log("刷新卡牌")
-    // },
     async getSDKInfo(){
       let balance = await getProvider().getBalance(this.getAccount)
       console.log('用户余额balance: ', util.formatEther(balance));
-      this.balance = util.formatEther(balance)
-      let price = await hnBox().boxTokenPrices(0) // 盲盒价格
-      this.originalPrice = price
-      let str = (price / 1e18).toString()
-      this.$common.checkNumber(str,res => {
-        this.boxPrice = res
-      })
-
-      let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
-      this.surplusNums = surplusNums.toString()
-    },
-    BeSureFun(chinse,english){
-      if (this.$i18n.locale == 'cn') {
-        this.word = chinse //'提取成功'
-        this.btntxt = '确认'
-      } else {
-        this.word = english //'Claim success'
-        this.btntxt = 'Confirm'
-      }
-      this.proupDis = true
     },
   },
   mounted () {

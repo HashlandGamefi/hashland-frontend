@@ -13,12 +13,12 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in gradeArr" :key="index">
           <div class="content_box" @click="jumpDetails(item)">
-            <img :src="item.src" class="swiper_img" />
+            <img src="../../assets/images/swiper1.png" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img src="../../assets/images/start.png" v-for="(item,index) in item.level" :key="index"  class="start_img" />
+                <img src="../../assets/images/start.png" v-for="(item1,index1) in Number(item.level)" :key="index1"  class="start_img" />
               </div>
-              <span class="card_grade">{{item.hold}}</span>
+              <span class="card_grade">{{item.ownerNum.length}}</span>
               <span class="details">详情</span>
             </div>
           </div>
@@ -51,8 +51,11 @@
               <img src="../../assets/images/bottom.png" class="base_img" />
             </div>
             <div class="btnbox remove_btnbox" v-if="item.btnstatus == 1" @click="insertClick(item)">插入卡槽</div>
-            <div class="btnbox insert_btnbox" v-if="item.btnstatus == 2">解除卡槽</div>
-            <div class="btnbox lock_btnbox" v-if="item.btnstatus == 3" @click="Unlock(index)">解锁卡槽</div>
+            <div class="btnbox insert_btnbox" v-if="item.btnstatus == 2" @click="removeClick(item)">
+              解除卡槽<BtnLoading :isloading="item.isloading"></BtnLoading>
+            </div>
+            <div class="btnbox lock_btnbox" v-if="item.btnstatus == 3" @click="Unlock(index)">
+              解锁卡槽<BtnLoading :isloading="item.isloading"></BtnLoading></div>
           </div>
         </div>
       </div>
@@ -60,6 +63,7 @@
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </div>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -67,51 +71,19 @@
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
 import Vue from 'vue'
-import { hnPool } from 'hashland-sdk';
+import { hnPool,hn,getSigner,hc,util,token } from 'hashland-sdk';
 export default {
   data () {
     return {
-      gradeArr:[
-        {
-          src:require("../../assets/images/swiper1.png"),
-          level:1,
-          hold:0
-        },
-        {
-          src:require("../../assets/images/swiper1.png"),
-          level:2,
-          hold:0
-        },
-        {
-          src:require("../../assets/images/swiper1.png"),
-          level:3,
-          hold:0
-        },
-        {
-          src:require("../../assets/images/swiper1.png"),
-          level:4,
-          hold:0
-        },
-        {
-          src:require("../../assets/images/swiper1.png"),
-          level:5,
-          hold:0
-        }
-      ],
-      cardsoltArr:[
-        // {
-        //   src:'',//require("../../assets/images/record.png"),
-        //   btnstatus:1,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        // },
-        // {
-        //   src:require("../../assets/images/record.png"),
-        //   btnstatus:2,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        // },
-        // {
-        //   src:require("../../assets/images/cardlock.png"),
-        //   btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        // }
-      ]
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
+      proupDis:false,// 弹窗展示消失变量
+      gradeArr:[], // 我的钱包卡牌
+      cardsoltArr:[], // 卡槽数组
+      cardSlot:0,//用户的卡槽数量
+      emptyCardSlot:0,//用户的空卡槽数量
+      maxCardSlot:0,//最大卡槽数量
+      ISpprove:false,//解锁卡槽时候的是否授权
     }
   },
   computed: {
@@ -123,24 +95,13 @@ export default {
   watch:{
     "dataInfo":{
       handler: function (newValue, oldValue) {
+        // console.log('基础卡牌的我的卡牌newValue: ', newValue);
         if(newValue.length > 0){
-          JSON.parse(newValue).forEach(item => {
-            if(item.level == 1){
-              this.gradeArr[0].hold++
-            }
-            if(item.level == 2){
-              this.gradeArr[1].hold++
-            }
-            if(item.level == 3){
-              this.gradeArr[2].hold++
-            }
-            if(item.level == 4){
-              this.gradeArr[3].hold++
-            }
-            if(item.level == 5){
-              this.gradeArr[4].hold++
-            }
-          })
+          this.setFilterFun(1,newValue)
+          this.setFilterFun(2,newValue)
+          this.setFilterFun(3,newValue)
+          this.setFilterFun(4,newValue)
+          this.setFilterFun(5,newValue)
         }
       },
       deep: true,
@@ -148,9 +109,73 @@ export default {
     }
   },
   methods: {
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
+    setFilterFun(level,newValue){
+      let obj = {level:level,ownerNum:[]}
+      obj.ownerNum = JSON.parse(newValue).filter(item =>{
+        return item.level == level
+      })
+      this.gradeArr.push(obj)
+    },
     // 插入卡槽
     insertClick(item){
-      this.$router.push('/insertcard')
+      this.$router.push({ path: '/insertcard', query: { 'nums': this.emptyCardSlot} })
+    },
+    // 解除卡槽
+    removeClick(item){
+      console.log('解除卡槽item: ', item);
+      if(item.isloading)return
+      item.isloading = true
+      hnPool().connect(getSigner()).withdraw([item.cardID]).then(res => {
+        console.log('解除卡槽res: ', res);
+      }).catch(err => {
+        console.log('解除卡槽err: ', err);
+      })
+    },
+    // 解锁卡槽
+    async Unlock(index){
+      // 获取某用户购买新卡槽的HC金额
+      let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
+      // 获取用户的hc余额
+      let balance = util.formatEther(await hc().balanceOf(this.getAccount))
+
+      if(Number(balance) < Number(buyMoney)){
+        this.$common.selectLang('余额不足','1223',this)
+        return
+      }
+      if(!this.ISpprove){
+        this.$common.delegatingFun(token().HC).then(res => {
+          console.log('授权res: ', res);
+          // this.approve_isloading = false
+          this.ISpprove = true
+        }).catch(err => {
+          console.log('授权err: ', err);
+          this.ISpprove = false
+          // this.approve_isloading = false
+        })
+        return
+      }
+      hnPool().connect(getSigner()).buySlot().then(async res => {
+        const etReceipt = await res.wait();
+        if(etReceipt.status == 1){
+          this.$common.selectLang('解锁成功','1223',this)
+          // 暂时先本地更改后续优化
+          this.cardsoltArr[index].btnstatus = 1
+          this.cardsoltArr[index].src = ''
+          this.cardsoltArr[index].isloading = false
+          this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
+          console.log('Number(this.maxCardSlot): ', Number(this.maxCardSlot),Number(this.cardSlot));
+          if(Number(this.maxCardSlot) > Number(this.cardSlot)){
+            Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
+              src:require("../../assets/images/cardlock.png"),
+              btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
+            })
+          }
+        }
+      })
     },
     // 合成
     synthesisClick(){
@@ -158,57 +183,69 @@ export default {
     },
     // 我的卡牌跳转
     jumpDetails(item){
-      console.log('item: ', item);
-      // this.$router.push('/carddetails')
       this.$router.push({ path: '/carddetails', query: { 'level': item.level} })
     },
-    Unlock(index){
-      this.cardsoltArr[index].btnstatus = 1
-      this.cardsoltArr[index].src = ''
-      Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
-        src:require("../../assets/images/cardlock.png"),
-        btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-      })
-      console.log('this.cardsoltArr: ', this.cardsoltArr);
-    },
     async getCardSlotInfo(){
+      let res = await hnPool().getUserHnIdsBySize(this.getAccount,0,100000000)
+      res[0].map(async item => {
+        let obj = {
+          src:'',
+          cardID:'',
+          level:'',
+          hc:'',
+          btc:'',
+          btnstatus:2, //设置一个状态供需要的地方使用
+          isloading:false,//按钮的loading
+        }
+        obj.cardID = item.toString() // 卡牌的id
+        obj.level = (await hn().level(item)).toString() // 等级
+        let race = await hn().getHashrates(item)
+        obj.hc = race[0].toString()// hc 算力
+        obj.btc = race[1].toString()// btc 算力
+        obj.src = require('../../assets/images/record.png')
+        this.cardsoltArr.push(obj)
+        console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
+      })
       // 获取某用户的总卡槽数量cardSlot
-      let cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
+      this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
       // console.log('获取某用户的总卡槽数量cardSlotcardSlot: ', cardSlot);
       // 获取某用户的空卡槽数量
-      let emptyCardSlot = (await hnPool().getUserLeftSlots(this.getAccount)).toString()
+      this.emptyCardSlot = (await hnPool().getUserLeftSlots(this.getAccount)).toString()
       // console.log('获取某用户的空卡槽数量emptyCardSlot: ', emptyCardSlot);
       // 获取最大卡槽数量
-      let maxCardSlot = (await hnPool().maxSlots()).toString()
+      this.maxCardSlot = (await hnPool().maxSlots()).toString()
       // console.log('获取最大卡槽数量maxCardSlot: ', maxCardSlot);
+      // 获取某用户在池子质押的基于指针（从0开始）和数量的HN卡牌ID数组和最后一个数据的指针
       let obj1 = {
         src:'',
-        btnstatus:1,//1---插入卡槽
-      }
-      let obj2 = {
-        src:require("../../assets/images/record.png"),
-        btnstatus:2,//2----解除卡槽
+        btnstatus:1,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+        isloading:false
       }
       let obj3 = {
         src:require("../../assets/images/cardlock.png"),
-        btnstatus:3,//3-----解锁卡槽
-      }
-      // 添加质押卡槽
-      for (let index2 = 0; index2 < Number(cardSlot) - Number(emptyCardSlot); index2++) {
-        this.cardsoltArr.push(obj2)
+        btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+        isloading:false
       }
       // 添加空卡槽
-      for (let index1 = 0; index1 < emptyCardSlot; index1++) {
-          this.cardsoltArr.push(obj1)
-        }
+      for (let index1 = 0; index1 < this.emptyCardSlot; index1++) {
+        this.cardsoltArr.push(obj1)
+      }
       // 是否添加解锁卡槽
-      if(Number(cardSlot) < Number(maxCardSlot)){
+      if(Number(this.cardSlot) < Number(this.maxCardSlot)){
         this.cardsoltArr.push(obj3)
       }
-
-      // 获取某用户购买新卡槽的HC金额
-      let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
-      console.log('获取某用户购买新卡槽的HC金额，除1e18buyMoney: ', buyMoney);
+      // 授权
+      this.$common.isApproveFun(this.getAccount,token().HC).then(res => {
+        console.log('解锁是否授权res: ', res);
+        if(res){
+          this.ISpprove = true
+        }else{
+          this.ISpprove = false
+        }
+      }).catch( err => {
+        console.log('解锁是否授权err: ', err);
+        this.ISpprove = false
+      })
     }
   },
   mounted () {

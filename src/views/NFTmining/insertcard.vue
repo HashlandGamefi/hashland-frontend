@@ -8,65 +8,47 @@
     <span class="title1_txt title2_txt">卡牌增长系数越高，算力越高，收益越多</span>
     <div class="content_box">
       <div class="stratbox" v-for="(ele,index1) in starArr" :key="index1">
-        <div class="top_line">
-          <span class="span1">{{ele.name}}星（共{{ele.num}}张）</span>
+        <div class="top_line" >
+          <span class="span1">{{ele.level}}星（共{{ele.ownerNum.length}}张）</span>
           <span class="span2">卡槽有限，可合成后再质押</span>
         </div>
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in ele.num" :key="index">
+            <div class="swiper-slide" v-for="(item,index) in ele.ownerNum" :key="index">
               <div class="swiper_content_box">
                 <img src="../../assets/images/record.png" class="swiper_img" />
-                <img src="../../assets/images/select.png" class="select_img" />
+                <img :src="item.status?require('../../assets/images/selected.png'):require('../../assets/images/select.png')" @click="cardClick(item,index,index1)" class="select_img" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="btn_box">插入卡槽</div>
+    <div class="btn_box" @click="insertFun" >
+      <span v-if="!getIstrue">连接钱包</span>
+      <span v-else-if="!isbtnstatus">授权</span>
+      <span v-else>插入卡槽</span>
+      <BtnLoading :isloading="approve_isloading"></BtnLoading>
+    </div>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
+import { util,getRandomNumber,hn,contract,hnPool,getSigner } from 'hashland-sdk'
 export default {
   data () {
     return {
-      starArr: [
-        {
-          name: 1,
-          num: 0,
-          checkstatus:false,
-          arr:[{status:false}]
-        },
-        {
-          name: 2,
-          num: 0,
-          checkstatus:false,
-          arr:[{status:false}]
-        },
-        {
-          name: 3,
-          num: 0,
-          checkstatus:false,
-          arr:[{status:false}]
-        },
-        {
-          name: 4,
-          num: 0,
-          checkstatus:false,
-          arr:[{status:false}]
-        },
-        {
-          name: 5,
-          num: 0,
-          checkstatus:false,
-          arr:[{status:false}]
-        }
-      ]
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
+      proupDis:false,// 弹窗展示消失变量
+      starArr: [],//用户卡牌数组
+      cardIdArr:[],// 选中的卡牌id数组
+      isbtnstatus:false,// 按钮的文字状态
+      approve_isloading:false,// 按钮的loading
     }
   },
   computed: {
@@ -79,23 +61,13 @@ export default {
     "dataInfo":{
       handler: function (newValue, oldValue) {
         if(newValue.length > 0){
-          JSON.parse(newValue).forEach(item => {
-            if(item.level == 1){
-              this.starArr[0].num++
-            }
-            if(item.level == 2){
-              this.starArr[1].num++
-            }
-            if(item.level == 3){
-              this.starArr[2].num++
-            }
-            if(item.level == 4){
-              this.starArr[3].num++
-            }
-            if(item.level == 5){
-              this.starArr[4].num++
-            }
-          })
+          if(newValue.length > 0){
+            this.setFilterFun(1,newValue)
+            this.setFilterFun(2,newValue)
+            this.setFilterFun(3,newValue)
+            this.setFilterFun(4,newValue)
+            this.setFilterFun(5,newValue)
+          }
         }
       },
       deep: true,
@@ -103,8 +75,94 @@ export default {
     }
   },
   methods: {
+    setFilterFun(level,newValue){
+      let obj = {level:level,ownerNum:[]}
+      obj.ownerNum = JSON.parse(newValue).filter(item =>{
+        return item.level == level
+      })
+      this.starArr.push(obj)
+    },
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
+    cardClick(data,index,index1){ // index---当前数组的索引  index1---上层数组的索引
+      let obj = {}
+      obj.cardID = data.cardID
+      obj.index = index
+      obj.index1 = index1
+      console.log('选中当前卡牌的信息data: ', data);
+      data.status = !data.status
+      if(data.status){
+        this.cardIdArr.push(obj)
+      }else{
+        for(var i = 0; i < this.cardIdArr.length; i++){
+          if(this.cardIdArr[i].index == obj.index && this.cardIdArr[i].index1 == obj.index1){
+            this.cardIdArr.splice(i,1)
+          }
+        }
+      }
+    },
+    // 插入卡槽
+    insertFun(){
+      if(this.approve_isloading)return
+      if(!this.getIstrue)return // 链接钱包按钮点击函数
+      if(!this.isbtnstatus){ // 去授权
+        this.approve_isloading = true
+        this.$common.delegatingFun(contract().HNPool).then(res => {
+          console.log('授权res: ', res);
+          this.approve_isloading = false
+          this.isbtnstatus = true
+        }).catch(err => {
+          console.log('授权err: ', err);
+          this.approve_isloading = false
+        })
+        return
+      }
+      if(this.cardIdArr.length == 0){
+        this.$common.selectLang('请选择卡牌','1223',this)
+        return
+      }
+      this.approve_isloading = true
+      if(this.$route.query.nums >= this.cardIdArr.length){
+        let arr = []
+        this.cardIdArr.forEach(element => {
+          arr.push(element.cardID)
+        });
+        hnPool().connect(getSigner()).withdraw([164]).then(async res => {
+          console.log('质押res: ', res);
+          this.approve_isloading = false
+          const etReceipt = await res.wait();
+          if(etReceipt.status == 1){
+            this.$common.selectLang('插入成功','1223',this)
+          }
+          // console.log('etReceipt: ', etReceipt);
+          // console.log(etReceipt.confirmations, 'Blocks Confirmations');
+        }).catch(err => {
+          console.log('质押err: ', err);
+          this.approve_isloading = false
+        })
+      }else{
+        this.approve_isloading = false
+        this.$common.selectLang('没有空卡槽了','1223',this)
+      }
+    },
     back(){
       this.$router.go(-1)
+    },
+    // 页面加载需要获取的信息
+    getconnetFun(){
+      this.$common.isApproveFun(this.getAccount,contract().HNPool).then(res => {
+        console.log('是否授权res: ', res);
+        if(res){
+          this.isbtnstatus = true
+        }else{
+          this.isbtnstatus = false
+        }
+      }).catch( err => {
+        console.log('是否授权err: ', err);
+        this.isbtnstatus = false
+      })
     }
   },
   mounted () {
@@ -112,6 +170,7 @@ export default {
       slidesPerView: 4,
       centeredSlides: true,
     })
+    this.getconnetFun()
   }
 }
 </script>
