@@ -16,9 +16,9 @@
             <img src="../../assets/images/swiper1.png" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img src="../../assets/images/start.png" v-for="(item1,index1) in Number(item.level)" :key="index1"  class="start_img" />
+                <img src="../../assets/images/start.png" v-for="(item1,index1) in item.level" :key="index1"  class="start_img" />
               </div>
-              <span class="card_grade">{{item.ownerNum.length}}</span>
+              <span class="card_grade">{{item.arr.length}}</span>
               <span class="details">详情</span>
             </div>
           </div>
@@ -71,7 +71,7 @@
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
 import Vue from 'vue'
-import { hnPool,hn,getSigner,hc,util,token } from 'hashland-sdk';
+import { hnPool,hn,getSigner,hc,util,contract } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -97,11 +97,13 @@ export default {
       handler: function (newValue, oldValue) {
         // console.log('基础卡牌的我的卡牌newValue: ', newValue);
         if(newValue.length > 0){
-          this.setFilterFun(1,newValue)
-          this.setFilterFun(2,newValue)
-          this.setFilterFun(3,newValue)
-          this.setFilterFun(4,newValue)
-          this.setFilterFun(5,newValue)
+          let res = JSON.parse(newValue)
+          this.gradeArr = res
+          // this.setFilterFun(1,newValue)
+          // this.setFilterFun(2,newValue)
+          // this.setFilterFun(3,newValue)
+          // this.setFilterFun(4,newValue)
+          // this.setFilterFun(5,newValue)
         }
       },
       deep: true,
@@ -129,10 +131,18 @@ export default {
       console.log('解除卡槽item: ', item);
       if(item.isloading)return
       item.isloading = true
-      hnPool().connect(getSigner()).withdraw([item.cardID]).then(res => {
+      hnPool().connect(getSigner()).withdraw([item.cardID]).then(async res => {
         console.log('解除卡槽res: ', res);
+        const etReceipt = await res.wait();
+        if(etReceipt.status == 1){
+          this.$common.selectLang('解除成功','1223',this)
+          item.isloading = false
+          this.getCardSlotInfo()
+          this.$common.getUserCardInfoFun(this.getAccount)
+        }
       }).catch(err => {
         console.log('解除卡槽err: ', err);
+        item.isloading = false
       })
     },
     // 解锁卡槽
@@ -141,16 +151,18 @@ export default {
       let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
       // 获取用户的hc余额
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
+      console.log('buyMoney:%s,balance:%s',buyMoney, balance);
 
       if(Number(balance) < Number(buyMoney)){
         this.$common.selectLang('余额不足','1223',this)
         return
       }
       if(!this.ISpprove){
-        this.$common.delegatingFun(token().HC).then(res => {
+        this.$common.delegatingFun(2,contract().HNPool).then(res => {
           console.log('授权res: ', res);
           // this.approve_isloading = false
           this.ISpprove = true
+          this.$common.selectLang('授权成功','1223',this)
         }).catch(err => {
           console.log('授权err: ', err);
           this.ISpprove = false
@@ -186,6 +198,7 @@ export default {
       this.$router.push({ path: '/carddetails', query: { 'level': item.level} })
     },
     async getCardSlotInfo(){
+      this.cardsoltArr = []
       let res = await hnPool().getUserHnIdsBySize(this.getAccount,0,100000000)
       res[0].map(async item => {
         let obj = {
@@ -235,9 +248,9 @@ export default {
         this.cardsoltArr.push(obj3)
       }
       // 授权
-      this.$common.isApproveFun(this.getAccount,token().HC).then(res => {
+      this.$common.isApproveFun(2,this.getAccount,contract().HNPool).then(res => {
         console.log('解锁是否授权res: ', res);
-        if(res){
+        if(res.toString() == 1){
           this.ISpprove = true
         }else{
           this.ISpprove = false

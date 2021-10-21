@@ -9,15 +9,15 @@
     <div class="content_box">
       <div class="stratbox" v-for="(ele,index1) in starArr" :key="index1">
         <div class="top_line" >
-          <span class="span1">{{ele.level}}星（共{{ele.ownerNum.length}}张）</span>
+          <span class="span1">{{ele.level}}星（共{{ele.arr.length}}张）</span>
           <span class="span2">卡槽有限，可合成后再质押</span>
         </div>
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in ele.ownerNum" :key="index">
+            <div class="swiper-slide" v-for="(item,index) in ele.arr" :key="index">
               <div class="swiper_content_box">
-                <img src="../../assets/images/record.png" class="swiper_img" />
+                <img :src="item.src" class="swiper_img" />
                 <img :src="item.status?require('../../assets/images/selected.png'):require('../../assets/images/select.png')" @click="cardClick(item,index,index1)" class="select_img" />
               </div>
             </div>
@@ -49,6 +49,7 @@ export default {
       cardIdArr:[],// 选中的卡牌id数组
       isbtnstatus:false,// 按钮的文字状态
       approve_isloading:false,// 按钮的loading
+      mySwiper:0,//swiper对象
     }
   },
   computed: {
@@ -62,11 +63,14 @@ export default {
       handler: function (newValue, oldValue) {
         if(newValue.length > 0){
           if(newValue.length > 0){
-            this.setFilterFun(1,newValue)
-            this.setFilterFun(2,newValue)
-            this.setFilterFun(3,newValue)
-            this.setFilterFun(4,newValue)
-            this.setFilterFun(5,newValue)
+            let res = JSON.parse(newValue)
+            this.starArr = res
+            console.log('页面上现在展示的数组this.starArr: ', this.starArr);
+            // this.setFilterFun(1,newValue)
+            // this.setFilterFun(2,newValue)
+            // this.setFilterFun(3,newValue)
+            // this.setFilterFun(4,newValue)
+            // this.setFilterFun(5,newValue)
           }
         }
       },
@@ -81,6 +85,7 @@ export default {
         return item.level == level
       })
       this.starArr.push(obj)
+      console.log('页面的数组:this.starArr: ', this.starArr);
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
@@ -104,12 +109,12 @@ export default {
       }
     },
     // 插入卡槽
-    insertFun(){
+    async insertFun(){
       if(this.approve_isloading)return
       if(!this.getIstrue)return // 链接钱包按钮点击函数
       if(!this.isbtnstatus){ // 去授权
         this.approve_isloading = true
-        this.$common.delegatingFun(contract().HNPool).then(res => {
+        this.$common.delegatingFun(1,contract().HNPool).then(res => {
           console.log('授权res: ', res);
           this.approve_isloading = false
           this.isbtnstatus = true
@@ -124,17 +129,20 @@ export default {
         return
       }
       this.approve_isloading = true
-      if(this.$route.query.nums >= this.cardIdArr.length){
+      let emptyCardSlot = (await hnPool().getUserLeftSlots(this.getAccount)).toString()
+      if(emptyCardSlot >= this.cardIdArr.length){
         let arr = []
         this.cardIdArr.forEach(element => {
           arr.push(element.cardID)
         });
-        hnPool().connect(getSigner()).withdraw([164]).then(async res => {
-          console.log('质押res: ', res);
-          this.approve_isloading = false
+        console.log("向合约发的卡牌id数组:",arr)
+        hnPool().connect(getSigner()).deposit(arr).then(async res => {
+          console.log('插入卡槽res: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
             this.$common.selectLang('插入成功','1223',this)
+            this.approve_isloading = false
+            this.$common.getUserCardInfoFun(this.getAccount)
           }
           // console.log('etReceipt: ', etReceipt);
           // console.log(etReceipt.confirmations, 'Blocks Confirmations');
@@ -152,7 +160,7 @@ export default {
     },
     // 页面加载需要获取的信息
     getconnetFun(){
-      this.$common.isApproveFun(this.getAccount,contract().HNPool).then(res => {
+      this.$common.isApproveFun(1,this.getAccount,contract().HNPool).then(res => {
         console.log('是否授权res: ', res);
         if(res){
           this.isbtnstatus = true
@@ -163,13 +171,25 @@ export default {
         console.log('是否授权err: ', err);
         this.isbtnstatus = false
       })
+    },
+    swiperFun(){
+      if (this.mySwiper !== 0) {
+        this.mySwiper.destroy();
+      }
+      this.mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 4,
+        centeredSlides: true,
+        observer: true,
+        observeParents: true,
+      })
     }
   },
   mounted () {
-    new Swiper('.swiper-container', {
-      slidesPerView: 4,
-      centeredSlides: true,
-    })
+    // new Swiper('.swiper-container', {
+    //   slidesPerView: 4,
+    //   centeredSlides: true,
+    // })
+    this.swiperFun()
     this.getconnetFun()
   }
 }

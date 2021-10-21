@@ -77,10 +77,15 @@ export default {
       if(res.length == 0){
         this.$store.commit("setAccount",'no')
         localStorage.setItem("setAccount",'no')
+        // this.$store.commit("setCardInfo",JSON.stringify([]))
+        // localStorage.setItem("setCardInfo",JSON.stringify([]))
       }else{
+        // this.$store.commit("setCardInfo",JSON.stringify([]))
+        // localStorage.setItem("setCardInfo",JSON.stringify([]))
         this.$store.commit("setAccount", res[0])
         localStorage.setItem("setAccount",res[0])
       }
+      // this.reload()
     },
     // 网络链接抽离方法(第一次连接,用户网络不对的情况下帮他切换网络)
     networkFun(chainID){
