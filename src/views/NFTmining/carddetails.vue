@@ -45,10 +45,7 @@ export default {
     "dataInfo":{
       handler: function (newValue, oldValue) {
         if(newValue.length > 0){
-          let res = JSON.parse(newValue).filter((item) => {
-            return item.level == this.$route.query.level
-          })
-          this.boxarr = res
+          this.boxarr = JSON.parse(newValue)
         }
       },
       deep: true,

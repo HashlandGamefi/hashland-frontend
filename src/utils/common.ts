@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import i18n from '../i18n/index'
-import { hn,getSigner,hc,getHnImg } from 'hashland-sdk'
+import { hn,getSigner,hc,getHnImg} from 'hashland-sdk'
 import store from '@/store';
 export default {
   // 设置cookie过期时间
@@ -320,7 +320,7 @@ export default {
   },
   // 获取用户的所有卡牌信息
   async getUserCardInfoFun(account:string){
-    hn().tokensOfOwnerBySize(account,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+    hn().tokensOfOwnerBySize(account,0,1000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
       console.log('公共的获取到的用户的所有卡牌信息', res[0]);
       let infoArr:any = []
       res[0].map(async item => {
@@ -335,7 +335,7 @@ export default {
         }
         obj.cardID = item.toString() // 卡牌的id
         obj.level = (await hn().level(item)).toString() // 等级
-        // obj.src = await getHnImg(Number(obj.cardID),Number(obj.level),'../assets/')
+        obj.src = await getHnImg(Number(obj.cardID),Number(obj.level))
         let race = await hn().getHashrates(item) // hc 算力
         obj.hc = race[0].toString()
         obj.btc = race[1].toString()// btc 算力
