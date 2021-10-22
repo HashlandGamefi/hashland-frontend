@@ -319,39 +319,10 @@ export default {
     }
   },
   // 获取用户的所有卡牌信息
-  // async getUserCardInfoFun(account:string){
-  //   hn().tokensOfOwnerBySize(account,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-  //     console.log('公共的获取到的用户的所有卡牌信息', res[0]);
-  //     let infoArr:any = []
-  //     res[0].map(async item => {
-  //       let obj = {
-  //         cardID:'',
-  //         level:'',
-  //         hc:'',
-  //         btc:'',
-  //         status:false //设置一个状态供需要的地方使用
-  //       }
-  //       obj.cardID = item.toString() // 卡牌的id
-  //       obj.level = (await hn().level(item)).toString() // 等级
-  //       let race = await hn().getHashrates(item) // hc 算力
-  //       obj.hc = race[0].toString()
-  //       obj.btc = race[1].toString()// btc 算力
-  //       infoArr.push(obj)
-  //       store.commit("setCardInfo",JSON.stringify(infoArr))
-  //       localStorage.setItem("setCardInfo",JSON.stringify(infoArr))
-  //     })
-  //   })
-  // },
   async getUserCardInfoFun(account:string){
     hn().tokensOfOwnerBySize(account,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
       console.log('公共的获取到的用户的所有卡牌信息', res[0]);
-      let infoArr:any = [
-        {level:1,arr:[]},
-        {level:2,arr:[]},
-        {level:3,arr:[]},
-        {level:4,arr:[]},
-        {level:5,arr:[]}
-      ]
+      let infoArr:any = []
       res[0].map(async item => {
         let obj = {
           cardID:'',
@@ -359,34 +330,69 @@ export default {
           hc:'',
           btc:'',
           src:'',
-          status:false, //设置一个状态供需要的地方使用
+          status:false, // 选中与未选中
           ismaster:false,//主牌设置
         }
         obj.cardID = item.toString() // 卡牌的id
         obj.level = (await hn().level(item)).toString() // 等级
-        // obj.src = require(getHnImg(Number(obj.cardID),Number(obj.level),'../assets/'))
+        // obj.src = await getHnImg(Number(obj.cardID),Number(obj.level),'../assets/')
         let race = await hn().getHashrates(item) // hc 算力
         obj.hc = race[0].toString()
         obj.btc = race[1].toString()// btc 算力
-        if(obj.level == '1'){
-          infoArr[0].arr.push(obj)
-        }
-        if(obj.level == '2'){
-          infoArr[1].arr.push(obj)
-        }
-        if(obj.level == '3'){
-          infoArr[2].arr.push(obj)
-        }
-        if(obj.level == '4'){
-          infoArr[3].arr.push(obj)
-        }
-        if(obj.level == '5'){
-          infoArr[4].arr.push(obj)
-        }
-        // infoArr.push(obj)
+        infoArr.push(obj)
         store.commit("setCardInfo",JSON.stringify(infoArr))
         localStorage.setItem("setCardInfo",JSON.stringify(infoArr))
+        // store.commit("setCardInfo",infoArr)
+        // localStorage.setItem("setCardInfo",infoArr)
       })
     })
-  }
+  },
+  // async getUserCardInfoFun(account:string){
+  //   hn().tokensOfOwnerBySize(account,0,100000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+  //     console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+  //     let infoArr:any = [
+  //       {level:1,arr:[]},
+  //       {level:2,arr:[]},
+  //       {level:3,arr:[]},
+  //       {level:4,arr:[]},
+  //       {level:5,arr:[]}
+  //     ]
+  //     res[0].map(async item => {
+  //       let obj = {
+  //         cardID:'',
+  //         level:'',
+  //         hc:'',
+  //         btc:'',
+  //         src:'',
+  //         status:false, //设置一个状态供需要的地方使用
+  //         ismaster:false,//主牌设置
+  //       }
+  //       obj.cardID = item.toString() // 卡牌的id
+  //       obj.level = (await hn().level(item)).toString() // 等级
+  //       obj.src = await getHnImg(Number(obj.cardID),Number(obj.level),'../assets/')
+  //       console.log('obj.src: ', obj.src);
+  //       let race = await hn().getHashrates(item) // hc 算力
+  //       obj.hc = race[0].toString()
+  //       obj.btc = race[1].toString()// btc 算力
+  //       if(obj.level == '1'){
+  //         infoArr[0].arr.push(obj)
+  //       }
+  //       if(obj.level == '2'){
+  //         infoArr[1].arr.push(obj)
+  //       }
+  //       if(obj.level == '3'){
+  //         infoArr[2].arr.push(obj)
+  //       }
+  //       if(obj.level == '4'){
+  //         infoArr[3].arr.push(obj)
+  //       }
+  //       if(obj.level == '5'){
+  //         infoArr[4].arr.push(obj)
+  //       }
+  //       // infoArr.push(obj)
+  //       store.commit("setCardInfo",JSON.stringify(infoArr))
+  //       localStorage.setItem("setCardInfo",JSON.stringify(infoArr))
+  //     })
+  //   })
+  // }
 };

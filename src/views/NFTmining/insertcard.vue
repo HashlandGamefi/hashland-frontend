@@ -7,15 +7,15 @@
     <span class="title1_txt">选择您想要插入卡槽的卡牌</span>
     <span class="title1_txt title2_txt">卡牌增长系数越高，算力越高，收益越多</span>
     <div class="content_box">
-      <div class="stratbox" v-for="(ele,index1) in starArr" :key="index1">
+      <div class="stratbox" v-for="ele in 5" :key="ele">
         <div class="top_line" >
-          <span class="span1">{{ele.level}}星（共{{ele.arr.length}}张）</span>
+          <span class="span1">{{ele}}星（共{{starArr.filter(data => {return data.level == ele}).length}}张）</span>
           <span class="span2">卡槽有限，可合成后再质押</span>
         </div>
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in ele.arr" :key="index">
+            <div class="swiper-slide" v-for="(item,index) in starArr.filter(data => {return data.level == ele})" :key="index">
               <div class="swiper_content_box">
                 <img :src="item.src" class="swiper_img" />
                 <img :src="item.status?require('../../assets/images/selected.png'):require('../../assets/images/select.png')" @click="cardClick(item,index,index1)" class="select_img" />

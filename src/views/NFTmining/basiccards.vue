@@ -11,14 +11,14 @@
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(item,index) in gradeArr" :key="index">
+        <div class="swiper-slide" v-for="item in 5" :key="item">
           <div class="content_box" @click="jumpDetails(item)">
             <img src="../../assets/images/swiper1.png" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img src="../../assets/images/start.png" v-for="(item1,index1) in item.level" :key="index1"  class="start_img" />
+                <img src="../../assets/images/start.png" v-for="ele in item" :key="ele"  class="start_img" />
               </div>
-              <span class="card_grade">{{item.arr.length}}</span>
+              <span class="card_grade">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
               <span class="details">详情</span>
             </div>
           </div>
@@ -99,11 +99,6 @@ export default {
         if(newValue.length > 0){
           let res = JSON.parse(newValue)
           this.gradeArr = res
-          // this.setFilterFun(1,newValue)
-          // this.setFilterFun(2,newValue)
-          // this.setFilterFun(3,newValue)
-          // this.setFilterFun(4,newValue)
-          // this.setFilterFun(5,newValue)
         }
       },
       deep: true,
@@ -114,13 +109,6 @@ export default {
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
-    },
-    setFilterFun(level,newValue){
-      let obj = {level:level,ownerNum:[]}
-      obj.ownerNum = JSON.parse(newValue).filter(item =>{
-        return item.level == level
-      })
-      this.gradeArr.push(obj)
     },
     // 插入卡槽
     insertClick(item){

@@ -10,8 +10,8 @@
       <div class="left_content">
         <span class="span1">{{rank}}阶 (共{{amount}}张)</span>
         <div class="span2"></div>
-        <div class="left_content_hover">
-          <span class="span1" @click="selectRankClik(1)">{{cardarr[0].level}}阶 (共{{cardarr[0].arr.length}}张)</span>
+        <div class="left_content_hover" v-for="item in [1,2,3,4,5]" :key="item">
+          <span class="span1" @click="selectRankClik(1)">{{item}}阶 (共{{cardarr[0].arr.length}}张)</span>
           <span class="span1" @click="selectRankClik(2)">{{cardarr[1].level}}阶 (共{{cardarr[1].arr.length}}张)</span>
           <span class="span1" @click="selectRankClik(3)">{{cardarr[2].level}}阶 (共{{cardarr[2].arr.length}}张)</span>
           <span class="span1" @click="selectRankClik(4)">{{cardarr[3].level}}阶 (共{{cardarr[3].arr.length}}张)</span>
@@ -34,7 +34,7 @@
     </div>
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in showarr" :key="index" @click="cardClick(item,index)">
-        <img src="../../assets/images/newcard.png" class="card_picture" :class="{scaleimg:item.ismaster}" />
+        <img :src="item.src" class="card_picture" :class="{scaleimg:item.ismaster}" />
         <div class="bottom">
           <div class="five_pointed_star">
             <img src="../../assets/images/start.png" v-for="(item1,index1) in rank" :key="index1" class="start_img" />
@@ -56,6 +56,7 @@
       </div>
     </div>
     <div class="btn_box" @click="synthesisFun">合成</div>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -64,6 +65,9 @@ import { mapGetters } from "vuex";
 export default {
   data () {
     return {
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
+      proupDis:false,// 弹窗展示消失变量
       showarr:[],// 页面展示的卡牌数组
       cardarr:[],//所有卡牌信息的数组
       rank:1,//1阶
@@ -71,7 +75,7 @@ export default {
       selectedNUM:0,//选中的卡牌数量
       compose:0,//合成的卡牌数量
       selectimgArr:[],//选中的卡牌的信息
-      onceClick:true
+      // onceClick:true
     }
   },
   computed: {
@@ -98,37 +102,90 @@ export default {
     }
   },
   methods: {
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
     synthesisFun(){
       console.log('合成')
     },
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引  index1---上层数组的索引
+      if(data.status){
+        if(this.showarr[index].ismaster){ // 这一步判断取消选中的是不是主牌
+          console.log("是主牌")
+          this.showarr[index].ismaster = false // 把当前主牌取消掉
+          for(var i = 0; i < this.selectimgArr.length; i++){
+            if(this.selectimgArr[i].index == index){
+              this.selectimgArr.splice(i,1)
+              this.showarr[this.selectimgArr[i].index].ismaster = true // 把相邻的下一张变成主牌
+
+            }
+          }
+          console.log("取消选中后的数组",this.selectimgArr)
+        }else{
+          console.log("不是主牌")
+          this.$common.selectLang('请重新选择当前组','1223',this)
+          return
+        }
+      }
+
       let obj = {}
       obj.cardID = data.cardID
       obj.index = index
       console.log('选中当前卡牌的信息data: ', data);
-      data.status = !data.status
+      data.status = true
 
+      this.selectimgArr.push(obj)
+      // this.selectedNUM++
+      // this.compose = parseInt(this.selectedNUM / 4)
+      if(this.selectimgArr.length % 4 == 1){
+        data.ismaster = true
+      }
+
+
+
+      return
       if(data.status){
         this.selectimgArr.push(obj)
         this.selectedNUM++
         this.compose = parseInt(this.selectedNUM / 4)
-        if(this.onceClick){
-          data.ismaster = !data.ismaster
+        if(this.selectimgArr.length % 4 == 1){
+          data.ismaster = true
         }
-        this.onceClick = false
+        // if(this.onceClick){
+        //   data.ismaster = !data.ismaster
+        // }
+        // this.onceClick = false
+        console.log("选中后的数组",this.selectimgArr)
       }else{
-        this.onceClick = true
-        data.ismaster = false
-        this.selectedNUM--
-        this.compose = parseInt(this.selectedNUM / 4)
-        for(var i = 0; i < this.selectimgArr.length; i++){
-          if(this.selectimgArr[i].index == obj.index){
-            this.selectimgArr.splice(i,1)
-            this.selectedNUM--
-            this.compose = parseInt(this.selectedNUM / 4)
+        if(this.showarr[index].ismaster){ // 这一步判断取消选中的是不是主牌
+          console.log("是主牌")
+          this.showarr[index].ismaster = false // 把当前主牌取消掉
+          for(var i = 0; i < this.selectimgArr.length; i++){
+            if(this.selectimgArr[i].index == index){
+              this.selectimgArr.splice(i,1)
+              this.showarr[this.selectimgArr[i].index].ismaster = true // 把相邻的下一张变成主牌
+
+            }
           }
+          console.log("取消选中后的数组",this.selectimgArr)
+        }else{
+          console.log("不是主牌")
+          this.$common.selectLang('请重新选择当前组','1223',this)
         }
+        // for (let index = 0; index < this.selectimgArr.length; index++) {
+        //   const element = this.selectimgArr[index];
+
+        // }
+        // for(var i = 0; i < this.selectimgArr.length; i++){
+        //   if(this.selectimgArr[i].index == obj.index){
+        //     this.selectimgArr.splice(i,1)
+        //     this.selectedNUM--
+        //     this.compose = parseInt(this.selectedNUM / 4)
+        //   }
+
+        // }
       }
     },
     // 选择阶数
