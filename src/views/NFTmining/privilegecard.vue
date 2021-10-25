@@ -10,7 +10,7 @@
     <!-- 我的钱包卡牌 -->
     <div class="myCardBox">
       <div class="occupationBitmap">
-        <img src="../../assets/images/buybg.png" class="card_img" />
+        <img src="../../assets/images/privilege.png" class="card_img" />
       </div>
       <div class="btn_box">购买NFT卡牌</div>
     </div>
@@ -24,7 +24,7 @@
     <!-- 卡槽轮播 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(item,index) in cardsoltArr" :key="index">
+        <div class="swiper-slide" v-for="(item,index) in 3" :key="index">
           <div class="outbox">
             <div class="second-content_box">
               <img :src="item.src" class="swiper_img" />
@@ -42,39 +42,11 @@
 
 <script>
 import Swiper from 'swiper'
-import Vue from 'vue'
 export default {
   data () {
     return {
-      cardsoltArr:[
-        {
-          src:'',//require("../../assets/images/record.png"),
-          btnstatus:1,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        },
-        {
-          src:require("../../assets/images/record.png"),
-          btnstatus:2,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        },
-        {
-          src:require("../../assets/images/cardlock.png"),
-          btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-        }
-      ]
+      cardsoltArr:[]
     }
-  },
-  methods: {
-    Unlock(index){
-      this.cardsoltArr[index].btnstatus = 1
-      this.cardsoltArr[index].src = ''
-      Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
-        src:require("../../assets/images/cardlock.png"),
-        btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-      })
-      console.log('this.cardsoltArr: ', this.cardsoltArr);
-    }
-  },
-  created () {
-    console.log('created')
   },
   mounted () {
     new Swiper('.swiper-container', {
@@ -115,7 +87,7 @@ export default {
       display: flex;
       flex-direction: column;
       .span1 {
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #ffffff;
@@ -123,7 +95,7 @@ export default {
         letter-spacing: 5px;
       }
       .span2 {
-        font-size: 26px;
+        font-size: 18px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #ccbebe;
@@ -155,7 +127,8 @@ export default {
       align-items: center;
       justify-content: center;
       .card_img{
-        width: 320px;
+        width: 540px;
+        object-fit: contain;
       }
     }
     .btn_box{

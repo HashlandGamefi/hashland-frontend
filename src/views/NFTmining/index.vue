@@ -164,28 +164,29 @@ export default {
   align-items: center;
   padding-top: 130px;
   .nft_title{
-    font-size: 60px;
+    font-size: 40px;
     font-family: AaJXH;
     color: #FFFFFF;
     line-height: 73px;
     letter-spacing: 4px;
-    text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
+    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
     // background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
     // -webkit-background-clip: text;
     // -webkit-text-fill-color: transparent;
   }
   .nft_title1{
-    font-size: 26px;
+    font-size: 24px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
-    color: #0AA6B5;
+    color: #FFFFFF;
     line-height: 37px;
-    -webkit-text-stroke: 1px #092868;
+    // -webkit-text-stroke: 1px #092868;
     // text-stroke: 1px #092868;
-    background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
     margin-top: 20px;
+    letter-spacing: 4px;
   }
   .tab_box{
     display: flex;
@@ -197,22 +198,23 @@ export default {
       height: 70px;
       line-height: 70px;
       text-align: center;
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow:-15px 11px 40px 21px rgba(0,0,1,0.38), -2px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
     }
     .activeTab{
-      background: linear-gradient(to right,#2445C1,#1E9694);
+      background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
+      box-shadow: 0 14px 2px #23447C;
     }
   }
   .apy_title{
     width: 100%;
     padding-left: 120px;
-    font-size: 40px;
+    font-size: 32px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
     color: #FFFFFF;
@@ -243,12 +245,12 @@ export default {
         align-items: center;
         justify-content: flex-end;
         .txt{
-          width: 280px;
-          height: 97px;
+          width: 200px;
+          height: 73px;
           background-image: url("../../assets/images/nft_btn2.png");
           background-size: 100% 100%;
           background-repeat: no-repeat;
-          font-size: 40px;
+          font-size: 24px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #FFFFFF;

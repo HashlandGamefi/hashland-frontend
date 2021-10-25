@@ -6,7 +6,7 @@
     <span class="span_title">详情</span>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
-        <img src="../../assets/images/card.png" class="imgcard" />
+        <img :src="item.src" class="imgcard" />
         <div class="bottom">
           <div class="five_pointed_star">
             <img src="../../assets/images/start.png" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
@@ -79,16 +79,16 @@ export default {
     }
   }
   .span_title{
-    font-size: 60px;
+    font-size: 40px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
     color: #FFFFFF;
     line-height: 84px;
     letter-spacing: 4px;
-    text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    background: linear-gradient(360deg, rgba(47, 215, 242, 0) 0%, #00EBF3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
+    // background: linear-gradient(360deg, rgba(47, 215, 242, 0) 0%, #00EBF3 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
   }
   .boxarr{
     width: 100%;
@@ -102,7 +102,7 @@ export default {
     overflow-y: auto;
     .onebox{
       position: relative;
-      width: 470px;
+      width: 353px;
       // height: 305px;
       display: flex;
       flex-direction: column;
@@ -115,7 +115,7 @@ export default {
       }
       .bottom{
         position: absolute;
-        top: 60px;
+        top: 18px;
         // width: 100%;
         background-image: url("../../assets/images/cardtop.png");
         background-size: 100% 100%;
@@ -123,7 +123,7 @@ export default {
         display: flex;
         align-items: center;
         padding:10px 8px;
-        transform: scale(0.7);
+        transform: scale(0.5);
         // transform: translate(-50%,-50%);
         .five_pointed_star{
           display: flex;

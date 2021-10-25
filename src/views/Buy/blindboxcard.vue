@@ -1,5 +1,5 @@
 <template>
-  <div class="blindbox_card">
+  <div class="composite_card">
     <div class="left_box">
       <div class="top_box">
         <span class="luckey_span1">幸运抽奖</span>
@@ -11,10 +11,10 @@
       </div>
       <span class="composite_span1">价格</span>
       <span class="composite_span2">{{boxPrice}} BNB</span>
-      <span class="composite_line"></span>
+      <span class="composite_line_color"></span>
       <span class="composite_span1">数量</span>
       <div class="inputbox">
-        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
+        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
@@ -23,35 +23,22 @@
     </div>
     <div class="right_box">
       <div class="btn">购买说明</div>
-      <div class="right_span1"><span class="radious"></span> 购买后等待倒计时结束统一开奖，可随机获取不同星级卡牌及卡槽，开奖后获得的卡牌在“NFT挖矿“钱包中查看</div>
+      <div class="right_span1"><span class="radious"></span>购买后等待倒计时结束统一开奖，可随机获取不同星级卡牌及卡槽，开奖后获得的卡牌在“NFT挖矿“钱包中查看</div>
       <div class="right_span1"><span class="radious"></span>插入卡槽后可获的挖矿奖励（BTC+平台币），算力越高，奖励越多</div>
     </div>
     <div class="center_box">
       <img src="../../assets/images/blindcard.png" class="bgimg" />
-      <!-- <div class="onebox">
-        <img src="../../assets/images/card.png" class="cardimg" />
-        <div class="bottom">
-          <div class="five_pointed_star">
-            <img src="../../assets/images/start.png" v-for="item1 in 1" :key="item1" class="start_img" />
-          </div>
-          <div class="hc_btc_box">
-            <div class="hc_coefficient">
-              <img src="../../assets/images/hclogo.png" class="imgcard" />
-              <span class="span1">0</span>
-            </div>
-            <div class="hc_coefficient">
-              <img src="../../assets/images/btclogo.png" class="imgcard" />
-              <span class="span1">0</span>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      <div class="onebox">
+        <img src="../../assets/images/box.png" class="cardimg" />
+      </div>
       <div class="remaining">
         <span class="span1">剩余数量</span>
         <span class="span2">{{surplusNums}}</span>
       </div>
     </div>
-    <div class="connect_box">暂未开放</div>
+    <div class="connect_box">连接钱包</div>
+    <div class="connect_box" v-if="getIstrue">购买<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
+    <div class="connect_box" v-else>连接钱包</div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -80,16 +67,13 @@ export default {
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
-    },
-  },
-  mounted () {
-    this.getSDKInfo()
+    }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.blindbox_card {
+.composite_card {
   position: relative;
   width: 100%;
   display: flex;
@@ -107,7 +91,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -115,13 +99,13 @@ export default {
         padding: 5px;
         background: #29CDDA;
         border-radius: 5px;
-        line-height: 56px;
+        line-height: 42px;
       }
       .span2{
         padding: 5px;
         background: #23447C;
         border-radius: 5px;
-        line-height: 40px;
+        line-height: 20px;
       }
     }
     .top_box {
@@ -130,23 +114,24 @@ export default {
       flex-direction: column;
       margin-bottom: 50px;
       .luckey_span1 {
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #27c7d5;
         line-height: 40px;
       }
       .luckey_span2 {
-        font-size: 26px;
+        font-size: 20px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #ffffff;
         line-height: 40px;
-        margin-top: 30px;
+        margin-top: 10px;
+        letter-spacing: 4px;
       }
     }
     .composite_span1 {
-      font-size: 20px;
+      font-size: 18px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #ffffff;
@@ -154,20 +139,20 @@ export default {
       padding-left: 15px;
     }
     .composite_span2 {
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #29cdda;
       line-height: 40px;
-      margin: 20px 0;
+      margin: 10px 0;
       padding-left: 15px;
     }
-    .composite_line {
-      width: 100%;
-      height: 1px;
-      border: 1px dashed #ccc;
-      margin: 10px 0;
-    }
+    // .composite_line {
+    //   width: 100%;
+    //   height: 1px;
+    //   border: 1px dashed #ccc;
+    //   margin: 10px 0;
+    // }
     .composite_line_color{
       width: 100%;
       height: 1px;
@@ -195,7 +180,7 @@ export default {
     }
     .last {
       width: 100%;
-      font-size: 20px;
+      font-size: 18px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #ffffff;
@@ -211,7 +196,7 @@ export default {
     min-width: 200px;
     .right_span1 {
       width: 280px;
-      font-size: 20px;
+      font-size: 18px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #27c7d5;
@@ -228,7 +213,7 @@ export default {
       }
     }
     .btn {
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -260,48 +245,8 @@ export default {
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 600px;
+        width: 497px;
         object-fit: contain;
-      }
-      .bottom{
-        position: absolute;
-        top: 75px;
-        display: flex;
-        align-items: center;
-        padding:10px 8px;
-        transform: scale(0.7);
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_btc_box{
-          display: flex;
-          align-items: center;
-          .hc_coefficient{
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            margin-right: 5px;
-            background: rgba(5, 24, 44, 0.88);
-            box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-            border-radius: 11px;
-            opacity: 0.56;
-            .imgcard{
-              width: 43px;
-              object-fit: contain;
-            }
-            .span1{
-              font-size: 26px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #FFFFFF;
-            }
-          }
-        }
       }
     }
     .remaining{
@@ -328,6 +273,7 @@ export default {
         background: #23447C;
         border-radius: 5px;
         line-height: 20px;
+        margin-top: 10px;
       }
     }
   }
@@ -354,11 +300,11 @@ input::-webkit-input-placeholder {
   font-weight: 600;
   color: #909292;
   line-height: 40px;
-  font-size: 22px;
+  font-size: 18px;
 }
-@media screen and (min-width: 1440px) {
-  .blindbox_card{
-    max-width: 1440px;
-  }
-}
+// @media screen and (min-width: 1440px) {
+//   .composite_card{
+//     max-width: 1440px;
+//   }
+// }
 </style>

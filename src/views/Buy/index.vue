@@ -1,7 +1,6 @@
 <template>
   <div class="buy_page">
-    <img src="../../assets/images/nftcard.png" class="card_nft" />
-    <!-- <span class="title1_txt">NFT卡牌</span> -->
+    <span class="title1_txt">NFT卡牌</span>
     <span class="title2_txt">这是一张持续增值的卡牌</span>
     <div class="tab_box">
       <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">基础卡牌</div>
@@ -39,17 +38,27 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-top: 110px;
-  .card_nft{
-    width: 470px;
-    object-fit: contain;
-  }
-  .title2_txt{
-    font-size: 26px;
+  .title1_txt{
+    font-size: 40px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
-    color: #0AA6B5;
+    line-height: 84px;
+    letter-spacing: 4px;
+    color: #FFFFFF;
+    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
+    // background: linear-gradient(360deg, rgba(47, 215, 242, 0) 0%, #00EBF3 100%);
+    // background-clip: text;
+    // color: transparent;
+  }
+  .title2_txt{
+    font-size: 24px;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    // color: #0AA6B5;
+    color: #FFFFFF;
     line-height: 37px;
-    transition: all 1.5s ease;
+    // transition: all 1.5s ease;
+    letter-spacing: 4px;
   }
   .tab_box{
     display: flex;
@@ -61,16 +70,17 @@ export default {
       height: 70px;
       line-height: 70px;
       text-align: center;
-      font-size: 40px;
+      font-size: 30px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow:-15px 11px 40px 21px rgba(0,0,1,0.38), -2px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
     }
     .activeTab{
-      background: linear-gradient(to right,#2445C1,#1E9694);
+      background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
+      box-shadow: 0 14px 2px #23447C;
     }
   }
 }

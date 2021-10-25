@@ -173,18 +173,18 @@ export default {
           display: none;
           position: absolute;
           top: 0;
-          left: 0;
+          left: -29px;
           z-index: 99999999;
           .box_nft{
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            width: 149px;
+            width: 183px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             padding: 20px 0;
-            margin-top: 74px;
+            margin-top: 30px;
             .span1{
               width: 100%;
               height: 60px;

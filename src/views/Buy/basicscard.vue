@@ -11,7 +11,7 @@
       </div>
       <span class="composite_span1">价格</span>
       <span class="composite_span2">{{boxPrice}} BNB</span>
-      <span class="composite_line"></span>
+      <span class="composite_line_color"></span>
       <span class="composite_span1">数量</span>
       <div class="inputbox">
         <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
@@ -30,7 +30,7 @@
     <div class="center_box">
       <img src="../../assets/images/buybg.png" class="bgimg" />
       <div class="onebox">
-        <img src="../../assets/images/card.png" class="cardimg" />
+        <img src="../../assets/images/newcard.png" class="cardimg" />
         <div class="bottom">
           <div class="five_pointed_star">
             <img src="../../assets/images/start.png" v-for="item1 in 1" :key="item1" class="start_img" />
@@ -61,7 +61,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,constant,hn,getProvider,util,getSigner } from 'hashland-sdk';
+import { hnBox,hn,getProvider,util,getSigner,getHnImg } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -97,7 +97,8 @@ export default {
             let obj = {}
             // obj.round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
             obj.level = (await hn().level(item)).toString() // 卡牌等级
-            obj.src = require('../../assets/images/record193.png')
+            // obj.src = require('../../assets/images/record193.png')
+            obj.src = await getHnImg(Number(item),Number(obj.level))
             let race = await hn().getHashrates(item)
             obj.hc = race[0].toString()// hc 算力
             obj.btc = race[1].toString()// btc 算力
@@ -208,7 +209,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -216,13 +217,13 @@ export default {
         padding: 5px;
         background: #29CDDA;
         border-radius: 5px;
-        line-height: 56px;
+        line-height: 42px;
       }
       .span2{
         padding: 5px;
         background: #23447C;
         border-radius: 5px;
-        line-height: 40px;
+        line-height: 20px;
       }
     }
     .top_box {
@@ -231,23 +232,24 @@ export default {
       flex-direction: column;
       margin-bottom: 50px;
       .luckey_span1 {
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #27c7d5;
         line-height: 40px;
       }
       .luckey_span2 {
-        font-size: 26px;
+        font-size: 20px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #ffffff;
         line-height: 40px;
-        margin-top: 30px;
+        margin-top: 10px;
+        letter-spacing: 4px;
       }
     }
     .composite_span1 {
-      font-size: 20px;
+      font-size: 18px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #ffffff;
@@ -255,20 +257,20 @@ export default {
       padding-left: 15px;
     }
     .composite_span2 {
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #29cdda;
       line-height: 40px;
-      margin: 20px 0;
+      margin: 10px 0;
       padding-left: 15px;
     }
-    .composite_line {
-      width: 100%;
-      height: 1px;
-      border: 1px dashed #ccc;
-      margin: 10px 0;
-    }
+    // .composite_line {
+    //   width: 100%;
+    //   height: 1px;
+    //   border: 1px dashed #ccc;
+    //   margin: 10px 0;
+    // }
     .composite_line_color{
       width: 100%;
       height: 1px;
@@ -296,7 +298,7 @@ export default {
     }
     .last {
       width: 100%;
-      font-size: 20px;
+      font-size: 18px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #ffffff;
@@ -312,7 +314,7 @@ export default {
     min-width: 200px;
     .right_span1 {
       width: 280px;
-      font-size: 20px;
+      font-size: 18px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #27c7d5;
@@ -329,7 +331,7 @@ export default {
       }
     }
     .btn {
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -361,7 +363,7 @@ export default {
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 600px;
+        width: 497px;
         object-fit: contain;
       }
       .bottom{
@@ -429,6 +431,7 @@ export default {
         background: #23447C;
         border-radius: 5px;
         line-height: 20px;
+        margin-top: 10px;
       }
     }
   }
@@ -455,11 +458,11 @@ input::-webkit-input-placeholder {
   font-weight: 600;
   color: #909292;
   line-height: 40px;
-  font-size: 22px;
+  font-size: 18px;
 }
-@media screen and (min-width: 1440px) {
-  .composite_card{
-    max-width: 1440px;
-  }
-}
+// @media screen and (min-width: 1440px) {
+//   .composite_card{
+//     max-width: 1440px;
+//   }
+// }
 </style>

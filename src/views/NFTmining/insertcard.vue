@@ -30,7 +30,7 @@
               })"
               :key="index"
             >
-              <div class="swiper_content_box">
+              <div class="swiper_content_box" @click="cardClick(item, index, index1)">
                 <img :src="item.src" class="swiper_img" />
                 <img
                   :src="
@@ -38,7 +38,6 @@
                       ? require('../../assets/images/selected.png')
                       : require('../../assets/images/select.png')
                   "
-                  @click="cardClick(item, index, index1)"
                   class="select_img"
                 />
               </div>
@@ -205,7 +204,10 @@ export default {
       }
       this.mySwiper = new Swiper('.swiper-container', {
         slidesPerView: 4,
+        // loop : true,
+        slidesOffsetBefore: 20,
         centeredSlides: true,
+        centeredSlidesBounds: true,
         observer: true,
         observeParents: true,
       })
@@ -241,28 +243,28 @@ export default {
     }
   }
   .title_title {
-    font-size: 60px;
+    font-size: 40px;
     font-family: AaJXH;
     color: #ffffff;
     line-height: 73px;
     letter-spacing: 4px;
-    text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 35px;
+    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
+    // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
   }
   .title1_txt {
-    font-size: 26px;
+    font-size: 24px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
-    color: #0aa6b5;
+    color: #fff;
     line-height: 37px;
-    -webkit-text-stroke: 1px #092868;
-    text-stroke: 1px #092868;
-    background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // -webkit-text-stroke: 1px #092868;
+    // text-stroke: 1px #092868;
+    // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
   }
   .title2_txt {
     margin-top: 10px;
@@ -284,7 +286,7 @@ export default {
         display: flex;
         flex-direction: column;
         .span1 {
-          font-size: 40px;
+          font-size: 32px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #ffffff;
@@ -292,7 +294,7 @@ export default {
           letter-spacing: 5px;
         }
         .span2 {
-          font-size: 26px;
+          font-size: 24px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #ccbebe;
@@ -315,13 +317,13 @@ export default {
               align-items: center;
               margin-top: 40px;
               .swiper_img {
-                width: 250px;
+                width: 350px;
                 object-fit: contain;
               }
               .select_img {
                 position: absolute;
                 right: 35px;
-                top: 7px;
+                top: 27px;
                 width: 43px;
                 object-fit: contain;
               }

@@ -4,7 +4,7 @@
     <img src="../assets/images/closebg.png" class="close_img" @click="closepage"/>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
-        <img src="../assets/images/card.png" class="imgcard" />
+        <img :src="item.src" class="imgcard" />
         <div class="bottom">
           <div class="five_pointed_star">
             <img src="../assets/images/start.png" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
@@ -101,7 +101,8 @@ export default {
       }
       .bottom{
         position: absolute;
-        top: 60px;
+        top: 30px;
+        left: 22%;
         background-image: url("../assets/images/cardtop.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;

@@ -13,7 +13,6 @@ import { mapGetters } from "vuex";
 import Nav from './components/nav.vue'
 import Footer from './components/footer.vue'
 import WinningPopup from './components/winningpopup.vue'
-import { hn } from 'hashland-sdk';
 export default {
   components: {
     Nav,
@@ -21,7 +20,19 @@ export default {
     WinningPopup
   },
   computed: {
-    ...mapGetters(["getrewardsInfo","getAccount"])
+    ...mapGetters(["getrewardsInfo","getAccount","getIstrue"])
+  },
+  watch:{
+    'getIstrue':{
+      handler: function (newValue, oldValue) {
+        console.log('直接写是否链接:', newValue,oldValue);
+        if(newValue){
+          this.$common.getUserCardInfoFun(this.getAccount)
+        }
+      },
+      deep: true,
+      immediate: true
+    },
   },
   provide () {    //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
     return {
@@ -51,9 +62,9 @@ export default {
       this.$store.commit("setrewardsInfo", obj);
     }
   },
-  created(){
-    this.$common.getUserCardInfoFun(this.getAccount) // 获取用户的卡牌信息
-  },
+  // created(){
+  //   this.$common.getUserCardInfoFun(this.getAccount) // 获取用户的卡牌信息
+  // },
   mounted () {
     window.addEventListener('load', this.setRem)
     window.addEventListener('resize', this.setRem)
@@ -67,7 +78,10 @@ export default {
 #app {
   width: 100%;
   min-height: 100%;
-  background: #011A31;
+  // background: #011A31;
+  background-image: url("./assets/images/pagehome.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .fade-enter-active,
 .fade-leave-avtive {

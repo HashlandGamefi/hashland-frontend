@@ -42,7 +42,7 @@
       </div>
     </div>
     <!-- 卡槽轮播 -->
-    <div class="swiper-container">
+    <div class="swiper-container self_swiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item,index) in cardsoltArr" :key="index">
           <div class="outbox">
@@ -71,7 +71,7 @@
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
 import Vue from 'vue'
-import { hnPool,hn,getSigner,hc,util,contract } from 'hashland-sdk';
+import { hnPool,hn,getSigner,hc,util,contract,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -203,7 +203,7 @@ export default {
         let race = await hn().getHashrates(item)
         obj.hc = race[0].toString()// hc 算力
         obj.btc = race[1].toString()// btc 算力
-        obj.src = require('../../assets/images/record.png')
+        obj.src = await getHnImg(Number(item),Number(obj.level))
         this.cardsoltArr.push(obj)
         console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       })
@@ -259,8 +259,8 @@ export default {
       // 如果需要前进后退按钮
       nextButton: '.swiper-button-next',
       prevButton: '.swiper-button-prev',
-      slidesPerView : 3,
-      // slidesOffsetBefore : 100,
+      slidesPerView : 4,
+      slidesOffsetBefore : 100,
       // centeredSlides : true,
       //如果需要自动切换海报
       // autoplay: {
@@ -291,7 +291,7 @@ export default {
       display: flex;
       flex-direction: column;
       .span1 {
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #ffffff;
@@ -299,7 +299,7 @@ export default {
         letter-spacing: 5px;
       }
       .span2 {
-        font-size: 26px;
+        font-size: 18px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #ccbebe;
@@ -307,23 +307,23 @@ export default {
       }
     }
     .synthesis_btn {
-      width: 196px;
-      height: 84px;
+      width: 115px;
+      height: 56px;
       background-image: url("../../assets/images/nft_btn1.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
-      font-size: 40px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #ffffff;
-      line-height: 84px;
+      line-height: 56px;
       cursor: pointer;
     }
   }
   .swiper-container{
     width: 100%;
-    height: 800px;
+    height: auto;
     .swiper-wrapper{
       .swiper-slide{
         width: 100%;
@@ -354,7 +354,7 @@ export default {
               }
             }
             .card_grade{
-              font-size: 40px;
+              font-size: 26px;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #FFFFFF;
@@ -379,7 +379,7 @@ export default {
             line-height: 84px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 40px;
+            font-size: 32px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
@@ -413,7 +413,7 @@ export default {
             margin-bottom: 50px;
             .swiper_img{
               position: absolute;
-              top: 25%;
+              top: 50%;
               left: 50%;
               transform: translate(-50%,-50%);
               width: 320px;
@@ -430,7 +430,7 @@ export default {
             line-height: 84px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 40px;
+            font-size: 32px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
@@ -449,8 +449,13 @@ export default {
       }
     }
   }
+  .self_swiper{
+    height: auto;
+    min-height: 300px;
+    margin-top: -178px;
+  }
   .margin_top_card{
-    margin-top: -100px;
+    margin-top: 50px;
   }
 }
 </style>

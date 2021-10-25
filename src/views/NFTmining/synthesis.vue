@@ -146,6 +146,10 @@ export default {
           this.pageshowarr = []
         }else{
           // 可选卡牌不是4的倍数的逻辑
+          this.selectedArr = this.pageshowarr.filter((item,index) => {
+            return index < this.selectedCardnum
+          })
+          this.pageshowarr.splice(0,28)
         }
         this.selectedNUM = this.selectedCardnum
         this.compose = this.selectedNUM / 4
@@ -309,28 +313,28 @@ export default {
     }
   }
   .title_title {
-    font-size: 60px;
+    font-size: 40px;
     font-family: AaJXH;
     color: #ffffff;
     line-height: 73px;
     letter-spacing: 4px;
-    text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
+    // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
     margin-bottom: 35px;
   }
   .title_son1{
-    font-size: 26px;
+    font-size: 24px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
-    color: #0AA6B5;
+    color: #ffffff;
     line-height: 37px;
-    -webkit-text-stroke: 1px #092868;
-    text-stroke: 1px #092868;
-    background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // -webkit-text-stroke: 1px #092868;
+    // text-stroke: 1px #092868;
+    // background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
   }
   .content{
     width: 100%;
@@ -340,15 +344,15 @@ export default {
     margin-top: 90px;
     .left_content{
       position: relative;
-      width: 460px;
-      height: 125px;
+      width: 380px;
+      height: 87px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -370,10 +374,10 @@ export default {
       }
       .left_content_hover{
         position: absolute;
-        top: 56px;
+        top: 15px;
         left: 0;
         z-index: 9;
-        width: 460px;
+        width: 380px;
         display: none;
         flex-direction: column;
         align-items: center;
@@ -387,7 +391,7 @@ export default {
         padding: 20px 0;
         margin-top: 70px;
         .span1{
-          font-size: 30px;
+          font-size: 26px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #E2DADA;
@@ -405,12 +409,12 @@ export default {
       display: flex;
       align-items: center;
       .selectimg{
-        width: 52px;
+        width: 40px;
         object-fit: contain;
         margin-right: 10px;
       }
       .select_ttx{
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -427,7 +431,7 @@ export default {
       display: flex;
       align-items: center;
       .span1 {
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #ffffff;
@@ -435,7 +439,7 @@ export default {
         letter-spacing: 5px;
       }
       .span2 {
-        font-size: 40px;
+        font-size: 32px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #00e7f0;
@@ -445,7 +449,7 @@ export default {
     }
     .bottom_txt2 {
       width: 100%;
-      font-size: 26px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #ccbebe;

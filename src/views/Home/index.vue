@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="card_content">
-      <div class="compositeCard">合成卡牌</div>
+      <div class="compositeCard">NFT卡牌</div>
       <img src="../../assets/images/compositecard.png" class="img" />
       <div class="cardboxs">
         <div class="one_box">
@@ -198,11 +198,12 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 204px;
       .left{
-        width: 49.9%;
+        width: 49%;
         height: 200px;
         background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
-        box-shadow: 0px 17px 44px 0px rgba(0, 0, 0, 0.5);
+        // box-shadow: 0px 17px 44px 0px rgba(0, 0, 0, 0.5);
         border: 4px solid;
         border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
         display: flex;
@@ -210,19 +211,12 @@ export default {
         align-items: center;
         padding-top: 20px;
         .span1{
-          font-size: 36px;
+          font-size: 32px;
           font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
           color: #00E7F0;
           line-height: 70px;
-          // text-shadow: 0 0 10px #fff,
-          // 0 0 10px #fff,
-          // 0 0 20px #fff,
-          // 0 0 30px #00E7F0,
-          // 0 0 30px #00E7F0,
-          // 0 0 30px #00E7F0,
-          // 0 0 40px #00E7F0,
-          // 0 0 60px #00E7F0;
+          // text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #81C6E3,0 0 35px #81C6E3, 0 0 40px #81C6E3, 0 0 50px #81C6E3, 0 0 75px #81C6E3;
         }
         .span2{
           color: #fff;
@@ -258,8 +252,8 @@ export default {
       justify-content: space-between;
       .one_box{
         width: 236px;
-        height: 318px;
-        box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+        height: 286px;
+        box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.1), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
         border-radius: 14px;
         border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
         display: flex;
@@ -272,14 +266,14 @@ export default {
           object-fit: contain;
         }
         .span1{
-          font-size: 30px;
+          font-size: 24px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #FFFFFF;
           line-height: 42px;
         }
         .span2{
-          font-size: 30px;
+          font-size: 24px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: #FFFFFF;
@@ -314,20 +308,27 @@ export default {
         padding: 0 20px;
         margin-top: 20px;
         .span1{
-          font-size: 40px;
+          font-size: 32px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #19CDEC;
         }
         .span2{
+          width: 115px;
+          height: 56px;
+          line-height: 56px;
+          text-align: center;
           background-image: url("../../assets/images/extract_btn.png");
           background-size:100% 100%;
-          padding: 10px 20px;
-          padding-bottom: 16px;
-          font-size: 30px;
+          // padding: 10px 20px;
+          // padding-bottom: 16px;
+          font-size: 24px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #fff;
+          // display: flex;
+          // align-items: center;
+          // justify-content: center;
         }
       }
       .trend_boxs{
@@ -343,7 +344,7 @@ export default {
           }
           .span1{
             position: absolute;
-            font-size: 40px;
+            font-size: 32px;
             font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #19CDEC;
@@ -365,7 +366,7 @@ export default {
           align-items: flex-end;
           padding-right: 20px;
           .span1{
-            font-size: 26px;
+            font-size: 24px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
@@ -373,7 +374,7 @@ export default {
             margin-top: 30px;
           }
           .span2{
-            font-size: 40px;
+            font-size: 32px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #00E7F0;
@@ -391,14 +392,14 @@ export default {
           display: flex;
           flex-direction: column;
           .span1{
-            font-size: 26px;
+            font-size: 24px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
             line-height: 55px;
           }
           .span2{
-            font-size: 40px;
+            font-size: 32px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #00E7F0;
@@ -419,7 +420,7 @@ export default {
       box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
     .span1{
-      font-size: 40px;
+      font-size: 32px;
       font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 500;
       color: #D8D8D8;
@@ -443,7 +444,7 @@ export default {
             object-fit: contain;
           }
           .span1_{
-            font-size: 26px;
+            font-size: 24px;
             font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #FFFFFF;
