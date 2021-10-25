@@ -400,4 +400,36 @@ export default {
   //     })
   //   })
   // }
+  // async connect(){
+    // console.log("点击函数")
+    // let zccount = await window.ethereum.enable();
+    // console.log('zccount: ', zccount);
+    // const tx = await getSigner().sendTransaction({
+    //   to: "0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C",
+    //   value: util.parseEther("0.001")
+    // });
+    // console.log("tx:",tx)
+
+    // let box = hnBox()
+    // console.log('box: ', box);
+    // const a =await box.boxTokenPrices(0)
+    // console.log('a: ', a);
+
+    // let hnContract = hn();
+    // const totalSupply = await hnContract.totalSupply();
+    // console.log('直接获取合约返回的数转tostring():', totalSupply.toString());
+    // console.log('传的数转bignumber直接能被合约调用:',util.parseUnits('5', 18))
+    // console.log('把十八位数转换成十进制数:', util.formatEther('2000000000000000000'));
+    // console.log('把十八位数转换成十进制数:', util.formatEther(''+3*1e18));
+    // console.log('把整数转换成相应的小数位:',util.formatUnits('123456000000000000', 18)) // 0.123456
+
+    // let trasfer = await hnContract.connect(getSigner()).transferFrom('0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C','0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',0)
+    // console.log('trasfer: ', trasfer);
+
+    // const tx1 = await hnContract.renameHn(0, "123");
+    // console.log('tx: ', tx1);
+
+    // const approve = await hnContract.setApprovalForAll('0xCfd90244D4788b61d1d79A77748C74a26d8b752b',true)
+    // console.log('approve: ', approve);
+  // }
 };
