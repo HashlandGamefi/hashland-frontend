@@ -20,7 +20,7 @@
       <span class="span1" v-if="getIstrue">{{getSubtringAccount}}</span>
       <span class="span1" @click="signIn" v-else>Connect</span>
       <div class="lang_box">
-        <img src="../assets/images/cn.png" class="cnimg" />
+        <!-- <img src="../assets/images/cn.png" class="cnimg" /> -->
         <span class="lang_txt">CN</span>
         <img src="../assets/images/accrow.png" class="downimg" />
       </div>
@@ -141,9 +141,9 @@ export default {
   justify-content: space-between;
   padding: 0 40px;
   padding-left: 250px;
-  background-image: url("../assets/images/navbg.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  // background-image: url("../assets/images/navbg.png");
+  // background-size: 100% 100%;
+  // background-repeat: no-repeat;
   .logo_img{
     position: absolute;
     top: 0;
@@ -163,8 +163,8 @@ export default {
       align-items: center;
       li{
         position: relative;
-        padding: 0 25px;
-        font-size: 26px;
+        padding: 0 18px;
+        font-size: 18px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -180,7 +180,7 @@ export default {
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            width: 187px;
+            width: 149px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             padding: 20px 0;
@@ -191,7 +191,7 @@ export default {
               display: flex;
               align-items: center;
               justify-content: center;
-              font-size: 26px;
+              font-size: 18px;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #fff;
