@@ -7,11 +7,11 @@
       <div class="content">
         <div class="left">
           <span class="span1">高达180%的APY</span>
-          <span class="span1">去农场 >>></span>
+          <span class="span1">去挖矿 >>></span>
         </div>
         <div class="left">
-          <span class="span1 span2">收集NFT卡牌</span>
-          <span class="span1 span2">去市场 >>></span>
+          <span class="span1 span2">NFT卡牌</span>
+          <span class="span1 span2">去购买 >>></span>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
             <span class="span1">当前价格</span>
             <span class="span2">5$</span>
             <span class="span1">减产日期</span>
-            <span class="span2">2021.10.16</span>
+            <span class="span2">{{nextDay}}</span>
           </div>
         </div>
         <div class="hashland_bottom">
@@ -126,37 +126,46 @@ export default {
       totalSupply:0,//流通量
       hcDestroy:0,//hc销毁量
       proportion:0,//比例
+      nextDay:'00-00-00'//下次减产时间
     }
   },
   methods:{
     async getSDKInfo(){
       // 已发行
-      const hn_totalSupply = await hn().totalSupply();
-      this.$common.checkNumber(hn_totalSupply.toString(),res => {
-        this.issued = res
+      hn().totalSupply().then(data => {
+        this.$common.checkNumber(data.toString(),res => {
+          this.issued = res
+        })
       })
+
       // 已销毁
-      let hn_destroyed = await hn().balanceOf('0x0000000000000000000000000000000000000002') / 1e18
-      this.$common.checkNumber(hn_destroyed.toString(),res => {
-        this.Destroy = res
+      hn().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
+        this.$common.checkNumber((data / 1e18).toString(),res => {
+          this.Destroy = res
+        })
       })
+
       // 流通量
-      const hc_totalSupply = await hc().totalSupply() / 1e18;
-      console.log('hc_totalSupply: ', hc_totalSupply.toString());
-      this.$common.checkNumber( hc_totalSupply.toString(),res => {
-        this.totalSupply = res
+      hc().totalSupply().then(data => {
+        this.$common.checkNumber( (data / 1e18).toString(),res => {
+          this.totalSupply = res
+          this.proportion = this.$common.useBigNumberDiv(this.totalSupply,4,21000000) // 产出比
+        })
       })
       // 已销毁
-      let hc_destroyed = await hc().balanceOf('0x0000000000000000000000000000000000000002') / 1e18
-      this.$common.checkNumber(hc_destroyed.toString(),res => {
-        this.hcDestroy = res
+      hc().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
+        this.$common.checkNumber((data / 1e18).toString(),res => {
+          this.hcDestroy = res
+        })
       })
-
-      this.proportion = this.$common.useBigNumberDiv(this.totalSupply,4,21000000) // 产出比
-
+      // 下次减产时间
+      hc().getNextReductionLeftBlocks().then(data =>{
+        // console.log('下次减产时间data: ', data * 3,Date.parse(new Date()));
+        this.nextDay = this.$common.timeFormat(data * 3 + Date.parse(new Date()) / 1000,2)
+      })
       // 今日产出
-      let product = await hnPool().tokenReleaseSpeeds(0) / 1e18
-      console.log('product: ', product.toString());
+      let product = (await hc().getTokenPerBlock() / 1e18) * 28800
+      // console.log('今日产出product: ', product.toString());
       this.$common.checkNumber( product.toString(),res => {
         this.todynums = res
       },4)

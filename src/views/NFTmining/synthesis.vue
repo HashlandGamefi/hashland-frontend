@@ -14,8 +14,9 @@
           <span class="span1" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}阶 (共{{cardarr.filter(data => {return data.level == ele}).length}}张)</span>
         </div>
       </div>
-      <div class="right_content">
-        <img src="../../assets/images/select.png" class="selectimg" />
+      <div class="right_content" @click="selectAllClick">
+        <img src="../../assets/images/selected.png" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
+        <img src="../../assets/images/select.png" class="selectimg" v-else />
         <span class="select_ttx">全选/取消</span>
       </div>
     </div>
@@ -100,6 +101,8 @@ export default {
       selectimgArr:[],//选中的卡牌的信息
       isApproveHN:false,// hn授权
       isApproveHC:false,// hc授权
+      selectALLBtn:false,//全选按钮的状态
+      selectedCardnum:100000000,// 本次全选可以选中的卡牌数量
     }
   },
   computed: {
@@ -123,6 +126,36 @@ export default {
     }
   },
   methods: {
+    selectAllClick(){
+      if(this.selectedArr.length >= this.selectedCardnum){ //选中数组长度等于计算出来的数字时,证明按钮现在是选中状态
+        this.selectALLBtn = false
+      }else{
+        this.selectALLBtn = true
+      }
+      // this.selectALLBtn = !this.selectALLBtn
+      console.log('this.selectALLBtn: ', this.selectALLBtn);
+      if(this.selectedArr.length > 0){ // 判断选中卡牌数组书否大于0  大于0的情况下说明已选卡牌,清空重新计算
+        this.selectedArr = []
+        this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
+      }
+      this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      console.log('本次全选可以选中的卡牌数量this.selectedCardnum: ', this.selectedCardnum);
+      if(this.selectALLBtn){//选中的状态下
+        if(this.selectedCardnum == this.pageshowarr.length){
+          this.selectedArr = this.pageshowarr
+          this.pageshowarr = []
+        }else{
+          // 可选卡牌不是4的倍数的逻辑
+        }
+        this.selectedNUM = this.selectedCardnum
+        this.compose = this.selectedNUM / 4
+      }else{
+        this.selectedArr = []
+        this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
+        this.selectedNUM = 0
+        this.compose = 0
+      }
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
@@ -159,6 +192,7 @@ export default {
       this.selectedNUM--
       this.compose = parseInt(this.selectedNUM / 4)
       this.pageshowarr.push(data)
+      this.selectALLBtn = false
     },
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引
@@ -174,9 +208,6 @@ export default {
         this.selectedNUM++
         this.compose = parseInt(this.selectedNUM / 4)
 
-        if(this.selectedArr.length % 4 == 1){
-
-        }
         this.selectedArr.push(data)
         console.log('选中的数组this.selectedArr: ', this.selectedArr);
 
@@ -222,23 +253,27 @@ export default {
     },
     // 授权
     authorizationClick(){
-      this.$common.delegatingFun(1, contract().HNPool).then(res => {
-        console.log('授权res: ', res);
-        // this.approve_isloading = false
-        this.isApproveHN = true
-      }).catch(err => {
-        console.log('授权err: ', err);
-        this.isApproveHN = false
-      })
-      this.$common.delegatingFun(2,contract().HNPool).then(res => {
-        console.log('授权res: ', res);
-        // this.approve_isloading = false
-        this.isApproveHC = true
-      }).catch(err => {
-        console.log('授权err: ', err);
-        this.isApproveHC = false
-        // this.approve_isloading = false
-      })
+      if(this.isApproveHN){
+        this.$common.delegatingFun(1, contract().HNPool).then(res => {
+          console.log('授权res: ', res);
+          // this.approve_isloading = false
+          this.isApproveHN = true
+        }).catch(err => {
+          console.log('授权err: ', err);
+          this.isApproveHN = false
+        })
+      }
+      if(this.isApproveHC){
+        this.$common.delegatingFun(2,contract().HNPool).then(res => {
+          console.log('授权res: ', res);
+          // this.approve_isloading = false
+          this.isApproveHC = true
+        }).catch(err => {
+          console.log('授权err: ', err);
+          this.isApproveHC = false
+          // this.approve_isloading = false
+        })
+      }
     }
   },
   mounted(){

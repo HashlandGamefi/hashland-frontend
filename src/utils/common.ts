@@ -215,7 +215,7 @@ export default {
     );
   },
   /** 应用场景:时间戳转相对应的日期格式;参数:时间戳(s);返回值:yy-mm-dd hh:mm:ss */
-  timeFormat(targetDate: any) {
+  timeFormat(targetDate: any,type = 1) {
     targetDate = targetDate * 1000; // 需要用毫秒数
     let y: any = new Date(targetDate).getFullYear();
     let m: any = new Date(targetDate).getMonth() + 1;
@@ -228,7 +228,12 @@ export default {
     H = H > 9 ? H : "0" + H;
     M = M > 9 ? M : "0" + M;
     S = S > 9 ? S : "0" + S;
-    return y + "-" + m + "-" + d + " " + H + ":" + M + ":" + S;
+    if(type == 1){
+      return y + "-" + m + "-" + d + " " + H + ":" + M + ":" + S;
+    }else{
+      return y + "-" + m + "-" + d
+    }
+
   },
   /** 应用场景:在某一个时刻点,按钮禁止点击;参数:传入结束时间戳(秒)(返回值为0,1,倒计时对象,含义:0代表按钮可以点,1代表不能点,其他数字代表倒计时正在进行)*/
   customTime(endtime: any, calback: any) {
