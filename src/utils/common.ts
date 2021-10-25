@@ -137,7 +137,7 @@ export default {
     }
     return v;
   },
-  // 截取小数点后的位数---已调用cutZero函数,截取出来的小数最后有0则去掉0
+  // 保留小数位数---已调用cutZero函数,截取出来的小数最后有0则去掉0
   getBit(value: any, bit = 2) {
     if (value == 0) return 0;
     let str = value.toString();

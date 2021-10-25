@@ -77,7 +77,7 @@
       </div>
     </div>
     <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC">合成</div>
-    <div class="btn_box" @click="authorizationClick">授权</div>
+    <div class="btn_box" @click="authorizationClick" v-else>授权</div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -161,6 +161,10 @@ export default {
       this.proupDis = false
     },
     async synthesisFun(){
+      if(this.selectedArr.length < 4){
+        this.$common.selectLang('至少选择4张卡牌','1223',this)
+        return
+      }
       console.log('合成',this.selectedArr)
       let arr = this.selectedArr.map(item => {
         return item.cardID
@@ -223,13 +227,15 @@ export default {
       this.amount = this.cardarr.filter(item => { return item.level == data}).length
       this.pageshowarr = this.cardarr.filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
       this.selectedArr = []
+      this.selectALLBtn = false
     },
     back(){
       this.$router.go(-1)
     },
+    // sdk一系列方法---------判断是否授权
     getSDKInfo(){
-      this.$common.isApproveFun(1,this.getAccount, contract().HNPool).then(res => {
-        console.log('是否授权res: ', res);
+      this.$common.isApproveFun(1,this.getAccount, contract().HNUpgrade).then(res => {
+        console.log('hn是否授权res: ', res);
         if (res) {
           this.isApproveHN = true
         } else {
@@ -239,9 +245,9 @@ export default {
         console.log('是否授权err: ', err);
         this.isApproveHN = false
       })
-      this.$common.isApproveFun(2,this.getAccount,contract().HNPool).then(res => {
-        console.log('解锁是否授权res: ', res);
-        if(res.toString() == 1){
+      this.$common.isApproveFun(2,this.getAccount,contract().HNUpgrade).then(res => {
+        console.log('hc是否授权res: ', res);
+        if(res.toString() > 0){
           this.isApproveHC = true
         }else{
           this.isApproveHC = false
@@ -251,25 +257,26 @@ export default {
         this.isApproveHC = false
       })
     },
-    // 授权
+    // 授权操作
     authorizationClick(){
-      if(this.isApproveHN){
-        this.$common.delegatingFun(1, contract().HNPool).then(res => {
-          console.log('授权res: ', res);
+      console.log("授权",this.isApproveHN,this.isApproveHC)
+      if(!this.isApproveHN){
+        this.$common.delegatingFun(1, contract().HNUpgrade).then(res => {
+          console.log('hn授权res: ', res);
           // this.approve_isloading = false
           this.isApproveHN = true
         }).catch(err => {
-          console.log('授权err: ', err);
+          console.log('hn授权err: ', err);
           this.isApproveHN = false
         })
       }
-      if(this.isApproveHC){
-        this.$common.delegatingFun(2,contract().HNPool).then(res => {
-          console.log('授权res: ', res);
+      if(!this.isApproveHC){
+        this.$common.delegatingFun(2,contract().HNUpgrade).then(res => {
+          console.log('hc授权res: ', res);
           // this.approve_isloading = false
           this.isApproveHC = true
         }).catch(err => {
-          console.log('授权err: ', err);
+          console.log('hc授权err: ', err);
           this.isApproveHC = false
           // this.approve_isloading = false
         })

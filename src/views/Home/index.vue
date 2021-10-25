@@ -149,8 +149,9 @@ export default {
       hc().totalSupply().then(data => {
         this.$common.checkNumber( (data / 1e18).toString(),res => {
           this.totalSupply = res
-          this.proportion = this.$common.useBigNumberDiv(this.totalSupply,4,21000000) // 产出比
         })
+        // 产出比
+        this.proportion = this.$common.getBit((data / 1e18 / 21000000) * 100,4)
       })
       // 已销毁
       hc().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
@@ -290,7 +291,7 @@ export default {
   .hashland_boxs{
     width: 100%;
     margin-top: 100px;
-    padding: 20px;
+    padding: 40px;
     .hashland_content{
       width: 100%;
       // background-image: url("../../assets/images/hashland.png");
@@ -299,7 +300,8 @@ export default {
       padding: 10px;
       display: flex;
       flex-direction: column;
-      padding: 0 40px;
+      padding: 0 20px;
+      box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       .img{
         width: 252px;
         object-fit: contain;

@@ -238,10 +238,12 @@ export default {
       // 授权
       this.$common.isApproveFun(2,this.getAccount,contract().HNPool).then(res => {
         console.log('解锁是否授权res: ', res);
-        if(res.toString() == 1){
+        if(res.toString() > 0){
           this.ISpprove = true
+          console.log('解锁是否授权1');
         }else{
           this.ISpprove = false
+          console.log('解锁是否授权2');
         }
       }).catch( err => {
         console.log('解锁是否授权err: ', err);
@@ -340,7 +342,7 @@ export default {
             padding: 0 15px;
             display: flex;
             align-items: center;
-            margin-top: -70px;
+            margin-top: 20px;
             border-radius: 15px;
             box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
             .five_pointed_star{
