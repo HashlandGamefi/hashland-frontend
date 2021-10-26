@@ -302,9 +302,9 @@ input::-webkit-input-placeholder {
   line-height: 40px;
   font-size: 18px;
 }
-// @media screen and (min-width: 1440px) {
-//   .composite_card{
-//     max-width: 1440px;
-//   }
-// }
+@media screen and (min-width: 1440px) {
+  .composite_card{
+    max-width: 1440px;
+  }
+}
 </style>

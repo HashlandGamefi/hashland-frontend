@@ -322,8 +322,8 @@ export default {
               }
               .select_img {
                 position: absolute;
-                right: 35px;
-                top: 27px;
+                right: 100px;
+                top: 31px;
                 width: 43px;
                 object-fit: contain;
               }

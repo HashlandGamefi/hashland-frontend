@@ -463,4 +463,291 @@ export default {
     }
   }
 }
+@media screen and (max-width: 980px) {
+  .home_page{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .box{
+      width: 100%;
+      .topbox{
+        width: 100%;
+        .homebgimg{
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+      .content{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+        .left{
+          width: 49%;
+          height: 2rem;
+          background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
+          border: 0.04rem solid;
+          border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding-top: 0.2rem;
+          .span1{
+            font-size: 0.2rem;
+            font-family: PingFangSC-Medium, PingFang SC;
+            font-weight: 500;
+            color: #00E7F0;
+            line-height: 0.3rem;
+          }
+          .span2{
+            color: #fff;
+          }
+        }
+      }
+    }
+    .card_content{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.2rem;
+      margin-top: 0.2rem;
+      .compositeCard{
+        width: 100%;
+        font-size: 0.2rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 0.3rem;
+        letter-spacing: 4px;
+        padding-left: 0.2rem;
+      }
+      .img{
+        width: 2.5rem;
+        object-fit: contain;
+      }
+      .cardboxs{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .one_box{
+          width: 30%;
+          height: 286px;
+          box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.1), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+          border-radius: 14px;
+          border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          padding: 30px 0;
+          .img{
+            width: 114px;
+            object-fit: contain;
+          }
+          .span1{
+            font-size: 24px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 42px;
+          }
+          .span2{
+            font-size: 24px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+            line-height: 42px;
+          }
+        }
+      }
+    }
+    .hashland_boxs{
+      width: 100%;
+      margin-top: 100px;
+      padding: 40px;
+      .hashland_content{
+        width: 100%;
+        // background-image: url("../../assets/images/hashland.png");
+        // background-size:100% 100%;
+        // background-repeat: no-repeat;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        .img{
+          width: 252px;
+          object-fit: contain;
+        }
+        .Trend_chart{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          margin-top: 20px;
+          .span1{
+            font-size: 32px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #19CDEC;
+          }
+          .span2{
+            width: 115px;
+            height: 56px;
+            line-height: 56px;
+            text-align: center;
+            background-image: url("../../assets/images/extract_btn.png");
+            background-size:100% 100%;
+            // padding: 10px 20px;
+            // padding-bottom: 16px;
+            font-size: 24px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #fff;
+            // display: flex;
+            // align-items: center;
+            // justify-content: center;
+          }
+        }
+        .trend_boxs{
+          width: 100%;
+          display: flex;
+          margin-top: 10px;
+          .imgbox{
+            flex: 2;
+            position: relative;
+            .img{
+              width: 100%;
+              object-fit: contain;
+            }
+            .span1{
+              position: absolute;
+              font-size: 32px;
+              font-family: PingFangSC-Medium, PingFang SC;
+              font-weight: 500;
+              color: #19CDEC;
+              line-height: 56px;
+            }
+            .span2{
+              top: -16px;
+              left: 49%;
+            }
+            .span3{
+              bottom:-10px;
+              left: 0;
+            }
+          }
+          .nowPrice{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding-right: 20px;
+            .span1{
+              font-size: 24px;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 37px;
+              margin-top: 30px;
+            }
+            .span2{
+              font-size: 32px;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #00E7F0;
+              line-height: 56px;
+            }
+          }
+        }
+        .hashland_bottom{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin: 40px 0;
+          .onebox{
+            display: flex;
+            flex-direction: column;
+            .span1{
+              font-size: 24px;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 55px;
+            }
+            .span2{
+              font-size: 32px;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #00E7F0;
+              line-height: 55px;
+            }
+          }
+        }
+      }
+    }
+    .page_bottom{
+      width: 100%;
+      padding: 40px;
+      .embedded_box{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      .span1{
+        font-size: 32px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #D8D8D8;
+        line-height: 56px;
+        letter-spacing: 2px;
+      }
+      .horizontal{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+        .horizontal_onebox{
+          display: flex;
+          flex-direction: column;
+          .top{
+            display: flex;
+            align-items: center;
+            .img{
+              width: 61px;
+              object-fit: contain;
+            }
+            .span1_{
+              font-size: 24px;
+              font-family: PingFangSC-Medium, PingFang SC;
+              font-weight: 500;
+              color: #FFFFFF;
+              line-height: 38px;
+            }
+          }
+          .bottom{
+            font-size: 16px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #DDD9D9;
+            line-height: 28px;
+            margin-left: 65px;
+          }
+        }
+      }
+    }
+  }
+}
 </style>

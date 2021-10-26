@@ -149,7 +149,8 @@ export default {
   }
   .swiper-container{
     width: 100%;
-    height: 475px;
+    // height: 475px;
+    height: auto;
     .swiper-wrapper{
       .swiper-slide{
         width: 100%;
@@ -190,4 +191,9 @@ export default {
     margin-top: 30px;
   }
 }
+// @media screen and (min-width: 1440px) {
+//   .basic_card_page{
+//     max-width: 1440px;
+//   }
+// }
 </style>

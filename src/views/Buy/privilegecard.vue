@@ -27,7 +27,7 @@
       <div class="right_span1"><span class="radious"></span>插入卡槽后可获的挖矿奖励（BTC+平台币），算力越高，奖励越多</div>
     </div>
     <div class="center_box">
-      <img src="../../assets/images/buybg.png" class="bgimg" />
+      <img src="../../assets/images/privilegebg.png" class="bgimg" />
       <div class="onebox">
         <img src="../../assets/images/newcard.png" class="cardimg" />
         <div class="bottom">
@@ -252,7 +252,7 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 20%;
+      top: 38%;
       left: 50%;
       transform: translate(-50%,-50%);
       // width: 320px;
@@ -334,7 +334,7 @@ export default {
   }
   .connect_box {
     position: absolute;
-    bottom: 10%;
+    bottom: 0;
     left: 50%;
     transform: translate(-50%,-50%);
     width: 533px;
@@ -357,9 +357,9 @@ input::-webkit-input-placeholder {
   line-height: 40px;
   font-size: 18px;
 }
-// @media screen and (min-width: 1440px) {
-//   .composite_card{
-//     max-width: 1440px;
-//   }
-// }
+@media screen and (min-width: 1440px) {
+  .composite_card{
+    max-width: 1440px;
+  }
+}
 </style>
