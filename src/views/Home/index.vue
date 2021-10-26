@@ -4,6 +4,9 @@
       <div class="topbox">
         <img src="../../assets/images/homebg.png" class="homebgimg">
       </div>
+      <div class="mobile_topbox">
+        <img src="../../assets/images/mobile_bg.png" class="homebgimg">
+      </div>
       <div class="content">
         <div class="left">
           <span class="span1">高达180%的APY</span>
@@ -192,6 +195,9 @@ export default {
         width: 100%;
         object-fit: contain;
       }
+    }
+    .mobile_topbox{
+      display: none;
     }
     .content{
       width: 100%;
@@ -473,7 +479,12 @@ export default {
     .box{
       width: 100%;
       .topbox{
+        display: none;
+      }
+      .mobile_topbox{
+        display: flex;
         width: 100%;
+        height: 1.52rem;
         .homebgimg{
           width: 100%;
           object-fit: contain;
@@ -487,14 +498,14 @@ export default {
         padding: 0;
         .left{
           width: 49%;
-          height: 2rem;
+          height: auto;
           background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
-          border: 0.04rem solid;
+          border: 0.01rem solid;
           border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding-top: 0.2rem;
+          padding: 0.05rem 0;
           .span1{
             font-size: 0.2rem;
             font-family: PingFangSC-Medium, PingFang SC;
@@ -514,74 +525,75 @@ export default {
       flex-direction: column;
       align-items: center;
       padding: 0.2rem;
-      margin-top: 0.2rem;
+      margin-top: 0;
       .compositeCard{
         width: 100%;
-        font-size: 0.2rem;
+        font-size: 0.18rem;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
         line-height: 0.3rem;
         letter-spacing: 4px;
-        padding-left: 0.2rem;
+        padding-left: 0;
       }
       .img{
-        width: 2.5rem;
+        width: 3.5rem;
         object-fit: contain;
       }
       .cardboxs{
         width: 100%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: space-between;
         .one_box{
-          width: 30%;
-          height: 286px;
-          box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.1), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+          width: 100%;
+          height: 0.37rem;
+          // box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
           border-radius: 14px;
-          border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
+          // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
           display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          flex-direction: row;
+          justify-content: flex-start;
           align-items: center;
-          padding: 30px 0;
+          padding: 0.3rem 0.14rem;
+          margin-bottom: 0.14rem;
           .img{
-            width: 114px;
+            width: 0.35rem;
             object-fit: contain;
           }
           .span1{
-            font-size: 24px;
+            font-size: 0.18rem;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
-            line-height: 42px;
+            line-height: 0.25rem;
+            margin-left: 0.15rem;
           }
           .span2{
-            font-size: 24px;
+            font-size: 0.18rem;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             color: #FFFFFF;
-            line-height: 42px;
+            line-height: 0.25rem;
+            margin-left: 1.6rem;
           }
         }
       }
     }
     .hashland_boxs{
       width: 100%;
-      margin-top: 100px;
-      padding: 40px;
+      margin-top: 0;
+      padding: 0.2rem;
       .hashland_content{
         width: 100%;
-        // background-image: url("../../assets/images/hashland.png");
-        // background-size:100% 100%;
-        // background-repeat: no-repeat;
         padding: 10px;
         display: flex;
         flex-direction: column;
-        padding: 0 20px;
+        padding: 0 0.2rem;
         box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         .img{
-          width: 252px;
+          width: 1.5rem;
           object-fit: contain;
         }
         .Trend_chart{
@@ -589,30 +601,25 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 20px;
-          margin-top: 20px;
+          padding: 0;
+          margin-top: 0.1rem;
           .span1{
-            font-size: 32px;
+            font-size: 0.2rem;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #19CDEC;
           }
           .span2{
-            width: 115px;
-            height: 56px;
-            line-height: 56px;
+            width: 0.9rem;
+            height: 0.4rem;
+            line-height: 0.4rem;
             text-align: center;
             background-image: url("../../assets/images/extract_btn.png");
             background-size:100% 100%;
-            // padding: 10px 20px;
-            // padding-bottom: 16px;
-            font-size: 24px;
+            font-size: 0.2rem;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #fff;
-            // display: flex;
-            // align-items: center;
-            // justify-content: center;
           }
         }
         .trend_boxs{
@@ -628,18 +635,18 @@ export default {
             }
             .span1{
               position: absolute;
-              font-size: 32px;
+              font-size: 0.2rem;
               font-family: PingFangSC-Medium, PingFang SC;
               font-weight: 500;
               color: #19CDEC;
               line-height: 56px;
             }
             .span2{
-              top: -16px;
-              left: 49%;
+              top: -0;
+              left: 44%;
             }
             .span3{
-              bottom:-10px;
+              bottom:-0.1rem;
               left: 0;
             }
           }
@@ -648,21 +655,21 @@ export default {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            padding-right: 20px;
+            padding-right: 0;
             .span1{
-              font-size: 24px;
+              font-size: 0.14rem;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #FFFFFF;
               line-height: 37px;
-              margin-top: 30px;
+              margin-top: 0.1rem;
             }
             .span2{
-              font-size: 32px;
+              font-size: 0.14rem;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #00E7F0;
-              line-height: 56px;
+              line-height: 0.18rem;
             }
           }
         }
@@ -672,23 +679,24 @@ export default {
           flex-direction: column;
           align-items: flex-start;
           justify-content: space-between;
-          margin: 40px 0;
+          margin: 0.2rem 0;
           .onebox{
             display: flex;
             flex-direction: column;
             .span1{
-              font-size: 24px;
+              font-size: 0.18rem;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #FFFFFF;
-              line-height: 55px;
+              line-height: 0.25rem;
             }
             .span2{
-              font-size: 32px;
+              font-size: 0.18rem;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #00E7F0;
-              line-height: 55px;
+              line-height: 0.25rem;
+              margin-bottom: 0.2rem;
             }
           }
         }
@@ -696,29 +704,29 @@ export default {
     }
     .page_bottom{
       width: 100%;
-      padding: 40px;
+      padding: 0.2rem;
       .embedded_box{
         width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 20px;
+        padding: 0.2rem;
         box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       }
       .span1{
-        font-size: 32px;
+        font-size: 0.2rem;
         font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: #D8D8D8;
-        line-height: 56px;
+        line-height: 0.28rem;
         letter-spacing: 2px;
       }
       .horizontal{
         width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
-        margin-top: 20px;
+        margin-top: 0.2rem;
         .horizontal_onebox{
           display: flex;
           flex-direction: column;
@@ -726,24 +734,24 @@ export default {
             display: flex;
             align-items: center;
             .img{
-              width: 61px;
+              width: 0.45rem;
               object-fit: contain;
             }
             .span1_{
-              font-size: 24px;
+              font-size: 0.16rem;
               font-family: PingFangSC-Medium, PingFang SC;
               font-weight: 500;
               color: #FFFFFF;
-              line-height: 38px;
+              line-height: 0.25rem;
             }
           }
           .bottom{
-            font-size: 16px;
+            font-size: 0.12rem;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             color: #DDD9D9;
-            line-height: 28px;
-            margin-left: 65px;
+            line-height: 0.18rem;
+            margin-left: 0.45rem;
           }
         }
       }

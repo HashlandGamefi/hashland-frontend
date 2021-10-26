@@ -21,11 +21,11 @@
         总计：{{total}} BNB
       </div>
     </div>
-    <div class="right_box">
-      <div class="btn">购买说明</div>
-      <div class="right_span1"><span class="radious"></span>卡牌是锚定XXXW/T矿机的算力凭证，持1分卡牌就相当于持有1T算力</div>
-      <div class="right_span1"><span class="radious"></span>购买后获得1星合成卡牌，可通过合成提升星级，星级越高，算力越高</div>
-      <div class="right_span1"><span class="radious"></span>插入卡槽后可获得挖矿奖励（BTC+平台币），算力越高，奖励越多</div>
+    <div class="mobile_top">
+      <div class="mobile_top_box">
+        <span class="luckey_span1">幸运抽奖</span>
+        <span class="luckey_span2">随机获取基础卡牌</span>
+      </div>
     </div>
     <div class="center_box">
       <img src="../../assets/images/buybg.png" class="bgimg" />
@@ -52,9 +52,31 @@
         <span class="span2">{{surplusNums}}</span>
       </div>
     </div>
-    <div class="connect_box">连接钱包</div>
+    <div class="mobile_content">
+      <div class="btn">
+        <span class="span1">编号</span>
+        <span class="span2">00001</span>
+      </div>
+      <span class="composite_span1">价格</span>
+      <span class="composite_span2">{{boxPrice}} BNB</span>
+      <span class="composite_line_color"></span>
+      <span class="composite_span1">数量</span>
+      <div class="inputbox">
+        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
+      </div>
+      <span class="composite_line_color"></span>
+      <span class="composite_span1">总计：</span>
+      <span class="composite_span2">{{total}} BNB</span>
+      <span class="composite_line_color"></span>
+    </div>
     <div class="connect_box" v-if="getIstrue" @click="buyBox">购买<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="connect_box" v-else>连接钱包</div>
+    <div class="right_box">
+      <div class="btn">购买说明</div>
+      <div class="right_span1"><span class="radious"></span>卡牌是锚定XXXW/T矿机的算力凭证，持1分卡牌就相当于持有1T算力</div>
+      <div class="right_span1"><span class="radious"></span>购买后获得1星合成卡牌，可通过合成提升星级，星级越高，算力越高</div>
+      <div class="right_span1"><span class="radious"></span>插入卡槽后可获得挖矿奖励（BTC+平台币），算力越高，奖励越多</div>
+    </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -265,12 +287,6 @@ export default {
       margin: 10px 0;
       padding-left: 15px;
     }
-    // .composite_line {
-    //   width: 100%;
-    //   height: 1px;
-    //   border: 1px dashed #ccc;
-    //   margin: 10px 0;
-    // }
     .composite_line_color{
       width: 100%;
       height: 1px;
@@ -453,6 +469,12 @@ export default {
     color: #ffffff;
     cursor: pointer;
   }
+  .mobile_top{
+    display: none;
+  }
+  .mobile_content{
+    display: none;
+  }
 }
 input::-webkit-input-placeholder {
   font-weight: 600;
@@ -463,6 +485,255 @@ input::-webkit-input-placeholder {
 @media screen and (min-width: 1440px) {
   .composite_card{
     max-width: 1440px;
+  }
+}
+@media screen and (max-width: 980px){
+  .composite_card{
+    .left_box{
+      display: none;
+    }
+    .center_box{
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 0.75rem;
+      .bgimg{
+        width: 100%;
+        object-fit: contain;
+      }
+      .onebox{
+        position: absolute;
+        top: 11%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .cardimg{
+          width: 1.64rem;
+          object-fit: contain;
+        }
+        .bottom{
+          position: absolute;
+          top: 0.05rem;
+          display: flex;
+          align-items: center;
+          padding:0.1rem 0.08rem;
+          transform: scale(0.5);
+          .five_pointed_star{
+            display: flex;
+            align-items: center;
+            .start_img{
+              width: 0.26rem;
+              object-fit: contain;
+            }
+          }
+          .hc_btc_box{
+            display: flex;
+            align-items: center;
+            .hc_coefficient{
+              display: flex;
+              align-items: center;
+              border-radius: 4px;
+              margin-right: 5px;
+              background: rgba(5, 24, 44, 0.88);
+              box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+              border-radius: 11px;
+              opacity: 0.56;
+              .imgcard{
+                width: 43px;
+                object-fit: contain;
+              }
+              .span1{
+                font-size: 26px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #FFFFFF;
+              }
+            }
+          }
+        }
+      }
+      .remaining{
+        position: absolute;
+        top:70%;
+        left:63%;
+        transform:translate(-50%,-50%);
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.12rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        .span1{
+          padding: 0.02rem;
+          background: #29CDDA;
+          border-radius: 5px;
+          line-height: 0.25rem;
+          box-shadow: 0 9px 2px #23447C;
+        }
+        .span2{
+          padding: 0.02rem 0.15rem;
+          background: #23447C;
+          border-radius: 5px;
+          line-height: 20px;
+          margin-top: 10px;
+        }
+      }
+    }
+    .mobile_top{
+      display: flex;
+      width: 100%;
+      padding: 0.2rem;
+      margin-top: 0.3rem;
+      .mobile_top_box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .luckey_span1 {
+          font-size: 0.2rem;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: #27c7d5;
+          line-height: 0.4rem;
+        }
+        .luckey_span2 {
+          font-size: 0.14rem;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #ffffff;
+        }
+      }
+    }
+    .mobile_content{
+      display: flex;
+      width: 100%;
+      padding: 0.2rem;
+      display: flex;
+      flex-direction: column;
+      .btn {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.1rem;
+        font-size: 0.18rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 0.2rem;
+        .span1{
+          padding: 0.02rem;
+          background: #29CDDA;
+          border-radius: 0.05rem;
+          line-height: 0.25rem;
+        }
+        .span2{
+          padding: 0.02rem;
+          background: #23447C;
+          border-radius: 0.05rem;
+          line-height: 0.15rem;
+        }
+      }
+      .composite_span1 {
+        font-size: 0.14rem;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 0.2rem;
+        padding-left: 0.3rem;
+      }
+      .composite_span2 {
+        font-size: 0.2rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #29cdda;
+        line-height: 0.28rem;
+        margin: 0;
+        padding-left: 0.3rem;
+      }
+      .composite_line_color{
+        width: 100%;
+        height: 1px;
+        border: 1px #ccc dashed;
+        margin: 0.06rem 0;
+      }
+      .inputbox {
+        width: 100%;
+        margin: 0;
+        padding-left: 0.3rem;
+        display: flex;
+        .input {
+          width: 100%;
+          padding-right: 0.05rem;
+          height: 0.4rem;
+          border: none;
+          outline: none;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 0.2rem;
+          color: #ffffff;
+          background: transparent;
+        }
+      }
+    }
+    .connect_box {
+      position: static;
+      transform: none;
+      width: 1.94rem;
+      height: 0.38rem;
+      text-align: center;
+      line-height: 0.38rem;
+      background-image: url("../../assets/images/SpeciaBtn2.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      font-size: 0.18rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .right_box{
+      position: static;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 0 0.3rem;
+      margin: 0.4rem;
+      .right_span1 {
+        width: 100%;
+        font-size: 0.12rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #27c7d5;
+        line-height: 0.14rem;
+        margin: 0 auto;
+        margin-top: 0.1rem;
+        .radious{
+          width: 0.05rem;
+          height: 0.05rem;
+          border-radius: 50%;
+          background: #FDB234;
+          display: inline-block;
+          margin-right: 0.05rem;
+        }
+      }
+      .btn {
+        width: 0.89rem;
+        font-size: 0.18rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        padding: 0.05rem;
+        background: #29CDDA;
+        border-radius: 0.05rem;
+        line-height: 0.25rem;
+        text-align: center;
+        margin-bottom: 0.1rem;
+      }
+    }
   }
 }
 </style>

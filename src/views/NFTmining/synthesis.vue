@@ -582,6 +582,282 @@ export default {
     margin-top: 30px;
   }
 }
+@media screen and (max-width: 980px){
+  .insertcard_page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.2rem;
+    padding-top: 1rem;
+    .title{
+      position: absolute;
+      top: 0.3rem;
+      left: 0.2rem;
+      width: 0.36rem;
+      cursor: pointer;
+      .backimg{
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+    .title_title {
+      font-size: 0.22rem;
+      font-family: AaJXH;
+      color: #ffffff;
+      line-height: 0.22rem;
+      margin-bottom: 0.1rem;
+    }
+    .title_son1{
+      font-size: 0.14rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 0.22rem;
+    }
+  .content{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.4rem;
+    .left_content{
+      position: relative;
+      width: 1.88rem;
+      height: 0.37rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
+      box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
+      .span1{
+        font-size: 0.14rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 0.28rem;
+        margin-right: 0.1rem;
+        cursor: pointer;
+      }
+      .span2{
+        font-size: 0;
+        line-height: 0;
+        border-width: 0.12rem;
+        border-color: #00E7F0;
+        border-bottom-width: 0;
+        border-style: dashed;
+        border-top-style: solid;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+      .left_content_hover{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 9;
+        width: 1.88rem;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(0, 0, 0, 0.74);
+        box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
+        filter: blur(0px);
+        // background: rgba(0, 0, 0, 0.8);
+        // box-shadow: -2px 1px 20px 0px rgba(184, 175, 175, 0.29) inset;
+        border-radius: 0.04rem;
+        padding: 0.2rem 0;
+        margin-top: 0.35rem;
+        .span1{
+          font-size: 0.2rem;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: #E2DADA;
+          line-height: 0.28rem;
+          cursor: pointer;
+        }
+      }
+    }
+    .left_content:hover{
+      .left_content_hover{
+        display: flex;
+      }
+    }
+    .right_content{
+      display: flex;
+      align-items: center;
+      .selectimg{
+        width: 0.3rem;
+        object-fit: contain;
+        margin-right: 0.05rem;
+      }
+      .select_ttx{
+        font-size: 0.14rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 0.2rem;
+      }
+    }
+  }
+  .bottom_txtbox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.1rem;
+    .bottom_txt1 {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      .span1 {
+        font-size: 0.2rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #ffffff;
+        line-height: 0.28rem;
+      }
+      .span2 {
+        font-size: 0.2rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #00e7f0;
+        line-height: 0.28rem;
+      }
+    }
+    .bottom_txt2 {
+      width: 100%;
+      font-size: 0.14rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #ccbebe;
+      line-height: 0.2rem;
+    }
+  }
+  .cardarr_class{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .onebox{
+      position: relative;
+      width: 25%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .card_picture{
+        width: 100%;
+        object-fit: contain;
+      }
+      .scaleimg{
+        transform: scale(1);
+      }
+      .bottom{
+        position: absolute;
+        top: -22px;
+        display: flex;
+        align-items: center;
+        padding:0.1rem 0.08rem;
+        transform: scale(0.1);
+        .five_pointed_star{
+          display: flex;
+          align-items: center;
+          .start_img{
+            width: 0.26rem;
+            object-fit: contain;
+          }
+        }
+        .hc_btc_box{
+          display: flex;
+          align-items: center;
+          .hc_coefficient{
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            margin-right: 5px;
+            background: rgba(5, 24, 44, 0.88);
+            box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+            border-radius: 11px;
+            opacity: 0.56;
+            .imgcard{
+              width: 43px;
+              object-fit: contain;
+            }
+            .span1{
+              font-size: 26px;
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 400;
+              color: #FFFFFF;
+            }
+          }
+        }
+      }
+      .select_img{
+        position: absolute;
+        top: 0;
+        right: 0.09rem;
+        width: 0.24rem;
+        object-fit: contain;
+      }
+      .selected_img{
+        position: absolute;
+        top: 0;
+        right: 0.09rem;
+        width: 0.24rem;
+        object-fit: contain;
+        transform: scale(1.2);
+      }
+      .master_img{
+        position: absolute;
+        bottom: -0.02rem;
+        right: 0.1rem;
+        width: 0.24rem;
+        object-fit: contain;
+      }
+      .orther_img{
+        position: absolute;
+        bottom: 0;
+        right: 0.09rem;
+        width: 0.24rem;
+        object-fit: contain;
+      }
+    }
+  }
+  .cardarr_class_selected{
+    margin-top: 0.4rem;
+    .onebox{
+      margin-bottom: 0.4rem;
+      .selected_bottom{
+        position: absolute;
+        top: -0.28rem;
+        transform: scale(0.2);
+      }
+      .scalebottom{
+        position: absolute;
+        top: -0.21rem;
+        transform: scale(0.2);
+      }
+    }
+  }
+  .btn_box {
+    position: fixed;
+    bottom: 0.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.8rem;
+    height: 0.36rem;
+    text-align: center;
+    line-height: 0.36rem;
+    background-image: url("../../assets/images/SpeciaBtn2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-size: 0.18rem;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+  }
+}
+}
 // p {
 //   font-family: "Audiowide";
 //   text-align: center;

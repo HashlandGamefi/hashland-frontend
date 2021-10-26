@@ -84,4 +84,52 @@ export default {
     }
   }
 }
+@media screen and (max-width: 980px){
+  .buy_page{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    .title1_txt{
+      font-size: 0.24rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      line-height: 0.3rem;
+      letter-spacing: 4px;
+      color: #FFFFFF;
+    }
+    .title2_txt{
+      font-size: 0.16rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 0.22rem;
+      letter-spacing: 4px;
+    }
+    .tab_box{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.4rem;
+      .oneTab{
+        width: 1rem;
+        height: 0.37rem;
+        line-height: 0.37rem;
+        text-align: center;
+        font-size: 0.12rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      }
+      .activeTab{
+        background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
+        box-shadow: 0 14px 2px #23447C;
+      }
+    }
+  }
+}
 </style>

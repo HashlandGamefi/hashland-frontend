@@ -339,4 +339,181 @@ export default {
     }
   }
 }
+@media screen and (max-width: 980px) {
+  .nft_miningpage{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    .nft_title{
+      font-size: 0.2rem;
+      font-family: AaJXH;
+      color: #FFFFFF;
+      line-height: 0.5rem;
+      letter-spacing: 4px;
+    }
+    .nft_title1{
+      font-size: 0.16rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 0.2rem;
+      margin-top: 0;
+    }
+    .tab_box{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:0.4rem;
+      .oneTab{
+        width: 1rem;
+        height: 0.37rem;
+        line-height: 0.37rem;
+        text-align: center;
+        font-size: 0.12rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #FFFFFF;
+        border-radius: 0.05rem;
+        cursor: pointer;
+        box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      }
+      .activeTab{
+        background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
+        box-shadow: 0 14px 2px #23447C;
+      }
+    }
+    .apy_title{
+      width: 100%;
+      padding-left: 0.2rem;
+      font-size: 0.2rem;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 0.28rem;
+      margin-top: 0.6rem;
+    }
+    .footer_box{
+      width: 100%;
+      padding: 0.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.2rem;
+      .left_footer{
+        position: relative;
+        width: 100%;
+        height: auto;
+        background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
+        box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+        border-radius: 0.2rem;
+        display: flex;
+        flex-direction: column;
+        padding: 0.1rem;
+        margin-bottom: 0.4rem;
+        .top{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          .txt{
+            width: 1.21rem;
+            height: 0.42rem;
+            background-image: url("../../assets/images/nft_btn2.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            font-size: 0.2rem;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+        .bottom{
+          width: 100%;
+          height: 1rem;
+          background: linear-gradient(270deg, #E79826 0%, #FF7902 100%);
+          box-shadow: 0px 6px 12px 0px rgba(127, 70, 14, 0.69), 0px 1px 23px 0px #8B4309 inset;
+          border-radius: 0.2rem;
+          padding: 0.2rem;
+          margin-top: 0.1rem;
+          .add_txt{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .span1{
+              padding: 0.02rem 0.1rem;
+              background: #A25911;
+              border-radius: 0.15rem;
+              font-size: 0.12rem;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 0.17rem;
+            }
+          }
+          .extractable{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .span1{
+              font-size: 0.2rem;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 0.28rem;
+            }
+            .span2{
+              font-size: 0.2rem;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 0.28rem;
+            }
+          }
+        }
+        .btcimg{
+          position: absolute;
+          top: -28px;
+          left: -16px;
+          width: 0.66rem;
+          object-fit: contain;
+        }
+      }
+      .right_footer{
+        height: auto;
+        background: linear-gradient(90deg, #153AA2 0%, #0F296A 10%, #2673E6 100%);
+        box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+        .top{
+          .txt{
+            background-image: url("../../assets/images/nft_btn1.png");
+          }
+        }
+        .bottom{
+          background: linear-gradient(88deg, #3080F8 0%, #31ABEB 100%);
+          box-shadow: 0px 6px 12px 0px #2164CE, 0px 1px 23px 0px #01060E;
+          .add_txt{
+            .span1_{
+              padding: 0.02rem 0.1rem;
+              background: rgba(0, 0, 0, 0.4);
+              border-radius: 0.15rem;
+              font-size: 0.12rem;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 0.17rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>

@@ -182,4 +182,120 @@ export default {
     cursor: pointer;
   }
 }
+@media screen and (max-width: 980px){
+  .card_details_page{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  .title{
+    position: absolute;
+    top: 0.3rem;
+    left: 0.2rem;
+    width: 0.36rem;
+    cursor: pointer;
+    .backimg{
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  .span_title{
+    font-size: 0.26rem;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 0.48rem;
+  }
+  .boxarr{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 0.2rem;
+    // padding-right: 40px;
+    margin-top: 0.2rem;
+    max-height: 9rem;
+    overflow-y: auto;
+    .onebox{
+      position: relative;
+      width: 25%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // margin-right: calc((100% - 1480px) / 5);
+      // margin-bottom: 30px;
+      .imgcard{
+        width: 100%;
+        object-fit: contain;
+      }
+      .bottom{
+        position: absolute;
+        top: -0.21rem;
+        background-image: url("../../assets/images/cardtop.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        padding:0.1rem 0.08rem;
+        transform: scale(0.1);
+        .five_pointed_star{
+          display: flex;
+          align-items: center;
+          .start_img{
+            width: 26px;
+            object-fit: contain;
+          }
+        }
+        .hc_coefficient{
+          display: flex;
+          align-items: center;
+          background: #302F2E;
+          box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
+          border-radius: 4px;
+          margin-right: 5px;
+          .imgcard{
+            width: 43px;
+            object-fit: contain;
+          }
+          .span1{
+            // padding: 0 8px;
+            // background: #302F2E;
+            // box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
+            font-size: 26px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+            // line-height: 37px;
+          }
+        }
+      }
+    }
+  }
+  .bottom_title{
+    font-size: 0.14rem;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 32px;
+    letter-spacing: 1px;
+  }
+  .connect_box {
+    width: 1.94rem;
+    height: 0.38rem;
+    text-align: center;
+    line-height: 0.38rem;
+    background-image: url("../../assets/images/SpeciaBtn2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-size: 0.18rem;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 0.2rem;
+    cursor: pointer;
+    margin-bottom: 0.2rem;
+  }
+}
+}
 </style>

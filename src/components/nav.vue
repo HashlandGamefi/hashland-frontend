@@ -25,6 +25,23 @@
         <!-- <img src="../assets/images/accrow.png" class="downimg" /> -->
       </div>
     </div>
+    <div class="mobile_menu" @click="mobilemenuClick">
+      <img src="../assets/images/mobilemenu.png" class="mobile_menu_class" />
+    </div>
+    <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
+      <div class="mobile_box">
+        <div class="mobile_logo"><img src="../assets/images/logo.png" class="mobile_logo_class" /></div>
+        <ul class="ul_">
+          <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
+            {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>
+            <div class="box_nft" v-if="mobile_menuDis && index == 0">
+              <div class="span1" @click.stop="nftFun('card')">NFT卡牌 <span class="icon-v-right"></span></div>
+              <div class="span1" @click.stop="nftFun('mining')">NFT挖矿 <span class="icon-v-right"></span></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -35,7 +52,8 @@ export default {
   data () {
     return {
       navarr: ['message.nav.title1', 'message.nav.title2', 'message.nav.title3', 'message.nav.title6', 'message.nav.title4','message.nav.title5'],
-
+      mobilemenu:false,//移动端菜单
+      mobile_menuDis:false, // nfts展开菜单
     }
   },
   computed: {
@@ -51,6 +69,8 @@ export default {
       }else if(data == 'mining'){
         this.$router.push('/nftmining')
       }
+      this.mobile_menuDis = false
+      this.mobilemenu = false
     },
     // 菜单栏切换状态
     menuClick (index) {
@@ -61,7 +81,6 @@ export default {
           this.$router.push('/home')
           break;
         case 0:
-          this.$router.push('/buy')
           break;
         default:
           break;
@@ -121,6 +140,13 @@ export default {
 
       // 监听网络
       wallet.onChainChanged(this.OnNetworkFun)
+    },
+    // 移动端展开菜单
+    mobilemenuClick(){
+      this.mobilemenu = true
+    },
+    nftClick(){
+      this.mobile_menuDis = !this.mobile_menuDis
     }
   },
   mounted(){
@@ -262,6 +288,12 @@ export default {
       }
     }
   }
+  .mobile_menu{
+    display: none;
+  }
+  .mobile_fixed_menu{
+    display: none;
+  }
 }
 @media screen and (min-width: 981px) and (max-width: 1439px) {
   .nav_box{
@@ -277,20 +309,16 @@ export default {
     left: 0;
     z-index: 999999;
     width: 100%;
-    height: 110px;
+    // height: 110px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 0.2rem;
-    // background-image: url("../assets/images/navbg.png");
-    // background-size: 100% 100%;
-    // background-repeat: no-repeat;
     .logo_img{
       position: absolute;
-      top: 0;
+      top: -20px;
       left: 20px;
-      width: 223px;
-      cursor: pointer;
+      width: 0.8rem;
       .imgs{
         width: 100%;
         object-fit: contain;
@@ -300,38 +328,111 @@ export default {
       display: none;
     }
     .connect_box{
+      display: none;
+    }
+    .mobile_menu{
       display: flex;
-      align-items: center;
-      .span1{
-        font-size: 20px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #FFFFFF;
-        line-height: 37px;
-        cursor: pointer;
+      width: 0.48rem;
+      .mobile_menu_class{
+        width: 100%;
+        object-fit: contain;
       }
-      .lang_box{
+    }
+    .mobile_fixed_menu{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999999;
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      animation: fade-in 1.5s;
+      .mobile_box{
+        width: 1.78rem;
         display: flex;
-        align-items: center;
-        margin-left: 20px;
-        .cnimg{
-          width: 50px;
-          object-fit: contain;
+        flex-direction: column;
+        padding: 0.2rem 0;
+        background: #010E1B;//linear-gradient('top',#031D39,#010E1B);
+        .mobile_logo{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
+          border: 1px solid;
+          border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
+          .mobile_logo_class{
+            width: 0.8rem;
+          }
         }
-        .lang_txt{
-          font-size: 26px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
-          color: #FFFFFF;
-          line-height: 37px;
-          margin: 0 8px;
-        }
-        .downimg{
-          width: 20px;
-          object-fit: contain;
+        .ul_{
+          width: 100%;
+          li{
+            width: 100%;
+            text-align: center;
+            font-size: 0.24rem;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #FFFFFF;
+            cursor: pointer;
+            // height: 0.78rem;
+            line-height: 0.78rem;
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
+            .box_nft{
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              background: #010E1B;
+              .span1{
+                width: 100%;
+                height: 0.78rem;
+                line-height: 0.78rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: #fff;
+                line-height: 82px;
+                .icon-v-right {
+                  width: 12px;
+                  height: 12px;
+                  border: 2px solid #fff;
+                  border-width: 2px 2px 0 0;
+                  transform: rotate(45deg);
+                  margin-left: 10px;
+                }
+              }
+            }
+            .mobile_triangle{
+              font-size: 0;
+              line-height: 0;
+              border-width: 10px;
+              border-color: #FFFFFF;
+              border-bottom-width: 0;
+              border-style: dashed;
+              border-top-style: solid;
+              border-left-color: transparent;
+              border-right-color: transparent;
+            }
+          }
+          .mobile_activeClass{
+            background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
+            border: 1px solid;
+            border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
+            color: #00E7F0;
+          }
         }
       }
     }
   }
+}
+@keyframes fade-in {
+  0% {opacity: 0;}/*初始状态 透明度为0*/
+  100% {opacity: 1;}/*结束状态 透明度为1*/
 }
 </style>

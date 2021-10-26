@@ -458,4 +458,188 @@ export default {
     margin-top: 50px;
   }
 }
+@media screen and (max-width: 980px){
+  .basic_card_page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    .myCard {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.2rem;
+      .card_left {
+        width: 2rem;
+        display: flex;
+        flex-direction: column;
+        .span1 {
+          font-size: 0.2rem;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: #ffffff;
+          line-height: 0.28rem;
+        }
+        .span2 {
+          font-size: 0.14rem;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: #ccbebe;
+          line-height: 0.2rem;
+        }
+      }
+      .synthesis_btn {
+        width: 1rem;
+        height: 0.39rem;
+        background-image: url("../../assets/images/nft_btn1.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        text-align: center;
+        font-size: 0.18rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #ffffff;
+        line-height: 0.39rem;
+        cursor: pointer;
+      }
+    }
+    .swiper-container{
+      width: 100%;
+      height: auto;
+      .swiper-wrapper{
+        .swiper-slide{
+          width: 100%;
+          height: 100%;
+          .content_box{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            .swiper_img{
+              width: 100%;
+              object-fit: contain;
+            }
+            .grade_box{
+              padding: 0 0.15rem;
+              display: flex;
+              align-items: center;
+              margin-top: 0.2rem;
+              border-radius: 15px;
+              box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+              .five_pointed_star{
+                display: flex;
+                align-items: center;
+                .start_img{
+                  width: 0.26rem;
+                  object-fit: contain;
+                }
+              }
+              .card_grade{
+                font-size: 0.12rem;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: #FFFFFF;
+                line-height: 0.17rem;
+                margin: 0 0.1rem;
+              }
+              .details{
+                padding:0 0.1rem;
+                background: #F5B252;
+                font-size: 0.12rem;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: #FFFFFF;
+                line-height: 0.12rem;
+                border-radius: 0.25rem;
+                cursor: pointer;
+              }
+            }
+            .btnbox{
+              width: 2rem;
+              text-align: center;
+              line-height: 0.48rem;
+              background-size: contain;
+              background-repeat: no-repeat;
+              font-size: 0.12rem;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              cursor: pointer;
+            }
+            .remove_btnbox{
+              background-image: url("../../assets/images/nft_btn1.png");
+            }
+            .insert_btnbox{
+              background-image: url("../../assets/images/insert.png");
+            }
+            .lock_btnbox{
+              background-image: url("../../assets/images/lock.png");
+            }
+          }
+          .outbox{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1rem;
+            .second-content_box{
+              position: relative;
+              width: 100%;
+              height: 5rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: flex-end;
+              margin-bottom: 50px;
+              .swiper_img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                width: 1rem;
+                object-fit: contain;
+              }
+              .base_img{
+                width: 100%;
+                object-fit: contain;
+              }
+            }
+            .btnbox{
+              width: 2rem;
+              text-align: center;
+              line-height: 0.48rem;
+              background-size: contain;
+              background-repeat: no-repeat;
+              font-size: 32px;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              cursor: pointer;
+            }
+            .remove_btnbox{
+              background-image: url("../../assets/images/nft_btn1.png");
+            }
+            .insert_btnbox{
+              background-image: url("../../assets/images/insert.png");
+            }
+            .lock_btnbox{
+              background-image: url("../../assets/images/lock.png");
+            }
+          }
+        }
+      }
+    }
+    .self_swiper{
+      height: auto;
+      min-height: 3rem;
+      margin-top: -1rem;
+    }
+    .margin_top_card{
+      margin-top: 0.5rem;
+    }
+  }
+}
 </style>
