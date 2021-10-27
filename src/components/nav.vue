@@ -9,8 +9,8 @@
           {{$t(item)}}
           <div class="nft_hover" v-show="index == 0">
             <div class="box_nft">
-              <div class="span1" @click.stop="nftFun('card')">NFT卡牌 <span class="icon-v-right"></span></div>
-              <div class="span1" @click.stop="nftFun('mining')">NFT挖矿 <span class="icon-v-right"></span></div>
+              <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}} <span class="icon-v-right"></span></div>
+              <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}} <span class="icon-v-right"></span></div>
             </div>
           </div>
         </li>
@@ -35,11 +35,12 @@
           <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
             {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>
             <div class="box_nft" v-if="mobile_menuDis && index == 0">
-              <div class="span1" @click.stop="nftFun('card')">NFT卡牌 <span class="icon-v-right"></span></div>
-              <div class="span1" @click.stop="nftFun('mining')">NFT挖矿 <span class="icon-v-right"></span></div>
+              <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}<span class="icon-v-right"></span></div>
+              <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}} <span class="icon-v-right"></span></div>
             </div>
           </li>
         </ul>
+        <div class="mobile_lang">EN</div>
       </div>
     </div>
   </div>
@@ -51,7 +52,7 @@ export default {
   inject: ['reload'],
   data () {
     return {
-      navarr: ['message.nav.title1', 'message.nav.title2', 'message.nav.title3', 'message.nav.title6', 'message.nav.title4','message.nav.title5'],
+      navarr: ['message.nav.txt1', 'message.nav.txt2', 'message.nav.txt3', 'message.nav.txt6', 'message.nav.txt4','message.nav.txt5'],
       mobilemenu:false,//移动端菜单
       mobile_menuDis:false, // nfts展开菜单
     }
@@ -103,6 +104,7 @@ export default {
         // localStorage.setItem("setCardInfo",JSON.stringify([]))
         this.$store.commit("setAccount", res[0])
         localStorage.setItem("setAccount",res[0])
+        this.$common.getUserCardInfoFun(res[0])
       }
       // this.reload()
     },
@@ -332,7 +334,7 @@ export default {
     }
     .mobile_menu{
       display: flex;
-      width: 0.48rem;
+      width: 0.24rem;
       .mobile_menu_class{
         width: 100%;
         object-fit: contain;
@@ -371,7 +373,7 @@ export default {
           li{
             width: 100%;
             text-align: center;
-            font-size: 0.24rem;
+            font-size: 0.2rem;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
@@ -393,25 +395,25 @@ export default {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 18px;
+                font-size: 0.18rem;
                 font-family: PingFangSC-Semibold, PingFang SC;
                 font-weight: 600;
                 color: #fff;
-                line-height: 82px;
+                line-height: 0.4rem;
                 .icon-v-right {
-                  width: 12px;
-                  height: 12px;
-                  border: 2px solid #fff;
-                  border-width: 2px 2px 0 0;
+                  width: 0.12rem;
+                  height: 0.12rem;;
+                  border: 0.02rem solid #fff;
+                  border-width: 0.02rem 0.02rem 0 0;
                   transform: rotate(45deg);
-                  margin-left: 10px;
+                  margin-left: 0.05rem;
                 }
               }
             }
             .mobile_triangle{
               font-size: 0;
               line-height: 0;
-              border-width: 10px;
+              border-width: 0.1rem;
               border-color: #FFFFFF;
               border-bottom-width: 0;
               border-style: dashed;
@@ -426,6 +428,18 @@ export default {
             border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
             color: #00E7F0;
           }
+        }
+        .mobile_lang{
+          margin-top: 0.1rem;
+          width: 100%;
+          padding-right: 0.2rem;
+          display: flex;
+          justify-content: flex-end;
+          font-size: 0.2rem;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: #FFFFFF;
+          line-height: 0.3rem;
         }
       }
     }

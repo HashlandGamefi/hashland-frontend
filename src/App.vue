@@ -26,9 +26,11 @@ export default {
     'getIstrue':{
       handler: function (newValue, oldValue) {
         console.log('直接写是否链接:', newValue,oldValue);
-        if(newValue){
-          this.$common.getUserCardInfoFun(this.getAccount)
-        }
+        // if(newValue){
+        //   this.$common.getUserCardInfoFun(this.getAccount)
+        // }else{
+        //   console.log('app监听是否链接:', newValue,oldValue);
+        // }
       },
       deep: true,
       immediate: true

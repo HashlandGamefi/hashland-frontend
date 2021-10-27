@@ -3,9 +3,9 @@
     <div class="title" @click="back">
       <img src="../../assets/images/back.png" class="backimg" />
     </div>
-    <div class="title_title">合成</div>
-    <div class="title_son1">选择你想要合成的卡牌</div>
-    <div class="title_son1">每四张同等级可拍可升级为高等级卡牌</div>
+    <div class="title_title">{{$t("message.synthesis.txt1")}}</div>
+    <div class="title_son1">{{$t("message.synthesis.txt2")}}</div>
+    <div class="title_son1">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
         <span class="span1">{{rank}}阶 (共{{amount}}张)</span>
@@ -17,16 +17,16 @@
       <div class="right_content" @click="selectAllClick">
         <img src="../../assets/images/selected.png" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
         <img src="../../assets/images/select.png" class="selectimg" v-else />
-        <span class="select_ttx">全选/取消</span>
+        <span class="select_ttx">{{$t("message.synthesis.txt5")}}</span>
       </div>
     </div>
     <div class="bottom_txtbox" v-if="rank < 5">
       <div class="bottom_txt1">
-        <span class="span1">选中卡牌</span>
+        <span class="span1">{{$t("message.synthesis.txt6")}}</span>
         <span class="span2">{{selectedNUM}}</span>
       </div>
       <div class="bottom_txt2">
-        合成后，{{rank}}星卡牌消失，合成{{compose}}张{{rank + 1 }}星卡牌，算力总提升15%
+        {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}}{{compose}}{{$t("message.synthesis.txt9")}}{{rank + 1 }}{{$t("message.synthesis.txt11")}}15%
       </div>
     </div>
     <!-- 选中以后的卡牌数组 -->
@@ -76,8 +76,8 @@
         <img src="../../assets/images/fu.png" class="orther_img"/>
       </div>
     </div>
-    <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC">合成</div>
-    <div class="btn_box" @click="authorizationClick" v-else>授权</div>
+    <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC">{{$t("message.synthesis.txt1")}}</div>
+    <div class="btn_box" @click="authorizationClick" v-else>{{$t("message.approve")}}</div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -744,6 +744,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-bottom: 0.1rem;
       .card_picture{
         width: 100%;
         object-fit: contain;

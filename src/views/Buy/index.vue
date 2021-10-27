@@ -1,11 +1,11 @@
 <template>
   <div class="buy_page">
-    <span class="title1_txt">NFT卡牌</span>
-    <span class="title2_txt">这是一张持续增值的卡牌</span>
+    <span class="title1_txt">{{$t("message.nav.txt7")}}</span>
+    <span class="title2_txt">{{$t("message.nftCard.txt1")}}</span>
     <div class="tab_box">
-      <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">基础卡牌</div>
-      <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">盲盒卡牌</div>
-      <div class="oneTab" :class="{activeTab:tabIndex == 2}" @click="tabIndex = 2">特权卡牌</div>
+      <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">{{$t("message.nftCard.txt2")}}</div>
+      <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">{{$t("message.nftCard.txt3")}}</div>
+      <div class="oneTab" :class="{activeTab:tabIndex == 2}" @click="tabIndex = 2">{{$t("message.nftCard.txt4")}}</div>
     </div>
     <BasicsCard v-if="tabIndex == 0"></BasicsCard>
     <BlindBoxCard v-if="tabIndex == 1"></BlindBoxCard>
@@ -127,7 +127,7 @@ export default {
       }
       .activeTab{
         background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
-        box-shadow: 0 14px 2px #23447C;
+        box-shadow: 0 0.06rem 2px #23447C;
       }
     }
   }

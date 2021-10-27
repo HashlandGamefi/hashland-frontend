@@ -2,29 +2,29 @@
   <div class="composite_card">
     <div class="left_box">
       <div class="top_box">
-        <span class="luckey_span1">幸运抽奖</span>
-        <span class="luckey_span2">随机获取基础卡牌</span>
+        <span class="luckey_span1">{{$t("message.nftCard.txt5")}}</span>
+        <span class="luckey_span2">{{$t("message.nftCard.txt23")}}</span>
       </div>
       <div class="btn">
-        <span class="span1">编号</span>
+        <span class="span1">{{$t("message.nftCard.txt7")}}</span>
         <span class="span2">00001</span>
       </div>
-      <span class="composite_span1">价格</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
       <span class="composite_span2">{{boxPrice}} BNB</span>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">数量</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
         <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        总计：{{total}} BNB
+        {{$t("message.nftCard.txt11")}}:{{total}} BNB
       </div>
     </div>
     <div class="mobile_top">
       <div class="mobile_top_box">
-        <span class="luckey_span1">幸运抽奖</span>
-        <span class="luckey_span2">随机获取基础卡牌</span>
+        <span class="luckey_span1">{{$t("message.nftCard.txt5")}}</span>
+        <span class="luckey_span2">{{$t("message.nftCard.txt19")}}</span>
       </div>
     </div>
     <div class="center_box">
@@ -48,34 +48,33 @@
         </div>
       </div>
       <div class="remaining">
-        <span class="span1">剩余数量</span>
+        <span class="span1">{{$t("message.nftCard.txt12")}}</span>
         <span class="span2">{{surplusNums}}</span>
       </div>
     </div>
     <div class="mobile_content">
       <div class="btn">
-        <span class="span1">编号</span>
+        <span class="span1">{{$t("message.nftCard.txt7")}}</span>
         <span class="span2">00001</span>
       </div>
-      <span class="composite_span1">价格</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
       <span class="composite_span2">{{boxPrice}} BNB</span>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">数量</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
-        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
+        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">总计：</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt11")}}:</span>
       <span class="composite_span2">{{total}} BNB</span>
       <span class="composite_line_color"></span>
     </div>
-    <div class="connect_box" v-if="getIstrue">购买<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
-    <div class="connect_box" v-else>连接钱包</div>
+    <div class="connect_box" v-if="getIstrue">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
+    <div class="connect_box" v-else>Connect</div>
     <div class="right_box">
-      <div class="btn">购买说明</div>
-      <div class="right_span1"><span class="radious"></span>卡牌是锚定XXXW/T矿机的算力凭证，持1分卡牌就相当于持有1T算力</div>
-      <div class="right_span1"><span class="radious"></span>购买后获得1星合成卡牌，可通过合成提升星级，星级越高，算力越高</div>
-      <div class="right_span1"><span class="radious"></span>插入卡槽后可获的挖矿奖励（BTC+平台币），算力越高，奖励越多</div>
+      <div class="btn">{{$t("message.nftCard.txt14")}}</div>
+      <div class="right_span1"><span class="radious"></span>{{$t("message.nftCard.txt25")}}</div>
+      <div class="right_span1"><span class="radious"></span>{{$t("message.nftCard.txt26")}}</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>

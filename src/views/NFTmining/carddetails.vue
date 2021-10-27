@@ -3,7 +3,7 @@
     <div class="title" @click="back">
       <img src="../../assets/images/back.png" class="backimg" />
     </div>
-    <span class="span_title">详情</span>
+    <span class="span_title">{{$t("message.details")}}</span>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
@@ -22,8 +22,8 @@
         </div>
       </div>
     </div>
-    <span class="bottom_title">购买的NFT卡牌可前往“NFT挖矿”中质押挖矿</span>
-    <div class="connect_box">确认</div>
+    <span class="bottom_title">{{$t("message.details1")}}</span>
+    <div class="connect_box">{{$t("message.button1")}}</div>
   </div>
 </template>
 
@@ -223,6 +223,8 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-right: 0;
+      margin-bottom: 0.1rem;
       // margin-right: calc((100% - 1480px) / 5);
       // margin-bottom: 30px;
       .imgcard{

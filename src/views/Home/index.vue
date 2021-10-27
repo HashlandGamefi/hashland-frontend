@@ -8,33 +8,51 @@
         <img src="../../assets/images/mobile_bg.png" class="homebgimg">
       </div>
       <div class="content">
-        <div class="left">
-          <span class="span1">高达180%的APY</span>
-          <span class="span1">去挖矿 >>></span>
-        </div>
-        <div class="left">
-          <span class="span1 span2">NFT卡牌</span>
-          <span class="span1 span2">去购买 >>></span>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="(item,index) in swiperArr" :key="index">
+              <div class="left">
+                <img :src="item.src" class="home1_img" />
+                <div class="txtbox">
+                  <span class="span1">{{$t(item.txt1)}}</span>
+                  <div class="linebox">
+                    <span class="span2">{{$t(item.txt2)}}</span>
+                    <span class="span3">GO></span>
+                  </div>
+                </div>
+              </div>
+              <div class="mobile_box_swiper">
+                <img :src="item.mobilesrc" class="mobileimg1" />
+                <div class="mobile_box">
+                  <span class="span1">{{$t(item.txt1)}}</span>
+                  <span class="span1">{{$t(item.txt2)}}</span>
+                </div>
+                <div class="mobile_go">
+                  <span class="span1">GO></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="card_content">
-      <div class="compositeCard">NFT卡牌</div>
+      <div class="compositeCard">{{$t("message.nav.txt7")}}</div>
       <img src="../../assets/images/compositecard.png" class="img" />
       <div class="cardboxs">
         <div class="one_box">
           <img src="../../assets/images/issue.png" class="img" />
-          <span class="span1">已发行</span>
+          <span class="span1">{{$t("message.home.txt6")}}</span>
           <span class="span2">{{issued}}</span>
         </div>
         <div class="one_box">
           <img src="../../assets/images/sale.png" class="img" />
-          <span class="span1">待销售</span>
+          <span class="span1">{{$t("message.home.txt7")}}</span>
           <span class="span2">{{sold}}</span>
         </div>
         <div class="one_box">
           <img src="../../assets/images/destroy.png" class="img" />
-          <span class="span1">已销毁</span>
+          <span class="span1">{{$t("message.home.txt8")}}</span>
           <span class="span2">{{Destroy}}</span>
         </div>
       </div>
@@ -43,8 +61,8 @@
       <div class="hashland_content">
         <img src="../../assets/images/hashlandimg.png" class="img" />
         <div class="Trend_chart">
-          <span class="span1">趋势图</span>
-          <div class="span2">去提取</div>
+          <span class="span1">{{$t("message.home.txt9")}}</span>
+          <div class="span2">{{$t("message.home.txt10")}}</div>
         </div>
         <div class="trend_boxs">
           <div class="imgbox">
@@ -53,27 +71,27 @@
             <span class="span1 span3">$1.5</span>
           </div>
           <div class="nowPrice">
-            <span class="span1">当前价格</span>
+            <span class="span1">{{$t("message.home.txt11")}}</span>
             <span class="span2">5$</span>
-            <span class="span1">减产日期</span>
+            <span class="span1">{{$t("message.home.txt12")}}</span>
             <span class="span2">{{nextDay}}</span>
           </div>
         </div>
         <div class="hashland_bottom">
           <div class="onebox">
-            <span class="span1">今日产出</span>
+            <span class="span1">{{$t("message.home.txt13")}}</span>
             <span class="span2">{{todynums}}</span>
           </div>
           <div class="onebox">
-            <span class="span1">总量/产出比</span>
+            <span class="span1">{{$t("message.home.txt14")}}</span>
             <span class="span2">21,000,000/{{proportion}}%</span>
           </div>
           <div class="onebox">
-            <span class="span1">流通量</span>
+            <span class="span1">{{$t("message.home.txt15")}}</span>
             <span class="span2">{{totalSupply}}</span>
           </div>
           <div class="onebox">
-            <span class="span1">销毁量</span>
+            <span class="span1">{{$t("message.home.txt16")}}</span>
             <span class="span2">{{hcDestroy}}</span>
           </div>
         </div>
@@ -81,35 +99,35 @@
     </div>
     <div class="page_bottom">
       <div class="embedded_box">
-        <span class="span1">平台币使用背景</span>
+        <span class="span1">{{$t("message.home.txt17")}}</span>
         <div class="horizontal">
           <div class="horizontal_onebox">
             <div class="top">
               <img src="../../assets/images/use1.png" class="img" />
-              <span class="span1_">卡牌升级</span>
+              <span class="span1_">{{$t("message.home.txt18")}}</span>
             </div>
-            <span class="bottom">节约合成高星级卡片时间</span>
+            <span class="bottom">{{$t("message.home.txt19")}}</span>
           </div>
           <div class="horizontal_onebox">
             <div class="top">
               <img src="../../assets/images/use2.png" class="img" />
-              <span class="span1_">盲盒卡牌</span>
+              <span class="span1_">GameFi</span>
             </div>
-            <span class="bottom">节约合成高星级卡片时间</span>
+            <span class="bottom">{{$t("message.home.txt20")}}</span>
           </div>
           <div class="horizontal_onebox">
             <div class="top">
               <img src="../../assets/images/use3.png" class="img" />
-              <span class="span1_">多重算力卡牌</span>
+              <span class="span1_">DAO</span>
             </div>
-            <span class="bottom">获得其他算力的收益</span>
+            <span class="bottom">{{$t("message.home.txt21")}}</span>
           </div>
           <div class="horizontal_onebox">
             <div class="top">
               <img src="../../assets/images/use4.png" class="img" />
-              <span class="span1_">挖矿</span>
+              <span class="span1_">{{$t("message.home.txt22")}}</span>
             </div>
-            <span class="bottom">农场、pool池  LP挖矿</span>
+            <span class="bottom">{{$t("message.home.txt23")}}</span>
           </div>
         </div>
       </div>
@@ -117,7 +135,7 @@
   </div>
 </template>
 <script>
-import { hc,hn,hnPool } from 'hashland-sdk';
+import { hc,hn } from 'hashland-sdk';
 export default {
   data(){
     return {
@@ -129,7 +147,27 @@ export default {
       totalSupply:0,//流通量
       hcDestroy:0,//hc销毁量
       proportion:0,//比例
-      nextDay:'00-00-00'//下次减产时间
+      nextDay:'00-00-00',//下次减产时间
+      swiperArr:[
+        {
+          mobilesrc:require('../../assets/images/mobilehome1.png'),
+          src:require('../../assets/images/home1.png'),
+          txt1:'message.nav.txt7',
+          txt2:'message.home.txt1'
+        },
+        {
+          mobilesrc:require('../../assets/images/mobilehome2.png'),
+          src:require('../../assets/images/home2.png'),
+          txt1:'message.home.txt2',
+          txt2:'message.home.txt3'
+        },
+        {
+          mobilesrc:require('../../assets/images/mobilehome3.png'),
+          src:require('../../assets/images/home3.png'),
+          txt1:'message.home.txt4',
+          txt2:'message.home.txt5'
+        }
+      ]
     }
   },
   methods:{
@@ -177,6 +215,18 @@ export default {
   },
   mounted(){
     this.getSDKInfo()
+    if(document.body.clientWidth <= 980){
+      new Swiper('.swiper-container', {
+        slidesPerView: 2,
+        // centeredSlides: true,
+        // slidesOffsetBefore: 100,
+      })
+    }else if(document.body.clientWidth > 980){
+      new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        // spaceBetween: '10%'
+      })
+    }
   }
 }
 </script>
@@ -203,29 +253,69 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 204px;
-      .left{
-        width: 49%;
-        height: 200px;
-        background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
-        // box-shadow: 0px 17px 44px 0px rgba(0, 0, 0, 0.5);
-        border: 4px solid;
-        border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-        .span1{
-          font-size: 32px;
-          font-family: PingFangSC-Medium, PingFang SC;
-          font-weight: 500;
-          color: #00E7F0;
-          line-height: 70px;
-          // text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #81C6E3,0 0 35px #81C6E3, 0 0 40px #81C6E3, 0 0 50px #81C6E3, 0 0 75px #81C6E3;
-        }
-        .span2{
-          color: #fff;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 0 100px;
+      .swiper-container{
+        width: 100%;
+        .swiper-wrapper{
+          width: 100%;
+          .swiper-slide{
+            // width: 100% !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .left{
+              width: 237px;
+              display: flex;
+              flex-direction:column;
+              padding-bottom: 20px;
+              .home1_img{
+                width: 100%;
+                object-fit: contain;
+              }
+              .txtbox{
+                width: 100%;
+                padding:0 10px;
+                display: flex;
+                flex-direction: column;
+                margin-top: -66px;
+                .span1{
+                  font-size: 18px;
+                  font-family: PingFangSC-Semibold, PingFang SC;
+                  font-weight: 600;
+                  color: #FFFFFF;
+                  line-height: 25px;
+                  letter-spacing: 1px;
+                }
+                .linebox{
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  .span2{
+                    font-size: 18px;
+                    font-family: PingFangSC-Medium, PingFang SC;
+                    font-weight: 500;
+                    color: #FFFFFF;
+                    line-height: 25px;
+                    letter-spacing: 1px;
+                  }
+                  .span3{
+                    font-size: 20px;
+                    font-family: PingFangSC-Medium, PingFang SC;
+                    font-weight: 500;
+                    color: #00E7F0;
+                    line-height: 28px;
+                    letter-spacing: 1px;
+                  }
+                }
+              }
+            }
+            .mobile_box_swiper{
+              display: none;
+            }
+          }
         }
       }
     }
@@ -494,27 +584,60 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding: 0;
-        .left{
-          width: 49%;
-          height: auto;
-          background: linear-gradient(360deg, rgba(33, 226, 251, 0) 0%, rgba(11, 161, 205, 0.36) 100%);
-          border: 0.01rem solid;
-          border-image: linear-gradient(180deg, rgba(62, 188, 237, 0.5), rgba(42, 86, 103, 0)) 4 4;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 0.05rem 0;
-          .span1{
-            font-size: 0.2rem;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            color: #00E7F0;
-            line-height: 0.3rem;
-          }
-          .span2{
-            color: #fff;
+        justify-content: center;
+        margin-top: 0.1rem;
+        padding: 0 0.2rem;
+        .swiper-container{
+          width: 100%;
+          .swiper-wrapper{
+            // width: 100%;
+            .swiper-slide{
+              // width: auto !important;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-right: 0.1rem;
+              .left{
+                display: none;
+              }
+              .mobile_box_swiper{
+                // width: 1.89rem;
+                width: 100%;
+                display: flex;
+                padding: 0.1rem;
+                box-shadow: -15px 11px 12px 21px rgba(3, 21, 46, 0.76) inset, -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+                border-radius: 0.14rem;
+                border: 1px solid rgba(139, 230, 254, 1);
+                // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
+                .mobileimg1{
+                  width: 0.66rem;
+                  object-fit: contain;
+                }
+                .mobile_box{
+                  display: flex;
+                  flex-direction: column;
+                  .span1{
+                    font-size: 0.12rem;
+                    font-family: PingFangSC-Semibold, PingFang SC;
+                    font-weight: 600;
+                    color: #FFFFFF;
+                    line-height: 0.17rem;
+                  }
+                }
+                .mobile_go{
+                  display: flex;
+                  justify-content: flex-end;
+                  align-items: flex-end;
+                  .span1{
+                    font-size: 0.12rem;
+                    font-family: PingFangSC-Medium, PingFang SC;
+                    font-weight: 500;
+                    color: #00E7F0;
+                    line-height: 0.17rem;
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -3,10 +3,10 @@
     <!-- 卡牌 -->
     <div class="myCard">
       <div class="card_left">
-        <span class="span1">我的钱包卡牌</span>
-        <span class="span2">未插入卡槽不产生收益</span>
+        <span class="span1">{{$t("message.nftMining.txt3")}}</span>
+        <span class="span2">{{$t("message.nftMining.txt4")}}</span>
       </div>
-      <div class="synthesis_btn" @click="synthesisClick">合成升级</div>
+      <div class="synthesis_btn" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
     </div>
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
@@ -19,7 +19,7 @@
                 <img src="../../assets/images/start.png" v-for="ele in item" :key="ele"  class="start_img" />
               </div>
               <span class="card_grade">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
-              <span class="details">详情</span>
+              <span class="details">{{$t("message.nftMining.txt6")}}</span>
             </div>
           </div>
         </div>
@@ -37,8 +37,8 @@
     <!-- 卡槽 -->
     <div class="myCard margin_top_card">
       <div class="card_left">
-        <span class="span1">我的卡槽卡牌</span>
-        <span class="span2">卡槽有限，可合成后再质押</span>
+        <span class="span1">{{$t("message.nftMining.txt7")}}</span>
+        <span class="span2">{{$t("message.nftMining.txt8")}}</span>
       </div>
     </div>
     <!-- 卡槽轮播 -->
@@ -50,12 +50,12 @@
               <img :src="item.src" class="swiper_img" />
               <img src="../../assets/images/bottom.png" class="base_img" />
             </div>
-            <div class="btnbox remove_btnbox" v-if="item.btnstatus == 1" @click="insertClick(item)">插入卡槽</div>
+            <div class="btnbox remove_btnbox" v-if="item.btnstatus == 1" @click="insertClick(item)">{{$t("message.nftMining.txt15")}}</div>
             <div class="btnbox insert_btnbox" v-if="item.btnstatus == 2" @click="removeClick(item)">
-              解除卡槽<BtnLoading :isloading="item.isloading"></BtnLoading>
+              {{$t("message.nftMining.txt9")}}<BtnLoading :isloading="item.isloading"></BtnLoading>
             </div>
             <div class="btnbox lock_btnbox" v-if="item.btnstatus == 3" @click="Unlock(index)">
-              解锁卡槽<BtnLoading :isloading="item.isloading"></BtnLoading></div>
+              {{$t("message.nftMining.txt10")}}<BtnLoading :isloading="item.isloading"></BtnLoading></div>
           </div>
         </div>
       </div>
@@ -253,23 +253,25 @@ export default {
   },
   mounted () {
     this.getCardSlotInfo()
-    new Swiper('.swiper-container', {
-      // loop: true,//循环播放
-      // pagination: '.swiper-pagination',// 如果需要分页器
-      // 如果需要前进后退按钮
-      nextButton: '.swiper-button-next',
-      prevButton: '.swiper-button-prev',
-      slidesPerView : 4,
-      slidesOffsetBefore : 100,
-      // centeredSlides : true,
-      //如果需要自动切换海报
-      // autoplay: {
-      //   delay: 20000,//时间 毫秒
-      //   disableOnInteraction: false,//用户操作之后是否停止自动轮播默认true
-      // },
-      observer:true, // 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
-      observeParents:true,// 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
-    })
+    console.log('轮播页面当前窗口宽度:', document.body.clientWidth)// 当前窗口的宽度
+    if(document.body.clientWidth <= 980){
+      new Swiper('.swiper-container', {
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        slidesPerView : 2,
+        observer:true, // 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
+        observeParents:true,// 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
+      })
+    }else if(document.body.clientWidth > 980){
+      new Swiper('.swiper-container', {
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        slidesPerView : 4,
+        observer:true, // 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
+        observeParents:true,// 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
+      })
+    }
+
   }
 }
 </script>
@@ -526,13 +528,13 @@ export default {
               display: flex;
               align-items: center;
               margin-top: 0.2rem;
-              border-radius: 15px;
+              border-radius: 0.1rem;
               box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
               .five_pointed_star{
                 display: flex;
                 align-items: center;
                 .start_img{
-                  width: 0.26rem;
+                  width: 0.13rem;
                   object-fit: contain;
                 }
               }
@@ -588,15 +590,15 @@ export default {
             .second-content_box{
               position: relative;
               width: 100%;
-              height: 5rem;
+              height: auto;
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: flex-end;
-              margin-bottom: 50px;
+              margin-bottom: 0.2rem;
               .swiper_img{
                 position: absolute;
-                top: 50%;
+                top: 18%;
                 left: 50%;
                 transform: translate(-50%,-50%);
                 width: 1rem;
@@ -608,12 +610,12 @@ export default {
               }
             }
             .btnbox{
-              width: 2rem;
+              width: 1rem;
               text-align: center;
-              line-height: 0.48rem;
-              background-size: contain;
+              line-height: 0.24rem;
+              background-size: 100% 100%;
               background-repeat: no-repeat;
-              font-size: 32px;
+              font-size: 0.14rem;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #FFFFFF;
@@ -635,7 +637,7 @@ export default {
     .self_swiper{
       height: auto;
       min-height: 3rem;
-      margin-top: -1rem;
+      margin-top: 0;
     }
     .margin_top_card{
       margin-top: 0.5rem;

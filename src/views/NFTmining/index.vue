@@ -1,30 +1,31 @@
 <template>
   <div class="nft_miningpage">
-    <span class="nft_title">NFT卡牌权益</span>
-    <span class="nft_title1">质押您拥有的NFT卡牌，获得挖矿权益</span>
+    <span class="nft_title">{{$t("message.nftMining.txt1")}}</span>
+    <span class="nft_title1">{{$t("message.nftMining.txt2")}}</span>
     <div class="tab_box">
-      <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">基础卡牌</div>
-      <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">特权卡牌</div>
+      <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">{{$t("message.nftCard.txt2")}}</div>
+      <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">{{$t("message.nftCard.txt4")}}</div>
     </div>
     <!-- 基础卡牌 -->
     <BasicCards v-if="tabIndex == 0"></BasicCards>
     <!-- 特权卡牌 -->
     <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
     <div class="apy_title">APY {{apy}}%</div>
+    <div class="apy_title">{{$t("message.nftMining.txt11")}} 0%</div>
     <div class="footer_box">
       <div class="left_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('btc',btcnum)">
-            <span>提取</span>
+            <span>{{$t("message.nftMining.txt12")}}</span>
             <BtnLoading :isloading="btc_isloading"></BtnLoading>
           </div>
         </div>
         <div class="bottom">
           <div class="add_txt">
-            <span class="span1">累计赚取:{{addBTC}}</span>
+            <span class="span1">{{$t("message.nftMining.txt13")}}:{{addBTC}}</span>
           </div>
           <div class="extractable">
-            <span class="span1">可提取</span>
+            <span class="span1">{{$t("message.nftMining.txt14")}}</span>
             <span class="span2">{{btcnum}}</span>
           </div>
         </div>
@@ -33,16 +34,16 @@
       <div class="left_footer right_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('hc',hcnum)">
-            <span>提取</span>
+            <span>{{$t("message.nftMining.txt12")}}</span>
             <BtnLoading :isloading="hc_isloading"></BtnLoading>
           </div>
         </div>
         <div class="bottom">
           <div class="add_txt">
-            <span class="span1_">累计赚取: {{addHC}}</span>
+            <span class="span1_">{{$t("message.nftMining.txt13")}}: {{addHC}}</span>
           </div>
           <div class="extractable">
-            <span class="span1">可提取</span>
+            <span class="span1">{{$t("message.nftMining.txt14")}}</span>
             <span class="span2">{{hcnum}}</span>
           </div>
         </div>
@@ -57,7 +58,7 @@
 import { mapGetters } from "vuex";
 import BasicCards from './basiccards.vue'
 import PrivilegeCard from './privilegecard.vue'
-import { hc,contract,hn,hnPool, getSigner } from 'hashland-sdk'
+import { hc,contract,hnPool, getSigner } from 'hashland-sdk'
 export default {
   components: {
     BasicCards,
@@ -381,7 +382,7 @@ export default {
       }
       .activeTab{
         background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
-        box-shadow: 0 14px 2px #23447C;
+        box-shadow: 0 0.06rem 2px #23447C;
       }
     }
     .apy_title{
@@ -392,7 +393,7 @@ export default {
       font-weight: 600;
       color: #FFFFFF;
       line-height: 0.28rem;
-      margin-top: 0.6rem;
+      margin-top: 0.1rem;
     }
     .footer_box{
       width: 100%;
@@ -404,7 +405,7 @@ export default {
       margin-top: 0.2rem;
       .left_footer{
         position: relative;
-        width: 100%;
+        width: 80%;
         height: auto;
         background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
         box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);

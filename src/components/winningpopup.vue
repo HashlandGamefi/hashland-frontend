@@ -1,6 +1,6 @@
 <template>
   <div class="record_page" v-if="minserdis">
-    <div class="title">购买记录</div>
+    <div class="title">{{$t("message.buy1")}}</div>
     <img src="../assets/images/closebg.png" class="close_img" @click="closepage"/>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
@@ -11,17 +11,17 @@
           </div>
           <div class="hc_coefficient">
             <img src="../assets/images/hclogo.png" class="imgcard" />
-            <span class="span1">{{item.hc}}%</span>
+            <span class="span1">{{item.hc}}</span>
           </div>
           <div class="hc_coefficient">
             <img src="../assets/images/btclogo.png" class="imgcard" />
-            <span class="span1">{{item.btc}}%</span>
+            <span class="span1">{{item.btc}}</span>
           </div>
         </div>
       </div>
     </div>
-    <span class="bottom_title">购买的NFT卡牌可前往“NFT挖矿”中质押挖矿</span>
-    <div class="connect_box" @click="closepage">确认</div>
+    <span class="bottom_title">{{$t("message.details1")}}</span>
+    <div class="connect_box" @click="closepage">{{$t("message.button1")}}</div>
   </div>
 </template>
 
@@ -103,9 +103,9 @@ export default {
         position: absolute;
         top: 30px;
         left: 22%;
-        background-image: url("../assets/images/cardtop.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
+        // background-image: url("../assets/images/cardtop.png");
+        // background-size: 100% 100%;
+        // background-repeat: no-repeat;
         display: flex;
         align-items: center;
         padding:10px 8px;
@@ -162,5 +162,123 @@ export default {
     margin-top: 30px;
     cursor: pointer;
   }
+}
+@media screen and (max-width: 980px){
+  .record_page{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .title{
+    margin-top: 0.5rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.2rem;
+    font-family: AaJXH;
+    font-style: normal;
+    color: #FFFFFF;
+    line-height: 0.5rem;
+    letter-spacing: 0;
+    text-shadow: 0px 8px 17px rgba(52, 30, 2, 0.5);
+  }
+  .close_img{
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    width: 0.36rem;
+    object-fit: contain;
+  }
+  .boxarr{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0.2rem;
+    max-height: 9rem;
+    overflow-y: auto;
+    .onebox{
+      position: relative;
+      width: 25%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 0.1rem;
+      // margin-right: calc((100% - 1480px) / 5);
+      margin-bottom: 0.1rem;
+      .imgcard{
+        width: 100%;
+        object-fit: contain;
+      }
+      .bottom{
+        position: absolute;
+        top: -0.27rem;
+        left: -0.67rem;
+        // background-image: url("../assets/images/cardtop.png");
+        // background-size: 100% 100%;
+        // background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        padding:0.1rem 0.08rem;
+        transform: scale(0.3);
+        .five_pointed_star{
+          display: flex;
+          align-items: center;
+          .start_img{
+            width: 26px;
+            object-fit: contain;
+          }
+        }
+        .hc_coefficient{
+          display: flex;
+          align-items: center;
+          background: #302F2E;
+          box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
+          border-radius: 4px;
+          margin-right: 5px;
+          .imgcard{
+            width: 43px;
+            object-fit: contain;
+          }
+          .span1{
+            font-size: 26px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
+  .bottom_title{
+    font-size: 0.14rem;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 0.2rem;
+    letter-spacing: 0;
+  }
+  .connect_box {
+    width: 1.94rem;
+    height: 0.38rem;
+    text-align: center;
+    line-height: 0.38rem;
+    background-image: url("../assets/images/SpeciaBtn2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-size: 0.18rem;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 0.1rem;
+    cursor: pointer;
+  }
+}
 }
 </style>
