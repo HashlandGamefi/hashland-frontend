@@ -87,16 +87,16 @@ export default {
         justify-content: center;
         margin-top: 20px;
         .btn1{
-          padding: 0 10px;
+          padding: 0 8px;
           border-radius: 30px;
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 48px;
+          height: 34px;
           background: #fff;
           margin-right: 10px;
           cursor: pointer;
-          font-size: 19px;
+          font-size: 12px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #052247;
@@ -111,7 +111,7 @@ export default {
           }
         }
         .img{
-          width: 48px;
+          width: 32px;
           object-fit: contain;
           margin-right: 10px;
           cursor: pointer;
@@ -120,7 +120,7 @@ export default {
       .line_txt{
         width: 100%;
         text-align: center;
-        font-size: 24px;
+        font-size: 16px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #FFFFFF;

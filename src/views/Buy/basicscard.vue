@@ -10,7 +10,7 @@
         <span class="span2">00001</span>
       </div>
       <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
-      <span class="composite_span2">{{boxPrice}} BNB</span>
+      <span class="composite_span2">{{boxPrice}} BUSD</span>
       <span class="composite_line_color"></span>
       <span class="composite_span1">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
@@ -18,7 +18,7 @@
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        {{$t("message.nftCard.txt11")}}:{{total}} BNB
+        {{$t("message.nftCard.txt11")}}:{{total}} BUSD
       </div>
     </div>
     <div class="mobile_top">
@@ -58,7 +58,7 @@
         <span class="span2">00001</span>
       </div>
       <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
-      <span class="composite_span2">{{boxPrice}} BNB</span>
+      <span class="composite_span2">{{boxPrice}} BUSD</span>
       <span class="composite_line_color"></span>
       <span class="composite_span1">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
@@ -66,7 +66,7 @@
       </div>
       <span class="composite_line_color"></span>
       <span class="composite_span1">{{$t("message.nftCard.txt11")}}:</span>
-      <span class="composite_span2">{{total}} BNB</span>
+      <span class="composite_span2">{{total}} BUSD</span>
       <span class="composite_line_color"></span>
     </div>
     <div class="connect_box" v-if="getIstrue" @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
@@ -84,7 +84,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,hn,getProvider,util,getSigner,getHnImg } from 'hashland-sdk';
+import { hnBox,hn,getProvider,util,getSigner,getHnImg,erc20, token } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -120,7 +120,6 @@ export default {
             let obj = {}
             // obj.round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
             obj.level = (await hn().level(item)).toString() // 卡牌等级
-            // obj.src = require('../../assets/images/record193.png')
             obj.src = await getHnImg(Number(item),Number(obj.level))
             let race = await hn().getHashrates(item)
             obj.hc = race[0].toString()// hc 算力
@@ -195,6 +194,8 @@ export default {
     async getSDKInfo(){
       let balance = await getProvider().getBalance(this.getAccount)
       console.log('用户余额balance: ', util.formatEther(balance));
+      let busd = await erc20(token().BUSD).balanceOf(this.getAccount)
+      console.log('busd余额: ', busd);
       this.balance = util.formatEther(balance)
       let price = await hnBox().boxTokenPrices(0) // 盲盒价格
       this.originalPrice = price

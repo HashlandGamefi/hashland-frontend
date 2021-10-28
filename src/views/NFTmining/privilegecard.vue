@@ -128,7 +128,7 @@ export default {
     justify-content: space-between;
     padding: 0 100px;
     .card_left {
-      width: 320px;
+      // width: 320px;
       display: flex;
       flex-direction: column;
       .span1 {
@@ -173,6 +173,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0 196px;
       .privilegebgimg {
         width: 100%;
         object-fit: contain;
@@ -299,15 +300,15 @@ export default {
             }
           }
           .btnbox {
-            width: 238px;
+            width: 160px;
             text-align: center;
-            line-height: 84px;
+            line-height: 52px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 32px;
+            font-size: 16px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
-            color: #ffffff;
+            color: #FFFFFF;
             cursor: pointer;
           }
           .remove_btnbox {
@@ -327,11 +328,6 @@ export default {
     margin-bottom: 0.3rem;
   }
 }
-// @media screen and (min-width: 1440px) {
-//   .basic_card_page{
-//     max-width: 1440px;
-//   }
-// }
 @media screen and (max-width: 980px) {
   .basic_card_page {
     width: 100%;

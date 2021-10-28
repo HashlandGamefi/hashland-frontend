@@ -45,21 +45,21 @@
             <img src="../../assets/images/issue.png" class="img" />
             <span class="span1">{{$t("message.home.txt6")}}</span>
           </div>
-          <span class="span2">{{issued}}</span>
+          <span class="span2 blue_color">{{issued}}</span>
         </div>
         <div class="one_box">
           <div class="containbox">
             <img src="../../assets/images/sale.png" class="img" />
             <span class="span1">{{$t("message.home.txt7")}}</span>
           </div>
-          <span class="span2">{{sold}}</span>
+          <span class="span2 red_color">{{sold}}</span>
         </div>
         <div class="one_box">
           <div class="containbox">
             <img src="../../assets/images/destroy.png" class="img" />
             <span class="span1">{{$t("message.home.txt8")}}</span>
           </div>
-          <span class="span2">{{Destroy}}</span>
+          <span class="span2 purple_color">{{Destroy}}</span>
         </div>
       </div>
     </div>
@@ -185,7 +185,7 @@ export default {
         })
       })
 
-      // 已销毁
+      // hn 已销毁
       hn().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
         this.$common.checkNumber((data / 1e18).toString(),res => {
           this.Destroy = res
@@ -200,7 +200,7 @@ export default {
         // 产出比
         this.proportion = this.$common.getBit((data / 1e18 / 21000000) * 100,4)
       })
-      // 已销毁
+      //hc 已销毁
       hc().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
         this.$common.checkNumber((data / 1e18).toString(),res => {
           this.hcDestroy = res
@@ -344,7 +344,7 @@ export default {
       padding-left: 40px;
     }
     .img{
-      width: 1226px;
+      width: 722px;
       object-fit: contain;
     }
     .cardboxs{
@@ -352,9 +352,10 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: -90px;
       .one_box{
         width: 236px;
-        height: 286px;
+        height: 258px;
         box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.1), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
         border-radius: 14px;
         border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
@@ -362,15 +363,15 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        padding: 30px 0;
+        padding: 20px 0;
         .containbox{
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          height: 70%;
+          height: 66%;
           .img{
-            width: 114px;
+            width: 90px;
             object-fit: contain;
           }
           .span1{
@@ -382,7 +383,7 @@ export default {
           }
         }
         .span2{
-          font-size: 24px;
+          font-size: 36px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: #FFFFFF;
@@ -397,9 +398,6 @@ export default {
     padding: 40px;
     .hashland_content{
       width: 100%;
-      // background-image: url("../../assets/images/hashland.png");
-      // background-size:100% 100%;
-      // background-repeat: no-repeat;
       padding: 10px;
       display: flex;
       flex-direction: column;
@@ -543,6 +541,8 @@ export default {
       justify-content: space-between;
       margin-top: 20px;
       .horizontal_onebox{
+        width: 25%;
+        height: 145px;
         display: flex;
         flex-direction: column;
         .top{
@@ -566,11 +566,20 @@ export default {
           font-weight: 400;
           color: #DDD9D9;
           line-height: 28px;
-          margin-left: 65px;
+          margin-left: 16px;
         }
       }
     }
   }
+}
+.blue_color{
+  color: #14BEE1 !important;
+}
+.red_color{
+  color: #CE4D99 !important;
+}
+.purple_color{
+  color: #8E65FF !important;
 }
 @media screen and (max-width: 980px) {
   .home_page{

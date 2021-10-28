@@ -414,7 +414,7 @@ export default {
         margin-right: 10px;
       }
       .select_ttx{
-        font-size: 32px;
+        font-size: 24px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -431,7 +431,7 @@ export default {
       display: flex;
       align-items: center;
       .span1 {
-        font-size: 32px;
+        font-size: 24px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #ffffff;
@@ -439,7 +439,7 @@ export default {
         letter-spacing: 5px;
       }
       .span2 {
-        font-size: 32px;
+        font-size: 24px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #00e7f0;
@@ -449,7 +449,7 @@ export default {
     }
     .bottom_txt2 {
       width: 100%;
-      font-size: 24px;
+      font-size: 20px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #ccbebe;

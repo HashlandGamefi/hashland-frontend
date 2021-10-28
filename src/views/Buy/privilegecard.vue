@@ -30,8 +30,9 @@
     <div class="center_box">
       <img src="../../assets/images/privilegebg.png" class="bgimg" />
       <div class="onebox">
-        <img src="../../assets/images/newcard.png" class="cardimg" />
-        <div class="bottom">
+        <img src="../../assets/images/privilcard.png" class="cardimg" />
+        <img src="../../assets/images/1.gif" class="gifclass" />
+        <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img src="../../assets/images/start.png" v-for="item1 in 1" :key="item1" class="start_img" />
           </div>
@@ -45,7 +46,7 @@
               <span class="span1">0</span>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="remaining">
         <span class="span1">{{$t("message.nftCard.txt12")}}</span>
@@ -274,7 +275,7 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 38%;
+      top: 49%;
       left: 50%;
       transform: translate(-50%,-50%);
       // width: 320px;
@@ -282,7 +283,14 @@ export default {
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 497px;
+        width: 540px;
+        object-fit: contain;
+      }
+      .gifclass{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
         object-fit: contain;
       }
       .bottom{
@@ -328,8 +336,8 @@ export default {
     }
     .remaining{
       position: absolute;
-      top:64%;
-      left:63%;
+      top:80%;
+      left:68%;
       transform:translate(-50%,-50%);
       display: flex;
       align-items: center;

@@ -11,12 +11,12 @@
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="item in 5" :key="item">
+        <div class="swiper-slide" v-for="item in mycardarr" :key="item">
           <div class="content_box" @click="jumpDetails(item)">
-            <img src="../../assets/images/swiper1.png" class="swiper_img" />
+            <img :src="item.src" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img src="../../assets/images/start.png" v-for="ele in item" :key="ele"  class="start_img" />
+                <img src="../../assets/images/start.png" v-for="ele in item.level" :key="ele"  class="start_img" />
               </div>
               <span class="card_grade">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
               <span class="details">{{$t("message.nftMining.txt6")}}</span>
@@ -48,7 +48,7 @@
           <div class="outbox">
             <div class="second-content_box">
               <img :src="item.src" class="swiper_img" />
-              <img src="../../assets/images/bottom.png" class="base_img" />
+              <img src="../../assets/images/pledgebg.png" class="base_img" />
             </div>
             <div class="btnbox remove_btnbox" v-if="item.btnstatus == 1" @click="insertClick(item)">{{$t("message.nftMining.txt15")}}</div>
             <div class="btnbox insert_btnbox" v-if="item.btnstatus == 2" @click="removeClick(item)">
@@ -75,11 +75,49 @@ import { hnPool,hn,getSigner,hc,util,contract,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      mycardarr:[
+        {
+          level:1,
+          src:require('../../assets/images/level1.png')
+        },
+        {
+          level:2,
+          src:require('../../assets/images/defaultcard.png')
+        },
+        {
+          level:3,
+          src:require('../../assets/images/defaultcard.png')
+        },
+        {
+          level:4,
+          src:require('../../assets/images/defaultcard.png')
+        },
+        {
+          level:5,
+          src:require('../../assets/images/defaultcard.png')
+        }
+      ],//我的卡牌数组
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       gradeArr:[], // 我的钱包卡牌
-      cardsoltArr:[], // 卡槽数组
+      cardsoltArr:[
+        {
+          src:'',
+          btnstatus:1,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading:false
+        },
+        {
+          src:'',
+          btnstatus:1,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading:false
+        },
+        {
+          src:require("../../assets/images/cardlock.png"),
+          btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading:false
+        }
+      ], // 卡槽数组
       cardSlot:0,//用户的卡槽数量
       emptyCardSlot:0,//用户的空卡槽数量
       maxCardSlot:0,//最大卡槽数量
@@ -87,13 +125,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
-    dataInfo:function(){
-      return this.getUserCardInfo
-    }
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    "dataInfo":{
+    "getUserCardInfo":{
       handler: function (newValue, oldValue) {
         // console.log('基础卡牌的我的卡牌newValue: ', newValue);
         if(newValue.length > 0){
@@ -103,7 +138,17 @@ export default {
       },
       deep: true,
       immediate: true
-    }
+    },
+    'getIstrue':{
+      handler: function (newValue, oldValue) {
+        console.log('基础卡牌页面钱包是否链接:', newValue,oldValue);
+        if(newValue){
+          this.getCardSlotInfo()
+        }
+      },
+      deep: true,
+      immediate: true
+    },
   },
   methods: {
     // 取消按钮(关闭弹窗)
@@ -185,6 +230,7 @@ export default {
     jumpDetails(item){
       this.$router.push({ path: '/carddetails', query: { 'level': item.level} })
     },
+    // 链接钱包才能拿到的数据获取方法
     async getCardSlotInfo(){
       this.cardsoltArr = []
       let res = await hnPool().getUserHnIdsBySize(this.getAccount,0,100000000)
@@ -252,7 +298,6 @@ export default {
     }
   },
   mounted () {
-    this.getCardSlotInfo()
     console.log('轮播页面当前窗口宽度:', document.body.clientWidth)// 当前窗口的宽度
     if(document.body.clientWidth <= 980){
       new Swiper('.swiper-container', {
@@ -337,7 +382,7 @@ export default {
           align-items: center;
           justify-content: space-between;
           .swiper_img{
-            width: 100%;
+            width: 86%;
             object-fit: contain;
           }
           .grade_box{
@@ -403,7 +448,7 @@ export default {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          margin-top: 130px;
+          margin-top: 50px;
           .second-content_box{
             position: relative;
             width: 100%;
@@ -412,13 +457,13 @@ export default {
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            margin-bottom: 50px;
+            // margin-bottom: 50px;
             .swiper_img{
               position: absolute;
-              top: 50%;
-              left: 50%;
+              top: 59%;
+              left: 45%;
               transform: translate(-50%,-50%);
-              width: 320px;
+              width: 144px;
               object-fit: contain;
             }
             .base_img{
@@ -427,12 +472,12 @@ export default {
             }
           }
           .btnbox{
-            width: 238px;
+            width: 160px;
             text-align: center;
-            line-height: 84px;
+            line-height: 52px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 32px;
+            font-size: 16px;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;

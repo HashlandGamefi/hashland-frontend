@@ -1,5 +1,5 @@
 <template>
-  <div class="nav_box">
+  <div class="nav_box" :class="{navbg:addbg}">
     <div class="logo_img" @click="menuClick(-1)">
       <img src="../assets/images/logo.png" class="imgs" />
     </div>
@@ -53,13 +53,13 @@ export default {
   inject: ['reload'],
   data () {
     return {
+      addbg:false,//导航栏背景色
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       navarr: ['message.nav.txt1', 'message.nav.txt2', 'message.nav.txt3', 'message.nav.txt6', 'message.nav.txt4','message.nav.txt5'],
       mobilemenu:false,//移动端菜单
       mobile_menuDis:false, // nfts展开菜单,
-
     }
   },
   computed: {
@@ -109,8 +109,8 @@ export default {
       if(res.length == 0){
         this.$store.commit("setAccount",'no')
         localStorage.setItem("setAccount",'no')
-        // this.$store.commit("setCardInfo",JSON.stringify([]))
-        // localStorage.setItem("setCardInfo",JSON.stringify([]))
+        this.$store.commit("setCardInfo",JSON.stringify([]))
+        localStorage.setItem("setCardInfo",JSON.stringify([]))
       }else{
         // this.$store.commit("setCardInfo",JSON.stringify([]))
         // localStorage.setItem("setCardInfo",JSON.stringify([]))
@@ -163,12 +163,20 @@ export default {
       this.mobile_menuDis = !this.mobile_menuDis
     },
     handleScroll(){
-      console.log('document.body.scrollTop: ', document.body.scrollTop);
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if(scrollTop > 0){
+        this.addbg = true
+      }else {
+        this.addbg = false
+      }
     }
   },
   mounted(){
     window.addEventListener('mousewheel', this.handleScroll);
     this.commonLink()
+  },
+  beforeDestroy () {
+    window.removeEventListener("mousewheel", this.handleScroll);
   }
 }
 </script>
@@ -185,9 +193,6 @@ export default {
   justify-content: space-between;
   padding: 0 40px;
   padding-left: 250px;
-  // background-image: url("../assets/images/navbg.png");
-  // background-size: 100% 100%;
-  // background-repeat: no-repeat;
   .logo_img{
     position: absolute;
     top: 0;
@@ -277,7 +282,10 @@ export default {
     display: flex;
     align-items: center;
     .span1{
-      font-size: 20px;
+      padding:2px 7px;
+      border-radius: 12px;
+      box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      font-size: 16px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -293,7 +301,7 @@ export default {
         object-fit: contain;
       }
       .lang_txt{
-        font-size: 26px;
+        font-size: 20px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -312,6 +320,12 @@ export default {
   .mobile_fixed_menu{
     display: none;
   }
+}
+.navbg{
+  animation: fade-in 1.5s;
+  background-image: url("../assets/images/navbg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 @media screen and (min-width: 981px) and (max-width: 1439px) {
   .nav_box{

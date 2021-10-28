@@ -231,7 +231,7 @@ export default {
     margin-top: 80px;
     .left_footer{
       position: relative;
-      width: 615px;
+      width: 47%;
       height: 306px;
       background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
       box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
@@ -338,6 +338,18 @@ export default {
         }
       }
     }
+  }
+}
+@media screen and (min-width: 1440px) {
+  .nft_miningpage{
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+@media screen and (min-width: 981px) and (max-width: 1439px) {
+  .nft_miningpage{
+    max-width: 1200px;
+    margin: 0 auto;
   }
 }
 @media screen and (max-width: 980px) {
