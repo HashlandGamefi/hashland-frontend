@@ -260,11 +260,11 @@ export default {
         width: 100%;
         .swiper-wrapper{
           width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           .swiper-slide{
-            // width: 100% !important;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 280px !important;
             .left{
               width: 237px;
               display: flex;
@@ -590,19 +590,18 @@ export default {
         .swiper-container{
           width: 100%;
           .swiper-wrapper{
-            // width: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
             .swiper-slide{
-              // width: auto !important;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              margin-right: 0.1rem;
+              width: 2rem !important;
               .left{
                 display: none;
               }
               .mobile_box_swiper{
-                // width: 1.89rem;
-                width: 100%;
+                width: 1.89rem;
+                // width: 100%;
                 display: flex;
                 padding: 0.1rem;
                 box-shadow: -15px 11px 12px 21px rgba(3, 21, 46, 0.76) inset, -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
