@@ -43,6 +43,7 @@
         <div class="mobile_lang">EN</div>
       </div>
     </div>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 <script>
@@ -52,15 +53,23 @@ export default {
   inject: ['reload'],
   data () {
     return {
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
+      proupDis:false,// 弹窗展示消失变量
       navarr: ['message.nav.txt1', 'message.nav.txt2', 'message.nav.txt3', 'message.nav.txt6', 'message.nav.txt4','message.nav.txt5'],
       mobilemenu:false,//移动端菜单
-      mobile_menuDis:false, // nfts展开菜单
+      mobile_menuDis:false, // nfts展开菜单,
+
     }
   },
   computed: {
     ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue"])
   },
   methods:{
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
     // nfts子菜单选择项
     nftFun(data){
       this.$store.commit("HashMenu", 0);
@@ -75,6 +84,7 @@ export default {
     },
     // 菜单栏切换状态
     menuClick (index) {
+      console.log('index: ', index);
       this.$store.commit("HashMenu", index);
       sessionStorage.setItem("HashMenu", index);
       switch (index) {
@@ -82,8 +92,10 @@ export default {
           this.$router.push('/home')
           break;
         case 0:
+          this.$router.push('/buy')
           break;
         default:
+          this.$common.selectLang('敬请期待','Coming soon',this)
           break;
       }
     },
@@ -149,9 +161,13 @@ export default {
     },
     nftClick(){
       this.mobile_menuDis = !this.mobile_menuDis
+    },
+    handleScroll(){
+      console.log('document.body.scrollTop: ', document.body.scrollTop);
     }
   },
   mounted(){
+    window.addEventListener('mousewheel', this.handleScroll);
     this.commonLink()
   }
 }

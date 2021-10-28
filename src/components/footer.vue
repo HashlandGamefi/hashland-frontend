@@ -5,36 +5,57 @@
       <div class="center_box">
         <img src="../assets/images/logo.png" class="footer3img" />
         <div class="btnbox">
-          <div class="btn1">算力检测</div>
-          <div class="btn1">算力检测</div>
-          <div class="btn1">算力检测</div>
-          <div class="btn1">算力检测</div>
-          <div class="btn1">算力检测</div>
+          <div class="btn1" @click="footerClick('Certik')">
+            <img src="../assets/images/certick.png" class="certick_img" />
+            Certik
+          </div>
+          <div class="btn1" @click="footerClick('Gitbook')">
+            <img src="../assets/images/addfooter.png" class="addfooter_img" />
+            GitBook
+          </div>
         </div>
         <div class="btnbox">
-          <img src="../assets/images/git.png" class="img" />
-          <img src="../assets/images/m.png" class="img" />
-          <img src="../assets/images/twiterr.png" class="img" />
-          <img src="../assets/images/tel.png" class="img" />
+          <img src="../assets/images/m.png" class="img" @click="footerClick('Medium')" />
+          <img src="../assets/images/twiterr.png" class="img" @click="footerClick('Twitter')" />
+          <img src="../assets/images/tel.png" class="img" @click="footerClick('Telegram')" />
+          <img src="../assets/images/discord.png" class="img" @click="footerClick('Discord')" />
         </div>
-        <div class="line_txt">www.hashland@163.co;lid .aii rights reserved</div>
-        <div class="line_txt">服务条款/隐私政策/联系我们</div>
+        <div class="line_txt">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
       </div>
       <img src="../assets/images/footer2.png" class="footer2img" />
     </div>
-    <div class="mobile_line_txt">www.hashland@163.co;lid .aii rights reserved</div>
-    <div class="mobile_line_txt">服务条款/隐私政策/联系我们</div>
+    <div class="mobile_line_txt">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-
+  methods: {
+    footerClick(data){
+      switch (data) {
+        case 'Certik':
+          window.location.href = ''
+          break;
+        case 'Gitbook':
+          window.location.href = ''
+          break;
+        case 'Medium':
+          window.location.href = 'https://medium.com/@hashland_'
+          break;
+        case 'Twitter':
+          window.location.href = 'https://twitter.com/hashland_'
+          break;
+        case 'Telegram':
+          window.location.href = 'https://t.me/Hashland_EN'
+          break;
+        case 'Discord':
+          window.location.href = 'https://discord.gg/9zdtNrpQbP'
+          break;
+        default:
+          break;
+      }
     }
-  },
-  methods: {}
+  }
 }
 </script>
 
@@ -68,12 +89,26 @@ export default {
         .btn1{
           padding: 0 10px;
           border-radius: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           height: 48px;
-          text-align: center;
-          line-height: 48px;
           background: #fff;
           margin-right: 10px;
           cursor: pointer;
+          font-size: 19px;
+          font-family: PingFangSC-Semibold, PingFang SC;
+          font-weight: 600;
+          color: #052247;
+          line-height: 26px;
+          .addfooter_img{
+            width: 30px;
+            margin-right:5px;
+          }
+          .certick_img{
+            width: 22px;
+            margin-right: 5px;
+          }
         }
         .img{
           width: 48px;
@@ -127,20 +162,34 @@ export default {
         .btnbox{
           width: 100%;
           display: flex;
-          flex-wrap: wrap;
           align-items: center;
+          justify-content: center;
           margin-top: 0.1rem;
           .btn1{
-            width: 0.56rem;
-            padding: 0;
-            border-radius: 0.1rem;
-            height: 0.4rem;
-            text-align: center;
-            line-height: 0.4rem;
+            height: 0.36rem;
+            padding: 0 0.05rem;
+            border-radius: 0.3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: #fff;
+            margin-right: 0.1rem;
             cursor: pointer;
-            font-size: 0.12rem;
-            margin-bottom: 0.05rem;
+            font-size: 0.18rem;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #052247;
+            transform: scale(0.6);
+            .addfooter_img{
+              width: 0.3rem;
+              object-fit: contain;
+              margin-right: 0.05rem;
+            }
+            .certick_img{
+              width: 0.22rem;
+              object-fit: contain;
+              margin-right: 0.05rem;
+            }
           }
           .img{
             width: 0.24rem;

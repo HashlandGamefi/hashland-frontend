@@ -89,7 +89,7 @@ export default {
     },
     extractableClick(type,num){
       if(num == 0){
-        this.$common.selectLang('没有可提取余额','1223',this)
+        this.$common.selectLang('没有可提取余额','No Remaining Balance to Claim',this)
         return
       }
       if(type == 'btc'){
@@ -99,7 +99,7 @@ export default {
           console.log('提取btcres: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
-            this.$common.selectLang('提取成功','1223',this)
+            this.$common.selectLang('提取成功','Claim Successful',this)
             this.btc_isloading = false
             this.addyieldFun()
           }
@@ -112,7 +112,7 @@ export default {
         hnPool().connect(getSigner()).harvestTokens([0]).then(async res => {
           console.log('提取hcres: ', res);
           if(etReceipt.status == 1){
-            this.$common.selectLang('提取成功','1223',this)
+            this.$common.selectLang('提取成功','Claim Successful',this)
             this.hc_isloading = false
             this.addyieldFun()
           }

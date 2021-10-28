@@ -41,18 +41,24 @@
       <img src="../../assets/images/compositecard.png" class="img" />
       <div class="cardboxs">
         <div class="one_box">
-          <img src="../../assets/images/issue.png" class="img" />
-          <span class="span1">{{$t("message.home.txt6")}}</span>
+          <div class="containbox">
+            <img src="../../assets/images/issue.png" class="img" />
+            <span class="span1">{{$t("message.home.txt6")}}</span>
+          </div>
           <span class="span2">{{issued}}</span>
         </div>
         <div class="one_box">
-          <img src="../../assets/images/sale.png" class="img" />
-          <span class="span1">{{$t("message.home.txt7")}}</span>
+          <div class="containbox">
+            <img src="../../assets/images/sale.png" class="img" />
+            <span class="span1">{{$t("message.home.txt7")}}</span>
+          </div>
           <span class="span2">{{sold}}</span>
         </div>
         <div class="one_box">
-          <img src="../../assets/images/destroy.png" class="img" />
-          <span class="span1">{{$t("message.home.txt8")}}</span>
+          <div class="containbox">
+            <img src="../../assets/images/destroy.png" class="img" />
+            <span class="span1">{{$t("message.home.txt8")}}</span>
+          </div>
           <span class="span2">{{Destroy}}</span>
         </div>
       </div>
@@ -357,16 +363,23 @@ export default {
         justify-content: space-between;
         align-items: center;
         padding: 30px 0;
-        .img{
-          width: 114px;
-          object-fit: contain;
-        }
-        .span1{
-          font-size: 24px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
-          color: #FFFFFF;
-          line-height: 42px;
+        .containbox{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          height: 70%;
+          .img{
+            width: 114px;
+            object-fit: contain;
+          }
+          .span1{
+            font-size: 24px;
+            font-family: PingFangSC-Semibold, PingFang SC;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 42px;
+          }
         }
         .span2{
           font-size: 24px;
@@ -676,21 +689,26 @@ export default {
           // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
           display: flex;
           flex-direction: row;
-          justify-content: flex-start;
+          justify-content: space-between;
           align-items: center;
           padding: 0.3rem 0.14rem;
           margin-bottom: 0.14rem;
-          .img{
-            width: 0.35rem;
-            object-fit: contain;
-          }
-          .span1{
-            font-size: 0.18rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
-            color: #FFFFFF;
-            line-height: 0.25rem;
-            margin-left: 0.15rem;
+          .containbox{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .img{
+              width: 0.35rem;
+              object-fit: contain;
+            }
+            .span1{
+              font-size: 0.18rem;
+              font-family: PingFangSC-Semibold, PingFang SC;
+              font-weight: 600;
+              color: #FFFFFF;
+              line-height: 0.25rem;
+              margin-left: 0.15rem;
+            }
           }
           .span2{
             font-size: 0.18rem;
@@ -698,7 +716,6 @@ export default {
             font-weight: 400;
             color: #FFFFFF;
             line-height: 0.25rem;
-            margin-left: 1.6rem;
           }
         }
       }

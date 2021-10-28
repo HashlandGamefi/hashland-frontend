@@ -123,7 +123,7 @@ export default {
         console.log('解除卡槽res: ', res);
         const etReceipt = await res.wait();
         if(etReceipt.status == 1){
-          this.$common.selectLang('解除成功','1223',this)
+          this.$common.selectLang('解除成功','Unlock Successful',this)
           item.isloading = false
           this.getCardSlotInfo()
           this.$common.getUserCardInfoFun(this.getAccount)
@@ -142,7 +142,7 @@ export default {
       console.log('buyMoney:%s,balance:%s',buyMoney, balance);
 
       if(Number(balance) < Number(buyMoney)){
-        this.$common.selectLang('余额不足','1223',this)
+        this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
       if(!this.ISpprove){
@@ -150,7 +150,7 @@ export default {
           console.log('授权res: ', res);
           // this.approve_isloading = false
           this.ISpprove = true
-          this.$common.selectLang('授权成功','1223',this)
+          this.$common.selectLang('授权成功','Authorize Successful',this)
         }).catch(err => {
           console.log('授权err: ', err);
           this.ISpprove = false
@@ -161,7 +161,7 @@ export default {
       hnPool().connect(getSigner()).buySlot().then(async res => {
         const etReceipt = await res.wait();
         if(etReceipt.status == 1){
-          this.$common.selectLang('解锁成功','1223',this)
+          this.$common.selectLang('解锁成功','Unlock Successful',this)
           // 暂时先本地更改后续优化
           this.cardsoltArr[index].btnstatus = 1
           this.cardsoltArr[index].src = ''
@@ -289,7 +289,7 @@ export default {
     justify-content: space-between;
     padding: 0 100px;
     .card_left {
-      width: 320px;
+      // width: 370px;
       display: flex;
       flex-direction: column;
       .span1 {

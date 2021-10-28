@@ -144,17 +144,17 @@ export default {
     async buyBox(){
       if(this.buy_isloading)return
       if(!this.boxnums){
-        this.$common.selectLang('请输入购买数量','1223',this)
+        this.$common.selectLang('请输入购买数量','Enter Purchase Amount',this)
         return
       }
       console.log('this.boxnums: ', this.boxnums,this.surplusNums);
       if(Number(this.boxnums) > Number(this.surplusNums)){
         console.log('可购买数量不足')
-        this.$common.selectLang('可购买数量不足','1223',this)
+        this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
       if(this.total > this.balance){
-        this.$common.selectLang('余额不足','1223',this)
+        this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
       this.buy_isloading = true
@@ -163,13 +163,13 @@ export default {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
         this.watchResult()
-        this.$common.selectLang('购买成功','1223',this)
+        this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0
         this.getSDKInfo()
-        const etReceipt = await res.wait();
-        console.log('etReceipt: ', etReceipt);
-        console.log(etReceipt.confirmations, 'Blocks Confirmations');
+        // const etReceipt = await res.wait();
+        // console.log('etReceipt: ', etReceipt);
+        // console.log(etReceipt.confirmations, 'Blocks Confirmations');
       }).catch(err => {
         console.log('购买盒子err: ', err);
         this.buy_isloading = false
@@ -182,7 +182,7 @@ export default {
       }else if(this.boxnums > 100){
         this.boxnums = 100
         this.total = 100 * this.boxPrice
-        this.$common.selectLang('最大购买数量100','1223',this)
+        this.$common.selectLang('最大购买数量100','Maximum Purchase Number is 100',this)
       }else{
         this.proupDis = false
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)

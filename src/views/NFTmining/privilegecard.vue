@@ -275,7 +275,7 @@ export default {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          margin-top: 130px;
+          // margin-top: 130px;
           .second-content_box {
             position: relative;
             width: 100%;

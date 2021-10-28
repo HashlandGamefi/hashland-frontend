@@ -1,130 +1,144 @@
 export const message = {
-  home:{
-    txt1:'去购买',
-    txt2:'高达180%的APY',
-    txt3:'去挖矿',
-    txt4:'我的领地',
-    txt5:'去提取',
-    txt6:'已发行',
-    txt7:'待销售',
-    txt8:'已销毁',
-    txt9:'趋势图',
-    txt10:'去交易',
-    txt11:'当前价格',
-    txt12:'减产日期',
-    txt13:'今日产出',
-    txt14:'总量/产出比',
-    txt15:'流通量',
-    txt16:'销毁量',
-    txt17:'平台币使用背景',
-    txt18:'卡牌升级',
-    txt19:'升级获得额外算力加成',
-    txt20:'获取装备升级战力',
-    txt21:'社区自治，获取锁仓席位以及发展红利',
-    txt22:'合作',
-    txt23:'质押接入第三方算力及IP'
+  home: {
+    txt1: "purchase",
+    txt2: "UP to 180% APY%",
+    txt3: "Mining",
+    txt4: "My Land",
+    txt5: "Claim",
+    txt6: "Released",
+    txt7: "Remaining",
+    txt8: "Burnt",
+    txt9: "Trend",
+    txt10: "Trade",
+    txt11: "Current Price",
+    txt12: "Reduction Date",
+    txt13: "Output Today",
+    txt14: "Total",
+    txt15: "Circulation",
+    txt16: "Burnt Number",
+    txt17: "Token Usage",
+    txt18: "Card Upgrade",
+    txt19: "Upgrade for extra hashrate",
+    txt20: "Improve Combat Effectiveness by upgrading your gear. ",
+    txt21:
+      "Complete community autonomy, Stake HC to become a representative and a stake holder ",
+    txt22: "Cooperate",
+    txt23: "Stake tokens to integrate third party hashrate and IP"
   },
-  nav: {// 导航栏
-    txt1:'NFTS',
-    txt2:'GameFi',
-    txt3:'领地',
-    txt6:'市场',
-    txt4:'DAO',
-    txt5:'白皮书',
-    txt7:'NFT卡牌',
-    txt8:'NFT挖矿',
+  nav: {
+    // 导航栏
+    txt1: "NFTS",
+    txt2: "GameFi",
+    txt3: "Land",
+    txt6: "Market",
+    txt4: "DAO",
+    txt5: "WhitePaper",
+    txt7: "NFT Card",
+    txt8: "NFT Mining"
   },
-  footer:{ // footer
-    txt1:'',
-    txt2:'',
-    txt3:'',
-    txt4:''
+  footer: {
+    // footer
+    txt1: "",
+    txt2: "",
+    txt3: "",
+    txt4: ""
   },
-  nftCard:{ // nft卡牌
-    txt1:'这是一张持续增值的卡牌',
-    txt2:'基础卡牌',
-    txt3:'盲盒卡牌',
-    txt4:'特权卡牌',
-    txt5:'幸运抽奖',
-    txt6:'HashLand的元宇宙的最基本单元',
-    txt7:'编号',
-    txt8:'价格',
-    txt9:'数量',
-    txt11:'总计',
-    txt12:'剩余数量',
-    txt13:'购买',
-    txt14:'购买说明',
-    txt15:'基础卡牌是HashLand的元宇宙的最基本单元,每张卡片都具有单独的ERC721标识,并且对应着GameFi中的一位角色人物',
-    txt16:'卡牌是锚定XXXW/T矿机的算力凭证,持XXX卡牌就相当于持有XXX算力',
-    txt17:'购买后获得1阶卡牌,可通过合成提升阶级,阶级越高,算力越高',
-    txt18:'插入卡槽后可获得挖矿奖励(BTC+平台币),算力越高,奖励越多',
+  nftCard: {
+    // nft卡牌
+    txt1: "An ever-growing Card",
+    txt2: "Basic Card",
+    txt3: "Blind-Box Card",
+    txt4: "Priority Card",
+    txt5: "Draw of Luck",
+    txt6: "The basic unit of HashLand Metauniverse",
+    txt7: "No",
+    txt8: "Price",
+    txt9: "Amount",
+    txt11: "Total",
+    txt12: "Remaining",
+    txt13: "Purchase",
+    txt14: "Purchase Describtion",
+    txt15:
+      "Basic Cards are the basic units of HashLand Metauniverse, Each card features an unique ERC721 token, and represents a character in GameFi",
+    txt16:
+      "Cards are certificates to XXXW/T/ mining rigs，holding XXX cards is equivalent to XXX hashrate",
+    txt17:
+      "Level-1 cards can be purchased directly, you can upgrade to get higher level cards",
+    txt18:
+      "BTC and HC can be mined after you insert the cards into slot, the higher the hashrate, the more yield",
+    txt19: "Contains cards of any level and any character",
+    txt20:
+      "Not Sure which card to get? Blind Box cards are your best choice. Blind Box Contains cards of any level and any character",
+    txt21: "Card level and character can be checked right after purchase.",
+    txt22:
+      "Every Blind Box card will be determined by a random function in the contract. The code is open sourced on Hashland github address. ",
+    txt23: "One of the Limited Cards in Hashland, contains",
+    txt24:
+      "Every Blind Box card will be determined by a random function in the contract.",
+    txt25: "Purchase Priority Cards, features enormous hashrate bonus.",
 
-    txt19:'可开出任意星级任意角色的卡牌',
-    txt20:'不知道想要什么卡牌？盲盒卡牌就是你的最佳选择。卡牌盲盒可以开出任意星级任意角色的卡牌',
-    txt21:'购买后即可查看获得的卡牌角色及阶级',
-    txt22:'每次盲盒的奖励卡牌将由合约中的随机函数确定,代码可在HashLand开源地址查看',
-
-    txt23:'HashLand限量发行的一类稀有卡牌,拥有极高算力',
-    txt24:'每次盲盒的奖励卡牌将由合约中的随机函数确定',
-    txt25:'购买后获得特权稀有卡牌,拥有极高加成算力',
-    txt26:'插入特权卡槽后可获得挖矿奖励(BTC+平台币),加成算力越高,奖励越多',
+    txt26:
+      "Insert into Priority Slot to mine BTC and HC, the higher the hashrate, the more yield."
   },
-  nftMining:{ // nft 挖矿
-    txt1:'NFT卡牌权益',
-    txt2:'质押您拥有的NFT卡牌，获得挖矿权益',
-    txt3:'我的钱包卡牌',
-    txt4:'未插入卡槽不产生收益',
-    txt5:'合成升级',
-    txt6:'详情',
-    txt7:'我的卡槽卡牌',
-    txt8:'卡槽有限,可合成后再质押',
-    txt9:'解除卡槽',
-    txt10:'解锁卡槽',
-    txt11:'个人apy',
-    txt12:'提取',
-    txt13:'累计赚取',
-    txt14:'可提取',
-    txt15:'插入卡槽',
+  nftMining: {
+    // nft 挖矿
+    txt1: "NFT Card benefits",
+    txt2: "Stake your NFT Cards to Mine",
+    txt3: "My Wallet Cards",
+    txt4: "No yield unless you insert cards into slots",
+    txt5: "Upgrade",
+    txt6: "Detail",
+    txt7: "My Sloted Cards",
+    txt8: "Slots are limited, please stake Upgraded cards first",
+    txt9: "Uninsert",
+    txt10: "Unlock Slot",
+    txt11: "Personal APY",
+    txt12: "Claim",
+    txt13: "Total Income",
+    txt14: "Claimable",
+    txt15: "Insert into Slot"
   },
-  synthesis:{ // 合成
-    txt1:'合成',
-    txt2:'选择你想要合成的卡牌',
-    txt3:'每四张同等级可拍可升级为高等级卡牌',
-    txt4:'阶',
-    txt8:'共',
-    txt9:'张',
-    txt5:'全选/取消',
-    txt6:'选中卡牌',
-    txt7:'合成后,',
-    txt10:'星卡牌消失，合成',
-    txt11:'星卡牌，算力总提升'
+  synthesis: {
+    // 合成
+    txt1: "Craft",
+    txt2: "Select the card you want to craft",
+    txt3: "4 same level cards can be crafted to 1 card with 1 level higher",
+    txt4: "Level",
+    txt8: "Total",
+    txt9: "张", //英文无量词
+    txt5: "Select/Unselect/ All",
+    txt6: "Select Card",
+    txt7: "After Crafting,",
+    txt10: "Level() Cards will be burnt",
+    txt11: "Level() Card"
   },
-  insert:{ // 插入卡槽
-    txt1:'插入卡槽',
-    txt2:'选择您想要插入卡槽的卡牌',
-    txt3:'卡牌增长系数越高，算力越高，收益越多'
+  insert: {
+    // 插入卡槽
+    txt1: "Insert into Slot",
+    txt2: "Select the one you want to insert",
+    txt3: "The higher the Multiplier, the higher the yield"
   },
-  buy1:'购买记录',
-  buy2:'购买NFT卡牌',
-  details:'详情',
-  details1:'购买的NFT卡牌可前往“NFT挖矿”中质押挖矿',
-  placeholder:'请输入数量',
-  msg:'提示',
-  word1:'至少选择4张卡牌',
-  word2:'请输入购买数量',
-  word3:'可购买数量不足',
-  word4:'余额不足',
-  word5:'购买成功',
-  word6:'最大购买数量100',
-  word7:'解除成功',
-  word8:'授权成功',
-  word9:'解锁成功',
-  word10:'没有可提取余额',
-  word11:'提取成功',
-  word12:'请选择卡牌',
-  word13:'插入成功',
-  word14:'没有空卡槽了',
-  word15:'选择的卡牌必须4的倍数哦',
-  approve:'授权',
-  button1:'确认'
-}
+  buy1: "Purchase History",
+  buy2: "Purchase NFT Card",
+  details: "Detail",
+  details1: 'Stake Purchased NFT Cards in "NFT mining" to mine',
+  placeholder: "请输入数量", //Enter Amount
+  msg: "Note",
+  word1: "至少选择4张卡牌", //You need to select a minimal of 4 cards
+  word2: "请输入购买数量", //Enter Purchase Amount
+  word3: "可购买数量不足", //Insufficent quantity left
+  word4: "余额不足", //Insufficent Balance
+  word5: "购买成功", //Purchase Successful
+  word6: "最大购买数量100", //Maximum Purchase Number is 100
+  word7: "解除成功", //Unlock Successful
+  word8: "授权成功", //Authorize Successful
+  word9: "解锁成功", //Unlock Successful
+  word10: "没有可提取余额", //No Remaining Balance to Claim
+  word11: "提取成功", //Claim Successful
+  word12: "请选择卡牌", //Select Your Card
+  word13: "插入成功", //Insert Successful
+  word14: "没有空卡槽了", //No Empty Slot Remaining
+  word15: "选择的卡牌必须4的倍数哦", //You must select
+  approve: "授权", //Authorize
+  button1: "确认" //Confirm
+};

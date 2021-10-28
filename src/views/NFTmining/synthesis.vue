@@ -8,10 +8,10 @@
     <div class="title_son1">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
-        <span class="span1">{{rank}}阶 (共{{amount}}张)</span>
+        <span class="span1">{{rank}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{amount}} {{$t("message.synthesis.txt9")}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}阶 (共{{cardarr.filter(data => {return data.level == ele}).length}}张)</span>
+          <span class="span1" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}} {{$t("message.synthesis.txt9")}})</span>
         </div>
       </div>
       <div class="right_content" @click="selectAllClick">
@@ -166,7 +166,7 @@ export default {
     },
     async synthesisFun(){
       if(this.selectedArr.length < 4){
-        this.$common.selectLang('至少选择4张卡牌','1223',this)
+        this.$common.selectLang('至少选择4张卡牌','You need to select a minimal of 4 cards',this)
         return
       }
       console.log('合成',this.selectedArr)
@@ -175,7 +175,7 @@ export default {
       })
       console.log('arr: ', arr);
       if(arr.length % 4 !== 0){
-        this.$common.selectLang('选择的卡牌必须4的倍数哦','1223',this)
+        this.$common.selectLang('选择的卡牌必须4的倍数哦','You must select',this)
         return
       }
       // 获取用户的hc余额
@@ -191,7 +191,7 @@ export default {
           console.log('合成err: ', err);
         })
       }else{
-        this.$common.selectLang('余额不足','1223',this)
+        this.$common.selectLang('余额不足','Insufficent Balance',this)
       }
     },
     // 选中的卡牌的点击事件
@@ -352,7 +352,7 @@ export default {
       background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
-        font-size: 32px;
+        font-size: 26px;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -391,7 +391,7 @@ export default {
         padding: 20px 0;
         margin-top: 70px;
         .span1{
-          font-size: 26px;
+          font-size: 18px;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #E2DADA;
@@ -631,7 +631,7 @@ export default {
       background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
-        font-size: 0.14rem;
+        font-size: 0.12rem;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -669,7 +669,7 @@ export default {
         padding: 0.2rem 0;
         margin-top: 0.35rem;
         .span1{
-          font-size: 0.2rem;
+          font-size: 0.12rem;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
           color: #E2DADA;

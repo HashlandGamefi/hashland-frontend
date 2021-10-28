@@ -82,7 +82,7 @@ export default {
   min-height: 100%;
   // background: #011A31;
   background-image: url("./assets/images/pagehome.png");
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 .fade-enter-active,

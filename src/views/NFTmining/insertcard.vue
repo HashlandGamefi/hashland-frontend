@@ -151,7 +151,7 @@ export default {
         return
       }
       if (this.cardIdArr.length == 0) {
-        this.$common.selectLang('请选择卡牌', '1223', this)
+        this.$common.selectLang('请选择卡牌', 'Select Your Card', this)
         return
       }
       this.approve_isloading = true
@@ -166,7 +166,7 @@ export default {
           console.log('插入卡槽res: ', res);
           const etReceipt = await res.wait();
           if (etReceipt.status == 1) {
-            this.$common.selectLang('插入成功', '1223', this)
+            this.$common.selectLang('插入成功', 'Insert Successful', this)
             this.approve_isloading = false
             this.$common.getUserCardInfoFun(this.getAccount)
           }
@@ -178,7 +178,7 @@ export default {
         })
       } else {
         this.approve_isloading = false
-        this.$common.selectLang('没有空卡槽了', '1223', this)
+        this.$common.selectLang('没有空卡槽了', 'No Empty Slot Remaining', this)
       }
     },
     back () {
