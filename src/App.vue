@@ -71,7 +71,7 @@ export default {
     window.addEventListener('load', this.setRem)
     window.addEventListener('resize', this.setRem)
   },
-  destroyed () {
+  beforeDestroy(){
     localStorage.clear()
   }
 }

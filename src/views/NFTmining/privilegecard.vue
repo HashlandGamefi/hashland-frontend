@@ -12,6 +12,7 @@
     <div class="myCardBox">
       <div class="occupationBitmap">
         <img src="../../assets/images/privilegebg.png" class="privilegebgimg" />
+        <img src="../../assets/images/defaultcard.png" class="privilbg" />
       </div>
       <div class="btn_box">{{$t("message.buy2")}}</div>
     </div>
@@ -178,6 +179,14 @@ export default {
         width: 100%;
         object-fit: contain;
       }
+      .privilbg{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 280px;
+        object-fit: contain;
+      }
     }
     .btn_box {
       width: 533px;
@@ -202,74 +211,6 @@ export default {
       .swiper-slide {
         width: 100%;
         height: 100%;
-        .content_box {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
-          .swiper_img {
-            width: 100%;
-            object-fit: contain;
-          }
-          .grade_box {
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-            border-radius: 15px;
-            box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38),
-              -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-            .five_pointed_star {
-              display: flex;
-              align-items: center;
-              .start_img {
-                width: 26px;
-                object-fit: contain;
-              }
-            }
-            .card_grade {
-              font-size: 26px;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
-              color: #ffffff;
-              line-height: 56px;
-              margin: 0 10px;
-            }
-            .details {
-              padding: 0 10px;
-              background: #f5b252;
-              font-size: 16px;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
-              color: #ffffff;
-              line-height: 22px;
-              border-radius: 25px;
-              cursor: pointer;
-            }
-          }
-          .btnbox {
-            width: 238px;
-            text-align: center;
-            line-height: 84px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            font-size: 32px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
-            color: #ffffff;
-            cursor: pointer;
-          }
-          .remove_btnbox {
-            background-image: url("../../assets/images/nft_btn1.png");
-          }
-          .insert_btnbox {
-            background-image: url("../../assets/images/insert.png");
-          }
-          .lock_btnbox {
-            background-image: url("../../assets/images/lock.png");
-          }
-        }
         .outbox {
           width: 100%;
           display: flex;
@@ -384,8 +325,17 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0;
         .privilegebgimg {
           width: 100%;
+          object-fit: contain;
+        }
+        .privilbg{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          width: 1rem;
           object-fit: contain;
         }
       }
@@ -412,74 +362,6 @@ export default {
         .swiper-slide {
           width: 100%;
           height: 100%;
-          .content_box {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            .swiper_img {
-              width: 100%;
-              object-fit: contain;
-            }
-            .grade_box {
-              padding: 0 0.15rem;
-              display: flex;
-              align-items: center;
-              margin-top: 0.2rem;
-              border-radius: 0.1rem;
-              box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38),
-                -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-              .five_pointed_star {
-                display: flex;
-                align-items: center;
-                .start_img {
-                  width: 0.13rem;
-                  object-fit: contain;
-                }
-              }
-              .card_grade {
-                font-size: 0.12rem;
-                font-family: PingFangSC-Semibold, PingFang SC;
-                font-weight: 600;
-                color: #ffffff;
-                line-height: 0.17rem;
-                margin: 0 0.1rem;
-              }
-              .details {
-                padding: 0 0.1rem;
-                background: #f5b252;
-                font-size: 0.12rem;
-                font-family: PingFangSC-Semibold, PingFang SC;
-                font-weight: 600;
-                color: #ffffff;
-                line-height: 0.12rem;
-                border-radius: 0.25rem;
-                cursor: pointer;
-              }
-            }
-            .btnbox {
-              width: 2rem;
-              text-align: center;
-              line-height: 0.48rem;
-              background-size: contain;
-              background-repeat: no-repeat;
-              font-size: 0.12rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
-              color: #ffffff;
-              cursor: pointer;
-            }
-            .remove_btnbox {
-              background-image: url("../../assets/images/nft_btn1.png");
-            }
-            .insert_btnbox {
-              background-image: url("../../assets/images/insert.png");
-            }
-            .lock_btnbox {
-              background-image: url("../../assets/images/lock.png");
-            }
-          }
           .outbox {
             width: 100%;
             display: flex;
@@ -515,7 +397,7 @@ export default {
               line-height: 0.24rem;
               background-size: 100% 100%;
               background-repeat: no-repeat;
-              font-size: 0.14rem;
+              font-size: 0.12rem;
               font-family: PingFangSC-Semibold, PingFang SC;
               font-weight: 600;
               color: #ffffff;

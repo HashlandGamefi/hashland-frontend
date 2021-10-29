@@ -163,6 +163,12 @@ export default {
     cursor: pointer;
   }
 }
+@media screen and (min-width: 1440px) {
+  .composite_card{
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
 @media screen and (max-width: 980px){
   .record_page{
   position: fixed;

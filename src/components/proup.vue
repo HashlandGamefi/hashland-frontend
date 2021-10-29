@@ -71,10 +71,11 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width:733px;
+    width:362px;
+    height: 430px;
     // box-shadow: 0px 16px 80px rgba(0, 0, 0, 0.8);
     // border-radius: 32px;
-    padding: 40px;
+    // padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -149,14 +150,15 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
-      width:90%;
-      padding: 0.2rem;
+      width:3.62rem;
+      height: 4.3rem;
+      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       background-image: url("../assets/images/proupbg.png");
-      background-size: 100% 100%;
+      background-size: cover;
       background-repeat: no-repeat;
       .txt1 {
         font-family: PingFang SC;

@@ -878,6 +878,8 @@ export default {
         .horizontal_onebox{
           display: flex;
           flex-direction: column;
+          width: 100%;
+          height: auto;
           .top{
             display: flex;
             align-items: center;

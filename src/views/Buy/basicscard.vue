@@ -484,11 +484,6 @@ input::-webkit-input-placeholder {
   line-height: 40px;
   font-size: 18px;
 }
-@media screen and (min-width: 1440px) {
-  .composite_card{
-    max-width: 1440px;
-  }
-}
 @media screen and (max-width: 980px){
   .composite_card{
     .left_box{
@@ -723,7 +718,7 @@ input::-webkit-input-placeholder {
         }
       }
       .btn {
-        width: 0.89rem;
+        width: 2rem;
         font-size: 0.18rem;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;

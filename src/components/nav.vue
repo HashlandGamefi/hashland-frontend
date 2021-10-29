@@ -30,7 +30,7 @@
     </div>
     <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
       <div class="mobile_box">
-        <div class="mobile_logo"><img src="../assets/images/logo.png" class="mobile_logo_class" /></div>
+        <div class="mobile_logo" @click="menuClick(-1)"><img src="../assets/images/logo.png" class="mobile_logo_class" /></div>
         <ul class="ul_">
           <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
             {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>
@@ -89,6 +89,8 @@ export default {
       sessionStorage.setItem("HashMenu", index);
       switch (index) {
         case -1:
+          this.mobile_menuDis = false
+          this.mobilemenu = false
           this.$router.push('/home')
           break;
         case 0:
@@ -403,7 +405,7 @@ export default {
           li{
             width: 100%;
             text-align: center;
-            font-size: 0.2rem;
+            font-size: 0.16rem;
             font-family: PingFangSC-Semibold, PingFang SC;
             font-weight: 600;
             color: #FFFFFF;
@@ -473,6 +475,12 @@ export default {
         }
       }
     }
+  }
+  .navbg{
+    animation: fade-in 1.5s;
+    background-image: url("../assets/images/mobilenavbg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
 }
 @keyframes fade-in {

@@ -84,6 +84,12 @@ export default {
     }
   }
 }
+@media screen and (min-width: 1440px) {
+  .buy_page{
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+}
 @media screen and (max-width: 980px){
   .buy_page{
     width: 100%;

@@ -11,7 +11,7 @@
     <!-- 特权卡牌 -->
     <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
     <div class="apy_title">APY {{apy}}%</div>
-    <div class="apy_title">{{$t("message.nftMining.txt11")}} 0%</div>
+    <div class="apy_title personal_apy">{{$t("message.nftMining.txt11")}} 0%</div>
     <div class="footer_box">
       <div class="left_footer">
         <div class="top">
@@ -214,13 +214,16 @@ export default {
   }
   .apy_title{
     width: 100%;
-    padding-left: 120px;
+    padding-left: 30px;
     font-size: 32px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
     color: #FFFFFF;
     line-height: 56px;
-    margin-top: 60px;
+    margin-top: 40px;
+  }
+  .personal_apy{
+    margin-top: 10px;
   }
   .footer_box{
     width: 100%;

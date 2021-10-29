@@ -288,9 +288,10 @@ export default {
       }
       .gifclass{
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100px;
+        top: 50%;
+        left: 50%;
+        width: 605px;
+        transform: translate(-50%,-50%);
         object-fit: contain;
       }
       .bottom{
@@ -393,11 +394,6 @@ input::-webkit-input-placeholder {
   line-height: 40px;
   font-size: 18px;
 }
-@media screen and (min-width: 1440px) {
-  .composite_card{
-    max-width: 1440px;
-  }
-}
 @media screen and (max-width: 980px){
   .composite_card{
     .left_box{
@@ -409,14 +405,14 @@ input::-webkit-input-placeholder {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 0.75rem;
+      margin-top:0;
       .bgimg{
         width: 100%;
         object-fit: contain;
       }
       .onebox{
         position: absolute;
-        top: 32%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%,-50%);
         display: flex;
@@ -424,6 +420,14 @@ input::-webkit-input-placeholder {
         align-items: center;
         .cardimg{
           width: 1.64rem;
+          object-fit: contain;
+        }
+        .gifclass{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 2rem;
+          transform: translate(-50%,-50%);
           object-fit: contain;
         }
         .bottom{
@@ -632,7 +636,7 @@ input::-webkit-input-placeholder {
         }
       }
       .btn {
-        width: 0.89rem;
+        width: 2rem;
         font-size: 0.18rem;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
