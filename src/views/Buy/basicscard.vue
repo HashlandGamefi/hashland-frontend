@@ -234,8 +234,8 @@ export default {
       align-items: center;
       margin-bottom: 10px;
       font-size: 24px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       .span1{
         padding: 9px;
@@ -257,33 +257,25 @@ export default {
       margin-bottom: 50px;
       .luckey_span1 {
         font-size: 32px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
         color: #27c7d5;
         line-height: 40px;
       }
       .luckey_span2 {
         font-size: 20px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
         color: #ffffff;
         line-height: 40px;
         margin-top: 10px;
-        letter-spacing: 4px;
+
       }
     }
     .composite_span1 {
       font-size: 18px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
       color: #ffffff;
       line-height: 40px;
       padding-left: 15px;
     }
     .composite_span2 {
       font-size: 32px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
       color: #29cdda;
       line-height: 40px;
       margin: 10px 0;
@@ -306,9 +298,9 @@ export default {
         height: 28px;
         border: none;
         outline: none;
-        font-family: PingFangSC-Semibold, PingFang SC;
+
         font-style: normal;
-        font-weight: bold;
+
         font-size: 24px;
         color: #ffffff;
         background: transparent;
@@ -317,8 +309,8 @@ export default {
     .last {
       width: 100%;
       font-size: 18px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
+
+
       color: #ffffff;
       line-height: 40px;
       padding-left: 15px;
@@ -333,8 +325,8 @@ export default {
     .right_span1 {
       width: 280px;
       font-size: 18px;
-      font-family:PingFangSC-Regular, PingFang SC;
-      font-weight: 600;
+
+
       color: #27c7d5;
       line-height: 28px;
       margin: 0 auto;
@@ -350,8 +342,8 @@ export default {
     }
     .btn {
       font-size: 24px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       padding: 5px;
       background: #29CDDA;
@@ -417,8 +409,8 @@ export default {
             }
             .span1{
               font-size: 26px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
+
+
               color: #FFFFFF;
             }
           }
@@ -434,8 +426,8 @@ export default {
       align-items: center;
       margin-bottom: 10px;
       font-size: 26px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       .span1{
         padding: 5px;
@@ -466,8 +458,8 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     cursor: pointer;
   }
@@ -479,7 +471,7 @@ export default {
   }
 }
 input::-webkit-input-placeholder {
-  font-weight: 600;
+
   color: #909292;
   line-height: 40px;
   font-size: 18px;
@@ -545,8 +537,8 @@ input::-webkit-input-placeholder {
               }
               .span1{
                 font-size: 26px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
+
+
                 color: #FFFFFF;
               }
             }
@@ -562,8 +554,8 @@ input::-webkit-input-placeholder {
         align-items: center;
         margin-bottom: 10px;
         font-size: 0.12rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         .span1{
           padding: 0.02rem;
@@ -592,15 +584,15 @@ input::-webkit-input-placeholder {
         flex-direction: column;
         .luckey_span1 {
           font-size: 0.2rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #27c7d5;
           line-height: 0.4rem;
         }
         .luckey_span2 {
           font-size: 0.14rem;
-          font-family: PingFangSC-Regular, PingFang SC;
-          font-weight: 400;
+
+
           color: #ffffff;
         }
       }
@@ -616,8 +608,8 @@ input::-webkit-input-placeholder {
         align-items: center;
         margin-bottom: 0.1rem;
         font-size: 0.18rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         margin-bottom: 0.2rem;
         .span1{
@@ -635,16 +627,16 @@ input::-webkit-input-placeholder {
       }
       .composite_span1 {
         font-size: 0.14rem;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
+
+
         color: #ffffff;
         line-height: 0.2rem;
         padding-left: 0.3rem;
       }
       .composite_span2 {
         font-size: 0.2rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #29cdda;
         line-height: 0.28rem;
         margin: 0;
@@ -667,9 +659,9 @@ input::-webkit-input-placeholder {
           height: 0.4rem;
           border: none;
           outline: none;
-          font-family: PingFangSC-Semibold, PingFang SC;
+
           font-style: normal;
-          font-weight: bold;
+
           font-size: 0.2rem;
           color: #ffffff;
           background: transparent;
@@ -687,8 +679,8 @@ input::-webkit-input-placeholder {
       background-size: contain;
       background-repeat: no-repeat;
       font-size: 0.18rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #ffffff;
       cursor: pointer;
     }
@@ -702,8 +694,8 @@ input::-webkit-input-placeholder {
       .right_span1 {
         width: 100%;
         font-size: 0.12rem;
-        font-family:PingFangSC-Regular, PingFang SC;;
-        font-weight: 600;
+        ;
+
         color: #27c7d5;
         line-height: 0.14rem;
         margin: 0 auto;
@@ -720,8 +712,8 @@ input::-webkit-input-placeholder {
       .btn {
         width: 2rem;
         font-size: 0.18rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         padding: 0.05rem;
         background: #29CDDA;

@@ -5,7 +5,7 @@
     </div>
     <div class="menu_box">
       <ul class="ul_">
-        <li :class="[index == getMenuIndex ? 'activeClass' : '']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
+        <li :class="[index == getMenuIndex ? 'activeClass' : '']"  v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
           {{$t(item)}}
           <div class="nft_hover" v-show="index == 0">
             <div class="box_nft">
@@ -219,8 +219,8 @@ export default {
         position: relative;
         padding: 0 18px;
         font-size: 18px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         cursor: pointer;
         .nft_hover{
@@ -246,8 +246,8 @@ export default {
               align-items: center;
               justify-content: center;
               font-size: 18px;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #fff;
               line-height: 82px;
               .icon-v-right {
@@ -291,8 +291,8 @@ export default {
       border-radius: 12px;
       box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
       font-size: 16px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       line-height: 37px;
       cursor: pointer;
@@ -307,8 +307,8 @@ export default {
       }
       .lang_txt{
         font-size: 20px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         line-height: 37px;
         margin: 0 8px;
@@ -409,8 +409,8 @@ export default {
             width: 100%;
             text-align: center;
             font-size: 0.16rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             cursor: pointer;
             // height: 0.78rem;
@@ -431,8 +431,8 @@ export default {
                 align-items: center;
                 justify-content: center;
                 font-size: 0.18rem;
-                font-family: PingFangSC-Semibold, PingFang SC;
-                font-weight: 600;
+
+
                 color: #fff;
                 line-height: 0.4rem;
                 .icon-v-right {
@@ -471,8 +471,8 @@ export default {
           display: flex;
           justify-content: flex-end;
           font-size: 0.2rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #FFFFFF;
           line-height: 0.3rem;
         }

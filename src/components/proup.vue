@@ -84,18 +84,18 @@ export default {
     .txt1 {
       width: 100%;
       text-align: center;
-      font-family: PingFang SC;
+
       font-style: normal;
-      font-weight: 600;
+
       font-size: 36px;
       color: #ffffff;
     }
     .txt2 {
       width: 100%;
       text-align: center;
-      font-family: PingFang SC;
+
       font-style: normal;
-      font-weight: 600;
+
       font-size: 24px;
       color: rgba(255, 255, 255, 0.8);
       margin-top: 16px;
@@ -117,9 +117,9 @@ export default {
         background-repeat: no-repeat;
         text-align: center;
         line-height: 60px;
-        font-family: PingFang SC;
+
         font-style: normal;
-        font-weight: 500;
+
         font-size: 24px;
         color: #ffffff;
         cursor: pointer;
@@ -163,16 +163,16 @@ export default {
       background-size: cover;
       background-repeat: no-repeat;
       .txt1 {
-        font-family: PingFang SC;
+
         font-style: normal;
-        font-weight: 600;
+
         font-size: 0.2rem;
         color: #ffffff;
       }
       .txt2 {
-        font-family: PingFang SC;
+
         font-style: normal;
-        font-weight: 600;
+
         font-size: 0.2rem;
         color: rgba(255, 255, 255, 0.8);
         margin-top: 0.1rem;
@@ -194,9 +194,9 @@ export default {
           background-repeat: no-repeat;
           text-align: center;
           line-height: 0.56rem;
-          font-family: PingFang SC;
+
           font-style: normal;
-          font-weight: 500;
+
           font-size: 0.2rem;
           color: #ffffff;
           cursor: pointer;

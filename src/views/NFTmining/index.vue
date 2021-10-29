@@ -1,6 +1,6 @@
 <template>
   <div class="nft_miningpage">
-    <span class="nft_title">{{$t("message.nftMining.txt1")}}</span>
+    <span class="nft_title font_title">{{$t("message.nftMining.txt1")}}</span>
     <span class="nft_title1">{{$t("message.nftMining.txt2")}}</span>
     <div class="tab_box">
       <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">{{$t("message.nftCard.txt2")}}</div>
@@ -166,14 +166,14 @@ export default {
   padding-top: 130px;
   .nft_title{
     font-size: 40px;
-    font-family: AaJXH;
+
     color: #FFFFFF;
     line-height: 73px;
   }
   .nft_title1{
     font-size: 24px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 37px;
     margin-top: 20px;
@@ -189,8 +189,8 @@ export default {
       line-height: 70px;
       text-align: center;
       font-size: 32px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
@@ -205,8 +205,8 @@ export default {
     width: 100%;
     padding-left: 30px;
     font-size: 32px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 56px;
     margin-top: 40px;
@@ -244,8 +244,8 @@ export default {
           background-size: 100% 100%;
           background-repeat: no-repeat;
           font-size: 24px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #FFFFFF;
           cursor: pointer;
           display: flex;
@@ -270,8 +270,8 @@ export default {
             background: #A25911;
             border-radius: 15px;
             font-size: 18px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             line-height: 25px;
           }
@@ -283,15 +283,15 @@ export default {
           align-items: center;
           .span1{
             font-size: 28px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             line-height: 56px;
           }
           .span2{
             font-size: 28px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             line-height: 56px;
           }
@@ -323,8 +323,8 @@ export default {
           background: rgba(0, 0, 0, 0.4);
           border-radius: 15px;
           font-size: 18px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #FFFFFF;
           line-height: 25px;
         }
@@ -353,14 +353,14 @@ export default {
     padding-top: 1rem;
     .nft_title{
       font-size: 0.2rem;
-      font-family: AaJXH;
+
       color: #FFFFFF;
       line-height: 0.5rem;
     }
     .nft_title1{
       font-size: 0.16rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       line-height: 0.2rem;
       margin-top: 0;
@@ -376,8 +376,8 @@ export default {
         line-height: 0.37rem;
         text-align: center;
         font-size: 0.12rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         border-radius: 0.05rem;
         cursor: pointer;
@@ -392,8 +392,8 @@ export default {
       width: 100%;
       padding-left: 0.2rem;
       font-size: 0.2rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       line-height: 0.28rem;
       margin-top: 0.1rem;
@@ -429,8 +429,8 @@ export default {
             background-size: 100% 100%;
             background-repeat: no-repeat;
             font-size: 0.2rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             cursor: pointer;
             display: flex;
@@ -456,8 +456,8 @@ export default {
               background: #A25911;
               border-radius: 0.15rem;
               font-size: 0.12rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 0.17rem;
             }
@@ -469,15 +469,15 @@ export default {
             align-items: center;
             .span1{
               font-size: 0.2rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 0.28rem;
             }
             .span2{
               font-size: 0.2rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 0.28rem;
             }
@@ -509,8 +509,8 @@ export default {
               background: rgba(0, 0, 0, 0.4);
               border-radius: 0.15rem;
               font-size: 0.12rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 0.17rem;
             }

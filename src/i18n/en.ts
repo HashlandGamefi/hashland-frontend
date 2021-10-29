@@ -140,5 +140,6 @@ export const message = {
   word14: "没有空卡槽了", //No Empty Slot Remaining
   word15: "选择的卡牌必须4的倍数哦", //You must select
   approve: "Authorize", //Authorize
-  button1: "Confirm" //Confirm
+  button1: "Confirm", //Confirm
+  nothing:'No Data'
 };

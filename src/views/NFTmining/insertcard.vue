@@ -3,22 +3,22 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
-    <div class="title_title">{{$t("message.insert.txt1")}}</div>
-    <span class="title1_txt">{{$t("message.insert.txt2")}}</span>
-    <span class="title1_txt title2_txt"
-      >{{$t("message.insert.txt3")}}</span
-    >
+    <div class="title_title font_title">{{ $t("message.insert.txt1") }}</div>
+    <span class="title1_txt">{{ $t("message.insert.txt2") }}</span>
+    <span class="title1_txt title2_txt">{{ $t("message.insert.txt3") }}</span>
     <div class="content_box">
       <div class="stratbox" v-for="ele in 5" :key="ele">
         <div class="top_line">
           <span class="span1"
-            >{{ ele }}{{$t("message.synthesis.txt4")}}{{$t("message.synthesis.txt8")}}{{
+            >{{ ele }}{{ $t("message.synthesis.txt4")
+            }}{{ $t("message.synthesis.txt8")
+            }}{{
               starArr.filter((data) => {
                 return data.level == ele;
               }).length
             }}</span
           >
-          <span class="span2">{{$t("message.nftMining.txt8")}}</span>
+          <span class="span2">{{ $t("message.nftMining.txt8") }}</span>
         </div>
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
@@ -30,9 +30,19 @@
               })"
               :key="index"
             >
-              <div class="swiper_content_box" @click="cardClick(item, index, index1)">
+              <div
+                class="swiper_content_box"
+                @click="cardClick(item, index, index1)"
+              >
                 <img :src="item.src" class="swiper_img" />
-                <img :src="item.status?`${$store.state.imgUrl}selected.png`:`${$store.state.imgUrl}select.png`" class="select_img" />
+                <img
+                  :src="
+                    item.status
+                      ? `${$store.state.imgUrl}selected.png`
+                      : `${$store.state.imgUrl}select.png`
+                  "
+                  class="select_img"
+                />
               </div>
             </div>
           </div>
@@ -41,8 +51,8 @@
     </div>
     <div class="btn_box" @click="insertFun">
       <span v-if="!getIstrue">Connect</span>
-      <span v-else-if="!isbtnstatus">{{$t("message.approve")}}</span>
-      <span v-else>{{$t("message.nftMining.txt15")}}</span>
+      <span v-else-if="!isbtnstatus">{{ $t("message.approve") }}</span>
+      <span v-else>{{ $t("message.nftMining.txt15") }}</span>
       <BtnLoading :isloading="approve_isloading"></BtnLoading>
     </div>
     <Proup
@@ -237,10 +247,10 @@ export default {
   }
   .title_title {
     font-size: 40px;
-    font-family: AaJXH;
+
     color: #ffffff;
     line-height: 73px;
-    letter-spacing: 4px;
+
     // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
     // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
     // -webkit-background-clip: text;
@@ -249,8 +259,7 @@ export default {
   }
   .title1_txt {
     font-size: 24px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
     color: #fff;
     line-height: 37px;
     // -webkit-text-stroke: 1px #092868;
@@ -280,16 +289,11 @@ export default {
         flex-direction: column;
         .span1 {
           font-size: 32px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
           color: #ffffff;
           line-height: 56px;
-          letter-spacing: 5px;
         }
         .span2 {
           font-size: 24px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
           color: #ccbebe;
           line-height: 37px;
         }
@@ -339,138 +343,126 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
     color: #ffffff;
     cursor: pointer;
     margin-top: 30px;
   }
 }
 @media screen and (min-width: 1440px) {
-  .insertcard_page{
+  .insertcard_page {
     max-width: 1400px;
     margin: 0 auto;
   }
 }
-@media screen and (max-width: 980px){
+@media screen and (max-width: 980px) {
   .insertcard_page {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1rem;
-  .title {
-    position: absolute;
-    top: 0.2rem;
-    left: 0.2rem;
-    width: 0.36rem;
-    cursor: pointer;
-    .backimg {
-      width: 100%;
-      object-fit: contain;
-    }
-  }
-  .title_title {
-    font-size: 0.32rem;
-    font-family: AaJXH;
-    color: #ffffff;
-    line-height: 0.5rem;
-    letter-spacing: 0;
-    margin-bottom: 0.2rem;
-  }
-  .title1_txt {
-    font-size: 0.16rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #fff;
-    line-height: 0.22rem;
-  }
-  .title2_txt {
-    margin-top: 0.1rem;
-  }
-  .content_box {
     width: 100%;
-    max-height: 8rem;
-    overflow: auto;
-    padding: 0.2rem;
     display: flex;
     flex-direction: column;
-    .stratbox {
+    align-items: center;
+    padding-top: 1rem;
+    .title {
+      position: absolute;
+      top: 0.2rem;
+      left: 0.2rem;
+      width: 0.36rem;
+      cursor: pointer;
+      .backimg {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+    .title_title {
+      font-size: 0.32rem;
+      color: #ffffff;
+      line-height: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
+    .title1_txt {
+      font-size: 0.16rem;
+      color: #fff;
+      line-height: 0.22rem;
+    }
+    .title2_txt {
+      margin-top: 0.1rem;
+    }
+    .content_box {
       width: 100%;
+      max-height: 8rem;
+      overflow: auto;
+      padding: 0.2rem;
       display: flex;
       flex-direction: column;
-      margin-bottom: 0.1rem;
-      .top_line {
+      .stratbox {
         width: 100%;
         display: flex;
         flex-direction: column;
-        .span1 {
-          font-size: 0.2rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
-          color: #ffffff;
-          line-height: 0.28rem;
-          letter-spacing: 0;
+        margin-bottom: 0.1rem;
+        .top_line {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          .span1 {
+            font-size: 0.2rem;
+            color: #ffffff;
+            line-height: 0.28rem;
+          }
+          .span2 {
+            font-size: 0.14rem;
+            color: #ccbebe;
+            line-height: 0.2rem;
+          }
         }
-        .span2 {
-          font-size: 0.14rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
-          color: #ccbebe;
-          line-height: 0.2rem;
-        }
-      }
-      .swiper-container {
-        width: 100%;
-        height: auto;
-        .swiper-wrapper {
-          .swiper-slide {
-            width: 100%;
-            height: 100%;
-            margin-right: 0.2rem;
-            .swiper_content_box {
-              position: relative;
+        .swiper-container {
+          width: 100%;
+          height: auto;
+          .swiper-wrapper {
+            .swiper-slide {
               width: 100%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              margin-top: 0.2rem;
-              .swiper_img {
-                width: 1rem;
-                object-fit: contain;
-              }
-              .select_img {
-                position: absolute;
-                right: 0.09rem;
-                top: 0.08rem;
-                width: 0.13rem;
-                object-fit: contain;
+              height: 100%;
+              margin-right: 0.2rem;
+              .swiper_content_box {
+                position: relative;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 0.2rem;
+                .swiper_img {
+                  width: 1rem;
+                  object-fit: contain;
+                }
+                .select_img {
+                  position: absolute;
+                  right: 0.09rem;
+                  top: 0.08rem;
+                  width: 0.13rem;
+                  object-fit: contain;
+                }
               }
             }
-          }
-          .swiper-slide-active {
-            transform: scale(1.1);
-            // margin: 0 0.2rem;
+            .swiper-slide-active {
+              transform: scale(1.1);
+              // margin: 0 0.2rem;
+            }
           }
         }
       }
     }
+    .btn_box {
+      width: 1.8rem;
+      height: 0.36rem;
+      text-align: center;
+      line-height: 0.36rem;
+      background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      font-size: 0.18rem;
+
+      color: #ffffff;
+      cursor: pointer;
+      margin-top: 0;
+    }
   }
-  .btn_box {
-    width: 1.8rem;
-    height: 0.36rem;
-    text-align: center;
-    line-height: 0.36rem;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    font-size: 0.18rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #ffffff;
-    cursor: pointer;
-    margin-top: 0;
-  }
-}
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
-    <span class="span_title">{{$t("message.details")}}</span>
+    <span class="span_title font_title">{{$t("message.details")}}</span>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
@@ -20,6 +20,10 @@
             <span class="span1">{{item.btc}}%</span>
           </div>
         </div>
+      </div>
+      <div class="defaultClass" v-if="boxarr.length == 0">
+        <img :src="`${$store.state.imgUrl}defaultGraph.png`" />
+        <span class="txt">{{$t("message.nothing")}}</span>
       </div>
     </div>
     <span class="bottom_title">{{$t("message.details1")}}</span>
@@ -80,11 +84,11 @@ export default {
   }
   .span_title{
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 84px;
-    letter-spacing: 4px;
+
     // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
     // background: linear-gradient(360deg, rgba(47, 215, 242, 0) 0%, #00EBF3 100%);
     // -webkit-background-clip: text;
@@ -149,34 +153,51 @@ export default {
             // background: #302F2E;
             // box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
             font-size: 26px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
+
+
             color: #FFFFFF;
             // line-height: 37px;
           }
         }
       }
     }
+    .defaultClass{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      img{
+        width: 406px;
+        object-fit: contain;
+      }
+      .txt{
+        font-size: 36px;
+        color: #FFFFFF;
+        line-height: 50px;
+      }
+    }
   }
   .bottom_title{
     font-size: 26px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 32px;
-    letter-spacing: 1px;
+
   }
   .connect_box {
-    width: 533px;
-    height: 102px;
+    width: 393px;
+    height: 82px;
     text-align: center;
-    line-height: 102px;
+    line-height: 70px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     margin-top: 30px;
     cursor: pointer;
@@ -208,8 +229,8 @@ export default {
   }
   .span_title{
     font-size: 0.26rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 0.48rem;
   }
@@ -271,8 +292,8 @@ export default {
             // background: #302F2E;
             // box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
             font-size: 26px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
+
+
             color: #FFFFFF;
             // line-height: 37px;
           }
@@ -282,11 +303,11 @@ export default {
   }
   .bottom_title{
     font-size: 0.14rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 32px;
-    letter-spacing: 1px;
+
   }
   .connect_box {
     width: 1.94rem;
@@ -297,8 +318,8 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 0.18rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     margin-top: 0.2rem;
     cursor: pointer;

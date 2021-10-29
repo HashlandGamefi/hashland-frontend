@@ -126,5 +126,6 @@ export const message = {
   word14:'没有空卡槽了',
   word15:'选择的卡牌必须4的倍数哦',
   approve:'授权',
-  button1:'确认'
+  button1:'确认',
+  nothing:'暂无数据'
 }

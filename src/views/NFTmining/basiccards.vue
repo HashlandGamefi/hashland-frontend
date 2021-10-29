@@ -344,15 +344,15 @@ export default {
       flex-direction: column;
       .span1 {
         font-size: 32px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #ffffff;
         line-height: 56px;
       }
       .span2 {
         font-size: 18px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #ccbebe;
         line-height: 37px;
       }
@@ -365,8 +365,8 @@ export default {
       background-repeat: no-repeat;
       text-align: center;
       font-size: 24px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #ffffff;
       line-height: 56px;
       cursor: pointer;
@@ -407,8 +407,8 @@ export default {
             }
             .card_grade{
               font-size: 26px;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 56px;
               margin: 0 10px;
@@ -417,8 +417,8 @@ export default {
               padding:0 10px;
               background: #F5B252;
               font-size: 16px;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 22px;
               border-radius: 25px;
@@ -432,8 +432,8 @@ export default {
             background-size: contain;
             background-repeat: no-repeat;
             font-size: 32px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             cursor: pointer;
           }
@@ -483,8 +483,8 @@ export default {
             background-size: contain;
             background-repeat: no-repeat;
             font-size: 16px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             cursor: pointer;
           }
@@ -540,15 +540,15 @@ export default {
         flex-direction: column;
         .span1 {
           font-size: 0.2rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #ffffff;
           line-height: 0.28rem;
         }
         .span2 {
           font-size: 0.14rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #ccbebe;
           line-height: 0.2rem;
         }
@@ -561,8 +561,8 @@ export default {
         background-repeat: no-repeat;
         text-align: center;
         font-size: 0.18rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #ffffff;
         line-height: 0.39rem;
         cursor: pointer;
@@ -603,8 +603,8 @@ export default {
               }
               .card_grade{
                 font-size: 0.12rem;
-                font-family: PingFangSC-Semibold, PingFang SC;
-                font-weight: 600;
+
+
                 color: #FFFFFF;
                 line-height: 0.17rem;
                 margin: 0 0.1rem;
@@ -613,8 +613,8 @@ export default {
                 padding:0 0.1rem;
                 background: #F5B252;
                 font-size: 0.12rem;
-                font-family: PingFangSC-Semibold, PingFang SC;
-                font-weight: 600;
+
+
                 color: #FFFFFF;
                 line-height: 0.12rem;
                 border-radius: 0.25rem;
@@ -628,8 +628,8 @@ export default {
               background-size: contain;
               background-repeat: no-repeat;
               font-size: 0.12rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               cursor: pointer;
             }
@@ -679,8 +679,8 @@ export default {
               background-size: 100% 100%;
               background-repeat: no-repeat;
               font-size: 0.14rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               cursor: pointer;
             }

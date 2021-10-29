@@ -1,11 +1,29 @@
 <template>
   <div class="buy_page" ref="buypage">
-    <span class="title1_txt">{{$t("message.nav.txt7")}}</span>
-    <span class="title2_txt">{{$t("message.nftCard.txt1")}}</span>
+    <span class="title1_txt font_title">{{ $t("message.nav.txt7") }}</span>
+    <span class="title2_txt">{{ $t("message.nftCard.txt1") }}</span>
     <div class="tab_box">
-      <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">{{$t("message.nftCard.txt2")}}</div>
-      <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">{{$t("message.nftCard.txt3")}}</div>
-      <div class="oneTab" :class="{activeTab:tabIndex == 2}" @click="tabIndex = 2">{{$t("message.nftCard.txt4")}}</div>
+      <div
+        class="oneTab"
+        :class="{ activeTab: tabIndex == 0 }"
+        @click="tabIndex = 0"
+      >
+        {{ $t("message.nftCard.txt2") }}
+      </div>
+      <div
+        class="oneTab"
+        :class="{ activeTab: tabIndex == 1 }"
+        @click="tabIndex = 1"
+      >
+        {{ $t("message.nftCard.txt3") }}
+      </div>
+      <div
+        class="oneTab"
+        :class="{ activeTab: tabIndex == 2 }"
+        @click="tabIndex = 2"
+      >
+        {{ $t("message.nftCard.txt4") }}
+      </div>
     </div>
     <BasicsCard v-if="tabIndex == 0"></BasicsCard>
     <BlindBoxCard v-if="tabIndex == 1"></BlindBoxCard>
@@ -20,7 +38,7 @@ import PrivilegeCard from './privilegecard.vue'
 export default {
   data () {
     return {
-      tabIndex:0 ,//tab索引
+      tabIndex: 0,//tab索引
     }
   },
   components: {
@@ -32,102 +50,95 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.buy_page{
+.buy_page {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 110px;
-  .title1_txt{
+  .title1_txt {
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
     line-height: 84px;
-    letter-spacing: 4px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
-  .title2_txt{
+  .title2_txt {
     font-size: 24px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #FFFFFF;
+
+    color: #ffffff;
     line-height: 37px;
-    letter-spacing: 4px;
   }
-  .tab_box{
+  .tab_box {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 90px;
-    .oneTab{
+    .oneTab {
       width: 360px;
       height: 70px;
       line-height: 70px;
       text-align: center;
       font-size: 30px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
-      color: #FFFFFF;
+
+      color: #ffffff;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
+      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
     }
-    .activeTab{
-      background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
-      box-shadow: 0 14px 2px #23447C;
+    .activeTab {
+      background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+      box-shadow: 0 14px 2px #23447c;
     }
   }
 }
 @media screen and (min-width: 1440px) {
-  .buy_page{
+  .buy_page {
     max-width: 1440px;
     margin: 0 auto;
   }
 }
-@media screen and (max-width: 980px){
-  .buy_page{
+@media screen and (max-width: 980px) {
+  .buy_page {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 1rem;
-    .title1_txt{
+    .title1_txt {
       font-size: 0.24rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
       line-height: 0.3rem;
-      letter-spacing: 4px;
-      color: #FFFFFF;
+
+      color: #ffffff;
     }
-    .title2_txt{
+    .title2_txt {
       font-size: 0.16rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
-      color: #FFFFFF;
+
+      color: #ffffff;
       line-height: 0.22rem;
-      letter-spacing: 4px;
     }
-    .tab_box{
+    .tab_box {
       display: flex;
       align-items: center;
       justify-content: center;
       margin-top: 0.4rem;
-      .oneTab{
+      .oneTab {
         width: 1rem;
         height: 0.37rem;
         line-height: 0.37rem;
         text-align: center;
         font-size: 0.12rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #FFFFFF;
+
+        color: #ffffff;
         border-radius: 5px;
         cursor: pointer;
-        box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+          -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
       }
-      .activeTab{
-        background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
-        box-shadow: 0 0.06rem 2px #23447C;
+      .activeTab {
+        background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+        box-shadow: 0 0.06rem 2px #23447c;
       }
     }
   }

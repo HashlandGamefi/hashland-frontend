@@ -3,7 +3,7 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
-    <div class="title_title">{{$t("message.synthesis.txt1")}}</div>
+    <div class="title_title font_title">{{$t("message.synthesis.txt1")}}</div>
     <div class="title_son1">{{$t("message.synthesis.txt2")}}</div>
     <div class="title_son1">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
@@ -25,7 +25,7 @@
         <span class="span1">{{$t("message.synthesis.txt6")}}</span>
         <span class="span2"> {{selectedNUM}}</span>
       </div>
-      <div class="bottom_txt2" v-if="selectedCardnum != 0">
+      <div class="bottom_txt2" v-if="selectimgArr.length != 0">
         {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}}{{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}}15%
       </div>
     </div>
@@ -74,9 +74,13 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
         <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" />
       </div>
+      <div class="defaultClass" v-if="pageshowarr.length == 0">
+        <img :src="`${$store.state.imgUrl}defaultGraph.png`" />
+        <span class="txt">{{$t("message.nothing")}}</span>
+      </div>
     </div>
-    <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC">{{$t("message.synthesis.txt1")}}</div>
-    <div class="btn_box" @click="authorizationClick" v-else>{{$t("message.approve")}}</div>
+    <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC && pageshowarr.length > 0">{{$t("message.synthesis.txt1")}}</div>
+    <div class="btn_box" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC && pageshowarr.length > 0">{{$t("message.approve")}}</div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -313,20 +317,14 @@ export default {
   }
   .title_title {
     font-size: 40px;
-    font-family: AaJXH;
     color: #ffffff;
     line-height: 73px;
-    letter-spacing: 4px;
-    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
     margin-bottom: 35px;
   }
   .title_son1{
     font-size: 24px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     line-height: 37px;
     // -webkit-text-stroke: 1px #092868;
@@ -352,8 +350,8 @@ export default {
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
         font-size: 26px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         line-height: 56px;
         margin-right: 10px;
@@ -388,8 +386,8 @@ export default {
         margin-top: 70px;
         .span1{
           font-size: 18px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #E2DADA;
           line-height: 50px;
           cursor: pointer;
@@ -411,8 +409,8 @@ export default {
       }
       .select_ttx{
         font-size: 24px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         line-height: 56px;
       }
@@ -428,16 +426,16 @@ export default {
       align-items: center;
       .span1 {
         font-size: 24px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #ffffff;
         line-height: 56px;
         margin-right: 5px;
       }
       .span2 {
         font-size: 24px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #00e7f0;
         line-height: 56px;
       }
@@ -445,8 +443,8 @@ export default {
     .bottom_txt2 {
       width: 100%;
       font-size: 20px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #ccbebe;
       line-height: 37px;
     }
@@ -503,8 +501,8 @@ export default {
             }
             .span1{
               font-size: 26px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
+
+
               color: #FFFFFF;
             }
           }
@@ -540,6 +538,23 @@ export default {
         object-fit: contain;
       }
     }
+    .defaultClass{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      img{
+        width: 406px;
+        object-fit: contain;
+      }
+      .txt{
+        font-size: 36px;
+        color: #FFFFFF;
+        line-height: 50px;
+      }
+    }
   }
   .cardarr_class_selected{
     margin-top: 80px;
@@ -562,16 +577,14 @@ export default {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 533px;
-    height: 102px;
+    width: 393px;
+    height: 82px;
     text-align: center;
-    line-height: 102px;
+    line-height: 70px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
     color: #ffffff;
     cursor: pointer;
     margin-top: 30px;
@@ -604,15 +617,15 @@ export default {
     }
     .title_title {
       font-size: 0.22rem;
-      font-family: AaJXH;
+
       color: #ffffff;
       line-height: 0.22rem;
       margin-bottom: 0.1rem;
     }
     .title_son1{
       font-size: 0.14rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #ffffff;
       line-height: 0.22rem;
     }
@@ -633,8 +646,8 @@ export default {
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
         font-size: 0.12rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         line-height: 0.28rem;
         margin-right: 0.1rem;
@@ -671,8 +684,8 @@ export default {
         margin-top: 0.35rem;
         .span1{
           font-size: 0.12rem;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #E2DADA;
           line-height: 0.28rem;
           cursor: pointer;
@@ -694,8 +707,8 @@ export default {
       }
       .select_ttx{
         font-size: 0.12rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         line-height: 0.2rem;
       }
@@ -712,16 +725,16 @@ export default {
       align-items: center;
       .span1 {
         font-size: 0.2rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #ffffff;
         line-height: 0.28rem;
         margin-right: 0.05rem;
       }
       .span2 {
         font-size: 0.2rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #00e7f0;
         line-height: 0.28rem;
       }
@@ -729,8 +742,8 @@ export default {
     .bottom_txt2 {
       width: 100%;
       font-size: 0.14rem;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #ccbebe;
       line-height: 0.2rem;
     }
@@ -787,8 +800,8 @@ export default {
             }
             .span1{
               font-size: 26px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
+
+
               color: #FFFFFF;
             }
           }
@@ -854,8 +867,8 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 0.18rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     cursor: pointer;
   }

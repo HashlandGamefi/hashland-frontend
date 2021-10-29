@@ -97,8 +97,8 @@ export default {
           margin-right: 10px;
           cursor: pointer;
           font-size: 12px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #052247;
           line-height: 26px;
           .addfooter_img{
@@ -121,8 +121,8 @@ export default {
         width: 100%;
         text-align: center;
         font-size: 16px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
+
+
         color: #FFFFFF;
         line-height: 33px;
         margin-top: 10px;
@@ -176,8 +176,8 @@ export default {
             margin-right: 0.1rem;
             cursor: pointer;
             font-size: 0.18rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #052247;
             transform: scale(0.6);
             .addfooter_img{
@@ -212,8 +212,8 @@ export default {
       align-items: center;
       font-size: 0.12rem;
       transform: scale(0.75);
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
+
+
       color: #FFFFFF;
       line-height: 0.2rme;
       margin-top: 0.1rme;

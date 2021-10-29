@@ -17,7 +17,7 @@
                   <span class="span1">{{$t(item.txt1)}}</span>
                   <div class="linebox">
                     <span class="span2">{{$t(item.txt2)}}</span>
-                    <span class="span3">GO></span>
+                    <span class="span3">GO ></span>
                   </div>
                 </div>
               </div>
@@ -311,11 +311,11 @@ export default {
                 margin-top: -66px;
                 .span1{
                   font-size: 18px;
-                  font-family: PingFangSC-Semibold, PingFang SC;
-                  font-weight: 600;
+
+
                   color: #FFFFFF;
                   line-height: 25px;
-                  letter-spacing: 1px;
+
                 }
                 .linebox{
                   width: 100%;
@@ -324,19 +324,19 @@ export default {
                   justify-content: space-between;
                   .span2{
                     font-size: 18px;
-                    font-family: PingFangSC-Medium, PingFang SC;
-                    font-weight: 500;
+
+
                     color: #FFFFFF;
                     line-height: 25px;
-                    letter-spacing: 1px;
+
                   }
                   .span3{
                     font-size: 20px;
-                    font-family: PingFangSC-Medium, PingFang SC;
-                    font-weight: 500;
+
+
                     color: #00E7F0;
                     line-height: 28px;
-                    letter-spacing: 1px;
+
                   }
                 }
               }
@@ -359,8 +359,8 @@ export default {
     .compositeCard{
       width: 100%;
       font-size: 30px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
+
+
       color: #FFFFFF;
       line-height: 60px;
       padding-left: 40px;
@@ -370,11 +370,11 @@ export default {
       object-fit: contain;
     }
     .cardboxs{
-      width: 1056px;
+      width: 847px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: -90px;
+      margin-top: 20px;
       .one_box{
         width: 236px;
         height: 258px;
@@ -398,16 +398,16 @@ export default {
           }
           .span1{
             font-size: 24px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             line-height: 42px;
           }
         }
         .span2{
           font-size: 36px;
-          font-family: PingFangSC-Regular, PingFang SC;
-          font-weight: 400;
+
+
           color: #FFFFFF;
           line-height: 42px;
         }
@@ -438,8 +438,8 @@ export default {
         margin-top: 20px;
         .span1{
           font-size: 32px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #19CDEC;
         }
         .span2{
@@ -452,8 +452,8 @@ export default {
           // padding: 10px 20px;
           // padding-bottom: 16px;
           font-size: 24px;
-          font-family: PingFangSC-Semibold, PingFang SC;
-          font-weight: 600;
+
+
           color: #fff;
           // display: flex;
           // align-items: center;
@@ -474,8 +474,8 @@ export default {
           .span1{
             position: absolute;
             font-size: 32px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
+
+
             color: #19CDEC;
             line-height: 56px;
           }
@@ -496,16 +496,16 @@ export default {
           padding-right: 20px;
           .span1{
             font-size: 24px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             line-height: 37px;
             margin-top: 30px;
           }
           .span2{
             font-size: 32px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #00E7F0;
             line-height: 56px;
           }
@@ -522,15 +522,15 @@ export default {
           flex-direction: column;
           .span1{
             font-size: 24px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #FFFFFF;
             line-height: 55px;
           }
           .span2{
             font-size: 32px;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #00E7F0;
             line-height: 55px;
           }
@@ -550,11 +550,11 @@ export default {
     }
     .span1{
       font-size: 32px;
-      font-family: PingFangSC-Medium, PingFang SC;
-      font-weight: 500;
+
+
       color: #D8D8D8;
       line-height: 56px;
-      letter-spacing: 2px;
+
     }
     .horizontal{
       width: 100%;
@@ -576,16 +576,16 @@ export default {
           }
           .span1_{
             font-size: 24px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
+
+
             color: #FFFFFF;
             line-height: 38px;
           }
         }
         .bottom{
           font-size: 16px;
-          font-family: PingFangSC-Regular, PingFang SC;
-          font-weight: 400;
+
+
           color: #DDD9D9;
           line-height: 28px;
           margin-left: 16px;
@@ -661,8 +661,8 @@ export default {
                   flex-direction: column;
                   .span1{
                     font-size: 0.12rem;
-                    font-family: PingFangSC-Semibold, PingFang SC;
-                    font-weight: 600;
+
+
                     color: #FFFFFF;
                     line-height: 0.17rem;
                   }
@@ -673,8 +673,8 @@ export default {
                   align-items: flex-end;
                   .span1{
                     font-size: 0.12rem;
-                    font-family: PingFangSC-Medium, PingFang SC;
-                    font-weight: 500;
+
+
                     color: #00E7F0;
                     line-height: 0.17rem;
                   }
@@ -695,11 +695,11 @@ export default {
       .compositeCard{
         width: 100%;
         font-size: 0.18rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
+
+
         color: #FFFFFF;
         line-height: 0.3rem;
-        letter-spacing: 4px;
+
         padding-left: 0;
       }
       .img{
@@ -734,8 +734,8 @@ export default {
             }
             .span1{
               font-size: 0.18rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 0.25rem;
               margin-left: 0.15rem;
@@ -743,8 +743,8 @@ export default {
           }
           .span2{
             font-size: 0.18rem;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
+
+
             color: #FFFFFF;
             line-height: 0.25rem;
           }
@@ -775,8 +775,8 @@ export default {
           margin-top: 0.1rem;
           .span1{
             font-size: 0.2rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #19CDEC;
           }
           .span2{
@@ -787,8 +787,8 @@ export default {
             background-image: url("//cdn.hashland.com/images/extract_btn.png");
             background-size:100% 100%;
             font-size: 0.2rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
+
+
             color: #fff;
           }
         }
@@ -806,8 +806,8 @@ export default {
             .span1{
               position: absolute;
               font-size: 0.2rem;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 500;
+
+
               color: #19CDEC;
               line-height: 56px;
             }
@@ -828,16 +828,16 @@ export default {
             padding-right: 0;
             .span1{
               font-size: 0.14rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 37px;
               margin-top: 0.1rem;
             }
             .span2{
               font-size: 0.14rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #00E7F0;
               line-height: 0.18rem;
             }
@@ -855,15 +855,15 @@ export default {
             flex-direction: column;
             .span1{
               font-size: 0.18rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #FFFFFF;
               line-height: 0.25rem;
             }
             .span2{
               font-size: 0.18rem;
-              font-family: PingFangSC-Semibold, PingFang SC;
-              font-weight: 600;
+
+
               color: #00E7F0;
               line-height: 0.25rem;
               margin-bottom: 0.2rem;
@@ -884,11 +884,11 @@ export default {
       }
       .span1{
         font-size: 0.2rem;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
+
+
         color: #D8D8D8;
         line-height: 0.28rem;
-        letter-spacing: 2px;
+
       }
       .horizontal{
         width: 100%;
@@ -911,16 +911,16 @@ export default {
             }
             .span1_{
               font-size: 0.16rem;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 500;
+
+
               color: #FFFFFF;
               line-height: 0.25rem;
             }
           }
           .bottom{
             font-size: 0.12rem;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
+
+
             color: #DDD9D9;
             line-height: 0.18rem;
             margin-left: 0.45rem;

@@ -63,11 +63,11 @@ export default {
     width: 100%;
     text-align: center;
     font-size: 40px;
-    font-family: AaJXH;
+
     font-style: italic;
     color: #FFFFFF;
     line-height: 73px;
-    letter-spacing: 4px;
+
     text-shadow: 0px 8px 17px rgba(52, 30, 2, 0.5);
     // -webkit-text-stroke: 2px #000000;
     // -webkit-text-fill-color: transparent;
@@ -131,8 +131,8 @@ export default {
           }
           .span1{
             font-size: 26px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
+
+
             color: #FFFFFF;
           }
         }
@@ -141,11 +141,11 @@ export default {
   }
   .bottom_title{
     font-size: 26px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 32px;
-    letter-spacing: 1px;
+
   }
   .connect_box {
     width: 533px;
@@ -156,8 +156,8 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     margin-top: 30px;
     cursor: pointer;
@@ -186,11 +186,11 @@ export default {
     width: 100%;
     text-align: center;
     font-size: 0.2rem;
-    font-family: AaJXH;
+
     font-style: normal;
     color: #FFFFFF;
     line-height: 0.5rem;
-    letter-spacing: 0;
+
     text-shadow: 0px 8px 17px rgba(52, 30, 2, 0.5);
   }
   .close_img{
@@ -254,8 +254,8 @@ export default {
           }
           .span1{
             font-size: 26px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
+
+
             color: #FFFFFF;
           }
         }
@@ -264,11 +264,11 @@ export default {
   }
   .bottom_title{
     font-size: 0.14rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #FFFFFF;
     line-height: 0.2rem;
-    letter-spacing: 0;
+
   }
   .connect_box {
     width: 1.94rem;
@@ -279,8 +279,8 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 0.18rem;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
+
+
     color: #ffffff;
     margin-top: 0.1rem;
     cursor: pointer;
