@@ -1,7 +1,7 @@
 <template>
   <div class="card_details_page">
     <div class="title" @click="back">
-      <img src="../../assets/images/back.png" class="backimg" />
+      <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
     <span class="span_title">{{$t("message.details")}}</span>
     <div class="boxarr">
@@ -9,7 +9,7 @@
         <img :src="item.src" class="imgcard" />
         <div class="bottom">
           <div class="five_pointed_star">
-            <img src="../../assets/images/start.png" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
+            <img :src="`${$store.state.imgUrl}start.png`"  v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
           </div>
           <div class="hc_coefficient">
             <img src="../../assets/images/hclogo.png" class="imgcard" />

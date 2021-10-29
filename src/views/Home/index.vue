@@ -2,10 +2,10 @@
   <div class="home_page">
     <div class="box">
       <div class="topbox">
-        <img src="../../assets/images/homebg.png" class="homebgimg">
+        <img :src="`${$store.state.imgUrl}homebg.png`" class="homebgimg">
       </div>
       <div class="mobile_topbox">
-        <img src="../../assets/images/mobile_bg.png" class="homebgimg">
+        <img :src="`${$store.state.imgUrl}mobile_bg.png`" class="homebgimg">
       </div>
       <div class="content">
         <div class="swiper-container">
@@ -38,25 +38,25 @@
     </div>
     <div class="card_content">
       <div class="compositeCard">{{$t("message.nav.txt7")}}</div>
-      <img src="../../assets/images/compositecard.png" class="img" />
+      <img :src="`${$store.state.imgUrl}compositecard.png`" class="img" />
       <div class="cardboxs">
         <div class="one_box">
           <div class="containbox">
-            <img src="../../assets/images/issue.png" class="img" />
+            <img :src="`${$store.state.imgUrl}issue.png`" class="img" />
             <span class="span1">{{$t("message.home.txt6")}}</span>
           </div>
           <span class="span2 blue_color">{{issued}}</span>
         </div>
         <div class="one_box">
           <div class="containbox">
-            <img src="../../assets/images/sale.png" class="img" />
+            <img :src="`${$store.state.imgUrl}sale.png`" class="img" />
             <span class="span1">{{$t("message.home.txt7")}}</span>
           </div>
           <span class="span2 red_color">{{sold}}</span>
         </div>
         <div class="one_box">
           <div class="containbox">
-            <img src="../../assets/images/destroy.png" class="img" />
+            <img :src="`${$store.state.imgUrl}destroy.png`" class="img" />
             <span class="span1">{{$t("message.home.txt8")}}</span>
           </div>
           <span class="span2 purple_color">{{Destroy}}</span>
@@ -65,14 +65,14 @@
     </div>
     <div class="hashland_boxs">
       <div class="hashland_content">
-        <img src="../../assets/images/hashlandimg.png" class="img" />
+        <img :src="`${$store.state.imgUrl}hashlandimg.png`" class="img" />
         <div class="Trend_chart">
           <span class="span1">{{$t("message.home.txt9")}}</span>
           <div class="span2">{{$t("message.home.txt10")}}</div>
         </div>
         <div class="trend_boxs">
           <div class="imgbox">
-            <img src="../../assets/images/lineChart.png" class="img" />
+            <img :src="`${$store.state.imgUrl}lineChart.png`" class="img" />
             <span class="span1 span2">$15</span>
             <span class="span1 span3">$1.5</span>
           </div>
@@ -109,28 +109,28 @@
         <div class="horizontal">
           <div class="horizontal_onebox">
             <div class="top">
-              <img src="../../assets/images/use1.png" class="img" />
+              <img :src="`${$store.state.imgUrl}use1.png`" class="img" />
               <span class="span1_">{{$t("message.home.txt18")}}</span>
             </div>
             <span class="bottom">{{$t("message.home.txt19")}}</span>
           </div>
           <div class="horizontal_onebox">
             <div class="top">
-              <img src="../../assets/images/use2.png" class="img" />
+              <img :src="`${$store.state.imgUrl}use2.png`" class="img" />
               <span class="span1_">GameFi</span>
             </div>
             <span class="bottom">{{$t("message.home.txt20")}}</span>
           </div>
           <div class="horizontal_onebox">
             <div class="top">
-              <img src="../../assets/images/use3.png" class="img" />
+              <img :src="`${$store.state.imgUrl}use3.png`" class="img" />
               <span class="span1_">DAO</span>
             </div>
             <span class="bottom">{{$t("message.home.txt21")}}</span>
           </div>
           <div class="horizontal_onebox">
             <div class="top">
-              <img src="../../assets/images/use4.png" class="img" />
+              <img :src="`${$store.state.imgUrl}use4.png`" class="img" />
               <span class="span1_">{{$t("message.home.txt22")}}</span>
             </div>
             <span class="bottom">{{$t("message.home.txt23")}}</span>

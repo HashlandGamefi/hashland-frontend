@@ -45,19 +45,13 @@ export default {
     line-height: 84px;
     letter-spacing: 4px;
     color: #FFFFFF;
-    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    // background: linear-gradient(360deg, rgba(47, 215, 242, 0) 0%, #00EBF3 100%);
-    // background-clip: text;
-    // color: transparent;
   }
   .title2_txt{
     font-size: 24px;
     font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
-    // color: #0AA6B5;
     color: #FFFFFF;
     line-height: 37px;
-    // transition: all 1.5s ease;
     letter-spacing: 4px;
   }
   .tab_box{
@@ -76,7 +70,7 @@ export default {
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
     }
     .activeTab{
       background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
@@ -129,7 +123,7 @@ export default {
         color: #FFFFFF;
         border-radius: 5px;
         cursor: pointer;
-        box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+        box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
       }
       .activeTab{
         background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);

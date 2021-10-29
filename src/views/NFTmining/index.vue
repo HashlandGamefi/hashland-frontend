@@ -29,7 +29,7 @@
             <span class="span2">{{btcnum}}</span>
           </div>
         </div>
-        <img src="../../assets/images/btc.png" class="btcimg" />
+        <img :src="`${$store.state.imgUrl}btc.png`" class="btcimg" />
       </div>
       <div class="left_footer right_footer">
         <div class="top">
@@ -47,7 +47,7 @@
             <span class="span2">{{hcnum}}</span>
           </div>
         </div>
-        <img src="../../assets/images/hc.png" class="btcimg" />
+        <img :src="`${$store.state.imgUrl}hc.png`" class="btcimg" />
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -194,7 +194,7 @@ export default {
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
     }
     .activeTab{
       background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
@@ -381,10 +381,10 @@ export default {
         color: #FFFFFF;
         border-radius: 0.05rem;
         cursor: pointer;
-        box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+      box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
       }
       .activeTab{
-        background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
+        background: #29CDDA;
         box-shadow: 0 0.06rem 2px #23447C;
       }
     }

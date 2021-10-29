@@ -28,24 +28,24 @@
       </div>
     </div>
     <div class="center_box">
-      <img src="../../assets/images/buybg.png" class="bgimg" />
+      <img :src="`${$store.state.imgUrl}buybg.png`" class="bgimg" />
       <div class="onebox">
-        <img src="../../assets/images/newcard.png" class="cardimg" />
-        <div class="bottom">
+        <img :src="`${$store.state.imgUrl}newcard.png`" class="cardimg" />
+        <!-- <div class="bottom">
           <div class="five_pointed_star">
-            <img src="../../assets/images/start.png" v-for="item1 in 1" :key="item1" class="start_img" />
+            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in 1" :key="item1" class="start_img" />
           </div>
           <div class="hc_btc_box">
             <div class="hc_coefficient">
-              <img src="../../assets/images/hclogo.png" class="imgcard" />
+              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
               <span class="span1">0</span>
             </div>
             <div class="hc_coefficient">
-              <img src="../../assets/images/btclogo.png" class="imgcard" />
+              <img :src="`${$store.state.imgUrl}btclogobtclogo.png`" class="imgcard" />
               <span class="span1">0</span>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="remaining">
         <span class="span1">{{$t("message.nftCard.txt12")}}</span>
@@ -363,6 +363,7 @@ export default {
   .center_box{
     position: relative;
     width: 100%;
+    min-height: 1000px;
     margin-top: 240px;
     display: flex;
     flex-direction: column;

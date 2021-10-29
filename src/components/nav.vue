@@ -1,7 +1,7 @@
 <template>
   <div class="nav_box" :class="{navbg:addbg}">
     <div class="logo_img" @click="menuClick(-1)">
-      <img src="../assets/images/logo.png" class="imgs" />
+      <img :src="`${$store.state.imgUrl}logo.png`" class="imgs" />
     </div>
     <div class="menu_box">
       <ul class="ul_">

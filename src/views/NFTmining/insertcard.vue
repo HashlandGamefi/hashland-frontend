@@ -1,7 +1,7 @@
 <template>
   <div class="insertcard_page">
     <div class="title" @click="back">
-      <img src="../../assets/images/back.png" class="backimg" />
+      <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
     <div class="title_title">{{$t("message.insert.txt1")}}</div>
     <span class="title1_txt">{{$t("message.insert.txt2")}}</span>
@@ -32,14 +32,7 @@
             >
               <div class="swiper_content_box" @click="cardClick(item, index, index1)">
                 <img :src="item.src" class="swiper_img" />
-                <img
-                  :src="
-                    item.status
-                      ? require('../../assets/images/selected.png')
-                      : require('../../assets/images/select.png')
-                  "
-                  class="select_img"
-                />
+                <img :src="item.status?`${$store.state.imgUrl}selected.png`:`${$store.state.imgUrl}select.png`" class="select_img" />
               </div>
             </div>
           </div>
@@ -64,7 +57,7 @@
 <script>
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
-import { util, getRandomNumber, hn, contract, hnPool, getSigner } from 'hashland-sdk'
+import { contract, hnPool, getSigner } from 'hashland-sdk'
 export default {
   data () {
     return {

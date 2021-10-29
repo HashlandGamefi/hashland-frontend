@@ -1,7 +1,7 @@
 <template>
   <div class="insertcard_page">
     <div class="title" @click="back">
-      <img src="../../assets/images/back.png" class="backimg" />
+      <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
     <div class="title_title">{{$t("message.synthesis.txt1")}}</div>
     <div class="title_son1">{{$t("message.synthesis.txt2")}}</div>
@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="right_content" @click="selectAllClick">
-        <img src="../../assets/images/selected.png" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
-        <img src="../../assets/images/select.png" class="selectimg" v-else />
+        <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
+        <img :src="`${$store.state.imgUrl}select.png`" class="selectimg" v-else />
         <span class="select_ttx">{{$t("message.synthesis.txt5")}}</span>
       </div>
     </div>
@@ -35,21 +35,21 @@
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
         <div class="bottom selected_bottom" :class="{scalebottom:index % 4 !== 0}">
           <div class="five_pointed_star">
-            <img src="../../assets/images/start.png" v-for="item1 in rank" :key="item1" class="start_img" />
+            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
           </div>
           <div class="hc_btc_box">
             <div class="hc_coefficient">
-              <img src="../../assets/images/hclogo.png" class="imgcard" />
+              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
               <span class="span1">{{item.hc}}</span>
             </div>
             <div class="hc_coefficient">
-              <img src="../../assets/images/btclogo.png" class="imgcard" />
+              <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
               <span class="span1">{{item.btc}}</span>
             </div>
           </div>
         </div>
-        <img src="../../assets/images/selected.png" class="selected_img" />
-        <img src="../../assets/images/zhu.png" class="master_img" v-if="index % 4 == 0" />
+        <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
+        <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" v-if="index % 4 == 0" />
       </div>
     </div>
     <!-- 页面展示数组 -->
@@ -58,22 +58,21 @@
         <img :src="item.src" class="card_picture" />
         <div class="bottom">
           <div class="five_pointed_star">
-            <img src="../../assets/images/start.png" v-for="item1 in rank" :key="item1" class="start_img" />
+            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
           </div>
           <div class="hc_btc_box">
             <div class="hc_coefficient">
-              <img src="../../assets/images/hclogo.png" class="imgcard" />
+              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
               <span class="span1">{{item.hc}}</span>
             </div>
             <div class="hc_coefficient">
-              <img src="../../assets/images/btclogo.png" class="imgcard" />
+              <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
               <span class="span1">{{item.btc}}</span>
             </div>
           </div>
         </div>
-        <img src="../../assets/images/select.png" class="select_img" />
-        <!-- <img src="../../assets/images/zhu.png" class="master_img" v-if="item.ismaster" /> -->
-        <img src="../../assets/images/fu.png" class="orther_img"/>
+        <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
+        <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" />
       </div>
     </div>
     <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC">{{$t("message.synthesis.txt1")}}</div>

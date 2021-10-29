@@ -1,28 +1,28 @@
 <template>
   <div class="footer_page">
     <div class="pc_box">
-      <img src="../assets/images/footer1.png" class="footer1img" />
+      <img :src="`${$store.state.imgUrl}footer1.png`" class="footer1img" />
       <div class="center_box">
-        <img src="../assets/images/logo.png" class="footer3img" />
+        <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
           <div class="btn1" @click="footerClick('Certik')">
-            <img src="../assets/images/certick.png" class="certick_img" />
+            <img :src="`${$store.state.imgUrl}certick.png`" class="certick_img" />
             Certik
           </div>
           <div class="btn1" @click="footerClick('Gitbook')">
-            <img src="../assets/images/addfooter.png" class="addfooter_img" />
+            <img :src="`${$store.state.imgUrl}addfooter.png`" class="addfooter_img" />
             GitBook
           </div>
         </div>
         <div class="btnbox">
-          <img src="../assets/images/m.png" class="img" @click="footerClick('Medium')" />
-          <img src="../assets/images/twiterr.png" class="img" @click="footerClick('Twitter')" />
-          <img src="../assets/images/tel.png" class="img" @click="footerClick('Telegram')" />
-          <img src="../assets/images/discord.png" class="img" @click="footerClick('Discord')" />
+          <img :src="`${$store.state.imgUrl}m.png`" class="img" @click="footerClick('Medium')" />
+          <img :src="`${$store.state.imgUrl}twiterr.png`" class="img" @click="footerClick('Twitter')" />
+          <img :src="`${$store.state.imgUrl}tel.png`" class="img" @click="footerClick('Telegram')" />
+          <img :src="`${$store.state.imgUrl}discord.png`" class="img" @click="footerClick('Discord')" />
         </div>
         <div class="line_txt">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
       </div>
-      <img src="../assets/images/footer2.png" class="footer2img" />
+      <img :src="`${$store.state.imgUrl}footer2.png`" class="footer2img" />
     </div>
     <div class="mobile_line_txt">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
   </div>

@@ -28,9 +28,9 @@
       </div>
     </div>
     <div class="center_box">
-      <img src="../../assets/images/blindcard.png" class="bgimg" />
+      <img :src="`${$store.state.imgUrl}blindcard.png`" class="bgimg" />
       <div class="onebox">
-        <img src="../../assets/images/box.png" class="cardimg" />
+        <img :src="`${$store.state.imgUrl}box.png`" class="cardimg" />
       </div>
       <div class="remaining">
         <span class="span1">{{$t("message.nftCard.txt12")}}</span>
@@ -250,6 +250,7 @@ export default {
   .center_box{
     position: relative;
     width: 100%;
+    min-height: 1000px;
     margin-top: 240px;
     display: flex;
     flex-direction: column;

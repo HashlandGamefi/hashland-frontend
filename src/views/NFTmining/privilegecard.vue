@@ -11,8 +11,8 @@
     <!-- 我的钱包卡牌 -->
     <div class="myCardBox">
       <div class="occupationBitmap">
-        <img src="../../assets/images/privilegebg.png" class="privilegebgimg" />
-        <img src="../../assets/images/specialCard.png" class="privilbg" />
+        <img :src="`${$store.state.imgUrl}privilegebg.png`" class="privilegebgimg" />
+        <img :src="`${$store.state.imgUrl}specialCard.png`" class="privilbg" />
       </div>
       <div class="btn_box">{{$t("message.buy2")}}</div>
     </div>
@@ -34,7 +34,7 @@
           <div class="outbox">
             <div class="second-content_box">
               <img :src="item.src" class="swiper_img" />
-              <img src="../../assets/images/privilege.png" class="base_img" />
+              <img :src="`${$store.state.imgUrl}privilege.png`" class="base_img" />
             </div>
             <div
               class="btnbox remove_btnbox"

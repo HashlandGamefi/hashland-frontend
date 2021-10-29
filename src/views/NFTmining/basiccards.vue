@@ -16,7 +16,7 @@
             <img :src="item.src" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img src="../../assets/images/start.png" v-for="ele in item.level" :key="ele"  class="start_img" />
+                <img :src="`${$store.state.imgUrl}start.png`" v-for="ele in item.level" :key="ele"  class="start_img" />
               </div>
               <span class="card_grade">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
               <span class="details">{{$t("message.nftMining.txt6")}}</span>
@@ -43,7 +43,7 @@
           <div class="outbox">
             <div class="second-content_box">
               <img :src="item.src" class="swiper_img" />
-              <img src="../../assets/images/pledgebg.png" class="base_img" />
+              <img :src="`${$store.state.imgUrl}pledgebg.png`" class="base_img" />
             </div>
             <div class="btnbox remove_btnbox" v-if="item.btnstatus == 1" @click="insertClick(item)">{{$t("message.nftMining.txt15")}}</div>
             <div class="btnbox insert_btnbox" v-if="item.btnstatus == 2" @click="removeClick(item)">
