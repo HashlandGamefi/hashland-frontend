@@ -18,7 +18,7 @@
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        {{$t("message.nftCard.txt11")}}:{{total}} BUSD
+        {{$t("message.nftCard.txt11")}}: {{total}} BUSD
       </div>
     </div>
     <div class="mobile_top">
@@ -65,7 +65,7 @@
         <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">{{$t("message.nftCard.txt11")}}:</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt11")}}: </span>
       <span class="composite_span2">{{total}} BUSD</span>
       <span class="composite_line_color"></span>
     </div>
@@ -233,18 +233,18 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      font-size: 32px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       .span1{
-        padding: 5px;
+        padding: 9px;
         background: #29CDDA;
         border-radius: 5px;
         line-height: 42px;
       }
       .span2{
-        padding: 5px;
+        padding: 9px;
         background: #23447C;
         border-radius: 5px;
         line-height: 20px;
@@ -333,7 +333,7 @@ export default {
     .right_span1 {
       width: 280px;
       font-size: 18px;
-      font-family: PingFangSC-Semibold, PingFang SC;
+      font-family:PingFangSC-Regular, PingFang SC;
       font-weight: 600;
       color: #27c7d5;
       line-height: 28px;
@@ -349,7 +349,7 @@ export default {
       }
     }
     .btn {
-      font-size: 32px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -373,15 +373,14 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 20%;
-      left: 50%;
+      top: 27%;
+      left: 52%;
       transform: translate(-50%,-50%);
-      // width: 320px;
       display: flex;
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 497px;
+        width: 410px;
         object-fit: contain;
       }
       .bottom{
@@ -702,7 +701,7 @@ input::-webkit-input-placeholder {
       .right_span1 {
         width: 100%;
         font-size: 0.12rem;
-        font-family: PingFangSC-Semibold, PingFang SC;
+        font-family:PingFangSC-Regular, PingFang SC;;
         font-weight: 600;
         color: #27c7d5;
         line-height: 0.14rem;

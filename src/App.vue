@@ -68,10 +68,15 @@ export default {
   //   this.$common.getUserCardInfoFun(this.getAccount) // 获取用户的卡牌信息
   // },
   mounted () {
+    localStorage.setItem("testitem",'测试缓存')
     window.addEventListener('load', this.setRem)
     window.addEventListener('resize', this.setRem)
+    window.addEventListener('beforeunload', (event) => {
+      console.log('event: ', event);
+
+    });
   },
-  beforeDestroy(){
+  beforeUnmount(){
     localStorage.clear()
   }
 }

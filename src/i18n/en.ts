@@ -106,7 +106,7 @@ export const message = {
     txt4: "Level",
     txt8: "Total",
     txt9: "张", //英文无量词
-    txt5: "Select/Unselect/ All",
+    txt5: "All Select/Unselect",
     txt6: "Select Card",
     txt7: "After Crafting,",
     txt10: "Level() Cards will be burnt",
@@ -139,6 +139,6 @@ export const message = {
   word13: "插入成功", //Insert Successful
   word14: "没有空卡槽了", //No Empty Slot Remaining
   word15: "选择的卡牌必须4的倍数哦", //You must select
-  approve: "授权", //Authorize
-  button1: "确认" //Confirm
+  approve: "Authorize", //Authorize
+  button1: "Confirm" //Confirm
 };

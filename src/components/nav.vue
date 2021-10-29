@@ -96,6 +96,9 @@ export default {
         case 0:
           this.$router.push('/buy')
           break;
+        case 5:
+          window.location.href = 'https://land-hash.gitbook.io/white-paper/'
+          break;
         default:
           this.$common.selectLang('敬请期待','Coming soon',this)
           break;
@@ -187,7 +190,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999999;
+  z-index: 999;
   width: 100%;
   height: 110px;
   display: flex;

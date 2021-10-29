@@ -16,7 +16,7 @@
               starArr.filter((data) => {
                 return data.level == ele;
               }).length
-            }}{{$t("message.synthesis.txt9")}}</span
+            }}</span
           >
           <span class="span2">{{$t("message.nftMining.txt8")}}</span>
         </div>

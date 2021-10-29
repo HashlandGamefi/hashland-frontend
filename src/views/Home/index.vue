@@ -10,7 +10,7 @@
       <div class="content">
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in swiperArr" :key="index">
+            <div class="swiper-slide" v-for="(item,index) in swiperArr" :key="index" @click="swiperClick(index)">
               <div class="left">
                 <img :src="item.src" class="home1_img" />
                 <div class="txtbox">
@@ -138,6 +138,7 @@
         </div>
       </div>
     </div>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 <script>
@@ -145,10 +146,13 @@ import { hc,hn } from 'hashland-sdk';
 export default {
   data(){
     return {
+      proupDis:false,// 弹窗展示消失变量
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
       pageHeight:0,//当前可视区域的高度
       issued:0,//已发行
       Destroy:0,//已销毁
-      sold:'NAN',//待销售
+      sold:0,//待销售
       todynums:0,//今日产出
       totalSupply:0,//流通量
       hcDestroy:0,//hc销毁量
@@ -177,6 +181,25 @@ export default {
     }
   },
   methods:{
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
+    swiperClick(index){
+      switch(index){
+        case 0:
+          this.$router.push('/buy')
+          break;
+        case 1:
+          this.$router.push('/nftmining')
+          break;
+        case 2:
+          this.$common.selectLang('敬请期待','Coming soon',this)
+          break;
+        default:
+          break;
+      }
+    },
     async getSDKInfo(){
       // 已发行
       hn().totalSupply().then(data => {
@@ -335,12 +358,11 @@ export default {
     margin-top: 25px;
     .compositeCard{
       width: 100%;
-      font-size: 40px;
+      font-size: 30px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       line-height: 60px;
-      letter-spacing: 4px;
       padding-left: 40px;
     }
     .img{

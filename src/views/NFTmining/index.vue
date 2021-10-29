@@ -169,11 +169,6 @@ export default {
     font-family: AaJXH;
     color: #FFFFFF;
     line-height: 73px;
-    letter-spacing: 4px;
-    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    // background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
   }
   .nft_title1{
     font-size: 24px;
@@ -181,13 +176,7 @@ export default {
     font-weight: 600;
     color: #FFFFFF;
     line-height: 37px;
-    // -webkit-text-stroke: 1px #092868;
-    // text-stroke: 1px #092868;
-    // background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
     margin-top: 20px;
-    letter-spacing: 4px;
   }
   .tab_box{
     display: flex;
@@ -367,7 +356,6 @@ export default {
       font-family: AaJXH;
       color: #FFFFFF;
       line-height: 0.5rem;
-      letter-spacing: 4px;
     }
     .nft_title1{
       font-size: 0.16rem;

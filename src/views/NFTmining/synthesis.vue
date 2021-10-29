@@ -8,10 +8,10 @@
     <div class="title_son1">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
-        <span class="span1">{{rank}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{amount}} {{$t("message.synthesis.txt9")}})</span>
+        <span class="span1">{{rank}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}} {{$t("message.synthesis.txt9")}})</span>
+          <span class="span1" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
         </div>
       </div>
       <div class="right_content" @click="selectAllClick">
@@ -23,10 +23,10 @@
     <div class="bottom_txtbox" v-if="rank < 5">
       <div class="bottom_txt1">
         <span class="span1">{{$t("message.synthesis.txt6")}}</span>
-        <span class="span2">{{selectedNUM}}</span>
+        <span class="span2"> {{selectedNUM}}</span>
       </div>
-      <div class="bottom_txt2">
-        {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}}{{compose}}{{$t("message.synthesis.txt9")}}{{rank + 1 }}{{$t("message.synthesis.txt11")}}15%
+      <div class="bottom_txt2" v-if="selectedCardnum != 0">
+        {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}}{{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}}15%
       </div>
     </div>
     <!-- 选中以后的卡牌数组 -->
@@ -357,7 +357,6 @@ export default {
         font-weight: 600;
         color: #FFFFFF;
         line-height: 56px;
-        letter-spacing: 5px;
         margin-right: 10px;
         cursor: pointer;
       }
@@ -385,8 +384,6 @@ export default {
         background: rgba(0, 0, 0, 0.74);
         box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
         filter: blur(0px);
-        // background: rgba(0, 0, 0, 0.8);
-        // box-shadow: -2px 1px 20px 0px rgba(184, 175, 175, 0.29) inset;
         border-radius: 4px;
         padding: 20px 0;
         margin-top: 70px;
@@ -436,7 +433,7 @@ export default {
         font-weight: 600;
         color: #ffffff;
         line-height: 56px;
-        letter-spacing: 5px;
+        margin-right: 5px;
       }
       .span2 {
         font-size: 24px;
@@ -444,7 +441,6 @@ export default {
         font-weight: 600;
         color: #00e7f0;
         line-height: 56px;
-        letter-spacing: 5px;
       }
     }
     .bottom_txt2 {
@@ -698,7 +694,7 @@ export default {
         margin-right: 0.05rem;
       }
       .select_ttx{
-        font-size: 0.14rem;
+        font-size: 0.12rem;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
         color: #FFFFFF;
@@ -721,6 +717,7 @@ export default {
         font-weight: 600;
         color: #ffffff;
         line-height: 0.28rem;
+        margin-right: 0.05rem;
       }
       .span2 {
         font-size: 0.2rem;

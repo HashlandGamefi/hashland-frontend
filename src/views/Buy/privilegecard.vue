@@ -18,7 +18,7 @@
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        {{$t("message.nftCard.txt11")}}:{{total}} BNB
+        {{$t("message.nftCard.txt11")}}: {{total}} BNB
       </div>
     </div>
     <div class="mobile_top">
@@ -30,23 +30,7 @@
     <div class="center_box">
       <img src="../../assets/images/privilegebg.png" class="bgimg" />
       <div class="onebox">
-        <img src="../../assets/images/privilcard.png" class="cardimg" />
-        <img src="../../assets/images/1.gif" class="gifclass" />
-        <!-- <div class="bottom">
-          <div class="five_pointed_star">
-            <img src="../../assets/images/start.png" v-for="item1 in 1" :key="item1" class="start_img" />
-          </div>
-          <div class="hc_btc_box">
-            <div class="hc_coefficient">
-              <img src="../../assets/images/hclogo.png" class="imgcard" />
-              <span class="span1">0</span>
-            </div>
-            <div class="hc_coefficient">
-              <img src="../../assets/images/btclogo.png" class="imgcard" />
-              <span class="span1">0</span>
-            </div>
-          </div>
-        </div> -->
+        <img src="../../assets/images/specialCard.png" class="cardimg" />
       </div>
       <div class="remaining">
         <span class="span1">{{$t("message.nftCard.txt12")}}</span>
@@ -66,7 +50,7 @@
         <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">{{$t("message.nftCard.txt11")}}:</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt11")}}: </span>
       <span class="composite_span2">{{total}} BNB</span>
       <span class="composite_line_color"></span>
     </div>
@@ -129,18 +113,18 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      font-size: 32px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       .span1{
-        padding: 5px;
+        padding: 9px;
         background: #29CDDA;
         border-radius: 5px;
         line-height: 42px;
       }
       .span2{
-        padding: 5px;
+        padding: 9px;
         background: #23447C;
         border-radius: 5px;
         line-height: 20px;
@@ -251,7 +235,7 @@ export default {
       }
     }
     .btn {
-      font-size: 32px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
@@ -275,64 +259,15 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 49%;
-      left: 50%;
+      top: 39%;
+      left: 48%;
       transform: translate(-50%,-50%);
-      // width: 320px;
       display: flex;
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 540px;
+        width: 404px;
         object-fit: contain;
-      }
-      .gifclass{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 605px;
-        transform: translate(-50%,-50%);
-        object-fit: contain;
-      }
-      .bottom{
-        position: absolute;
-        top: 75px;
-        display: flex;
-        align-items: center;
-        padding:10px 8px;
-        transform: scale(0.7);
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_btc_box{
-          display: flex;
-          align-items: center;
-          .hc_coefficient{
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            margin-right: 5px;
-            background: rgba(5, 24, 44, 0.88);
-            box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-            border-radius: 11px;
-            opacity: 0.56;
-            .imgcard{
-              width: 43px;
-              object-fit: contain;
-            }
-            .span1{
-              font-size: 26px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #FFFFFF;
-            }
-          }
-        }
       }
     }
     .remaining{
@@ -412,8 +347,8 @@ input::-webkit-input-placeholder {
       }
       .onebox{
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: 39%;
+        left: 48%;
         transform: translate(-50%,-50%);
         display: flex;
         flex-direction: column;
@@ -421,54 +356,6 @@ input::-webkit-input-placeholder {
         .cardimg{
           width: 1.64rem;
           object-fit: contain;
-        }
-        .gifclass{
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 2rem;
-          transform: translate(-50%,-50%);
-          object-fit: contain;
-        }
-        .bottom{
-          position: absolute;
-          top: 0.05rem;
-          display: flex;
-          align-items: center;
-          padding:0.1rem 0.08rem;
-          transform: scale(0.5);
-          .five_pointed_star{
-            display: flex;
-            align-items: center;
-            .start_img{
-              width: 0.26rem;
-              object-fit: contain;
-            }
-          }
-          .hc_btc_box{
-            display: flex;
-            align-items: center;
-            .hc_coefficient{
-              display: flex;
-              align-items: center;
-              border-radius: 4px;
-              margin-right: 5px;
-              background: rgba(5, 24, 44, 0.88);
-              box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-              border-radius: 11px;
-              opacity: 0.56;
-              .imgcard{
-                width: 43px;
-                object-fit: contain;
-              }
-              .span1{
-                font-size: 26px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-                color: #FFFFFF;
-              }
-            }
-          }
         }
       }
       .remaining{

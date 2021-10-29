@@ -12,7 +12,7 @@
     <div class="myCardBox">
       <div class="occupationBitmap">
         <img src="../../assets/images/privilegebg.png" class="privilegebgimg" />
-        <img src="../../assets/images/defaultcard.png" class="privilbg" />
+        <img src="../../assets/images/specialCard.png" class="privilbg" />
       </div>
       <div class="btn_box">{{$t("message.buy2")}}</div>
     </div>
@@ -181,10 +181,10 @@ export default {
       }
       .privilbg{
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: 35%;
+        left: 49%;
         transform: translate(-50%,-50%);
-        width: 280px;
+        width: 404px;
         object-fit: contain;
       }
     }

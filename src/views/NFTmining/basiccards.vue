@@ -24,15 +24,10 @@
           </div>
         </div>
       </div>
-      <!-- 如果需要分页器 -->
-      <!-- <div class="swiper-pagination"></div> -->
-
       <!-- 如果需要导航按钮 -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-
-      <!-- 如果需要滚动条 -->
-      <!--    <div class="swiper-scrollbar"></div>-->
+      <div class="swiper-button-prev" slot="button-prev">
+      </div>
+      <div class="swiper-button-next" slot="button-next"></div>
     </div>
     <!-- 卡槽 -->
     <div class="myCard margin_top_card">
@@ -110,6 +105,16 @@ export default {
         {
           src:'',
           btnstatus:1,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading:false
+        },
+        {
+          src:require("../../assets/images/cardlock.png"),
+          btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading:false
+        },
+        {
+          src:require("../../assets/images/cardlock.png"),
+          btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
           isloading:false
         },
         {
@@ -279,7 +284,9 @@ export default {
       }
       // 是否添加解锁卡槽
       if(Number(this.cardSlot) < Number(this.maxCardSlot)){
-        this.cardsoltArr.push(obj3)
+        for (let index = 0; index < 3; index++) {
+          this.cardsoltArr.push(obj3)
+        }
       }
       // 授权
       this.$common.isApproveFun(2,this.getAccount,contract().HNPool).then(res => {
@@ -334,7 +341,6 @@ export default {
     justify-content: space-between;
     padding: 0 100px;
     .card_left {
-      // width: 370px;
       display: flex;
       flex-direction: column;
       .span1 {
@@ -343,7 +349,6 @@ export default {
         font-weight: 600;
         color: #ffffff;
         line-height: 56px;
-        letter-spacing: 5px;
       }
       .span2 {
         font-size: 18px;
@@ -371,6 +376,7 @@ export default {
   .swiper-container{
     width: 100%;
     height: auto;
+    padding: 0 90px;
     .swiper-wrapper{
       .swiper-slide{
         width: 100%;
@@ -495,6 +501,18 @@ export default {
         }
       }
     }
+    .swiper-button-prev{
+      width: 109px;
+      height: 109px;
+      background: url("../../assets/images/swiper_pre.png") no-repeat;
+      background-size: 100% 100%;
+    }
+    .swiper-button-next{
+      width: 109px;
+      height: 109px;
+      background: url("../../assets/images/swiper_next.png") no-repeat;
+      background-size: 100% 100%;
+    }
   }
   .self_swiper{
     height: auto;
@@ -554,6 +572,7 @@ export default {
     .swiper-container{
       width: 100%;
       height: auto;
+      padding: 0 0.4rem;
       .swiper-wrapper{
         .swiper-slide{
           width: 100%;
@@ -677,6 +696,18 @@ export default {
             }
           }
         }
+      }
+      .swiper-button-prev{
+        width: 0.45rem;
+        height: 0.45rem;
+        background: url("../../assets/images/swiper_pre.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .swiper-button-next{
+        width: 0.45rem;
+        height: 0.45rem;
+        background: url("../../assets/images/swiper_next.png") no-repeat;
+        background-size: 100% 100%;
       }
     }
     .self_swiper{

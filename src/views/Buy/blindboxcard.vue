@@ -18,7 +18,7 @@
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        {{$t("message.nftCard.txt11")}}:{{total}} BNB
+        {{$t("message.nftCard.txt11")}}: {{total}} BNB
       </div>
     </div>
     <div class="mobile_top">
@@ -50,7 +50,7 @@
         <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">{{$t("message.nftCard.txt11")}}</span>
+      <span class="composite_span1">{{$t("message.nftCard.txt11")}}: </span>
       <span class="composite_span2">{{total}} BNB</span>
       <span class="composite_line_color"></span>
     </div>
@@ -114,18 +114,18 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      font-size: 32px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
       .span1{
-        padding: 5px;
+        padding: 9px;
         background: #29CDDA;
         border-radius: 5px;
         line-height: 42px;
       }
       .span2{
-        padding: 5px;
+        padding: 9px;
         background: #23447C;
         border-radius: 5px;
         line-height: 20px;
@@ -236,7 +236,7 @@ export default {
       }
     }
     .btn {
-      font-size: 32px;
+      font-size: 24px;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #FFFFFF;
