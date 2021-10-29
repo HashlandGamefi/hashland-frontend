@@ -57,14 +57,12 @@ export default {
   align-items: center;
   padding-top: 110px;
   .title1_txt {
-    font-size: 40px;
-
+    font-size: 36px;
     line-height: 84px;
     color: #ffffff;
   }
   .title2_txt {
-    font-size: 24px;
-
+    font-size: 20px;
     color: #ffffff;
     line-height: 37px;
   }
@@ -78,8 +76,8 @@ export default {
       height: 70px;
       line-height: 70px;
       text-align: center;
-      font-size: 30px;
-
+      font-size: 26px;
+      font-weight: bold;
       color: #ffffff;
       border-radius: 5px;
       cursor: pointer;

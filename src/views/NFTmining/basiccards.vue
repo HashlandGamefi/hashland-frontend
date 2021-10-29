@@ -344,31 +344,27 @@ export default {
       flex-direction: column;
       .span1 {
         font-size: 32px;
-
-
+        font-weight: bold;
         color: #ffffff;
         line-height: 56px;
       }
       .span2 {
         font-size: 18px;
-
-
         color: #ccbebe;
         line-height: 37px;
       }
     }
     .synthesis_btn {
       width: 115px;
-      height: 56px;
-      background-image: url("//cdn.hashland.com/images/nft_btn1.png");
+      height: 51px;
+      background-image: url(//cdn.hashland.com/images/nft_btn1.png);
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
-      font-size: 24px;
-
-
+      font-size: 20px;
+      font-weight: bold;
       color: #ffffff;
-      line-height: 56px;
+      line-height: 51px;
       cursor: pointer;
     }
   }
@@ -396,7 +392,8 @@ export default {
             align-items: center;
             margin-top: 20px;
             border-radius: 15px;
-            box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
             .five_pointed_star{
               display: flex;
               align-items: center;
@@ -483,8 +480,7 @@ export default {
             background-size: contain;
             background-repeat: no-repeat;
             font-size: 16px;
-
-
+            font-weight: bold;
             color: #FFFFFF;
             cursor: pointer;
           }
@@ -501,14 +497,14 @@ export default {
       }
     }
     .swiper-button-prev{
-      width: 109px;
-      height: 109px;
+      width: 70px;
+      height: 67px;
       background: url("//cdn.hashland.com/images/swiper_pre.png") no-repeat;
       background-size: 100% 100%;
     }
     .swiper-button-next{
-      width: 109px;
-      height: 109px;
+      width: 70px;
+      height: 67px;
       background: url("//cdn.hashland.com/images/swiper_next.png") no-repeat;
       background-size: 100% 100%;
     }

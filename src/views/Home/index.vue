@@ -359,8 +359,7 @@ export default {
     .compositeCard{
       width: 100%;
       font-size: 30px;
-
-
+      font-weight: bold;
       color: #FFFFFF;
       line-height: 60px;
       padding-left: 40px;
@@ -438,8 +437,6 @@ export default {
         margin-top: 20px;
         .span1{
           font-size: 32px;
-
-
           color: #19CDEC;
         }
         .span2{
@@ -449,15 +446,9 @@ export default {
           text-align: center;
           background-image: url("//cdn.hashland.com/images/extract_btn.png");
           background-size:100% 100%;
-          // padding: 10px 20px;
-          // padding-bottom: 16px;
           font-size: 24px;
-
-
           color: #fff;
-          // display: flex;
-          // align-items: center;
-          // justify-content: center;
+          font-weight: bold;
         }
       }
       .trend_boxs{
@@ -550,8 +541,7 @@ export default {
     }
     .span1{
       font-size: 32px;
-
-
+      font-weight: bold;
       color: #D8D8D8;
       line-height: 56px;
 

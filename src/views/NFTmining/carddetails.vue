@@ -26,8 +26,8 @@
         <span class="txt">{{$t("message.nothing")}}</span>
       </div>
     </div>
-    <span class="bottom_title">{{$t("message.details1")}}</span>
-    <div class="connect_box">{{$t("message.button1")}}</div>
+    <span class="bottom_title" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
+    <div class="connect_box" v-if="boxarr.length > 0">{{$t("message.button1")}}</div>
   </div>
 </template>
 
@@ -83,16 +83,9 @@ export default {
     }
   }
   .span_title{
-    font-size: 40px;
-
-
+    font-size: 36px;
     color: #FFFFFF;
     line-height: 84px;
-
-    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    // background: linear-gradient(360deg, rgba(47, 215, 242, 0) 0%, #00EBF3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
   }
   .boxarr{
     width: 100%;
@@ -101,7 +94,7 @@ export default {
     flex-wrap: wrap;
     padding: 0 40px;
     // padding-right: 40px;
-    margin-top: 70px;
+    // margin-top: 70px;
     max-height: 980px;
     overflow-y: auto;
     .onebox{
@@ -180,16 +173,14 @@ export default {
     }
   }
   .bottom_title{
-    font-size: 26px;
-
-
+    font-size: 22px;
     color: #FFFFFF;
     line-height: 32px;
-
   }
   .connect_box {
     width: 393px;
     height: 82px;
+    font-weight: bold;
     text-align: center;
     line-height: 70px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");

@@ -316,15 +316,13 @@ export default {
     }
   }
   .title_title {
-    font-size: 40px;
+    font-size: 36px;
     color: #ffffff;
     line-height: 73px;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
   }
   .title_son1{
-    font-size: 24px;
-
-
+    font-size: 20px;
     color: #ffffff;
     line-height: 37px;
     // -webkit-text-stroke: 1px #092868;
@@ -350,8 +348,7 @@ export default {
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
         font-size: 26px;
-
-
+        font-weight: bold;
         color: #FFFFFF;
         line-height: 56px;
         margin-right: 10px;
@@ -386,8 +383,7 @@ export default {
         margin-top: 70px;
         .span1{
           font-size: 18px;
-
-
+        font-weight: bold;
           color: #E2DADA;
           line-height: 50px;
           cursor: pointer;

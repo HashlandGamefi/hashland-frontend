@@ -246,27 +246,15 @@ export default {
     }
   }
   .title_title {
-    font-size: 40px;
-
+    font-size: 36px;
     color: #ffffff;
     line-height: 73px;
-
-    // text-shadow: 0px 8px 17px rgba(2, 12, 52, 0.5);
-    // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   .title1_txt {
-    font-size: 24px;
-
+    font-size: 20px;
     color: #fff;
     line-height: 37px;
-    // -webkit-text-stroke: 1px #092868;
-    // text-stroke: 1px #092868;
-    // background: linear-gradient(180deg, #e5ffff 0%, #81c6e3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
   }
   .title2_txt {
     margin-top: 10px;
@@ -288,12 +276,13 @@ export default {
         display: flex;
         flex-direction: column;
         .span1 {
-          font-size: 32px;
+          font-size: 26px;
           color: #ffffff;
           line-height: 56px;
+          font-weight: bold;
         }
         .span2 {
-          font-size: 24px;
+          font-size: 20px;
           color: #ccbebe;
           line-height: 37px;
         }
@@ -335,10 +324,11 @@ export default {
     }
   }
   .btn_box {
-    width: 533px;
-    height: 102px;
+    width: 393px;
+    height: 82px;
     text-align: center;
-    line-height: 102px;
+    line-height: 70px;
+    font-weight: bold;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;

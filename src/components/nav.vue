@@ -219,8 +219,7 @@ export default {
         position: relative;
         padding: 0 18px;
         font-size: 18px;
-
-
+        font-weight: bold;
         color: #FFFFFF;
         cursor: pointer;
         .nft_hover{
@@ -287,15 +286,14 @@ export default {
     display: flex;
     align-items: center;
     .span1{
-      padding:2px 7px;
+      padding:2px 11px;
       border-radius: 12px;
       box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
       font-size: 16px;
-
-
       color: #FFFFFF;
       line-height: 37px;
       cursor: pointer;
+      font-weight: bold;
     }
     .lang_box{
       display: flex;
@@ -306,9 +304,8 @@ export default {
         object-fit: contain;
       }
       .lang_txt{
-        font-size: 20px;
-
-
+        font-size: 18px;
+        font-weight: bold;
         color: #FFFFFF;
         line-height: 37px;
         margin: 0 8px;

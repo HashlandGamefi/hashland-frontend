@@ -115,8 +115,7 @@ export default {
       align-items: center;
       margin-bottom: 10px;
       font-size: 24px;
-
-
+      font-weight: bold;
       color: #FFFFFF;
       .span1{
         padding: 9px;
@@ -138,8 +137,7 @@ export default {
       margin-bottom: 50px;
       .luckey_span1 {
         font-size: 32px;
-
-
+        font-weight: bold;
         color: #27c7d5;
         line-height: 40px;
       }
@@ -237,8 +235,7 @@ export default {
     }
     .btn {
       font-size: 24px;
-
-
+      font-weight: bold;
       color: #FFFFFF;
       padding: 5px;
       background: #29CDDA;
@@ -306,10 +303,11 @@ export default {
     bottom: 10%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 533px;
-    height: 102px;
+    width: 393px;
+    height: 82px;
     text-align: center;
-    line-height: 102px;
+    font-weight: bold;
+    line-height: 70px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;

@@ -114,8 +114,7 @@ export default {
       align-items: center;
       margin-bottom: 10px;
       font-size: 24px;
-
-
+      font-weight: bold;
       color: #FFFFFF;
       .span1{
         padding: 9px;
@@ -137,8 +136,7 @@ export default {
       margin-bottom: 50px;
       .luckey_span1 {
         font-size: 32px;
-
-
+        font-weight: bold;
         color: #27c7d5;
         line-height: 40px;
       }
@@ -154,8 +152,6 @@ export default {
     }
     .composite_span1 {
       font-size: 18px;
-
-
       color: #ffffff;
       line-height: 40px;
       padding-left: 15px;
@@ -169,12 +165,6 @@ export default {
       margin: 10px 0;
       padding-left: 15px;
     }
-    // .composite_line {
-    //   width: 100%;
-    //   height: 1px;
-    //   border: 1px dashed #ccc;
-    //   margin: 10px 0;
-    // }
     .composite_line_color{
       width: 100%;
       height: 1px;
@@ -236,8 +226,7 @@ export default {
     }
     .btn {
       font-size: 24px;
-
-
+      font-weight: bold;
       color: #FFFFFF;
       padding: 5px;
       background: #29CDDA;
@@ -304,10 +293,11 @@ export default {
     bottom: 0;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 533px;
-    height: 102px;
+    width: 393px;
+    height: 82px;
     text-align: center;
-    line-height: 102px;
+    line-height: 70px;
+    font-weight: bold;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;

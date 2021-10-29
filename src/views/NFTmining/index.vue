@@ -165,15 +165,12 @@ export default {
   align-items: center;
   padding-top: 130px;
   .nft_title{
-    font-size: 40px;
-
+    font-size: 36px;
     color: #FFFFFF;
     line-height: 73px;
   }
   .nft_title1{
-    font-size: 24px;
-
-
+    font-size: 20px;
     color: #FFFFFF;
     line-height: 37px;
     margin-top: 20px;
@@ -189,8 +186,7 @@ export default {
       line-height: 70px;
       text-align: center;
       font-size: 32px;
-
-
+      font-weight: bold;
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
@@ -205,8 +201,7 @@ export default {
     width: 100%;
     padding-left: 30px;
     font-size: 32px;
-
-
+    font-weight: bold;
     color: #FFFFFF;
     line-height: 56px;
     margin-top: 40px;
@@ -226,7 +221,7 @@ export default {
       width: 47%;
       height: 306px;
       background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
-      box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+      // box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
       border-radius: 19px;
       display: flex;
       flex-direction: column;
@@ -244,8 +239,7 @@ export default {
           background-size: 100% 100%;
           background-repeat: no-repeat;
           font-size: 24px;
-
-
+          font-weight: bold;
           color: #FFFFFF;
           cursor: pointer;
           display: flex;
@@ -307,7 +301,7 @@ export default {
     }
     .right_footer{
       background: linear-gradient(90deg, #153AA2 0%, #0F296A 10%, #2673E6 100%);
-      box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+      // box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
       .top{
         .txt{
           background-image: url("//cdn.hashland.com/images/nft_btn1.png");
