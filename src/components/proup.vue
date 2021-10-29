@@ -73,17 +73,17 @@ export default {
     transform: translate(-50%,-50%);
     width:362px;
     height: 430px;
-    // box-shadow: 0px 16px 80px rgba(0, 0, 0, 0.8);
-    // border-radius: 32px;
-    // padding: 40px;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     background-image: url("../assets/images/proupbg.png");
-    background-size: 100% 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     .txt1 {
+      width: 100%;
+      text-align: center;
       font-family: PingFang SC;
       font-style: normal;
       font-weight: 600;
@@ -91,6 +91,8 @@ export default {
       color: #ffffff;
     }
     .txt2 {
+      width: 100%;
+      text-align: center;
       font-family: PingFang SC;
       font-style: normal;
       font-weight: 600;
@@ -110,7 +112,7 @@ export default {
       margin-top: 25px;
       .txt3 {
         width: 281px;
-        background-image: url("../assets/images/nft_btn2.png");
+        background-image: url("../assets/images/SpeciaBtn2.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         text-align: center;
@@ -128,9 +130,9 @@ export default {
     }
     .close{
       position: absolute;
-      right: 30px;
+      right: 0;
       top: 0;
-      width: 73px;
+      width: 50px;
       object-fit: contain;
       cursor: pointer;
     }
@@ -150,9 +152,9 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
-      width:3.62rem;
-      height: 4.3rem;
-      padding: 0;
+      width:3rem;
+      height: 3.6rem;
+      padding: 0.5rem 0.1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -186,12 +188,12 @@ export default {
         justify-content: center;
         margin-top: 0.2rem;
         .txt3 {
-          width: 40%;
-          background-image: url("../assets/images/nft_btn2.png");
+          width: 2.28rem;
+          background-image: url("../assets/images/SpeciaBtn2.png");
           background-size: 100% 100%;
           background-repeat: no-repeat;
           text-align: center;
-          line-height: 0.5rem;
+          line-height: 0.56rem;
           font-family: PingFang SC;
           font-style: normal;
           font-weight: 500;
@@ -205,11 +207,10 @@ export default {
       }
       .close{
         position: absolute;
-        right: 0.12rem;
+        right: 0;
         top: 0;
         width: 0.44rem;
         object-fit: contain;
-        cursor: pointer;
       }
     }
   }
