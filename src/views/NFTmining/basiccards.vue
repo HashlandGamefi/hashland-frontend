@@ -361,7 +361,7 @@ export default {
     .synthesis_btn {
       width: 115px;
       height: 56px;
-      background-image: url("../../assets/images/nft_btn1.png");
+      background-image: url("//cdn.hashland.com/images/nft_btn1.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
@@ -439,13 +439,13 @@ export default {
             cursor: pointer;
           }
           .remove_btnbox{
-            background-image: url("../../assets/images/nft_btn1.png");
+            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
           }
           .insert_btnbox{
-            background-image: url("../../assets/images/insert.png");
+            background-image: url("//cdn.hashland.com/images/insert.png");
           }
           .lock_btnbox{
-            background-image: url("../../assets/images/lock.png");
+            background-image: url("//cdn.hashland.com/images/lock.png");
           }
         }
         .outbox{
@@ -490,13 +490,13 @@ export default {
             cursor: pointer;
           }
           .remove_btnbox{
-            background-image: url("../../assets/images/nft_btn1.png");
+            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
           }
           .insert_btnbox{
-            background-image: url("../../assets/images/insert.png");
+            background-image: url("//cdn.hashland.com/images/insert.png");
           }
           .lock_btnbox{
-            background-image: url("../../assets/images/lock.png");
+            background-image: url("//cdn.hashland.com/images/lock.png");
           }
         }
       }
@@ -504,13 +504,13 @@ export default {
     .swiper-button-prev{
       width: 109px;
       height: 109px;
-      background: url("../../assets/images/swiper_pre.png") no-repeat;
+      background: url("//cdn.hashland.com/images/swiper_pre.png") no-repeat;
       background-size: 100% 100%;
     }
     .swiper-button-next{
       width: 109px;
       height: 109px;
-      background: url("../../assets/images/swiper_next.png") no-repeat;
+      background: url("//cdn.hashland.com/images/swiper_next.png") no-repeat;
       background-size: 100% 100%;
     }
   }
@@ -557,7 +557,7 @@ export default {
       .synthesis_btn {
         width: 1rem;
         height: 0.39rem;
-        background-image: url("../../assets/images/nft_btn1.png");
+        background-image: url("//cdn.hashland.com/images/nft_btn1.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         text-align: center;
@@ -635,13 +635,13 @@ export default {
               cursor: pointer;
             }
             .remove_btnbox{
-              background-image: url("../../assets/images/nft_btn1.png");
+              background-image: url("//cdn.hashland.com/images/nft_btn1.png");
             }
             .insert_btnbox{
-              background-image: url("../../assets/images/insert.png");
+              background-image: url("//cdn.hashland.com/images/insert.png");
             }
             .lock_btnbox{
-              background-image: url("../../assets/images/lock.png");
+              background-image: url("//cdn.hashland.com/images/lock.png");
             }
           }
           .outbox{
@@ -686,13 +686,13 @@ export default {
               cursor: pointer;
             }
             .remove_btnbox{
-              background-image: url("../../assets/images/nft_btn1.png");
+              background-image: url("//cdn.hashland.com/images/nft_btn1.png");
             }
             .insert_btnbox{
-              background-image: url("../../assets/images/insert.png");
+              background-image: url("//cdn.hashland.com/images/insert.png");
             }
             .lock_btnbox{
-              background-image: url("../../assets/images/lock.png");
+              background-image: url("//cdn.hashland.com/images/lock.png");
             }
           }
         }
@@ -700,13 +700,13 @@ export default {
       .swiper-button-prev{
         width: 0.45rem;
         height: 0.45rem;
-        background: url("../../assets/images/swiper_pre.png") no-repeat;
+        background: url("//cdn.hashland.com/images/swiper_pre.png") no-repeat;
         background-size: 100% 100%;
       }
       .swiper-button-next{
         width: 0.45rem;
         height: 0.45rem;
-        background: url("../../assets/images/swiper_next.png") no-repeat;
+        background: url("//cdn.hashland.com/images/swiper_next.png") no-repeat;
         background-size: 100% 100%;
       }
     }

@@ -151,7 +151,7 @@ export default {
     .synthesis_btn {
       width: 115px;
       height: 56px;
-      background-image: url("../../assets/images/nft_btn1.png");
+      background-image: url("//cdn.hashland.com/images/nft_btn1.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
@@ -193,7 +193,7 @@ export default {
       height: 102px;
       text-align: center;
       line-height: 102px;
-      background-image: url("../../assets/images/SpeciaBtn2.png");
+      background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
       background-size: contain;
       background-repeat: no-repeat;
       font-size: 40px;
@@ -253,13 +253,13 @@ export default {
             cursor: pointer;
           }
           .remove_btnbox {
-            background-image: url("../../assets/images/nft_btn1.png");
+            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
           }
           .insert_btnbox {
-            background-image: url("../../assets/images/insert.png");
+            background-image: url("//cdn.hashland.com/images/insert.png");
           }
           .lock_btnbox {
-            background-image: url("../../assets/images/lock.png");
+            background-image: url("//cdn.hashland.com/images/lock.png");
           }
         }
       }
@@ -303,7 +303,7 @@ export default {
       .synthesis_btn {
         width: 1rem;
         height: 0.39rem;
-        background-image: url("../../assets/images/nft_btn1.png");
+        background-image: url("//cdn.hashland.com/images/nft_btn1.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         text-align: center;
@@ -344,7 +344,7 @@ export default {
         height: 0.38rem;
         text-align: center;
         line-height: 0.38rem;
-        background-image: url("../../assets/images/SpeciaBtn2.png");
+        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
         background-size: contain;
         background-repeat: no-repeat;
         font-size: 0.18rem;
@@ -404,13 +404,13 @@ export default {
               cursor: pointer;
             }
             .remove_btnbox {
-              background-image: url("../../assets/images/nft_btn1.png");
+              background-image: url("//cdn.hashland.com/images/nft_btn1.png");
             }
             .insert_btnbox {
-              background-image: url("../../assets/images/insert.png");
+              background-image: url("//cdn.hashland.com/images/insert.png");
             }
             .lock_btnbox {
-              background-image: url("../../assets/images/lock.png");
+              background-image: url("//cdn.hashland.com/images/lock.png");
             }
           }
         }

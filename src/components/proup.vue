@@ -78,7 +78,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background-image: url("../assets/images/proupbg.png");
+    background-image: url("//cdn.hashland.com/images/proupbg.png");
     background-size: cover;
     background-repeat: no-repeat;
     .txt1 {
@@ -112,7 +112,7 @@ export default {
       margin-top: 25px;
       .txt3 {
         width: 281px;
-        background-image: url("../assets/images/SpeciaBtn2.png");
+        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         text-align: center;
@@ -159,7 +159,7 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      background-image: url("../assets/images/proupbg.png");
+      background-image: url("//cdn.hashland.com/images/proupbg.png");
       background-size: cover;
       background-repeat: no-repeat;
       .txt1 {
@@ -189,7 +189,7 @@ export default {
         margin-top: 0.2rem;
         .txt3 {
           width: 2.28rem;
-          background-image: url("../assets/images/SpeciaBtn2.png");
+          background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
           background-size: 100% 100%;
           background-repeat: no-repeat;
           text-align: center;

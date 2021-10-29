@@ -240,7 +240,7 @@ export default {
         .txt{
           width: 200px;
           height: 73px;
-          background-image: url("../../assets/images/nft_btn2.png");
+          background-image: url("//cdn.hashland.com/images/nft_btn2.png");
           background-size: 100% 100%;
           background-repeat: no-repeat;
           font-size: 24px;
@@ -310,7 +310,7 @@ export default {
       box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
       .top{
         .txt{
-          background-image: url("../../assets/images/nft_btn1.png");
+          background-image: url("//cdn.hashland.com/images/nft_btn1.png");
         }
       }
       .bottom{
@@ -425,7 +425,7 @@ export default {
           .txt{
             width: 1.21rem;
             height: 0.42rem;
-            background-image: url("../../assets/images/nft_btn2.png");
+            background-image: url("//cdn.hashland.com/images/nft_btn2.png");
             background-size: 100% 100%;
             background-repeat: no-repeat;
             font-size: 0.2rem;
@@ -497,7 +497,7 @@ export default {
         box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
         .top{
           .txt{
-            background-image: url("../../assets/images/nft_btn1.png");
+            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
           }
         }
         .bottom{

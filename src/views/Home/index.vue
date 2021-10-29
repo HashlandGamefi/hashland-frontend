@@ -447,7 +447,7 @@ export default {
           height: 56px;
           line-height: 56px;
           text-align: center;
-          background-image: url("../../assets/images/extract_btn.png");
+          background-image: url("//cdn.hashland.com/images/extract_btn.png");
           background-size:100% 100%;
           // padding: 10px 20px;
           // padding-bottom: 16px;
@@ -784,7 +784,7 @@ export default {
             height: 0.4rem;
             line-height: 0.4rem;
             text-align: center;
-            background-image: url("../../assets/images/extract_btn.png");
+            background-image: url("//cdn.hashland.com/images/extract_btn.png");
             background-size:100% 100%;
             font-size: 0.2rem;
             font-family: PingFangSC-Semibold, PingFang SC;

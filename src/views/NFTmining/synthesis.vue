@@ -566,7 +566,7 @@ export default {
     height: 102px;
     text-align: center;
     line-height: 102px;
-    background-image: url("../../assets/images/SpeciaBtn2.png");
+    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
@@ -850,7 +850,7 @@ export default {
     height: 0.36rem;
     text-align: center;
     line-height: 0.36rem;
-    background-image: url("../../assets/images/SpeciaBtn2.png");
+    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 0.18rem;

@@ -328,7 +328,7 @@ export default {
 }
 .navbg{
   animation: fade-in 1.5s;
-  background-image: url("../assets/images/navbg.png");
+  background-image: url("//cdn.hashland.com/images/navbg.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -481,7 +481,7 @@ export default {
   }
   .navbg{
     animation: fade-in 1.5s;
-    background-image: url("../assets/images/mobilenavbg.png");
+    background-image: url("//cdn.hashland.com/images/mobilenavbg.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }

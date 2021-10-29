@@ -86,7 +86,7 @@ export default {
   width: 100%;
   min-height: 100%;
   // background: #011A31;
-  background-image: url("./assets/images/pagehome.png");
+  background-image: url("//cdn.hashland.com/images/pagehome.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
