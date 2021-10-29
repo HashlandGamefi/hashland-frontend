@@ -160,20 +160,20 @@ export default {
       nextDay:'00-00-00',//下次减产时间
       swiperArr:[
         {
-          mobilesrc:require('../../assets/images/mobilehome1.png'),
-          src:require('../../assets/images/home1.png'),
+          mobilesrc:`${$store.state.imgUrl}mobilehome1.png`,
+          src:`${$store.state.imgUrl}home1.png`,
           txt1:'message.nav.txt7',
           txt2:'message.home.txt1'
         },
         {
-          mobilesrc:require('../../assets/images/mobilehome2.png'),
-          src:require('../../assets/images/home2.png'),
+          mobilesrc:`${$store.state.imgUrl}mobilehome2.png`,
+          src:`${$store.state.imgUrl}home2.png`,
           txt1:'message.home.txt2',
           txt2:'message.home.txt3'
         },
         {
-          mobilesrc:require('../../assets/images/mobilehome3.png'),
-          src:require('../../assets/images/home3.png'),
+          mobilesrc:`${$store.state.imgUrl}mobilehome3.png`,
+          src:`${$store.state.imgUrl}home3.png`,
           txt1:'message.home.txt4',
           txt2:'message.home.txt5'
         }

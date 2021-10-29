@@ -1,20 +1,20 @@
 <template>
   <div class="record_page" v-if="minserdis">
     <div class="title">{{$t("message.buy1")}}</div>
-    <img src="../assets/images/closebg.png" class="close_img" @click="closepage"/>
+    <img :src="`${$store.state.imgUrl}closebg.png`" class="close_img" @click="closepage"/>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
         <div class="bottom">
           <div class="five_pointed_star">
-            <img src="../assets/images/start.png" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
+            <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
           </div>
           <div class="hc_coefficient">
-            <img src="../assets/images/hclogo.png" class="imgcard" />
+            <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
             <span class="span1">{{item.hc}}</span>
           </div>
           <div class="hc_coefficient">
-            <img src="../assets/images/btclogo.png" class="imgcard" />
+            <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
             <span class="span1">{{item.btc}}</span>
           </div>
         </div>

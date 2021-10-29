@@ -26,11 +26,11 @@
       </div>
     </div>
     <div class="mobile_menu" @click="mobilemenuClick">
-      <img src="../assets/images/mobilemenu.png" class="mobile_menu_class" />
+      <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" />
     </div>
     <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
       <div class="mobile_box">
-        <div class="mobile_logo" @click="menuClick(-1)"><img src="../assets/images/logo.png" class="mobile_logo_class" /></div>
+        <div class="mobile_logo" @click="menuClick(-1)"><img :src="`${$store.state.imgUrl}logo.png`" class="mobile_logo_class" /></div>
         <ul class="ul_">
           <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
             {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>

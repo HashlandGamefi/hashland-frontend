@@ -73,23 +73,23 @@ export default {
       mycardarr:[
         {
           level:1,
-          src:require('../../assets/images/level1.png')
+          src:`${$store.state.imgUrl}level1.png`
         },
         {
           level:2,
-          src:require('../../assets/images/defaultcard.png')
+          src:`${$store.state.imgUrl}defaultcard.png`
         },
         {
           level:3,
-          src:require('../../assets/images/defaultcard.png')
+          src:`${$store.state.imgUrl}defaultcard.png`
         },
         {
           level:4,
-          src:require('../../assets/images/defaultcard.png')
+          src:`${$store.state.imgUrl}defaultcard.png`
         },
         {
           level:5,
-          src:require('../../assets/images/defaultcard.png')
+          src:`${$store.state.imgUrl}defaultcard.png`
         }
       ],//我的卡牌数组
       btntxt:'',// 弹窗页面的确认按钮
@@ -108,17 +108,17 @@ export default {
           isloading:false
         },
         {
-          src:require("../../assets/images/cardlock.png"),
+          src:`${$store.state.imgUrl}cardlock.png`,
           btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
           isloading:false
         },
         {
-          src:require("../../assets/images/cardlock.png"),
+          src:`${$store.state.imgUrl}cardlock.png`,
           btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
           isloading:false
         },
         {
-          src:require("../../assets/images/cardlock.png"),
+          src:`${$store.state.imgUrl}cardlock.png`,
           btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
           isloading:false
         }
@@ -220,7 +220,7 @@ export default {
           console.log('Number(this.maxCardSlot): ', Number(this.maxCardSlot),Number(this.cardSlot));
           if(Number(this.maxCardSlot) > Number(this.cardSlot)){
             Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
-              src:require("../../assets/images/cardlock.png"),
+              src:`${$store.state.imgUrl}cardlock.png`,
               btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
             })
           }
@@ -274,7 +274,7 @@ export default {
         isloading:false
       }
       let obj3 = {
-        src:require("../../assets/images/cardlock.png"),
+        src:`${$store.state.imgUrl}cardlock.png`,
         btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
         isloading:false
       }
@@ -327,7 +327,6 @@ export default {
   }
 }
 </script>
-
 <style lang='scss' scoped>
 .basic_card_page {
   width: 100%;

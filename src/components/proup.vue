@@ -8,7 +8,7 @@
         <div class="txt3" :class="{width50:isbtntrue}" v-if="isbtntrue" @click.stop="besurefun">{{cancletxt}}</div>
         <div class="txt3" :class="{width50:isbtntrue}" @click.stop="dispearfun">{{btntxt}}</div>
       </div>
-      <img src="../assets/images/proupclose.png" class="close" @click.stop="dispearfun"/>
+      <img :src="`${$store.state.imgUrl}proupclose.png`" class="close" @click.stop="dispearfun"/>
     </div>
   </div>
 </template>

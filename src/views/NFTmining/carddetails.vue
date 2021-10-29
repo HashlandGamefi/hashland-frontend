@@ -12,11 +12,11 @@
             <img :src="`${$store.state.imgUrl}start.png`"  v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
           </div>
           <div class="hc_coefficient">
-            <img src="../../assets/images/hclogo.png" class="imgcard" />
+            <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
             <span class="span1">{{item.hc}}%</span>
           </div>
           <div class="hc_coefficient">
-            <img src="../../assets/images/btclogo.png" class="imgcard" />
+            <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
             <span class="span1">{{item.btc}}%</span>
           </div>
         </div>
