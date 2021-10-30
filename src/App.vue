@@ -85,10 +85,10 @@ export default {
 #app {
   width: 100%;
   min-height: 100%;
-  // background: #011A31;
-  background-image: url("//cdn.hashland.com/images/pagehome.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: #011A31;
+  // background-image: url("//cdn.hashland.com/images/pagehome.png");
+  // background-size: 100% 100%;
+  // background-repeat: no-repeat;
 }
 .fade-enter-active,
 .fade-leave-avtive {

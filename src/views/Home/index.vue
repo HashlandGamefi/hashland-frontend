@@ -2,7 +2,7 @@
   <div class="home_page">
     <div class="box">
       <div class="topbox">
-        <img :src="`${$store.state.imgUrl}homebg.png`" class="homebgimg">
+        <img :src="`${$store.state.imgUrl}homebg.jpg`" class="homebgimg">
       </div>
       <div class="mobile_topbox">
         <img :src="`${$store.state.imgUrl}mobile_bg.png`" class="homebgimg">
