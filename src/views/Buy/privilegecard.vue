@@ -250,13 +250,13 @@ export default {
     .onebox{
       position: absolute;
       top: 39%;
-      left: 48%;
+      left: 46%;
       transform: translate(-50%,-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 404px;
+        width: 355px;
         object-fit: contain;
       }
     }

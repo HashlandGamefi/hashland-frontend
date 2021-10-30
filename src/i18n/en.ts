@@ -141,5 +141,6 @@ export const message = {
   word15: "选择的卡牌必须4的倍数哦", //You must select
   approve: "Authorize", //Authorize
   button1: "Confirm", //Confirm
-  nothing:'No Data'
+  nothing:'No Data',
+  button2:'To Buy'
 };

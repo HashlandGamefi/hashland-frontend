@@ -16,6 +16,9 @@ Vue.prototype.$common = common;
 import Proup from '@/components/proup.vue'
 Vue.component('Proup', Proup);
 
+import NoData from '@/components/nodata.vue'
+Vue.component('NoData', NoData);
+
 import BtnLoading from './components/btnloading.vue'
 Vue.component('BtnLoading', BtnLoading)
 

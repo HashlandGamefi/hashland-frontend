@@ -258,8 +258,8 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 20%;
-      left: 50%;
+      top: 26%;
+      left: 47%;
       transform: translate(-50%,-50%);
       // width: 320px;
       display: flex;

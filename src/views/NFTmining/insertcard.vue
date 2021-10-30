@@ -9,10 +9,7 @@
     <div class="content_box">
       <div class="stratbox" v-for="ele in 5" :key="ele">
         <div class="top_line">
-          <span class="span1"
-            >{{ ele }}{{ $t("message.synthesis.txt4")
-            }}{{ $t("message.synthesis.txt8")
-            }}{{
+          <span class="span1">{{ ele }} {{ $t("message.synthesis.txt4")}} {{ $t("message.synthesis.txt8")}} {{
               starArr.filter((data) => {
                 return data.level == ele;
               }).length

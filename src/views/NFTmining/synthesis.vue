@@ -74,10 +74,7 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
         <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" />
       </div>
-      <div class="defaultClass" v-if="pageshowarr.length == 0">
-        <img :src="`${$store.state.imgUrl}defaultGraph.png`" />
-        <span class="txt">{{$t("message.nothing")}}</span>
-      </div>
+      <NoData v-if="pageshowarr.length == 0"></NoData>
     </div>
     <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC && pageshowarr.length > 0">{{$t("message.synthesis.txt1")}}</div>
     <div class="btn_box" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC && pageshowarr.length > 0">{{$t("message.approve")}}</div>
@@ -532,23 +529,6 @@ export default {
         right: 58px;
         width: 44px;
         object-fit: contain;
-      }
-    }
-    .defaultClass{
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 200px;
-      img{
-        width: 406px;
-        object-fit: contain;
-      }
-      .txt{
-        font-size: 36px;
-        color: #FFFFFF;
-        line-height: 50px;
       }
     }
   }

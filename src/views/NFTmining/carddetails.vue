@@ -21,10 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="defaultClass" v-if="boxarr.length == 0">
-        <img :src="`${$store.state.imgUrl}defaultGraph.png`" />
-        <span class="txt">{{$t("message.nothing")}}</span>
-      </div>
+      <NoData v-if="boxarr.length == 0"></NoData>
     </div>
     <span class="bottom_title" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
     <div class="connect_box" v-if="boxarr.length > 0">{{$t("message.button1")}}</div>
@@ -41,12 +38,12 @@ export default {
   },
   computed: {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
-    dataInfo:function(){
-      return this.getUserCardInfo
-    }
+    // dataInfo:function(){
+    //   return this.getUserCardInfo
+    // }
   },
   watch:{
-    "dataInfo":{
+    "getUserCardInfo":{
       handler: function (newValue, oldValue) {
         if(newValue.length > 0){
           this.boxarr = JSON.parse(newValue)
@@ -93,8 +90,6 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     padding: 0 40px;
-    // padding-right: 40px;
-    // margin-top: 70px;
     max-height: 980px;
     overflow-y: auto;
     .onebox{
@@ -152,23 +147,6 @@ export default {
             // line-height: 37px;
           }
         }
-      }
-    }
-    .defaultClass{
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 200px;
-      img{
-        width: 406px;
-        object-fit: contain;
-      }
-      .txt{
-        font-size: 36px;
-        color: #FFFFFF;
-        line-height: 50px;
       }
     }
   }

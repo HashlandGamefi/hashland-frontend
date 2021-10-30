@@ -121,7 +121,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 0.5rem;
+  margin-top: 50px;
   .myCard {
     width: 100%;
     display: flex;
@@ -129,13 +129,11 @@ export default {
     justify-content: space-between;
     padding: 0 100px;
     .card_left {
-      // width: 320px;
       display: flex;
       flex-direction: column;
       .span1 {
         font-size: 32px;
-
-
+        font-weight: bold;
         color: #ffffff;
         line-height: 56px;
 
@@ -150,17 +148,16 @@ export default {
     }
     .synthesis_btn {
       width: 115px;
-      height: 56px;
+      height: 48px;
       background-image: url("//cdn.hashland.com/images/nft_btn1.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
-      font-size: 24px;
-
-
+      font-size: 22px;
       color: #ffffff;
-      line-height: 56px;
+      line-height: 48px;
       cursor: pointer;
+      font-weight: bold;
     }
   }
   .myCardBox {
@@ -181,27 +178,26 @@ export default {
       }
       .privilbg{
         position: absolute;
-        top: 35%;
-        left: 49%;
+        top: 37%;
+        left: 47%;
         transform: translate(-50%,-50%);
-        width: 404px;
+        width: 284px;
         object-fit: contain;
       }
     }
     .btn_box {
-      width: 533px;
-      height: 102px;
+      width: 393px;
+      height: 82px;
       text-align: center;
-      line-height: 102px;
+      line-height: 70px;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
       background-size: contain;
       background-repeat: no-repeat;
-      font-size: 40px;
-
-
+      font-size: 32px;
+      font-weight: bold;
       color: #ffffff;
       cursor: pointer;
-      margin-top: 60px;
+      margin-top: 0;
     }
   }
   .swiper-container {
@@ -247,8 +243,7 @@ export default {
             background-size: contain;
             background-repeat: no-repeat;
             font-size: 16px;
-
-
+            font-weight: bold;
             color: #FFFFFF;
             cursor: pointer;
           }
@@ -263,6 +258,18 @@ export default {
           }
         }
       }
+    }
+    .swiper-button-prev{
+      width: 70px;
+      height: 67px;
+      background: url("//cdn.hashland.com/images/swiper_pre.png") no-repeat;
+      background-size: 100% 100%;
+    }
+    .swiper-button-next{
+      width: 70px;
+      height: 67px;
+      background: url("//cdn.hashland.com/images/swiper_next.png") no-repeat;
+      background-size: 100% 100%;
     }
   }
   .margin_top_card {

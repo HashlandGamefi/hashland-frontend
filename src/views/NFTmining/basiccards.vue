@@ -387,9 +387,10 @@ export default {
             object-fit: contain;
           }
           .grade_box{
-            padding: 0 15px;
+            width: 245px;
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-top: 20px;
             border-radius: 15px;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
@@ -462,10 +463,10 @@ export default {
             // margin-bottom: 50px;
             .swiper_img{
               position: absolute;
-              top: 59%;
-              left: 45%;
-              transform: translate(-50%,-50%);
-              width: 144px;
+              top: 69%;
+              left: 48%;
+              transform: translate(-50%, -50%);
+              width: 100px;
               object-fit: contain;
             }
             .base_img{

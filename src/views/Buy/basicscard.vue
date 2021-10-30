@@ -7,7 +7,7 @@
       </div>
       <div class="btn">
         <span class="span1">{{$t("message.nftCard.txt7")}}</span>
-        <span class="span2">00001</span>
+        <span class="span2">{{cardNumber}}</span>
       </div>
       <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
       <span class="composite_span2">{{boxPrice}} BUSD</span>
@@ -55,7 +55,7 @@
     <div class="mobile_content">
       <div class="btn">
         <span class="span1">{{$t("message.nftCard.txt7")}}</span>
-        <span class="span2">00001</span>
+        <span class="span2">{{cardNumber}}</span>
       </div>
       <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
       <span class="composite_span2">{{boxPrice}} BUSD</span>
@@ -84,7 +84,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,hn,getProvider,util,getSigner,getHnImg,erc20, token } from 'hashland-sdk';
+import { hnBox,hn,util,getSigner,getHnImg,erc20, token } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -99,6 +99,7 @@ export default {
       balance:0,//用户余额
       total:0,// 合计
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
+      cardNumber:'00000',//卡牌的编号
     }
   },
   computed: {
@@ -192,18 +193,29 @@ export default {
     //   console.log("刷新卡牌")
     // },
     async getSDKInfo(){
-      let balance = await getProvider().getBalance(this.getAccount)
-      console.log('用户余额balance: ', util.formatEther(balance));
+      // let balance = await getProvider().getBalance(this.getAccount)
+      // console.log('用户余额balance: ', util.formatEther(balance));
       let busd = await erc20(token().BUSD).balanceOf(this.getAccount)
       console.log('busd余额: ', busd);
-      this.balance = util.formatEther(balance)
+      this.balance = util.formatEther(busd)
       let price = await hnBox().boxTokenPrices(0) // 盲盒价格
       this.originalPrice = price
       let str = (price / 1e18).toString()
       this.$common.checkNumber(str,res => {
         this.boxPrice = res
       })
+      hn().totalSupply().then(async data => {
+        this.cardNumber = (data.toString()).padStart(5, '0')
+        getHnImg(1,1).then(res => {
+          console.log('获取图片路径data: ', data);
+        }).catch(err => {
+          console.log('获取图片路径err: ', err);
+        })
 
+        // this.$common.checkNumber(data.toString(),res => {
+        //   this.issued = res
+        // })
+      })
       let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
       this.surplusNums = surplusNums.toString()
     },
@@ -365,7 +377,7 @@ export default {
     .onebox{
       position: absolute;
       top: 27%;
-      left: 52%;
+      left: 50%;
       transform: translate(-50%,-50%);
       display: flex;
       flex-direction: column;
