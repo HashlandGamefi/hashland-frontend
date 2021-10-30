@@ -455,7 +455,7 @@ export default {
           .second-content_box{
             position: relative;
             width: 100%;
-            height: 500px;
+            height: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -513,7 +513,7 @@ export default {
   .self_swiper{
     height: auto;
     min-height: 300px;
-    margin-top: -178px;
+    margin-top: 0;
   }
   .margin_top_card{
     margin-top: 50px;
