@@ -29,6 +29,7 @@
     </div>
     <div class="center_box">
       <img :src="`${$store.state.imgUrl}blindcard.png`" class="bgimg" />
+      <!-- <img src="../../assets/localimg/blindcard.jpg" class="bgimg" /> -->
       <div class="onebox">
         <img :src="`${$store.state.imgUrl}box.png`" class="cardimg" />
       </div>
@@ -297,6 +298,16 @@ export default {
         margin-top: 10px;
       }
     }
+  }
+  .center_box:after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    box-shadow:0 0 50px 30px #011A31 inset;
   }
   .connect_box {
     position: absolute;

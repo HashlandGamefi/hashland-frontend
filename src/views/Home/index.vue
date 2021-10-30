@@ -161,19 +161,19 @@ export default {
       swiperArr:[
         {
           mobilesrc:`${this.$store.state.imgUrl}mobilehome1.png`,
-          src:`${this.$store.state.imgUrl}home1.png`,
+          src:`${this.$store.state.imgUrl}home1.jpg`,
           txt1:'message.nav.txt7',
           txt2:'message.home.txt1'
         },
         {
           mobilesrc:`${this.$store.state.imgUrl}mobilehome2.png`,
-          src:`${this.$store.state.imgUrl}home2.png`,
+          src:`${this.$store.state.imgUrl}home2.jpg`,
           txt1:'message.home.txt2',
           txt2:'message.home.txt3'
         },
         {
           mobilesrc:`${this.$store.state.imgUrl}mobilehome3.png`,
-          src:`${this.$store.state.imgUrl}home3.png`,
+          src:`${this.$store.state.imgUrl}home3.jpg`,
           txt1:'message.home.txt4',
           txt2:'message.home.txt5'
         }
@@ -268,6 +268,7 @@ export default {
   align-items: center;
   .box{
     width: 100%;
+    min-height: 500px;
     .topbox{
       width: 100%;
       .homebgimg{
@@ -299,23 +300,25 @@ export default {
               display: flex;
               flex-direction:column;
               padding-bottom: 20px;
+              height: 239px;
+              // border-radius: 15px;
               .home1_img{
                 width: 100%;
+                border-radius:15px 15px 0 0;
                 object-fit: contain;
               }
               .txtbox{
                 width: 100%;
-                padding:0 10px;
+                padding:10px 10px;
                 display: flex;
                 flex-direction: column;
-                margin-top: -66px;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+        border-radius: 0 0 15px 15px;
                 .span1{
                   font-size: 18px;
-
-
                   color: #FFFFFF;
                   line-height: 25px;
-
                 }
                 .linebox{
                   width: 100%;
@@ -324,19 +327,13 @@ export default {
                   justify-content: space-between;
                   .span2{
                     font-size: 18px;
-
-
                     color: #FFFFFF;
                     line-height: 25px;
-
                   }
                   .span3{
                     font-size: 20px;
-
-
                     color: #00E7F0;
                     line-height: 28px;
-
                   }
                 }
               }
