@@ -185,16 +185,16 @@ export default {
         object-fit: contain;
       }
     }
-    .occupationBitmap:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      border-radius: 15px;
-      box-shadow:0 0 50px 30px #ffffff inset;
-    }
+    // .occupationBitmap:after {
+    //   position: absolute;
+    //   content: '';
+    //   width: 100%;
+    //   height: 100%;
+    //   top: 0;
+    //   left: 0;
+    //   border-radius: 15px;
+    //   box-shadow:0 0 50px 30px #ffffff inset;
+    // }
     .btn_box {
       width: 393px;
       height: 82px;
