@@ -30,7 +30,7 @@
       </div>
     </div>
     <!-- 选中以后的卡牌数组 -->
-    <div class="cardarr_class cardarr_class_selected">
+    <div class="cardarr_class cardarr_class_selected" v-if="selectedArr.length > 0">
       <div class="onebox selected_onebox" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
         <div class="bottom selected_bottom" :class="{scalebottom:index % 4 !== 0}">

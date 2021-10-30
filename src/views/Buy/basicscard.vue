@@ -30,7 +30,8 @@
     <div class="center_box">
       <img :src="`${$store.state.imgUrl}buybg.png`" class="bgimg" />
       <div class="onebox">
-        <img :src="`${$store.state.imgUrl}newcard.png`" class="cardimg" />
+        <!-- <img :src="`${$store.state.imgUrl}newcard.png`" class="cardimg" /> -->
+        <img :src="cardSrc" class="cardimg" :onerror="defaultImg" />
         <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in 1" :key="item1" class="start_img" />
@@ -100,6 +101,7 @@ export default {
       total:0,// 合计
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       cardNumber:'00000',//卡牌的编号
+      cardSrc:'//cdn.hashland.com/images/defaultcard.png'
     }
   },
   computed: {
@@ -206,8 +208,9 @@ export default {
       })
       hn().totalSupply().then(async data => {
         this.cardNumber = (data.toString()).padStart(5, '0')
-        getHnImg(1,1).then(res => {
-          console.log('获取图片路径data: ', data);
+        getHnImg(data.toNumber(),1).then(res => {
+          // console.log('获取图片路径data: ', res);
+          this.cardSrc = res
         }).catch(err => {
           console.log('获取图片路径err: ', err);
         })
@@ -383,7 +386,7 @@ export default {
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 410px;
+        width: 539px;
         object-fit: contain;
       }
       .bottom{
