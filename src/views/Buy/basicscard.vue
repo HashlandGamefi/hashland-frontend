@@ -31,7 +31,7 @@
       <img :src="`${$store.state.imgUrl}buybg.png`" class="bgimg" />
       <div class="onebox">
         <!-- <img :src="`${$store.state.imgUrl}newcard.png`" class="cardimg" /> -->
-        <img :src="cardSrc" class="cardimg" :onerror="defaultImg" />
+        <img :src="cardSrc" class="cardimg" />
         <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in 1" :key="item1" class="start_img" />
