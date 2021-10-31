@@ -40,7 +40,7 @@ export const message = {
   },
   footer: {
     // footer
-    txt1: "",
+    txt1: "Monitoring",
     txt2: "",
     txt3: "",
     txt4: ""

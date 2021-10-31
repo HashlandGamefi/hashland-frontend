@@ -1,13 +1,9 @@
 <template>
   <div class="buy_page" ref="buypage">
-    <span class="title1_txt font_title">{{ $t("message.nav.txt7") }}</span>
-    <span class="title2_txt">{{ $t("message.nftCard.txt1") }}</span>
+    <span class="title1_txt fontsize32">{{ $t("message.nav.txt7") }}</span>
+    <span class="title1_txt title2_txt fontsize16_100">{{ $t("message.nftCard.txt1") }}</span>
     <div class="tab_box">
-      <div
-        class="oneTab"
-        :class="{ activeTab: tabIndex == 0 }"
-        @click="tabIndex = 0"
-      >
+      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabIndex = 0" >
         {{ $t("message.nftCard.txt2") }}
       </div>
       <div
@@ -55,16 +51,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 110px;
+  padding-top: 126px;
   .title1_txt {
-    font-size: 36px;
-    line-height: 84px;
     color: #ffffff;
   }
   .title2_txt {
-    font-size: 20px;
-    color: #ffffff;
-    line-height: 37px;
+    margin-top: 10px;
   }
   .tab_box {
     display: flex;
@@ -72,12 +64,10 @@ export default {
     justify-content: center;
     margin-top: 90px;
     .oneTab {
-      width: 360px;
-      height: 70px;
-      line-height: 70px;
+      width: 158px;
+      height: 40px;
+      line-height: 40px;
       text-align: center;
-      font-size: 26px;
-
       color: #ffffff;
       border-radius: 5px;
       cursor: pointer;
@@ -86,7 +76,7 @@ export default {
     }
     .activeTab {
       background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
-      box-shadow: 0 14px 2px #23447c;
+      box-shadow: 0 9px 2px #23447c;
     }
   }
 }
@@ -104,15 +94,11 @@ export default {
     align-items: center;
     padding-top: 1rem;
     .title1_txt {
-      font-size: 0.24rem;
-
       line-height: 0.3rem;
 
       color: #ffffff;
     }
     .title2_txt {
-      font-size: 0.16rem;
-
       color: #ffffff;
       line-height: 0.22rem;
     }
@@ -124,10 +110,7 @@ export default {
       .oneTab {
         width: 1rem;
         height: 0.37rem;
-        line-height: 0.37rem;
         text-align: center;
-        font-size: 0.12rem;
-
         color: #ffffff;
         border-radius: 5px;
         cursor: pointer;

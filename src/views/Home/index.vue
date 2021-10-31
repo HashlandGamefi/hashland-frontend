@@ -482,7 +482,7 @@ export default {
               left: 51%;
             }
             .span3 {
-              bottom:9px;
+              bottom:42px;
               left: 4%;
             }
           }

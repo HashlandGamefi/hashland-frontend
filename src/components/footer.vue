@@ -5,6 +5,10 @@
       <div class="center_box">
         <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
+          <div class="btn1 fontsize14" @click="footerClick('Power')">
+            <img :src="`${$store.state.imgUrl}power.png`" class="certick_img" />
+            {{ $t("message.footer.txt1") }}
+          </div>
           <div class="btn1 fontsize14" @click="footerClick('Certik')">
             <img :src="`${$store.state.imgUrl}certick.png`" class="certick_img" />
             Certik
@@ -33,6 +37,9 @@ export default {
   methods: {
     footerClick(data){
       switch (data) {
+        case 'Power':
+          window.location.href = ''
+          break;
         case 'Certik':
           window.location.href = ''
           break;

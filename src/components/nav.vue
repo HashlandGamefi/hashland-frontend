@@ -53,7 +53,7 @@ export default {
   inject: ['reload'],
   data () {
     return {
-      addbg:false,//导航栏背景色
+      addbg:false,// 导航栏背景
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
@@ -72,6 +72,7 @@ export default {
     },
     // nfts子菜单选择项
     nftFun(data){
+      this.addbg = true
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if(data == 'card'){
@@ -84,6 +85,7 @@ export default {
     },
     // 菜单栏切换状态
     menuClick (index) {
+      this.addbg = true
       console.log('index: ', index);
       this.$store.commit("HashMenu", index);
       sessionStorage.setItem("HashMenu", index);
@@ -91,6 +93,7 @@ export default {
         case -1:
           this.mobile_menuDis = false
           this.mobilemenu = false
+          this.addbg = false
           this.$router.push('/home')
           break;
         case 0:
@@ -167,21 +170,9 @@ export default {
     nftClick(){
       this.mobile_menuDis = !this.mobile_menuDis
     },
-    handleScroll(){
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-      if(scrollTop > 0){
-        this.addbg = true
-      }else {
-        this.addbg = false
-      }
-    }
   },
   mounted(){
-    window.addEventListener('mousewheel', this.handleScroll);
     this.commonLink()
-  },
-  beforeDestroy () {
-    window.removeEventListener("mousewheel", this.handleScroll);
   }
 }
 </script>
@@ -192,7 +183,7 @@ export default {
   left: 0;
   z-index: 999;
   width: 100%;
-  height: 110px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -313,10 +304,8 @@ export default {
   }
 }
 .navbg{
-  animation: fade-in 1.5s;
-  background-image: url("//cdn.hashland.com/images/navbg.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: #0C153B;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 @media screen and (min-width: 981px) and (max-width: 1439px) {
   .nav_box{
@@ -471,9 +460,5 @@ export default {
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
-}
-@keyframes fade-in {
-  0% {opacity: 0;}/*初始状态 透明度为0*/
-  100% {opacity: 1;}/*结束状态 透明度为1*/
 }
 </style>

@@ -36,7 +36,7 @@ export const message = {
     txt8:'NFT挖矿',
   },
   footer:{ // footer
-    txt1:'',
+    txt1:'算力检测',
     txt2:'',
     txt3:'',
     txt4:''

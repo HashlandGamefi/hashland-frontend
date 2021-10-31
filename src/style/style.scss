@@ -10,24 +10,6 @@ body {
   // font-family: 'Lato', sans-serif;
 }
 @media screen and (min-width: 1280px){
-  .fontsize22{
-    font-size: 22px;
-    font-weight: 600;
-  }
-  .fontsize18{// 导航栏
-    font-size: 18px;
-    font-weight: 500;
-  }
-  .fontsize14{// 导航栏
-    font-size: 14px;
-    font-family: 'Poppins-Regular';
-  }
-  .fontsize16{//次标题
-    font-size: 16px;
-    // font-weight: 500;
-    font-weight: bold;
-    font-family: 'Poppins-Bold';
-  }
   .fontsize12{ // purchase
     font-size: 12px;
     font-weight: 100;
@@ -40,12 +22,46 @@ body {
     font-family: 'Poppins-Regular';
     line-height: 17px;
   }
+  .fontsize14{// 导航栏
+    font-size: 14px;
+    font-family: 'Poppins-Regular';
+  }
+  .fontsize16{//次标题
+    font-size: 16px;
+    // font-weight: 500;
+    font-weight: bold;
+    font-family: 'Poppins-Bold';
+  }
+  .fontsize16_400{
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Poppins-Regular';
+  }
+  .fontsize16_100{//标题说明
+    font-size: 16px;
+    font-weight: 100;
+    font-family: 'Poppins-Regular';
+  }
+  .fontsize18{// 导航栏
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .fontsize22{
+    font-size: 22px;
+    font-weight: 600;
+  }
   .fontsize26{// 特殊数字
     font-size: 26px;
     font-weight: bold;
   }
+  .fontsize32{//大标题
+    font-size: 32px;
+    line-height: 45px;
+    font-weight: bold;
+    font-family: 'Poppins-Bold';
+  }
 }
-@media screen and (max-width: 12790px){
+@media screen and (max-width: 1279px){
   html,
   body {
     font-size: 100px;
