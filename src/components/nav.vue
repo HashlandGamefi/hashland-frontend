@@ -17,11 +17,11 @@
       </ul>
     </div>
     <div class="connect_box">
-      <span class="span1" v-if="getIstrue">{{getSubtringAccount}}</span>
-      <span class="span1" @click="signIn" v-else>Connect</span>
+      <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
+      <span class="span1 fontsize18" @click="signIn" v-else>Connect</span>
       <div class="lang_box">
         <!-- <img src="../assets/images/cn.png" class="cnimg" /> -->
-        <span class="lang_txt">EN</span>
+        <span class="lang_txt fontsize18">EN</span>
         <!-- <img src="../assets/images/accrow.png" class="downimg" /> -->
       </div>
     </div>
@@ -284,11 +284,8 @@ export default {
       padding:2px 11px;
       border-radius: 12px;
       box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
-      font-size: 16px;
       color: #FFFFFF;
-      line-height: 37px;
       cursor: pointer;
-
     }
     .lang_box{
       display: flex;
@@ -300,7 +297,6 @@ export default {
       }
       .lang_txt{
         color: #FFFFFF;
-        line-height: 37px;
         margin: 0 8px;
       }
       .downimg{

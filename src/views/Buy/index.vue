@@ -90,7 +90,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .buy_page {
     max-width: 1440px;
     margin: 0 auto;

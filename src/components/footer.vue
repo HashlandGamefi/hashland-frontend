@@ -5,11 +5,11 @@
       <div class="center_box">
         <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
-          <div class="btn1" @click="footerClick('Certik')">
+          <div class="btn1 fontsize14" @click="footerClick('Certik')">
             <img :src="`${$store.state.imgUrl}certick.png`" class="certick_img" />
             Certik
           </div>
-          <div class="btn1" @click="footerClick('Gitbook')">
+          <div class="btn1 fontsize14" @click="footerClick('Gitbook')">
             <img :src="`${$store.state.imgUrl}addfooter.png`" class="addfooter_img" />
             GitBook
           </div>
@@ -20,11 +20,11 @@
           <img :src="`${$store.state.imgUrl}tel.png`" class="img" @click="footerClick('Telegram')" />
           <img :src="`${$store.state.imgUrl}discord.png`" class="img" @click="footerClick('Discord')" />
         </div>
-        <div class="line_txt">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
+        <div class="line_txt fontsize14">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
       </div>
       <img :src="`${$store.state.imgUrl}footer2.png`" class="footer2img" />
     </div>
-    <div class="mobile_line_txt">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
+    <div class="mobile_line_txt fontsize14">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
   </div>
 </template>
 
@@ -68,7 +68,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     .footer1img{
-      width: 394px;
+      width: 346px;
       object-fit: contain;
     }
     .center_box{
@@ -87,12 +87,13 @@ export default {
         justify-content: center;
         margin-top: 20px;
         .btn1{
-          padding: 0 8px;
+          // padding: 0 8px;
+          width: 155px;
           border-radius: 30px;
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 34px;
+          height: 49px;
           background: #fff;
           margin-right: 10px;
           cursor: pointer;
@@ -123,7 +124,7 @@ export default {
       }
     }
     .footer2img{
-      width: 300px;
+      width: 263px;
       object-fit: contain;
     }
   }

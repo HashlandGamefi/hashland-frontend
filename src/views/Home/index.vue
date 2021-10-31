@@ -64,7 +64,7 @@
             <span class="span1 fontsize26">{{ $t("message.home.txt26") }}</span>
           </div>
           <div class="Trend_chart">
-            <div class="span2">{{ $t("message.home.txt10") }}</div>
+            <div class="span2 fontsize16">{{ $t("message.home.txt10") }}</div>
           </div>
           <div class="trend_boxs">
             <div class="imgbox">
@@ -319,7 +319,7 @@ export default {
               flex-direction: column;
               padding-bottom: 20px;
               height: 239px;
-              // border-radius: 15px;
+              cursor: pointer;
               .home1_img {
                 width: 100%;
                 border-radius: 15px 15px 0 0;
@@ -565,7 +565,7 @@ export default {
 .purple_color {
   color: #8e65ff !important;
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .home_page{
     .content_boxs{
       max-width: 1162px;

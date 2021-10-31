@@ -9,7 +9,7 @@ body {
   font-family: 'Poppins';
   // font-family: 'Lato', sans-serif;
 }
-@media screen and (min-width: 1281px){
+@media screen and (min-width: 1280px){
   .fontsize22{
     font-size: 22px;
     font-weight: 600;
@@ -17,6 +17,10 @@ body {
   .fontsize18{// 导航栏
     font-size: 18px;
     font-weight: 500;
+  }
+  .fontsize14{// 导航栏
+    font-size: 14px;
+    font-family: 'Poppins-Regular';
   }
   .fontsize16{//次标题
     font-size: 16px;
@@ -41,14 +45,10 @@ body {
     font-weight: bold;
   }
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 12790px){
   html,
   body {
     font-size: 100px;
-  }
-  .fontsize20{
-    font-size: 0.2rem;
-    font-weight: 600;
   }
 }
 // 重置滚动条样式  (可以滚动的部分的重置)

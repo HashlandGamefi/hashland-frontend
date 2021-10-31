@@ -172,7 +172,7 @@ export default {
     cursor: pointer;
   }
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .card_details_page{
     max-width: 1400px;
     margin: 0 auto;

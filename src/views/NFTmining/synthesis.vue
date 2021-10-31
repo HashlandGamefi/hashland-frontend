@@ -566,7 +566,7 @@ export default {
     margin-top: 30px;
   }
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1280px) {
   .insertcard_page{
     max-width: 1400px;
     margin: 0 auto;
