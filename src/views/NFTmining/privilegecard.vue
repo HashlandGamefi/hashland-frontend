@@ -133,7 +133,7 @@ export default {
       flex-direction: column;
       .span1 {
         font-size: 32px;
-        font-weight: bold;
+
         color: #ffffff;
         line-height: 56px;
 
@@ -157,7 +157,7 @@ export default {
       color: #ffffff;
       line-height: 48px;
       cursor: pointer;
-      font-weight: bold;
+
     }
   }
   .myCardBox {
@@ -204,7 +204,7 @@ export default {
       background-size: contain;
       background-repeat: no-repeat;
       font-size: 32px;
-      font-weight: bold;
+
       color: #ffffff;
       cursor: pointer;
       margin-top: 0;
@@ -253,7 +253,7 @@ export default {
             background-size: contain;
             background-repeat: no-repeat;
             font-size: 16px;
-            font-weight: bold;
+
             color: #FFFFFF;
             cursor: pointer;
           }

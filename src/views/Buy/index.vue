@@ -77,7 +77,7 @@ export default {
       line-height: 70px;
       text-align: center;
       font-size: 26px;
-      font-weight: bold;
+
       color: #ffffff;
       border-radius: 5px;
       cursor: pointer;

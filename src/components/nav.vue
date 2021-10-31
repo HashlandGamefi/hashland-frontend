@@ -5,7 +5,7 @@
     </div>
     <div class="menu_box">
       <ul class="ul_">
-        <li :class="[index == getMenuIndex ? 'activeClass' : '']"  v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
+        <li :class="[index == getMenuIndex ? 'activeClass' : '','fontsize18']"  v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
           {{$t(item)}}
           <div class="nft_hover" v-show="index == 0">
             <div class="box_nft">
@@ -218,8 +218,6 @@ export default {
       li{
         position: relative;
         padding: 0 18px;
-        font-size: 18px;
-        font-weight: bold;
         color: #FFFFFF;
         cursor: pointer;
         .nft_hover{
@@ -244,9 +242,6 @@ export default {
               display: flex;
               align-items: center;
               justify-content: center;
-              font-size: 18px;
-
-
               color: #fff;
               line-height: 82px;
               .icon-v-right {
@@ -293,7 +288,7 @@ export default {
       color: #FFFFFF;
       line-height: 37px;
       cursor: pointer;
-      font-weight: bold;
+
     }
     .lang_box{
       display: flex;
@@ -304,8 +299,6 @@ export default {
         object-fit: contain;
       }
       .lang_txt{
-        font-size: 18px;
-        font-weight: bold;
         color: #FFFFFF;
         line-height: 37px;
         margin: 0 8px;

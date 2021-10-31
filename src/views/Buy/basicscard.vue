@@ -70,8 +70,11 @@
       <span class="composite_span2">{{total}} BUSD</span>
       <span class="composite_line_color"></span>
     </div>
-    <div class="connect_box" v-if="getIstrue" @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
-    <div class="connect_box" v-else>Connect</div>
+    <div class="connect_box" v-if="!getIstrue">Connect</div>
+    <div class="connect_box" v-else-if="!isapprove">授权</div>
+    <div class="connect_box" v-else @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
+
+
     <div class="right_box">
       <div class="btn">{{$t("message.nftCard.txt14")}}</div>
       <div class="right_span1"><span class="radious"></span>{{$t("message.nftCard.txt15")}}</div>
@@ -85,7 +88,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,hn,util,getSigner,getHnImg,erc20, token } from 'hashland-sdk';
+import { hnBox,hn,util,getSigner,getHnImg,erc20, token,contract } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -101,11 +104,24 @@ export default {
       total:0,// 合计
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       cardNumber:'00000',//卡牌的编号
-      cardSrc:'//cdn.hashland.com/images/defaultcard.png'
+      cardSrc:'//cdn.hashland.com/images/defaultcard.png',
+      isapprove:false,//是否授权busd
     }
   },
   computed: {
     ...mapGetters(["getIstrue","getAccount"])
+  },
+  watch:{
+    'getIstrue':{
+      handler: function (newValue, oldValue) {
+        console.log('合成卡牌页面是否链接:', newValue,oldValue);
+        if(newValue){
+          this.connectGetInfo()
+        }
+      },
+      deep: true,
+      immediate: true
+    },
   },
   methods: {
     // 取消按钮(关闭弹窗)
@@ -197,9 +213,7 @@ export default {
     async getSDKInfo(){
       // let balance = await getProvider().getBalance(this.getAccount)
       // console.log('用户余额balance: ', util.formatEther(balance));
-      let busd = await erc20(token().BUSD).balanceOf(this.getAccount)
-      console.log('busd余额: ', busd);
-      this.balance = util.formatEther(busd)
+
       let price = await hnBox().boxTokenPrices(0) // 盲盒价格
       this.originalPrice = price
       let str = (price / 1e18).toString()
@@ -222,6 +236,21 @@ export default {
       let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
       this.surplusNums = surplusNums.toString()
     },
+    connectGetInfo(){
+      erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
+        this.balance = util.formatEther(res)
+      })
+      erc20(token().BUSD).allowance(this.getAccount,contract().HNBox).then(res => {
+        console.log('是否授权busd: ', res);
+        if(res.toString() > 0){
+          this.isapprove = true
+        }else{
+          this.isapprove = false
+        }
+      }).catch(err => {
+        console.log('是否授权busderr: ', err);
+      })
+    }
   },
   mounted () {
     this.getSDKInfo()
@@ -255,14 +284,14 @@ export default {
         background: #29CDDA;
         border-radius: 5px;
         line-height: 42px;
-        font-weight: bold;
+
       }
       .span2{
         padding: 9px;
         background: #23447C;
         border-radius: 5px;
         line-height: 20px;
-        font-weight: bold;
+
       }
     }
     .top_box {
@@ -274,7 +303,7 @@ export default {
         font-size: 32px;
         color: #27c7d5;
         line-height: 40px;
-        font-weight: bold;
+
       }
       .luckey_span2 {
         font-size: 20px;
@@ -356,7 +385,7 @@ export default {
     }
     .btn {
       font-size: 24px;
-      font-weight: bold;
+
       color: #FFFFFF;
       padding: 5px;
       background: #29CDDA;
@@ -471,7 +500,7 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     font-size: 40px;
-    font-weight: bold;
+
     color: #ffffff;
     cursor: pointer;
   }

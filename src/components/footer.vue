@@ -96,11 +96,9 @@ export default {
           background: #fff;
           margin-right: 10px;
           cursor: pointer;
-          font-size: 12px;
-
-
           color: #052247;
-          line-height: 26px;
+          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+          border-radius: 7px;
           .addfooter_img{
             width: 30px;
             margin-right:5px;
@@ -111,20 +109,16 @@ export default {
           }
         }
         .img{
-          width: 32px;
+          width: 44px;
           object-fit: contain;
-          margin-right: 10px;
+          margin-right: 12px;
           cursor: pointer;
         }
       }
       .line_txt{
         width: 100%;
         text-align: center;
-        font-size: 16px;
-
-
         color: #FFFFFF;
-        line-height: 33px;
         margin-top: 10px;
       }
     }

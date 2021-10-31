@@ -22,7 +22,8 @@ export const message = {
     txt20:'获取装备升级战力',
     txt21:'社区自治，获取锁仓席位以及发展红利',
     txt22:'合作',
-    txt23:'质押接入第三方算力及IP'
+    txt23:'质押接入第三方算力及IP',
+    txt24:'HC Trend'
   },
   nav: {// 导航栏
     txt1:'NFTS',

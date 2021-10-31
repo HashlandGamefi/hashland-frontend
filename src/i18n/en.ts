@@ -19,11 +19,13 @@ export const message = {
     txt17: "Token Usage",
     txt18: "Card Upgrade",
     txt19: "Upgrade for extra hashrate",
-    txt20: "Improve Combat Effectiveness by upgrading your gear. ",
-    txt21:
-      "Complete community autonomy, Stake HC to become a representative and a stake holder ",
-    txt22: "Cooperate",
-    txt23: "Stake tokens to integrate third party hashrate and IP"
+    txt20: "GameFi",
+    txt21: "Improve Combat Effectiveness by upgrading your gear. ",
+    txt22: "DAO",
+    txt23:"Complete community autonomy, Stake HC to become a representative and a stake holder ",
+    txt24: "Cooperate",
+    txt25: "Stake tokens to integrate third party hashrate and IP",
+    txt26:'HC Trend'
   },
   nav: {
     // 导航栏

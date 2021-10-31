@@ -344,7 +344,7 @@ export default {
       flex-direction: column;
       .span1 {
         font-size: 32px;
-        font-weight: bold;
+
         color: #ffffff;
         line-height: 56px;
       }
@@ -362,7 +362,7 @@ export default {
       background-repeat: no-repeat;
       text-align: center;
       font-size: 20px;
-      font-weight: bold;
+
       color: #ffffff;
       line-height: 51px;
       cursor: pointer;
@@ -481,7 +481,7 @@ export default {
             background-size: contain;
             background-repeat: no-repeat;
             font-size: 16px;
-            font-weight: bold;
+
             color: #FFFFFF;
             cursor: pointer;
           }

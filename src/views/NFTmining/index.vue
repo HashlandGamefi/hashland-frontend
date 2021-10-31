@@ -186,7 +186,7 @@ export default {
       line-height: 70px;
       text-align: center;
       font-size: 32px;
-      font-weight: bold;
+
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
@@ -201,7 +201,7 @@ export default {
     width: 100%;
     padding-left: 30px;
     font-size: 32px;
-    font-weight: bold;
+
     color: #FFFFFF;
     line-height: 56px;
     margin-top: 40px;
@@ -239,7 +239,7 @@ export default {
           background-size: 100% 100%;
           background-repeat: no-repeat;
           font-size: 24px;
-          font-weight: bold;
+
           color: #FFFFFF;
           cursor: pointer;
           display: flex;

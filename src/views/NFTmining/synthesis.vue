@@ -345,7 +345,7 @@ export default {
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
         font-size: 26px;
-        font-weight: bold;
+
         color: #FFFFFF;
         line-height: 56px;
         margin-right: 10px;
@@ -380,7 +380,7 @@ export default {
         margin-top: 70px;
         .span1{
           font-size: 18px;
-        font-weight: bold;
+
           color: #E2DADA;
           line-height: 50px;
           cursor: pointer;

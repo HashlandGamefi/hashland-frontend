@@ -42,7 +42,7 @@ export default {
     .connect_box {
       width: 393px;
       height: 82px;
-      font-weight: bold;
+
       text-align: center;
       line-height: 70px;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");

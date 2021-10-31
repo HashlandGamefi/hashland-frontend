@@ -276,7 +276,7 @@ export default {
           font-size: 26px;
           color: #ffffff;
           line-height: 56px;
-          font-weight: bold;
+
         }
         .span2 {
           font-size: 20px;
@@ -325,7 +325,7 @@ export default {
     height: 82px;
     text-align: center;
     line-height: 70px;
-    font-weight: bold;
+
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
