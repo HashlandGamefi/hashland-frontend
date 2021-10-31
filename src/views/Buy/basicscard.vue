@@ -49,6 +49,7 @@
           </div>
         </div> -->
       </div>
+
     </div>
     <div class="mobile_content">
       <div class="btn">
@@ -386,70 +387,46 @@ export default {
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 539px;
+        width: 475px;
         object-fit: contain;
       }
-      .bottom{
-        position: absolute;
-        top: 75px;
-        display: flex;
-        align-items: center;
-        padding:10px 8px;
-        transform: scale(0.7);
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_btc_box{
-          display: flex;
-          align-items: center;
-          .hc_coefficient{
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            margin-right: 5px;
-            background: rgba(5, 24, 44, 0.88);
-            box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-            border-radius: 11px;
-            opacity: 0.56;
-            .imgcard{
-              width: 43px;
-              object-fit: contain;
-            }
-            .span1{
-              color: #FFFFFF;
-            }
-          }
-        }
-      }
-    }
-    .remaining{
-      position: absolute;
-      top:64%;
-      left:63%;
-      transform:translate(-50%,-50%);
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      color: #FFFFFF;
-      .span1{
-        padding: 5px;
-        background: #29CDDA;
-        border-radius: 5px;
-        line-height: 37px;
-        box-shadow: 0 9px 2px #23447C;
-      }
-      .span2{
-        padding: 5px 15px;
-        background: #23447C;
-        border-radius: 5px;
-        line-height: 20px;
-        margin-top: 10px;
-      }
+      // .bottom{
+      //   position: absolute;
+      //   top: 75px;
+      //   display: flex;
+      //   align-items: center;
+      //   padding:10px 8px;
+      //   transform: scale(0.7);
+      //   .five_pointed_star{
+      //     display: flex;
+      //     align-items: center;
+      //     .start_img{
+      //       width: 26px;
+      //       object-fit: contain;
+      //     }
+      //   }
+      //   .hc_btc_box{
+      //     display: flex;
+      //     align-items: center;
+      //     .hc_coefficient{
+      //       display: flex;
+      //       align-items: center;
+      //       border-radius: 4px;
+      //       margin-right: 5px;
+      //       background: rgba(5, 24, 44, 0.88);
+      //       box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+      //       border-radius: 11px;
+      //       opacity: 0.56;
+      //       .imgcard{
+      //         width: 43px;
+      //         object-fit: contain;
+      //       }
+      //       .span1{
+      //         color: #FFFFFF;
+      //       }
+      //     }
+      //   }
+      // }
     }
   }
   .connect_box {
@@ -476,7 +453,9 @@ export default {
 }
 input::-webkit-input-placeholder {
   color: #909292;
-  line-height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Poppins-Regular';
 }
 @media screen and (max-width: 980px){
   .composite_card{

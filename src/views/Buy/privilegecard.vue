@@ -2,64 +2,38 @@
   <div class="composite_card">
     <div class="left_box">
       <div class="top_box">
-        <span class="luckey_span1">{{$t("message.nftCard.txt5")}}</span>
-        <span class="luckey_span2">{{$t("message.nftCard.txt23")}}</span>
+        <span class="luckey_span2 fontsize22">{{$t("message.nftCard.txt5")}}</span>
+        <span class="luckey_span2 fontsize12">{{$t("message.nftCard.txt6")}}</span>
       </div>
       <div class="btn">
-        <span class="span1">{{$t("message.nftCard.txt7")}}</span>
-        <span class="span2">00001</span>
+        <span class="span1 fontsize16_400">{{$t("message.nftCard.txt7")}}.</span>
+        <span class="span2 fontsize16_400">{{cardNumber}}</span>
       </div>
-      <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
-      <span class="composite_span2">{{boxPrice}} BUSD</span>
+      <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
+      <span class="composite_span2 fontsize16">{{boxPrice}} BUSD</span>
       <span class="composite_line_color"></span>
-      <span class="composite_span1">{{$t("message.nftCard.txt9")}}</span>
+      <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
-        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
+        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        {{$t("message.nftCard.txt11")}}: {{total}} BUSD
-      </div>
-    </div>
-    <div class="mobile_top">
-      <div class="mobile_top_box">
-        <span class="luckey_span1">{{$t("message.nftCard.txt5")}}</span>
-        <span class="luckey_span2">{{$t("message.nftCard.txt19")}}</span>
+        <span class="span1 fontsize12">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
+        <span class="span2 fontsize12">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
       </div>
     </div>
     <div class="center_box">
-      <img :src="`${$store.state.imgUrl}privilegebg.png`" class="bgimg" />
+      <img :src="`${$store.state.imgUrl}buyboxprivilege.png`" class="bgimg" />
       <div class="onebox">
         <img :src="`${$store.state.imgUrl}specialCard.png`" class="cardimg" />
       </div>
-      <div class="remaining">
-        <span class="span1">{{$t("message.nftCard.txt12")}}</span>
-        <span class="span2">{{surplusNums}}</span>
-      </div>
-    </div>
-    <div class="mobile_content">
-      <div class="btn">
-        <span class="span1">{{$t("message.nftCard.txt7")}}</span>
-        <span class="span2">00001</span>
-      </div>
-      <span class="composite_span1">{{$t("message.nftCard.txt8")}}</span>
-      <span class="composite_span2">{{boxPrice}} BUSD</span>
-      <span class="composite_line_color"></span>
-      <span class="composite_span1">{{$t("message.nftCard.txt9")}}</span>
-      <div class="inputbox">
-        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
-      </div>
-      <span class="composite_line_color"></span>
-      <span class="composite_span1">{{$t("message.nftCard.txt11")}}: </span>
-      <span class="composite_span2">{{total}} BUSD</span>
-      <span class="composite_line_color"></span>
     </div>
     <div class="connect_box" v-if="getIstrue">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="connect_box" v-else>Connect</div>
     <div class="right_box">
       <div class="btn">{{$t("message.nftCard.txt14")}}</div>
-      <div class="right_span1"><span class="radious"></span>{{$t("message.nftCard.txt25")}}</div>
-      <div class="right_span1"><span class="radious"></span>{{$t("message.nftCard.txt26")}}</div>
+      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt25")}}</div>
+      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt26")}}</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -79,6 +53,7 @@ export default {
       boxPrice:0,//盲盒价格
       balance:0,//用户余额
       total:0,// 合计
+      cardNumber:'0000000000',//卡牌的编号
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
     }
   },
@@ -109,73 +84,50 @@ export default {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    .btn {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 24px;
-
-      color: #FFFFFF;
-      .span1{
-        padding: 9px;
-        background: #29CDDA;
-        border-radius: 5px;
-        line-height: 42px;
-      }
-      .span2{
-        padding: 9px;
-        background: #23447C;
-        border-radius: 5px;
-        line-height: 20px;
-      }
-    }
     .top_box {
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-bottom: 50px;
-      .luckey_span1 {
-        font-size: 32px;
-
-        color: #27c7d5;
-        line-height: 40px;
-      }
+      margin-bottom: 30px;
       .luckey_span2 {
-        font-size: 20px;
-
-
         color: #ffffff;
         line-height: 40px;
-        margin-top: 10px;
-
       }
     }
-    .composite_span1 {
-      font-size: 18px;
+    .btn {
+      width: 171px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      border-radius: 25px;
+      background: linear-gradient(90deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
+      // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), 0px 3px 6px -2px rgba(2, 12, 23, 0.69);
       color: #ffffff;
-      line-height: 40px;
-      padding-left: 15px;
+      padding-left: 14px;
+    }
+    .composite_span1 {
+      color: #ffffff;
+      margin-top: 28px;
+    }
+    .amount_class{
+      margin-top: 44px;
     }
     .composite_span2 {
-      font-size: 32px;
-
-
       color: #29cdda;
       line-height: 40px;
-      margin: 10px 0;
-      padding-left: 15px;
+      margin-top: 20px;
     }
     .composite_line_color{
       width: 100%;
       height: 1px;
       border: 1px solid;
       border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), rgba(43, 217, 229, 1), rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
-      margin: 10px 0;
+      margin-top: 5px;
     }
     .inputbox {
       width: 100%;
-      margin: 20px 0;
-      padding-left: 15px;
+      margin: 11px 0;
       .input {
         width: 100%;
         padding-right: 5px;
@@ -184,40 +136,32 @@ export default {
         outline: none;
 
         font-style: normal;
-
-        font-size: 24px;
         color: #ffffff;
         background: transparent;
       }
     }
     .last {
       width: 100%;
-      font-size: 18px;
-
-
-      color: #ffffff;
-      line-height: 40px;
-      padding-left: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #9291A1;
+      margin-top: 35px;
     }
   }
   .right_box{
     position: absolute;
     right: 70px;
-    top: 210px;
+    top: 185px;
     z-index: 1;
     min-width: 200px;
     .right_span1 {
       width: 280px;
-      font-size: 18px;
-
-
-      color: #27c7d5;
-      line-height: 28px;
-      margin: 0 auto;
+      color: #9291A1;
       margin-top: 30px;
       .radious{
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         background: #FDB234;
         display: inline-block;
@@ -225,21 +169,23 @@ export default {
       }
     }
     .btn {
-      font-size: 24px;
-
-      color: #FFFFFF;
-      padding: 5px;
-      background: #29CDDA;
-      border-radius: 5px;
-      line-height: 56px;
-      text-align: center;
+      width: 204px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      border-radius: 25px;
+      background: linear-gradient(90deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
+      // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), 0px 3px 6px -2px rgba(2, 12, 23, 0.69);
+      color: #ffffff;
+      padding-left: 14px;
     }
   }
   .center_box{
     position: relative;
     width: 100%;
     min-height: 1000px;
-    margin-top: 240px;
+    margin-top: 177px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -249,7 +195,7 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 42%;
+      top: 24%;
       left: 51%;
       transform: translate(-50%,-50%);
       display: flex;
@@ -260,65 +206,28 @@ export default {
         object-fit: contain;
       }
     }
-    .remaining{
-      position: absolute;
-      top:80%;
-      left:68%;
-      transform:translate(-50%,-50%);
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 26px;
-
-
-      color: #FFFFFF;
-      .span1{
-        padding: 5px;
-        background: #29CDDA;
-        border-radius: 5px;
-        line-height: 37px;
-        box-shadow: 0 9px 2px #23447C;
-      }
-      .span2{
-        padding: 5px 15px;
-        background: #23447C;
-        border-radius: 5px;
-        line-height: 20px;
-        margin-top: 10px;
-      }
-    }
   }
   .connect_box {
     position: absolute;
-    bottom: 0;
+    bottom: 29%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 393px;
-    height: 82px;
+    width: 274px;
+    height: 59px;
     text-align: center;
-    line-height: 70px;
-
+    line-height: 47px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 40px;
-
-
     color: #ffffff;
     cursor: pointer;
   }
-  .mobile_top{
-    display: none;
-  }
-  .mobile_content{
-    display: none;
-  }
 }
 input::-webkit-input-placeholder {
-
   color: #909292;
-  line-height: 40px;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Poppins-Regular';
 }
 @media screen and (max-width: 980px){
   .composite_card{

@@ -62,7 +62,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 90px;
+    margin-top: 65px;
     .oneTab {
       width: 158px;
       height: 40px;
@@ -82,7 +82,7 @@ export default {
 }
 @media screen and (min-width: 1280px) {
   .buy_page {
-    max-width: 1440px;
+    max-width: 1162px;
     margin: 0 auto;
   }
 }
