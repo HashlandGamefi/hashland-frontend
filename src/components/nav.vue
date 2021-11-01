@@ -188,7 +188,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  padding-left: 250px;
+  padding-left: 180px;
   .logo_img{
     position: absolute;
     top: 0;
@@ -225,16 +225,18 @@ export default {
             width: 183px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
-            padding: 20px 0;
+            padding: 20px 10px;
             margin-top: 30px;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
             .span1{
               width: 100%;
               height: 60px;
               display: flex;
               align-items: center;
-              justify-content: center;
+              justify-content: space-between;
               color: #fff;
               line-height: 82px;
+              padding: 0 15px;
               .icon-v-right {
                 width: 12px;
                 height: 12px;

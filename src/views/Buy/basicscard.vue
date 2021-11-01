@@ -375,7 +375,7 @@ export default {
     position: relative;
     width: 100%;
     min-height: 800px;
-    margin-top: 165px;
+    margin-top: 177px;
     display: flex;
     flex-direction: column;
     align-items: center;

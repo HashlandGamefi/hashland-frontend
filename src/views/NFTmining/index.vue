@@ -183,7 +183,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top:45px;
+    margin-top:65px;
     .oneTab{
       width: 158px;
       height: 40px;

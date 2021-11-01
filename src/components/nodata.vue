@@ -31,9 +31,9 @@ export default {
     align-items: center;
     min-height: 200px;
     img {
-      width: 328px;
+      width: 193px;
       object-fit: contain;
-      margin-top: 10px;
+      margin-top: 60px;
       margin-bottom: 15px;
     }
     .txt {
@@ -48,7 +48,7 @@ export default {
       background-size: contain;
       background-repeat: no-repeat;
       color: #ffffff;
-      margin-top: 30px;
+      margin-top: 70px;
       cursor: pointer;
     }
   }

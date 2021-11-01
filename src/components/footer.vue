@@ -1,7 +1,9 @@
 <template>
   <div class="footer_page">
     <div class="pc_box">
-      <img :src="`${$store.state.imgUrl}footer1.png`" class="footer1img" />
+      <div class="left_center">
+        <img :src="`${$store.state.imgUrl}footer1.png`" class="footer1img" />
+      </div>
       <div class="center_box">
         <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
@@ -26,7 +28,9 @@
         </div>
         <div class="line_txt fontsize14">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
       </div>
-      <img :src="`${$store.state.imgUrl}footer2.png`" class="footer2img" />
+      <div class="right_center">
+        <img :src="`${$store.state.imgUrl}footer2.png`" class="footer2img" />
+      </div>
     </div>
     <div class="mobile_line_txt fontsize14">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
   </div>
@@ -74,12 +78,17 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .footer1img{
-      width: 346px;
-      object-fit: contain;
+    .left_center{
+      width: 400px;
+      display: flex;
+      align-items: center;
+      .footer1img{
+        width: 346px;
+        object-fit: contain;
+      }
     }
     .center_box{
-      width: calc(100% - 694px);
+      width: calc(100% - 800px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -130,9 +139,14 @@ export default {
         margin-top: 10px;
       }
     }
-    .footer2img{
-      width: 263px;
-      object-fit: contain;
+    .right_center{
+      width: 400px;
+      display: flex;
+      justify-content: flex-end;
+      .footer2img{
+        width: 263px;
+        object-fit: contain;
+      }
     }
   }
   .mobile_line_txt{
