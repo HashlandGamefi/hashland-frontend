@@ -3,29 +3,30 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
-    <div class="title_title font_title">{{$t("message.synthesis.txt1")}}</div>
-    <div class="title_son1">{{$t("message.synthesis.txt2")}}</div>
-    <div class="title_son1">{{$t("message.synthesis.txt3")}}</div>
+    <div class="title_title fontsize32">{{$t("message.synthesis.txt1")}}</div>
+    <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt2")}}</div>
+    <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
-        <span class="span1">{{rank}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
+        <span class="span1 fontsize16">{{rank}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
+          <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
         </div>
       </div>
       <div class="right_content" @click="selectAllClick">
         <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
         <img :src="`${$store.state.imgUrl}select.png`" class="selectimg" v-else />
-        <span class="select_ttx">{{$t("message.synthesis.txt5")}}</span>
+        <span class="select_ttx fontsize16">{{$t("message.synthesis.txt5")}}</span>
       </div>
     </div>
     <div class="bottom_txtbox" v-if="rank < 5">
       <div class="bottom_txt1">
-        <span class="span1">{{$t("message.synthesis.txt6")}}</span>
-        <span class="span2"> {{selectedNUM}}</span>
+        <span class="span1 fontsize22">{{$t("message.synthesis.txt6")}}</span>
+        <span class="span2 fontsize22"> {{selectedNUM}}</span>
       </div>
-      <div class="bottom_txt2" v-if="selectimgArr.length != 0">
+      <!--  v-if="selectimgArr.length != 0" -->
+      <div class="bottom_txt2 fontsize16_400" v-if="pageshowarr.length != 0">
         {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}}{{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}}15%
       </div>
     </div>
@@ -299,34 +300,24 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 80px;
-  padding-top: 130px;
-  .title{
+  .title {
     position: absolute;
-    top: 160px;
+    top: 149px;
     left: 90px;
-    width: 121px;
+    width: 79px;
     cursor: pointer;
-    .backimg{
+    .backimg {
       width: 100%;
       object-fit: contain;
     }
   }
   .title_title {
-    font-size: 36px;
     color: #ffffff;
-    line-height: 73px;
     margin-bottom: 15px;
+    margin-top: 208px;
   }
   .title_son1{
-    font-size: 20px;
     color: #ffffff;
-    line-height: 37px;
-    // -webkit-text-stroke: 1px #092868;
-    // text-stroke: 1px #092868;
-    // background: linear-gradient(180deg, #E5FFFF 0%, #81C6E3 100%);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
   }
   .content{
     width: 100%;
@@ -336,25 +327,20 @@ export default {
     margin-top: 90px;
     .left_content{
       position: relative;
-      width: 380px;
-      height: 87px;
+      width: 204px;
+      height: 48px;
+      border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
-      box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
+      background: linear-gradient(90deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
       .span1{
-        font-size: 26px;
-
         color: #FFFFFF;
-        line-height: 56px;
         margin-right: 10px;
         cursor: pointer;
       }
       .span2{
-        font-size: 0;
-        line-height: 0;
-        border-width: 15px;
+        border-width: 7px;
         border-color: #00E7F0;
         border-bottom-width: 0;
         border-style: dashed;
@@ -364,25 +350,23 @@ export default {
       }
       .left_content_hover{
         position: absolute;
-        top: 15px;
+        top: 0;
         left: 0;
         z-index: 9;
-        width: 380px;
+        width: 204px;
         display: none;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        background: rgba(0, 0, 0, 0.74);
-        box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
+        background: rgba(0, 0, 0, 0.9);
+        box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
         filter: blur(0px);
         border-radius: 4px;
-        padding: 20px 0;
-        margin-top: 70px;
+        padding: 10px 0;
+        margin-top:50px;
+        line-height: 39px;
         .span1{
-          font-size: 18px;
-
           color: #E2DADA;
-          line-height: 50px;
           cursor: pointer;
         }
       }
@@ -401,11 +385,7 @@ export default {
         margin-right: 10px;
       }
       .select_ttx{
-        font-size: 24px;
-
-
         color: #FFFFFF;
-        line-height: 56px;
       }
     }
   }
@@ -413,33 +393,22 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-top: 23px;
     .bottom_txt1 {
       width: 100%;
       display: flex;
       align-items: center;
       .span1 {
-        font-size: 24px;
-
-
         color: #ffffff;
-        line-height: 56px;
-        margin-right: 5px;
+        margin-right:40px;
       }
       .span2 {
-        font-size: 24px;
-
-
         color: #00e7f0;
-        line-height: 56px;
       }
     }
     .bottom_txt2 {
       width: 100%;
-      font-size: 20px;
-
-
       color: #ccbebe;
-      line-height: 37px;
     }
   }
   .cardarr_class{
@@ -447,9 +416,10 @@ export default {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 20px;
     .onebox{
       position: relative;
-      width: 320px;
+      width: 237px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -493,9 +463,6 @@ export default {
               object-fit: contain;
             }
             .span1{
-              font-size: 26px;
-
-
               color: #FFFFFF;
             }
           }
@@ -560,7 +527,6 @@ export default {
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 40px;
     color: #ffffff;
     cursor: pointer;
     margin-top: 30px;
@@ -568,7 +534,7 @@ export default {
 }
 @media screen and (min-width: 1280px) {
   .insertcard_page{
-    max-width: 1400px;
+    max-width: 1162px;
     margin: 0 auto;
   }
 }
@@ -592,18 +558,11 @@ export default {
       }
     }
     .title_title {
-      font-size: 0.22rem;
-
       color: #ffffff;
-      line-height: 0.22rem;
       margin-bottom: 0.1rem;
     }
     .title_son1{
-      font-size: 0.14rem;
-
-
       color: #ffffff;
-      line-height: 0.22rem;
     }
   .content{
     width: 100%;
@@ -621,17 +580,11 @@ export default {
       background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
       box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
       .span1{
-        font-size: 0.12rem;
-
-
         color: #FFFFFF;
-        line-height: 0.28rem;
         margin-right: 0.1rem;
         cursor: pointer;
       }
       .span2{
-        font-size: 0;
-        line-height: 0;
         border-width: 0.12rem;
         border-color: #00E7F0;
         border-bottom-width: 0;
@@ -659,11 +612,7 @@ export default {
         padding: 0.2rem 0;
         margin-top: 0.35rem;
         .span1{
-          font-size: 0.12rem;
-
-
           color: #E2DADA;
-          line-height: 0.28rem;
           cursor: pointer;
         }
       }
@@ -682,11 +631,7 @@ export default {
         margin-right: 0.05rem;
       }
       .select_ttx{
-        font-size: 0.12rem;
-
-
         color: #FFFFFF;
-        line-height: 0.2rem;
       }
     }
   }
@@ -700,28 +645,18 @@ export default {
       display: flex;
       align-items: center;
       .span1 {
-        font-size: 0.2rem;
-
-
         color: #ffffff;
         line-height: 0.28rem;
         margin-right: 0.05rem;
       }
       .span2 {
-        font-size: 0.2rem;
-
-
         color: #00e7f0;
         line-height: 0.28rem;
       }
     }
     .bottom_txt2 {
       width: 100%;
-      font-size: 0.14rem;
-
-
       color: #ccbebe;
-      line-height: 0.2rem;
     }
   }
   .cardarr_class{
@@ -775,9 +710,6 @@ export default {
               object-fit: contain;
             }
             .span1{
-              font-size: 26px;
-
-
               color: #FFFFFF;
             }
           }
@@ -842,9 +774,6 @@ export default {
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 0.18rem;
-
-
     color: #ffffff;
     cursor: pointer;
   }

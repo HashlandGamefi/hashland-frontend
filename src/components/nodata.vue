@@ -2,8 +2,8 @@
   <div class="nodata_page">
     <div class="defaultClass">
       <img :src="`${$store.state.imgUrl}defaultGraph.png`" />
-      <span class="txt">{{ $t("message.nothing") }}</span>
-      <div class="connect_box" @click.stop="nothingfun">{{$t("message.button2")}}</div>
+      <span class="txt fontsize16">{{ $t("message.nothing") }}</span>
+      <div class="connect_box fontsize18" @click.stop="nothingfun">{{$t("message.button2")}}</div>
     </div>
   </div>
 </template>
@@ -31,24 +31,22 @@ export default {
     align-items: center;
     min-height: 200px;
     img {
-      width: 406px;
+      width: 328px;
       object-fit: contain;
+      margin-top: 10px;
+      margin-bottom: 15px;
     }
     .txt {
-      font-size: 36px;
       color: #ffffff;
-      line-height: 50px;
     }
     .connect_box {
-      width: 393px;
-      height: 82px;
-
+      width: 274px;
+      height: 59px;
+      line-height: 49px;
       text-align: center;
-      line-height: 70px;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
       background-size: contain;
       background-repeat: no-repeat;
-      font-size: 40px;
       color: #ffffff;
       margin-top: 30px;
       cursor: pointer;

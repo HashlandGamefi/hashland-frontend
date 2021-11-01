@@ -14,7 +14,7 @@
       <span class="composite_line_color"></span>
       <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
-        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" @input="inputchangeFun" oninput="value=value.replace(/[^\d]/g, '')" />
+        <input type="text" :placeholder='$t("message.placeholder")' v-model="boxnums" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
@@ -158,7 +158,7 @@ export default {
     .right_span1 {
       width: 280px;
       color: #9291A1;
-      margin-top: 30px;
+      margin-top: 20px;
       .radious{
         width: 8px;
         height: 8px;

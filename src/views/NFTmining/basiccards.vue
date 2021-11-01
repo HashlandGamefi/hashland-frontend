@@ -3,23 +3,23 @@
     <!-- 卡牌 -->
     <div class="myCard">
       <div class="card_left">
-        <span class="span1">{{$t("message.nftMining.txt3")}}</span>
-        <span class="span2">{{$t("message.nftMining.txt4")}}</span>
+        <span class="span1 fontsize22">{{$t("message.nftMining.txt3")}}</span>
+        <span class="span2 fontsize12_400">{{$t("message.nftMining.txt4")}}</span>
       </div>
-      <div class="synthesis_btn" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
+      <div class="synthesis_btn fontsize16" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
     </div>
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="item in mycardarr" :key="item">
+        <div class="swiper-slide" v-for="(item,index) in mycardarr" :key="index">
           <div class="content_box" @click="jumpDetails(item)">
             <img :src="item.src" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img :src="`${$store.state.imgUrl}start.png`" v-for="ele in item.level" :key="ele"  class="start_img" />
+                <img :src="`${$store.state.imgUrl}start.png`" v-for="(ele,index1) in item.level" :key="index1"  class="start_img" />
               </div>
-              <span class="card_grade">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
-              <span class="details">{{$t("message.nftMining.txt6")}}</span>
+              <span class="card_grade fontsize16">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
+              <span class="details fontsize12">{{$t("message.nftMining.txt6")}}</span>
             </div>
           </div>
         </div>
@@ -32,8 +32,8 @@
     <!-- 卡槽 -->
     <div class="myCard margin_top_card">
       <div class="card_left">
-        <span class="span1">{{$t("message.nftMining.txt7")}}</span>
-        <span class="span2">{{$t("message.nftMining.txt8")}}</span>
+        <span class="span1 fontsize22">{{$t("message.nftMining.txt7")}}</span>
+        <span class="span2 fontsize12_400">{{$t("message.nftMining.txt8")}}</span>
       </div>
     </div>
     <!-- 卡槽轮播 -->
@@ -45,11 +45,11 @@
               <img :src="item.src" class="swiper_img" />
               <img :src="`${$store.state.imgUrl}pledgebg.png`" class="base_img" />
             </div>
-            <div class="btnbox remove_btnbox" v-if="item.btnstatus == 1" @click="insertClick(item)">{{$t("message.nftMining.txt15")}}</div>
-            <div class="btnbox insert_btnbox" v-if="item.btnstatus == 2" @click="removeClick(item)">
+            <div class="btnbox remove_btnbox fontsize16" v-if="item.btnstatus == 1" @click="insertClick(item)">{{$t("message.nftMining.txt15")}}</div>
+            <div class="btnbox insert_btnbox fontsize16" v-if="item.btnstatus == 2" @click="removeClick(item)">
               {{$t("message.nftMining.txt9")}}<BtnLoading :isloading="item.isloading"></BtnLoading>
             </div>
-            <div class="btnbox lock_btnbox" v-if="item.btnstatus == 3" @click="Unlock(index)">
+            <div class="btnbox lock_btnbox fontsize16" v-if="item.btnstatus == 3" @click="Unlock(index)">
               {{$t("message.nftMining.txt10")}}<BtnLoading :isloading="item.isloading"></BtnLoading></div>
           </div>
         </div>
@@ -332,7 +332,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 160px;
+  margin-top: 70px;
   .myCard {
     width: 100%;
     display: flex;
@@ -343,35 +343,29 @@ export default {
       display: flex;
       flex-direction: column;
       .span1 {
-        font-size: 32px;
-
         color: #ffffff;
-        line-height: 56px;
       }
       .span2 {
-        font-size: 18px;
         color: #ccbebe;
-        line-height: 37px;
+        margin-top: 7px;
       }
     }
     .synthesis_btn {
-      width: 115px;
-      height: 51px;
+      width: 144px;
+      height: 49px;
+      line-height: 49px;
       background-image: url(//cdn.hashland.com/images/nft_btn1.png);
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
-      font-size: 20px;
-
       color: #ffffff;
-      line-height: 51px;
       cursor: pointer;
     }
   }
   .swiper-container{
     width: 100%;
     height: auto;
-    padding: 0 90px;
+    padding:0 90px;
     .swiper-wrapper{
       .swiper-slide{
         width: 100%;
@@ -382,12 +376,13 @@ export default {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
+          cursor: pointer;
           .swiper_img{
             width: 86%;
             object-fit: contain;
           }
           .grade_box{
-            width: 245px;
+            width: 228px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -404,21 +399,13 @@ export default {
               }
             }
             .card_grade{
-              font-size: 26px;
-
-
               color: #FFFFFF;
-              line-height: 56px;
               margin: 0 10px;
             }
             .details{
               padding:0 10px;
               background: #F5B252;
-              font-size: 16px;
-
-
               color: #FFFFFF;
-              line-height: 22px;
               border-radius: 25px;
               cursor: pointer;
             }
@@ -426,12 +413,8 @@ export default {
           .btnbox{
             width: 238px;
             text-align: center;
-            line-height: 84px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 32px;
-
-
             color: #FFFFFF;
             cursor: pointer;
           }
@@ -480,8 +463,6 @@ export default {
             line-height: 52px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 16px;
-
             color: #FFFFFF;
             cursor: pointer;
           }
@@ -516,7 +497,7 @@ export default {
     margin-top: 0;
   }
   .margin_top_card{
-    margin-top: 50px;
+    margin-top: 81px;
   }
 }
 @media screen and (max-width: 980px){

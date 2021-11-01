@@ -193,7 +193,7 @@ export default {
     position: absolute;
     top: 0;
     left: 20px;
-    width: 223px;
+    width: 169px;
     cursor: pointer;
     .imgs{
       width: 100%;

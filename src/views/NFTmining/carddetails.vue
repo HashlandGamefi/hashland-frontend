@@ -3,7 +3,7 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
-    <span class="span_title font_title">{{$t("message.details")}}</span>
+    <span class="span_title fontsize32">{{$t("message.details")}}</span>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
@@ -23,8 +23,8 @@
       </div>
       <NoData v-if="boxarr.length == 0"></NoData>
     </div>
-    <span class="bottom_title" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
-    <div class="connect_box" v-if="boxarr.length > 0">{{$t("message.button1")}}</div>
+    <span class="bottom_title fontsize12" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
+    <div class="connect_box fontsize18" v-if="boxarr.length > 0">{{$t("message.button1")}}</div>
   </div>
 </template>
 
@@ -67,12 +67,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 149px;
   .title{
     position: absolute;
-    top: 160px;
+    top: 149px;
     left: 90px;
-    width: 121px;
+    width: 79px;
     cursor: pointer;
     .backimg{
       width: 100%;
@@ -80,43 +79,40 @@ export default {
     }
   }
   .span_title{
-    font-size: 36px;
     color: #FFFFFF;
-    line-height: 84px;
+    margin-top: 143px;
+    margin-top: 208px;
   }
   .boxarr{
     width: 100%;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding: 0 40px;
-    max-height: 980px;
+    max-height: 738px;
     overflow-y: auto;
     .onebox{
       position: relative;
-      width: 353px;
-      // height: 305px;
+      width: 256px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-right: calc((100% - 1480px) / 5);
-      // margin-bottom: 30px;
+      margin-right: 20px;
+      margin-bottom: 56px;
       .imgcard{
         width: 100%;
         object-fit: contain;
       }
       .bottom{
         position: absolute;
-        top: 18px;
-        // width: 100%;
-        background-image: url("//cdn.hashland.com/images/cardtop.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
+        top: 0;
+        // background-image: url("//cdn.hashland.com/images/cardtop.png");
+        // background-size: 100% 100%;
+        // background-repeat: no-repeat;
         display: flex;
         align-items: center;
         padding:10px 8px;
         transform: scale(0.5);
-        // transform: translate(-50%,-50%);
+        border-radius: 15px;
         .five_pointed_star{
           display: flex;
           align-items: center;
@@ -137,44 +133,31 @@ export default {
             object-fit: contain;
           }
           .span1{
-            // padding: 0 8px;
-            // background: #302F2E;
-            // box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-            font-size: 26px;
-
-
             color: #FFFFFF;
-            // line-height: 37px;
           }
         }
       }
     }
   }
   .bottom_title{
-    font-size: 22px;
     color: #FFFFFF;
-    line-height: 32px;
   }
   .connect_box {
-    width: 393px;
-    height: 82px;
-
+    width: 274px;
+    height: 59px;
+    line-height:  49px;
     text-align: center;
-    line-height: 70px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 40px;
-
-
     color: #ffffff;
-    margin-top: 30px;
+    margin-top: 16px;
     cursor: pointer;
   }
 }
 @media screen and (min-width: 1280px) {
   .card_details_page{
-    max-width: 1400px;
+    max-width: 1162px;
     margin: 0 auto;
   }
 }
@@ -197,9 +180,6 @@ export default {
     }
   }
   .span_title{
-    font-size: 0.26rem;
-
-
     color: #FFFFFF;
     line-height: 0.48rem;
   }
@@ -257,26 +237,14 @@ export default {
             object-fit: contain;
           }
           .span1{
-            // padding: 0 8px;
-            // background: #302F2E;
-            // box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-            font-size: 26px;
-
-
             color: #FFFFFF;
-            // line-height: 37px;
           }
         }
       }
     }
   }
   .bottom_title{
-    font-size: 0.14rem;
-
-
     color: #FFFFFF;
-    line-height: 32px;
-
   }
   .connect_box {
     width: 1.94rem;
@@ -286,9 +254,6 @@ export default {
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 0.18rem;
-
-
     color: #ffffff;
     margin-top: 0.2rem;
     cursor: pointer;

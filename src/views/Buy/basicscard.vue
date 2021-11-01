@@ -69,7 +69,7 @@
       <span class="composite_line_color"></span>
     </div>
     <div class="connect_box fontsize18" v-if="!getIstrue">Connect</div>
-    <div class="connect_box fontsize18" v-else-if="!isapprove">{{$t("message.approve")}}</div>
+    <div class="connect_box fontsize18" v-else-if="!isapprove" @click="goApproveClick">{{$t("message.approve")}}</div>
     <div class="connect_box fontsize18" v-else @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="right_box">
       <div class="btn">{{$t("message.nftCard.txt14")}}</div>
@@ -126,7 +126,9 @@ export default {
     },
     // 监听盲盒开奖结果
     watchResult(){
+      console.log('监听盲盒结果的方法')
       hnBox().on("SpawnHns", async (user, boxslengths, boxarrID, event) => {
+        console.log('监听盲盒开奖结果user: ', user);
         let str = boxarrID.toString()
         let arr = str.split(',')
         if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
@@ -161,7 +163,7 @@ export default {
         this.$common.selectLang('请输入购买数量','Enter Purchase Amount',this)
         return
       }
-      console.log('this.boxnums: ', this.boxnums,this.surplusNums);
+      // console.log('this.boxnums: ', this.boxnums,this.surplusNums);
       if(Number(this.boxnums) > Number(this.surplusNums)){
         console.log('可购买数量不足')
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
@@ -172,8 +174,8 @@ export default {
         return
       }
       this.buy_isloading = true
-      console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
-      hnBox().connect(getSigner()).buyBoxes(this.boxnums,0,{value: this.originalPrice.mul(this.boxnums)}).then(async res => {
+      // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
+      hnBox().connect(getSigner()).buyBoxes(this.boxnums,1).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
         this.watchResult()
@@ -181,9 +183,6 @@ export default {
         this.boxnums = ''
         this.total = 0
         this.getSDKInfo()
-        // const etReceipt = await res.wait();
-        // console.log('etReceipt: ', etReceipt);
-        // console.log(etReceipt.confirmations, 'Blocks Confirmations');
       }).catch(err => {
         console.log('购买盒子err: ', err);
         this.buy_isloading = false
@@ -202,10 +201,16 @@ export default {
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
       }
     },
-    // 刷新
-    // refesh(){
-    //   console.log("刷新卡牌")
-    // },
+    // 去授权
+    async goApproveClick(){
+      const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
+      let res = await erc20(token().BUSD).connect(getSigner()).approve(contract().HNBox,TOKEN_amount)
+      console.log('去授权istrue: ', res);
+      const etReceipt = await res.wait();
+      if(etReceipt.status == 1){
+        this.isapprove = true
+      }
+    },
     async getSDKInfo(){
       // let balance = await getProvider().getBalance(this.getAccount)
       // console.log('用户余额balance: ', util.formatEther(balance));
@@ -343,7 +348,7 @@ export default {
     .right_span1 {
       width: 280px;
       color: #9291A1;
-      margin-top: 30px;
+      margin-top: 20px;
       .radious{
         width: 8px;
         height: 8px;
@@ -436,8 +441,9 @@ export default {
     transform: translate(-50%,-50%);
     width: 274px;
     height: 59px;
-    text-align: center;
-    line-height: 47px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;

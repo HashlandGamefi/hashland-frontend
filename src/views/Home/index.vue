@@ -302,7 +302,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 10px;
+      margin-top:66px;
       padding: 0 100px;
       .swiper-container {
         width: 100%;
@@ -367,7 +367,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 112px;
+      margin-top: 102px;
       .compositeCard {
         width: 100%;
         color: #ffffff;

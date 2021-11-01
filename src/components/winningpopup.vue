@@ -1,7 +1,7 @@
 <template>
   <div class="record_page" v-if="minserdis">
-    <div class="title">{{$t("message.buy1")}}</div>
-    <img :src="`${$store.state.imgUrl}closebg.png`" class="close_img" @click="closepage"/>
+    <div class="title fontsize32">{{$t("message.buy1")}}</div>
+    <img :src="`${$store.state.imgUrl}proupclose.png`" class="close_img" @click="closepage"/>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
@@ -20,8 +20,8 @@
         </div>
       </div>
     </div>
-    <span class="bottom_title">{{$t("message.details1")}}</span>
-    <div class="connect_box" @click="closepage">{{$t("message.button1")}}</div>
+    <span class="bottom_title fontsize12_400">{{$t("message.details1")}}</span>
+    <div class="connect_box fontsize18" @click="closepage">{{$t("message.button1")}}</div>
   </div>
 </template>
 
@@ -59,25 +59,19 @@ export default {
   flex-direction: column;
   align-items: center;
   .title{
-    margin-top: 60px;
+    margin-top: 292px;
     width: 100%;
     text-align: center;
-    font-size: 40px;
-
-    font-style: italic;
     color: #FFFFFF;
-    line-height: 73px;
-
     text-shadow: 0px 8px 17px rgba(52, 30, 2, 0.5);
-    // -webkit-text-stroke: 2px #000000;
-    // -webkit-text-fill-color: transparent;
   }
   .close_img{
     position: absolute;
-    top: 40px;
-    right: 80px;
-    width: 73px;
+    top: 134px;
+    right: 107px;
+    width: 66px;
     object-fit: contain;
+    cursor: pointer;
   }
   .boxarr{
     width: 100%;
@@ -85,16 +79,17 @@ export default {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 0 40px;
-    max-height: 980px;
+    // padding: 0 40px;
+    max-height: 738px;
     overflow-y: auto;
     .onebox{
       position: relative;
-      width: 450px;
+      width: 256px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-right: calc((100% - 1480px) / 5);
+      margin-right: 20px;
+      margin-bottom: 56px;
       .imgcard{
         width: 100%;
         object-fit: contain;
@@ -103,9 +98,6 @@ export default {
         position: absolute;
         top: 30px;
         left: 22%;
-        // background-image: url("//cdn.hashland.com/images/cardtop.png");
-        // background-size: 100% 100%;
-        // background-repeat: no-repeat;
         display: flex;
         align-items: center;
         padding:10px 8px;
@@ -130,9 +122,6 @@ export default {
             object-fit: contain;
           }
           .span1{
-            font-size: 26px;
-
-
             color: #FFFFFF;
           }
         }
@@ -140,32 +129,24 @@ export default {
     }
   }
   .bottom_title{
-    font-size: 26px;
-
-
     color: #FFFFFF;
-    line-height: 32px;
-
   }
   .connect_box {
-    width: 533px;
-    height: 102px;
+    width: 274px;
+    height: 59px;
+    line-height: 49px;
     text-align: center;
-    line-height: 102px;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 40px;
-
-
     color: #ffffff;
-    margin-top: 30px;
+    margin-top: 7px;
     cursor: pointer;
   }
 }
 @media screen and (min-width: 1280px) {
   .composite_card{
-    max-width: 1400px;
+    max-width: 1162px;
     margin: 0 auto;
   }
 }
@@ -185,8 +166,6 @@ export default {
     margin-top: 0.5rem;
     width: 100%;
     text-align: center;
-    font-size: 0.2rem;
-
     font-style: normal;
     color: #FFFFFF;
     line-height: 0.5rem;
@@ -253,9 +232,6 @@ export default {
             object-fit: contain;
           }
           .span1{
-            font-size: 26px;
-
-
             color: #FFFFFF;
           }
         }
@@ -263,24 +239,15 @@ export default {
     }
   }
   .bottom_title{
-    font-size: 0.14rem;
-
-
     color: #FFFFFF;
-    line-height: 0.2rem;
-
   }
   .connect_box {
     width: 1.94rem;
     height: 0.38rem;
     text-align: center;
-    line-height: 0.38rem;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 0.18rem;
-
-
     color: #ffffff;
     margin-top: 0.1rem;
     cursor: pointer;

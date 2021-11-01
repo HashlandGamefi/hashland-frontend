@@ -3,19 +3,19 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
-    <div class="title_title font_title">{{ $t("message.insert.txt1") }}</div>
-    <span class="title1_txt">{{ $t("message.insert.txt2") }}</span>
-    <span class="title1_txt title2_txt">{{ $t("message.insert.txt3") }}</span>
+    <div class="title_title fontsize32">{{ $t("message.insert.txt1") }}</div>
+    <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span>
+    <span class="title1_txt title2_txt fontsize12_400">{{ $t("message.insert.txt3") }}</span>
     <div class="content_box">
       <div class="stratbox" v-for="ele in 5" :key="ele">
         <div class="top_line">
-          <span class="span1">{{ ele }} {{ $t("message.synthesis.txt4")}} {{ $t("message.synthesis.txt8")}} {{
+          <span class="span1 fontsize22">{{ ele }} {{ $t("message.synthesis.txt4")}} {{ $t("message.synthesis.txt8")}} {{
               starArr.filter((data) => {
                 return data.level == ele;
               }).length
             }}</span
           >
-          <span class="span2">{{ $t("message.nftMining.txt8") }}</span>
+          <span class="span2 fontsize12_400">{{ $t("message.nftMining.txt8") }}</span>
         </div>
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <div class="btn_box" @click="insertFun">
+    <div class="btn_box fontsize18" @click="insertFun">
       <span v-if="!getIstrue">Connect</span>
       <span v-else-if="!isbtnstatus">{{ $t("message.approve") }}</span>
       <span v-else>{{ $t("message.nftMining.txt15") }}</span>
@@ -91,12 +91,6 @@ export default {
           if (newValue.length > 0) {
             let res = JSON.parse(newValue)
             this.starArr = res
-            console.log('页面上现在展示的数组this.starArr: ', this.starArr);
-            // this.setFilterFun(1,newValue)
-            // this.setFilterFun(2,newValue)
-            // this.setFilterFun(3,newValue)
-            // this.setFilterFun(4,newValue)
-            // this.setFilterFun(5,newValue)
           }
         }
       },
@@ -230,12 +224,11 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 130px;
   .title {
     position: absolute;
-    top: 160px;
+    top: 149px;
     left: 90px;
-    width: 121px;
+    width: 79px;
     cursor: pointer;
     .backimg {
       width: 100%;
@@ -243,15 +236,12 @@ export default {
     }
   }
   .title_title {
-    font-size: 36px;
     color: #ffffff;
-    line-height: 73px;
     margin-bottom: 15px;
+    margin-top: 208px;
   }
   .title1_txt {
-    font-size: 20px;
     color: #fff;
-    line-height: 37px;
   }
   .title2_txt {
     margin-top: 10px;
@@ -273,15 +263,10 @@ export default {
         display: flex;
         flex-direction: column;
         .span1 {
-          font-size: 26px;
           color: #ffffff;
-          line-height: 56px;
-
         }
         .span2 {
-          font-size: 20px;
           color: #ccbebe;
-          line-height: 37px;
         }
       }
       .swiper-container {
@@ -300,14 +285,14 @@ export default {
               align-items: center;
               margin-top: 40px;
               .swiper_img {
-                width: 350px;
+                width: 237px;
                 object-fit: contain;
               }
               .select_img {
                 position: absolute;
-                right: 100px;
-                top: 31px;
-                width: 43px;
+                right: 0;
+                top: 0;
+                width: 31px;
                 object-fit: contain;
               }
             }
@@ -321,15 +306,13 @@ export default {
     }
   }
   .btn_box {
-    width: 393px;
-    height: 82px;
+    width: 274px;
+    height: 59px;
+    line-height: 49px;
     text-align: center;
-    line-height: 70px;
-
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 40px;
     color: #ffffff;
     cursor: pointer;
     margin-top: 30px;
@@ -337,7 +320,7 @@ export default {
 }
 @media screen and (min-width: 1280px) {
   .insertcard_page {
-    max-width: 1400px;
+    max-width: 1162px;
     margin: 0 auto;
   }
 }
@@ -360,15 +343,11 @@ export default {
       }
     }
     .title_title {
-      font-size: 0.32rem;
       color: #ffffff;
-      line-height: 0.5rem;
       margin-bottom: 0.2rem;
     }
     .title1_txt {
-      font-size: 0.16rem;
       color: #fff;
-      line-height: 0.22rem;
     }
     .title2_txt {
       margin-top: 0.1rem;
@@ -390,14 +369,10 @@ export default {
           display: flex;
           flex-direction: column;
           .span1 {
-            font-size: 0.2rem;
             color: #ffffff;
-            line-height: 0.28rem;
           }
           .span2 {
-            font-size: 0.14rem;
             color: #ccbebe;
-            line-height: 0.2rem;
           }
         }
         .swiper-container {
@@ -444,8 +419,6 @@ export default {
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
       background-size: contain;
       background-repeat: no-repeat;
-      font-size: 0.18rem;
-
       color: #ffffff;
       cursor: pointer;
       margin-top: 0;

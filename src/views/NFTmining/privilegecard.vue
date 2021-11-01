@@ -3,24 +3,24 @@
     <!-- 卡牌 -->
     <div class="myCard">
       <div class="card_left">
-        <span class="span1">{{$t("message.nftMining.txt3")}}</span>
-        <span class="span2">{{$t("message.nftMining.txt4")}}</span>
+        <span class="span1 fontsize22">{{$t("message.nftMining.txt3")}}</span>
+        <span class="span2 fontsize12_400">{{$t("message.nftMining.txt4")}}</span>
       </div>
-      <div class="synthesis_btn" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
+      <div class="synthesis_btn fontsize16" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
     </div>
     <!-- 我的钱包卡牌 -->
     <div class="myCardBox">
       <div class="occupationBitmap">
-        <img :src="`${$store.state.imgUrl}privilegebg.png`" class="privilegebgimg" />
+        <img :src="`${$store.state.imgUrl}buyboxprivilege.png`" class="privilegebgimg" />
         <img :src="`${$store.state.imgUrl}specialCard.png`" class="privilbg" />
       </div>
-      <div class="btn_box">{{$t("message.buy2")}}</div>
+      <div class="btn_box fontsize18">{{$t("message.buy2")}}</div>
     </div>
     <!-- 卡槽 -->
     <div class="myCard margin_top_card">
       <div class="card_left">
-        <span class="span1">{{$t("message.nftMining.txt7")}}</span>
-        <span class="span2">{{$t("message.nftMining.txt8")}}</span>
+        <span class="span1 fontsize22">{{$t("message.nftMining.txt7")}}</span>
+        <span class="span2 fontsize12_400">{{$t("message.nftMining.txt8")}}</span>
       </div>
     </div>
     <!-- 卡槽轮播 -->
@@ -121,7 +121,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 70px;
   .myCard {
     width: 100%;
     display: flex;
@@ -132,32 +132,23 @@ export default {
       display: flex;
       flex-direction: column;
       .span1 {
-        font-size: 32px;
-
         color: #ffffff;
-        line-height: 56px;
-
       }
       .span2 {
-        font-size: 18px;
-
-
         color: #ccbebe;
-        line-height: 37px;
+        margin-top: 7px;
       }
     }
     .synthesis_btn {
-      width: 115px;
-      height: 48px;
-      background-image: url("//cdn.hashland.com/images/nft_btn1.png");
+      width: 144px;
+      height: 49px;
+      line-height: 49px;
+      background-image: url(//cdn.hashland.com/images/nft_btn1.png);
       background-size: 100% 100%;
       background-repeat: no-repeat;
       text-align: center;
-      font-size: 22px;
       color: #ffffff;
-      line-height: 48px;
       cursor: pointer;
-
     }
   }
   .myCardBox {
@@ -171,17 +162,18 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 196px;
+      // padding: 0 196px;
+      margin-top: -100px;
       .privilegebgimg {
-        width: 100%;
+        width: 80%;
         object-fit: contain;
       }
       .privilbg{
         position: absolute;
-        top: 37%;
-        left: 47%;
+        top: 44%;
+        left: 50%;
         transform: translate(-50%,-50%);
-        width: 284px;
+        width: 300px;
         object-fit: contain;
       }
     }
@@ -196,74 +188,129 @@ export default {
     //   box-shadow:0 0 50px 30px #ffffff inset;
     // }
     .btn_box {
-      width: 393px;
-      height: 82px;
+      width: 274px;
+      height: 59px;
+      line-height: 47px;
       text-align: center;
-      line-height: 70px;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
       background-size: contain;
       background-repeat: no-repeat;
-      font-size: 32px;
-
       color: #ffffff;
       cursor: pointer;
-      margin-top: 0;
+      margin-top: -209px;
+      z-index: 99;
     }
   }
-  .swiper-container {
+  .swiper-container{
     width: 100%;
     height: auto;
-    .swiper-wrapper {
-      .swiper-slide {
+    padding: 0 90px;
+    .swiper-wrapper{
+      .swiper-slide{
         width: 100%;
         height: 100%;
-        .outbox {
+        .content_box{
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          // margin-top: 130px;
-          .second-content_box {
+          .swiper_img{
+            width: 86%;
+            object-fit: contain;
+          }
+          .grade_box{
+            width: 245px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+            .five_pointed_star{
+              display: flex;
+              align-items: center;
+              .start_img{
+                width: 26px;
+                object-fit: contain;
+              }
+            }
+            .card_grade{
+              color: #FFFFFF;
+              margin: 0 10px;
+            }
+            .details{
+              padding:0 10px;
+              background: #F5B252;
+              color: #FFFFFF;
+              border-radius: 25px;
+              cursor: pointer;
+            }
+          }
+          .btnbox{
+            width: 238px;
+            text-align: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            color: #FFFFFF;
+            cursor: pointer;
+          }
+          .remove_btnbox{
+            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
+          }
+          .insert_btnbox{
+            background-image: url("//cdn.hashland.com/images/insert.png");
+          }
+          .lock_btnbox{
+            background-image: url("//cdn.hashland.com/images/lock.png");
+          }
+        }
+        .outbox{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 50px;
+          .second-content_box{
             position: relative;
             width: 100%;
-            height: 500px;
+            height: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            margin-bottom: 50px;
-            .swiper_img {
+            // margin-bottom: 50px;
+            .swiper_img{
               position: absolute;
-              top: 50%;
-              left: 50%;
+              top: 69%;
+              left: 48%;
               transform: translate(-50%, -50%);
-              width: 320px;
+              width: 100px;
               object-fit: contain;
             }
-            .base_img {
+            .base_img{
               width: 100%;
               object-fit: contain;
             }
           }
-          .btnbox {
+          .btnbox{
             width: 160px;
             text-align: center;
             line-height: 52px;
             background-size: contain;
             background-repeat: no-repeat;
-            font-size: 16px;
-
             color: #FFFFFF;
             cursor: pointer;
           }
-          .remove_btnbox {
+          .remove_btnbox{
             background-image: url("//cdn.hashland.com/images/nft_btn1.png");
           }
-          .insert_btnbox {
+          .insert_btnbox{
             background-image: url("//cdn.hashland.com/images/insert.png");
           }
-          .lock_btnbox {
+          .lock_btnbox{
             background-image: url("//cdn.hashland.com/images/lock.png");
           }
         }
@@ -283,7 +330,7 @@ export default {
     }
   }
   .margin_top_card {
-    margin-bottom: 0.3rem;
+    margin-top:140px;
   }
 }
 @media screen and (max-width: 980px) {
@@ -303,9 +350,6 @@ export default {
         display: flex;
         flex-direction: column;
         .span1 {
-          font-size: 0.2rem;
-
-
           color: #ffffff;
           line-height: 0.28rem;
         }

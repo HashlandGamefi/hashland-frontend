@@ -1,53 +1,61 @@
 <template>
   <div class="nft_miningpage">
-    <span class="nft_title font_title">{{$t("message.nftMining.txt1")}}</span>
-    <span class="nft_title1">{{$t("message.nftMining.txt2")}}</span>
+    <span class="nft_title fontsize32">{{$t("message.nftMining.txt1")}}</span>
+    <span class="nft_title1 fontsize16_100">{{$t("message.nftMining.txt2")}}</span>
     <div class="tab_box">
-      <div class="oneTab" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">{{$t("message.nftCard.txt2")}}</div>
-      <div class="oneTab" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">{{$t("message.nftCard.txt4")}}</div>
+      <div class="oneTab fontsize16_400" :class="{activeTab:tabIndex == 0}" @click="tabIndex = 0">{{$t("message.nftCard.txt2")}}</div>
+      <div class="oneTab fontsize16_400" :class="{activeTab:tabIndex == 1}" @click="tabIndex = 1">{{$t("message.nftCard.txt4")}}</div>
     </div>
     <!-- 基础卡牌 -->
     <BasicCards v-if="tabIndex == 0"></BasicCards>
     <!-- 特权卡牌 -->
     <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
-    <div class="apy_title">APY {{apy}}%</div>
-    <div class="apy_title personal_apy">{{$t("message.nftMining.txt11")}} 0%</div>
+    <div class="apybox">
+      <div class="apy_title">
+        <span class="span1 fontsize12">APY</span>
+        <span class="span1 span2 fontsize18">{{apy}}%</span>
+      </div>
+      <div class="apy_title">
+        <span class="span1 fontsize12">{{$t("message.nftMining.txt11")}}</span>
+        <span class="span1 span2 fontsize18">0%</span>
+      </div>
+    </div>
     <div class="footer_box">
       <div class="left_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('btc',btcnum)">
-            <span>{{$t("message.nftMining.txt12")}}</span>
+            <span class="fontsize18">{{$t("message.nftMining.txt12")}}</span>
             <BtnLoading :isloading="btc_isloading"></BtnLoading>
           </div>
         </div>
         <div class="bottom">
           <div class="add_txt">
-            <span class="span1">{{$t("message.nftMining.txt13")}}:{{addBTC}}</span>
+            <span class="span1 fontsize12_400">{{$t("message.nftMining.txt13")}}:{{addBTC}}</span>
           </div>
           <div class="extractable">
-            <span class="span1">{{$t("message.nftMining.txt14")}}</span>
-            <span class="span2">{{btcnum}}</span>
+            <span class="span1 fontsize16">{{$t("message.nftMining.txt14")}}</span>
+            <span class="span2 fontsize16">{{btcnum}}</span>
           </div>
         </div>
-        <img :src="`${$store.state.imgUrl}btc.png`" class="btcimg" />
+        <img :src="`${$store.state.imgUrl}btclogo.png`" class="btcimg" />
       </div>
       <div class="left_footer right_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('hc',hcnum)">
-            <span>{{$t("message.nftMining.txt12")}}</span>
+            <span class="fontsize18">{{$t("message.nftMining.txt12")}}</span>
             <BtnLoading :isloading="hc_isloading"></BtnLoading>
           </div>
         </div>
         <div class="bottom">
           <div class="add_txt">
-            <span class="span1_">{{$t("message.nftMining.txt13")}}: {{addHC}}</span>
+            <span class="span1_ fontsize12_400">{{$t("message.nftMining.txt13")}}: {{addHC}}</span>
           </div>
           <div class="extractable">
-            <span class="span1">{{$t("message.nftMining.txt14")}}</span>
-            <span class="span2">{{hcnum}}</span>
+            <span class="span1 fontsize16">{{$t("message.nftMining.txt14")}}</span>
+            <span class="span2 fontsize16">{{hcnum}}</span>
           </div>
         </div>
-        <img :src="`${$store.state.imgUrl}hc.png`" class="btcimg" />
+        <img :src="`${$store.state.imgUrl}hclogo.png`" class="btcimg" />
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -165,81 +173,79 @@ export default {
   align-items: center;
   padding-top: 130px;
   .nft_title{
-    font-size: 36px;
     color: #FFFFFF;
-    line-height: 73px;
   }
   .nft_title1{
-    font-size: 20px;
     color: #FFFFFF;
-    line-height: 37px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   .tab_box{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top:70px;
+    margin-top:45px;
     .oneTab{
-      width: 360px;
-      height: 70px;
-      line-height: 70px;
+      width: 158px;
+      height: 40px;
+      line-height: 40px;
       text-align: center;
-      font-size: 32px;
-
       color: #FFFFFF;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
+      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
     }
     .activeTab{
       background: #29CDDA; //linear-gradient(to right,#2445C1,#1E9694);
-      box-shadow: 0 14px 2px #23447C;
+      box-shadow: 0 9px 2px #23447C;
     }
   }
-  .apy_title{
+  .apybox{
     width: 100%;
-    padding-left: 30px;
-    font-size: 32px;
-
-    color: #FFFFFF;
-    line-height: 56px;
-    margin-top: 40px;
-  }
-  .personal_apy{
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    margin-top: 82px;
+    padding: 0 100px;
+    .apy_title{
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      margin-right: 107px;
+      .span1{
+        color: #FFFFFF;
+      }
+      .span2{
+        margin-left: 15px;
+      }
+    }
   }
   .footer_box{
     width: 100%;
-    padding: 0 65px;
+    padding: 0 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 80px;
+    margin-top: 54px;
     .left_footer{
       position: relative;
       width: 47%;
-      height: 306px;
+      height: 228px;
       background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
-      // box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
       border-radius: 19px;
       display: flex;
       flex-direction: column;
-      // justify-content: space-between;
-      padding: 20px;
+      padding:7px 20px 26px 20px;
       .top{
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         .txt{
-          width: 200px;
-          height: 73px;
+          width: 140px;
+          height: 49px;
           background-image: url("//cdn.hashland.com/images/nft_btn2.png");
           background-size: 100% 100%;
           background-repeat: no-repeat;
-          font-size: 24px;
-
           color: #FFFFFF;
           cursor: pointer;
           display: flex;
@@ -254,18 +260,17 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         background: linear-gradient(270deg, #E79826 0%, #FF7902 100%);
-        box-shadow: 0px 6px 12px 0px rgba(127, 70, 14, 0.69), 0px 1px 23px 0px #8B4309 inset;
+        box-shadow: 0px 6px 12px 0px rgba(127, 70, 14, 0.69) inset, 0px 1px 23px 0px #8B4309 inset;
         border-radius: 25px;
-        padding: 27px;
-        margin-top: 10px;
+        padding: 14px 0 26px 13px;
+        margin-top: 13px;
         .add_txt{
+          width: 240px;
           .span1{
+            width: 100%;
             padding: 2px 10px;
             background: #A25911;
             border-radius: 15px;
-            font-size: 18px;
-
-
             color: #FFFFFF;
             line-height: 25px;
           }
@@ -275,27 +280,21 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          padding: 0 13px;
+          padding-right: 50px;
           .span1{
-            font-size: 28px;
-
-
             color: #FFFFFF;
-            line-height: 56px;
           }
           .span2{
-            font-size: 28px;
-
-
             color: #FFFFFF;
-            line-height: 56px;
           }
         }
       }
       .btcimg{
         position: absolute;
-        top: -75px;
-        left: -70px;
-        width: 181px;
+        top: -20px;
+        left: -4px;
+        width: 61px;
         object-fit: contain;
       }
     }
@@ -309,18 +308,14 @@ export default {
       }
       .bottom{
         background: linear-gradient(88deg, #3080F8 0%, #31ABEB 100%);
-        box-shadow: 0px 6px 12px 0px #2164CE, 0px 1px 23px 0px #01060E;
+        box-shadow: 0px 6px 12px 0px #2164CE inset, 0px 1px 23px 0px #01060E inset;
       }
       .add_txt{
         .span1_{
           padding: 2px 10px;
           background: rgba(0, 0, 0, 0.4);
           border-radius: 15px;
-          font-size: 18px;
-
-
           color: #FFFFFF;
-          line-height: 25px;
         }
       }
     }
@@ -328,13 +323,7 @@ export default {
 }
 @media screen and (min-width: 1280px) {
   .nft_miningpage{
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-}
-@media screen and (min-width: 981px) and (max-width: 1439px) {
-  .nft_miningpage{
-    max-width: 1200px;
+    max-width: 1162px;
     margin: 0 auto;
   }
 }
@@ -346,8 +335,6 @@ export default {
     align-items: center;
     padding-top: 1rem;
     .nft_title{
-      font-size: 0.2rem;
-
       color: #FFFFFF;
       line-height: 0.5rem;
     }
