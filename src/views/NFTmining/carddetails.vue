@@ -37,10 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
-    // dataInfo:function(){
-    //   return this.getUserCardInfo
-    // }
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
     "getUserCardInfo":{
@@ -97,7 +94,7 @@ export default {
       flex-direction: column;
       align-items: center;
       margin-right: 20px;
-      margin-bottom: 56px;
+      margin-bottom: 61px;
       .imgcard{
         width: 100%;
         object-fit: contain;

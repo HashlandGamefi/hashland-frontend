@@ -84,7 +84,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,hn,util,getSigner,getHnImg,erc20, token,contract } from 'hashland-sdk';
+import { hnBox,hn,util,getSigner,getHnImg,erc20, token,contract,getProvider } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -150,11 +150,18 @@ export default {
           }
           this.$store.commit("setrewardsInfo", lastObj);
         }
+
+
         // console.log('user:', user);
         // console.log('boxslengths:', boxslengths.toString());
         // console.log('boxarr:', boxarrID.toString());
         // console.log('event:',event.args.hnIds);
       });
+
+      // let filter = hnBox().filters.SpawnHns(null, this.getAccount)
+      // hnBox().on(filter, (from, to, amount, event) => {
+      //   console.log('filter方法: ',from, to, amount, event);
+      // });
     },
     // 购买盒子
     async buyBox(){
@@ -212,10 +219,7 @@ export default {
       }
     },
     async getSDKInfo(){
-      // let balance = await getProvider().getBalance(this.getAccount)
-      // console.log('用户余额balance: ', util.formatEther(balance));
-
-      let price = await hnBox().boxTokenPrices(0) // 盲盒价格
+      let price = await hnBox().boxTokenPrices(1) // 盲盒价格
       this.originalPrice = price
       let str = (price / 1e18).toString()
       this.$common.checkNumber(str,res => {

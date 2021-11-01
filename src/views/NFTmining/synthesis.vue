@@ -26,8 +26,8 @@
         <span class="span2 fontsize22"> {{selectedNUM}}</span>
       </div>
       <!--  v-if="selectimgArr.length != 0" -->
-      <div class="bottom_txt2 fontsize16_400" v-if="pageshowarr.length != 0">
-        {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}}{{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}}15%
+      <div class="bottom_txt2 fontsize16_400" v-if="selectedArr.length > 0">
+        {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}} {{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}} {{powerNumber}}%
       </div>
     </div>
     <!-- 选中以后的卡牌数组 -->
@@ -89,6 +89,7 @@ import { getSigner, hnUpgrade, util, hc, contract } from 'hashland-sdk';
 export default {
   data () {
     return {
+      powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
@@ -107,16 +108,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
-    dataInfo:function(){
-      return this.getUserCardInfo
-    }
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    "dataInfo":{
+    "getUserCardInfo":{
       handler: function (newValue, oldValue) {
         if(newValue.length > 0){
-          // console.log('合成卡牌页面的用户全部卡牌信息: ', JSON.parse(newValue));
           this.cardarr = JSON.parse(newValue)
           this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
           this.amount = this.cardarr.filter(item => { return item.level == 1}).length
@@ -363,7 +360,7 @@ export default {
         filter: blur(0px);
         border-radius: 4px;
         padding: 10px 0;
-        margin-top:50px;
+        margin-top:47px;
         line-height: 39px;
         .span1{
           color: #E2DADA;
@@ -424,6 +421,7 @@ export default {
       flex-direction: column;
       align-items: center;
       // transform: scale(0.8);
+      margin-right: 46px;
       .card_picture{
         width: 100%;
         object-fit: contain;
@@ -433,7 +431,7 @@ export default {
       }
       .bottom{
         position: absolute;
-        top: 10px;
+        top: 0;
         display: flex;
         align-items: center;
         padding:10px 8px;
@@ -470,30 +468,30 @@ export default {
       }
       .select_img{
         position: absolute;
-        top: 23px;
-        right: 54px;
-        width: 43px;
+        top: 0;
+        right: 0;
+        width: 31px;
         object-fit: contain;
       }
       .selected_img{
         position: absolute;
-        top: -17px;
-        right: 39px;
+        top: -42px;
+        right: -45px;
         width: 43px;
         object-fit: contain;
         transform: scale(1.2);
       }
       .master_img{
         position: absolute;
-        bottom: -30px;
-        right: 15px;
+        bottom: -35px;
+        right: -14px;
         width: 78px;
         object-fit: contain;
       }
       .orther_img{
         position: absolute;
-        bottom: 17px;
-        right: 58px;
+        bottom: 10px;
+        right: 17px;
         width: 44px;
         object-fit: contain;
       }
@@ -505,7 +503,7 @@ export default {
       margin-bottom: 100px;
       .selected_bottom{
         position: absolute;
-        top: -28px;
+        top: -37px;
         transform: scale(0.7);
       }
       .scalebottom{
