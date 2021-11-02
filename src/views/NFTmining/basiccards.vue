@@ -45,12 +45,17 @@
               <img :src="item.src" class="swiper_img" />
               <img :src="`${$store.state.imgUrl}pledgebg.png`" class="base_img" />
             </div>
-            <div class="btnbox remove_btnbox fontsize16" v-if="item.btnstatus == 1" @click="insertClick(item)">{{$t("message.nftMining.txt15")}}</div>
-            <div class="btnbox insert_btnbox fontsize16" v-if="item.btnstatus == 2" @click="removeClick(item)">
-              {{$t("message.nftMining.txt9")}}<BtnLoading :isloading="item.isloading"></BtnLoading>
+            <div class="btnbox remove_btnbox fontsize16" v-if="item.btnstatus == 1" @click="insertClick(item)">
+              {{$t("message.nftMining.txt15")}}
             </div>
-            <div class="btnbox lock_btnbox fontsize16" v-if="item.btnstatus == 3" @click="Unlock(index)">
-              {{$t("message.nftMining.txt10")}}<BtnLoading :isloading="item.isloading"></BtnLoading></div>
+            <div class="btnbox insert_btnbox fontsize16" v-if="item.btnstatus == 2" @click="removeClick(item)">
+              {{$t("message.nftMining.txt9")}}
+              <BtnLoading :isloading="item.isloading"></BtnLoading>
+            </div>
+            <div class="btnbox lock_btnbox fontsize16" v-if="item.btnstatus == 3" @click="Unlock(item)">
+              {{$t("message.nftMining.txt10")}}
+              <BtnLoading :isloading="item.isloading"></BtnLoading>
+            </div>
           </div>
         </div>
       </div>
@@ -184,27 +189,30 @@ export default {
       })
     },
     // 解锁卡槽
-    async Unlock(index){
+    async Unlock(item){
+      console.log('item: ', item);
+      if(item.isloading)return
       // 获取某用户购买新卡槽的HC金额
       let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
       // 获取用户的hc余额
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      console.log('buyMoney:%s,balance:%s',buyMoney, balance);
+      // console.log('buyMoney:%s,balance:%s',buyMoney, balance);
 
       if(Number(balance) < Number(buyMoney)){
         this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
+      item.isloading = true
       if(!this.ISpprove){
         this.$common.delegatingFun(2,contract().HNPool).then(res => {
           console.log('授权res: ', res);
-          // this.approve_isloading = false
           this.ISpprove = true
           this.$common.selectLang('授权成功','Authorize Successful',this)
+          item.isloading = false
         }).catch(err => {
           console.log('授权err: ', err);
           this.ISpprove = false
-          // this.approve_isloading = false
+          item.isloading = false
         })
         return
       }
@@ -212,19 +220,23 @@ export default {
         const etReceipt = await res.wait();
         if(etReceipt.status == 1){
           this.$common.selectLang('解锁成功','Unlock Successful',this)
+          this.getCardSlotInfo()
+          item.isloading = false
           // 暂时先本地更改后续优化
-          this.cardsoltArr[index].btnstatus = 1
-          this.cardsoltArr[index].src = ''
-          this.cardsoltArr[index].isloading = false
-          this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
-          console.log('Number(this.maxCardSlot): ', Number(this.maxCardSlot),Number(this.cardSlot));
-          if(Number(this.maxCardSlot) > Number(this.cardSlot)){
-            Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
-              src:`${this.$store.state.imgUrl}cardlock.png`,
-              btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-            })
-          }
+          // this.cardsoltArr[index].btnstatus = 1
+          // this.cardsoltArr[index].src = ''
+          // this.cardsoltArr[index].isloading = false
+          // this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
+          // console.log('Number(this.maxCardSlot): ', Number(this.maxCardSlot),Number(this.cardSlot));
+          // if(Number(this.maxCardSlot) > Number(this.cardSlot)){
+          //   Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
+          //     src:`${this.$store.state.imgUrl}cardlock.png`,
+          //     btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
+          //   })
+          // }
         }
+      }).catch(() => {
+        item.isloading = false
       })
     },
     // 合成
@@ -273,18 +285,18 @@ export default {
         btnstatus:1,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
         isloading:false
       }
-      let obj3 = {
-        src:`${this.$store.state.imgUrl}cardlock.png`,
-        btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-        isloading:false
-      }
       // 添加空卡槽
       for (let index1 = 0; index1 < this.emptyCardSlot; index1++) {
         this.cardsoltArr.push(obj1)
       }
       // 是否添加解锁卡槽
       if(Number(this.cardSlot) < Number(this.maxCardSlot)){
-        for (let index = 0; index < 3; index++) {
+        for (let index = 0; index < Number(this.maxCardSlot) - Number(this.cardSlot); index++) {
+          let obj3 = {
+            src:`${this.$store.state.imgUrl}cardlock.png`,
+            btnstatus:3,//1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+            isloading:false
+          }
           this.cardsoltArr.push(obj3)
         }
       }
@@ -410,23 +422,23 @@ export default {
               cursor: pointer;
             }
           }
-          .btnbox{
-            width: 238px;
-            text-align: center;
-            background-size: contain;
-            background-repeat: no-repeat;
-            color: #FFFFFF;
-            cursor: pointer;
-          }
-          .remove_btnbox{
-            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
-          }
-          .insert_btnbox{
-            background-image: url("//cdn.hashland.com/images/insert.png");
-          }
-          .lock_btnbox{
-            background-image: url("//cdn.hashland.com/images/lock.png");
-          }
+          // .btnbox{
+          //   width: 238px;
+          //   display: flex;
+          //   background-size: contain;
+          //   background-repeat: no-repeat;
+          //   color: #FFFFFF;
+          //   cursor: pointer;
+          // }
+          // .remove_btnbox{
+          //   background-image: url("//cdn.hashland.com/images/nft_btn1.png");
+          // }
+          // .insert_btnbox{
+          //   background-image: url("//cdn.hashland.com/images/insert.png");
+          // }
+          // .lock_btnbox{
+          //   background-image: url("//cdn.hashland.com/images/lock.png");
+          // }
         }
         .outbox{
           width: 100%;
@@ -458,7 +470,9 @@ export default {
           }
           .btnbox{
             width: 160px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             line-height: 52px;
             background-size: contain;
             background-repeat: no-repeat;

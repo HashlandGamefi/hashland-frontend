@@ -34,15 +34,16 @@
         <div class="mobile_box">
           <ul class="ul_">
             <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '','fontsize16']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
-              {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>
+              <div class="mobile_line">{{$t(item)}}<span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span></div>
               <div class="box_nft" v-if="mobile_menuDis && index == 0">
-                <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}<span class="icon-v-right"></span></div>
-                <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}} <span class="icon-v-right"></span></div>
+                <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}</div>
+                <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}}</div>
               </div>
             </li>
           </ul>
           <div class="mobile_lang fontsize16">EN</div>
         </div>
+        <div class="dispear_box"></div>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -366,13 +367,19 @@ export default {
       }
       .mobile_fixed_menu{
         width: 100%;
+        height: calc(100% - 0.6rem);
         background: rgba(0, 0, 0, 0.2);
         display: flex;
+        flex-direction: column;
         .mobile_box{
+          border-radius: 0px 0px 17px 17px;
+          border: 2px solid rgba(161, 64, 248, 1);
+          border-top: none;
           width: 100%;
           display: flex;
           flex-direction: column;
           padding: 0 0.2rem;
+          padding-bottom: 0.26rem;
           background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
           .ul_{
             width: 100%;
@@ -382,47 +389,40 @@ export default {
               color: #FFFFFF;
               cursor: pointer;
               display: flex;
+              flex-direction: column;
               justify-content: space-between;
               align-items: center;
               margin-bottom: 0.24rem;
+              .mobile_line{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .mobile_triangle{
+                  border-width: 0.1rem;
+                  border-color: #FFFFFF;
+                  border-bottom-width: 0;
+                  border-style: dashed;
+                  border-top-style: solid;
+                  border-left-color: transparent;
+                  border-right-color: transparent;
+                }
+              }
               .box_nft{
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                background: #010E1B;
+                background: #032144;
+                box-shadow: -2px 1px 10px 0px #020F1F inset;
+                border-radius: 6px;
                 .span1{
                   width: 100%;
-                  height: 0.78rem;
-                  line-height: 0.78rem;
                   display: flex;
                   align-items: center;
-                  justify-content: center;
-                  font-size: 0.18rem;
-
-
                   color: #fff;
                   line-height: 0.4rem;
-                  .icon-v-right {
-                    width: 0.12rem;
-                    height: 0.12rem;;
-                    border: 0.02rem solid #fff;
-                    border-width: 0.02rem 0.02rem 0 0;
-                    transform: rotate(45deg);
-                    margin-left: 0.05rem;
-                  }
                 }
-              }
-              .mobile_triangle{
-                font-size: 0;
-                line-height: 0;
-                border-width: 0.1rem;
-                border-color: #FFFFFF;
-                border-bottom-width: 0;
-                border-style: dashed;
-                border-top-style: solid;
-                border-left-color: transparent;
-                border-right-color: transparent;
               }
             }
             .mobile_activeClass{
@@ -436,6 +436,11 @@ export default {
             width: 100%;
             color: #FFFFFF;
           }
+        }
+        .dispear_box{
+          width: 100%;
+          height: calc(100% - 2rem);
+          background: red;
         }
       }
     }
