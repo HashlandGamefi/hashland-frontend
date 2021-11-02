@@ -4,7 +4,7 @@
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
     <div class="title_title fontsize32">{{ $t("message.insert.txt1") }}</div>
-    <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span>
+    <!-- <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span> -->
     <span class="title1_txt title2_txt fontsize12_400">{{ $t("message.insert.txt3") }}</span>
     <div class="content_box">
       <div class="stratbox" v-for="ele in 5" :key="ele">
@@ -237,7 +237,6 @@ export default {
   }
   .title_title {
     color: #ffffff;
-    margin-bottom: 15px;
     margin-top: 208px;
   }
   .title1_txt {

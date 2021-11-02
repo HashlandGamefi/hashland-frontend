@@ -340,109 +340,101 @@ export default {
       display: none;
     }
     .mobile_menu{
-      position: fixed;
-      top: 0;
-      left: 0;
       display: flex;
+      flex-direction: column;
       width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,1);
-      .mobile_outbox{
+      height: auto;
+      .top_line{
         width: 100%;
+        height: 0.6rem;
+        padding: 0 0.2rem;
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
         background: #021C3A;
         border-radius: 0px 0px 17px 17px;
         border: 2px solid rgba(161, 64, 248, 1);
         border-top: none;
-        .top_line{
-          width: 100%;
-          height: 0.6rem;
-          padding: 0 0.2rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          .mobile_imgs{
-            width: 0.42rem;
-            object-fit: contain;
-          }
-          .mobile_menu_class{
-            width: 0.28rem;
-            object-fit: contain;
-          }
+        .mobile_imgs{
+          width: 0.42rem;
+          object-fit: contain;
         }
-        .mobile_fixed_menu{
+        .mobile_menu_class{
+          width: 0.28rem;
+          object-fit: contain;
+        }
+      }
+      .mobile_fixed_menu{
+        width: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        display: flex;
+        .mobile_box{
           width: 100%;
-          background: rgba(0, 0, 0, 0.2);
           display: flex;
-          .mobile_box{
+          flex-direction: column;
+          padding: 0 0.2rem;
+          background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
+          .ul_{
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 0 0.2rem;
-            background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
-            .ul_{
-              width: 100%;
-              margin-top: 0.14rem;
-              li{
-                width: 100%;
-                color: #FFFFFF;
-                cursor: pointer;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 0.24rem;
-                .box_nft{
-                  width: 100%;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  background: #010E1B;
-                  .span1{
-                    width: 100%;
-                    height: 0.78rem;
-                    line-height: 0.78rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 0.18rem;
-
-
-                    color: #fff;
-                    line-height: 0.4rem;
-                    .icon-v-right {
-                      width: 0.12rem;
-                      height: 0.12rem;;
-                      border: 0.02rem solid #fff;
-                      border-width: 0.02rem 0.02rem 0 0;
-                      transform: rotate(45deg);
-                      margin-left: 0.05rem;
-                    }
-                  }
-                }
-                .mobile_triangle{
-                  font-size: 0;
-                  line-height: 0;
-                  border-width: 0.1rem;
-                  border-color: #FFFFFF;
-                  border-bottom-width: 0;
-                  border-style: dashed;
-                  border-top-style: solid;
-                  border-left-color: transparent;
-                  border-right-color: transparent;
-                }
-              }
-              .mobile_activeClass{
-                background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
-                border: 1px solid;
-                border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
-                color: #00E7F0;
-              }
-            }
-            .mobile_lang{
+            margin-top: 0.14rem;
+            li{
               width: 100%;
               color: #FFFFFF;
+              cursor: pointer;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 0.24rem;
+              .box_nft{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: #010E1B;
+                .span1{
+                  width: 100%;
+                  height: 0.78rem;
+                  line-height: 0.78rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 0.18rem;
+
+
+                  color: #fff;
+                  line-height: 0.4rem;
+                  .icon-v-right {
+                    width: 0.12rem;
+                    height: 0.12rem;;
+                    border: 0.02rem solid #fff;
+                    border-width: 0.02rem 0.02rem 0 0;
+                    transform: rotate(45deg);
+                    margin-left: 0.05rem;
+                  }
+                }
+              }
+              .mobile_triangle{
+                font-size: 0;
+                line-height: 0;
+                border-width: 0.1rem;
+                border-color: #FFFFFF;
+                border-bottom-width: 0;
+                border-style: dashed;
+                border-top-style: solid;
+                border-left-color: transparent;
+                border-right-color: transparent;
+              }
             }
+            .mobile_activeClass{
+              background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
+              border: 1px solid;
+              border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
+              color: #00E7F0;
+            }
+          }
+          .mobile_lang{
+            width: 100%;
+            color: #FFFFFF;
           }
         }
       }

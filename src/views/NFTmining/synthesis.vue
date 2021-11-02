@@ -4,7 +4,7 @@
       <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
     </div>
     <div class="title_title fontsize32">{{$t("message.synthesis.txt1")}}</div>
-    <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt2")}}</div>
+    <!-- <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt2")}}</div> -->
     <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
