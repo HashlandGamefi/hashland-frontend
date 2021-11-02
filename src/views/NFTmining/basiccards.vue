@@ -18,7 +18,7 @@
               <div class="five_pointed_star">
                 <img :src="`${$store.state.imgUrl}start.png`" v-for="(ele,index1) in item.level" :key="index1"  class="start_img" />
               </div>
-              <span class="card_grade fontsize16">{{gradeArr.filter(data => {return data.level == item}).length}}</span>
+              <span class="card_grade fontsize16">{{gradeArr.filter(data => {return data.level == item.level}).length}}</span>
               <span class="details fontsize12">{{$t("message.nftMining.txt6")}}</span>
             </div>
           </div>
@@ -138,22 +138,25 @@ export default {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    "getUserCardInfo":{
-      handler: function (newValue, oldValue) {
-        // console.log('基础卡牌的我的卡牌newValue: ', newValue);
-        if(newValue.length > 0){
-          let res = JSON.parse(newValue)
-          this.gradeArr = res
-        }
-      },
-      deep: true,
-      immediate: true
-    },
+    // "getUserCardInfo":{
+    //   handler: function (newValue, oldValue) {
+    //     // console.log('基础卡牌的我的卡牌newValue: ', newValue);
+    //     if(newValue.length > 0){
+    //       let res = JSON.parse(newValue)
+    //       console.log('res: ', res);
+    //       this.gradeArr = res
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
     'getIstrue':{
       handler: function (newValue, oldValue) {
         console.log('基础卡牌页面钱包是否链接:', newValue,oldValue);
         if(newValue){
           this.getCardSlotInfo()
+          let res = JSON.parse(this.getUserCardInfo)
+          this.gradeArr = res
         }
       },
       deep: true,

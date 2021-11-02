@@ -31,8 +31,8 @@
     <div class="center_box">
       <img :src="`${$store.state.imgUrl}buybg.png`" class="bgimg" />
       <div class="onebox">
-        <!-- <img :src="`${$store.state.imgUrl}newcard.png`" class="cardimg" /> -->
-        <img :src="cardSrc" class="cardimg" />
+        <img :src="`${$store.state.imgUrl}defaultcard.png`" class="cardimg" />
+        <!-- <img :src="cardSrc" class="cardimg" /> -->
         <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in 1" :key="item1" class="start_img" />
@@ -100,7 +100,6 @@ export default {
       total:0,// 合计
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       cardNumber:'0000000000',//卡牌的编号
-      cardSrc:'//cdn.hashland.com/images/defaultcard.png',
       isapprove:false,//是否授权busd
     }
   },
@@ -113,6 +112,7 @@ export default {
         console.log('合成卡牌页面是否链接:', newValue,oldValue);
         if(newValue){
           this.connectGetInfo()
+          this.watchResult()
         }
       },
       deep: true,
@@ -127,29 +127,41 @@ export default {
     // 监听盲盒开奖结果
     watchResult(){
       console.log('监听盲盒结果的方法')
-      hnBox().on("SpawnHns", async (user, boxslengths, boxarrID, event) => {
+        console.log('erc20: ', erc20);
+      erc20(token().BUSD).on("Transfer", (from, to, amount, event) => {
+          console.log(`erc20转账`);
+          // The event object contains the verbatim log data, the
+          // EventFragment and functions to fetch the block,
+          // transaction and receipt and event functions
+      });
+        console.log('hn(): ', hn());
+      hn().on("Transfer", async (user, boxslengths, boxarrID) => {
+        console.log("卡牌转账")
+      })
+        console.log('hnBox(): ', hnBox());
+      hnBox().on("SpawnHns", async (user, boxslengths, boxarrID) => {
         console.log('监听盲盒开奖结果user: ', user);
-        let str = boxarrID.toString()
-        let arr = str.split(',')
-        if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
-          let imgarr = []
-          arr.map(async item => {
-            let obj = {}
-            // obj.round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
-            obj.level = (await hn().level(item)).toString() // 卡牌等级
-            obj.src = await getHnImg(Number(item),Number(obj.level))
-            let race = await hn().getHashrates(item)
-            obj.hc = race[0].toString()// hc 算力
-            obj.btc = race[1].toString()// btc 算力
-            imgarr.push(obj)
-          })
+        // let str = boxarrID.toString()
+        // let arr = str.split(',')
+        // if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
+        //   let imgarr = []
+        //   arr.map(async item => {
+        //     let obj = {}
+        //     // obj.round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
+        //     obj.level = (await hn().level(item)).toString() // 卡牌等级
+        //     obj.src = await getHnImg(Number(item),Number(obj.level))
+        //     let race = await hn().getHashrates(item)
+        //     obj.hc = race[0].toString()// hc 算力
+        //     obj.btc = race[1].toString()// btc 算力
+        //     imgarr.push(obj)
+        //   })
 
-          let lastObj = {
-            minserDis:true,
-            boxarr:imgarr
-          }
-          this.$store.commit("setrewardsInfo", lastObj);
-        }
+        //   let lastObj = {
+        //     minserDis:true,
+        //     boxarr:imgarr
+        //   }
+        //   this.$store.commit("setrewardsInfo", lastObj);
+        // }
 
 
         // console.log('user:', user);
@@ -189,6 +201,7 @@ export default {
         this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0
+        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
         this.getSDKInfo()
       }).catch(err => {
         console.log('购买盒子err: ', err);
@@ -227,12 +240,12 @@ export default {
       })
       hn().totalSupply().then(async data => {
         this.cardNumber = (data.toString()).padStart(8, '0')
-        getHnImg(data.toNumber(),1).then(res => {
-          // console.log('获取图片路径data: ', res);
-          this.cardSrc = res
-        }).catch(err => {
-          console.log('获取图片路径err: ', err);
-        })
+        // getHnImg(data.toNumber(),1).then(res => {
+        //   // console.log('获取图片路径data: ', res);
+        //   this.cardSrc = res
+        // }).catch(err => {
+        //   console.log('获取图片路径err: ', err);
+        // })
 
         // this.$common.checkNumber(data.toString(),res => {
         //   this.issued = res
@@ -389,14 +402,14 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 27%;
+      top: 17%;
       left: 50%;
       transform: translate(-50%,-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       .cardimg{
-        width: 475px;
+        width:350px;
         object-fit: contain;
       }
       // .bottom{

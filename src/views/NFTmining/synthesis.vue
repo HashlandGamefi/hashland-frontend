@@ -25,10 +25,9 @@
         <span class="span1 fontsize22">{{$t("message.synthesis.txt6")}}</span>
         <span class="span2 fontsize22"> {{selectedNUM}}</span>
       </div>
-      <!--  v-if="selectimgArr.length != 0" -->
-      <div class="bottom_txt2 fontsize16_400" v-if="selectedArr.length > 0">
+      <!-- <div class="bottom_txt2 fontsize16_400" v-if="selectedArr.length > 0">
         {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}} {{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}} {{powerNumber}}%
-      </div>
+      </div> -->
     </div>
     <!-- 选中以后的卡牌数组 -->
     <div class="cardarr_class cardarr_class_selected" v-if="selectedArr.length > 0">
@@ -75,12 +74,16 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
         <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" />
       </div>
-      <NoData v-if="pageshowarr.length == 0"></NoData>
+      <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0"></NoData>
     </div>
-    <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
+    <div class="Suspension_btnbox" v-if="pageshowarr.length > 0 || selectedArr.length > 0">
       <span class="bottom_title fontsize12">{{$t("message.consumption")}} {{hcnum}} HC !</span>
-      <div class="btn_box fontsize16" @click="synthesisFun" v-if="isApproveHN && isApproveHC ">{{$t("message.synthesis.txt1")}}</div>
-      <div class="btn_box fontsize16" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC">{{$t("message.approve")}}</div>
+      <div class="btn_box fontsize16" @click="synthesisFun" v-if="isApproveHN && isApproveHC ">
+        {{$t("message.synthesis.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
+      </div>
+      <div class="btn_box fontsize16" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC">
+        {{$t("message.approve")}}<BtnLoading :isloading="!isApproveHN && !isApproveHC"></BtnLoading>
+      </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -109,23 +112,38 @@ export default {
       selectALLBtn:false,//全选按钮的状态
       selectedCardnum:100000000,// 本次全选可以选中的卡牌数量
       hcnum:0, // 本次合成消耗多少hc
+      synthesisDis:false,// 合成按钮loading
     }
   },
   computed: {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    "getUserCardInfo":{
+    // "getUserCardInfo":{
+    //   handler: function (newValue, oldValue) {
+    //     if(newValue.length > 0){
+    //       this.cardarr = JSON.parse(newValue)
+    //       this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
+    //       this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
+    'getIstrue':{
       handler: function (newValue, oldValue) {
-        if(newValue.length > 0){
-          this.cardarr = JSON.parse(newValue)
-          this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
-          this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+        console.log('合成页面的连接:', newValue,oldValue);
+        if(newValue){
+          setTimeout(() => {
+            this.cardarr = JSON.parse(this.getUserCardInfo)
+            this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
+            this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+          },1500)
         }
       },
       deep: true,
       immediate: true
-    }
+    },
   },
   methods: {
     selectAllClick(){
@@ -151,7 +169,7 @@ export default {
           this.selectedArr = this.pageshowarr.filter((item,index) => {
             return index < this.selectedCardnum
           })
-          this.pageshowarr.splice(0,28)
+          this.pageshowarr.splice(0,this.selectedCardnum)
         }
         this.selectedNUM = this.selectedCardnum
         this.compose = this.selectedNUM / 4
@@ -166,16 +184,24 @@ export default {
     CloseFun(){
       this.proupDis = false
     },
+    // 合成结果
+    watchResult(){
+      console.log("合成结果监听方法")
+      hnUpgrade().on('UpgradeHns',(user, level, length, hnIds) => {
+        console.log('合成结果user: ',user, level, length, hnIds)
+      })
+    },
+    // 合成方法
     async synthesisFun(){
+      if(this.synthesisDis)return
+      console.log('this.synthesisDis: ', this.synthesisDis);
       if(this.selectedArr.length < 4){
         this.$common.selectLang('至少选择4张卡牌','You need to select a minimal of 4 cards',this)
         return
       }
-      console.log('合成',this.selectedArr)
       let arr = this.selectedArr.map(item => {
         return item.cardID
       })
-      console.log('arr: ', arr);
       if(arr.length % 4 !== 0){
         this.$common.selectLang('选择的卡牌必须4的倍数哦','You must select',this)
         return
@@ -184,17 +210,36 @@ export default {
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
       console.log('balance:%s', balance);
 
-      let money = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
-      console.log('合成金额money: ', money);
-      if(Number(money) <= Number(balance)){
+      this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
+      console.log('合成金额money: ', this.hcnum);
+
+      if(Number(this.hcnum) <= Number(balance)){
+        this.synthesisDis = true
         hnUpgrade().connect(getSigner()).upgrade(arr).then(res => {
           console.log('合成res: ', res);
+          this.synthesisDis = false
+          this.watchResult()
         }).catch(err => {
           console.log('合成err: ', err);
+          this.synthesisDis = false
         })
       }else{
         this.$common.selectLang('余额不足','Insufficent Balance',this)
       }
+    },
+    // 函数节流
+    flowFun(fn) {
+      console.log("节流函数")
+      let canRun = true; // 通过闭包保存一个标记
+      return function () {
+        if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
+        canRun = false; // 立即设置为false
+        setTimeout(() => { // 将外部传入的函数的执行放在setTimeout中
+          fn.apply(this, arguments);
+          // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
+          canRun = true;
+        }, 500);
+      };
     },
     // 选中的卡牌的点击事件
     selectedCardClick(data,index){
@@ -207,22 +252,14 @@ export default {
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引
       console.log('data: ', data);
-      data.status = !data.status
+      data.status = true
+      this.selectedNUM++
+      this.compose = parseInt(this.selectedNUM / 4)
 
-      if(data.status){
-        // 排序 选中的排前边
-        // this.showArr = this.cardarr.filter(item => { return item.level == this.rank})
-        // this.showArr.sort((a,b) => {return a.status > b.status ? -1 : 1;})
+      this.selectedArr.push(data)
+      console.log('选中的数组this.selectedArr: ', this.selectedArr);
 
-        // this.selectimgArr.push(obj)
-        this.selectedNUM++
-        this.compose = parseInt(this.selectedNUM / 4)
-
-        this.selectedArr.push(data)
-        console.log('选中的数组this.selectedArr: ', this.selectedArr);
-
-        this.pageshowarr.splice(index,1)
-      }
+      this.pageshowarr.splice(index,1)
     },
     // 选择阶数
     selectRankClik(data){

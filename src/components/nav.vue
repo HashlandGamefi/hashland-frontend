@@ -123,8 +123,6 @@ export default {
         this.$store.commit("setCardInfo",JSON.stringify([]))
         localStorage.setItem("setCardInfo",JSON.stringify([]))
       }else{
-        // this.$store.commit("setCardInfo",JSON.stringify([]))
-        // localStorage.setItem("setCardInfo",JSON.stringify([]))
         this.$store.commit("setAccount", res[0])
         localStorage.setItem("setAccount",res[0])
         this.$common.getUserCardInfoFun(res[0])

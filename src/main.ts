@@ -21,6 +21,9 @@ Vue.component('NoData', NoData);
 
 import BtnLoading from './components/btnloading.vue'
 Vue.component('BtnLoading', BtnLoading)
+// @ts-ignore
+import countTo from 'vue-count-to';
+Vue.component('countTo', countTo);
 
 Vue.config.productionTip = false
 
