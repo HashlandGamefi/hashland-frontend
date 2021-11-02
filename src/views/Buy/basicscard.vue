@@ -440,7 +440,7 @@ export default {
   }
   .connect_box {
     position: absolute;
-    bottom: 25%;
+    bottom: 20%;
     left: 50%;
     transform: translate(-50%,-50%);
     width: 274px;
