@@ -7,7 +7,7 @@
     <!-- <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span> -->
     <span class="title1_txt title2_txt fontsize12_400">{{ $t("message.insert.txt3") }}</span>
     <div class="content_box">
-      <div class="stratbox" v-for="ele in 5" :key="ele">
+      <div class="stratbox" v-for="(ele,index1) in 5" :key="index1">
         <div class="top_line">
           <span class="span1 fontsize22">{{ ele }} {{ $t("message.synthesis.txt4")}} {{ $t("message.synthesis.txt8")}} {{
               starArr.filter((data) => {
@@ -163,6 +163,7 @@ export default {
             this.$common.selectLang('插入成功', 'Insert Successful', this)
             this.approve_isloading = false
             this.$common.getUserCardInfoFun(this.getAccount)
+            this.$router.go(-1)
           }
           // console.log('etReceipt: ', etReceipt);
           // console.log(etReceipt.confirmations, 'Blocks Confirmations');
@@ -208,10 +209,6 @@ export default {
     },
   },
   async mounted () {
-    // new Swiper('.swiper-container', {
-    //   slidesPerView: 4,
-    //   centeredSlides: true,
-    // })
     this.swiperFun()
     this.getconnetFun()
   }
@@ -307,8 +304,9 @@ export default {
   .btn_box {
     width: 274px;
     height: 59px;
-    line-height: 49px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: contain;
     background-repeat: no-repeat;

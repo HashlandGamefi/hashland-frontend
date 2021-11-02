@@ -17,10 +17,11 @@
       </div>
       <div class="apy_title">
         <span class="span1 fontsize12">{{$t("message.nftMining.txt11")}}</span>
-        <span class="span1 span2 fontsize18">0%</span>
+        <span class="span1 span2 fontsize18">{{personalApy}}%</span>
       </div>
     </div>
     <div class="footer_box">
+      <!-- btc可提取 -->
       <div class="left_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('btc',btcnum)">
@@ -38,7 +39,7 @@
             <span class="span2 fontsize16" v-else>
               <countTo
                 :decimals="btcnumShow.length"
-                :startVal="0"
+                :startVal="btcStarValue"
                 :endVal="btcnum"
                 :duration="1500"
               ></countTo>
@@ -47,6 +48,7 @@
         </div>
         <img :src="`${$store.state.imgUrl}btclogo.png`" class="btcimg" />
       </div>
+      <!-- hc可提取 -->
       <div class="left_footer right_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('hc',hcnum)">
@@ -60,11 +62,12 @@
           </div>
           <div class="extractable">
             <span class="span1 fontsize16">{{$t("message.nftMining.txt14")}}</span>
+            <!-- <span class="span2 fontsize16">{{hcnum}}</span> -->
             <span class="span2 fontsize16" v-if="hcnum == 0">0</span>
             <span class="span2 fontsize16" v-else>
               <countTo
                 :decimals="hcnumShow.length"
-                :startVal="0"
+                :startVal="hcStarValue"
                 :endVal="hcnum"
                 :duration="1500"
               ></countTo>
@@ -106,6 +109,8 @@ export default {
   },
   data () {
     return {
+      btcStarValue:0,// btc 可提取初始值
+      hcStarValue:0,// hc 可提取初始值
       timernull:null,//定时器对象
       hcnumShow:'12345678', // 数字滚动插件默认显示小数位数8位
       btcnumShow:'12345678', // 数字滚动插件默认显示小数位数8位
@@ -114,6 +119,7 @@ export default {
       proupDis:false,// 弹窗展示消失变量
       tabIndex:0,
       apy:0,
+      personalApy:0,// 个人apy
       addBTC:0,//btc累积产量
       addHC:0,//hc累积产量
       btcnum:0,//可提取btc
@@ -167,49 +173,55 @@ export default {
       this.timernull = setInterval(() => {
         hnPool().getTokenTotalRewards(this.getAccount,0).then(res => { //获取某用户的hc代币累计产量
           this.addHC = this.$common.useBigNumberDiv(res.toString())
-          console.log('获取某用户的hc代币累计产量:', this.addHC);
+          // console.log('获取某用户的hc代币累计产量:', this.addHC);
         })
         hnPool().getTokenTotalRewards(this.getAccount,1).then(res => { //获取某用户的btc代币累计产量
           this.addBTC = this.$common.useBigNumberDiv(res.toString())
-          console.log('获取某用户的btc代币累计产量: ', this.addBTC);
+          // console.log('获取某用户的btc代币累计产量: ', this.addBTC);
         })
         hnPool().getTokenRewards(this.getAccount,0).then(res => { //获取某用户可提取的hc数量
-          console.log('获取某用户可提取的btc数量: ', res);
-          // this.hcnum = this.$common.useBigNumberDiv(res.toString())
-          if ((res.toNumber() / 1e18) < 1e-8) {
+          console.log('12132123: 防守打法', res.toString());
+          if ((res.toString() / 1e18) < 1e-8) {
+            console.log("获取某用户可提取的hc数量小于小数位")
             this.hcnum = 0
           }else{
+            console.log("hc的可提取数量")
             let num = this.$common.useBigNumberDiv(res.toString())
             this.hcnumShow = num.substring(num.indexOf('.') + 1,num.length)
+            this.hcStarValue = this.hcnum
             this.hcnum = Number(num)
           }
         })
         hnPool().getTokenRewards(this.getAccount,1).then(res => { //获取某用户可提取的btc数量
-        console.log('获取某用户可提取的hc数量: ', res);
-        // this.btcnum = this.$common.useBigNumberDiv(res.toString())
-        if ((res.toNumber() / 1e18) < 1e-8) {
-          this.btcnum = 0
-        }else{
-          let num = this.$common.useBigNumberDiv(res.toString())
-          this.btcnumShow = num.substring(num.indexOf('.') + 1,num.length)
-          this.btcnum = Number(num)
-        }
-      })
+          console.log('获取某用户可提取的btc数量: ', res);
+          if ((res.toNumber() / 1e18) < 1e-8) {
+            this.btcnum = 0
+          }else{
+            let num = this.$common.useBigNumberDiv(res.toString())
+            this.btcnumShow = num.substring(num.indexOf('.') + 1,num.length)
+            this.btcStarValue = this.btcnum
+            this.btcnum = Number(num)
+          }
+        })
       },5000)
     },
     // sdk一系列信息
     async getSDKInfo(){
       let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量
       let btc_num = (await hnPool().tokensPerBlock(1) / 1e18).toString() // btc产量
-      console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
+      // console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
       let molecule = hc_num * 28800 * 365 * 10 + btc_num * 28800 * 365 * 400000 // 分子
       let cardNum = await hnPool().getHnIdsLength() // 获取池子质押的总卡牌数量
       this.apy = molecule / (cardNum * 100)
-    },
+      this.personalApy = 11
+    }
   },
   mounted(){
     this.getSDKInfo()
     this.addyieldFun()
+  },
+  beforeDestroy(){
+    clearInterval(this.timernull)
   }
 }
 </script>

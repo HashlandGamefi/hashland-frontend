@@ -42,7 +42,23 @@
         <div class="swiper-slide" v-for="(item,index) in cardsoltArr" :key="index">
           <div class="outbox">
             <div class="second-content_box">
-              <img :src="item.src" class="swiper_img" />
+              <img :src="item.src" class="swiper_img" v-if="item.btnstatus !== 3"/>
+              <div class="bottom" v-if="item.btnstatus == 2">
+                <div class="five_pointed_star">
+                  <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in item.level" :key="index1" class="start_img" />
+                </div>
+                <div class="hc_btc_box">
+                  <div class="hc_coefficient">
+                    <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
+                    <span class="span1">{{item.hc}}</span>
+                  </div>
+                  <div class="hc_coefficient">
+                    <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
+                    <span class="span1">{{item.btc}}</span>
+                  </div>
+                </div>
+              </div>
+              <img :src="item.src" class="lock_swiper_img" v-if="item.btnstatus == 3"/>
               <img :src="`${$store.state.imgUrl}pledgebg.png`" class="base_img" />
             </div>
             <div class="btnbox remove_btnbox fontsize16" v-if="item.btnstatus == 1" @click="insertClick(item)">
@@ -53,7 +69,8 @@
               <BtnLoading :isloading="item.isloading"></BtnLoading>
             </div>
             <div class="btnbox lock_btnbox fontsize16" v-if="item.btnstatus == 3" @click="Unlock(item)">
-              {{$t("message.nftMining.txt10")}}
+              <span v-if="ISpprove">{{$t("message.nftMining.txt10")}}</span>
+              <span v-else>{{$t("message.approve")}}</span>
               <BtnLoading :isloading="item.isloading"></BtnLoading>
             </div>
           </div>
@@ -155,8 +172,10 @@ export default {
         console.log('基础卡牌页面钱包是否链接:', newValue,oldValue);
         if(newValue){
           this.getCardSlotInfo()
-          let res = JSON.parse(this.getUserCardInfo)
-          this.gradeArr = res
+          setTimeout(() => {
+            let res = JSON.parse(this.getUserCardInfo)
+            this.gradeArr = res
+          },1500)
         }
       },
       deep: true,
@@ -195,16 +214,6 @@ export default {
     async Unlock(item){
       console.log('item: ', item);
       if(item.isloading)return
-      // 获取某用户购买新卡槽的HC金额
-      let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
-      // 获取用户的hc余额
-      let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      // console.log('buyMoney:%s,balance:%s',buyMoney, balance);
-
-      if(Number(balance) < Number(buyMoney)){
-        this.$common.selectLang('余额不足','Insufficent Balance',this)
-        return
-      }
       item.isloading = true
       if(!this.ISpprove){
         this.$common.delegatingFun(2,contract().HNPool).then(res => {
@@ -219,6 +228,19 @@ export default {
         })
         return
       }
+
+      // 获取某用户购买新卡槽的HC金额
+      let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
+      // 获取用户的hc余额
+      let balance = util.formatEther(await hc().balanceOf(this.getAccount))
+      // console.log('buyMoney:%s,balance:%s',buyMoney, balance);
+
+      if(Number(balance) < Number(buyMoney)){
+        this.$common.selectLang('余额不足','Insufficent Balance',this)
+        item.isloading = false
+        return
+      }
+
       hnPool().connect(getSigner()).buySlot().then(async res => {
         const etReceipt = await res.wait();
         if(etReceipt.status == 1){
@@ -425,23 +447,6 @@ export default {
               cursor: pointer;
             }
           }
-          // .btnbox{
-          //   width: 238px;
-          //   display: flex;
-          //   background-size: contain;
-          //   background-repeat: no-repeat;
-          //   color: #FFFFFF;
-          //   cursor: pointer;
-          // }
-          // .remove_btnbox{
-          //   background-image: url("//cdn.hashland.com/images/nft_btn1.png");
-          // }
-          // .insert_btnbox{
-          //   background-image: url("//cdn.hashland.com/images/insert.png");
-          // }
-          // .lock_btnbox{
-          //   background-image: url("//cdn.hashland.com/images/lock.png");
-          // }
         }
         .outbox{
           width: 100%;
@@ -449,7 +454,7 @@ export default {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          margin-top: 50px;
+          margin-top: 120px;
           .second-content_box{
             position: relative;
             width: 100%;
@@ -459,6 +464,51 @@ export default {
             align-items: center;
             justify-content: flex-end;
             .swiper_img{
+              position: absolute;
+              top: 6%;
+              left: 48%;
+              transform: translate(-50%, -50%);
+              width: 237px;
+              object-fit: contain;
+            }
+            .bottom{
+              position: absolute;
+              top: -139px;
+              display: flex;
+              align-items: center;
+              padding:10px 8px;
+              transform: scale(0.6);
+              .five_pointed_star{
+                display: flex;
+                align-items: center;
+                .start_img{
+                  width: 26px;
+                  object-fit: contain;
+                }
+              }
+              .hc_btc_box{
+                display: flex;
+                align-items: center;
+                .hc_coefficient{
+                  display: flex;
+                  align-items: center;
+                  border-radius: 4px;
+                  margin-right: 5px;
+                  background: rgba(5, 24, 44, 0.88);
+                  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+                  border-radius: 11px;
+                  opacity: 0.56;
+                  .imgcard{
+                    width: 43px;
+                    object-fit: contain;
+                  }
+                  .span1{
+                    color: #FFFFFF;
+                  }
+                }
+              }
+            }
+            .lock_swiper_img{
               position: absolute;
               top: 32%;
               left: 48%;
@@ -510,7 +560,7 @@ export default {
   .self_swiper{
     height: auto;
     min-height: 300px;
-    margin-top: 0;
+    margin-top: 70px;
   }
   .margin_top_card{
     margin-top: 81px;

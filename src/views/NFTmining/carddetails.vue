@@ -13,18 +13,18 @@
           </div>
           <div class="hc_coefficient">
             <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-            <span class="span1">{{item.hc}}%</span>
+            <span class="span1">{{item.hc}}</span>
           </div>
           <div class="hc_coefficient">
             <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-            <span class="span1">{{item.btc}}%</span>
+            <span class="span1">{{item.btc}}</span>
           </div>
         </div>
       </div>
       <NoData v-if="boxarr.length == 0"></NoData>
     </div>
-    <span class="bottom_title fontsize12" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
-    <div class="connect_box fontsize18" v-if="boxarr.length > 0">{{$t("message.button1")}}</div>
+    <!-- <span class="bottom_title fontsize12" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
+    <div class="connect_box fontsize18" v-if="boxarr.length > 0">{{$t("message.button1")}}</div> -->
   </div>
 </template>
 
@@ -40,15 +40,30 @@ export default {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    "getUserCardInfo":{
+    // "getUserCardInfo":{
+    //   handler: function (newValue, oldValue) {
+    //     if(newValue.length > 0){
+    //       this.boxarr = JSON.parse(newValue).filter(data => {return data.level == this.$route.params.level})
+    //       // this.boxarr = JSON.parse(newValue)
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
+    'getIstrue':{
       handler: function (newValue, oldValue) {
-        if(newValue.length > 0){
-          this.boxarr = JSON.parse(newValue)
+        console.log('卡牌详情页面钱包是否链接:', newValue,oldValue);
+        console.log('this.$route.params.level: ', this.$route.params.level);
+        if(newValue){
+          setTimeout(() => {
+            this.boxarr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
+
+          },1500)
         }
       },
       deep: true,
       immediate: true
-    }
+    },
   },
   methods: {
     back(){

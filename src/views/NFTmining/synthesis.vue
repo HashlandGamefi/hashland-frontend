@@ -81,8 +81,11 @@
       <div class="btn_box fontsize16" @click="synthesisFun" v-if="isApproveHN && isApproveHC ">
         {{$t("message.synthesis.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
       </div>
-      <div class="btn_box fontsize16" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC">
-        {{$t("message.approve")}}<BtnLoading :isloading="!isApproveHN && !isApproveHC"></BtnLoading>
+      <div class="btn_box fontsize16" @click="authorizationClick('hn')" v-if="!isApproveHN">
+        HN {{$t("message.approve")}}<BtnLoading :isloading="hnisloading"></BtnLoading>
+      </div>
+      <div class="btn_box fontsize16" @click="authorizationClick('hc')" v-else-if="!isApproveHC">
+        HC {{$t("message.approve")}}<BtnLoading :isloading="hcisloading"></BtnLoading>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -95,6 +98,8 @@ import { getSigner, hnUpgrade, util, hc, contract } from 'hashland-sdk';
 export default {
   data () {
     return {
+      hnisloading:false,// hn 授权loading
+      hcisloading:false,// hc 授权loading
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
@@ -301,28 +306,33 @@ export default {
       })
     },
     // 授权操作
-    authorizationClick(){
-      console.log("授权",this.isApproveHN,this.isApproveHC)
-      if(!this.isApproveHN){
-        this.$common.delegatingFun(1, contract().HNUpgrade).then(res => {
-          console.log('hn授权res: ', res);
-          // this.approve_isloading = false
-          this.isApproveHN = true
-        }).catch(err => {
-          console.log('hn授权err: ', err);
-          this.isApproveHN = false
-        })
-      }
-      if(!this.isApproveHC){
-        this.$common.delegatingFun(2,contract().HNUpgrade).then(res => {
-          console.log('hc授权res: ', res);
-          // this.approve_isloading = false
-          this.isApproveHC = true
-        }).catch(err => {
-          console.log('hc授权err: ', err);
-          this.isApproveHC = false
-          // this.approve_isloading = false
-        })
+    authorizationClick(data){
+      if(data == 'hn'){
+        if(!this.isApproveHN){
+          this.hnisloading = true
+          this.$common.delegatingFun(1, contract().HNUpgrade).then(res => {
+            console.log('hn授权res: ', res);
+            this.isApproveHN = true
+            this.hnisloading = false
+          }).catch(err => {
+            console.log('hn授权err: ', err);
+            this.isApproveHN = false
+            this.hnisloading = false
+          })
+        }
+      }else{
+        if(!this.isApproveHC){
+          this.hcisloading = true
+          this.$common.delegatingFun(2,contract().HNUpgrade).then(res => {
+            console.log('hc授权res: ', res);
+            this.isApproveHC = true
+            this.hcisloading = false
+          }).catch(err => {
+            console.log('hc授权err: ', err);
+            this.isApproveHC = false
+            this.hcisloading = false
+          })
+        }
       }
     }
   },
