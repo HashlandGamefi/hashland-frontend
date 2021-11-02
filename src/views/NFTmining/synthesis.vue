@@ -420,7 +420,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      // transform: scale(0.8);
+      margin-bottom: 90px;
       margin-right: 46px;
       .card_picture{
         width: 100%;

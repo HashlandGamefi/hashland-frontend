@@ -654,229 +654,231 @@ export default {
         }
       }
     }
-    .card_content {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0.2rem;
-      margin-top: 0;
-      .compositeCard {
-        width: 100%;
-        font-size: 0.18rem;
-        color: #ffffff;
-        line-height: 0.3rem;
-      }
-      .img {
-        width: 3.5rem;
-        object-fit: contain;
-      }
-      .cardboxs {
+    .content_boxs{
+      .card_content {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        .one_box {
+        padding: 0.2rem;
+        margin-top: 0;
+        .compositeCard {
           width: 100%;
-          height: 0.37rem;
-          // box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
-          border-radius: 14px;
-          // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
+          font-size: 0.18rem;
+          color: #ffffff;
+          line-height: 0.3rem;
+        }
+        .img {
+          width: 3.5rem;
+          object-fit: contain;
+        }
+        .cardboxs {
+          width: 100%;
           display: flex;
-          flex-direction: row;
-          justify-content: space-between;
+          flex-direction: column;
           align-items: center;
-          padding: 0.3rem 0.14rem;
-          margin-bottom: 0.14rem;
-          .containbox {
+          justify-content: space-between;
+          .one_box {
+            width: 100%;
+            height: 0.37rem;
+            // box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
+            border-radius: 14px;
+            // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
             display: flex;
             flex-direction: row;
+            justify-content: space-between;
             align-items: center;
-            .img {
-              width: 0.35rem;
-              object-fit: contain;
+            padding: 0.3rem 0.14rem;
+            margin-bottom: 0.14rem;
+            .containbox {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              .img {
+                width: 0.35rem;
+                object-fit: contain;
+              }
+              .span1 {
+                font-size: 0.18rem;
+
+                color: #ffffff;
+                line-height: 0.25rem;
+                margin-left: 0.15rem;
+              }
             }
-            .span1 {
+            .span2 {
               font-size: 0.18rem;
 
               color: #ffffff;
               line-height: 0.25rem;
-              margin-left: 0.15rem;
             }
-          }
-          .span2 {
-            font-size: 0.18rem;
-
-            color: #ffffff;
-            line-height: 0.25rem;
           }
         }
       }
-    }
-    .hashland_boxs {
-      width: 100%;
-      margin-top: 0;
-      padding: 0.2rem;
-      .hashland_content {
+      .hashland_boxs {
         width: 100%;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        padding: 0 0.2rem;
-        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        .img {
-          width: 1.5rem;
-          object-fit: contain;
-        }
-        .Trend_chart {
+        margin-top: 0;
+        padding: 0.2rem;
+        .hashland_content {
           width: 100%;
+          padding: 10px;
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0;
-          margin-top: 0.1rem;
-          .span1 {
-            font-size: 0.2rem;
-
-            color: #19cdec;
+          flex-direction: column;
+          padding: 0 0.2rem;
+          box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          .img {
+            width: 1.5rem;
+            object-fit: contain;
           }
-          .span2 {
-            width: 0.9rem;
-            height: 0.4rem;
-            line-height: 0.4rem;
-            text-align: center;
-            background-image: url("//cdn.hashland.com/images/extract_btn.png");
-            background-size: 100% 100%;
-            font-size: 0.2rem;
-
-            color: #fff;
-          }
-        }
-        .trend_boxs {
-          width: 100%;
-          display: flex;
-          margin-top: 10px;
-          .imgbox {
-            flex: 2;
-            position: relative;
-            .img {
-              width: 100%;
-              object-fit: contain;
-            }
+          .Trend_chart {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0;
+            margin-top: 0.1rem;
             .span1 {
-              position: absolute;
               font-size: 0.2rem;
 
               color: #19cdec;
-              line-height: 56px;
             }
             .span2 {
-              top: -0;
-              left: 44%;
-            }
-            .span3 {
-              bottom: -0.1rem;
-              left: 0;
+              width: 0.9rem;
+              height: 0.4rem;
+              line-height: 0.4rem;
+              text-align: center;
+              background-image: url("//cdn.hashland.com/images/extract_btn.png");
+              background-size: 100% 100%;
+              font-size: 0.2rem;
+
+              color: #fff;
             }
           }
-          .nowPrice {
-            flex: 1;
+          .trend_boxs {
+            width: 100%;
+            display: flex;
+            margin-top: 10px;
+            .imgbox {
+              flex: 2;
+              position: relative;
+              .img {
+                width: 100%;
+                object-fit: contain;
+              }
+              .span1 {
+                position: absolute;
+                font-size: 0.2rem;
+
+                color: #19cdec;
+                line-height: 56px;
+              }
+              .span2 {
+                top: -0;
+                left: 44%;
+              }
+              .span3 {
+                bottom: -0.1rem;
+                left: 0;
+              }
+            }
+            .nowPrice {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: flex-end;
+              padding-right: 0;
+              .span1 {
+                font-size: 0.14rem;
+
+                color: #ffffff;
+                line-height: 37px;
+                margin-top: 0.1rem;
+              }
+              .span2 {
+                font-size: 0.14rem;
+
+                color: #00e7f0;
+                line-height: 0.18rem;
+              }
+            }
+          }
+          .hashland_bottom {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            padding-right: 0;
-            .span1 {
-              font-size: 0.14rem;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin: 0.2rem 0;
+            .onebox {
+              display: flex;
+              flex-direction: column;
+              .span1 {
+                font-size: 0.18rem;
+                color: #ffffff;
+                line-height: 0.25rem;
+              }
+              .span2 {
+                font-size: 0.18rem;
 
-              color: #ffffff;
-              line-height: 37px;
-              margin-top: 0.1rem;
-            }
-            .span2 {
-              font-size: 0.14rem;
-
-              color: #00e7f0;
-              line-height: 0.18rem;
+                color: #00e7f0;
+                line-height: 0.25rem;
+                margin-bottom: 0.2rem;
+              }
             }
           }
         }
-        .hashland_bottom {
+      }
+      .page_bottom {
+        width: 100%;
+        padding: 0.2rem;
+        .embedded_box {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          padding: 0.2rem;
+          box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .span1 {
+          font-size: 0.2rem;
+
+          color: #d8d8d8;
+          line-height: 0.28rem;
+        }
+        .horizontal {
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           justify-content: space-between;
-          margin: 0.2rem 0;
-          .onebox {
+          margin-top: 0.2rem;
+          .horizontal_onebox {
             display: flex;
             flex-direction: column;
-            .span1 {
-              font-size: 0.18rem;
-              color: #ffffff;
-              line-height: 0.25rem;
-            }
-            .span2 {
-              font-size: 0.18rem;
+            width: 100%;
+            height: auto;
+            .top {
+              display: flex;
+              align-items: center;
+              .img {
+                width: 0.45rem;
+                object-fit: contain;
+              }
+              .span1_ {
+                font-size: 0.16rem;
 
-              color: #00e7f0;
-              line-height: 0.25rem;
-              margin-bottom: 0.2rem;
+                color: #ffffff;
+                line-height: 0.25rem;
+              }
             }
-          }
-        }
-      }
-    }
-    .page_bottom {
-      width: 100%;
-      padding: 0.2rem;
-      .embedded_box {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        padding: 0.2rem;
-        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      }
-      .span1 {
-        font-size: 0.2rem;
+            .bottom {
+              font-size: 0.12rem;
 
-        color: #d8d8d8;
-        line-height: 0.28rem;
-      }
-      .horizontal {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: space-between;
-        margin-top: 0.2rem;
-        .horizontal_onebox {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          height: auto;
-          .top {
-            display: flex;
-            align-items: center;
-            .img {
-              width: 0.45rem;
-              object-fit: contain;
+              color: #ddd9d9;
+              line-height: 0.18rem;
+              margin-left: 0.45rem;
             }
-            .span1_ {
-              font-size: 0.16rem;
-
-              color: #ffffff;
-              line-height: 0.25rem;
-            }
-          }
-          .bottom {
-            font-size: 0.12rem;
-
-            color: #ddd9d9;
-            line-height: 0.18rem;
-            margin-left: 0.45rem;
           }
         }
       }

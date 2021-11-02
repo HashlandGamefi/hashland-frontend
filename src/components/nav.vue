@@ -25,22 +25,24 @@
         <!-- <img src="../assets/images/accrow.png" class="downimg" /> -->
       </div>
     </div>
-    <div class="mobile_menu" @click="mobilemenuClick">
-      <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" />
-    </div>
-    <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
-      <div class="mobile_box">
-        <div class="mobile_logo" @click="menuClick(-1)"><img :src="`${$store.state.imgUrl}logo.png`" class="mobile_logo_class" /></div>
-        <ul class="ul_">
-          <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
-            {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>
-            <div class="box_nft" v-if="mobile_menuDis && index == 0">
-              <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}<span class="icon-v-right"></span></div>
-              <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}} <span class="icon-v-right"></span></div>
-            </div>
-          </li>
-        </ul>
-        <div class="mobile_lang">EN</div>
+    <div class="mobile_menu">
+      <div class="top_line">
+        <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
+        <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" @click="mobilemenuClick" />
+      </div>
+      <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
+        <div class="mobile_box">
+          <ul class="ul_">
+            <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '','fontsize16']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
+              {{$t(item)}} <span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span>
+              <div class="box_nft" v-if="mobile_menuDis && index == 0">
+                <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}<span class="icon-v-right"></span></div>
+                <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}} <span class="icon-v-right"></span></div>
+              </div>
+            </li>
+          </ul>
+          <div class="mobile_lang fontsize16">EN</div>
+        </div>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -323,20 +325,13 @@ export default {
     left: 0;
     z-index: 999999;
     width: 100%;
-    // height: 110px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 0.2rem;
+    padding: 0;
+    height: auto;
     .logo_img{
-      position: absolute;
-      top: -20px;
-      left: 20px;
-      width: 0.8rem;
-      .imgs{
-        width: 100%;
-        object-fit: contain;
-      }
+      display: none;
     }
     .menu_box{
       display: none;
@@ -345,113 +340,110 @@ export default {
       display: none;
     }
     .mobile_menu{
-      display: flex;
-      width: 0.24rem;
-      .mobile_menu_class{
-        width: 100%;
-        object-fit: contain;
-      }
-    }
-    .mobile_fixed_menu{
-      width: 100%;
-      height: 100%;
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 9999999;
-      background: rgba(0, 0, 0, 0.2);
       display: flex;
-      animation: fade-in 1.5s;
-      .mobile_box{
-        width: 1.78rem;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,1);
+      .mobile_outbox{
+        width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 0.2rem 0;
-        background: #010E1B;//linear-gradient('top',#031D39,#010E1B);
-        .mobile_logo{
+        background: #021C3A;
+        border-radius: 0px 0px 17px 17px;
+        border: 2px solid rgba(161, 64, 248, 1);
+        border-top: none;
+        .top_line{
           width: 100%;
+          height: 0.6rem;
+          padding: 0 0.2rem;
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          justify-content: center;
-          background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
-          border: 1px solid;
-          border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
-          .mobile_logo_class{
-            width: 0.8rem;
+          .mobile_imgs{
+            width: 0.42rem;
+            object-fit: contain;
+          }
+          .mobile_menu_class{
+            width: 0.28rem;
+            object-fit: contain;
           }
         }
-        .ul_{
+        .mobile_fixed_menu{
           width: 100%;
-          li{
+          background: rgba(0, 0, 0, 0.2);
+          display: flex;
+          .mobile_box{
             width: 100%;
-            text-align: center;
-            font-size: 0.16rem;
-
-
-            color: #FFFFFF;
-            cursor: pointer;
-            // height: 0.78rem;
-            line-height: 0.78rem;
-            border: 1px solid;
-            border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
-            .box_nft{
+            display: flex;
+            flex-direction: column;
+            padding: 0 0.2rem;
+            background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
+            .ul_{
               width: 100%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              background: #010E1B;
-              .span1{
+              margin-top: 0.14rem;
+              li{
                 width: 100%;
-                height: 0.78rem;
-                line-height: 0.78rem;
+                color: #FFFFFF;
+                cursor: pointer;
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
-                justify-content: center;
-                font-size: 0.18rem;
+                margin-bottom: 0.24rem;
+                .box_nft{
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  background: #010E1B;
+                  .span1{
+                    width: 100%;
+                    height: 0.78rem;
+                    line-height: 0.78rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.18rem;
 
 
-                color: #fff;
-                line-height: 0.4rem;
-                .icon-v-right {
-                  width: 0.12rem;
-                  height: 0.12rem;;
-                  border: 0.02rem solid #fff;
-                  border-width: 0.02rem 0.02rem 0 0;
-                  transform: rotate(45deg);
-                  margin-left: 0.05rem;
+                    color: #fff;
+                    line-height: 0.4rem;
+                    .icon-v-right {
+                      width: 0.12rem;
+                      height: 0.12rem;;
+                      border: 0.02rem solid #fff;
+                      border-width: 0.02rem 0.02rem 0 0;
+                      transform: rotate(45deg);
+                      margin-left: 0.05rem;
+                    }
+                  }
+                }
+                .mobile_triangle{
+                  font-size: 0;
+                  line-height: 0;
+                  border-width: 0.1rem;
+                  border-color: #FFFFFF;
+                  border-bottom-width: 0;
+                  border-style: dashed;
+                  border-top-style: solid;
+                  border-left-color: transparent;
+                  border-right-color: transparent;
                 }
               }
+              .mobile_activeClass{
+                background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
+                border: 1px solid;
+                border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
+                color: #00E7F0;
+              }
             }
-            .mobile_triangle{
-              font-size: 0;
-              line-height: 0;
-              border-width: 0.1rem;
-              border-color: #FFFFFF;
-              border-bottom-width: 0;
-              border-style: dashed;
-              border-top-style: solid;
-              border-left-color: transparent;
-              border-right-color: transparent;
+            .mobile_lang{
+              width: 100%;
+              color: #FFFFFF;
             }
           }
-          .mobile_activeClass{
-            background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
-            border: 1px solid;
-            border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
-            color: #00E7F0;
-          }
-        }
-        .mobile_lang{
-          margin-top: 0.1rem;
-          width: 100%;
-          padding-right: 0.2rem;
-          display: flex;
-          justify-content: flex-end;
-          font-size: 0.2rem;
-
-
-          color: #FFFFFF;
-          line-height: 0.3rem;
         }
       }
     }

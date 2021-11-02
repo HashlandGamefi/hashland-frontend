@@ -80,8 +80,11 @@ export const message = {
     txt25: "Purchase Priority Cards, features enormous hashrate bonus.",
 
     txt26:
-      "Insert into Priority Slot to mine BTC and HC, the higher the hashrate, the more yield."
-  },
+      "Insert into Priority Slot to mine BTC and HC, the higher the hashrate, the more yield.",
+    txt27:'Level-1 cards can be purchased directly, you can upgrade to get higher level cards',
+    txt28:'Insert into Priority Slot to mine BTC and HC, the higher the hashrate, the more yield.',
+    txt29:'More privileges will be announced later.'
+    },
   nftMining: {
     // nft 挖矿
     txt1: "NFT Card benefits",

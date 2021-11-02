@@ -162,12 +162,17 @@ export default {
     padding-bottom: 0.1rem;
     .pc_box{
       margin-bottom: 0.1rem;
-      .footer1img{
-        width: 0.97rem;
-        object-fit: contain;
+      .left_center{
+        width: 0.9rem;
+        display: flex;
+        align-items: center;
+        .footer1img{
+          width: 100%;
+          object-fit: contain;
+        }
       }
       .center_box{
-        width: calc(100% - 1.71rem);
+        width: calc(100% - 1.8rem);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -218,9 +223,14 @@ export default {
           display: none;
         }
       }
-      .footer2img{
-        width: 0.74rem;
-        object-fit: contain;
+      .right_center{
+        width: 0.9rem;
+        display: flex;
+        justify-content: flex-end;
+        .footer2img{
+          width: 0.74rem;
+          object-fit: contain;
+        }
       }
     }
     .mobile_line_txt{

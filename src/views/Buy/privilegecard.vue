@@ -34,6 +34,8 @@
       <div class="btn">{{$t("message.nftCard.txt14")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt25")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt26")}}</div>
+      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt28")}}</div>
+      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt29")}}</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>

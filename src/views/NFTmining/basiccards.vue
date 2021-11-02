@@ -443,10 +443,9 @@ export default {
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            // margin-bottom: 50px;
             .swiper_img{
               position: absolute;
-              top: 69%;
+              top: 32%;
               left: 48%;
               transform: translate(-50%, -50%);
               width: 100px;

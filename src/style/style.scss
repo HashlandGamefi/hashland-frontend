@@ -66,6 +66,56 @@ body {
   body {
     font-size: 100px;
   }
+  .fontsize12{ // purchase
+    font-size: 0.12rem;
+    font-weight: 100;
+    font-family: 'Poppins-Regular';
+    line-height: 0.17rem;
+  }
+  .fontsize12_400{ // go
+    font-size: 0.12rem;
+    font-weight: 400;
+    font-family: 'Poppins-Regular';
+    line-height: 0.17rem;
+  }
+  .fontsize14{// 导航栏
+    font-size: 0.14rem;
+    font-family: 'Poppins-Regular';
+  }
+  .fontsize16{//次标题
+    font-size: 0.16rem;
+    // font-weight: 500;
+    font-weight: bold;
+    font-family: 'Poppins-Bold';
+  }
+  .fontsize16_400{
+    font-size: 0.16rem;
+    font-weight: 400;
+    font-family: 'Poppins-Regular';
+  }
+  .fontsize16_100{//标题说明
+    font-size: 0.16rem;
+    font-weight: 100;
+    font-family: 'Poppins-Regular';
+  }
+  .fontsize18{// 导航栏
+    font-size: 0.18rem;
+    font-weight: 500;
+  }
+  .fontsize22{
+    font-size: 0.22rem;
+    font-weight: 600;
+  }
+  .fontsize26{// 特殊数字
+    font-size: 0.26rem;
+    font-weight: bold;
+  }
+  .fontsize32{//大标题
+    font-size: 0.32rem;
+    line-height: 45px;
+    font-weight: bold;
+    font-family: 'Poppins-Bold';
+  }
 }
 // 重置滚动条样式  (可以滚动的部分的重置)
 ::-webkit-scrollbar {
