@@ -147,5 +147,6 @@ export const message = {
   approve: "Authorize", //Authorize
   button1: "Confirm", //Confirm
   nothing:'No Data',
-  button2:'To Buy'
+  button2:'To Buy',
+  consumption:'Craft needs to consume ',// 合成消耗hc数量
 };

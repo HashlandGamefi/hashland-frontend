@@ -77,8 +77,11 @@
       </div>
       <NoData v-if="pageshowarr.length == 0"></NoData>
     </div>
-    <div class="btn_box" @click="synthesisFun" v-if="isApproveHN && isApproveHC && pageshowarr.length > 0">{{$t("message.synthesis.txt1")}}</div>
-    <div class="btn_box" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC && pageshowarr.length > 0">{{$t("message.approve")}}</div>
+    <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
+      <span class="bottom_title fontsize12">{{$t("message.consumption")}} {{hcnum}} HC !</span>
+      <div class="btn_box fontsize16" @click="synthesisFun" v-if="isApproveHN && isApproveHC ">{{$t("message.synthesis.txt1")}}</div>
+      <div class="btn_box fontsize16" @click="authorizationClick" v-if="!isApproveHN && !isApproveHC">{{$t("message.approve")}}</div>
+    </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -105,6 +108,7 @@ export default {
       isApproveHC:false,// hc授权
       selectALLBtn:false,//全选按钮的状态
       selectedCardnum:100000000,// 本次全选可以选中的卡牌数量
+      hcnum:0, // 本次合成消耗多少hc
     }
   },
   computed: {
@@ -513,22 +517,38 @@ export default {
       }
     }
   }
-  .btn_box {
+  .Suspension_btnbox{
     position: fixed;
-    bottom: 30px;
+    bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
-    width: 393px;
-    height: 82px;
-    text-align: center;
-    line-height: 70px;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    color: #ffffff;
-    cursor: pointer;
-    margin-top: 30px;
+    transform: translate(-50%);
+    width: 637px;
+    // height: 136px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
+    border-radius: 79px;
+    padding-top: 24px;
+    .bottom_title{
+      color: #ffffff;
+    }
+    .btn_box {
+      width: 274px;
+      height: 59px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      cursor: pointer;
+      margin-top: 14px;
+    }
   }
+
 }
 @media screen and (min-width: 1280px) {
   .insertcard_page{
