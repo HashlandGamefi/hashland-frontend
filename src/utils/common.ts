@@ -340,7 +340,8 @@ export default {
         }
         obj.cardID = item.toString() // 卡牌的id
         obj.level = (await hn().level(item)).toString() // 等级
-        obj.src = await getHnImg(Number(obj.cardID),Number(obj.level))
+        // obj.src = await getHnImg(Number(obj.cardID),Number(obj.level))
+        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
         let race = await hn().getHashrates(item) // hc 算力
         obj.hc = race[0].toString()
         obj.btc = race[1].toString()// btc 算力
@@ -366,4 +367,8 @@ export default {
       }, 500);
     };
   },
+  // 字符串前边按规定字符补齐规定位数 complementString('123',8,'0')------result:00000123
+  complementString(str:string,nums:number,rule:string){
+    return str.padStart(nums,rule)
+  }
 };

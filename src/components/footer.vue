@@ -48,7 +48,7 @@ export default {
           window.location.href = ''
           break;
         case 'Gitbook':
-          window.location.href = ''
+          window.location.href = 'https://land-hash.gitbook.io/official/'
           break;
         case 'Medium':
           window.location.href = 'https://medium.com/@hashland_'

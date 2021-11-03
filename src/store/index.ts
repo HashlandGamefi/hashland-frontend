@@ -6,9 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     CurrenciesInfo:{},//各种币的价格
-    imgUrl:process.env.NODE_ENV == 'development'?'https://hashlandgamefi.oss-ap-southeast-1.aliyuncs.com/images/':'//cdn.hashland.com/images/',//图片前缀
+    imgUrl:'//cdn.hashland.com/images/',//图片前缀
     userCardInfo:localStorage.getItem('setCardInfo') || [],//用户卡牌信息
     rewardsInfo:{
+      proupTitle:'',//标题
       minserDis:false,
       boxarr:[]
     },//中奖信息

@@ -1,7 +1,7 @@
 export const message = {
   home: {
     txt1: "purchase",
-    txt2: "UP to 180% APY%",
+    txt2: "UP to 180% APY",
     txt3: "Mining",
     txt4: "My Land",
     txt5: "Claim",
@@ -13,13 +13,13 @@ export const message = {
     txt11: "Current Price",
     txt12: "Reduction Date",
     txt13: "Output Today",
-    txt14: "Total",
+    txt14: "Total/ Output ratio",
     txt15: "Circulation",
     txt16: "Burnt Number",
     txt17: "HC Application",
 
     txt18:'NFT Cards',
-    txt19:'Unlock slots, Upgrade Cards.',
+    txt19:'Unlock slots, Craft Cards.',
     txt20:'GameFi Application',
     txt21:'Redeem Diamonds, Unlock New Chapters.',
     txt22:'NFT Trade',
@@ -66,7 +66,7 @@ export const message = {
     txt14: "Purchase Describtion",
 
     txt15:'Each card features an unique ERC721 token, and represents a character in GameFi',
-    txt16:'Level-1 cards can be purchased directly, you can upgrade to get higher level cards with a maximum level of 5.',
+    txt16:'Level-1 cards can be purchased directly, you can Craft to get higher level cards with a maximum level of 5.',
     txt17:'Cards are certificates to BTC and HC mining hashrate，holding cards is equivalent to having the same amount of hashrate. Higher level Cards contains more hashrate.',
     txt18:'BTC and HC can be mined after you insert the cards into slot, the higher the hashrate, the more yield. Note that level-1 card only has bitcoin hashrate and no HC hashrate. ',
 
@@ -80,7 +80,7 @@ export const message = {
     txt25:'Extremely rare. Highly Collectible',
     txt26:'There will be special Slots for priority cards, insert to earn BTC, HC. the higher the hashrate, the more yield',
 
-    // txt27:'Level-1 cards can be purchased directly, you can upgrade to get higher level cards',
+    // txt27:'Level-1 cards can be purchased directly, you can Craft to get higher level cards',
     // txt28:'Insert into Priority Slot to mine BTC and HC, the higher the hashrate, the more yield.',
     // txt29:'More privileges will be announced later.'
     },
@@ -90,13 +90,13 @@ export const message = {
     txt2: "Stake your NFT Cards to Mine",
     txt3: "My Wallet Cards",
     txt4: "No yield unless you insert cards into slots",
-    txt5: "Upgrade",
+    txt5: "Craft",
     txt6: "Detail",
     txt7: "My Sloted Cards",
-    txt8: "Slots are limited, please stake Upgraded cards first",
+    txt8: "Slots are limited, please stake Craftd cards first",
     txt9: "Uninsert",
     txt10: "Unlock Slot",
-    txt11: "Personal APY",
+    txt11: "Annual ROI",
     txt12: "Claim",
     txt13: "Total Income",
     txt14: "Claimable",

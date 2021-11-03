@@ -69,7 +69,7 @@
       <span class="composite_line_color"></span>
     </div>
     <div class="connect_box fontsize18" v-if="!getIstrue">Connect</div>
-    <div class="connect_box fontsize18" v-else-if="!isapprove" @click="goApproveClick">{{$t("message.approve")}}</div>
+    <div class="connect_box fontsize18" v-else-if="!isapprove" @click="goApproveClick">{{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="connect_box fontsize18" v-else @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="right_box">
       <div class="btn">{{$t("message.nftCard.txt14")}}</div>
@@ -128,52 +128,38 @@ export default {
     },
     // 监听盲盒开奖结果
     watchResult(){
-      let filter = erc20(token().BUSD).filters.Transfer(null, this.getAccount)
-      erc20().on(filter, (from, to, amount, event) => {
-        console.log('filter方法: ',from, to, amount, event);
-      });
-      return
-      erc20(token().BUSD).on("Transfer", (from, to, amount, event) => {
-          console.log(`erc20转账`);
-      });
-      hn().on("Transfer", async (user, boxslengths, boxarrID) => {
-        console.log("卡牌转账")
-      })
-      hnBox().on("SpawnHns", async (user, boxslengths, boxarrID) => {
-        console.log('监听盲盒开奖结果user: ', user);
-        // let str = boxarrID.toString()
-        // let arr = str.split(',')
-        // if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
-        //   let imgarr = []
-        //   arr.map(async item => {
-        //     let obj = {}
-        //     // obj.round = await hn().getRandomNumber(arr[i],"class", 1, 4) // 卡牌随机数
-        //     obj.level = (await hn().level(item)).toString() // 卡牌等级
-        //     obj.src = await getHnImg(Number(item),Number(obj.level))
-        //     let race = await hn().getHashrates(item)
-        //     obj.hc = race[0].toString()// hc 算力
-        //     obj.btc = race[1].toString()// btc 算力
-        //     imgarr.push(obj)
-        //   })
+      hnBox().on("SpawnHns", async (user, boxslengths, boxarrID,events) => {
+        console.log('监听盲盒开奖结果: ', user, boxslengths, boxarrID,events);
+        let str = boxarrID.toString()
+        let arr = str.split(',')
+        if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
+          let imgarr = []
+          arr.map(async item => {
+            let obj = {}
+            obj.level = (await hn().level(item)).toString() // 卡牌等级
+            // obj.src = await getHnImg(Number(item),Number(obj.level))
+            obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+            let race = await hn().getHashrates(item)
+            obj.hc = race[0].toString()// hc 算力
+            obj.btc = race[1].toString()// btc 算力
+            imgarr.push(obj)
+          })
 
-        //   let lastObj = {
-        //     minserDis:true,
-        //     boxarr:imgarr
-        //   }
-        //   this.$store.commit("setrewardsInfo", lastObj);
-        // }
+          let lastObj = {
+            minserDis:true,
+            boxarr:imgarr,
+            proupTitle:'Purchase Detail',
+          }
+          this.$store.commit("setrewardsInfo", lastObj);
 
+          this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        }
 
         // console.log('user:', user);
         // console.log('boxslengths:', boxslengths.toString());
         // console.log('boxarr:', boxarrID.toString());
         // console.log('event:',event.args.hnIds);
       });
-
-      // let filter = hnBox().filters.SpawnHns(null, this.getAccount)
-      // hnBox().on(filter, (from, to, amount, event) => {
-      //   console.log('filter方法: ',from, to, amount, event);
-      // });
     },
     // 购买盒子
     async buyBox(){
@@ -197,11 +183,10 @@ export default {
       hnBox().connect(getSigner()).buyBoxes(this.boxnums,1).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        this.watchResult()
+        // this.watchResult()
         this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0
-        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
         this.getSDKInfo()
       }).catch(err => {
         console.log('购买盒子err: ', err);
@@ -223,12 +208,15 @@ export default {
     },
     // 去授权
     async goApproveClick(){
+      if(this.buy_isloading)return
+      this.buy_isloading = true
       const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
       let res = await erc20(token().BUSD).connect(getSigner()).approve(contract().HNBox,TOKEN_amount)
       console.log('去授权istrue: ', res);
       const etReceipt = await res.wait();
       if(etReceipt.status == 1){
         this.isapprove = true
+        this.buy_isloading = false
       }
     },
     async getSDKInfo(){

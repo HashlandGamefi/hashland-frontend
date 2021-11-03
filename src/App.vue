@@ -5,7 +5,7 @@
       <router-view v-if="isRouterAlive" />
     </transition>
     <Footer></Footer>
-    <WinningPopup :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @closepage="closepageFun"></WinningPopup>
+    <WinningPopup :proupTitle="getrewardsInfo.proupTitle" :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @closepage="closepageFun"></WinningPopup>
   </div>
 </template>
 <script>
@@ -21,21 +21,7 @@ export default {
     WinningPopup
   },
   computed: {
-    ...mapGetters(["getrewardsInfo","getAccount","getIstrue"])
-  },
-  watch:{
-    'getIstrue':{
-      handler: function (newValue, oldValue) {
-        console.log('直接写是否链接:', newValue,oldValue);
-        // if(newValue){
-        //   this.$common.getUserCardInfoFun(this.getAccount)
-        // }else{
-        //   console.log('app监听是否链接:', newValue,oldValue);
-        // }
-      },
-      deep: true,
-      immediate: true
-    },
+    ...mapGetters(["getrewardsInfo"])
   },
   provide () {    //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
     return {
@@ -63,6 +49,7 @@ export default {
         boxarr:[]
       }
       this.$store.commit("setrewardsInfo", obj);
+      this.$router.push('/nftmining')
     },
     // 获取各种币的价格
     getCurrenciesPrices(){

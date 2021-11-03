@@ -14,7 +14,7 @@
         <img :src="`${$store.state.imgUrl}buyboxprivilege.png`" class="privilegebgimg" />
         <img :src="`${$store.state.imgUrl}specialCard.png`" class="privilbg" />
       </div>
-      <div class="btn_box fontsize18">{{$t("message.buy2")}}</div>
+      <div class="btn_box fontsize18">No Data</div>
     </div>
     <!-- 卡槽 -->
     <div class="myCard margin_top_card">

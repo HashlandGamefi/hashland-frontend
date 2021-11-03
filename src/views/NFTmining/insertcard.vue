@@ -1,7 +1,7 @@
 <template>
   <div class="insertcard_page">
     <div class="title" @click="back">
-      <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
+      <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <div class="title_title fontsize32">{{ $t("message.insert.txt1") }}</div>
     <!-- <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span> -->
@@ -9,11 +9,11 @@
     <div class="content_box">
       <div class="stratbox" v-for="(ele,index1) in 5" :key="index1">
         <div class="top_line">
-          <span class="span1 fontsize22">{{ ele }} {{ $t("message.synthesis.txt4")}} {{ $t("message.synthesis.txt8")}} {{
+          <span class="span1 fontsize22">{{ $t("message.synthesis.txt4")}} {{ ele }} ({{ $t("message.synthesis.txt8")}} {{
               starArr.filter((data) => {
                 return data.level == ele;
               }).length
-            }}</span
+            }})</span
           >
           <span class="span2 fontsize12_400">{{ $t("message.nftMining.txt8") }}</span>
         </div>
@@ -34,7 +34,7 @@
                 <img :src="item.src" class="swiper_img" />
                 <div class="bottom">
                   <div class="five_pointed_star">
-                    <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
+                    <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in ele" :key="item1" class="start_img" />
                   </div>
                   <div class="hc_btc_box">
                     <div class="hc_coefficient">
@@ -88,33 +88,39 @@ export default {
   },
   computed: {
     ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
-    dataInfo: function () {
-      return this.getUserCardInfo
-    }
+    // dataInfo: function () {
+    //   return this.getUserCardInfo
+    // }
   },
   watch: {
-    "dataInfo": {
+    'getIstrue':{
       handler: function (newValue, oldValue) {
-        if (newValue.length > 0) {
-          if (newValue.length > 0) {
-            let res = JSON.parse(newValue)
+        console.log('插入页面的连接:', newValue,oldValue);
+        if(newValue){
+          setTimeout(() => {
+            this.getconnetFun()
+            let res = JSON.parse(this.getUserCardInfo)
             this.starArr = res
-          }
+          },1500)
         }
       },
       deep: true,
       immediate: true
-    }
+    },
+    // "dataInfo": {
+    //   handler: function (newValue, oldValue) {
+    //     if (newValue.length > 0) {
+    //       if (newValue.length > 0) {
+    //         let res = JSON.parse(newValue)
+    //         this.starArr = res
+    //       }
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // }
   },
   methods: {
-    setFilterFun (level, newValue) {
-      let obj = { level: level, ownerNum: [] }
-      obj.ownerNum = JSON.parse(newValue).filter(item => {
-        return item.level == level
-      })
-      this.starArr.push(obj)
-      console.log('页面的数组:this.starArr: ', this.starArr);
-    },
     // 取消按钮(关闭弹窗)
     CloseFun () {
       this.proupDis = false
@@ -171,10 +177,8 @@ export default {
             this.$common.selectLang('插入成功', 'Insert Successful', this)
             this.approve_isloading = false
             this.$common.getUserCardInfoFun(this.getAccount)
-            this.$router.go(-1)
+            this.back()
           }
-          // console.log('etReceipt: ', etReceipt);
-          // console.log(etReceipt.confirmations, 'Blocks Confirmations');
         }).catch(err => {
           console.log('质押err: ', err);
           this.approve_isloading = false
@@ -207,10 +211,9 @@ export default {
       }
       this.mySwiper = new Swiper('.swiper-container', {
         slidesPerView: 4,
-        // loop : true,
-        slidesOffsetBefore: 20,
-        centeredSlides: true,
-        centeredSlidesBounds: true,
+        // slidesOffsetBefore: 20,
+        // centeredSlides: true,
+        // centeredSlidesBounds: true,
         observer: true,
         observeParents: true,
       })
@@ -218,7 +221,6 @@ export default {
   },
   async mounted () {
     this.swiperFun()
-    this.getconnetFun()
   }
 }
 </script>
@@ -232,8 +234,8 @@ export default {
   .title {
     position: absolute;
     top: 149px;
-    left: 90px;
-    width: 79px;
+    right: 90px;
+    width: 66px;
     cursor: pointer;
     .backimg {
       width: 100%;

@@ -11,14 +11,14 @@
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(item,index) in mycardarr" :key="index">
+        <div class="swiper-slide" v-for="(item,index) in slotArr" :key="index">
           <div class="content_box" @click="jumpDetails(item)">
             <img :src="item.src" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
                 <img :src="`${$store.state.imgUrl}start.png`" v-for="(ele,index1) in item.level" :key="index1"  class="start_img" />
               </div>
-              <span class="card_grade fontsize16">{{gradeArr.filter(data => {return data.level == item.level}).length}}</span>
+              <span class="card_grade fontsize16">{{item.num}}</span>
               <span class="details fontsize12">{{$t("message.nftMining.txt6")}}</span>
             </div>
           </div>
@@ -45,7 +45,7 @@
               <img :src="item.src" class="swiper_img" v-if="item.btnstatus !== 3"/>
               <div class="bottom" v-if="item.btnstatus == 2">
                 <div class="five_pointed_star">
-                  <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in item.level" :key="index1" class="start_img" />
+                  <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
                 </div>
                 <div class="hc_btc_box">
                   <div class="hc_coefficient">
@@ -91,32 +91,9 @@ import { hnPool,hn,getSigner,hc,util,contract,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
-      mycardarr:[
-        {
-          level:1,
-          src:`${this.$store.state.imgUrl}level1.png`
-        },
-        {
-          level:2,
-          src:`${this.$store.state.imgUrl}defaultcard.png`
-        },
-        {
-          level:3,
-          src:`${this.$store.state.imgUrl}defaultcard.png`
-        },
-        {
-          level:4,
-          src:`${this.$store.state.imgUrl}defaultcard.png`
-        },
-        {
-          level:5,
-          src:`${this.$store.state.imgUrl}defaultcard.png`
-        }
-      ],//我的卡牌数组
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
-      gradeArr:[], // 我的钱包卡牌
       cardsoltArr:[
         {
           src:'',
@@ -151,29 +128,41 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    slotArr(){//我的卡牌数组
+      return [{
+        level:1,
+        src:`${this.$store.state.imgUrl}level1.png`,
+        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 1}).length
+      },
+      {
+        level:2,
+        src:`${this.$store.state.imgUrl}defaultcard.png`,
+        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 2}).length
+      },{
+        level:3,
+        src:`${this.$store.state.imgUrl}defaultcard.png`,
+        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 3}).length
+      },
+      {
+        level:4,
+        src:`${this.$store.state.imgUrl}defaultcard.png`,
+        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 4}).length
+      },{
+        level:5,
+        src:`${this.$store.state.imgUrl}defaultcard.png`,
+        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 5}).length
+      }
+      ]
+    }
   },
   watch:{
-    // "getUserCardInfo":{
-    //   handler: function (newValue, oldValue) {
-    //     // console.log('基础卡牌的我的卡牌newValue: ', newValue);
-    //     if(newValue.length > 0){
-    //       let res = JSON.parse(newValue)
-    //       console.log('res: ', res);
-    //       this.gradeArr = res
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // },
     'getIstrue':{
       handler: function (newValue, oldValue) {
         console.log('基础卡牌页面钱包是否链接:', newValue,oldValue);
         if(newValue){
-          this.getCardSlotInfo()
           setTimeout(() => {
-            let res = JSON.parse(this.getUserCardInfo)
-            this.gradeArr = res
+            this.getCardSlotInfo()
           },1500)
         }
       },
@@ -269,7 +258,7 @@ export default {
     },
     // 我的卡牌跳转
     jumpDetails(item){
-      this.$router.push({ path: '/carddetails', query: { 'level': item.level} })
+      this.$router.push({ path: '/carddetails', query: { 'level': item.level, 'num':item.num} })
     },
     // 链接钱包才能拿到的数据获取方法
     async getCardSlotInfo(){
@@ -286,11 +275,12 @@ export default {
           isloading:false,//按钮的loading
         }
         obj.cardID = item.toString() // 卡牌的id
-        obj.level = (await hn().level(item)).toString() // 等级
+        obj.level = (await hn().level(item.toString())).toString() // 等级
         let race = await hn().getHashrates(item)
         obj.hc = race[0].toString()// hc 算力
         obj.btc = race[1].toString()// btc 算力
-        obj.src = await getHnImg(Number(item),Number(obj.level))
+        // obj.src = await getHnImg(Number(item),Number(obj.level))
+        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
         this.cardsoltArr.unshift(obj)
         console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       })

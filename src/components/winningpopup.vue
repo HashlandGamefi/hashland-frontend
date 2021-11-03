@@ -1,6 +1,6 @@
 <template>
   <div class="record_page" v-if="minserdis">
-    <div class="title fontsize32">{{$t("message.buy1")}}</div>
+    <div class="title fontsize32">{{proupTitle}}</div>
     <img :src="`${$store.state.imgUrl}proupclose.png`" class="close_img" @click="closepage"/>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
@@ -35,6 +35,10 @@ export default {
     boxarr: {
       type: Array,
       default: function () { return [] }
+    },
+    proupTitle:{
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -59,7 +63,7 @@ export default {
   flex-direction: column;
   align-items: center;
   .title{
-    margin-top: 292px;
+    margin-top: 180px;
     width: 100%;
     text-align: center;
     color: #FFFFFF;
@@ -67,8 +71,8 @@ export default {
   }
   .close_img{
     position: absolute;
-    top: 134px;
-    right: 107px;
+    top: 50px;
+    right: 100px;
     width: 66px;
     object-fit: contain;
     cursor: pointer;
@@ -79,7 +83,7 @@ export default {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    // padding: 0 40px;
+    min-height: 360px;
     max-height: 738px;
     overflow-y: auto;
     .onebox{
@@ -89,19 +93,19 @@ export default {
       flex-direction: column;
       align-items: center;
       margin-right: 20px;
-      margin-bottom: 56px;
+      margin-bottom: 20px;
       .imgcard{
         width: 100%;
         object-fit: contain;
       }
       .bottom{
         position: absolute;
-        top: 30px;
-        left: 22%;
+        top: 0;
+        left: 13%;
         display: flex;
         align-items: center;
         padding:10px 8px;
-        transform: scale(0.7);
+        transform: scale(0.5);
         .five_pointed_star{
           display: flex;
           align-items: center;
@@ -145,9 +149,11 @@ export default {
   }
 }
 @media screen and (min-width: 1280px) {
-  .composite_card{
-    max-width: 1162px;
-    margin: 0 auto;
+  .record_page{
+    .boxarr{
+      max-width: 1162px;
+      margin: 40px auto;
+    }
   }
 }
 @media screen and (max-width: 980px){

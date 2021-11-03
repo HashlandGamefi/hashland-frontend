@@ -12,7 +12,7 @@
     <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
     <div class="apybox">
       <div class="apy_title">
-        <span class="span1 fontsize12">APY</span>
+        <span class="span1 fontsize12">APR</span>
         <span class="span1 span2 fontsize18">{{apy}}%</span>
       </div>
       <div class="apy_title">

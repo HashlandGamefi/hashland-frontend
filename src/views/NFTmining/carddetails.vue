@@ -1,7 +1,7 @@
 <template>
   <div class="card_details_page">
     <div class="title" @click="back">
-      <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
+      <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="span_title fontsize32">{{$t("message.details")}}</span>
     <div class="boxarr">
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <NoData v-if="boxarr.length == 0"></NoData>
+      <NoData v-if="$route.query.num == 0"></NoData>
     </div>
     <!-- <span class="bottom_title fontsize12" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
     <div class="connect_box fontsize18" v-if="boxarr.length > 0">{{$t("message.button1")}}</div> -->
@@ -40,20 +40,10 @@ export default {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    // "getUserCardInfo":{
-    //   handler: function (newValue, oldValue) {
-    //     if(newValue.length > 0){
-    //       this.boxarr = JSON.parse(newValue).filter(data => {return data.level == this.$route.params.level})
-    //       // this.boxarr = JSON.parse(newValue)
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // },
     'getIstrue':{
       handler: function (newValue, oldValue) {
         console.log('卡牌详情页面钱包是否链接:', newValue,oldValue);
-        console.log('this.$route.params.level: ', this.$route.params.level);
+        console.log('this.$route.params.level: ', this.$route.query.level);
         if(newValue){
           setTimeout(() => {
             this.boxarr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
@@ -70,6 +60,9 @@ export default {
       this.$router.go(-1)
     }
   },
+  mounted(){
+    console.log('$route.params.num : ', this.$route.query.num );
+  }
 }
 </script>
 
@@ -82,8 +75,8 @@ export default {
   .title{
     position: absolute;
     top: 149px;
-    left: 90px;
-    width: 79px;
+    right: 90px;
+    width: 66px;
     cursor: pointer;
     .backimg{
       width: 100%;
@@ -100,6 +93,7 @@ export default {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    min-height: 500px;
     max-height: 738px;
     overflow-y: auto;
     margin-top: 18px;

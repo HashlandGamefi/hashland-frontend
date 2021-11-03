@@ -1,17 +1,17 @@
 <template>
   <div class="insertcard_page">
     <div class="title" @click="back">
-      <img :src="`${$store.state.imgUrl}back.png`" class="backimg" />
+      <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <div class="title_title fontsize32">{{$t("message.synthesis.txt1")}}</div>
     <!-- <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt2")}}</div> -->
     <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
-        <span class="span1 fontsize16">{{rank}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
+        <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{ele}}{{$t("message.synthesis.txt4")}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
+          <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
         </div>
       </div>
       <div class="right_content" @click="selectAllClick">
@@ -74,7 +74,7 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
         <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" />
       </div>
-      <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0"></NoData>
+      <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0 && isshowArr"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0 || selectedArr.length > 0">
       <span class="bottom_title fontsize12">{{$t("message.consumption")}} {{hcnum}} HC !</span>
@@ -94,10 +94,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hnUpgrade, util, hc, contract } from 'hashland-sdk';
+import { getSigner, hnUpgrade, util, hc, hn, contract, getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      isshowArr:false,// 页面暂时不显示nodata
       hnisloading:false,// hn 授权loading
       hcisloading:false,// hc 授权loading
       powerNumber:0,//合成卡牌提升算力
@@ -129,8 +130,10 @@ export default {
         console.log('合成页面的连接:', newValue,oldValue);
         if(newValue){
           setTimeout(() => {
+            this.getSDKInfo()
             this.cardarr = JSON.parse(this.getUserCardInfo)
             this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
+            this.isshowArr = true
             this.amount = this.cardarr.filter(item => { return item.level == 1}).length
           },1500)
         }
@@ -138,12 +141,6 @@ export default {
       deep: true,
       immediate: true
     },
-    // selectimgArr(){
-    //   console.log("数组变化")
-    //   setInterval(() => {
-    //     this.flowFun(this.getHCBalance())
-    //   },2000)
-    // }
     'selectedArr': {
       handler: async function (newValue, oldValue) {
         console.log('选中的卡牌数组变化newValue: ', newValue);
@@ -202,8 +199,33 @@ export default {
     // 合成结果
     watchResult(){
       console.log("合成结果监听方法")
-      hnUpgrade().on('UpgradeHns',(user, level, length, hnIds) => {
-        console.log('合成结果user: ',user, level, length, hnIds)
+      hnUpgrade().on('UpgradeHns',async (user, boxslengths, boxarrID,events) => {
+        console.log('合成结果user: ',user, boxslengths, boxarrID,events)
+        console.log('合成结果events: ',events)
+        // let str = boxarrID.toString()
+        // let arr = str.split(',')
+        if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
+          let imgarr = []
+          events.map(async item => {
+            let obj = {}
+            obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
+            // obj.src = await getHnImg(Number(item.toString()),Number(obj.level))
+            obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+            let race = await hn().getHashrates(item.toString())
+            obj.hc = race[0].toString()// hc 算力
+            obj.btc = race[1].toString()// btc 算力
+            imgarr.push(obj)
+          })
+
+          let lastObj = {
+            minserDis:true,
+            boxarr:imgarr,
+            proupTitle:'Upgrade Detail',
+          }
+          this.selectRankClik(this.rank)
+          this.$store.commit("setrewardsInfo", lastObj);
+          this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        }
       })
     },
     // 合成方法
@@ -225,8 +247,8 @@ export default {
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
       console.log('balance:%s', balance);
 
-      this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
-      console.log('合成金额money: ', this.hcnum);
+      // this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
+      // console.log('合成金额money: ', this.hcnum);
 
       if(Number(this.hcnum) <= Number(balance)){
         this.synthesisDis = true
@@ -264,14 +286,17 @@ export default {
     },
     // 选择阶数
     selectRankClik(data){
-      this.selectedNUM = 0
-      this.compose = 0
+      this.hcnum = 0 // 合成卡牌所需的hc金额
+      this.selectedNUM = 0 // 选中的卡牌数量
+      this.compose = 0 // 选中的卡牌可以合成多少张更高以及的卡牌
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
-      this.rank = data
+      this.rank = data // 当前几阶
       this.amount = this.cardarr.filter(item => { return item.level == data}).length
+      this.isshowArr = false
       this.pageshowarr = this.cardarr.filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
-      this.selectedArr = []
-      this.selectALLBtn = false
+      this.isshowArr = true
+      this.selectedArr = [] // 页面展示的选中的数组
+      this.selectALLBtn = false // 全选按钮的展示
     },
     back(){
       this.$router.go(-1)
@@ -331,9 +356,6 @@ export default {
         }
       }
     }
-  },
-  mounted(){
-    this.getSDKInfo()
   }
 }
 </script>
@@ -347,8 +369,8 @@ export default {
   .title {
     position: absolute;
     top: 149px;
-    left: 90px;
-    width: 79px;
+    right: 90px;
+    width: 66px;
     cursor: pointer;
     .backimg {
       width: 100%;
@@ -461,6 +483,7 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     margin-top: 20px;
+    min-height: 300px;
     .onebox{
       position: relative;
       width: 237px;

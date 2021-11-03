@@ -92,6 +92,10 @@ export default {
       console.log('index: ', index);
       this.$store.commit("HashMenu", index);
       sessionStorage.setItem("HashMenu", index);
+      if(index == 4 || index == 5){
+        this.$store.commit("HashMenu", 0);
+        sessionStorage.setItem("HashMenu", 0);
+      }
       switch (index) {
         case -1:
           this.mobile_menuDis = false
@@ -102,8 +106,11 @@ export default {
         case 0:
           this.$router.push('/buy')
           break;
+        case 4:
+          window.location.href = 'https://land-hash.gitbook.io/official/dao/about-dao'
+          break;
         case 5:
-          window.location.href = 'https://land-hash.gitbook.io/white-paper/'
+          window.location.href = 'https://land-hash.gitbook.io/official/white-paper/abstract'
           break;
         default:
           this.$common.selectLang('敬请期待','Coming soon',this)
