@@ -32,14 +32,22 @@
                 @click="cardClick(item, index, index1)"
               >
                 <img :src="item.src" class="swiper_img" />
-                <img
-                  :src="
-                    item.status
-                      ? `${$store.state.imgUrl}selected.png`
-                      : `${$store.state.imgUrl}select.png`
-                  "
-                  class="select_img"
-                />
+                <div class="bottom">
+                  <div class="five_pointed_star">
+                    <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
+                  </div>
+                  <div class="hc_btc_box">
+                    <div class="hc_coefficient">
+                      <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
+                      <span class="span1">{{item.hc}}</span>
+                    </div>
+                    <div class="hc_coefficient">
+                      <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
+                      <span class="span1">{{item.btc}}</span>
+                    </div>
+                  </div>
+                </div>
+                <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
               </div>
             </div>
           </div>
@@ -283,6 +291,43 @@ export default {
               .swiper_img {
                 width: 237px;
                 object-fit: contain;
+              }
+              .bottom{
+                position: absolute;
+                top: 0;
+                display: flex;
+                align-items: center;
+                padding:10px 8px;
+                transform: scale(0.5);
+                .five_pointed_star{
+                  display: flex;
+                  align-items: center;
+                  .start_img{
+                    width: 26px;
+                    object-fit: contain;
+                  }
+                }
+                .hc_btc_box{
+                  display: flex;
+                  align-items: center;
+                  .hc_coefficient{
+                    display: flex;
+                    align-items: center;
+                    border-radius: 4px;
+                    margin-right: 5px;
+                    background: rgba(5, 24, 44, 0.88);
+                    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+                    border-radius: 11px;
+                    opacity: 0.56;
+                    .imgcard{
+                      width: 43px;
+                      object-fit: contain;
+                    }
+                    .span1{
+                      color: #FFFFFF;
+                    }
+                  }
+                }
               }
               .select_img {
                 position: absolute;

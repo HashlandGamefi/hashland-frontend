@@ -194,7 +194,7 @@ export default {
         })
         hnPool().getTokenRewards(this.getAccount,1).then(res => { //获取某用户可提取的btc数量
           console.log('获取某用户可提取的btc数量: ', res);
-          if ((res.toNumber() / 1e18) < 1e-8) {
+          if ((res.toString() / 1e18) < 1e-8) {
             this.btcnum = 0
           }else{
             let num = this.$common.useBigNumberDiv(res.toString())

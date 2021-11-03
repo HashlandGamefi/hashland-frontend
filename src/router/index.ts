@@ -2,7 +2,10 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 
 Vue.use(VueRouter)
-
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location: any) {
+  return (originalPush.call(this, location) as any).catch((err: any) => err);
+};
 const routes: Array<RouteConfig> = [
   {
     path: '/',

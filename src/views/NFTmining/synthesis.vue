@@ -124,17 +124,6 @@ export default {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
   },
   watch:{
-    // "getUserCardInfo":{
-    //   handler: function (newValue, oldValue) {
-    //     if(newValue.length > 0){
-    //       this.cardarr = JSON.parse(newValue)
-    //       this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
-    //       this.amount = this.cardarr.filter(item => { return item.level == 1}).length
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // },
     'getIstrue':{
       handler: function (newValue, oldValue) {
         console.log('合成页面的连接:', newValue,oldValue);
@@ -149,6 +138,21 @@ export default {
       deep: true,
       immediate: true
     },
+    // selectimgArr(){
+    //   console.log("数组变化")
+    //   setInterval(() => {
+    //     this.flowFun(this.getHCBalance())
+    //   },2000)
+    // }
+    selectimgArr: {
+      handler(newVal, oldVal) {
+        console.log("数组变化")
+        setInterval(() => {
+          this.flowFun(this.getHCBalance())
+        },2000)
+      },
+      deep: true
+    }
   },
   methods: {
     selectAllClick(){
@@ -245,6 +249,9 @@ export default {
           canRun = true;
         }, 500);
       };
+    },
+    getHCBalance(){
+      console.log("合成所需的hc")
     },
     // 选中的卡牌的点击事件
     selectedCardClick(data,index){
