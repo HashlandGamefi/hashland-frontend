@@ -292,7 +292,7 @@ export default {
         obj.hc = race[0].toString()// hc 算力
         obj.btc = race[1].toString()// btc 算力
         obj.src = await getHnImg(Number(item),Number(obj.level))
-        this.cardsoltArr.push(obj)
+        this.cardsoltArr.unshift(obj)
         console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       })
       // 获取某用户的总卡槽数量cardSlot
