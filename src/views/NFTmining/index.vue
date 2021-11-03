@@ -212,8 +212,8 @@ export default {
       // console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
       let molecule = hc_num * 28800 * 365 * 10 + btc_num * 28800 * 365 * 400000 // 分子
       let cardNum = await hnPool().getHnIdsLength() // 获取池子质押的总卡牌数量
-      this.apy = molecule / (cardNum * 100)
-      this.personalApy = 11
+      this.apy = this.$common.getBit(molecule / (cardNum * 100))
+      this.personalApy = 0
     }
   },
   mounted(){

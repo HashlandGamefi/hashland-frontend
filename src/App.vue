@@ -13,6 +13,7 @@ import { mapGetters } from "vuex";
 import Nav from './components/nav.vue'
 import Footer from './components/footer.vue'
 import WinningPopup from './components/winningpopup.vue'
+import { token } from 'hashland-sdk';
 export default {
   components: {
     Nav,
@@ -62,18 +63,34 @@ export default {
         boxarr:[]
       }
       this.$store.commit("setrewardsInfo", obj);
+    },
+    // 获取各种币的价格
+    getCurrenciesPrices(){
+      console.log("获取各种币价格方法",token().BTC)
+      // const datas = [token().BTC, token().HC]
+
+      // const datas = ['0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c','0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56']
+      // Promise.all(this.$api.getCurrencyFun(datas)).then(function (values) {
+      //   console.log(values,'values')
+      // })
+
+      this.$api.getCurrencyFun('0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c').then(res => {
+        console.log('this.$common.getBit(res.price): ', this.$common.getBit(res.price));
+        this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.price)})
+      }).catch(err => {
+        console.log('获取各种币的价格err:',err)
+      })
     }
   },
-  // created(){
-  //   this.$common.getUserCardInfoFun(this.getAccount) // 获取用户的卡牌信息
-  // },
+  created(){
+    this.getCurrenciesPrices()
+  },
   mounted () {
     localStorage.setItem("testitem",'测试缓存')
     window.addEventListener('load', this.setRem)
     window.addEventListener('resize', this.setRem)
     window.addEventListener('beforeunload', (event) => {
       console.log('event: ', event);
-
     });
   },
   beforeUnmount(){

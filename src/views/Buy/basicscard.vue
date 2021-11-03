@@ -111,8 +111,10 @@ export default {
       handler: function (newValue, oldValue) {
         console.log('合成卡牌页面是否链接:', newValue,oldValue);
         if(newValue){
-          this.connectGetInfo()
-          this.watchResult()
+          setTimeout(() => {
+            this.connectGetInfo()
+            this.watchResult()
+          }, 1500);
         }
       },
       deep: true,
@@ -126,19 +128,17 @@ export default {
     },
     // 监听盲盒开奖结果
     watchResult(){
-      console.log('监听盲盒结果的方法')
-        console.log('erc20: ', erc20);
+      let filter = erc20(token().BUSD).filters.Transfer(null, this.getAccount)
+      erc20().on(filter, (from, to, amount, event) => {
+        console.log('filter方法: ',from, to, amount, event);
+      });
+      return
       erc20(token().BUSD).on("Transfer", (from, to, amount, event) => {
           console.log(`erc20转账`);
-          // The event object contains the verbatim log data, the
-          // EventFragment and functions to fetch the block,
-          // transaction and receipt and event functions
       });
-        console.log('hn(): ', hn());
       hn().on("Transfer", async (user, boxslengths, boxarrID) => {
         console.log("卡牌转账")
       })
-        console.log('hnBox(): ', hnBox());
       hnBox().on("SpawnHns", async (user, boxslengths, boxarrID) => {
         console.log('监听盲盒开奖结果user: ', user);
         // let str = boxarrID.toString()
@@ -350,10 +350,13 @@ export default {
     .last {
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       align-items: center;
       color: #9291A1;
       margin-top: 35px;
+      .span2{
+        margin-left: 45px;
+      }
     }
   }
   .right_box{
@@ -392,7 +395,7 @@ export default {
     position: relative;
     width: 100%;
     min-height: 800px;
-    margin-top: 177px;
+    margin-top: 193px;
     display: flex;
     flex-direction: column;
     align-items: center;

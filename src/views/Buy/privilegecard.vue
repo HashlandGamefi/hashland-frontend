@@ -3,7 +3,7 @@
     <div class="left_box">
       <div class="top_box">
         <span class="luckey_span2 fontsize22">{{$t("message.nftCard.txt5")}}</span>
-        <span class="luckey_span2 fontsize12">{{$t("message.nftCard.txt6")}}</span>
+        <span class="luckey_span2 fontsize12">{{$t("message.nftCard.txt6_2")}}</span>
       </div>
       <div class="btn">
         <span class="span1 fontsize16_400">{{$t("message.nftCard.txt7")}}.</span>
@@ -32,10 +32,10 @@
     <div class="connect_box" v-else>Connect</div>
     <div class="right_box">
       <div class="btn">{{$t("message.nftCard.txt14")}}</div>
+      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt23")}}</div>
+      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt24")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt25")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt26")}}</div>
-      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt28")}}</div>
-      <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt29")}}</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -145,10 +145,13 @@ export default {
     .last {
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       align-items: center;
       color: #9291A1;
       margin-top: 35px;
+      .span2{
+        margin-left: 45px;
+      }
     }
   }
   .right_box{
@@ -187,7 +190,7 @@ export default {
     position: relative;
     width: 100%;
     min-height: 1000px;
-    margin-top: 177px;
+    margin-top: 193px;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -10,6 +10,9 @@ import i18n from './i18n/index'
 import 'swiper/dist/css/swiper.min.css'
 import 'swiper/dist/js/swiper.min'
 
+import api from "./api/api";
+Vue.prototype.$api = api;
+
 import common from "./utils/common";
 Vue.prototype.$common = common;
 

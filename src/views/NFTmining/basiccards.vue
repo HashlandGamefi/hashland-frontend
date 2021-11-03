@@ -87,7 +87,6 @@
 <script>
 import { mapGetters } from "vuex";
 import Swiper from 'swiper'
-import Vue from 'vue'
 import { hnPool,hn,getSigner,hc,util,contract,getHnImg } from 'hashland-sdk';
 export default {
   data () {

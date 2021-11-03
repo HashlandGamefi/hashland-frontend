@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    CurrenciesInfo:{},//各种币的价格
     imgUrl:process.env.NODE_ENV == 'development'?'https://hashlandgamefi.oss-ap-southeast-1.aliyuncs.com/images/':'//cdn.hashland.com/images/',//图片前缀
     userCardInfo:localStorage.getItem('setCardInfo') || [],//用户卡牌信息
     rewardsInfo:{
@@ -46,7 +47,11 @@ export default new Vuex.Store({
     // 获取用户卡牌信息
     getUserCardInfo(state) {
       return state.userCardInfo
-    }
+    },
+    // 获取各种币的价格
+    getCurrenciesPrice(state) {
+      return state.CurrenciesInfo
+    },
   },
   mutations: {
     // 设置导航栏状态
@@ -69,5 +74,9 @@ export default new Vuex.Store({
     setCardInfo(state,data) {
       state.userCardInfo = data;
     },
+    // 各种币的价格
+    setCurrenciesPrice(state,data){
+      state.CurrenciesInfo = data;
+    }
   }
 })
