@@ -132,7 +132,7 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
-      width: 50px;
+      width: 44px;
       object-fit: contain;
       cursor: pointer;
     }

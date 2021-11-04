@@ -76,7 +76,7 @@ export default {
     position: absolute;
     top: 149px;
     right: 90px;
-    width: 66px;
+    width: 44px;
     cursor: pointer;
     .backimg{
       width: 100%;

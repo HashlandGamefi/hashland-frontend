@@ -78,7 +78,7 @@ export default {
     position: absolute;
     top: 10px;
     right: 100px;
-    width: 50px;
+    width: 44px;
     object-fit: contain;
     cursor: pointer;
   }
