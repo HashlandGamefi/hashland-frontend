@@ -105,7 +105,7 @@ export const message = {
   synthesis: {
     // 合成
     txt1: "Craft",
-    txt2: "Select the card you want to craft",
+    txt2: "The image of the synthetic card is the same as the main card",
     txt3: "4 same level cards can be crafted to 1 card with 1 level higher",
     txt4: "Level",
     txt8: "Total",

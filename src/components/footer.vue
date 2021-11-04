@@ -9,7 +9,7 @@
         <div class="btnbox">
           <div class="btn1 fontsize14" @click="footerClick('Power')">
             <img :src="`${$store.state.imgUrl}power.png`" class="certick_img" />
-            {{ $t("message.footer.txt1") }}
+            KUCOIN
           </div>
           <div class="btn1 fontsize14" @click="footerClick('Certik')">
             <img :src="`${$store.state.imgUrl}certick.png`" class="certick_img" />
@@ -42,7 +42,7 @@ export default {
     footerClick(data){
       switch (data) {
         case 'Power':
-          window.location.href = ''
+          window.location.href = 'https://www.kucoin.center/mining-pool/observer?sign=fd93932b4b614241858a6ecba0adc5af'
           break;
         case 'Certik':
           window.location.href = 'https://www.certik.org/projects/hashland'

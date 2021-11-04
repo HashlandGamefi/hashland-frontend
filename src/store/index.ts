@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    CurrenciesInfo:{},//各种币的价格
+    CurrenciesInfo:{
+      btc:localStorage.getItem("btcprice") || 0,
+      hc:1.5
+    },//各种币的价格
     imgUrl:'//cdn.hashland.com/images/',//图片前缀
     userCardInfo:localStorage.getItem('setCardInfo') || [],//用户卡牌信息
     rewardsInfo:{
@@ -18,6 +21,10 @@ export default new Vuex.Store({
     HashMenuActive: sessionStorage.getItem('HashMenu') || -1, // 导航栏菜单索引
   },
   getters: {
+    // 获取币的价格
+    getCoinPrice(state){
+      return state.CurrenciesInfo;
+    },
     getrewardsInfo(state){
       return state.rewardsInfo;
     },

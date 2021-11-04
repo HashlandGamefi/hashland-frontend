@@ -4,7 +4,7 @@
     <transition name="fade">
       <router-view v-if="isRouterAlive" />
     </transition>
-    <Footer></Footer>
+    <Footer v-if="isshowFooter"></Footer>
     <WinningPopup :proupTitle="getrewardsInfo.proupTitle" :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @winbtnsure="winbtnsure" @closepage="closepageFun"></WinningPopup>
   </div>
 </template>
@@ -13,12 +13,21 @@ import { mapGetters } from "vuex";
 import Nav from './components/nav.vue'
 import Footer from './components/footer.vue'
 import WinningPopup from './components/winningpopup.vue'
-import { token } from 'hashland-sdk';
 export default {
   components: {
     Nav,
     Footer,
     WinningPopup
+  },
+  watch:{
+    $route(to,from){
+      console.log('路由变化:',to,from);
+      if(to.path == '/synthesis'){
+        this.isshowFooter = false
+      }else{
+        this.isshowFooter = true
+      }
+    }
   },
   computed: {
     ...mapGetters(["getrewardsInfo","getAccount"])
@@ -30,7 +39,8 @@ export default {
   },
   data () {
     return {
-      isRouterAlive: true//控制视图是否显示的变量
+      isRouterAlive: true,//控制视图是否显示的变量
+      isshowFooter:true,// 合成页面底部不显示变量
     }
   },
   methods: {
@@ -67,6 +77,7 @@ export default {
       // 比特币价格
       this.$api.getCurrencyFun('0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c').then(res => {
         this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.price)})
+        localStorage.setItem('btcprice',this.$common.getBit(res.price))
       }).catch(err => {
         console.log('获取各种币的价格err:',err)
       })

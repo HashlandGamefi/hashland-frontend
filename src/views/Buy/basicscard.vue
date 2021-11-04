@@ -128,37 +128,31 @@ export default {
     },
     // 监听盲盒开奖结果
     watchResult(){
-      hnBox().on("SpawnHns", async (user, boxslengths, boxarrID,events) => {
+      let filter = hnBox().filters.SpawnHns(this.getAccount)
+      hnBox().on(filter, (user, boxslengths, boxarrID,events) => {
         console.log('监听盲盒开奖结果: ', user, boxslengths, boxarrID,events);
         let str = boxarrID.toString()
         let arr = str.split(',')
-        if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
-          let imgarr = []
-          arr.map(async item => {
-            let obj = {}
-            obj.level = (await hn().level(item)).toString() // 卡牌等级
-            // obj.src = await getHnImg(Number(item),Number(obj.level))
-            obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
-            let race = await hn().getHashrates(item)
-            obj.hc = race[0].toString()// hc 算力
-            obj.btc = race[1].toString()// btc 算力
-            imgarr.push(obj)
-          })
+        let imgarr = []
+        arr.map(async item => {
+          let obj = {}
+          obj.level = (await hn().level(item)).toString() // 卡牌等级
+          // obj.src = await getHnImg(Number(item),Number(obj.level))
+          obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+          let race = await hn().getHashrates(item)
+          obj.hc = race[0].toString()// hc 算力
+          obj.btc = race[1].toString()// btc 算力
+          imgarr.push(obj)
+        })
 
-          let lastObj = {
-            minserDis:true,
-            boxarr:imgarr,
-            proupTitle:'Purchase Detail',
-          }
-          this.$store.commit("setrewardsInfo", lastObj);
-
-          this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        let lastObj = {
+          minserDis:true,
+          boxarr:imgarr,
+          proupTitle:'Purchase Detail',
         }
+        this.$store.commit("setrewardsInfo", lastObj);
 
-        // console.log('user:', user);
-        // console.log('boxslengths:', boxslengths.toString());
-        // console.log('boxarr:', boxarrID.toString());
-        // console.log('event:',event.args.hnIds);
+        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
       });
     },
     // 购买盒子
@@ -197,10 +191,10 @@ export default {
       console.log("输入框改变事件")
       if(this.boxnums == ''){
         this.total = 0
-      }else if(this.boxnums > 256){
-        this.boxnums = 256
-        this.total = 256 * this.boxPrice
-        this.$common.selectLang('最大购买数量256','Maximum Purchase Number is 256',this)
+      }else if(this.boxnums > 100){
+        this.boxnums = 100
+        this.total = 100 * this.boxPrice
+        this.$common.selectLang('最大购买数量100','Maximum Purchase Number is 100',this)
       }else{
         this.proupDis = false
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
@@ -328,9 +322,8 @@ export default {
     .last {
       width: 100%;
       display: flex;
-      // justify-content: space-between;
       align-items: center;
-      color: #9291A1;
+      color: #fff;
       margin-top: 35px;
       .span2{
         margin-left: 45px;

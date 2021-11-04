@@ -145,9 +145,8 @@ export default {
     .last {
       width: 100%;
       display: flex;
-      // justify-content: space-between;
+      color: #fff;
       align-items: center;
-      color: #9291A1;
       margin-top: 35px;
       .span2{
         margin-left: 45px;

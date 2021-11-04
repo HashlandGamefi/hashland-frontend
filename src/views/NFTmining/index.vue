@@ -92,7 +92,7 @@ export default {
     PrivilegeCard
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount"]),
+    ...mapGetters(["getIstrue","getAccount","getCoinPrice"]),
   },
   watch:{
     'getIstrue':{
@@ -210,7 +210,9 @@ export default {
     async getSDKInfo(){
       // let price = await info.getHNPoolApr(1.5, 60000)
       // console.log('全网apr: ', price);
-      this.personalApy = await info.getHNPoolUserApr(this.getAccount, 1.5, 60000)
+      console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolUserApr(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc)
+      this.personalApy = this.$common.getBit(personalapr, 2)
       console.log('个人apr: ', this.personalApy);
 
       // let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量

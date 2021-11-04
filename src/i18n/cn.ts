@@ -96,7 +96,7 @@ export const message = {
   },
   synthesis:{ // 合成
     txt1:'合成',
-    txt2:'选择你想要合成的卡牌',
+    txt2:'合成后卡图形象与主卡一致',
     txt3:'每四张同等级可拍可升级为高等级卡牌',
     txt4:'阶',
     txt8:'共',

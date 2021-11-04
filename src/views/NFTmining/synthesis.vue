@@ -4,7 +4,6 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <div class="title_title fontsize32">{{$t("message.synthesis.txt1")}}</div>
-    <!-- <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt2")}}</div> -->
     <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
       <div class="left_content">
@@ -24,6 +23,9 @@
       <div class="bottom_txt1">
         <span class="span1 fontsize22">{{$t("message.synthesis.txt6")}}</span>
         <span class="span2 fontsize22"> {{selectedNUM}}</span>
+      </div>
+      <div class="bottom_txt1">
+        <span class="span1 fontsize12_400">{{$t("message.synthesis.txt2")}}</span>
       </div>
       <!-- <div class="bottom_txt2 fontsize16_400" v-if="selectedArr.length > 0">
         {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}} {{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}} {{powerNumber}}%
@@ -72,7 +74,7 @@
           </div>
         </div>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
-        <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" />
+        <!-- <img :src="`${$store.state.imgUrl}fu.png`" class="orther_img" /> -->
       </div>
       <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0 && isshowArr"></NoData>
     </div>
@@ -194,38 +196,35 @@ export default {
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
-      this.proupDis = false
+      this.proupDis = FontFaceSetLoadEvent
     },
     // 合成结果
     watchResult(){
       console.log("合成结果监听方法")
-      hnUpgrade().on('UpgradeHns',async (user, boxslengths, boxarrID,events) => {
-        console.log('合成结果user: ',user, boxslengths, boxarrID,events)
-        console.log('合成结果events: ',events)
-        // let str = boxarrID.toString()
-        // let arr = str.split(',')
-        if(user.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
-          let imgarr = []
-          events.map(async item => {
-            let obj = {}
-            obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
-            // obj.src = await getHnImg(Number(item.toString()),Number(obj.level))
-            obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
-            let race = await hn().getHashrates(item.toString())
-            obj.hc = race[0].toString()// hc 算力
-            obj.btc = race[1].toString()// btc 算力
-            imgarr.push(obj)
-          })
-
-          let lastObj = {
-            minserDis:true,
-            boxarr:imgarr,
-            proupTitle:'Craft Detail',
-          }
-          this.selectRankClik(this.rank)
-          this.$store.commit("setrewardsInfo", lastObj);
-          this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+      let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
+      hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
+        let imgarr = []
+        events.map(async item => {
+          let obj = {}
+          obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
+          // obj.src = await getHnImg(Number(item.toString()),Number(obj.level))
+          obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+          let race = await hn().getHashrates(item.toString())
+          obj.hc = race[0].toString()// hc 算力
+          obj.btc = race[1].toString()// btc 算力
+          imgarr.push(obj)
+        })
+        let lastObj = {
+          minserDis:true,
+          boxarr:imgarr,
+          proupTitle:'Craft Detail',
         }
+        this.$store.commit("setrewardsInfo", lastObj);
+        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        this.synthesisDis = false
+        setTimeout(() => {
+          this.selectRankClik(this.rank)
+        },1500);
       })
     },
     // 合成方法
@@ -254,7 +253,6 @@ export default {
         this.synthesisDis = true
         hnUpgrade().connect(getSigner()).upgrade(arr).then(res => {
           console.log('合成res: ', res);
-          this.synthesisDis = false
           this.watchResult()
         }).catch(err => {
           console.log('合成err: ', err);
@@ -602,6 +600,7 @@ export default {
     padding-top: 24px;
     .bottom_title{
       color: #ffffff;
+      font-size: 16px;
     }
     .btn_box {
       width: 274px;
