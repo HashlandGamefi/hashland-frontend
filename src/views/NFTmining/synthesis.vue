@@ -331,10 +331,13 @@ export default {
       if(data == 'hn'){
         if(!this.isApproveHN){
           this.hnisloading = true
-          this.$common.delegatingFun(1, contract().HNUpgrade).then(res => {
+          this.$common.delegatingFun(1, contract().HNUpgrade).then(async res => {
             console.log('hn授权res: ', res);
-            this.isApproveHN = true
-            this.hnisloading = false
+            const etReceipt = await res.wait();
+            if (etReceipt.status == 1) {
+              this.isApproveHN = true
+              this.hnisloading = false
+            }
           }).catch(err => {
             console.log('hn授权err: ', err);
             this.isApproveHN = false
