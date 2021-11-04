@@ -76,7 +76,7 @@ export default {
 
       // 比特币价格
       this.$api.getCurrencyFun('0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c').then(res => {
-        this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.price)})
+        this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.price),'hc':1.5})
         localStorage.setItem('btcprice',this.$common.getBit(res.price))
       }).catch(err => {
         console.log('获取各种币的价格err:',err)

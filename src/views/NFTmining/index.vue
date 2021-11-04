@@ -211,9 +211,13 @@ export default {
       // let price = await info.getHNPoolApr(1.5, 60000)
       // console.log('全网apr: ', price);
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolUserApr(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc)
-      this.personalApy = this.$common.getBit(personalapr, 2)
-      console.log('个人apr: ', this.personalApy);
+      let personalapr = await info.getHNPoolUserApr(this.getAccount, 1.5, this.getCoinPrice.btc)
+      if(isNaN(personalapr)){
+        this.personalApy = 0
+      }else{
+        this.personalApy = this.$common.getBit(personalapr, 2)
+      }
+      console.log('个人apr: ', personalapr);
 
       // let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量
       // let btc_num = (await hnPool().tokensPerBlock(1) / 1e18).toString() // btc产量

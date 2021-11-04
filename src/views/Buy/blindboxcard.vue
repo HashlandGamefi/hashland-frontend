@@ -55,7 +55,7 @@ export default {
       boxPrice:0,//盲盒价格
       balance:0,//用户余额
       total:0,// 合计
-      cardNumber:'0000000000',//卡牌的编号
+      cardNumber:'0',//卡牌的编号
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
     }
   },

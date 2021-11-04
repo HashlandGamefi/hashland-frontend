@@ -91,6 +91,7 @@ export default {
     min-height: 360px;
     max-height: 738px;
     overflow-y: auto;
+    padding-bottom:132px;
     .onebox{
       position: relative;
       width: 256px;
@@ -161,11 +162,11 @@ export default {
     bottom: 15px;
     left: 50%;
     transform: translate(-50%);
-    // width: 300px;
+    width: 637px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    // background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
+    background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
     // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
     border-radius: 79px;
     padding-top: 24px;

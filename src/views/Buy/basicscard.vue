@@ -99,7 +99,7 @@ export default {
       balance:0,//用户余额
       total:0,// 合计
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
-      cardNumber:'0000000000',//卡牌的编号
+      cardNumber:'0',//卡牌的编号
       isapprove:false,//是否授权busd
     }
   },
@@ -221,7 +221,7 @@ export default {
         this.boxPrice = res
       })
       hn().totalSupply().then(async data => {
-        this.cardNumber = (data.toString()).padStart(8, '0')
+        this.cardNumber = data.toString()
       })
       let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
       this.surplusNums = surplusNums.toString()
