@@ -101,11 +101,11 @@ export default {
       .bottom{
         position: absolute;
         top: 0;
-        left: 13%;
+        left: 50%;
         display: flex;
         align-items: center;
         padding:10px 8px;
-        transform: scale(0.5);
+        transform: translateX(-50%) scale(0.5);
         .five_pointed_star{
           display: flex;
           align-items: center;

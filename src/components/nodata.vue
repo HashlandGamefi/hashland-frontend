@@ -45,7 +45,7 @@ export default {
       line-height: 49px;
       text-align: center;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-      background-size: contain;
+      background-size: 100% 100%;
       background-repeat: no-repeat;
       color: #ffffff;
       margin-top: 70px;

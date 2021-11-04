@@ -46,7 +46,7 @@
         <div class="dispear_box"></div>
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 <script>

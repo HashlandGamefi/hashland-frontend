@@ -117,6 +117,7 @@
       :word="word"
       :proupDis="proupDis"
       @closedis="CloseFun"
+      @besurefun="CloseFun"
     ></Proup>
   </div>
 </template>

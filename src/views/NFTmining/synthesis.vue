@@ -88,7 +88,7 @@
         HC {{$t("message.approve")}}<BtnLoading :isloading="hcisloading"></BtnLoading>
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -607,7 +607,7 @@ export default {
       justify-content: center;
       align-items: center;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-      background-size: contain;
+      background-size: 100% 100%;
       background-repeat: no-repeat;
       color: #ffffff;
       cursor: pointer;

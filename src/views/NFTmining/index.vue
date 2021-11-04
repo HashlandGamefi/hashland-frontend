@@ -77,7 +77,7 @@
         <img :src="`${$store.state.imgUrl}hclogo.png`" class="btcimg" />
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 

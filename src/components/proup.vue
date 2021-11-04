@@ -5,8 +5,8 @@
       <span class="txt2">{{ word }}</span>
       <span class="txt2 txt4" v-if="iswordtrue">{{ wordtxt }}</span>
       <div class="btn_box">
-        <div class="txt3" :class="{width50:isbtntrue}" v-if="isbtntrue" @click.stop="besurefun">{{cancletxt}}</div>
-        <div class="txt3" :class="{width50:isbtntrue}" @click.stop="dispearfun">{{btntxt}}</div>
+        <div class="txt3" :class="{width50:isbtntrue}" v-if="isbtntrue" @click.stop="dispearfun">{{cancletxt}}</div>
+        <div class="txt3" :class="{width50:isbtntrue}" @click.stop="besurefun">{{btntxt}}</div>
       </div>
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="close" @click.stop="dispearfun"/>
     </div>

@@ -80,7 +80,7 @@
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="sureBtnFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -125,6 +125,9 @@ export default {
       emptyCardSlot:0,//用户的空卡槽数量
       maxCardSlot:0,//最大卡槽数量
       ISpprove:false,//解锁卡槽时候的是否授权
+      buyHCMoney:0,//解锁所需hc金额
+      proupBtnstatus:false, // 弹窗的确认按钮 是否可以关闭弹窗
+      datainfo:{}, // 点击解锁按钮 存储的信息
     }
   },
   computed: {
@@ -175,6 +178,15 @@ export default {
     CloseFun(){
       this.proupDis = false
     },
+    // 确认按钮(弹窗)
+    sureBtnFun(){
+      if(this.proupBtnstatus){
+        this.proupDis = false
+        return
+      }
+      this.proupDis = false
+      this.PickUpFoxFun()
+    },
     // 插入卡槽
     insertClick(item){
       this.$router.push({ path: '/insertcard', query: { 'nums': this.emptyCardSlot} })
@@ -201,9 +213,10 @@ export default {
     // 解锁卡槽
     async Unlock(item){
       console.log('item: ', item);
-      if(item.isloading)return
-      item.isloading = true
+      this.datainfo = item
       if(!this.ISpprove){
+        if(item.isloading)return
+        item.isloading = true
         this.$common.delegatingFun(2,contract().HNPool).then(res => {
           console.log('授权res: ', res);
           this.ISpprove = true
@@ -218,38 +231,29 @@ export default {
       }
 
       // 获取某用户购买新卡槽的HC金额
-      let buyMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
-      // 获取用户的hc余额
+      this.buyHCMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
+      this.$common.selectLang('本次解锁共需' + this.buyHCMoney + 'HC','Craft needs to consume ' + this.buyHCMoney + ' HC',this)
+    },
+    async PickUpFoxFun(){
+      this.datainfo.isloading = true
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      // console.log('buyMoney:%s,balance:%s',buyMoney, balance);
-
-      if(Number(balance) < Number(buyMoney)){
+      if(Number(balance) < Number(this.buyHCMoney)){
+        this.proupBtnstatus = true
         this.$common.selectLang('余额不足','Insufficent Balance',this)
-        item.isloading = false
+        this.datainfo.isloading = false
         return
       }
-
       hnPool().connect(getSigner()).buySlot().then(async res => {
         const etReceipt = await res.wait();
+        this.proupBtnstatus = true
         if(etReceipt.status == 1){
           this.$common.selectLang('解锁成功','Unlock Successful',this)
           this.getCardSlotInfo()
-          item.isloading = false
-          // 暂时先本地更改后续优化
-          // this.cardsoltArr[index].btnstatus = 1
-          // this.cardsoltArr[index].src = ''
-          // this.cardsoltArr[index].isloading = false
-          // this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
-          // console.log('Number(this.maxCardSlot): ', Number(this.maxCardSlot),Number(this.cardSlot));
-          // if(Number(this.maxCardSlot) > Number(this.cardSlot)){
-          //   Vue.set(this.cardsoltArr,this.cardsoltArr.length,{
-          //     src:`${this.$store.state.imgUrl}cardlock.png`,
-          //     btnstatus:3,//1---插入卡槽 2----解除卡槽   3-----解锁卡槽
-          //   })
-          // }
+          this.datainfo.isloading = false
         }
       }).catch(() => {
-        item.isloading = false
+        this.proupBtnstatus = false
+        this.datainfo.isloading = false
       })
     },
     // 合成
@@ -263,36 +267,12 @@ export default {
     // 链接钱包才能拿到的数据获取方法
     async getCardSlotInfo(){
       this.cardsoltArr = []
-      let res = await hnPool().getUserHnIdsBySize(this.getAccount,0,100000000)
-      res[0].map(async item => {
-        let obj = {
-          src:'',
-          cardID:'',
-          level:'',
-          hc:'',
-          btc:'',
-          btnstatus:2, //设置一个状态供需要的地方使用
-          isloading:false,//按钮的loading
-        }
-        obj.cardID = item.toString() // 卡牌的id
-        obj.level = (await hn().level(item.toString())).toString() // 等级
-        let race = await hn().getHashrates(item)
-        obj.hc = race[0].toString()// hc 算力
-        obj.btc = race[1].toString()// btc 算力
-        // obj.src = await getHnImg(Number(item),Number(obj.level))
-        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
-        this.cardsoltArr.unshift(obj)
-        console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
-      })
       // 获取某用户的总卡槽数量cardSlot
       this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString()
-      // console.log('获取某用户的总卡槽数量cardSlotcardSlot: ', cardSlot);
       // 获取某用户的空卡槽数量
       this.emptyCardSlot = (await hnPool().getUserLeftSlots(this.getAccount)).toString()
-      // console.log('获取某用户的空卡槽数量emptyCardSlot: ', emptyCardSlot);
       // 获取最大卡槽数量
       this.maxCardSlot = (await hnPool().maxSlots()).toString()
-      // console.log('获取最大卡槽数量maxCardSlot: ', maxCardSlot);
       // 获取某用户在池子质押的基于指针（从0开始）和数量的HN卡牌ID数组和最后一个数据的指针
       let obj1 = {
         src:'',
@@ -314,6 +294,28 @@ export default {
           this.cardsoltArr.push(obj3)
         }
       }
+      let res = await hnPool().getUserHnIdsBySize(this.getAccount,0,100000000)
+      res[0].map(async item => {
+        let obj = {
+          src:'',
+          cardID:'',
+          level:'',
+          hc:'',
+          btc:'',
+          btnstatus:2, //设置一个状态供需要的地方使用
+          isloading:false,//按钮的loading
+        }
+        obj.cardID = item.toString() // 卡牌的id
+        obj.level = (await hn().level(item.toString())).toString() // 等级
+        let race = await hn().getHashrates(item)
+        obj.hc = race[0].toString()// hc 算力
+        obj.btc = race[1].toString()// btc 算力
+        // obj.src = await getHnImg(Number(item),Number(obj.level))
+        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+        this.cardsoltArr.unshift(obj)
+        console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
+      })
+
       // 授权
       this.$common.isApproveFun(2,this.getAccount,contract().HNPool).then(res => {
         console.log('解锁是否授权res: ', res);
@@ -516,7 +518,7 @@ export default {
             align-items: center;
             justify-content: center;
             line-height: 52px;
-            background-size: contain;
+            background-size: 100% 100%;
             background-repeat: no-repeat;
             color: #FFFFFF;
             cursor: pointer;

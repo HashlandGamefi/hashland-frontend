@@ -21,7 +21,7 @@ export default {
     WinningPopup
   },
   computed: {
-    ...mapGetters(["getrewardsInfo"])
+    ...mapGetters(["getrewardsInfo","getAccount"])
   },
   provide () {    //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
     return {
@@ -48,6 +48,7 @@ export default {
         minserDis:false,
         boxarr:[]
       }
+      this.$common.getUserCardInfoFun(this.getAccount)
       this.$store.commit("setrewardsInfo", obj);
       this.$router.push('/nftmining')
     },

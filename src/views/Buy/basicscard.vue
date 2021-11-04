@@ -78,7 +78,7 @@
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt17")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt18")}}</div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt"  @besurefun="CloseFun" :word="word" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -453,7 +453,7 @@ export default {
     justify-content: center;
     align-items: center;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: contain;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     color: #ffffff;
     cursor: pointer;
