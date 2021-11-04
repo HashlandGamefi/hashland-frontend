@@ -327,6 +327,11 @@ export default {
   async getUserCardInfoFun(account:string){
     hn().tokensOfOwnerBySize(account,0,1000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
       console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+      if(res[0].length == 0){
+        store.commit("setCardInfo",JSON.stringify([]))
+        localStorage.setItem("setCardInfo",JSON.stringify([]))
+        return
+      }
       let infoArr:any = []
       res[0].map(async item => {
         let obj = {

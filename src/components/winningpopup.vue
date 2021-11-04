@@ -1,6 +1,6 @@
 <template>
   <div class="record_page" v-if="minserdis">
-    <div class="title fontsize32">{{proupTitle}}</div>
+    <div class="title fontsize26">{{proupTitle}}</div>
     <img :src="`${$store.state.imgUrl}proupclose.png`" class="close_img" @click="closepage"/>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
@@ -20,8 +20,10 @@
         </div>
       </div>
     </div>
-    <span class="bottom_title fontsize12_400">{{$t("message.details1")}}</span>
-    <div class="connect_box fontsize18" @click="closepage">{{$t("message.button1")}}</div>
+    <div class="Suspension_btnbox">
+      <span class="bottom_title fontsize12_400">{{$t("message.details1")}}</span>
+      <div class="btn_box fontsize18" @click="winbtnsure">{{$t("message.button1")}}</div>
+    </div>
   </div>
 </template>
 
@@ -45,6 +47,9 @@ export default {
     // 弹窗关闭
     closepage () {
       this.$emit('closepage')
+    },
+    winbtnsure(){
+      this.$emit('winbtnsure')
     }
   }
 }
@@ -58,22 +63,22 @@ export default {
   z-index: 99999999;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
   .title{
-    margin-top: 180px;
+    margin-top: 50px;
     width: 100%;
     text-align: center;
     color: #FFFFFF;
-    text-shadow: 0px 8px 17px rgba(52, 30, 2, 0.5);
+    // text-shadow: 0px 8px 17px rgba(52, 30, 2, 0.5);
   }
   .close_img{
     position: absolute;
-    top: 50px;
+    top: 10px;
     right: 100px;
-    width: 66px;
+    width: 50px;
     object-fit: contain;
     cursor: pointer;
   }
@@ -132,20 +137,54 @@ export default {
       }
     }
   }
-  .bottom_title{
-    color: #FFFFFF;
-  }
-  .connect_box {
-    width: 274px;
-    height: 59px;
-    line-height: 49px;
-    text-align: center;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    color: #ffffff;
-    margin-top: 7px;
-    cursor: pointer;
+  // .bottom_title{
+  //   position: absolute;
+  //   bottom: 70px;
+  //   color: #FFFFFF;
+  // }
+  // .connect_box {
+  //   position: absolute;
+  //   bottom: 0;
+  //   width: 274px;
+  //   height: 59px;
+  //   line-height: 49px;
+  //   text-align: center;
+  //   background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+  //   background-size: contain;
+  //   background-repeat: no-repeat;
+  //   color: #ffffff;
+  //   margin-top: 7px;
+  //   cursor: pointer;
+  // }
+  .Suspension_btnbox{
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translate(-50%);
+    // width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
+    // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
+    border-radius: 79px;
+    padding-top: 24px;
+    .bottom_title{
+      color: #ffffff;
+    }
+    .btn_box {
+      width: 274px;
+      height: 59px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      cursor: pointer;
+      margin-top: 14px;
+    }
   }
 }
 @media screen and (min-width: 1280px) {
@@ -153,6 +192,7 @@ export default {
     .boxarr{
       max-width: 1162px;
       margin: 40px auto;
+      margin-bottom: 0;
     }
   }
 }

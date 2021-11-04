@@ -45,7 +45,7 @@ export default {
           window.location.href = ''
           break;
         case 'Certik':
-          window.location.href = ''
+          window.location.href = 'https://www.certik.org/projects/hashland'
           break;
         case 'Gitbook':
           window.location.href = 'https://land-hash.gitbook.io/official/'

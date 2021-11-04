@@ -5,7 +5,7 @@
       <router-view v-if="isRouterAlive" />
     </transition>
     <Footer></Footer>
-    <WinningPopup :proupTitle="getrewardsInfo.proupTitle" :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @closepage="closepageFun"></WinningPopup>
+    <WinningPopup :proupTitle="getrewardsInfo.proupTitle" :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @winbtnsure="winbtnsure" @closepage="closepageFun"></WinningPopup>
   </div>
 </template>
 <script>
@@ -43,6 +43,10 @@ export default {
     setRem () {
       console.log('当前窗口宽度:', document.body.clientWidth)// 当前窗口的宽度
     },
+    winbtnsure(){
+      this.closepageFun()
+      this.$router.push('/nftmining')
+    },
     closepageFun(){
       let obj = {
         minserDis:false,
@@ -50,7 +54,6 @@ export default {
       }
       this.$common.getUserCardInfoFun(this.getAccount)
       this.$store.commit("setrewardsInfo", obj);
-      this.$router.push('/nftmining')
     },
     // 获取各种币的价格
     getCurrenciesPrices(){
