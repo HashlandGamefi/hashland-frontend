@@ -220,7 +220,7 @@ export default {
           let lastObj = {
             minserDis:true,
             boxarr:imgarr,
-            proupTitle:'Upgrade Detail',
+            proupTitle:'Craft Detail',
           }
           this.selectRankClik(this.rank)
           this.$store.commit("setrewardsInfo", lastObj);
