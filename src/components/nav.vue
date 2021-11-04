@@ -126,12 +126,12 @@ export default {
       console.log('账号切换res: ', res);
       if(res.length == 0){
         this.$store.commit("setAccount",'no')
-        localStorage.setItem("setAccount",'no')
+        sessionStorage.setItem("setAccount",'no')
         this.$store.commit("setCardInfo",JSON.stringify([]))
-        localStorage.setItem("setCardInfo",JSON.stringify([]))
+        sessionStorage.setItem("setCardInfo",JSON.stringify([]))
       }else{
         this.$store.commit("setAccount", res[0])
-        localStorage.setItem("setAccount",res[0])
+        sessionStorage.setItem("setAccount",res[0])
         this.$common.getUserCardInfoFun(res[0])
       }
       // this.reload()
@@ -141,7 +141,7 @@ export default {
       let net = network() // 获取sdk返回的当前的环境
       if(chainID == net.chainId){
         this.$store.commit("setChain", chainID)
-        localStorage.setItem("setChain",chainID)
+        sessionStorage.setItem("setChain",chainID)
       }else{
         wallet.addChain()
       }
@@ -151,10 +151,10 @@ export default {
       let net = network() // 获取sdk返回的当前的环境
       if (res == net.chainId){
         this.$store.commit("setChain", res)
-        localStorage.setItem("setChain",res)
+        sessionStorage.setItem("setChain",res)
       }else {
         this.$store.commit("setChain", '')
-        localStorage.removeItem("setChain")
+        sessionStorage.removeItem("setChain")
       }
     },
     // 链接钱包方法

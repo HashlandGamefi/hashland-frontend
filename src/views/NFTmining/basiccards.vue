@@ -133,30 +133,58 @@ export default {
   computed: {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
     slotArr(){//我的卡牌数组
-      return [{
-        level:1,
-        src:`${this.$store.state.imgUrl}level1.png`,
-        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 1}).length
-      },
-      {
-        level:2,
-        src:`${this.$store.state.imgUrl}defaultcard.png`,
-        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 2}).length
-      },{
-        level:3,
-        src:`${this.$store.state.imgUrl}defaultcard.png`,
-        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 3}).length
-      },
-      {
-        level:4,
-        src:`${this.$store.state.imgUrl}defaultcard.png`,
-        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 4}).length
-      },{
-        level:5,
-        src:`${this.$store.state.imgUrl}defaultcard.png`,
-        num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 5}).length
+      if(this.getIstrue){
+        return [{
+          level:1,
+          src:`${this.$store.state.imgUrl}level1.png`,
+          num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 1}).length
+        },
+        {
+          level:2,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 2}).length
+        },{
+          level:3,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 3}).length
+        },
+        {
+          level:4,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 4}).length
+        },{
+          level:5,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 5}).length
+        }
+        ]
+      }else{
+        return [{
+          level:1,
+          src:`${this.$store.state.imgUrl}level1.png`,
+          num:0
+        },
+        {
+          level:2,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:0
+        },{
+          level:3,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:0
+        },
+        {
+          level:4,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:0
+        },{
+          level:5,
+          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          num:0
+        }
+        ]
       }
-      ]
+
     }
   },
   watch:{

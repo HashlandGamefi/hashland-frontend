@@ -6,18 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     CurrenciesInfo:{
-      btc:localStorage.getItem("btcprice") || 0,
+      btc:sessionStorage.getItem("btcprice") || 0,
       hc:1.5
     },//各种币的价格
     imgUrl:'//cdn.hashland.com/images/',//图片前缀
-    userCardInfo:localStorage.getItem('setCardInfo') || [],//用户卡牌信息
+    userCardInfo:sessionStorage.getItem('setCardInfo') || [],//用户卡牌信息
     rewardsInfo:{
       proupTitle:'',//标题
       minserDis:false,
       boxarr:[]
     },//中奖信息
-    account:localStorage.getItem("setAccount") || '',// 账号
-    chain:localStorage.getItem("setChain") || '',//链
+    account:sessionStorage.getItem("setAccount") || '',// 账号
+    chain:sessionStorage.getItem("setChain") || '',//链
     HashMenuActive: sessionStorage.getItem('HashMenu') || -1, // 导航栏菜单索引
   },
   getters: {

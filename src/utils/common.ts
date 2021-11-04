@@ -329,11 +329,11 @@ export default {
       // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
       if(res[0].length == 0){
         store.commit("setCardInfo",JSON.stringify([]))
-        localStorage.setItem("setCardInfo",JSON.stringify([]))
+        sessionStorage.setItem("setCardInfo",JSON.stringify([]))
         return
       }
       let infoArr:any = []
-      res[0].map(async item => {
+      res[0].map(async (item:any) => {
         let obj = {
           cardID:'',
           level:'',
@@ -352,9 +352,9 @@ export default {
         obj.btc = race[1].toString()// btc 算力
         infoArr.push(obj)
         store.commit("setCardInfo",JSON.stringify(infoArr))
-        localStorage.setItem("setCardInfo",JSON.stringify(infoArr))
+        sessionStorage.setItem("setCardInfo",JSON.stringify(infoArr))
         // store.commit("setCardInfo",infoArr)
-        // localStorage.setItem("setCardInfo",infoArr)
+        // sessionStorage.setItem("setCardInfo",infoArr)
       })
     })
   },
