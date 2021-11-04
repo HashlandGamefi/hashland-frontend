@@ -74,7 +74,7 @@
             </div>
             <div class="nowPrice">
               <span class="span1 fontsize12">{{ $t("message.home.txt11") }}</span>
-              <span class="span1 fontsize16 span2">5$</span>
+              <span class="span1 fontsize16 span2">{{hcNowPrice}}$</span>
               <span class="span1 fontsize12">{{ $t("message.home.txt12") }}</span>
               <span class="span1 fontsize16">{{ nextDay }}</span>
             </div>
@@ -126,6 +126,7 @@ import { hc, hn } from 'hashland-sdk';
 export default {
   data () {
     return {
+      hcNowPrice:1.5,//hc的现在价格
       proupDis: false,// 弹窗展示消失变量
       btntxt: '',// 弹窗页面的确认按钮
       word: '',//弹窗提示文字
