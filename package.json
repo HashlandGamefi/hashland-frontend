@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build:dev": "vue-cli-service build --mode development",
-    "build:prod": "vue-cli-service build",
+    "build:prod": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "publish": "npm run build:prod && rimraf -- prod && cpr -- dist prod"
   },
