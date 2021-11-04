@@ -237,15 +237,15 @@ export default {
       // 流通量
       hc().totalSupply().then(data => {
         this.$common.checkNumber((data / 1e18).toString(), res => {
-          this.totalSupply = res
+          this.totalSupply = this.$common.getBit(res, 2)
         })
         // 产出比
-        this.proportion = this.$common.getBit((data / 1e18 / 21000000) * 100, 4)
+        this.proportion = this.$common.getBit((data / 1e18 / 21000000) * 100, 2)
       })
       //hc 已销毁
       hc().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
         this.$common.checkNumber((data / 1e18).toString(), res => {
-          this.hcDestroy = res
+          this.hcDestroy = this.$common.getBit(res, 2)
         })
       })
       // 下次减产时间
@@ -257,7 +257,7 @@ export default {
       let product = (await hc().getTokenPerBlock() / 1e18) * 28800
       // console.log('今日产出product: ', product.toString());
       this.$common.checkNumber(product.toString(), res => {
-        this.todynums = res
+        this.todynums = this.$common.getBit(res, 2)
       }, 4)
     }
   },
@@ -287,9 +287,9 @@ export default {
   align-items: center;
   .box {
     width: 100%;
-    min-height: 500px;
     .topbox {
       width: 100%;
+      min-height: 300px;
       .homebgimg {
         width: 100%;
         object-fit: contain;
