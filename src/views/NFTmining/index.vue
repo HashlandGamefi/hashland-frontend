@@ -11,10 +11,10 @@
     <!-- 特权卡牌 -->
     <PrivilegeCard v-if="tabIndex == 1"></PrivilegeCard>
     <div class="apybox">
-      <div class="apy_title">
+      <!-- <div class="apy_title">
         <span class="span1 fontsize12">APR</span>
         <span class="span1 span2 fontsize18">{{apy}}%</span>
-      </div>
+      </div> -->
       <div class="apy_title">
         <span class="span1 fontsize12">{{$t("message.nftMining.txt11")}}</span>
         <span class="span1 span2 fontsize18">{{personalApy}}%</span>
@@ -85,7 +85,7 @@
 import { mapGetters } from "vuex";
 import BasicCards from './basiccards.vue'
 import PrivilegeCard from './privilegecard.vue'
-import { hc,contract,hnPool, getSigner } from 'hashland-sdk'
+import { hc,contract,hnPool,getSigner,info } from 'hashland-sdk'
 export default {
   components: {
     BasicCards,
@@ -98,7 +98,8 @@ export default {
     'getIstrue':{
       handler: function (newValue, oldValue) {
         if(newValue){
-          this.addyieldFun()
+          this.addyieldFun() // 可提取数量
+          this.getSDKInfo() // 个人apr
         }else{
           clearInterval(this.timernull)
         }
@@ -180,12 +181,12 @@ export default {
           // console.log('获取某用户的btc代币累计产量: ', this.addBTC);
         })
         hnPool().getTokenRewards(this.getAccount,0).then(res => { //获取某用户可提取的hc数量
-          console.log('12132123: 防守打法', res.toString());
+          // console.log('12132123: 防守打法', res.toString());
           if ((res.toString() / 1e18) < 1e-8) {
-            console.log("获取某用户可提取的hc数量小于小数位")
+            // console.log("获取某用户可提取的hc数量小于小数位")
             this.hcnum = 0
           }else{
-            console.log("hc的可提取数量")
+            // console.log("hc的可提取数量")
             let num = this.$common.useBigNumberDiv(res.toString())
             this.hcnumShow = num.substring(num.indexOf('.') + 1,num.length)
             this.hcStarValue = this.hcnum
@@ -193,7 +194,7 @@ export default {
           }
         })
         hnPool().getTokenRewards(this.getAccount,1).then(res => { //获取某用户可提取的btc数量
-          console.log('获取某用户可提取的btc数量: ', res);
+          // console.log('获取某用户可提取的btc数量: ', res);
           if ((res.toString() / 1e18) < 1e-8) {
             this.btcnum = 0
           }else{
@@ -207,18 +208,19 @@ export default {
     },
     // sdk一系列信息
     async getSDKInfo(){
-      let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量
-      let btc_num = (await hnPool().tokensPerBlock(1) / 1e18).toString() // btc产量
-      // console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
-      let molecule = hc_num * 28800 * 365 * 10 + btc_num * 28800 * 365 * 400000 // 分子
-      let cardNum = await hnPool().getHnIdsLength() // 获取池子质押的总卡牌数量
-      this.apy = this.$common.getBit(molecule / (cardNum * 100))
-      this.personalApy = 0
+      // let price = await info.getHNPoolApr(1.5, 60000)
+      // console.log('全网apr: ', price);
+      this.personalApy = await info.getHNPoolUserApr(this.getAccount, 1.5, 60000)
+      console.log('个人apr: ', this.personalApy);
+
+      // let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量
+      // let btc_num = (await hnPool().tokensPerBlock(1) / 1e18).toString() // btc产量
+      // // console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
+      // let molecule = hc_num * 28800 * 365 * 10 + btc_num * 28800 * 365 * 400000 // 分子
+      // let cardNum = await hnPool().getHnIdsLength() // 获取池子质押的总卡牌数量
+      // this.apy = this.$common.getBit(molecule / (cardNum * 100))
+      // this.personalApy = 0
     }
-  },
-  mounted(){
-    this.getSDKInfo()
-    this.addyieldFun()
   },
   beforeDestroy(){
     clearInterval(this.timernull)

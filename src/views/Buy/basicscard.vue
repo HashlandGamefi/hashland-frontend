@@ -84,7 +84,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,hn,util,getSigner,getHnImg,erc20, token,contract,getProvider } from 'hashland-sdk';
+import { hnBox,hn,util,getSigner,erc20, token,contract } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -197,10 +197,10 @@ export default {
       console.log("输入框改变事件")
       if(this.boxnums == ''){
         this.total = 0
-      }else if(this.boxnums > 100){
-        this.boxnums = 100
-        this.total = 100 * this.boxPrice
-        this.$common.selectLang('最大购买数量100','Maximum Purchase Number is 100',this)
+      }else if(this.boxnums > 256){
+        this.boxnums = 256
+        this.total = 256 * this.boxPrice
+        this.$common.selectLang('最大购买数量256','Maximum Purchase Number is 256',this)
       }else{
         this.proupDis = false
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
@@ -228,16 +228,6 @@ export default {
       })
       hn().totalSupply().then(async data => {
         this.cardNumber = (data.toString()).padStart(8, '0')
-        // getHnImg(data.toNumber(),1).then(res => {
-        //   // console.log('获取图片路径data: ', res);
-        //   this.cardSrc = res
-        // }).catch(err => {
-        //   console.log('获取图片路径err: ', err);
-        // })
-
-        // this.$common.checkNumber(data.toString(),res => {
-        //   this.issued = res
-        // })
       })
       let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
       this.surplusNums = surplusNums.toString()

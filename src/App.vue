@@ -57,7 +57,6 @@ export default {
     },
     // 获取各种币的价格
     getCurrenciesPrices(){
-      console.log("获取各种币价格方法",token().BTC)
       // const datas = [token().BTC, token().HC]
 
       // const datas = ['0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c','0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56']
@@ -65,12 +64,18 @@ export default {
       //   console.log(values,'values')
       // })
 
+      // 比特币价格
       this.$api.getCurrencyFun('0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c').then(res => {
-        console.log('this.$common.getBit(res.price): ', this.$common.getBit(res.price));
         this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.price)})
       }).catch(err => {
         console.log('获取各种币的价格err:',err)
       })
+      // hc价格
+      // this.$api.getCurrencyFun().then(res => {
+      //   this.$store.commit("setCurrenciesPrice",{'hc':this.$common.getBit(res.price)})
+      // }).catch(err => {
+      //   console.log('获取各种币的价格err:',err)
+      // })
     }
   },
   created(){

@@ -96,7 +96,7 @@ export const message = {
     txt8: "Slots are limited, please stake Craftd cards first",
     txt9: "Uninsert",
     txt10: "Unlock Slot",
-    txt11: "Annual ROI",
+    txt11: "Personal APR",
     txt12: "Claim",
     txt13: "Total Income",
     txt14: "Claimable",

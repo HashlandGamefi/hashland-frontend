@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import i18n from '../i18n/index'
-import { hn,getSigner,hc,getHnImg} from 'hashland-sdk'
+import { hn,getSigner,hc} from 'hashland-sdk'
 import store from '@/store';
 export default {
   // 设置cookie过期时间

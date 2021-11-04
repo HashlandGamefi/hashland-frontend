@@ -94,7 +94,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hnUpgrade, util, hc, hn, contract, getHnImg } from 'hashland-sdk';
+import { getSigner, hnUpgrade, util, hc, hn, contract } from 'hashland-sdk';
 export default {
   data () {
     return {
