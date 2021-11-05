@@ -602,32 +602,21 @@ export default {
         display: flex;
         flex-direction: column;
         .span1 {
-          font-size: 0.2rem;
-
-
           color: #ffffff;
-          line-height: 0.28rem;
         }
         .span2 {
-          font-size: 0.14rem;
-
-
           color: #ccbebe;
-          line-height: 0.2rem;
         }
       }
       .synthesis_btn {
         width: 1rem;
         height: 0.39rem;
+        line-height: 0.39rem;
         background-image: url("//cdn.hashland.com/images/nft_btn1.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
         text-align: center;
-        font-size: 0.18rem;
-
-
         color: #ffffff;
-        line-height: 0.39rem;
         cursor: pointer;
       }
     }
@@ -650,6 +639,7 @@ export default {
               object-fit: contain;
             }
             .grade_box{
+              width: auto;
               padding: 0 0.15rem;
               display: flex;
               align-items: center;
@@ -665,21 +655,13 @@ export default {
                 }
               }
               .card_grade{
-                font-size: 0.12rem;
-
-
                 color: #FFFFFF;
-                line-height: 0.17rem;
                 margin: 0 0.1rem;
               }
               .details{
                 padding:0 0.1rem;
                 background: #F5B252;
-                font-size: 0.12rem;
-
-
                 color: #FFFFFF;
-                line-height: 0.12rem;
                 border-radius: 0.25rem;
                 cursor: pointer;
               }
@@ -687,12 +669,8 @@ export default {
             .btnbox{
               width: 2rem;
               text-align: center;
-              line-height: 0.48rem;
               background-size: contain;
               background-repeat: no-repeat;
-              font-size: 0.12rem;
-
-
               color: #FFFFFF;
               cursor: pointer;
             }
@@ -738,12 +716,8 @@ export default {
             .btnbox{
               width: 1rem;
               text-align: center;
-              line-height: 0.24rem;
               background-size: 100% 100%;
               background-repeat: no-repeat;
-              font-size: 0.14rem;
-
-
               color: #FFFFFF;
               cursor: pointer;
             }

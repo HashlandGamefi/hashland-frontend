@@ -25,7 +25,7 @@
       <div class="left_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('btc',btcnum)">
-            <span class="fontsize18">{{$t("message.nftMining.txt12")}}</span>
+            <span class="mobile_span12 fontsize18">{{$t("message.nftMining.txt12")}}</span>
             <BtnLoading :isloading="btc_isloading"></BtnLoading>
           </div>
         </div>
@@ -52,7 +52,7 @@
       <div class="left_footer right_footer">
         <div class="top">
           <div class="txt" @click="extractableClick('hc',hcnum)">
-            <span class="fontsize18">{{$t("message.nftMining.txt12")}}</span>
+            <span class="mobile_span12 fontsize18">{{$t("message.nftMining.txt12")}}</span>
             <BtnLoading :isloading="hc_isloading"></BtnLoading>
           </div>
         </div>
@@ -85,7 +85,7 @@
 import { mapGetters } from "vuex";
 import BasicCards from './basiccards.vue'
 import PrivilegeCard from './privilegecard.vue'
-import { hc,contract,hnPool,getSigner,info } from 'hashland-sdk'
+import { hnPool,getSigner,info } from 'hashland-sdk'
 export default {
   components: {
     BasicCards,
@@ -417,7 +417,9 @@ export default {
       margin-top:0.4rem;
       .oneTab{
         width: 1rem;
-        height: 0.37rem;
+        height: 0.24rem;
+        line-height: 0.24rem;
+        font-size: 0.12rem;
         text-align: center;
         color: #FFFFFF;
         border-radius: 0.05rem;
@@ -429,15 +431,30 @@ export default {
         box-shadow: 0 0.06rem 2px #23447C;
       }
     }
-    .apy_title{
+    .apybox{
       width: 100%;
-      padding-left: 0.2rem;
-      color: #FFFFFF;
-      margin-top: 0.1rem;
+      display: flex;
+      align-items: center;
+      margin-top: 0.5rem;
+      padding:0 0.2rem;
+      .apy_title{
+        width: 100%;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-right: 0;
+        .span1{
+          color: #FFFFFF;
+        }
+        .span2{
+          margin-left: 0;
+        }
+      }
     }
     .footer_box{
       width: 100%;
-      padding: 0.2rem;
+      padding: 0.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -445,10 +462,11 @@ export default {
       margin-top: 0.2rem;
       .left_footer{
         position: relative;
-        width: 80%;
-        height: auto;
+        width: 100%;
+        height: 1.2rem;
         background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
-        box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+        // box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+        box-shadow: none;
         border-radius: 0.2rem;
         display: flex;
         flex-direction: column;
@@ -460,8 +478,8 @@ export default {
           align-items: center;
           justify-content: flex-end;
           .txt{
-            width: 1.21rem;
-            height: 0.42rem;
+            width: 0.73rem;
+            height: 0.25rem;
             background-image: url("//cdn.hashland.com/images/nft_btn2.png");
             background-size: 100% 100%;
             background-repeat: no-repeat;
@@ -470,15 +488,18 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
+            .mobile_span12{
+              font-size: 0.12rem;
+            }
           }
         }
         .bottom{
           width: 100%;
-          height: 1rem;
+          height: 0.7rem;
           background: linear-gradient(270deg, #E79826 0%, #FF7902 100%);
           box-shadow: 0px 6px 12px 0px rgba(127, 70, 14, 0.69), 0px 1px 23px 0px #8B4309 inset;
           border-radius: 0.2rem;
-          padding: 0.2rem;
+          padding: 0.1rem;
           margin-top: 0.1rem;
           .add_txt{
             width: 100%;
@@ -489,11 +510,8 @@ export default {
               padding: 0.02rem 0.1rem;
               background: #A25911;
               border-radius: 0.15rem;
-              font-size: 0.12rem;
-
-
               color: #FFFFFF;
-              line-height: 0.17rem;
+              line-height: auto;
             }
           }
           .extractable{
@@ -501,27 +519,20 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0;
             .span1{
-              font-size: 0.2rem;
-
-
               color: #FFFFFF;
-              line-height: 0.28rem;
             }
             .span2{
-              font-size: 0.2rem;
-
-
               color: #FFFFFF;
-              line-height: 0.28rem;
             }
           }
         }
         .btcimg{
           position: absolute;
-          top: -28px;
-          left: -16px;
-          width: 0.66rem;
+          top: -13px;
+          left: 0;
+          width: 0.31rem;
           object-fit: contain;
         }
       }
@@ -542,11 +553,8 @@ export default {
               padding: 0.02rem 0.1rem;
               background: rgba(0, 0, 0, 0.4);
               border-radius: 0.15rem;
-              font-size: 0.12rem;
-
-
               color: #FFFFFF;
-              line-height: 0.17rem;
+              line-height: auto;
             }
           }
         }
