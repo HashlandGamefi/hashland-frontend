@@ -68,12 +68,14 @@ body {
   }
   .fontsize12{ // purchase
     font-size: 0.12rem;
+    // transform: scale(0.8);
     font-weight: 100;
     font-family: 'Poppins-Regular';
     line-height: 0.17rem;
   }
   .fontsize12_400{ // go
     font-size: 0.12rem;
+    // transform: scale(0.8);
     font-weight: 400;
     font-family: 'Poppins-Regular';
     line-height: 0.17rem;
@@ -83,18 +85,18 @@ body {
     font-family: 'Poppins-Regular';
   }
   .fontsize16{//次标题
-    font-size: 0.16rem;
+    font-size: 0.14rem;
     // font-weight: 500;
     font-weight: bold;
     font-family: 'Poppins-Bold';
   }
   .fontsize16_400{
-    font-size: 0.16rem;
+    font-size: 0.14rem;
     font-weight: 400;
     font-family: 'Poppins-Regular';
   }
   .fontsize16_100{//标题说明
-    font-size: 0.16rem;
+    font-size: 0.14rem;
     font-weight: 100;
     font-family: 'Poppins-Regular';
   }
@@ -103,19 +105,24 @@ body {
     font-weight: 500;
   }
   .fontsize22{
-    font-size: 0.22rem;
+    font-size: 0.18rem;
     font-weight: 600;
   }
   .fontsize26{// 特殊数字
-    font-size: 0.26rem;
+    font-size: 0.2rem;
     font-weight: bold;
   }
   .fontsize32{//大标题
-    font-size: 0.32rem;
+    font-size: 0.22rem;
     line-height: 45px;
     font-weight: bold;
     font-family: 'Poppins-Bold';
   }
+}
+// 透明度由
+@keyframes fade-out {
+  0% {opacity: 1;}/*初始状态 透明度为0*/
+  100% {opacity: 0;}/*结束状态 透明度为1*/
 }
 // 重置滚动条样式  (可以滚动的部分的重置)
 ::-webkit-scrollbar {

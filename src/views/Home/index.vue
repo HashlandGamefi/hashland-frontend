@@ -4,9 +4,6 @@
       <div class="topbox">
         <img :src="`${$store.state.imgUrl}homebg.jpg`" class="homebgimg" />
       </div>
-      <div class="mobile_topbox">
-        <img :src="`${$store.state.imgUrl}mobile_bg.png`" class="homebgimg" />
-      </div>
       <div class="content">
         <div class="swiper-container">
           <div class="swiper-wrapper">
@@ -29,11 +26,11 @@
               <div class="mobile_box_swiper">
                 <img :src="item.mobilesrc" class="mobileimg1" />
                 <div class="mobile_box">
-                  <span class="span1">{{ $t(item.txt1) }}</span>
-                  <span class="span1">{{ $t(item.txt2) }}</span>
+                  <span class="span1 fontsize16">{{ $t(item.txt1) }}</span>
+                  <span class="span1 fontsize12">{{ $t(item.txt2) }}</span>
                 </div>
                 <div class="mobile_go">
-                  <span class="span1">GO ></span>
+                  <span class="span1 fontsize12_400">GO ></span>
                 </div>
               </div>
             </div>
@@ -60,10 +57,10 @@
       <div class="hashland_boxs">
         <div class="hashland_content">
           <div class="hashland_title">
-            <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
-            <span class="span1 fontsize26">{{ $t("message.home.txt26") }}</span>
-          </div>
-          <div class="Trend_chart">
+            <div class="leftbox">
+              <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
+              <span class="span1 fontsize26">{{ $t("message.home.txt26") }}</span>
+            </div>
             <div class="span2 fontsize16">{{ $t("message.home.txt10") }}</div>
           </div>
           <div class="trend_boxs">
@@ -105,8 +102,10 @@
           <div class="horizontal">
             <div class="horizontal_onebox" v-for="(item, index) in pagebottomArr" :key="index">
               <img :src="item.src" class="img" />
-              <span class="span1_ fontsize16">{{ $t(item.txt1) }}</span>
-              <span class="span1_ fontsize12">{{ $t(item.txt2) }}</span>
+              <div class="footerboxs">
+                <span class="span1_ fontsize16">{{ $t(item.txt1) }}</span>
+                <span class="span1_ fontsize12">{{ $t(item.txt2) }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -229,7 +228,7 @@ export default {
       })
 
       // hn 已销毁
-      hn().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
+      hn().balanceOf('0x0000000000000000000000000000000000000010').then(data => {
         this.$common.checkNumber((data / 1e18).toString(), res => {
           this.nftArr[2].num = res
         })
@@ -244,7 +243,7 @@ export default {
         this.proportion = this.$common.getBit((data / 1e18 / 21000000) * 100, 2)
       })
       //hc 已销毁
-      hc().balanceOf('0x0000000000000000000000000000000000000002').then(data => {
+      hc().balanceOf('0x0000000000000000000000000000000000000010').then(data => {
         this.$common.checkNumber((data / 1e18).toString(), res => {
           this.hcDestroy = this.$common.getBit(res, 2)
         })
@@ -295,9 +294,6 @@ export default {
         width: 100%;
         object-fit: contain;
       }
-    }
-    .mobile_topbox {
-      display: none;
     }
     .content {
       width: 100%;
@@ -438,21 +434,19 @@ export default {
           width: 100%;
           display: flex;
           align-items: center;
-          .img {
-            width: 53px;
-            object-fit: contain;
+          justify-content: space-between;
+          .leftbox{
+            display: flex;
+            align-items: center;
+            .img {
+              width: 53px;
+              object-fit: contain;
+            }
+            .span1{
+              color: #D8D8D8;
+              margin-left: 7px;
+            }
           }
-          .span1{
-            color: #D8D8D8;
-            margin-left: 7px;
-          }
-        }
-        .Trend_chart {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          margin-top: 20px;
           .span2 {
             width: 144px;
             height: 49px;
@@ -498,7 +492,7 @@ export default {
               margin-bottom: 4px;
             }
             .span2{
-              margin-bottom: 114px;
+              margin-bottom: 83px;
             }
           }
         }
@@ -548,9 +542,13 @@ export default {
               width: 43px;
               object-fit: contain;
             }
-            .span1_ {
-              color: #ffffff;
-              margin-top: 7px;
+            .footerboxs{
+              display: flex;
+              flex-direction: column;
+              .span1_ {
+                color: #ffffff;
+                margin-top: 7px;
+              }
             }
           }
         }
@@ -585,14 +583,14 @@ export default {
     .box {
       width: 100%;
       .topbox {
-        display: none;
-      }
-      .mobile_topbox {
-        display: flex;
         width: 100%;
-        height: 1.52rem;
+        padding:0 0.2rem;
+        padding-top: 0.7rem;
+        min-height: 1rem;
+        height: 1.9rem;
         .homebgimg {
           width: 100%;
+          border-radius: 0.15rem;
           object-fit: contain;
         }
       }
@@ -633,8 +631,6 @@ export default {
                   display: flex;
                   flex-direction: column;
                   .span1 {
-                    font-size: 0.12rem;
-
                     color: #ffffff;
                     line-height: 0.17rem;
                   }
@@ -644,8 +640,6 @@ export default {
                   justify-content: flex-end;
                   align-items: flex-end;
                   .span1 {
-                    font-size: 0.12rem;
-
                     color: #00e7f0;
                     line-height: 0.17rem;
                   }
@@ -657,18 +651,17 @@ export default {
       }
     }
     .content_boxs{
+      padding: 0 0.2rem;
       .card_content {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0.2rem;
-        margin-top: 0;
+        padding: 0;
+        margin-top: 0.2rem;
         .compositeCard {
           width: 100%;
-          font-size: 0.18rem;
           color: #ffffff;
-          line-height: 0.3rem;
         }
         .img {
           width: 3.5rem;
@@ -680,87 +673,89 @@ export default {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          .one_box {
+          margin-top: 0.2rem;
+          padding: 0 0.45rem;
+          .out_boxs{
             width: 100%;
-            height: 0.37rem;
-            // box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
-            border-radius: 14px;
-            // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.3rem 0.14rem;
-            margin-bottom: 0.14rem;
-            .containbox {
+            padding: 1px;
+            border-radius: 0.14rem;
+            margin-right: 0;
+            margin-bottom: 0.19rem;
+            .one_box {
+              width: 100%;
+              height: 0.39rem;
+              border-radius: 0.14rem;
               display: flex;
               flex-direction: row;
+              justify-content: space-between;
               align-items: center;
-              .img {
-                width: 0.35rem;
-                object-fit: contain;
+              padding: 0.03rem 0.18rem;
+              margin-bottom: 0;
+              .containbox {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                .img {
+                  width: 0.27rem;
+                  object-fit: contain;
+                }
+                .span1 {
+                  color: #ffffff;
+                  margin-left: 0.15rem;
+                }
               }
-              .span1 {
-                font-size: 0.18rem;
-
+              .span2 {
                 color: #ffffff;
-                line-height: 0.25rem;
-                margin-left: 0.15rem;
               }
-            }
-            .span2 {
-              font-size: 0.18rem;
-
-              color: #ffffff;
-              line-height: 0.25rem;
             }
           }
         }
       }
       .hashland_boxs {
         width: 100%;
-        margin-top: 0;
-        padding: 0.2rem;
+        margin-top: 0.2rem;
+        padding: 0.18rem;
+        border-radius: 0.14rem;
+        // background: linear-gradient(90deg, #021F3E 0%, #01142A 100%, #034088 100%);
+        // box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        box-shadow: none;
         .hashland_content {
           width: 100%;
-          padding: 10px;
+          padding: 0;
           display: flex;
           flex-direction: column;
-          padding: 0 0.2rem;
-          box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
-            0 6px 20px 0 rgba(0, 0, 0, 0.19);
-          .img {
-            width: 1.5rem;
-            object-fit: contain;
-          }
-          .Trend_chart {
+          .hashland_title{
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0;
-            margin-top: 0.1rem;
-            .span1 {
-              font-size: 0.2rem;
-
-              color: #19cdec;
+            .leftbox{
+              display: flex;
+              align-items: center;
+              .img {
+                width: 0.28rem;
+                object-fit: contain;
+              }
+              .span1{
+                color: #fff;
+                margin-left: 0.07rem;
+              }
             }
             .span2 {
-              width: 0.9rem;
-              height: 0.4rem;
-              line-height: 0.4rem;
+              width: 0.8rem;
+              height: 0.3rem;
+              line-height:0.3rem;
               text-align: center;
               background-image: url("//cdn.hashland.com/images/extract_btn.png");
               background-size: 100% 100%;
-              font-size: 0.2rem;
-
               color: #fff;
             }
           }
           .trend_boxs {
             width: 100%;
             display: flex;
-            margin-top: 10px;
+            margin-top: 0.19rem;
+            padding-left: 0;
             .imgbox {
               flex: 2;
               position: relative;
@@ -770,17 +765,14 @@ export default {
               }
               .span1 {
                 position: absolute;
-                font-size: 0.2rem;
-
                 color: #19cdec;
-                line-height: 56px;
               }
               .span2 {
-                top: -0;
-                left: 44%;
+                top: 0.29rem;
+                left: 47%;
               }
               .span3 {
-                bottom: -0.1rem;
+                bottom:0.3rem;
                 left: 0;
               }
             }
@@ -789,19 +781,12 @@ export default {
               display: flex;
               flex-direction: column;
               align-items: flex-end;
-              padding-right: 0;
               .span1 {
-                font-size: 0.14rem;
-
                 color: #ffffff;
-                line-height: 37px;
-                margin-top: 0.1rem;
+                margin-bottom: 0.1rem;
               }
-              .span2 {
-                font-size: 0.14rem;
-
-                color: #00e7f0;
-                line-height: 0.18rem;
+              .span2{
+                margin-bottom: 0.2rem;
               }
             }
           }
@@ -809,23 +794,18 @@ export default {
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
-            margin: 0.2rem 0;
+            margin: 0.1rem 0 0 0;
             .onebox {
+              width: 100%;
               display: flex;
-              flex-direction: column;
+              flex-direction: row;
+              justify-content: space-between;
+              margin-bottom: 0.22rem;
               .span1 {
-                font-size: 0.18rem;
                 color: #ffffff;
-                line-height: 0.25rem;
-              }
-              .span2 {
-                font-size: 0.18rem;
-
-                color: #00e7f0;
-                line-height: 0.25rem;
-                margin-bottom: 0.2rem;
+                margin-top: 7px;
               }
             }
           }
@@ -833,53 +813,45 @@ export default {
       }
       .page_bottom {
         width: 100%;
-        padding: 0.2rem;
+        background:linear-gradient(90deg, #021F3E 0%, #01142A 100%, #034088 100%);
+        // box-shadow: -13px 10px 13px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        box-shadow: none;
+        border-radius: 0.14rem;
+        margin-top: 0.4rem;
+        padding:0.25rem 0.2rem;
         .embedded_box {
           width: 100%;
           display: flex;
           flex-direction: column;
-          padding: 0.2rem;
-          box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
-            0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-        .span1 {
-          font-size: 0.2rem;
-
-          color: #d8d8d8;
-          line-height: 0.28rem;
-        }
-        .horizontal {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: space-between;
-          margin-top: 0.2rem;
-          .horizontal_onebox {
+          .span1 {
+            color: #d8d8d8;
+          }
+          .horizontal {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            width: 100%;
-            height: auto;
-            .top {
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0;
+            .horizontal_onebox {
+              width: 100%;
+              height: auto;
               display: flex;
-              align-items: center;
+              flex-direction: row;
+              margin-top: 0.35rem;
               .img {
-                width: 0.45rem;
+                width: 0.34rem;
                 object-fit: contain;
               }
-              .span1_ {
-                font-size: 0.16rem;
-
-                color: #ffffff;
-                line-height: 0.25rem;
+              .footerboxs{
+                display: flex;
+                flex-direction: column;
+                margin-left: 0.05rem;
+                .span1_ {
+                  color: #ffffff;
+                  margin-top: 0;
+                }
               }
-            }
-            .bottom {
-              font-size: 0.12rem;
-
-              color: #ddd9d9;
-              line-height: 0.18rem;
-              margin-left: 0.45rem;
             }
           }
         }

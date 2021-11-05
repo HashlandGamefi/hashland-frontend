@@ -7,14 +7,14 @@
         {{ $t("message.nftCard.txt2") }}
       </div>
       <div
-        class="oneTab"
+        class="oneTab fontsize16"
         :class="{ activeTab: tabIndex == 1 }"
         @click="tabIndex = 1"
       >
         {{ $t("message.nftCard.txt3") }}
       </div>
       <div
-        class="oneTab"
+        class="oneTab fontsize16"
         :class="{ activeTab: tabIndex == 2 }"
         @click="tabIndex = 2"
       >
@@ -92,15 +92,12 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1rem;
+    padding-top: 1.07rem;
     .title1_txt {
-      line-height: 0.3rem;
-
       color: #ffffff;
     }
     .title2_txt {
       color: #ffffff;
-      line-height: 0.22rem;
     }
     .tab_box {
       display: flex;
@@ -109,7 +106,9 @@ export default {
       margin-top: 0.4rem;
       .oneTab {
         width: 1rem;
-        height: 0.37rem;
+        height: 0.24rem;
+        font-size: 0.12rem;
+        line-height: 0.24rem;
         text-align: center;
         color: #ffffff;
         border-radius: 5px;

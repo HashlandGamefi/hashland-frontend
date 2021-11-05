@@ -12,34 +12,60 @@
             KUCOIN
           </div>
           <div class="btn1 fontsize14" @click="footerClick('Certik')">
-            <img :src="`${$store.state.imgUrl}certick.png`" class="certick_img" />
+            <img
+              :src="`${$store.state.imgUrl}certick.png`"
+              class="certick_img"
+            />
             Certik
           </div>
           <div class="btn1 fontsize14" @click="footerClick('Gitbook')">
-            <img :src="`${$store.state.imgUrl}addfooter.png`" class="addfooter_img" />
+            <img
+              :src="`${$store.state.imgUrl}addfooter.png`"
+              class="addfooter_img"
+            />
             GitBook
           </div>
         </div>
         <div class="btnbox">
-          <img :src="`${$store.state.imgUrl}m.png`" class="img" @click="footerClick('Medium')" />
-          <img :src="`${$store.state.imgUrl}twiterr.png`" class="img" @click="footerClick('Twitter')" />
-          <img :src="`${$store.state.imgUrl}tel.png`" class="img" @click="footerClick('Telegram')" />
-          <img :src="`${$store.state.imgUrl}discord.png`" class="img" @click="footerClick('Discord')" />
+          <img
+            :src="`${$store.state.imgUrl}m.png`"
+            class="img"
+            @click="footerClick('Medium')"
+          />
+          <img
+            :src="`${$store.state.imgUrl}twiterr.png`"
+            class="img"
+            @click="footerClick('Twitter')"
+          />
+          <img
+            :src="`${$store.state.imgUrl}tel.png`"
+            class="img"
+            @click="footerClick('Telegram')"
+          />
+          <img
+            :src="`${$store.state.imgUrl}discord.png`"
+            class="img"
+            @click="footerClick('Discord')"
+          />
         </div>
-        <div class="line_txt fontsize14">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
+        <div class="line_txt fontsize14">
+          Copyright 2021 HashLand Dapp Maker All rights reserved.
+        </div>
       </div>
       <div class="right_center">
         <img :src="`${$store.state.imgUrl}footer2.png`" class="footer2img" />
       </div>
     </div>
-    <div class="mobile_line_txt fontsize14">Copyright 2021 HashLand Dapp Maker All rights reserved.</div>
+    <div class="mobile_line_txt fontsize14">
+      Copyright 2021 HashLand Dapp Maker All rights reserved.
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   methods: {
-    footerClick(data){
+    footerClick (data) {
       switch (data) {
         // case 'Power':
         //   window.location.href = 'https://www.kucoin.center/mining-pool/observer?sign=fd93932b4b614241858a6ecba0adc5af'
@@ -71,41 +97,39 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.footer_page{
+.footer_page {
   width: 100%;
-  .pc_box{
+  .pc_box {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .left_center{
+    .left_center {
       width: 400px;
       display: flex;
       align-items: center;
-      .footer1img{
+      .footer1img {
         width: 346px;
         object-fit: contain;
       }
     }
-    .center_box{
+    .center_box {
       width: calc(100% - 800px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      .footer3img{
+      .footer3img {
         width: 166px;
         object-fit: contain;
       }
-      .btnbox{
+      .btnbox {
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-top: 20px;
-        .btn1{
-          // padding: 0 8px;
+        .btn1 {
           width: 155px;
-          border-radius: 30px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -114,135 +138,130 @@ export default {
           margin-right: 10px;
           cursor: pointer;
           color: #052247;
-          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+            -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
           border-radius: 7px;
-          .addfooter_img{
+          .addfooter_img {
             width: 30px;
-            margin-right:5px;
+            margin-right: 5px;
           }
-          .certick_img{
+          .certick_img {
             width: 22px;
             margin-right: 5px;
           }
         }
-        .img{
+        .img {
           width: 44px;
           object-fit: contain;
           margin-right: 12px;
           cursor: pointer;
         }
       }
-      .line_txt{
+      .line_txt {
         width: 100%;
         text-align: center;
-        color: #FFFFFF;
+        color: #ffffff;
         margin-top: 10px;
       }
     }
-    .right_center{
+    .right_center {
       width: 400px;
       display: flex;
       justify-content: flex-end;
-      .footer2img{
+      .footer2img {
         width: 263px;
         object-fit: contain;
       }
     }
   }
-  .mobile_line_txt{
+  .mobile_line_txt {
     display: none;
   }
 }
 @media screen and (max-width: 980px) {
-  .footer_page{
+  .footer_page {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 0.1rem;
-    .pc_box{
-      margin-bottom: 0.1rem;
-      .left_center{
+    padding-bottom: 0.05rem;
+    margin-top: 0.2rem;
+    .pc_box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .left_center {
         width: 0.9rem;
         display: flex;
         align-items: center;
-        .footer1img{
+        .footer1img {
           width: 100%;
           object-fit: contain;
         }
       }
-      .center_box{
-        width: calc(100% - 1.8rem);
+      .center_box {
+        width: calc(100% - 1.63rem);
         display: flex;
         flex-direction: column;
         align-items: center;
-        .footer3img{
+        .footer3img {
           width: 0.52rem;
           object-fit: contain;
         }
-        .btnbox{
+        .btnbox {
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-top: 0.1rem;
-          .btn1{
-            height: 0.36rem;
-            padding: 0 0.05rem;
-            border-radius: 0.3rem;
+          margin-top: 0.12rem;
+          .btn1 {
+            width: 0.56rem;
+            border-radius: 0.1rem;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 0.21rem;
+            font-size: 0.09rem;
             background: #fff;
             margin-right: 0.1rem;
             cursor: pointer;
-            font-size: 0.18rem;
-
-
             color: #052247;
-            transform: scale(0.6);
-            .addfooter_img{
-              width: 0.3rem;
-              object-fit: contain;
-              margin-right: 0.05rem;
+            box-shadow:none;
+            .addfooter_img {
+              width: 0.09rem;
+              margin-right: 0;
             }
-            .certick_img{
-              width: 0.22rem;
-              object-fit: contain;
-              margin-right: 0.05rem;
+            .certick_img {
+              width: 0.09rem;
+              margin-right: 0;
             }
           }
-          .img{
-            width: 0.24rem;
+          .img {
+            width: 0.23rem;
             object-fit: contain;
-            margin-right: 10px;
+            margin-right: 0.07rem;
             cursor: pointer;
           }
         }
-        .line_txt{
+        .line_txt {
           display: none;
         }
       }
-      .right_center{
-        width: 0.9rem;
-        display: flex;
-        justify-content: flex-end;
-        .footer2img{
-          width: 0.74rem;
+      .right_center {
+        width: 0.73rem;
+        .footer2img {
+          width: 100%;
           object-fit: contain;
         }
       }
     }
     .mobile_line_txt{
+      width: 100%;
       display: flex;
       align-items: center;
+      justify-content: center;
       font-size: 0.12rem;
-      transform: scale(0.75);
-
-
+      transform: scale(0.8);
       color: #FFFFFF;
-      line-height: 0.2rme;
-      margin-top: 0.1rme;
+      margin-top: 0.06rem;
     }
   }
 }

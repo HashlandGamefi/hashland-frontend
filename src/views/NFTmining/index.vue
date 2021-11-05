@@ -405,14 +405,9 @@ export default {
     padding-top: 1rem;
     .nft_title{
       color: #FFFFFF;
-      line-height: 0.5rem;
     }
     .nft_title1{
-      font-size: 0.16rem;
-
-
       color: #FFFFFF;
-      line-height: 0.2rem;
       margin-top: 0;
     }
     .tab_box{
@@ -423,15 +418,11 @@ export default {
       .oneTab{
         width: 1rem;
         height: 0.37rem;
-        line-height: 0.37rem;
         text-align: center;
-        font-size: 0.12rem;
-
-
         color: #FFFFFF;
         border-radius: 0.05rem;
         cursor: pointer;
-      box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
+        box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 22px 0px rgba(194,190,190,0.52) inset;
       }
       .activeTab{
         background: #29CDDA;
@@ -441,11 +432,7 @@ export default {
     .apy_title{
       width: 100%;
       padding-left: 0.2rem;
-      font-size: 0.2rem;
-
-
       color: #FFFFFF;
-      line-height: 0.28rem;
       margin-top: 0.1rem;
     }
     .footer_box{
@@ -478,9 +465,6 @@ export default {
             background-image: url("//cdn.hashland.com/images/nft_btn2.png");
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            font-size: 0.2rem;
-
-
             color: #FFFFFF;
             cursor: pointer;
             display: flex;

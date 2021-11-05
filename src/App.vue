@@ -106,13 +106,22 @@ export default {
 }
 </script>
 <style lang="scss">
-#app {
-  width: 100%;
-  min-height: 100%;
-  // background: #011A31;
-  background-image: url("//cdn.hashland.com/images/pagehome.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+@media screen and (min-width: 981px) {
+  #app {
+    width: 100%;
+    min-height: 100%;
+    // background: #011A31;
+    background-image: url("//cdn.hashland.com/images/pagehome.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+}
+@media screen and (max-width: 980px) {
+  #app {
+    width: 100%;
+    min-height: 100%;
+    background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
+  }
 }
 .fade-enter-active,
 .fade-leave-avtive {

@@ -18,7 +18,7 @@
     </div>
     <div class="connect_box">
       <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
-      <span class="span1 fontsize18" @click="signIn" v-else>Connect</span>
+      <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
       <div class="lang_box">
         <!-- <img src="../assets/images/cn.png" class="cnimg" /> -->
         <span class="lang_txt fontsize18">EN</span>
@@ -26,9 +26,14 @@
       </div>
     </div>
     <div class="mobile_menu">
-      <div class="top_line">
+      <div class="top_line" :class="{mobile_border:!InitialStatus}">
         <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
-        <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" @click="mobilemenuClick" />
+        <div class="mobile_right_menu">
+          <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
+          <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
+          <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" v-if="InitialStatus" @click="mobilemenuClick" />
+          <img :src="`${$store.state.imgUrl}proupclose.png`" class="mobile_menu_class" v-else @click="mobilemenuClick" />
+        </div>
       </div>
       <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
         <div class="mobile_box">
@@ -56,6 +61,7 @@ export default {
   inject: ['reload'],
   data () {
     return {
+      InitialStatus:true,// 移动端菜单栏按钮转换变量
       addbg:false,// 导航栏背景
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
@@ -76,6 +82,7 @@ export default {
     // nfts子菜单选择项
     nftFun(data){
       this.addbg = true
+      this.InitialStatus = true
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if(data == 'card'){
@@ -89,7 +96,7 @@ export default {
     // 菜单栏切换状态
     menuClick (index) {
       this.addbg = true
-      console.log('index: ', index);
+      this.InitialStatus = true
       this.$store.commit("HashMenu", index);
       sessionStorage.setItem("HashMenu", index);
       if(index == 4 || index == 5){
@@ -116,10 +123,6 @@ export default {
           this.$common.selectLang('敬请期待','Coming soon',this)
           break;
       }
-    },
-    // 登录
-    signIn(){
-      this.commonLink()
     },
     // 账号链接抽离方法
     connectFun(res){
@@ -173,10 +176,12 @@ export default {
     },
     // 移动端展开菜单
     mobilemenuClick(){
-      this.mobilemenu = true
+      this.mobilemenu = !this.mobilemenu
+      this.InitialStatus = !this.InitialStatus
     },
     nftClick(){
       this.mobile_menuDis = !this.mobile_menuDis
+      this.InitialStatus = false
     },
   },
   mounted(){
@@ -365,10 +370,28 @@ export default {
           width: 0.42rem;
           object-fit: contain;
         }
-        .mobile_menu_class{
-          width: 0.28rem;
-          object-fit: contain;
+        .mobile_right_menu{
+          display: flex;
+          align-items: center;
+          .mobile_menu_class{
+            width: 0.28rem;
+            object-fit: contain;
+            margin-left: 0.1rem;
+          }
+          .span1{
+            padding:0.02rem 0.1rem;
+            border-radius: 0.1rem;
+            box-shadow:0 0 10px 2px rgba(0,0,1,0.38), 0 0 5px 0px rgba(255, 255, 255,0.22) inset;
+            color: #FFFFFF;
+            cursor: pointer;
+          }
         }
+      }
+      .mobile_border{
+        border: 2px solid rgba(161, 64, 248, 1);
+        border-top: none;
+        border-bottom: none;
+        border-radius: 0px;
       }
       .mobile_fixed_menu{
         width: 100%;
@@ -385,7 +408,9 @@ export default {
           flex-direction: column;
           padding: 0 0.2rem;
           padding-bottom: 0.26rem;
-          background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
+          background: #021C3A;
+          // height: 4rem;
+          // background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
           .ul_{
             width: 100%;
             margin-top: 0.14rem;
@@ -403,6 +428,7 @@ export default {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                margin-bottom: 0.12rem;
                 .mobile_triangle{
                   border-width: 0.1rem;
                   border-color: #FFFFFF;
@@ -420,7 +446,8 @@ export default {
                 align-items: center;
                 background: #032144;
                 box-shadow: -2px 1px 10px 0px #020F1F inset;
-                border-radius: 6px;
+                border-radius: 0.06rem;
+                padding: 0.12rem 0;
                 .span1{
                   width: 100%;
                   display: flex;
@@ -431,9 +458,6 @@ export default {
               }
             }
             .mobile_activeClass{
-              background: linear-gradient(270deg, rgba(4, 223, 230, 0) 0%, rgba(0, 231, 240, 0.78) 50%, rgba(0, 231, 240, 0) 100%);
-              border: 1px solid;
-              border-image: linear-gradient(90deg, rgba(0, 231, 240, 0), rgba(0, 231, 240, 0.78), rgba(0, 231, 240, 0)) 1 1;
               color: #00E7F0;
             }
           }
@@ -444,17 +468,15 @@ export default {
         }
         .dispear_box{
           width: 100%;
-          height: calc(100% - 2rem);
+          min-height: calc(100% - 3rem);
+          height: calc(100% - 3rem);
           background: red;
         }
       }
+      // .mobileClass_animation{
+      //   animation: fade-out 1.5s;
+      // }
     }
-  }
-  .navbg{
-    animation: fade-in 1.5s;
-    background-image: url("//cdn.hashland.com/images/mobilenavbg.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
   }
 }
 </style>
