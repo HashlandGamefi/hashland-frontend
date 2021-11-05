@@ -41,9 +41,9 @@ export default {
   methods: {
     footerClick(data){
       switch (data) {
-        case 'Power':
-          window.location.href = 'https://www.kucoin.center/mining-pool/observer?sign=fd93932b4b614241858a6ecba0adc5af'
-          break;
+        // case 'Power':
+        //   window.location.href = 'https://www.kucoin.center/mining-pool/observer?sign=fd93932b4b614241858a6ecba0adc5af'
+        //   break;
         case 'Certik':
           window.location.href = 'https://www.certik.org/projects/hashland'
           break;
@@ -54,10 +54,10 @@ export default {
           window.location.href = 'https://medium.com/@hashland_'
           break;
         case 'Twitter':
-          window.location.href = 'https://twitter.com/hashland_'
+          window.location.href = 'https://twitter.com/HashLand_NFT'
           break;
         case 'Telegram':
-          window.location.href = 'https://t.me/Hashland_EN'
+          window.location.href = 'https://t.me/HashLand_NFT'
           break;
         case 'Discord':
           window.location.href = 'https://discord.gg/9zdtNrpQbP'
