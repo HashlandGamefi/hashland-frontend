@@ -163,16 +163,12 @@ export default {
       background-size: cover;
       background-repeat: no-repeat;
       .txt1 {
-
         font-style: normal;
-
         font-size: 0.2rem;
         color: #ffffff;
       }
       .txt2 {
-
         font-style: normal;
-
         font-size: 0.2rem;
         color: rgba(255, 255, 255, 0.8);
         margin-top: 0.1rem;
@@ -188,15 +184,14 @@ export default {
         justify-content: center;
         margin-top: 0.2rem;
         .txt3 {
-          width: 2.28rem;
+          width: 1.94rem;
+          height: 0.38rem;
           background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
           background-size: 100% 100%;
           background-repeat: no-repeat;
           text-align: center;
-          line-height: 0.56rem;
-
+          line-height: 0.38rem;
           font-style: normal;
-
           font-size: 0.2rem;
           color: #ffffff;
           cursor: pointer;

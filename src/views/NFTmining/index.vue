@@ -454,7 +454,8 @@ export default {
     }
     .footer_box{
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.35rem;
+      padding-bottom: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -511,7 +512,7 @@ export default {
               background: #A25911;
               border-radius: 0.15rem;
               color: #FFFFFF;
-              line-height: auto;
+              line-height: 0.17rem;
             }
           }
           .extractable{
@@ -539,7 +540,7 @@ export default {
       .right_footer{
         height: auto;
         background: linear-gradient(90deg, #153AA2 0%, #0F296A 10%, #2673E6 100%);
-        box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
+        box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68) inset;
         .top{
           .txt{
             background-image: url("//cdn.hashland.com/images/nft_btn1.png");

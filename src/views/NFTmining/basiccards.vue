@@ -50,11 +50,11 @@
                 <div class="hc_btc_box">
                   <div class="hc_coefficient">
                     <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-                    <span class="span1">{{item.hc}}</span>
+                    <span class="span1 fontsize12_400">{{item.hc}}</span>
                   </div>
                   <div class="hc_coefficient">
                     <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-                    <span class="span1">{{item.btc}}</span>
+                    <span class="span1 fontsize12_400">{{item.btc}}</span>
                   </div>
                 </div>
               </div>
@@ -379,7 +379,6 @@ export default {
         observeParents:true,// 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
       })
     }
-
   }
 }
 </script>
@@ -640,7 +639,7 @@ export default {
             }
             .grade_box{
               width: auto;
-              padding: 0 0.15rem;
+              padding: 0 0.05rem;
               display: flex;
               align-items: center;
               margin-top: 0.2rem;
@@ -656,7 +655,7 @@ export default {
               }
               .card_grade{
                 color: #FFFFFF;
-                margin: 0 0.1rem;
+                margin: 0 0.04rem;
               }
               .details{
                 padding:0 0.1rem;
@@ -702,11 +701,47 @@ export default {
               margin-bottom: 0.2rem;
               .swiper_img{
                 position: absolute;
-                top: 18%;
+                top: -3%;
                 left: 50%;
                 transform: translate(-50%,-50%);
-                width: 1rem;
+                width: 100%;
                 object-fit: contain;
+              }
+              .bottom{
+                position: absolute;
+                top: -0.77rem;
+                display: flex;
+                align-items: center;
+                padding:0.1rem 0.08rem;
+                transform:translate(0,-50%) scale(0.6);
+                .five_pointed_star{
+                  display: flex;
+                  align-items: center;
+                  .start_img{
+                    width: 0.23rem;
+                    object-fit: contain;
+                  }
+                }
+                .hc_btc_box{
+                  display: flex;
+                  align-items: center;
+                  .hc_coefficient{
+                    display: flex;
+                    align-items: center;
+                    margin-right: 0.05rem;
+                    background: rgba(5, 24, 44, 0.88);
+                    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+                    border-radius: 0.1rem;
+                    opacity: 0.56;
+                    .imgcard{
+                      width: 0.21rem;
+                      object-fit: contain;
+                    }
+                    .span1{
+                      color: #FFFFFF;
+                    }
+                  }
+                }
               }
               .base_img{
                 width: 100%;
@@ -714,12 +749,14 @@ export default {
               }
             }
             .btnbox{
-              width: 1rem;
+              width: 1.2rem;
               text-align: center;
               background-size: 100% 100%;
               background-repeat: no-repeat;
               color: #FFFFFF;
               cursor: pointer;
+              line-height: 0.35rem;
+              font-size: 0.12rem;
             }
             .remove_btnbox{
               background-image: url("//cdn.hashland.com/images/nft_btn1.png");
@@ -749,7 +786,7 @@ export default {
     .self_swiper{
       height: auto;
       min-height: 3rem;
-      margin-top: 0;
+      margin-top: 0.2rem;
     }
     .margin_top_card{
       margin-top: 0.5rem;

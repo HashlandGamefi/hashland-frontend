@@ -19,7 +19,7 @@
         </div>
         <!-- 卡牌轮播 -->
         <div class="swiper-container">
-          <div class="swiper-wrapper">
+          <div class="swiper-wrapper" >
             <div
               class="swiper-slide"
               v-for="(item, index) in starArr.filter((data) => {
@@ -39,11 +39,11 @@
                   <div class="hc_btc_box">
                     <div class="hc_coefficient">
                       <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-                      <span class="span1">{{item.hc}}</span>
+                      <span class="span1 fontsize12_400">{{item.hc}}</span>
                     </div>
                     <div class="hc_coefficient">
                       <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-                      <span class="span1">{{item.btc}}</span>
+                      <span class="span1 fontsize12_400">{{item.btc}}</span>
                     </div>
                   </div>
                 </div>
@@ -88,10 +88,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
-    // dataInfo: function () {
-    //   return this.getUserCardInfo
-    // }
+    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"])
   },
   watch: {
     'getIstrue':{
@@ -107,19 +104,7 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    // "dataInfo": {
-    //   handler: function (newValue, oldValue) {
-    //     if (newValue.length > 0) {
-    //       if (newValue.length > 0) {
-    //         let res = JSON.parse(newValue)
-    //         this.starArr = res
-    //       }
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // }
+    }
   },
   methods: {
     // 取消按钮(关闭弹窗)
@@ -206,22 +191,36 @@ export default {
         this.isbtnstatus = false
       })
     },
-    swiperFun () {
+    swiperFun (type) {
       if (this.mySwiper !== 0) {
         this.mySwiper.destroy();
       }
-      this.mySwiper = new Swiper('.swiper-container', {
-        slidesPerView: 4,
-        // slidesOffsetBefore: 20,
-        // centeredSlides: true,
-        // centeredSlidesBounds: true,
-        observer: true,
-        observeParents: true,
-      })
+      if(type == 'mobile'){
+        this.mySwiper = new Swiper('.swiper-container', {
+          slidesPerView: 'auto',
+          observer: true,
+          observeParents: true,
+        })
+      }else{
+        this.mySwiper = new Swiper('.swiper-container', {
+          slidesPerView: 4,
+          // slidesOffsetAfter: 100,
+          // slidesOffsetBefore: 100,
+          // centeredSlides: true,
+          // centeredSlidesBounds: true,
+          observer: true,
+          observeParents: true,
+        })
+      }
+
     },
   },
   async mounted () {
-    this.swiperFun()
+    if(document.body.clientWidth <= 980){
+      this.swiperFun('mobile')
+    }else if(document.body.clientWidth > 980){
+      this.swiperFun('pc')
+    }
   }
 }
 </script>
@@ -341,10 +340,10 @@ export default {
               }
             }
           }
-          .swiper-slide-active {
-            transform: scale(1.2);
-            margin: 0 30px;
-          }
+          // .swiper-slide-active {
+          //   transform: scale(1.2);
+          //   margin: 0 30px;
+          // }
         }
       }
     }
@@ -375,31 +374,31 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1rem;
+    padding-top: 1.07rem;
     .title {
       position: absolute;
-      top: 0.2rem;
-      left: 0.2rem;
+      top: 0.15rem;
+      right: 0.2rem;
       width: 0.36rem;
       cursor: pointer;
-      .backimg {
+      .backimg{
         width: 100%;
         object-fit: contain;
       }
     }
     .title_title {
       color: #ffffff;
-      margin-bottom: 0.2rem;
+      margin-top: 0.25rem;
     }
     .title1_txt {
       color: #fff;
     }
     .title2_txt {
-      margin-top: 0.1rem;
+      margin-top: 0;
     }
     .content_box {
       width: 100%;
-      max-height: 8rem;
+      max-height: 6rem;
       overflow: auto;
       padding: 0.2rem;
       display: flex;
@@ -408,7 +407,7 @@ export default {
         width: 100%;
         display: flex;
         flex-direction: column;
-        margin-bottom: 0.1rem;
+        margin-bottom: 0.4rem;
         .top_line {
           width: 100%;
           display: flex;
@@ -425,48 +424,87 @@ export default {
           height: auto;
           .swiper-wrapper {
             .swiper-slide {
-              width: 100%;
+              width: 40%;
               height: 100%;
-              margin-right: 0.2rem;
+              margin-right: 0;
               .swiper_content_box {
                 position: relative;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-top: 0.2rem;
+                margin-top: 40px;
                 .swiper_img {
-                  width: 1rem;
+                  width: 100%;
                   object-fit: contain;
+                }
+                .bottom{
+                  position: absolute;
+                  top: 0.22rem;
+                  display: flex;
+                  align-items: center;
+                  padding:0.1rem 0.08rem;
+                  transform:translate(0,-50%) scale(0.6);
+                  .five_pointed_star{
+                    display: flex;
+                    align-items: center;
+                    .start_img{
+                      width: 0.23rem;
+                      object-fit: contain;
+                    }
+                  }
+                  .hc_btc_box{
+                    display: flex;
+                    align-items: center;
+                    .hc_coefficient{
+                      display: flex;
+                      align-items: center;
+                      border-radius: 4px;
+                      margin-right: 5px;
+                      background: rgba(5, 24, 44, 0.88);
+                      box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
+                      border-radius: 0.1rem;
+                      opacity: 0.56;
+                      .imgcard{
+                        width: 0.23rem;
+                        object-fit: contain;
+                      }
+                      .span1{
+                        color: #FFFFFF;
+                      }
+                    }
+                  }
                 }
                 .select_img {
                   position: absolute;
-                  right: 0.09rem;
-                  top: 0.08rem;
-                  width: 0.13rem;
+                  right: 0;
+                  top: 0;
+                  width: 0.2rem;
                   object-fit: contain;
                 }
               }
             }
-            .swiper-slide-active {
-              transform: scale(1.1);
-              // margin: 0 0.2rem;
-            }
+            // .swiper-slide-active {
+            //   transform: scale(1.2);
+            //   margin: 0 30px;
+            // }
           }
         }
       }
     }
     .btn_box {
-      width: 1.8rem;
-      height: 0.36rem;
-      text-align: center;
-      line-height: 0.36rem;
+      width: 1.94rem;
+      height: 0.38rem;
+      line-height: 0.38rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-      background-size: contain;
+      background-size: 100% 100%;
       background-repeat: no-repeat;
       color: #ffffff;
       cursor: pointer;
-      margin-top: 0;
+      margin-top: 0.1rem;
     }
   }
 }

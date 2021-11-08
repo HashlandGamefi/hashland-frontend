@@ -20,11 +20,11 @@
           </div>
           <div class="hc_coefficient">
             <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-            <span class="span1">{{ item.hc }}</span>
+            <span class="span1 fontsize12_400">{{ item.hc }}</span>
           </div>
           <div class="hc_coefficient">
             <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-            <span class="span1">{{ item.btc }}</span>
+            <span class="span1 fontsize12_400">{{ item.btc }}</span>
           </div>
         </div>
       </div>
@@ -197,16 +197,16 @@ export default {
 @media screen and (max-width: 980px) {
   .record_page {
     .title {
-      margin-top: 1.88rem;
+      margin-top: 1rem;
       width: 100%;
       text-align: center;
       color: #ffffff;
     }
     .close_img {
       position: absolute;
-      top: 1.12rem;
+      top: 0.3rem;
       right: 0.2rem;
-      width: 0.3rem;
+      width: 0.36rem;
       object-fit: contain;
     }
     .boxarr {
@@ -216,8 +216,8 @@ export default {
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      min-height: 1.14rem;
-      max-height: 2.3rem;
+      min-height: 1rem;
+      max-height: 3.7rem;
       overflow-y: auto;
       margin: 0.3rem;
       .onebox {
@@ -239,7 +239,7 @@ export default {
           display: flex;
           align-items: center;
           padding: 0.1rem 0.08rem;
-          transform: translateX(-50%) scale(0.5);
+          transform: translateX(-50%) scale(0.8);
           .five_pointed_star {
             display: flex;
             align-items: center;
@@ -271,7 +271,7 @@ export default {
       bottom: 0.15rem;
       left: 50%;
       transform: translate(-50%);
-      width: 100%;
+      width: 80%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -285,6 +285,7 @@ export default {
       padding-top: 0.12rem;
       .bottom_title {
         color: #ffffff;
+        transform: scale(0.8);
       }
       .btn_box {
         width: 1.67rem;

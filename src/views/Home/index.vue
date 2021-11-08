@@ -28,9 +28,9 @@
                 <div class="mobile_box">
                   <span class="span1 fontsize16">{{ $t(item.txt1) }}</span>
                   <span class="span1 fontsize12">{{ $t(item.txt2) }}</span>
-                </div>
-                <div class="mobile_go">
-                  <span class="span1 fontsize12_400">GO ></span>
+                  <div class="mobile_go">
+                    <span class="span1_go fontsize12_400">GO ></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -265,7 +265,7 @@ export default {
     this.getSDKInfo()
     if (document.body.clientWidth <= 980) {
       new Swiper('.swiper-container', {
-        slidesPerView: 2,
+        slidesPerView: 'auto',
         // centeredSlides: true,
         // slidesOffsetBefore: 100,
       })
@@ -622,26 +622,29 @@ export default {
                   -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
                 border-radius: 0.14rem;
                 border: 1px solid rgba(139, 230, 254, 1);
-                // border-image: linear-gradient(180deg, rgba(139, 230, 254, 1), rgba(139, 230, 254, 0)) 1 1;
                 .mobileimg1 {
                   width: 0.66rem;
                   object-fit: contain;
                 }
                 .mobile_box {
+                  width: 100%;
                   display: flex;
                   flex-direction: column;
+                  justify-content: space-between;
                   .span1 {
                     color: #ffffff;
                     line-height: 0.17rem;
+                    font-size: 0.12rem;
                   }
-                }
-                .mobile_go {
-                  display: flex;
-                  justify-content: flex-end;
-                  align-items: flex-end;
-                  .span1 {
-                    color: #00e7f0;
-                    line-height: 0.17rem;
+                  .mobile_go{
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    .span1_go {
+                      color: #00e7f0;
+                      line-height: 0.17rem;
+                    }
                   }
                 }
               }

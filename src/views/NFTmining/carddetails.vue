@@ -13,11 +13,11 @@
           </div>
           <div class="hc_coefficient">
             <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-            <span class="span1">{{item.hc}}</span>
+            <span class="span1 fontsize12_400">{{item.hc}}</span>
           </div>
           <div class="hc_coefficient">
             <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-            <span class="span1">{{item.btc}}</span>
+            <span class="span1 fontsize12_400">{{item.btc}}</span>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     min-height: 500px;
-    max-height: 738px;
+    // max-height: 738px;
     overflow-y: auto;
     margin-top: 18px;
     .onebox{
@@ -112,9 +112,6 @@ export default {
       .bottom{
         position: absolute;
         top: 0;
-        // background-image: url("//cdn.hashland.com/images/cardtop.png");
-        // background-size: 100% 100%;
-        // background-repeat: no-repeat;
         display: flex;
         align-items: center;
         padding:10px 8px;
@@ -170,102 +167,98 @@ export default {
 }
 @media screen and (max-width: 980px){
   .card_details_page{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1rem;
-  .title{
-    position: absolute;
-    top: 0.3rem;
-    left: 0.2rem;
-    width: 0.36rem;
-    cursor: pointer;
-    .backimg{
-      width: 100%;
-      object-fit: contain;
-    }
-  }
-  .span_title{
-    color: #FFFFFF;
-    line-height: 0.48rem;
-  }
-  .boxarr{
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    padding: 0 0.2rem;
-    // padding-right: 40px;
-    margin-top: 0.2rem;
-    max-height: 9rem;
-    overflow-y: auto;
-    .onebox{
-      position: relative;
-      width: 25%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-right: 0;
-      margin-bottom: 0.1rem;
-      // margin-right: calc((100% - 1480px) / 5);
-      // margin-bottom: 30px;
-      .imgcard{
+    padding-top: 1.07rem;
+    .title{
+      position: absolute;
+      top: 0.15rem;
+      right: 0.2rem;
+      width: 0.36rem;
+      cursor: pointer;
+      .backimg{
         width: 100%;
         object-fit: contain;
       }
-      .bottom{
-        position: absolute;
-        top: -0.21rem;
-        background-image: url("//cdn.hashland.com/images/cardtop.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
+    }
+    .span_title{
+      color: #FFFFFF;
+      line-height: 0.48rem;
+      margin-top: 0.25rem;
+    }
+    .boxarr{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0 0.2rem;
+      margin-top: 0.2rem;
+      min-height: 2.5rem;
+      overflow-y: auto;
+      .onebox{
+        position: relative;
+        width: 50%;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        padding:0.1rem 0.08rem;
-        transform: scale(0.1);
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
+        margin-right: 0;
+        margin-bottom: 0.1rem;
+        .imgcard{
+          width: 100%;
+          object-fit: contain;
         }
-        .hc_coefficient{
+        .bottom{
+          position: absolute;
+          top: 0.2rem;
           display: flex;
           align-items: center;
-          background: #302F2E;
-          box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-          border-radius: 4px;
-          margin-right: 5px;
-          .imgcard{
-            width: 43px;
-            object-fit: contain;
+          padding:0.1rem 0.08rem;
+          transform:translate(0,-50%) scale(0.6);
+          .five_pointed_star{
+            display: flex;
+            align-items: center;
+            .start_img{
+              width: 0.23rem;
+              object-fit: contain;
+            }
           }
-          .span1{
-            color: #FFFFFF;
+          .hc_coefficient{
+            display: flex;
+            align-items: center;
+            background: #302F2E;
+            box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
+            margin-right: 0;
+            border-radius: 0.25rem;
+            .imgcard{
+              width: 0.23rem;
+              object-fit: contain;
+            }
+            .span1{
+              color: #FFFFFF;
+              margin:0 0.05rem;
+            }
           }
         }
       }
     }
+    .bottom_title{
+      color: #FFFFFF;
+    }
+    .connect_box {
+      width: 1.94rem;
+      height: 0.38rem;
+      text-align: center;
+      line-height: 0.38rem;
+      background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      margin-top: 0.2rem;
+      cursor: pointer;
+      margin-bottom: 0.2rem;
+    }
   }
-  .bottom_title{
-    color: #FFFFFF;
-  }
-  .connect_box {
-    width: 1.94rem;
-    height: 0.38rem;
-    text-align: center;
-    line-height: 0.38rem;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    color: #ffffff;
-    margin-top: 0.2rem;
-    cursor: pointer;
-    margin-bottom: 0.2rem;
-  }
-}
 }
 </style>

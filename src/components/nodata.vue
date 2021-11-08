@@ -53,4 +53,37 @@ export default {
     }
   }
 }
+@media screen and (max-width: 980px){
+  .nodata_page{
+    .defaultClass {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 1rem;
+      img {
+        width: 1.42rem;
+        object-fit: contain;
+        margin-top: 0.3rem;
+        margin-bottom: 0.1rem;
+      }
+      .txt {
+        color: #ffffff;
+      }
+      .connect_box {
+        width: 1.94rem;
+        height: 0.38rem;
+        text-align: center;
+        line-height: 0.38rem;
+        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        color: #ffffff;
+        margin-top: 0.53rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
 </style>
