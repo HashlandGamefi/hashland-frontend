@@ -402,6 +402,7 @@ export default {
       max-height: 6rem;
       overflow: auto;
       padding: 0.2rem;
+      padding-top: 0.4rem;
       display: flex;
       flex-direction: column;
       .stratbox {
@@ -434,7 +435,7 @@ export default {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-top: 40px;
+                margin-top: 0.14rem;
                 .swiper_img {
                   width: 100%;
                   object-fit: contain;
