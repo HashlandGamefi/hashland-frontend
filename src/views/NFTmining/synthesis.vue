@@ -222,7 +222,7 @@ export default {
         this.synthesisDis = false
         setTimeout(() => {
           console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
-          this.selectRankClik(this.rank)
+          this.selectRankClik(this.rank,2)
         },4000);
       })
     },
@@ -282,16 +282,19 @@ export default {
       this.pageshowarr.splice(index,1)
     },
     // 选择阶数
-    selectRankClik(data){
+    selectRankClik(data,type = 1){
       this.hcnum = 0 // 合成卡牌所需的hc金额
       this.selectedNUM = 0 // 选中的卡牌数量
       this.compose = 0 // 选中的卡牌可以合成多少张更高以及的卡牌
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
       this.rank = data // 当前几阶
-      this.amount = JSON.parse(this.getUserCardInfo).filter(item => { return item.level == data}).length
+      if(type == 2){
+        this.cardarr = JSON.parse(this.getUserCardInfo)
+      }
+      this.amount = this.cardarr.filter(item => { return item.level == data}).length
       this.isshowArr = false
-      this.pageshowarr = JSON.parse(this.getUserCardInfo).filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
-      console.log('合成完成后,页面展示的数组的this.pageshowarr: ', JSON.parse(this.getUserCardInfo));
+      this.pageshowarr = this.cardarr.filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
+      console.log('合成完成后,页面展示的数组的this.pageshowarr: ', this.cardarr);
       this.isshowArr = true
       this.selectedArr = [] // 页面展示的选中的数组
       this.selectALLBtn = false // 全选按钮的展示
@@ -782,7 +785,7 @@ export default {
             display: flex;
             align-items: center;
             .start_img{
-              width: 0.26rem;
+              width: 0.2rem;
               object-fit: contain;
             }
           }

@@ -216,7 +216,7 @@ export default {
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      min-height: 1rem;
+      min-height: 3.7rem;
       max-height: 3.7rem;
       overflow-y: auto;
       margin: 0.3rem;
@@ -239,7 +239,7 @@ export default {
           display: flex;
           align-items: center;
           padding: 0.1rem 0.08rem;
-          transform: translateX(-50%) scale(0.8);
+          transform: translateX(-50%) scale(0.5);
           .five_pointed_star {
             display: flex;
             align-items: center;
