@@ -502,7 +502,6 @@ input::-webkit-input-placeholder {
         flex-direction: column;
         .luckey_span1 {
           color: #ffffff;
-          line-height: 0.4rem;
         }
         .luckey_span2 {
           color: #ffffff;
