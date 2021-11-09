@@ -95,9 +95,7 @@ export default {
     },
     // 菜单栏切换状态
     menuClick (index) {
-      console.log('index: ', index);
       this.addbg = true
-
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if(index == 0){

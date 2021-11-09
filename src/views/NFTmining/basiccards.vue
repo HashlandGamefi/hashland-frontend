@@ -624,6 +624,7 @@ export default {
     .swiper-container{
       width: 100%;
       height: auto;
+      min-height: 0.8rem;
       padding: 0 0.4rem;
       .swiper-wrapper{
         .swiper-slide{

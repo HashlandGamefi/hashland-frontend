@@ -4,6 +4,9 @@
       <div class="topbox">
         <img :src="`${$store.state.imgUrl}homebg.jpg`" class="homebgimg" />
       </div>
+      <div class="mobile_topbox">
+        <img :src="`${$store.state.imgUrl}mobile_bg.jpg`" class="homebgimg" />
+      </div>
       <div class="content">
         <div class="swiper-container">
           <div class="swiper-wrapper">
@@ -26,7 +29,7 @@
               <div class="mobile_box_swiper">
                 <img :src="item.mobilesrc" class="mobileimg1" />
                 <div class="mobile_box">
-                  <span class="span1 fontsize16">{{ $t(item.txt1) }}</span>
+                  <span class="span1 mobile_new_familay fontsize16">{{ $t(item.txt1) }}</span>
                   <span class="span1 fontsize12">{{ $t(item.txt2) }}</span>
                   <div class="mobile_go">
                     <span class="span1_go fontsize12_400">GO ></span>
@@ -294,6 +297,9 @@ export default {
         width: 100%;
         object-fit: contain;
       }
+    }
+    .mobile_topbox{
+      display: none;
     }
     .content {
       width: 100%;
@@ -583,11 +589,15 @@ export default {
     .box {
       width: 100%;
       .topbox {
+        display: none;
+      }
+      .mobile_topbox{
         width: 100%;
         padding:0 0.2rem;
-        padding-top: 0.7rem;
-        min-height: 1rem;
-        height: 1.9rem;
+        padding-top: 0.8rem;
+        min-height: 2.8rem;
+        height: 2.8rem;
+        display: block;
         .homebgimg {
           width: 100%;
           border-radius: 0.15rem;
@@ -624,6 +634,7 @@ export default {
                 border: 1px solid rgba(139, 230, 254, 1);
                 .mobileimg1 {
                   width: 0.66rem;
+                  margin-right: 0.05rem;
                   object-fit: contain;
                 }
                 .mobile_box {
@@ -635,6 +646,9 @@ export default {
                     color: #ffffff;
                     line-height: 0.17rem;
                     font-size: 0.12rem;
+                  }
+                  .mobile_new_familay{
+                    font-family: 'Poppins';
                   }
                   .mobile_go{
                     width: 100%;
@@ -809,6 +823,7 @@ export default {
               .span1 {
                 color: #ffffff;
                 margin-top: 7px;
+                font-size: 0.12rem;
               }
             }
           }

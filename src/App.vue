@@ -21,7 +21,6 @@ export default {
   },
   watch:{
     $route(to,from){
-      console.log('路由变化:',to,from);
       if(to.path == '/synthesis'){
         this.isshowFooter = false
       }else{
