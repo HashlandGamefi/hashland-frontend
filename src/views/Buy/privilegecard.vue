@@ -278,7 +278,7 @@ input::-webkit-input-placeholder {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 0.2rem;
+      margin-top: 0;
       min-height: 1rem;
       .bgimg{
         width: 100%;
