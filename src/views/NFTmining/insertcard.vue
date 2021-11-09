@@ -440,11 +440,11 @@ export default {
                 }
                 .bottom{
                   position: absolute;
-                  top: 0.22rem;
+                  top: 0.15rem;
                   display: flex;
                   align-items: center;
                   padding:0.1rem 0.08rem;
-                  transform:translate(0,-50%) scale(0.6);
+                  transform:translate(0,-50%) scale(0.4);
                   .five_pointed_star{
                     display: flex;
                     align-items: center;
