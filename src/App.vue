@@ -93,15 +93,8 @@ export default {
     this.getCurrenciesPrices()
   },
   mounted () {
-    sessionStorage.setItem("testitem",'测试缓存')
     window.addEventListener('load', this.setRem)
     window.addEventListener('resize', this.setRem)
-    window.addEventListener('beforeunload', (event) => {
-      console.log('event: ', event);
-    });
-  },
-  beforeUnmount(){
-    sessionStorage.clear()
   }
 }
 </script>

@@ -38,8 +38,8 @@
       <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
         <div class="mobile_box">
           <ul class="ul_">
-            <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '','fontsize16']" v-for="(item,index) in navarr" :key="index" @click="menuClick(index)">
-              <div class="mobile_line">{{$t(item)}}<span class="mobile_triangle" v-if="index == 0" @click.stop="nftClick"></span></div>
+            <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '','fontsize16']" v-for="(item,index) in navarr" :key="index" @click.stop="menuClick(index)">
+              <div class="mobile_line">{{$t(item)}}<span class="mobile_triangle" v-if="index == 0"></span></div>
               <div class="box_nft" v-if="mobile_menuDis && index == 0">
                 <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}</div>
                 <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}}</div>
@@ -95,14 +95,18 @@ export default {
     },
     // 菜单栏切换状态
     menuClick (index) {
+      console.log('index: ', index);
       this.addbg = true
-      this.InitialStatus = true
-      this.$store.commit("HashMenu", index);
-      sessionStorage.setItem("HashMenu", index);
-      if(index == 4 || index == 5){
-        this.$store.commit("HashMenu", 0);
-        sessionStorage.setItem("HashMenu", 0);
+
+      this.$store.commit("HashMenu", 0);
+      sessionStorage.setItem("HashMenu", 0);
+      if(index == 0){
+        this.mobile_menuDis = !this.mobile_menuDis
+        this.InitialStatus = false
+        return
       }
+      this.InitialStatus = true
+      this.mobilemenu = false
       switch (index) {
         case -1:
           this.mobile_menuDis = false
@@ -178,11 +182,7 @@ export default {
     mobilemenuClick(){
       this.mobilemenu = !this.mobilemenu
       this.InitialStatus = !this.InitialStatus
-    },
-    nftClick(){
-      this.mobile_menuDis = !this.mobile_menuDis
-      this.InitialStatus = false
-    },
+    }
   },
   mounted(){
     this.commonLink()

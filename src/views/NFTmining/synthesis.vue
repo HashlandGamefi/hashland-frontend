@@ -117,7 +117,7 @@ export default {
       isApproveHN:false,// hn授权
       isApproveHC:false,// hc授权
       selectALLBtn:false,//全选按钮的状态
-      selectedCardnum:100000000,// 本次全选可以选中的卡牌数量
+      selectedCardnum:10000000000,// 本次全选可以选中的卡牌数量
       hcnum:0, // 本次合成消耗多少hc
       synthesisDis:false,// 合成按钮loading
     }
@@ -159,14 +159,13 @@ export default {
   },
   methods: {
     selectAllClick(){
+      if(this.pageshowarr.length < 4)return // 先判断页面上展示的卡牌数组是否大于4,全选按钮才可以选
       if(this.selectedArr.length >= this.selectedCardnum){ //选中数组长度等于计算出来的数字时,证明按钮现在是选中状态
         this.selectALLBtn = false
         this.hcnum = 0
       }else{
         this.selectALLBtn = true
       }
-      // this.selectALLBtn = !this.selectALLBtn
-      console.log('this.selectALLBtn: ', this.selectALLBtn);
       if(this.selectedArr.length > 0){ // 判断选中卡牌数组书否大于0  大于0的情况下说明已选卡牌,清空重新计算
         this.selectedArr = []
         this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
@@ -195,13 +194,14 @@ export default {
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
-      this.proupDis = FontFaceSetLoadEvent
+      this.proupDis = false
     },
     // 合成结果
     watchResult(){
       console.log("合成结果监听方法")
       let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
       hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
+        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
         let imgarr = []
         events.map(async item => {
           let obj = {}
@@ -219,11 +219,11 @@ export default {
           proupTitle:'Craft Detail',
         }
         this.$store.commit("setrewardsInfo", lastObj);
-        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
         this.synthesisDis = false
         setTimeout(() => {
+          console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
           this.selectRankClik(this.rank)
-        },1500);
+        },4000);
       })
     },
     // 合成方法
@@ -288,12 +288,14 @@ export default {
       this.compose = 0 // 选中的卡牌可以合成多少张更高以及的卡牌
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
       this.rank = data // 当前几阶
-      this.amount = this.cardarr.filter(item => { return item.level == data}).length
+      this.amount = JSON.parse(this.getUserCardInfo).filter(item => { return item.level == data}).length
       this.isshowArr = false
-      this.pageshowarr = this.cardarr.filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
+      this.pageshowarr = JSON.parse(this.getUserCardInfo).filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
+      console.log('合成完成后,页面展示的数组的this.pageshowarr: ', JSON.parse(this.getUserCardInfo));
       this.isshowArr = true
       this.selectedArr = [] // 页面展示的选中的数组
       this.selectALLBtn = false // 全选按钮的展示
+      this.selectedCardnum = 100000000000
     },
     back(){
       this.$router.go(-1)
@@ -752,7 +754,8 @@ export default {
       flex-wrap: wrap;
       min-height: 1rem;
       margin-top: 0.2rem;
-      padding-bottom: 0.7rem;
+      padding-bottom: 0;
+      margin-bottom: 0.8rem;
       .onebox{
         position: relative;
         width: 50%;
@@ -824,7 +827,7 @@ export default {
           position: absolute;
           bottom: -0.02rem;
           right: 0.1rem;
-          width: 0.24rem;
+          width: 0.55rem;
           object-fit: contain;
         }
         .orther_img{
@@ -837,18 +840,19 @@ export default {
       }
     }
     .cardarr_class_selected{
-      margin-top: 0.4rem;
+      margin-top: 0.2rem;
+      margin-bottom: 0;
       .onebox{
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.2rem;
         .selected_bottom{
           position: absolute;
-          top: -0.28rem;
-          transform: scale(0.2);
+          top: 0;
+          transform: scale(0.5);
         }
         .scalebottom{
           position: absolute;
-          top: -0.21rem;
-          transform: scale(0.2);
+          top: 0;
+          transform: scale(0.5);
         }
       }
     }
