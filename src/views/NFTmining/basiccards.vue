@@ -357,6 +357,8 @@ export default {
       }).catch( err => {
         console.log('解锁是否授权err: ', err);
         this.ISpprove = false
+      }).catch(() => {
+        this.ISpprove = false
       })
     }
   },

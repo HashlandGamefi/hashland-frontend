@@ -159,7 +159,7 @@ export default {
   },
   methods: {
     selectAllClick(){
-      if(this.pageshowarr.length < 4)return // 先判断页面上展示的卡牌数组是否大于4,全选按钮才可以选
+      if(this.pageshowarr.length < 4 && this.selectedArr.length == 0)return // 先判断页面上展示的卡牌数组是否大于4,全选按钮才可以选
       if(this.selectedArr.length >= this.selectedCardnum){ //选中数组长度等于计算出来的数字时,证明按钮现在是选中状态
         this.selectALLBtn = false
         this.hcnum = 0

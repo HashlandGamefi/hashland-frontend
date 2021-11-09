@@ -205,17 +205,19 @@ export default {
       }
     },
     // 去授权
-    async goApproveClick(){
+    goApproveClick(){
       if(this.buy_isloading)return
       this.buy_isloading = true
       const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
-      let res = await erc20(token().BUSD).connect(getSigner()).approve(contract().HNBox,TOKEN_amount)
-      console.log('去授权istrue: ', res);
-      const etReceipt = await res.wait();
-      if(etReceipt.status == 1){
-        this.isapprove = true
+      erc20(token().BUSD).connect(getSigner()).approve(contract().HNBox,TOKEN_amount).then(async res => {
+        const etReceipt = await res.wait();
+        if(etReceipt.status == 1){
+          this.isapprove = true
+          this.buy_isloading = false
+        }
+      }).catch(() => {
         this.buy_isloading = false
-      }
+      })
     },
     async getSDKInfo(){
       let price = await hnBox().boxTokenPrices(1) // 盲盒价格
