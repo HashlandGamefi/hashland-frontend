@@ -15,7 +15,7 @@
               :src="`${$store.state.imgUrl}start.png`"
               v-for="(item1, index1) in Number(item.level)"
               :key="index1"
-              class="start_img"
+              class="five_start_img"
             />
           </div>
           <div class="hc_coefficient">
@@ -127,7 +127,7 @@ export default {
         .five_pointed_star {
           display: flex;
           align-items: center;
-          .start_img {
+          .five_start_img {
             width: 26px;
             object-fit: contain;
           }
@@ -239,12 +239,12 @@ export default {
           display: flex;
           align-items: center;
           padding: 0.1rem 0.08rem;
-          transform: translateX(-50%) scale(0.5);
+          transform: translateX(-50%) scale(0.4);
           .five_pointed_star {
             display: flex;
             align-items: center;
-            .start_img {
-              width: 0.13rem;
+            .five_start_img {
+              width: 0.18rem;
               object-fit: contain;
             }
           }

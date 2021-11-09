@@ -651,7 +651,7 @@ export default {
                 display: flex;
                 align-items: center;
                 .start_img{
-                  width: 0.13rem;
+                  width: 0.15rem;
                   object-fit: contain;
                 }
               }
@@ -720,7 +720,7 @@ export default {
                   display: flex;
                   align-items: center;
                   .start_img{
-                    width: 0.23rem;
+                    width: 0.18rem;
                     object-fit: contain;
                   }
                 }

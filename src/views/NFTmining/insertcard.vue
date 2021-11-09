@@ -270,6 +270,7 @@ export default {
         flex-direction: column;
         .span1 {
           color: #ffffff;
+          font-size:0.16rem;
         }
         .span2 {
           color: #ccbebe;
@@ -449,7 +450,7 @@ export default {
                     display: flex;
                     align-items: center;
                     .start_img{
-                      width: 0.23rem;
+                      width: 0.18rem;
                       object-fit: contain;
                     }
                   }

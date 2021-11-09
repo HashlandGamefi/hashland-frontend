@@ -215,12 +215,12 @@ export default {
           display: flex;
           align-items: center;
           padding:0.1rem 0.08rem;
-          transform:translate(0,-50%) scale(0.5);
+          transform:translate(0,-50%) scale(0.4);
           .five_pointed_star{
             display: flex;
             align-items: center;
             .start_img{
-              width: 0.23rem;
+              width: 0.18rem;
               object-fit: contain;
             }
           }
