@@ -5,7 +5,9 @@
         <img :src="`${$store.state.imgUrl}homebg.jpg`" class="homebgimg" />
       </div>
       <div class="mobile_topbox">
-        <img :src="`${$store.state.imgUrl}mobile_bg.jpg`" class="homebgimg" />
+        <div class="mobile_pretend_img">
+          <img :src="`${$store.state.imgUrl}mobile_bg.jpg`" class="homebgimg" />
+        </div>
       </div>
       <div class="content">
         <div class="swiper-container">
@@ -594,14 +596,17 @@ export default {
       .mobile_topbox{
         width: 100%;
         padding:0 0.2rem;
-        padding-top: 0.8rem;
-        min-height: 2.8rem;
-        height: 2.8rem;
-        display: block;
-        .homebgimg {
+        padding-top: 0.9rem;
+        // min-height: 2.8rem;
+        // height: 2.8rem;
+        display: flex;
+        .mobile_pretend_img{
           width: 100%;
-          border-radius: 0.15rem;
-          object-fit: contain;
+          .homebgimg {
+            width: 100%;
+            border-radius: 0.15rem;
+            object-fit: contain;
+          }
         }
       }
       .content {
@@ -609,7 +614,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 0.1rem;
+        margin-top: 0;
         padding: 0 0.2rem;
         .swiper-container {
           width: 100%;
@@ -627,6 +632,7 @@ export default {
                 width: 1.89rem;
                 // width: 100%;
                 display: flex;
+                align-items: center;
                 padding: 0.1rem;
                 box-shadow: -15px 11px 12px 21px rgba(3, 21, 46, 0.76) inset,
                   -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
@@ -856,6 +862,7 @@ export default {
               height: auto;
               display: flex;
               flex-direction: row;
+              align-items: center;
               margin-top: 0.35rem;
               .img {
                 width: 0.34rem;

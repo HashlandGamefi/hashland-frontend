@@ -51,6 +51,11 @@ export default {
     },
     setRem () {
       console.log('当前窗口宽度:', document.body.clientWidth)// 当前窗口的宽度
+      const bodyWidth = document.body.clientWidth
+      const rem375 = bodyWidth * 100 / 375
+      if (bodyWidth <= 980) {
+        document.getElementsByTagName('html')[0].style.fontSize = rem375 + 'px'
+      }
     },
     winbtnsure(){
       this.closepageFun()

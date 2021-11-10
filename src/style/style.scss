@@ -63,41 +63,43 @@ body {
 @media screen and (max-width: 1279px){
   html,
   body {
+    width: 100%;
+    height: 100%;
     font-size: 100px;
+    font-family: 'Poppins';
+    -webkit-overflow-scrolling: touch;
   }
   .fontsize12{ // purchase
     font-size: 0.12rem;
-    // transform: scale(0.8);
     font-weight: 100;
-    font-family: 'Poppins-Regular';
+    // font-family: 'Poppins-Regular';
     line-height: 0.17rem;
   }
   .fontsize12_400{ // go
     font-size: 0.12rem;
-    // transform: scale(0.8);
     font-weight: 400;
-    font-family: 'Poppins-Regular';
+    // font-family: 'Poppins-Regular';
     line-height: 0.17rem;
   }
   .fontsize14{// 导航栏
     font-size: 0.14rem;
-    font-family: 'Poppins-Regular';
+    // font-family: 'Poppins-Regular';
   }
   .fontsize16{//次标题
     font-size: 0.14rem;
     // font-weight: 500;
     font-weight: bold;
-    font-family: 'Poppins-Bold';
+    // font-family: 'Poppins-Bold';
   }
   .fontsize16_400{
     font-size: 0.14rem;
     font-weight: 400;
-    font-family: 'Poppins-Regular';
+    // font-family: 'Poppins-Regular';
   }
   .fontsize16_100{//标题说明
     font-size: 0.14rem;
     font-weight: 100;
-    font-family: 'Poppins-Regular';
+    // font-family: 'Poppins-Regular';
   }
   .fontsize18{// 导航栏
     font-size: 0.18rem;
@@ -115,7 +117,7 @@ body {
     font-size: 0.22rem;
     line-height: 0.3rem;
     font-weight: bold;
-    font-family: 'Poppins-Bold';
+    // font-family: 'Poppins-Bold';
   }
 }
 // 透明度由
