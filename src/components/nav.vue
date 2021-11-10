@@ -39,7 +39,10 @@
         <div class="mobile_box">
           <ul class="ul_">
             <li :class="[index == getMenuIndex ? 'mobile_activeClass' : '','fontsize16']" v-for="(item,index) in navarr" :key="index" @click.stop="menuClick(index)">
-              <div class="mobile_line">{{$t(item)}}<span class="mobile_triangle" v-if="index == 0"></span></div>
+              <div class="mobile_line">
+                {{$t(item)}}
+                <span class="mobile_triangle" :class="{mobilethreedown:mobile_menuDis,mobilethreetop:!mobile_menuDis}" v-if="index == 0"></span>
+              </div>
               <div class="box_nft" v-if="mobile_menuDis && index == 0">
                 <div class="span1" @click.stop="nftFun('card')">{{$t("message.nav.txt7")}}</div>
                 <div class="span1" @click.stop="nftFun('mining')">{{$t("message.nav.txt8")}}</div>
@@ -428,13 +431,18 @@ export default {
                 justify-content: space-between;
                 margin-bottom: 0.12rem;
                 .mobile_triangle{
-                  border-width: 0.1rem;
+                  border-width: 0.05rem;
                   border-color: #FFFFFF;
-                  border-bottom-width: 0;
                   border-style: dashed;
                   border-top-style: solid;
                   border-left-color: transparent;
                   border-right-color: transparent;
+                }
+                .mobilethreetop{
+                  border-bottom-width: 0;
+                }
+                .mobilethreedown{
+                  border-top-width: 0;
                 }
               }
               .box_nft{

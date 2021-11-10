@@ -288,7 +288,7 @@ input::-webkit-input-placeholder {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 0.4rem;
+      margin-top: 0;
       min-height: 1rem;
       .bgimg{
         width: 100%;
@@ -296,14 +296,14 @@ input::-webkit-input-placeholder {
       }
       .onebox{
         position: absolute;
-        top: 11%;
+        top: 31%;
         left: 50%;
         transform: translate(-50%,-50%);
         display: flex;
         flex-direction: column;
         align-items: center;
         .cardimg{
-          width: 1.64rem;
+          width: 1.56rem;
           object-fit: contain;
         }
         .bottom{
@@ -348,7 +348,7 @@ input::-webkit-input-placeholder {
     .mobile_top{
       display: flex;
       width: 100%;
-      padding: 0.2rem;
+      padding:0 0.2rem 0.1rem;
       margin-top: 0.3rem;
       .mobile_top_box {
         width: 100%;

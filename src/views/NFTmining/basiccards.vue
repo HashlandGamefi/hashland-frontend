@@ -141,20 +141,20 @@ export default {
         },
         {
           level:2,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 2}).length
         },{
           level:3,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 3}).length
         },
         {
           level:4,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 4}).length
         },{
           level:5,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 5}).length
         }
         ]
@@ -166,20 +166,20 @@ export default {
         },
         {
           level:2,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:0
         },{
           level:3,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:0
         },
         {
           level:4,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:0
         },{
           level:5,
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
+          src:`${this.$store.state.imgUrl}level1.png`,
           num:0
         }
         ]
@@ -591,7 +591,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
     .myCard {
       width: 100%;
       display: flex;
@@ -712,7 +712,7 @@ export default {
               }
               .bottom{
                 position: absolute;
-                top: -0.77rem;
+                top: -0.88rem;
                 display: flex;
                 align-items: center;
                 padding:0.1rem 0.08rem;

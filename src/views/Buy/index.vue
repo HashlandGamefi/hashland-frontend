@@ -92,7 +92,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1.07rem;
+    padding-top: 0.94rem;
     .title1_txt {
       color: #ffffff;
     }
@@ -103,7 +103,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 0.4rem;
+      margin-top: 0.33rem;
       .oneTab {
         width: 1rem;
         height: 0.24rem;

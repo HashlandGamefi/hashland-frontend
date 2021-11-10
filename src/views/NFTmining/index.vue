@@ -402,7 +402,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1rem;
+    padding-top: 0.94rem;
     .nft_title{
       color: #FFFFFF;
     }
@@ -414,7 +414,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top:0.4rem;
+      margin-top: 0.33rem;
       .oneTab{
         width: 1rem;
         height: 0.24rem;
@@ -460,7 +460,7 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      margin-top: 0.2rem;
+      margin-top: 0;
       .left_footer{
         position: relative;
         width: 100%;

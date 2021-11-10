@@ -52,7 +52,7 @@
     </div>
     <div class="mobile_content">
       <div class="btn">
-        <span class="span1 fontsize16_400">{{$t("message.nftCard.txt7")}}</span>
+        <span class="span1 fontsize16_400">{{$t("message.nftCard.txt7")}}.</span>
         <span class="span2 fontsize16_400">{{cardNumber}}</span>
       </div>
       <div class="mobile_line">
@@ -382,7 +382,7 @@ export default {
     }
     .onebox{
       position: absolute;
-      top: 17%;
+      top: 25%;
       left: 50%;
       transform: translate(-50%,-50%);
       display: flex;
@@ -434,22 +434,22 @@ input::-webkit-input-placeholder {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 0.4rem;
-      min-height: 1rem;
+      margin-top: 0;
+      min-height: 2.65rem;
       .bgimg{
         width: 100%;
         object-fit: contain;
       }
       .onebox{
         position: absolute;
-        top: 11%;
+        top: 24%;
         left: 50%;
         transform: translate(-50%,-50%);
         display: flex;
         flex-direction: column;
         align-items: center;
         .cardimg{
-          width: 1.64rem;
+          width: 1.01rem;
           object-fit: contain;
         }
         .bottom{
@@ -494,7 +494,7 @@ input::-webkit-input-placeholder {
     .mobile_top{
       display: flex;
       width: 100%;
-      padding: 0.2rem;
+      padding:0 0.2rem 0.1rem;
       margin-top: 0.3rem;
       .mobile_top_box {
         width: 100%;
@@ -511,7 +511,7 @@ input::-webkit-input-placeholder {
     .mobile_content{
       display: flex;
       width: 100%;
-      padding: 0.2rem;
+      padding:0 0.2rem 0.2rem;
       display: flex;
       flex-direction: column;
       .btn {

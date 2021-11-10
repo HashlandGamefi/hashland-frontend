@@ -7,23 +7,23 @@
       <div class="center_box">
         <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
-          <div class="btn1 fontsize14" @click="footerClick('Power')">
+          <div class="btn1" @click="footerClick('Power')">
             <img :src="`${$store.state.imgUrl}power.png`" class="certick_img" />
-            KUCOIN
+            <span class="span1 fontsize14">KUCOIN</span>
           </div>
-          <div class="btn1 fontsize14" @click="footerClick('Certik')">
+          <div class="btn1" @click="footerClick('Certik')">
             <img
               :src="`${$store.state.imgUrl}certick.png`"
               class="certick_img"
             />
-            Certik
+            <span class="span1 fontsize14">Certik</span>
           </div>
-          <div class="btn1 fontsize14" @click="footerClick('Gitbook')">
+          <div class="btn1" @click="footerClick('Gitbook')">
             <img
               :src="`${$store.state.imgUrl}addfooter.png`"
               class="addfooter_img"
             />
-            GitBook
+            <span class="span1 fontsize14">GitBook</span>
           </div>
         </div>
         <div class="btnbox">
@@ -213,25 +213,27 @@ export default {
           justify-content: center;
           margin-top: 0.12rem;
           .btn1 {
-            width: 0.56rem;
+            width: auto;
+            padding: 0 0.01rem;
             border-radius: 0.1rem;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 0.21rem;
-            font-size: 0.09rem;
             background: #fff;
             margin-right: 0.1rem;
-            cursor: pointer;
             color: #052247;
             box-shadow:none;
             .addfooter_img {
-              width: 0.09rem;
+              width: 0.1rem;
               margin-right: 0;
             }
             .certick_img {
-              width: 0.09rem;
+              width: 0.1rem;
               margin-right: 0;
+            }
+            .span1{
+              transform: scale(0.8);
             }
           }
           .img {
