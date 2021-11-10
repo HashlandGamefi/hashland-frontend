@@ -259,6 +259,7 @@ export default {
       }
 
       // 获取某用户购买新卡槽的HC金额
+      this.proupBtnstatus = false
       this.buyHCMoney = (await hnPool().getUserSlotPrice(this.getAccount) / 1e18).toString()
       this.$common.selectLang('本次解锁共需' + this.buyHCMoney + 'HC','Craft needs to consume ' + this.buyHCMoney + ' HC',this)
     },
