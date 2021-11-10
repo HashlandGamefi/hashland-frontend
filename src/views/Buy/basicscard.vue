@@ -557,6 +557,7 @@ input::-webkit-input-placeholder {
             font-style: normal;
             color: #ffffff;
             background: transparent;
+            font-size: 0.14rem;
           }
         }
       }

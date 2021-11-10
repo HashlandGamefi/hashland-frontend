@@ -735,9 +735,10 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
+        margin-top: 0.05rem;
         .span1 {
           color: #ffffff;
-          line-height: 0.28rem;
+          line-height: auto;
           margin-right: 0.05rem;
         }
         .span2 {

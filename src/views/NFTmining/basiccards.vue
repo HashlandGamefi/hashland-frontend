@@ -4,9 +4,9 @@
     <div class="myCard">
       <div class="card_left">
         <span class="span1 fontsize22">{{$t("message.nftMining.txt3")}}</span>
-        <span class="span2 fontsize12_400">{{$t("message.nftMining.txt4")}}</span>
+        <div class="synthesis_btn fontsize16" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
       </div>
-      <div class="synthesis_btn fontsize16" @click="synthesisClick">{{$t("message.nftMining.txt5")}}</div>
+      <span class="span2 fontsize12_400">{{$t("message.nftMining.txt4")}}</span>
     </div>
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container">
@@ -33,8 +33,8 @@
     <div class="myCard margin_top_card">
       <div class="card_left">
         <span class="span1 fontsize22">{{$t("message.nftMining.txt7")}}</span>
-        <span class="span2 fontsize12_400">{{$t("message.nftMining.txt8")}}</span>
       </div>
+      <span class="span2 fontsize12_400">{{$t("message.nftMining.txt8")}}</span>
     </div>
     <!-- 卡槽轮播 -->
     <div class="swiper-container self_swiper">
@@ -394,30 +394,34 @@ export default {
   .myCard {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 100px;
+    flex-direction: column;
+    // align-items: center;
+    // justify-content: space-between;
+    padding: 0 0 0 100px;
+
     .card_left {
+      width: 100%;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
       .span1 {
         color: #ffffff;
       }
-      .span2 {
-        color: #ccbebe;
-        margin-top: 7px;
+      .synthesis_btn {
+        width: 144px;
+        height: 49px;
+        line-height: 49px;
+        background-image: url(//cdn.hashland.com/images/nft_btn1.png);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        text-align: center;
+        color: #ffffff;
+        cursor: pointer;
       }
     }
-    .synthesis_btn {
-      width: 144px;
-      height: 49px;
-      line-height: 49px;
-      background-image: url(//cdn.hashland.com/images/nft_btn1.png);
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      text-align: center;
-      color: #ffffff;
-      cursor: pointer;
+    .span2 {
+      color: #ccbebe;
+      margin-top: 7px;
     }
   }
   .swiper-container{
@@ -596,30 +600,32 @@ export default {
     .myCard {
       width: 100%;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
+      // justify-content: space-between;
       padding: 0 0.2rem;
       .card_left {
-        width: 2rem;
+        width: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
         .span1 {
           color: #ffffff;
         }
-        .span2 {
-          color: #ccbebe;
+        .synthesis_btn {
+          width: 0.8rem;
+          height: 0.3rem;
+          line-height: 0.3rem;
+          background-image: url("//cdn.hashland.com/images/nft_btn1.png");
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          text-align: center;
+          color: #ffffff;
+          cursor: pointer;
         }
       }
-      .synthesis_btn {
-        width: 0.8rem;
-        height: 0.3rem;
-        line-height: 0.3rem;
-        background-image: url("//cdn.hashland.com/images/nft_btn1.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        text-align: center;
-        color: #ffffff;
-        cursor: pointer;
+      .span2 {
+        color: #ccbebe;
       }
     }
     .swiper-container{
