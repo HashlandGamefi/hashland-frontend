@@ -340,7 +340,7 @@ export default {
         obj.hc = race[0].toString()// hc 算力
         obj.btc = race[1].toString()// btc 算力
         // obj.src = await getHnImg(Number(item),Number(obj.level))
-        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
         this.cardsoltArr.unshift(obj)
         console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       })

@@ -346,7 +346,7 @@ export default {
         obj.cardID = item.toString() // 卡牌的id
         obj.level = (await hn().level(item)).toString() // 等级
         // obj.src = await getHnImg(Number(obj.cardID),Number(obj.level))
-        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png`
+        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
         let race = await hn().getHashrates(item) // hc 算力
         obj.hc = race[0].toString()
         obj.btc = race[1].toString()// btc 算力
