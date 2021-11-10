@@ -219,9 +219,9 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 0.21rem;
+            height: auto;
             background: #fff;
-            margin-right: 0.1rem;
+            margin-right: 0.05rem;
             color: #052247;
             box-shadow:none;
             .addfooter_img {

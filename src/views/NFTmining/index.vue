@@ -465,7 +465,8 @@ export default {
         position: relative;
         width: 100%;
         height: 1.2rem;
-        background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
+        background: linear-gradient(180deg, #153AA2 0%, #2673E6 100%) linear-gradient(180deg, #DF7B10 0%, #E6B826 100%);
+        // background: linear-gradient(90deg, #F5A00A 0%, #EA6C10 10%, #E69826 100%);
         // box-shadow: 0px 21px 22px -2px rgba(3, 17, 34, 0.68), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
         box-shadow: none;
         border-radius: 0.2rem;
@@ -508,6 +509,7 @@ export default {
             flex-direction: column;
             justify-content: space-between;
             .span1{
+              width: 75%;
               padding: 0.02rem 0.1rem;
               background: #A25911;
               border-radius: 0.15rem;
@@ -539,8 +541,8 @@ export default {
       }
       .right_footer{
         height: auto;
-        background: linear-gradient(90deg, #153AA2 0%, #0F296A 10%, #2673E6 100%);
-        box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68) inset;
+        background: linear-gradient(180deg, #153AA2 0%, #2673E6 100%);
+        box-shadow: none;
         .top{
           .txt{
             background-image: url("//cdn.hashland.com/images/nft_btn1.png");
@@ -551,6 +553,7 @@ export default {
           box-shadow: 0px 6px 12px 0px #2164CE, 0px 1px 23px 0px #01060E;
           .add_txt{
             .span1_{
+              width: 75%;
               padding: 0.02rem 0.1rem;
               background: rgba(0, 0, 0, 0.4);
               border-radius: 0.15rem;
