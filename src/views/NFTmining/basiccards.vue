@@ -398,7 +398,6 @@ export default {
     // align-items: center;
     // justify-content: space-between;
     padding: 0 0 0 100px;
-
     .card_left {
       width: 100%;
       display: flex;
@@ -421,7 +420,6 @@ export default {
     }
     .span2 {
       color: #ccbebe;
-      margin-top: 7px;
     }
   }
   .swiper-container{
