@@ -366,7 +366,7 @@ input::-webkit-input-placeholder {
     .mobile_content{
       display: flex;
       width: 100%;
-      padding: 0.2rem;
+      padding:0 0.2rem 0.29rem;
       display: flex;
       flex-direction: column;
       .btn {
@@ -460,7 +460,7 @@ input::-webkit-input-placeholder {
         }
       }
       .btn {
-        width: 2.14rem;
+        width: 2.5rem;
         font-size: 0.18rem;
         color: #FFFFFF;
         padding: 0.05rem;

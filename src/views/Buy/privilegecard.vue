@@ -338,7 +338,7 @@ input::-webkit-input-placeholder {
     .mobile_top{
       display: flex;
       width: 100%;
-      padding:0 0.2rem 0.1rem;
+      padding:0 0.2rem 0.3rem;
       margin-top: 0.3rem;
       .mobile_top_box {
         width: 100%;
@@ -356,9 +356,10 @@ input::-webkit-input-placeholder {
     .mobile_content{
       display: flex;
       width: 100%;
-      padding:0 0.2rem 0.2rem;
+      padding:0 0.2rem 0.29rem;
       display: flex;
       flex-direction: column;
+      margin-top: -0.38rem;
       .btn {
         width: 1.7rem;
         height: 0.4rem;
@@ -450,7 +451,7 @@ input::-webkit-input-placeholder {
         }
       }
       .btn {
-        width: 2.14rem;
+        width: 2.5rem;
         font-size: 0.18rem;
         color: #FFFFFF;
         padding: 0.05rem;

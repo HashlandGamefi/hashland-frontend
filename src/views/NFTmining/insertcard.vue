@@ -32,7 +32,7 @@
                 @click="cardClick(item, index, index1)"
               >
                 <img :src="item.src" class="swiper_img" />
-                <div class="bottom">
+                <!-- <div class="bottom">
                   <div class="five_pointed_star">
                     <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in ele" :key="item1" class="start_img" />
                   </div>
@@ -46,7 +46,7 @@
                       <span class="span1 fontsize12_400">{{item.btc}}</span>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
               </div>
             </div>

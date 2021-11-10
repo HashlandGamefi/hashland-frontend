@@ -35,7 +35,7 @@
     <div class="cardarr_class cardarr_class_selected" v-if="selectedArr.length > 0">
       <div class="onebox selected_onebox" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
-        <div class="bottom selected_bottom" :class="{scalebottom:index % 4 !== 0}">
+        <!-- <div class="bottom selected_bottom" :class="{scalebottom:index % 4 !== 0}">
           <div class="five_pointed_star">
             <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
           </div>
@@ -49,7 +49,7 @@
               <span class="span1 fontsize12_400">{{item.btc}}</span>
             </div>
           </div>
-        </div>
+        </div> -->
         <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
         <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" v-if="index % 4 == 0" />
       </div>
@@ -58,7 +58,7 @@
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <div class="bottom">
+        <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
           </div>
@@ -72,7 +72,7 @@
               <span class="span1 fontsize12_400">{{item.btc}}</span>
             </div>
           </div>
-        </div>
+        </div> -->
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
       </div>
       <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0 && isshowArr"></NoData>
@@ -208,9 +208,9 @@ export default {
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           // obj.src = await getHnImg(Number(item.toString()),Number(obj.level))
           obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
-          let race = await hn().getHashrates(item.toString())
-          obj.hc = race[0].toString()// hc 算力
-          obj.btc = race[1].toString()// btc 算力
+          // let race = await hn().getHashrates(item.toString())
+          // obj.hc = race[0].toString()// hc 算力
+          // obj.btc = race[1].toString()// btc 算力
           imgarr.push(obj)
         })
         let lastObj = {

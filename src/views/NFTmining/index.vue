@@ -435,7 +435,7 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
-      margin-top: 0.5rem;
+      margin-top: 0.3rem;
       padding:0 0.2rem;
       .apy_title{
         width: 100%;

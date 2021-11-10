@@ -596,9 +596,9 @@ export default {
       .mobile_topbox{
         width: 100%;
         padding:0 0.2rem;
-        padding-top: 0.9rem;
+        padding-top: 0.8rem;
         // min-height: 2.8rem;
-        // height: 2.8rem;
+        height: 2.8rem;
         display: flex;
         .mobile_pretend_img{
           width: 100%;

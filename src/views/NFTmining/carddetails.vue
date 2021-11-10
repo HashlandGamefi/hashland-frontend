@@ -7,7 +7,7 @@
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <div class="bottom">
+        <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img :src="`${$store.state.imgUrl}start.png`"  v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
           </div>
@@ -19,7 +19,7 @@
             <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
             <span class="span1 fontsize12_400">{{item.btc}}</span>
           </div>
-        </div>
+        </div> -->
       </div>
       <NoData v-if="$route.query.num == 0"></NoData>
     </div>

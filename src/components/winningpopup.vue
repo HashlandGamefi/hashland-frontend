@@ -9,7 +9,7 @@
     <div class="boxarr">
       <div class="onebox" v-for="(item, index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <div class="bottom">
+        <!-- <div class="bottom">
           <div class="five_pointed_star">
             <img
               :src="`${$store.state.imgUrl}start.png`"
@@ -26,7 +26,7 @@
             <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
             <span class="span1 fontsize12_400">{{ item.btc }}</span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="Suspension_btnbox">

@@ -43,7 +43,7 @@
           <div class="outbox">
             <div class="second-content_box">
               <img :src="item.src" class="swiper_img" v-if="item.btnstatus !== 3"/>
-              <div class="bottom" v-if="item.btnstatus == 2">
+              <!-- <div class="bottom" v-if="item.btnstatus == 2">
                 <div class="five_pointed_star">
                   <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
                 </div>
@@ -57,7 +57,7 @@
                     <span class="span1 fontsize12_400">{{item.btc}}</span>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <img :src="item.src" class="lock_swiper_img" v-if="item.btnstatus == 3"/>
               <img :src="`${$store.state.imgUrl}pledgebg.png`" class="base_img" />
             </div>
@@ -336,9 +336,9 @@ export default {
         }
         obj.cardID = item.toString() // 卡牌的id
         obj.level = (await hn().level(item.toString())).toString() // 等级
-        let race = await hn().getHashrates(item)
-        obj.hc = race[0].toString()// hc 算力
-        obj.btc = race[1].toString()// btc 算力
+        // let race = await hn().getHashrates(item)
+        // obj.hc = race[0].toString()// hc 算力
+        // obj.btc = race[1].toString()// btc 算力
         // obj.src = await getHnImg(Number(item),Number(obj.level))
         obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
         this.cardsoltArr.unshift(obj)
@@ -611,9 +611,9 @@ export default {
         }
       }
       .synthesis_btn {
-        width: 1rem;
-        height: 0.39rem;
-        line-height: 0.39rem;
+        width: 0.8rem;
+        height: 0.3rem;
+        line-height: 0.3rem;
         background-image: url("//cdn.hashland.com/images/nft_btn1.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -787,7 +787,7 @@ export default {
       margin-top: 0.2rem;
     }
     .margin_top_card{
-      margin-top: 0.5rem;
+      margin-top: 0.3rem;
     }
   }
 }
