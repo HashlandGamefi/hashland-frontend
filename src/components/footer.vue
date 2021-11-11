@@ -68,7 +68,7 @@ export default {
     footerClick (data) {
       switch (data) {
         case 'BTC':
-          window.location.href = ''
+          window.location.href = 'https://btc.com/'
           break;
         case 'Certik':
           window.location.href = 'https://www.certik.org/projects/hashland'
