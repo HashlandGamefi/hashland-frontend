@@ -135,7 +135,7 @@ import { mapGetters } from "vuex";
 import Swiper from "swiper";
 import { hnPool, hn, getSigner, hc, util, contract } from "hashland-sdk";
 export default {
-  data() {
+  data () {
     return {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
@@ -153,7 +153,7 @@ export default {
       swiper2: null,
     };
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.swiper1 = new Swiper(".swiper-container1", {
         nextButton: ".swiper-button-next",
@@ -175,7 +175,7 @@ export default {
   },
   watch: {
     getIstrue: {
-      handler(newValue, oldValue) {
+      handler (newValue, oldValue) {
         // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
         // 链接成功
         if (newValue) {
@@ -289,21 +289,22 @@ export default {
   },
   methods: {
     /**初始化swiper */
-    initSwiper(index) {
+    initSwiper (index) {
       setTimeout(() => {
+        console.log("移动", index)
         if (index == 1) {
           this.swiper1.slideTo(0, 100, false);
         } else if (index == 2) {
           this.swiper2.slideTo(0, 100, false);
         }
-      }, 500);
+      }, 1000);
     },
     // 取消按钮(关闭弹窗)
-    closeFun() {
+    closeFun () {
       this.proupDis = false;
     },
     // 确认按钮(弹窗)
-    sureBtnFun() {
+    sureBtnFun () {
       if (this.proupBtnstatus) {
         this.proupDis = false;
         return;
@@ -312,14 +313,14 @@ export default {
       this.PickUpFoxFun();
     },
     // 插入卡槽
-    insertClick(item) {
+    insertClick (item) {
       this.$router.push({
         path: "/insertcard",
         query: { nums: this.emptyCardSlot },
       });
     },
     // 解除卡槽
-    removeClick(item) {
+    removeClick (item) {
       // console.log("解除卡槽item: ", item);
       if (item.isloading) return;
       item.isloading = true;
@@ -342,7 +343,7 @@ export default {
         });
     },
     // 解锁卡槽
-    async Unlock(item) {
+    async Unlock (item) {
       // console.log("item: ", item);
       this.datainfo = item;
       if (!this.ISpprove) {
@@ -375,7 +376,7 @@ export default {
         this
       );
     },
-    async PickUpFoxFun() {
+    async PickUpFoxFun () {
       this.datainfo.isloading = true;
       let balance = util.formatEther(await hc().balanceOf(this.getAccount));
       if (Number(balance) < Number(this.buyHCMoney)) {
@@ -402,18 +403,19 @@ export default {
         });
     },
     // 合成
-    synthesisClick() {
+    synthesisClick () {
       this.$router.push("/synthesis");
     },
     // 我的卡牌跳转
-    jumpDetails(item) {
+    jumpDetails (item) {
       this.$router.push({
         path: "/carddetails",
         query: { level: item.level, num: item.num },
       });
     },
     // 链接钱包才能拿到的数据获取方法
-    async getCardSlotInfo() {
+    async getCardSlotInfo () {
+      this.cardsoltArr = [];
       // 获取某用户的总卡槽数量cardSlot
       this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString();
       // 获取某用户的空卡槽数量
@@ -468,9 +470,8 @@ export default {
         // obj.hc = race[0].toString()// hc 算力
         // obj.btc = race[1].toString()// btc 算力
         // obj.src = await getHnImg(Number(item),Number(obj.level))
-        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${
-          obj.level
-        }.png/w400`;
+        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level
+          }.png/w400`;
         this.cardsoltArr.unshift(obj);
         // console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       });
