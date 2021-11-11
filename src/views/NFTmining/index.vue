@@ -334,9 +334,8 @@ export default {
         padding: 14px 0 26px 13px;
         margin-top: 13px;
         .add_txt{
-          width: 240px;
+          // width: 100%;
           .span1{
-            width: 100%;
             padding: 2px 10px;
             background: #A25911;
             border-radius: 15px;
@@ -369,7 +368,6 @@ export default {
     }
     .right_footer{
       background: linear-gradient(90deg, #153AA2 0%, #0F296A 10%, #2673E6 100%);
-      // box-shadow: 0px 9px 17px 4px rgba(0, 0, 0, 0.5), 0px 21px 22px -2px rgba(3, 17, 34, 0.68);
       .top{
         .txt{
           background-image: url("//cdn.hashland.com/images/nft_btn1.png");
@@ -464,7 +462,7 @@ export default {
       .left_footer{
         position: relative;
         width: 100%;
-        height: 1.3rem;
+        height: 1.8rem;
         background: linear-gradient(180deg, #153AA2 0%, #2673E6 100%) linear-gradient(180deg, #DF7B10 0%, #E6B826 100%);
         box-shadow: none;
         border-radius: 0.2rem;
@@ -495,21 +493,23 @@ export default {
         }
         .bottom{
           width: 100%;
-          height: 0.7rem;
+          height: 1rem;
           background: linear-gradient(270deg, #E79826 0%, #FF7902 100%);
           box-shadow: 0px 6px 12px 0px rgba(127, 70, 14, 0.69), 0px 1px 23px 0px #8B4309 inset;
           border-radius: 0.3rem;
-          padding: 0.1rem;
+          padding: 0.18rem;
           margin-top: 0.1rem;
           .add_txt{
-            width: 100%;
+            // width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             .span1{
-              width: 100%;
+              // width: 100%;
+              width: fit-content;
               padding: 0.02rem 0.1rem;
-              background: #A25911;
+              background: transparent;
+              box-shadow: 5px 5px 7px 0px rgba(0, 0, 0, 0.18), -2px 1px 7px 0px #5E2704 inset;
               border-radius: 0.15rem;
               color: #FFFFFF;
               line-height: 0.17rem;
@@ -550,9 +550,11 @@ export default {
           box-shadow: 0px 6px 12px 0px #2164CE, 0px 1px 23px 0px #01060E;
           .add_txt{
             .span1_{
-              width: 100%;
+              // width: 100%;
+              width: fit-content;
               padding: 0.02rem 0.1rem;
-              background: rgba(0, 0, 0, 0.4);
+              background: transparent;
+              box-shadow: 5px 5px 7px 0px rgba(0, 0, 0, 0.18), -2px 1px 7px 0px #5E2704 inset;
               border-radius: 0.15rem;
               color: #FFFFFF;
               line-height: auto;

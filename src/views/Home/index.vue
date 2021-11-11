@@ -642,6 +642,7 @@ export default {
                   width: 0.66rem;
                   margin-right: 0.05rem;
                   object-fit: contain;
+                  border-radius: 0.15rem;
                 }
                 .mobile_box {
                   width: 100%;

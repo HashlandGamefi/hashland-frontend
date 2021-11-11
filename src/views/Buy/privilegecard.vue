@@ -451,7 +451,7 @@ input::-webkit-input-placeholder {
         }
       }
       .btn {
-        width: 2.5rem;
+        width: 100%;
         font-size: 0.18rem;
         color: #FFFFFF;
         padding: 0.05rem;
@@ -463,6 +463,12 @@ input::-webkit-input-placeholder {
         padding-left: 0.15rem;
       }
     }
+  }
+  input::-webkit-input-placeholder {
+    color: #909292;
+    font-size: 0.16rem;
+    font-weight: 400;
+    font-family: 'Poppins';
   }
 }
 </style>
