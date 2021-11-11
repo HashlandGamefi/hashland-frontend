@@ -22,6 +22,9 @@ Vue.component('Proup', Proup);
 import NoData from '@/components/nodata.vue'
 Vue.component('NoData', NoData);
 
+import CardInfo from '@/components/cardinfo.vue'
+Vue.component('CardInfo', CardInfo);
+
 import BtnLoading from './components/btnloading.vue'
 Vue.component('BtnLoading', BtnLoading)
 // @ts-ignore

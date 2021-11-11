@@ -1,33 +1,42 @@
 <template>
-  <div class="bottom">
-    <div class="hc_btc_box">
-      <div class="hc_coefficient">
-        <span class="span1 fontsize12_400">9999.9999</span>
+  <div class="cardinfo_bottom">
+    <div class="cardinfo_hc_btc_box">
+      <div class="cardinfo_hc_coefficient">
+        <span class="cardinfo_span1 fontsize12_400">{{hc}}</span>
       </div>
-      <div class="hc_coefficient">
-        <span class="span1 fontsize12_400">9999.9999</span>
+      <div class="cardinfo_hc_coefficient">
+        <span class="cardinfo_span1 fontsize12_400">{{btc}}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-
+  props: {
+    hc: {
+      type: String,
+      default: ''
+    },
+    btc: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
-.bottom {
+.cardinfo_bottom {
   position: absolute;
   top: 0;
   display: flex;
   align-items: center;
-  .hc_btc_box {
+  .cardinfo_hc_btc_box {
     display: flex;
     align-items: center;
-    .hc_coefficient {
+    .cardinfo_hc_coefficient {
       display: flex;
       align-items: center;
-      .span1 {
+      .cardinfo_span1 {
         color: #ffffff;
       }
     }
