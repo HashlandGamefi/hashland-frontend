@@ -93,7 +93,7 @@ export const message = {
     txt5: "Craft",
     txt6: "Detail",
     txt7: "My Sloted Cards",
-    txt8: "Slots are limited, please stake Craftd cards first",
+    txt8: "Slots are limited, please stake higher level cards first",
     txt9: "Uninsert",
     txt10: "Unlock Slot",
     txt11: "Personal APR",
@@ -110,7 +110,7 @@ export const message = {
     txt4: "Level",
     txt8: "Total",
     txt9: "张", //英文无量词
-    txt5: "All Select/Unselect",
+    txt5: "Select/Unselect All",
     txt6: "Select Card",
     txt7: "After Crafting,",
     txt10: "Level() Cards will be burnt",

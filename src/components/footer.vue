@@ -7,23 +7,23 @@
       <div class="center_box">
         <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
-          <div class="btn1" @click="footerClick('Power')">
-            <img :src="`${$store.state.imgUrl}power.png`" class="certick_img" />
-            <span class="span1 fontsize14">KUCOIN</span>
+          <div class="btn1" @click="footerClick('BTC')">
+            <!-- <img :src="`${$store.state.imgUrl}power.png`" class="certick_img" /> -->
+            <span class="span1 fontsize16">BTC.com</span>
           </div>
           <div class="btn1" @click="footerClick('Certik')">
             <img
               :src="`${$store.state.imgUrl}certick.png`"
               class="certick_img"
             />
-            <span class="span1 fontsize14">Certik</span>
+            <span class="span1 fontsize16">Certik</span>
           </div>
           <div class="btn1" @click="footerClick('Gitbook')">
             <img
               :src="`${$store.state.imgUrl}addfooter.png`"
               class="addfooter_img"
             />
-            <span class="span1 fontsize14">GitBook</span>
+            <span class="span1 fontsize16">GitBook</span>
           </div>
         </div>
         <div class="btnbox">
@@ -67,9 +67,9 @@ export default {
   methods: {
     footerClick (data) {
       switch (data) {
-        // case 'Power':
-        //   window.location.href = 'https://www.kucoin.center/mining-pool/observer?sign=fd93932b4b614241858a6ecba0adc5af'
-        //   break;
+        case 'BTC':
+          window.location.href = ''
+          break;
         case 'Certik':
           window.location.href = 'https://www.certik.org/projects/hashland'
           break;

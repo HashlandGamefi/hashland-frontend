@@ -16,7 +16,8 @@
             <img :src="item.src" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
-                <img :src="`${$store.state.imgUrl}start.png`" v-for="(ele,index1) in item.level" :key="index1"  class="start_img" />
+                <img :src="`${$store.state.imgUrl}cardlevel${item.level}.png`" class="start_img" />
+                <span class="level_class fontsize16">Level{{item.level}}</span>
               </div>
               <span class="card_grade fontsize16">{{item.num}}</span>
               <span class="details fontsize12">{{$t("message.nftMining.txt6")}}</span>
@@ -141,20 +142,20 @@ export default {
         },
         {
           level:2,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level2.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 2}).length
         },{
           level:3,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level3.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 3}).length
         },
         {
           level:4,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level4.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 4}).length
         },{
           level:5,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level5.png`,
           num:JSON.parse(this.getUserCardInfo).filter(data => {return data.level == 5}).length
         }
         ]
@@ -166,20 +167,20 @@ export default {
         },
         {
           level:2,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level2.png`,
           num:0
         },{
           level:3,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level3.png`,
           num:0
         },
         {
           level:4,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level4.png`,
           num:0
         },{
           level:5,
-          src:`${this.$store.state.imgUrl}level1.png`,
+          src:`${this.$store.state.imgUrl}level5.png`,
           num:0
         }
         ]
@@ -342,23 +343,21 @@ export default {
         // obj.src = await getHnImg(Number(item),Number(obj.level))
         obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
         this.cardsoltArr.unshift(obj)
-        console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
+        // console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       })
 
       // 授权
       this.$common.isApproveFun(2,this.getAccount,contract().HNPool).then(res => {
-        console.log('解锁是否授权res: ', res);
+        // console.log('解锁是否授权res: ', res);
         if(res.toString() > 0){
           this.ISpprove = true
-          console.log('解锁是否授权1');
+          // console.log('解锁是否授权1');
         }else{
           this.ISpprove = false
-          console.log('解锁是否授权2');
+          // console.log('解锁是否授权2');
         }
       }).catch( err => {
         console.log('解锁是否授权err: ', err);
-        this.ISpprove = false
-      }).catch(() => {
         this.ISpprove = false
       })
     }
@@ -450,17 +449,22 @@ export default {
             border-radius: 15px;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
         -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+            padding: 4px 0;
             .five_pointed_star{
               display: flex;
               align-items: center;
               .start_img{
-                width: 26px;
+                width: 30px;
                 object-fit: contain;
+              }
+              .level_class{
+                color: #FFFFFF;
+                margin-left: 4px;
               }
             }
             .card_grade{
               color: #FFFFFF;
-              margin: 0 10px;
+              margin: 0 5px 0 15px;
             }
             .details{
               padding:0 10px;
@@ -660,13 +664,17 @@ export default {
                   width: 0.15rem;
                   object-fit: contain;
                 }
+                .level_class{
+                  color: #FFFFFF;
+                  margin-left: 0.05rem;
+                }
               }
               .card_grade{
                 color: #FFFFFF;
                 margin: 0 0.04rem;
               }
               .details{
-                padding:0 0.1rem;
+                padding:0 0.05rem;
                 background: #F5B252;
                 color: #FFFFFF;
                 border-radius: 0.25rem;
