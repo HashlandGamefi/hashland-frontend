@@ -214,7 +214,7 @@ export default {
           margin-top: 0.12rem;
           .btn1 {
             width: auto;
-            padding: 0 0.01rem;
+            padding: 0 0.05rem;
             border-radius: 0.1rem;
             display: flex;
             justify-content: center;
@@ -225,15 +225,15 @@ export default {
             color: #052247;
             box-shadow:none;
             .addfooter_img {
-              width: 0.1rem;
+              width: 0.15rem;
               margin-right: 0;
             }
             .certick_img {
-              width: 0.1rem;
-              margin-right: 0;
+              width: 0.13rem;
+              margin-right: 0.01rem;
             }
             .span1{
-              transform: scale(0.8);
+              font-size: 0.12rem;
             }
           }
           .img {

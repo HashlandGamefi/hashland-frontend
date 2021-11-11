@@ -17,10 +17,12 @@
             <div class="grade_box">
               <div class="five_pointed_star">
                 <img :src="`${$store.state.imgUrl}cardlevel${item.level}.png`" class="start_img" />
-                <span class="level_class fontsize16">Level{{item.level}}</span>
+                <span class="level_class fontsize16">LV{{item.level}}</span>
               </div>
-              <span class="card_grade fontsize16">{{item.num}}</span>
-              <span class="details fontsize12">{{$t("message.nftMining.txt6")}}</span>
+              <div class="num_details">
+                <span class="card_grade fontsize16">{{item.num}}</span>
+                <span class="details fontsize12">{{$t("message.nftMining.txt6")}}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -433,7 +435,6 @@ export default {
           width: 100%;
           display: flex;
           flex-direction: column;
-          align-items: center;
           justify-content: space-between;
           cursor: pointer;
           .swiper_img{
@@ -441,15 +442,14 @@ export default {
             object-fit: contain;
           }
           .grade_box{
-            width: 228px;
+            width: 190px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             margin-top: 20px;
             border-radius: 15px;
-            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
-        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-            padding: 4px 0;
+            box-shadow: -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+            padding: 4px 8px;
             .five_pointed_star{
               display: flex;
               align-items: center;
@@ -462,17 +462,22 @@ export default {
                 margin-left: 4px;
               }
             }
-            .card_grade{
-              color: #FFFFFF;
-              margin: 0 5px 0 15px;
+            .num_details{
+              display: flex;
+              align-items: center;
+              .card_grade{
+                color: #FFFFFF;
+                margin-right:5px;
+              }
+              .details{
+                padding:0 10px;
+                background: #F5B252;
+                color: #FFFFFF;
+                border-radius: 25px;
+                cursor: pointer;
+              }
             }
-            .details{
-              padding:0 10px;
-              background: #F5B252;
-              color: #FFFFFF;
-              border-radius: 25px;
-              cursor: pointer;
-            }
+
           }
         }
         .outbox{
@@ -643,20 +648,19 @@ export default {
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: space-between;
             .swiper_img{
               width: 100%;
               object-fit: contain;
             }
             .grade_box{
-              width: auto;
-              padding: 0 0.05rem;
+              width: 1.45rem;
+              padding: 0.04rem 0.05rem;
               display: flex;
               align-items: center;
               margin-top: 0.2rem;
               border-radius: 0.1rem;
-              box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+              box-shadow: -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
               .five_pointed_star{
                 display: flex;
                 align-items: center;
@@ -669,16 +673,19 @@ export default {
                   margin-left: 0.05rem;
                 }
               }
-              .card_grade{
-                color: #FFFFFF;
-                margin: 0 0.04rem;
-              }
-              .details{
-                padding:0 0.05rem;
-                background: #F5B252;
-                color: #FFFFFF;
-                border-radius: 0.25rem;
-                cursor: pointer;
+              .num_details{
+                .card_grade{
+                  color: #FFFFFF;
+                  margin: 0 0.04rem;
+                }
+                .details{
+                  padding:0 0.05rem;
+                  background: #F5B252;
+                  color: #FFFFFF;
+                  border-radius: 0.25rem;
+                  cursor: pointer;
+                  font-size: 0.12rem;
+                }
               }
             }
             .btnbox{

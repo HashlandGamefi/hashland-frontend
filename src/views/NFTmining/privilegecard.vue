@@ -411,7 +411,7 @@ export default {
   .swiper-container{
     width: 100%;
     height: auto;
-    padding: 0 0.4rem;
+    padding: 0 0.2rem;
     .swiper-wrapper{
       .swiper-slide{
         width: 100%;
@@ -479,16 +479,10 @@ export default {
       }
     }
     .swiper-button-prev{
-      width: 0.45rem;
-      height: 0.45rem;
-      background: url("//cdn.hashland.com/images/swiper_pre.png") no-repeat;
-      background-size: 100% 100%;
+      display: none;
     }
     .swiper-button-next{
-      width: 0.45rem;
-      height: 0.45rem;
-      background: url("//cdn.hashland.com/images/swiper_next.png") no-repeat;
-      background-size: 100% 100%;
+      display: none;
     }
   }
   .margin_top_card {
