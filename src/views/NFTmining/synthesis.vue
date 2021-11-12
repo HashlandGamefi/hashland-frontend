@@ -206,11 +206,9 @@ export default {
         events.map(async item => {
           let obj = {}
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
-          // obj.src = await getHnImg(Number(item.toString()),Number(obj.level))
-          obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
-          // let race = await hn().getHashrates(item.toString())
-          // obj.hc = race[0].toString()// hc 算力
-          // obj.btc = race[1].toString()// btc 算力
+          let race = await hn().getHashrates(item) // 算力数组
+          obj.src = this.$common.getHnImg(Number(item),Number(obj.level),race)
+          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
           imgarr.push(obj)
         })
         let lastObj = {

@@ -1,7 +1,7 @@
-import BigNumber from 'bignumber.js'
-import i18n from '../i18n/index'
-import { hn,getSigner,hc} from 'hashland-sdk'
-import store from '@/store';
+import BigNumber from "bignumber.js";
+import i18n from "../i18n/index";
+import { hn, getSigner, hc } from "hashland-sdk";
+import store from "@/store";
 export default {
   // 设置cookie过期时间
   setCookie(key: string, value: any, time: any) {
@@ -147,43 +147,43 @@ export default {
     return this.cutZero(str);
   },
   // 使用bignumbers计算  保留小数位  eg:num / 1e18保留8位
-  useBigNumberDiv(num:any,bit = 8,nums = 1000000000000000000){
-    let big_number = new BigNumber(num)
-    let last_num = big_number.div(nums)
-    if(bit == 0){
-      return this.editE(last_num.toNumber())
-    }else{
-      return this.editE(last_num.dp(bit).toNumber())
+  useBigNumberDiv(num: any, bit = 8, nums = 1000000000000000000) {
+    let big_number = new BigNumber(num);
+    let last_num = big_number.div(nums);
+    if (bit == 0) {
+      return this.editE(last_num.toNumber());
+    } else {
+      return this.editE(last_num.dp(bit).toNumber());
     }
   },
   //bignumbers---乘法
-  useBignumberMultipliedBy(num:number,nums:number,bit = 0){
-    let x = new BigNumber(num)
-    let result = x.times(nums) // 1.8
-    if(bit == 0){
-      return result.toNumber()
-    }else{
-      return result.dp(bit).toNumber()
+  useBignumberMultipliedBy(num: number, nums: number, bit = 0) {
+    let x = new BigNumber(num);
+    let result = x.times(nums); // 1.8
+    if (bit == 0) {
+      return result.toNumber();
+    } else {
+      return result.dp(bit).toNumber();
     }
   },
   //bignumbers---加法
-  useBignumberPlus(num:number,nums:number,bit = 0){
-    let x = new BigNumber(num)
-    let result = x.plus(nums)
-    if(bit == 0){
-      return result.toNumber()
-    }else{
-      return result.dp(bit).toNumber()
+  useBignumberPlus(num: number, nums: number, bit = 0) {
+    let x = new BigNumber(num);
+    let result = x.plus(nums);
+    if (bit == 0) {
+      return result.toNumber();
+    } else {
+      return result.dp(bit).toNumber();
     }
   },
   //bignumbers---减法
-  useBignumberMinus(num:number,nums:number,bit = 0){
-    let x = new BigNumber(num)
-    let result = x.minus(nums)
-    if(bit == 0){
-      return result.toNumber()
-    }else{
-      return result.dp(bit).toNumber()
+  useBignumberMinus(num: number, nums: number, bit = 0) {
+    let x = new BigNumber(num);
+    let result = x.minus(nums);
+    if (bit == 0) {
+      return result.toNumber();
+    } else {
+      return result.dp(bit).toNumber();
     }
   },
   /** 应用场景:获取到的时间转换为固定的时间格式;参数:时间;返回值:yy-mm-dd hh:mm:ss:ms */
@@ -215,7 +215,7 @@ export default {
     );
   },
   /** 应用场景:时间戳转相对应的日期格式;参数:时间戳(s);返回值:yy-mm-dd hh:mm:ss */
-  timeFormat(targetDate: any,type = 1) {
+  timeFormat(targetDate: any, type = 1) {
     targetDate = targetDate * 1000; // 需要用毫秒数
     let y: any = new Date(targetDate).getFullYear();
     let m: any = new Date(targetDate).getMonth() + 1;
@@ -228,12 +228,11 @@ export default {
     H = H > 9 ? H : "0" + H;
     M = M > 9 ? M : "0" + M;
     S = S > 9 ? S : "0" + S;
-    if(type == 1){
+    if (type == 1) {
       return y + "-" + m + "-" + d + " " + H + ":" + M + ":" + S;
-    }else{
-      return y + "-" + m + "-" + d
+    } else {
+      return y + "-" + m + "-" + d;
     }
-
   },
   /** 应用场景:在某一个时刻点,按钮禁止点击;参数:传入结束时间戳(秒)(返回值为0,1,倒计时对象,含义:0代表按钮可以点,1代表不能点,其他数字代表倒计时正在进行)*/
   customTime(endtime: any, calback: any) {
@@ -288,84 +287,93 @@ export default {
     endtime = endtime - 1;
   },
   // 数字中是否带有e,有的话截取固定位数小数(bit),保留e的位数,没有则按正常显示(digit为要保留的小数位)
-  checkNumber(str:string,callback:any,digit = 8,bit = 4){
-    if(str.indexOf('e') != -1){
-      callback(str.substring(0,str.indexOf('.') + bit) + str.substring(str.indexOf('e')))
-    }else{
-      callback(this.numFormat(this.getBit(str,digit)))
+  checkNumber(str: string, callback: any, digit = 8, bit = 4) {
+    if (str.indexOf("e") != -1) {
+      callback(
+        str.substring(0, str.indexOf(".") + bit) +
+          str.substring(str.indexOf("e"))
+      );
+    } else {
+      callback(this.numFormat(this.getBit(str, digit)));
     }
   },
   // 中英文环境
-  selectLang(chinse:string,english:string,that:any){
-    if (i18n.locale == 'cn') {
-      that.word = chinse //'提取成功'
-      that.btntxt = '确认'
+  selectLang(chinse: string, english: string, that: any) {
+    if (i18n.locale == "cn") {
+      that.word = chinse; //'提取成功'
+      that.btntxt = "确认";
     } else {
-      that.word = english //'Claim success'
-      that.btntxt = 'Confirm'
+      that.word = english; //'Claim success'
+      that.btntxt = "Confirm";
     }
-    that.proupDis = true
+    that.proupDis = true;
   },
   // 是否授权
-  async isApproveFun(type:number,account:string,contractAdrdess:string){
-    if(type == 1){
-      return await hn().isApprovedForAll(account,contractAdrdess)
-    }else{
-      return await hc().allowance(account,contractAdrdess)
+  async isApproveFun(type: number, account: string, contractAdrdess: string) {
+    if (type == 1) {
+      return await hn().isApprovedForAll(account, contractAdrdess);
+    } else {
+      return await hc().allowance(account, contractAdrdess);
     }
   },
   // 去授权
-  async delegatingFun(type:number,contractAdrdess:string){
-    if(type == 1){
-      return await hn().connect(getSigner()).setApprovalForAll(contractAdrdess,true)
-    }else{
-      const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
-      return await hc().connect(getSigner()).approve(contractAdrdess,TOKEN_amount)
+  async delegatingFun(type: number, contractAdrdess: string) {
+    if (type == 1) {
+      return await hn()
+        .connect(getSigner())
+        .setApprovalForAll(contractAdrdess, true);
+    } else {
+      const TOKEN_amount =
+        "50000000000000000000000000000000000000000000000000000000000";
+      return await hc()
+        .connect(getSigner())
+        .approve(contractAdrdess, TOKEN_amount);
     }
   },
   // 获取用户的所有卡牌信息
-  async getUserCardInfoFun(account:string){
-    hn().tokensOfOwnerBySize(account,0,1000000).then( async res => {//0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-      // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
-      if(res[0].length == 0){
-        store.commit("setCardInfo",JSON.stringify([]))
-        sessionStorage.setItem("setCardInfo",JSON.stringify([]))
-        return
-      }
-      let infoArr:any = []
-      res[0].map(async (item:any) => {
-        let obj = {
-          cardID:'',
-          level:'',
-          hc:'',
-          btc:'',
-          src:'',
-          status:false, // 选中与未选中
-          ismaster:false,//主牌设置
+  async getUserCardInfoFun(account: string) {
+    hn()
+      .tokensOfOwnerBySize(account, 0, 1000000)
+      .then(async res => {
+        //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+        // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+        if (res[0].length == 0) {
+          store.commit("setCardInfo", JSON.stringify([]));
+          sessionStorage.setItem("setCardInfo", JSON.stringify([]));
+          return;
         }
-        obj.cardID = item.toString() // 卡牌的id
-        obj.level = (await hn().level(item)).toString() // 等级
-        // obj.src = await getHnImg(Number(obj.cardID),Number(obj.level))
-        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
-        // let race = await hn().getHashrates(item) // hc 算力
-        // obj.hc = race[0].toString()
-        // obj.btc = race[1].toString()// btc 算力
-        infoArr.push(obj)
-        store.commit("setCardInfo",JSON.stringify(infoArr))
-        sessionStorage.setItem("setCardInfo",JSON.stringify(infoArr))
-        // store.commit("setCardInfo",infoArr)
-        // sessionStorage.setItem("setCardInfo",infoArr)
-      })
-    })
+        let infoArr: any = [];
+        res[0].map(async (item: any) => {
+          let obj = {
+            cardID: "",
+            level: "",
+            hc: "",
+            btc: "",
+            src: "",
+            status: false, // 选中与未选中
+            ismaster: false //主牌设置
+          };
+          obj.cardID = item.toString(); // 卡牌的id
+          obj.level = (await hn().level(item)).toString(); // 等级
+          let race = await hn().getHashrates(item); // 算力数组
+          // @ts-ignore
+          obj.src = this.getHnImg(Number(item), obj.level, race);
+          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
+          infoArr.push(obj);
+          store.commit("setCardInfo", JSON.stringify(infoArr));
+          sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
+        });
+      });
   },
   // 函数节流
-  flowFun(fn:any,that:any) {
-    console.log("节流函数")
+  flowFun(fn: any, that: any) {
+    console.log("节流函数");
     let canRun = true; // 通过闭包保存一个标记
-    return function () {
+    return function() {
       if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
       canRun = false; // 立即设置为false
-      setTimeout(() => { // 将外部传入的函数的执行放在setTimeout中
+      setTimeout(() => {
+        // 将外部传入的函数的执行放在setTimeout中
         fn.apply(that, arguments);
         // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
         canRun = true;
@@ -373,7 +381,41 @@ export default {
     };
   },
   // 字符串前边按规定字符补齐规定位数 complementString('123',8,'0')------result:00000123
-  complementString(str:string,nums:number,rule:string){
-    return str.padStart(nums,rule)
+  complementString(str: string, nums: number, rule: string) {
+    return str.padStart(nums, rule);
+  },
+  //sdk获取图片 暂时本地先写后续要放到sdk
+  getHnImg(hnId: any, level: any, hashrates: any, isOrigin: any) {
+    let fontSize = 12;
+    let x1 = 145;
+    let x2 = 275;
+    let y = 39;
+
+    if (isOrigin) {
+      fontSize = 24;
+      x1 = 395;
+      x2 = 655;
+      y = 79;
+    }
+
+    const cdnUrl = `//cdn.hashland.com/nft/images/hashland-nft-${hnId}-${level}.png?image_process=`;
+    const resizeAndCrop = "resize,w_512/crop,mid,w_410,h_512/";
+    const watermark = `watermark,text_${window
+      .btoa((hashrates[0] / 1e4).toFixed(4))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(
+        /\=+$/,
+        ""
+      )},type_enpnZnhpbmd5YW4,color_ffffff,size_${fontSize},g_nw,x_${x1},y_${y}/watermark,text_${window
+      .btoa((hashrates[1] / 1e4).toFixed(4))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(
+        /\=+$/,
+        ""
+      )},type_enpnZnhpbmd5YW4,color_ffffff,size_${fontSize},g_nw,x_${x2},y_${y}`;
+
+    return cdnUrl + (isOrigin ? "" : resizeAndCrop) + watermark;
   }
 };

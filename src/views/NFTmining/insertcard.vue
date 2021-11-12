@@ -163,7 +163,9 @@ export default {
             this.$common.selectLang('插入成功', 'Insert Successful', this)
             this.approve_isloading = false
             this.$common.getUserCardInfoFun(this.getAccount)
-            this.back()
+            setTimeout(() => {
+              this.back()
+            }, 1500)
           }
         }).catch(err => {
           console.log('质押err: ', err);

@@ -298,7 +298,7 @@ export default {
         } else if (index == 2) {
           this.swiper2.slideTo(0, 100, false);
         }
-      }, 1000);
+      }, 2500);
     },
     // 取消按钮(关闭弹窗)
     closeFun () {
@@ -337,10 +337,12 @@ export default {
             this.getCardSlotInfo();
             this.$common.getUserCardInfoFun(this.getAccount);
           }
+          this.proupBtnstatus = true
         })
         .catch((err) => {
           // console.log("解除卡槽err: ", err);
           item.isloading = false;
+          this.proupBtnstatus = true
         });
     },
     // 解锁卡槽
@@ -357,11 +359,14 @@ export default {
             this.ISpprove = true;
             this.$common.selectLang("授权成功", "Authorize Successful", this);
             item.isloading = false;
+
+            this.proupBtnstatus = true
           })
-          .catch((err) => {
+          .catch(() => {
             // console.log("授权err: ", err);
             this.ISpprove = false;
             item.isloading = false;
+            this.proupBtnstatus = true
           });
         return;
       }
@@ -373,7 +378,7 @@ export default {
       ).toString();
       this.$common.selectLang(
         "本次解锁共需" + this.buyHCMoney + "HC",
-        "Craft needs to consume " + this.buyHCMoney + " HC",
+        "Unlock Slot needs to consume " + this.buyHCMoney + " HC",
         this
       );
     },
@@ -467,14 +472,9 @@ export default {
         };
         obj.cardID = item.toString(); // 卡牌的id
         obj.level = (await hn().level(item.toString())).toString(); // 等级
-        // let race = await hn().getHashrates(item)
-        // obj.hc = race[0].toString()// hc 算力
-        // obj.btc = race[1].toString()// btc 算力
-        // obj.src = await getHnImg(Number(item),Number(obj.level))
-        obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level
-          }.png/w400`;
+        let race = await hn().getHashrates(item) // 算力数组
+        obj.src = this.$common.getHnImg(Number(item),Number(obj.level),race)
         this.cardsoltArr.unshift(obj);
-        // console.log('卡槽中已质押的卡牌infoArr: ', this.cardsoltArr);
       });
       this.initSwiper(2);
       // 授权
