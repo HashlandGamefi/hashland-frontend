@@ -133,7 +133,13 @@ export default {
           setTimeout(() => {
             this.getSDKInfo()
             this.cardarr = JSON.parse(this.getUserCardInfo)
-            this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
+            // this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
+            let arr = this.cardarr.filter(item => { return item.level == 1})
+            arr.sort((a, b) => {
+              return Number(a.type) > Number(b.type) ? 1 : -1;
+            })
+            this.pageshowarr = arr
+
             this.isshowArr = true
             this.amount = this.cardarr.filter(item => { return item.level == 1}).length
           },1500)
@@ -287,11 +293,15 @@ export default {
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
       this.rank = data // 当前几阶
       if(type == 2){
-        this.cardarr = JSON.parse(this.getUserCardInfo)
+        this.cardarr = JSON.parse(this.getUserCardInfo).sort((a, b) => {
+          return Number(a.type) > Number(b.type) ? 1 : -1;
+        })
       }
       this.amount = this.cardarr.filter(item => { return item.level == data}).length
       this.isshowArr = false
-      this.pageshowarr = this.cardarr.filter(item => { return item.level == data}) // 页面展示的卡牌数组重新置换
+      this.pageshowarr = this.cardarr.filter(item => { return item.level == data}).sort((a, b) => {
+        return Number(a.type) > Number(b.type) ? 1 : -1;
+      }) // 页面展示的卡牌数组重新置换
       console.log('合成完成后,页面展示的数组的this.pageshowarr: ', this.cardarr);
       this.isshowArr = true
       this.selectedArr = [] // 页面展示的选中的数组
@@ -487,13 +497,14 @@ export default {
     flex-wrap: wrap;
     margin-top: 20px;
     min-height: 300px;
+    padding-bottom: 120px;
     .onebox{
       position: relative;
       width: 237px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 90px;
+      margin-bottom: 20px;
       margin-right: 46px;
       .card_picture{
         width: 100%;

@@ -107,7 +107,13 @@ export default {
         if(newValue){
           setTimeout(() => {
             this.getconnetFun()
-            this.starArr = JSON.parse(this.getUserCardInfo)
+            // this.starArr = JSON.parse(this.getUserCardInfo)
+            let arr = JSON.parse(this.getUserCardInfo)
+            arr.sort((a, b) => {
+              return Number(a.type) > Number(b.type) ? 1 : -1;
+            })
+            this.starArr = arr
+
             this.initSwiper()
           },1500)
         }

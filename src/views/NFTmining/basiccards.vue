@@ -64,7 +64,6 @@
                 class="swiper_img"
                 v-if="item.btnstatus !== 3"
               />
-              <!-- <CardInfo v-if="item.btnstatus == 2" :hc="123" :btc="456"></CardInfo> -->
               <!-- <div class="bottom" v-if="item.btnstatus == 2">
                 <div class="five_pointed_star">
                   <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />

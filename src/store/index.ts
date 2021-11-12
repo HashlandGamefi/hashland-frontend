@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    menuBG:sessionStorage.getItem("menuBG") || 'no',//导航栏背景是否展示
     CurrenciesInfo:{
       btc:sessionStorage.getItem("btcprice") || 0,
       hc:1.5
@@ -21,6 +22,10 @@ export default new Vuex.Store({
     HashMenuActive: sessionStorage.getItem('HashMenu') || -1, // 导航栏菜单索引
   },
   getters: {
+    // 获取导航栏背景状态
+    getMenuBG(state){
+      return state.menuBG;
+    },
     // 获取币的价格
     getCoinPrice(state){
       return state.CurrenciesInfo;
@@ -62,6 +67,10 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    // 设置导航栏背景是否显示
+    menuBG(state, isMenu) {
+      state.menuBG = isMenu;
+    },
     // 设置导航栏状态
     HashMenu(state, isMenu) {
       state.HashMenuActive = isMenu;

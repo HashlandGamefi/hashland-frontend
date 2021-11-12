@@ -1,5 +1,5 @@
 <template>
-  <div class="nav_box" :class="{navbg:addbg}">
+  <div class="nav_box" :class="{navbg:getMenuBG == 'yes'}">
     <div class="logo_img" @click="menuClick(-1)">
       <img :src="`${$store.state.imgUrl}logo.png`" class="imgs" />
     </div>
@@ -65,7 +65,7 @@ export default {
   data () {
     return {
       InitialStatus:true,// 移动端菜单栏按钮转换变量
-      addbg:false,// 导航栏背景
+      // addbg:false,// 导航栏背景
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
@@ -75,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue"])
+    ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue","getMenuBG"])
   },
   methods:{
     // 取消按钮(关闭弹窗)
@@ -84,7 +84,9 @@ export default {
     },
     // nfts子菜单选择项
     nftFun(data){
-      this.addbg = true
+      // this.addbg = true
+      this.$store.commit("menuBG", 'yes');
+      sessionStorage.setItem("menuBG", 'yes');
       this.InitialStatus = true
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
@@ -98,7 +100,9 @@ export default {
     },
     // 菜单栏切换状态
     menuClick (index) {
-      this.addbg = true
+      // this.addbg = true
+      this.$store.commit("menuBG", 'yes');
+      sessionStorage.setItem("menuBG", 'yes');
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if(index == 0){
@@ -112,7 +116,9 @@ export default {
         case -1:
           this.mobile_menuDis = false
           this.mobilemenu = false
-          this.addbg = false
+          // this.addbg = false
+          this.$store.commit("menuBG", 'no');
+          sessionStorage.setItem("menuBG", 'no');
           this.$router.push('/home')
           break;
         case 0:

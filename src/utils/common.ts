@@ -346,6 +346,7 @@ export default {
         res[0].map(async (item: any) => {
           let obj = {
             cardID: "",
+            type:'',// 卡牌的种类
             level: "",
             hc: "",
             btc: "",
@@ -355,10 +356,10 @@ export default {
           };
           obj.cardID = item.toString(); // 卡牌的id
           obj.level = (await hn().level(item)).toString(); // 等级
+          obj.type = (await hn().getRandomNumber(item, 'class', 1, 4)).toString()
           let race = await hn().getHashrates(item); // 算力数组
           // @ts-ignore
           obj.src = this.getHnImg(Number(item), obj.level, race);
-          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
           infoArr.push(obj);
           store.commit("setCardInfo", JSON.stringify(infoArr));
           sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));

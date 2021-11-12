@@ -42,12 +42,16 @@ export default {
   watch:{
     'getIstrue':{
       handler: function (newValue, oldValue) {
-        console.log('卡牌详情页面钱包是否链接:', newValue,oldValue);
-        console.log('this.$route.params.level: ', this.$route.query.level);
+        // console.log('卡牌详情页面钱包是否链接:', newValue,oldValue);
         if(newValue){
           setTimeout(() => {
-            this.boxarr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
-
+            let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
+            // console.log('JSON.parse(this.getUserCardInfo): ', arr);
+            arr.sort((a, b) => {
+              return Number(a.type) > Number(b.type) ? 1 : -1;
+            })
+            this.boxarr = arr
+            // console.log('卡牌详情页面排序完以后的arr: ', arr);
           },1500)
         }
       },
@@ -59,9 +63,6 @@ export default {
     back(){
       this.$router.go(-1)
     }
-  },
-  mounted(){
-    console.log('$route.params.num : ', this.$route.query.num );
   }
 }
 </script>
