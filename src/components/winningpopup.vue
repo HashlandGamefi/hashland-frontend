@@ -100,7 +100,7 @@ export default {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    min-height: 360px;
+    min-height: 738px;
     max-height: 738px;
     overflow-y: auto;
     padding-bottom: 132px;
