@@ -84,11 +84,21 @@ export default {
       cardIdArr: [],// 选中的卡牌id数组
       isbtnstatus: false,// 按钮的文字状态
       approve_isloading: false,// 按钮的loading
-      mySwiper: 0,//swiper对象
+      swiper1: 0,//swiper对象
     }
   },
   computed: {
     ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"])
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.swiper1 = new Swiper('.swiper-container', {
+        slidesPerView: 'auto',
+        observer: true,
+        observeParents: true,
+        initialSlide:0
+      })
+    });
   },
   watch: {
     'getIstrue':{
@@ -97,8 +107,8 @@ export default {
         if(newValue){
           setTimeout(() => {
             this.getconnetFun()
-            let res = JSON.parse(this.getUserCardInfo)
-            this.starArr = res
+            this.starArr = JSON.parse(this.getUserCardInfo)
+            this.initSwiper()
           },1500)
         }
       },
@@ -107,6 +117,15 @@ export default {
     }
   },
   methods: {
+    /**初始化swiper */
+    initSwiper () {
+      setTimeout(() => {
+        console.log("插入卡牌swiper", this.swiper1)
+        this.swiper1.forEach(item => {
+          item.slideTo(0, 100, false);
+        })
+      }, 2500);
+    },
     // 取消按钮(关闭弹窗)
     CloseFun () {
       this.proupDis = false
@@ -193,20 +212,7 @@ export default {
         this.isbtnstatus = false
       })
     },
-    swiperFun () {
-      if (this.mySwiper !== 0) {
-        this.mySwiper.destroy();
-      }
-      this.mySwiper = new Swiper('.swiper-container', {
-        slidesPerView: 'auto',
-        observer: true,
-        observeParents: true,
-      })
-    },
   },
-  async mounted () {
-    this.swiperFun()
-  }
 }
 </script>
 
