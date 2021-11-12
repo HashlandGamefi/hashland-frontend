@@ -193,36 +193,19 @@ export default {
         this.isbtnstatus = false
       })
     },
-    swiperFun (type) {
+    swiperFun () {
       if (this.mySwiper !== 0) {
         this.mySwiper.destroy();
       }
-      if(type == 'mobile'){
-        this.mySwiper = new Swiper('.swiper-container', {
-          slidesPerView: 'auto',
-          observer: true,
-          observeParents: true,
-        })
-      }else{
-        this.mySwiper = new Swiper('.swiper-container', {
-          slidesPerView: 4,
-          // slidesOffsetAfter: 100,
-          // slidesOffsetBefore: 100,
-          // centeredSlides: true,
-          // centeredSlidesBounds: true,
-          observer: true,
-          observeParents: true,
-        })
-      }
-
+      this.mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 'auto',
+        observer: true,
+        observeParents: true,
+      })
     },
   },
   async mounted () {
-    if(document.body.clientWidth <= 980){
-      this.swiperFun('mobile')
-    }else if(document.body.clientWidth > 980){
-      this.swiperFun('pc')
-    }
+    this.swiperFun()
   }
 }
 </script>
@@ -283,7 +266,7 @@ export default {
         height: auto;
         .swiper-wrapper {
           .swiper-slide {
-            width: 100%;
+            width: 25%;
             height: 100%;
             margin-right: 20px;
             .swiper_content_box {
