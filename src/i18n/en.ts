@@ -38,7 +38,8 @@ export const message = {
     txt4: "DAO",
     txt5: "WhitePaper",
     txt7: "NFT Card",
-    txt8: "NFT Mining"
+    txt8: "NFT Mining",
+    txt9:'邀请'
   },
   footer: {
     // footer
@@ -121,6 +122,20 @@ export const message = {
     txt1: "Insert into Slot",
     txt2: "Select the one you want to insert",
     txt3: "The higher the Multiplier, the higher the yield"
+  },
+  invite:{
+    txt1:'邀请我的',
+    txt2:'我的邀请',
+    txt3:'Land contribution are calculated based on your referees’ slotted cards. More cards means more land contributions and higher Landlord rewards',
+    txt4:'Landlord Rank',
+    tx6:'The future DAO representatives',
+    txt7:'绑定',
+    txt8:'提取',
+    txt9:'Landlord Rank',
+    txt10:'The future DAO representatives',
+    txt11:'Ranking',
+    txt12:'Address',
+    txt13:'Territory proportion',
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

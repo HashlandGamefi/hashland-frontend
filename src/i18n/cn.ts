@@ -38,6 +38,7 @@ export const message = {
     txt5:'白皮书',
     txt7:'NFT卡牌',
     txt8:'NFT挖矿',
+    txt9:'邀请'
   },
   footer:{ // footer
     txt1:'算力检测',
@@ -111,6 +112,20 @@ export const message = {
     txt1:'插入卡槽',
     txt2:'选择您想要插入卡槽的卡牌',
     txt3:'卡牌增长系数越高，算力越高，收益越多'
+  },
+  invite:{
+    txt1:'邀请我的',
+    txt2:'我的邀请',
+    txt3:'Land contribution are calculated based on your referees’ slotted cards. More cards means more land contributions and higher Landlord rewards',
+    txt4:'领地占比',
+    txt6:'The future DAO representatives',
+    txt7:'绑定',
+    txt8:'提取',
+    txt9:'Landlord Rank',
+    txt10:'The future DAO representatives',
+    txt11:'Ranking',
+    txt12:'Address',
+    txt13:'Territory proportion',
   },
   buy1:'购买记录',
   buy2:'购买NFT卡牌',

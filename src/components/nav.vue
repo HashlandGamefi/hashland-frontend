@@ -17,7 +17,7 @@
       </ul>
     </div>
     <div class="connect_box">
-      <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
+      <span class="span1 fontsize18" v-if="getIstrue" @click="changeWallet">{{getSubtringAccount}}</span>
       <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
       <div class="lang_box">
         <!-- <img src="../assets/images/cn.png" class="cnimg" /> -->
@@ -29,7 +29,7 @@
       <div class="top_line" :class="{mobile_border:!InitialStatus}">
         <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
         <div class="mobile_right_menu">
-          <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
+          <span class="span1 fontsize18" v-if="getIstrue" @click="changeWallet">{{getSubtringAccount}}</span>
           <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
           <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" v-if="InitialStatus" @click="mobilemenuClick" />
           <img :src="`${$store.state.imgUrl}proupclose.png`" class="mobile_menu_class" v-else @click="mobilemenuClick" />
@@ -55,21 +55,25 @@
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <WalletComponents :walletdis="walletdis" @closewalletpage="walletClose" @walletClick="walletClick"></WalletComponents>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { wallet,network } from 'hashland-sdk';
+import WalletComponents from './walletcomponents.vue';
 export default {
+  components: { WalletComponents },
   inject: ['reload'],
   data () {
     return {
+      walletdis:false,//选择钱包
       InitialStatus:true,// 移动端菜单栏按钮转换变量
       // addbg:false,// 导航栏背景
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
-      navarr: ['message.nav.txt1', 'message.nav.txt2', 'message.nav.txt3', 'message.nav.txt6', 'message.nav.txt4','message.nav.txt5'],
+      navarr: ['message.nav.txt1', 'message.nav.txt2', 'message.nav.txt3', 'message.nav.txt6', 'message.nav.txt4','message.nav.txt5','message.nav.txt9'],
       mobilemenu:false,//移动端菜单
       mobile_menuDis:false, // nfts展开菜单,
     }
@@ -78,6 +82,10 @@ export default {
     ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue","getMenuBG"])
   },
   methods:{
+    // 关闭链接钱包弹窗
+    walletClose(){
+      this.walletdis = false
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
@@ -103,8 +111,8 @@ export default {
       // this.addbg = true
       this.$store.commit("menuBG", 'yes');
       sessionStorage.setItem("menuBG", 'yes');
-      this.$store.commit("HashMenu", 0);
-      sessionStorage.setItem("HashMenu", 0);
+      this.$store.commit("HashMenu", index);
+      sessionStorage.setItem("HashMenu", index);
       if(index == 0){
         this.mobile_menuDis = !this.mobile_menuDis
         this.InitialStatus = false
@@ -129,6 +137,9 @@ export default {
           break;
         case 5:
           window.location.href = 'https://land-hash.gitbook.io/official/white-paper/abstract'
+          break;
+        case 6:
+          this.$router.push('/invite')
           break;
         default:
           this.$common.selectLang('敬请期待','Coming soon',this)
@@ -170,6 +181,13 @@ export default {
         this.$store.commit("setChain", '')
         sessionStorage.removeItem("setChain")
       }
+    },
+    // 切换钱包
+    changeWallet(){
+      this.walletdis = true
+    },
+    walletClick(item){
+      console.log('当前点击钱包item: ', item)
     },
     // 链接钱包方法
     async commonLink(){

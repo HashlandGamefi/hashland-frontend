@@ -40,6 +40,11 @@ const routes: Array<RouteConfig> = [
     path: '/synthesis',
     name: 'Synthesis',
     component: () => import('../views/NFTmining/synthesis.vue')
+  },
+  {
+    path: '/invite',
+    name: 'Invite',
+    component: () => import('../views/Invite/index.vue')
   }
 ]
 
