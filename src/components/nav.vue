@@ -226,11 +226,6 @@ export default {
       this.mobilemenu = !this.mobilemenu
       this.InitialStatus = !this.InitialStatus
     }
-  },
-  mounted(){
-    if(!localStorage.getItem('walletType')){
-      this.commonLink()
-    }
   }
 }
 </script>
