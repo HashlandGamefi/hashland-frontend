@@ -66,7 +66,14 @@ export default {
         minserDis:false,
         boxarr:[]
       }
-      this.$common.getUserCardInfoFun(this.getAccount)
+      this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+        if(res1 > 1){
+          sessionStorage.setItem("count",res1)
+        }else{
+          sessionStorage.setItem("count",1)
+        }
+      })
+      // this.$common.getUserCardInfoFun(this.getAccount)
       this.$store.commit("setrewardsInfo", obj);
     },
     // 获取各种币的价格

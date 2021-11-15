@@ -418,5 +418,48 @@ export default {
       )},type_enpnZnhpbmd5YW4,color_ffffff,size_${fontSize},g_nw,x_${x2},y_${y}`;
 
     return cdnUrl + (isOrigin ? "" : resizeAndCrop) + watermark;
-  }
+  },
+  // 新版链接
+  // 获取用户的所有卡牌信息
+  async newgetUserCardInfoFun(account: string) {
+    return new Promise(resolve => {
+      let count = 1
+      hn().tokensOfOwnerBySize(account, 0, 1000000).then(async res => {
+        //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+        // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+        if (res[0].length == 0) {
+          store.commit("setCardInfo", JSON.stringify([]));
+          sessionStorage.setItem("setCardInfo", JSON.stringify([]));
+          resolve(count)
+          return;
+        }
+        let infoArr: any = [];
+        res[0].map(async (item: any) => {
+          let obj = {
+            cardID: "",
+            type:'',// 卡牌的种类
+            level: "",
+            hc: "",
+            btc: "",
+            src: "",
+            status: false, // 选中与未选中
+            ismaster: false //主牌设置
+          };
+          obj.cardID = item.toString(); // 卡牌的id
+          obj.level = (await hn().level(item)).toString(); // 等级
+          obj.type = (await hn().getRandomNumber(item, 'class', 1, 4)).toString()
+          let race = await hn().getHashrates(item); // 算力数组
+          // @ts-ignore
+          obj.src = this.getHnImg(Number(item), obj.level, race);
+          infoArr.push(obj);
+          count++
+          if(count == res[0].length){
+            store.commit("setCardInfo", JSON.stringify(infoArr));
+            sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
+            resolve(count)
+          }
+        });
+      });
+    })
+  },
 };

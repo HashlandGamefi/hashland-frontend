@@ -187,7 +187,15 @@ export default {
           if (etReceipt.status == 1) {
             this.$common.selectLang('插入成功', 'Insert Successful', this)
             this.approve_isloading = false
-            this.$common.getUserCardInfoFun(this.getAccount)
+            // this.$common.getUserCardInfoFun(this.getAccount)
+            this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+              if(res1 > 1){
+                sessionStorage.setItem("count",res1)
+              }else{
+                sessionStorage.setItem("count",1)
+              }
+            })
+
             setTimeout(() => {
               this.back()
             }, 1500)

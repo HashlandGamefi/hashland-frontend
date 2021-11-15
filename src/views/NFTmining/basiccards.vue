@@ -179,46 +179,52 @@ export default {
         // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
         // 链接成功
         if (newValue) {
+          let timerll = setInterval(() => {
+            if(sessionStorage.getItem('count') > 1){
+              clearInterval(timerll)
+              this.slotArr = [
+                {
+                  level: 1,
+                  src: `${this.$store.state.imgUrl}level1.png`,
+                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                    return data.level == 1;
+                  }).length,
+                },
+                {
+                  level: 2,
+                  src: `${this.$store.state.imgUrl}level2.png`,
+                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                    return data.level == 2;
+                  }).length,
+                },
+                {
+                  level: 3,
+                  src: `${this.$store.state.imgUrl}level3.png`,
+                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                    return data.level == 3;
+                  }).length,
+                },
+                {
+                  level: 4,
+                  src: `${this.$store.state.imgUrl}level4.png`,
+                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                    return data.level == 4;
+                  }).length,
+                },
+                {
+                  level: 5,
+                  src: `${this.$store.state.imgUrl}level5.png`,
+                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                    return data.level == 5;
+                  }).length,
+                },
+              ]
+              this.initSwiper(1);
+            }
+            console.log("获取用户信息")
+          }, 1000);
           setTimeout(() => {
-            this.slotArr = [
-              {
-                level: 1,
-                src: `${this.$store.state.imgUrl}level1.png`,
-                num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                  return data.level == 1;
-                }).length,
-              },
-              {
-                level: 2,
-                src: `${this.$store.state.imgUrl}level2.png`,
-                num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                  return data.level == 2;
-                }).length,
-              },
-              {
-                level: 3,
-                src: `${this.$store.state.imgUrl}level3.png`,
-                num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                  return data.level == 3;
-                }).length,
-              },
-              {
-                level: 4,
-                src: `${this.$store.state.imgUrl}level4.png`,
-                num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                  return data.level == 4;
-                }).length,
-              },
-              {
-                level: 5,
-                src: `${this.$store.state.imgUrl}level5.png`,
-                num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                  return data.level == 5;
-                }).length,
-              },
-            ];
             this.cardsoltArr = [];
-            this.initSwiper(1);
             this.getCardSlotInfo();
           }, 1500);
         } else {
@@ -334,7 +340,14 @@ export default {
             this.$common.selectLang("解除成功", "Unlock Successful", this);
             item.isloading = false;
             this.getCardSlotInfo();
-            this.$common.getUserCardInfoFun(this.getAccount);
+            this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+              if(res1 > 1){
+                sessionStorage.setItem("count",res1)
+              }else{
+                sessionStorage.setItem("count",1)
+              }
+            })
+            // this.$common.getUserCardInfoFun(this.getAccount);
           }
           this.proupBtnstatus = true
         })

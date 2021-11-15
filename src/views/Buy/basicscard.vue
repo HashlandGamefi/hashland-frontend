@@ -153,8 +153,14 @@ export default {
           proupTitle:'Purchase Detail',
         }
         this.$store.commit("setrewardsInfo", lastObj);
-
-        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+          if(res1 > 1){
+            sessionStorage.setItem("count",res1)
+          }else{
+            sessionStorage.setItem("count",1)
+          }
+        })
+        // this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
       });
     },
     // 购买盒子

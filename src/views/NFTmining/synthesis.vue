@@ -207,7 +207,14 @@ export default {
       console.log("合成结果监听方法")
       let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
       hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
-        this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        // this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
+        this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+          if(res1 > 1){
+            sessionStorage.setItem("count",res1)
+          }else{
+            sessionStorage.setItem("count",1)
+          }
+        })
         let imgarr = []
         events.map(async item => {
           let obj = {}

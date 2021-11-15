@@ -36,11 +36,10 @@
       <div class="top_line" :class="{mobile_border:!InitialStatus}">
         <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
         <div class="mobile_right_menu">
-          <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
           <div class="walletBox" v-if="getIstrue">
             <span class="span2 fontsize18">{{getSubtringAccount}}</span>
             <div class="wallet_hover">
-              <div class="hover_span1" @click.stop="signOutFun">
+              <div class="hover_span1 fontsize14" @click.stop="signOutFun">
                 Disconnect
               </div>
             </div>
@@ -181,7 +180,15 @@ export default {
       }else{
         this.$store.commit("setAccount", res[0])
         sessionStorage.setItem("setAccount",res[0])
-        this.$common.getUserCardInfoFun(res[0])
+        // this.$common.getUserCardInfoFun(res[0])
+        this.$common.newgetUserCardInfoFun(res[0]).then(res1 => {
+          console.log('用户信息res: ', res1);
+          if(res1 > 1){
+            sessionStorage.setItem("count",res1)
+          }else{
+            sessionStorage.setItem("count",1)
+          }
+        })
       }
     },
     // 网络链接抽离方法(第一次连接,用户网络不对的情况下帮他切换网络)
@@ -469,6 +476,46 @@ export default {
             width: 0.28rem;
             object-fit: contain;
             margin-left: 0.1rem;
+          }
+          .walletBox{
+            position: relative;
+            display: flex;
+            .span2{
+              padding:2px 11px;
+              border-radius: 12px;
+              box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+              color: #FFFFFF;
+              cursor: pointer;
+            }
+            .wallet_hover{
+              display: none;
+            }
+          }
+          .walletBox:hover{
+            .wallet_hover{
+              position: absolute;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              // width: 183px;
+              margin-top: 0.33rem;
+              background: #0C153B;
+              // box-shadow: 0 0 10px rgba(0,0,0,0.5);
+              // background: rgba(0, 0, 0, 0.2);
+              border-radius: 6px;
+              box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+              .hover_span1{
+                width: 100%;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                color: #fff;
+                padding: 0 15px;
+                cursor: pointer;
+              }
+            }
           }
           .span1{
             padding:0.02rem 0.1rem;
