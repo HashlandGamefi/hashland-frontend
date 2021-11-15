@@ -113,7 +113,7 @@ export default {
   watch:{
     'getIstrue':{
       handler: function (newValue, oldValue) {
-        console.log('合成卡牌页面是否链接:', newValue,oldValue);
+        // console.log('合成卡牌页面是否链接:', newValue,oldValue);
         if(newValue){
           setTimeout(() => {
             this.connectGetInfo()
@@ -190,7 +190,7 @@ export default {
       })
     },
     inputchangeFun () {
-      console.log("输入框改变事件")
+      // console.log("输入框改变事件")
       if(this.boxnums == ''){
         this.total = 0
       }else if(this.boxnums > 100){
@@ -235,7 +235,7 @@ export default {
         this.balance = util.formatEther(res)
       })
       erc20(token().BUSD).allowance(this.getAccount,contract().HNBox).then(res => {
-        console.log('是否授权busd: ', res);
+        // console.log('是否授权busd: ', res);
         if(res.toString() > 0){
           this.isapprove = true
         }else{

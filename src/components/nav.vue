@@ -17,7 +17,14 @@
       </ul>
     </div>
     <div class="connect_box">
-      <span class="span1 fontsize18" v-if="getIstrue" @click="changeWallet">{{getSubtringAccount}}</span>
+      <div class="walletBox" v-if="getIstrue">
+        <span class="span2 fontsize18">{{getSubtringAccount}}</span>
+        <div class="wallet_hover">
+          <div class="hover_span1" @click.stop="signOutFun">
+            Disconnect
+          </div>
+        </div>
+      </div>
       <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
       <div class="lang_box">
         <!-- <img src="../assets/images/cn.png" class="cnimg" /> -->
@@ -29,7 +36,7 @@
       <div class="top_line" :class="{mobile_border:!InitialStatus}">
         <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
         <div class="mobile_right_menu">
-          <span class="span1 fontsize18" v-if="getIstrue" @click="changeWallet">{{getSubtringAccount}}</span>
+          <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
           <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
           <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" v-if="InitialStatus" @click="mobilemenuClick" />
           <img :src="`${$store.state.imgUrl}proupclose.png`" class="mobile_menu_class" v-else @click="mobilemenuClick" />
@@ -82,6 +89,15 @@ export default {
     ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue","getMenuBG"])
   },
   methods:{
+    // 退出钱包
+    signOutFun(){
+      sessionStorage.removeItem("setAccount")
+      sessionStorage.removeItem("setCardInfo")
+      sessionStorage.removeItem("setChain")
+      this.$store.commit("setAccount",'no')
+      this.$store.commit("setCardInfo",JSON.stringify([]))
+      this.$store.commit("setChain", '')
+    },
     // 关闭链接钱包弹窗
     walletClose(){
       this.walletdis = false
@@ -159,7 +175,6 @@ export default {
         sessionStorage.setItem("setAccount",res[0])
         this.$common.getUserCardInfoFun(res[0])
       }
-      // this.reload()
     },
     // 网络链接抽离方法(第一次连接,用户网络不对的情况下帮他切换网络)
     networkFun(chainID){
@@ -182,16 +197,17 @@ export default {
         sessionStorage.removeItem("setChain")
       }
     },
-    // 切换钱包
-    changeWallet(){
-      this.walletdis = true
-    },
-    walletClick(item){
-      console.log('当前点击钱包item: ', item)
+    async walletClick(item){
+      console.log('当前点击钱包item: ', (item.name.toLowerCase()))
+      this.metamaskLink(item.name.toLowerCase())
     },
     // 链接钱包方法
-    async commonLink(){
-      const account = await wallet.getAccount() //链接钱包
+    commonLink(){
+      this.walletdis = true
+    },
+    // 小狐狸链接
+    async metamaskLink(data){
+      const account = await wallet.getAccount(data) //链接钱包
       this.connectFun(account)
 
       const chainID = await wallet.getChainId() // 连接网络
@@ -202,6 +218,8 @@ export default {
 
       // 监听网络
       wallet.onChainChanged(this.OnNetworkFun)
+
+      this.walletdis = false
     },
     // 移动端展开菜单
     mobilemenuClick(){
@@ -210,7 +228,9 @@ export default {
     }
   },
   mounted(){
-    this.commonLink()
+    if(!localStorage.getItem('walletType')){
+      this.commonLink()
+    }
   }
 }
 </script>
@@ -311,6 +331,44 @@ export default {
   .connect_box{
     display: flex;
     align-items: center;
+    .walletBox{
+      position: relative;
+      .span2{
+        padding:2px 11px;
+        border-radius: 12px;
+        box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+        color: #FFFFFF;
+        cursor: pointer;
+      }
+      .wallet_hover{
+        display: none;
+      }
+    }
+    .walletBox:hover{
+      .wallet_hover{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 183px;
+        background: #0C153B;
+        // box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        // background: rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+        .hover_span1{
+          width: 100%;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: #fff;
+          padding: 0 15px;
+          cursor: pointer;
+        }
+      }
+    }
     .span1{
       padding:2px 11px;
       border-radius: 12px;

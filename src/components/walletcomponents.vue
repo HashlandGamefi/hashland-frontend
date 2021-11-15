@@ -28,16 +28,16 @@ export default {
       walletarr:[
         {name:'Metamask',src:`${this.$store.state.imgUrl}wallet1.png`},
         {name:'WalletConnect',src:`${this.$store.state.imgUrl}wallet2.png`},
-        {name:'TrustWallet',src:`${this.$store.state.imgUrl}wallet3.png`},
-        {name:'SafePal Wallet',src:`${this.$store.state.imgUrl}wallet4.png`},
-        {name:'ONTO Wallet',src:`${this.$store.state.imgUrl}wallet5.png`},
-        {name:'TokenPocket',src:`${this.$store.state.imgUrl}wallet6.png`},
-        {name:'Bitkeep',src:`${this.$store.state.imgUrl}wallet7.png`},
-        {name:'MathWallet',src:`${this.$store.state.imgUrl}wallet8.png`},
-        {name:'Onekey',src:`${this.$store.state.imgUrl}wallet9.png`},
-        {name:'Bitpie',src:`${this.$store.state.imgUrl}wallet10.png`},
         {name:'Coin98',src:`${this.$store.state.imgUrl}wallet11.png`},
-        {name:'Binance Chain Wallet',src:`${this.$store.state.imgUrl}wallet12.png`},
+        {name:'TokenPocket',src:`${this.$store.state.imgUrl}wallet6.png`},
+        // {name:'TrustWallet',src:`${this.$store.state.imgUrl}wallet3.png`},
+        // {name:'SafePal Wallet',src:`${this.$store.state.imgUrl}wallet4.png`},
+        // {name:'ONTO Wallet',src:`${this.$store.state.imgUrl}wallet5.png`},
+        // {name:'Bitkeep',src:`${this.$store.state.imgUrl}wallet7.png`},
+        // {name:'MathWallet',src:`${this.$store.state.imgUrl}wallet8.png`},
+        // {name:'Onekey',src:`${this.$store.state.imgUrl}wallet9.png`},
+        // {name:'Bitpie',src:`${this.$store.state.imgUrl}wallet10.png`},
+        // {name:'Binance Chain Wallet',src:`${this.$store.state.imgUrl}wallet12.png`},
       ]
     }
   },
@@ -83,9 +83,10 @@ export default {
   .boxarr {
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
     padding: 0 109px;
     max-height: 610px;
     overflow-y: auto;
