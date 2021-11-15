@@ -101,6 +101,7 @@ export default {
       sessionStorage.removeItem("setAccount")
       sessionStorage.removeItem("setCardInfo")
       sessionStorage.removeItem("setChain")
+      sessionStorage.removeItem("count")
       this.$store.commit("setAccount",'no')
       this.$store.commit("setCardInfo",JSON.stringify([]))
       this.$store.commit("setChain", '')

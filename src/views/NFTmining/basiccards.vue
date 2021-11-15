@@ -147,10 +147,38 @@ export default {
       buyHCMoney: 0, //解锁所需hc金额
       proupBtnstatus: false, // 弹窗的确认按钮 是否可以关闭弹窗
       datainfo: {}, // 点击解锁按钮 存储的信息
-      slotArr: [], // 卡牌组1
+      // slotArr: [], // 卡牌组1
+      slotArr:[
+        {
+          level: 1,
+          src: `${this.$store.state.imgUrl}level1.png`,
+          num: 0,
+        },
+        {
+          level: 2,
+          src: `${this.$store.state.imgUrl}level2.png`,
+          num: 0,
+        },
+        {
+          level: 3,
+          src: `${this.$store.state.imgUrl}level3.png`,
+          num: 0,
+        },
+        {
+          level: 4,
+          src: `${this.$store.state.imgUrl}level4.png`,
+          num: 0,
+        },
+        {
+          level: 5,
+          src: `${this.$store.state.imgUrl}level5.png`,
+          num: 0,
+        },
+      ],
       cardsoltArr: [], // 卡牌组2
       swiper1: null,
       swiper2: null,
+      timerll:null, // 定时器对象  获取用户总卡牌数
     };
   },
   mounted () {
@@ -179,9 +207,9 @@ export default {
         // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
         // 链接成功
         if (newValue) {
-          let timerll = setInterval(() => {
+          this.timerll = setInterval(() => {
             if(sessionStorage.getItem('count') > 1){
-              clearInterval(timerll)
+              clearInterval(this.timerll)
               this.slotArr = [
                 {
                   level: 1,
@@ -228,33 +256,9 @@ export default {
             this.getCardSlotInfo();
           }, 1500);
         } else {
-          this.slotArr = [
-            {
-              level: 1,
-              src: `${this.$store.state.imgUrl}level1.png`,
-              num: 0,
-            },
-            {
-              level: 2,
-              src: `${this.$store.state.imgUrl}level2.png`,
-              num: 0,
-            },
-            {
-              level: 3,
-              src: `${this.$store.state.imgUrl}level3.png`,
-              num: 0,
-            },
-            {
-              level: 4,
-              src: `${this.$store.state.imgUrl}level4.png`,
-              num: 0,
-            },
-            {
-              level: 5,
-              src: `${this.$store.state.imgUrl}level5.png`,
-              num: 0,
-            },
-          ];
+          this.slotArr.forEach(item => {
+            item.num = 0
+          })
           this.cardsoltArr = [
             {
               src: "",
@@ -508,6 +512,9 @@ export default {
         });
     },
   },
+  beforeDestroy(){
+    clearInterval(this.timerll)
+  }
 };
 </script>
 <style lang="scss" scoped>
