@@ -37,6 +37,14 @@
         <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
         <div class="mobile_right_menu">
           <span class="span1 fontsize18" v-if="getIstrue">{{getSubtringAccount}}</span>
+          <div class="walletBox" v-if="getIstrue">
+            <span class="span2 fontsize18">{{getSubtringAccount}}</span>
+            <div class="wallet_hover">
+              <div class="hover_span1" @click.stop="signOutFun">
+                Disconnect
+              </div>
+            </div>
+          </div>
           <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
           <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" v-if="InitialStatus" @click="mobilemenuClick" />
           <img :src="`${$store.state.imgUrl}proupclose.png`" class="mobile_menu_class" v-else @click="mobilemenuClick" />
@@ -199,7 +207,13 @@ export default {
     },
     async walletClick(item){
       console.log('当前点击钱包item: ', (item.name.toLowerCase()))
-      this.metamaskLink(item.name.toLowerCase())
+      if(item.name.toLowerCase() == 'coin98'){
+        console.log("当前点击的是c98,传的是metamask")
+        this.metamaskLink('metamask')
+      }else{
+        this.metamaskLink(item.name.toLowerCase())
+      }
+
     },
     // 链接钱包方法
     commonLink(){
