@@ -44,22 +44,37 @@ export default {
       handler: function (newValue, oldValue) {
         // console.log('卡牌详情页面钱包是否链接:', newValue,oldValue);
         if(newValue){
-          setTimeout(() => {
-            let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
-            // console.log('JSON.parse(this.getUserCardInfo): ', arr);
-            arr.sort((a, b) => {
-              return Number(a.type) > Number(b.type) ? 1 : -1;
-            })
-            this.boxarr = arr
-            // console.log('卡牌详情页面排序完以后的arr: ', arr);
-          },1500)
+          // setTimeout(() => {
+          //   let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
+          //   arr.sort((a, b) => {
+          //     return Number(a.type) > Number(b.type) ? 1 : -1;
+          //   })
+          //   this.boxarr = arr
+          // },1500)
+          this.getUserAllCard()
         }
       },
       deep: true,
-      immediate: true
+      immediate: true,
+      timerll:null
     },
   },
   methods: {
+    // 用户总卡牌数据获取
+    getUserAllCard(){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
+          arr.sort((a, b) => {
+            return Number(a.type) > Number(b.type) ? 1 : -1;
+          })
+          this.boxarr = arr
+        }
+        console.log("获取用户信息")
+      }, 1000);
+    },
     back(){
       this.$router.go(-1)
     }
