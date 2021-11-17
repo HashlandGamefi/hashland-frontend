@@ -25,7 +25,7 @@
         <div class="wallet_hover">
           <div class="lastbox_hover">
             <div class="hover_span1" @click.stop="signOutFun">
-              <span class="span_exit fontsize14">Disconnect</span>
+              <span class="span_exit">Disconnect</span>
               <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class">
             </div>
           </div>
@@ -112,6 +112,7 @@ export default {
       sessionStorage.removeItem("setCardInfo")
       sessionStorage.removeItem("setChain")
       sessionStorage.removeItem("count")
+      localStorage.removeItem('walletconnect')
       this.$store.commit("setAccount",'no')
       this.$store.commit("setCardInfo",JSON.stringify([]))
       this.$store.commit("setChain", '')
@@ -250,6 +251,8 @@ export default {
 
       // 监听网络
       wallet.onChainChanged(this.OnNetworkFun)
+
+      wallet.onDisconnect(this.signOutFun)
 
       this.walletdis = false
     },
