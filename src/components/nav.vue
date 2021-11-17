@@ -107,12 +107,15 @@ export default {
   },
   methods:{
     // 退出钱包
-    signOutFun(){
+    async signOutFun(){
       sessionStorage.removeItem("setAccount")
       sessionStorage.removeItem("setCardInfo")
       sessionStorage.removeItem("setChain")
       sessionStorage.removeItem("count")
-      localStorage.removeItem('walletconnect')
+      // localStorage.removeItem('walletconnect')
+      if(localStorage.getItem('walletType') == 'walletconnect'){
+        wallet.disconnect()
+      }
       this.$store.commit("setAccount",'no')
       this.$store.commit("setCardInfo",JSON.stringify([]))
       this.$store.commit("setChain", '')
