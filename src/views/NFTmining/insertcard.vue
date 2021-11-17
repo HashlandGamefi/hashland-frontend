@@ -105,24 +105,42 @@ export default {
       handler: function (newValue, oldValue) {
         console.log('插入页面的连接:', newValue,oldValue);
         if(newValue){
-          setTimeout(() => {
-            this.getconnetFun()
-            // this.starArr = JSON.parse(this.getUserCardInfo)
-            let arr = JSON.parse(this.getUserCardInfo)
-            arr.sort((a, b) => {
-              return Number(a.type) > Number(b.type) ? 1 : -1;
-            })
-            this.starArr = arr
+          this.getconnetFun()
+          // setTimeout(() => {
 
-            this.initSwiper()
-          },1500)
+          // },1500)
+          this.getUserAllCard()
+        }else{
+          this.proupDis = false// 弹窗展示消失变量
+          this.starArr = []//用户卡牌数组
+          this.cardIdArr = []// 选中的卡牌id数组
+          this.isbtnstatus = false// 按钮的文字状态
+          this.approve_isloading = false// 按钮的loading
+          this.swiper1 = 0//swiper对象
         }
       },
       deep: true,
-      immediate: true
+      immediate: true,
+      timerll:null
     }
   },
   methods: {
+    // 用户总卡牌数据获取
+    getUserAllCard(){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          let arr = JSON.parse(this.getUserCardInfo)
+          arr.sort((a, b) => {
+            return Number(a.type) > Number(b.type) ? 1 : -1;
+          })
+          this.starArr = arr
+          this.initSwiper()
+        }
+        console.log("获取用户信息")
+      }, 1000);
+    },
     /**初始化swiper */
     initSwiper () {
       setTimeout(() => {

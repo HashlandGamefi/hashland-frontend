@@ -120,6 +120,7 @@ export default {
       selectedCardnum:10000000000,// 本次全选可以选中的卡牌数量
       hcnum:0, // 本次合成消耗多少hc
       synthesisDis:false,// 合成按钮loading
+      timerll:null
     }
   },
   computed: {
@@ -130,19 +131,29 @@ export default {
       handler: function (newValue, oldValue) {
         console.log('合成页面的连接:', newValue,oldValue);
         if(newValue){
-          setTimeout(() => {
-            this.getSDKInfo()
-            this.cardarr = JSON.parse(this.getUserCardInfo)
-            // this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
-            let arr = this.cardarr.filter(item => { return item.level == 1})
-            arr.sort((a, b) => {
-              return Number(a.type) > Number(b.type) ? 1 : -1;
-            })
-            this.pageshowarr = arr
+          this.getSDKInfo()
+          this.getUserAllCard()
+          // setTimeout(() => {
+          //   this.cardarr = JSON.parse(this.getUserCardInfo)
+          //   // this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
+          //   let arr = this.cardarr.filter(item => { return item.level == 1})
+          //   arr.sort((a, b) => {
+          //     return Number(a.type) > Number(b.type) ? 1 : -1;
+          //   })
+          //   this.pageshowarr = arr
 
-            this.isshowArr = true
-            this.amount = this.cardarr.filter(item => { return item.level == 1}).length
-          },1500)
+          //   this.isshowArr = true
+          //   this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+          // },1500)
+        }else{
+          this.cardarr = []//所有卡牌信息的数组
+          this.selectedArr = []//页面展示的选中的数组
+          this.pageshowarr = []//页面展示的数组
+          this.rank = 1//1阶
+          this.amount = 0//阶对应的卡牌数量
+          this.selectedNUM = 0//选中的卡牌数量
+          this.compose = 0//合成的卡牌数量
+          this.selectimgArr = []//选中的卡牌的信息
         }
       },
       deep: true,
@@ -164,6 +175,24 @@ export default {
     }
   },
   methods: {
+    // 用户总卡牌数据获取
+    getUserAllCard(){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          this.cardarr = JSON.parse(this.getUserCardInfo)
+          let arr = this.cardarr.filter(item => { return item.level == 1})
+          arr.sort((a, b) => {
+            return Number(a.type) > Number(b.type) ? 1 : -1;
+          })
+          this.pageshowarr = arr
+          this.isshowArr = true
+          this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+        }
+        console.log("获取用户信息")
+      }, 1000);
+    },
     selectAllClick(){
       if(this.pageshowarr.length < 4 && this.selectedArr.length == 0)return // 先判断页面上展示的卡牌数组是否大于4,全选按钮才可以选
       if(this.selectedArr.length >= this.selectedCardnum){ //选中数组长度等于计算出来的数字时,证明按钮现在是选中状态
