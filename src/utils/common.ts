@@ -427,9 +427,9 @@ export default {
         sessionStorage.removeItem('count')
       }
       let count = 1
-      hn().tokensOfOwnerBySize(account, 0, 1000000).then(async res => {
+      hn().tokensOfOwnerBySize(account, 0, 100000000).then(async res => {
         //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-        // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+        console.log('公共的获取到的用户的所有卡牌信息', res[0]);
         if (res[0].length == 0) {
           store.commit("setCardInfo", JSON.stringify([]));
           sessionStorage.setItem("setCardInfo", JSON.stringify([]));
@@ -455,12 +455,13 @@ export default {
           // @ts-ignore
           obj.src = this.getHnImg(Number(item), obj.level, race);
           infoArr.push(obj);
-          count++
           if(count == res[0].length){
+            console.log('res[0].length: ', res[0].length,count);
             store.commit("setCardInfo", JSON.stringify(infoArr));
             sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
             resolve(count)
           }
+          count++
         });
       });
     })

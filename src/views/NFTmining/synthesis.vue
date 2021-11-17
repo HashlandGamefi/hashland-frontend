@@ -120,7 +120,8 @@ export default {
       selectedCardnum:10000000000,// 本次全选可以选中的卡牌数量
       hcnum:0, // 本次合成消耗多少hc
       synthesisDis:false,// 合成按钮loading
-      timerll:null
+      timerll:null,
+      timerll_result:null
     }
   },
   computed: {
@@ -203,7 +204,13 @@ export default {
       }
       if(this.selectedArr.length > 0){ // 判断选中卡牌数组书否大于0  大于0的情况下说明已选卡牌,清空重新计算
         this.selectedArr = []
-        this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
+        let arr = this.cardarr.filter(item => { return item.level == this.rank})
+        arr.sort((a, b) => {
+          return Number(a.type) > Number(b.type) ? 1 : -1;
+        })
+        this.pageshowarr = arr //this.cardarr.filter(item => { return item.level == this.rank})
+        this.selectedNUM = 0
+        this.compose = 0
       }
       this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
       console.log('本次全选可以选中的卡牌数量this.selectedCardnum: ', this.selectedCardnum);
@@ -221,10 +228,14 @@ export default {
         this.selectedNUM = this.selectedCardnum
         this.compose = this.selectedNUM / 4
       }else{
-        this.selectedArr = []
-        this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
-        this.selectedNUM = 0
-        this.compose = 0
+        // this.selectedArr = []
+        // let arr = this.cardarr.filter(item => { return item.level == this.rank})
+        // arr.sort((a, b) => {
+        //   return Number(a.type) > Number(b.type) ? 1 : -1;
+        // })
+        // this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
+        // this.selectedNUM = 0
+        // this.compose = 0
       }
     },
     // 取消按钮(关闭弹窗)
@@ -260,10 +271,18 @@ export default {
         }
         this.$store.commit("setrewardsInfo", lastObj);
         this.synthesisDis = false
-        setTimeout(() => {
-          console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
-          this.selectRankClik(this.rank,2)
-        },4000);
+        // setTimeout(() => {
+        //   console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
+        //   this.selectRankClik(this.rank,2)
+        // },4000);
+        clearInterval(this.timerll_result)
+        this.timerll_result = setInterval(() => {
+          if(sessionStorage.getItem('count')){
+            clearInterval(this.timerll_result)
+            this.selectRankClik(this.rank,2)
+          }
+          console.log("合成以后获取用户信息:",sessionStorage.getItem('count'))
+        }, 1000);
       })
     },
     // 合成方法

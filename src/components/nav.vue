@@ -426,6 +426,9 @@ export default {
             .span_exit{
               color: #fff;
             }
+            .span_exit:hover{
+              color: #00E7F0;
+            }
             .exit_class{
               width: 18px;
               object-fit: contain;
