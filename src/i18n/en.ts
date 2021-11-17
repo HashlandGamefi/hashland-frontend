@@ -28,7 +28,7 @@ export const message = {
     txt25: "LP Staking, Third Party Hashrate Staking, DAO Staking",
 
     txt26:'HC Trend',
-    txt27:'合作伙伴'
+    txt27:'Partners'
   },
   nav: {
     // 导航栏
