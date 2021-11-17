@@ -26,8 +26,8 @@ export const message = {
     txt23:'支付交易（租赁）手续费',
     txt24:'其他',
     txt25: "LP接入、算力接入、质押代币",
-
-    txt26:'HC Trend'
+    txt26:'HC Trend',
+    txt27:'合作伙伴'
   },
   nav: {// 导航栏
     txt1:'NFTS',

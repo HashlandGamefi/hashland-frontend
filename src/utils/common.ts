@@ -423,6 +423,9 @@ export default {
   // 获取用户的所有卡牌信息
   async newgetUserCardInfoFun(account: string) {
     return new Promise(resolve => {
+      if(sessionStorage.getItem('count')){
+        sessionStorage.removeItem('count')
+      }
       let count = 1
       hn().tokensOfOwnerBySize(account, 0, 1000000).then(async res => {
         //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id

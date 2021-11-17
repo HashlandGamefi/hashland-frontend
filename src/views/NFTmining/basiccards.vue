@@ -204,53 +204,10 @@ export default {
   watch: {
     getIstrue: {
       handler (newValue, oldValue) {
-        // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
+        console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
         // 链接成功
         if (newValue) {
-          this.timerll = setInterval(() => {
-            if(sessionStorage.getItem('count') > 1){
-              clearInterval(this.timerll)
-              this.slotArr = [
-                {
-                  level: 1,
-                  src: `${this.$store.state.imgUrl}level1.png`,
-                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                    return data.level == 1;
-                  }).length,
-                },
-                {
-                  level: 2,
-                  src: `${this.$store.state.imgUrl}level2.png`,
-                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                    return data.level == 2;
-                  }).length,
-                },
-                {
-                  level: 3,
-                  src: `${this.$store.state.imgUrl}level3.png`,
-                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                    return data.level == 3;
-                  }).length,
-                },
-                {
-                  level: 4,
-                  src: `${this.$store.state.imgUrl}level4.png`,
-                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                    return data.level == 4;
-                  }).length,
-                },
-                {
-                  level: 5,
-                  src: `${this.$store.state.imgUrl}level5.png`,
-                  num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                    return data.level == 5;
-                  }).length,
-                },
-              ]
-              this.initSwiper(1);
-            }
-            console.log("获取用户信息")
-          }, 1000);
+          this.getUserAllCard()
           setTimeout(() => {
             this.cardsoltArr = [];
             this.getCardSlotInfo();
@@ -298,6 +255,54 @@ export default {
     ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
   },
   methods: {
+    // 用户总卡牌数据获取
+    getUserAllCard(){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          this.slotArr = [
+            {
+              level: 1,
+              src: `${this.$store.state.imgUrl}level1.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 1;
+              }).length,
+            },
+            {
+              level: 2,
+              src: `${this.$store.state.imgUrl}level2.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 2;
+              }).length,
+            },
+            {
+              level: 3,
+              src: `${this.$store.state.imgUrl}level3.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 3;
+              }).length,
+            },
+            {
+              level: 4,
+              src: `${this.$store.state.imgUrl}level4.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 4;
+              }).length,
+            },
+            {
+              level: 5,
+              src: `${this.$store.state.imgUrl}level5.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 5;
+              }).length,
+            },
+          ]
+          this.initSwiper(1);
+        }
+        console.log("获取用户信息")
+      }, 1000);
+    },
     /**初始化swiper */
     initSwiper (index) {
       setTimeout(() => {

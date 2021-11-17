@@ -18,10 +18,16 @@
     </div>
     <div class="connect_box">
       <div class="walletBox" v-if="getIstrue">
-        <span class="span2 fontsize18">{{getSubtringAccount}}</span>
+        <div class="connect_triangle">
+          <span class="span2 fontsize18">{{getSubtringAccount}}</span>
+          <span class="connect_icon"></span>
+        </div>
         <div class="wallet_hover">
-          <div class="hover_span1" @click.stop="signOutFun">
-            Disconnect
+          <div class="lastbox_hover">
+            <div class="hover_span1" @click.stop="signOutFun">
+              <span class="span_exit fontsize14">Disconnect</span>
+              <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class">
+            </div>
           </div>
         </div>
       </div>
@@ -37,10 +43,14 @@
         <img :src="`${$store.state.imgUrl}logo.png`" class="mobile_imgs" @click="menuClick(-1)" />
         <div class="mobile_right_menu">
           <div class="walletBox" v-if="getIstrue">
-            <span class="span2 fontsize18">{{getSubtringAccount}}</span>
+            <div class="connect_triangle">
+              <span class="span2 fontsize18">{{getSubtringAccount}}</span>
+              <span class="connect_icon"></span>
+            </div>
             <div class="wallet_hover">
-              <div class="hover_span1 fontsize14" @click.stop="signOutFun">
-                Disconnect
+              <div class="hover_span1" @click.stop="signOutFun">
+                <span class="span_exit fontsize14">Disconnect</span>
+                <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class">
               </div>
             </div>
           </div>
@@ -262,12 +272,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  padding-left: 180px;
+  padding: 0 107px 0 250px;
   .logo_img{
     position: absolute;
     top: 0;
-    left: 20px;
+    left: 90px;
     width: 169px;
     cursor: pointer;
     .imgs{
@@ -276,7 +285,7 @@ export default {
     }
   }
   .menu_box{
-    width: calc(100% - 280px);
+    width: calc(100% - 430px);
     .ul_{
       width: 100%;
       display: flex;
@@ -350,39 +359,75 @@ export default {
     align-items: center;
     .walletBox{
       position: relative;
-      .span2{
-        padding:2px 11px;
-        border-radius: 12px;
-        box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
-        color: #FFFFFF;
+      .connect_triangle{
+        width: 160px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 14px 0px rgba(194, 190, 190, 0.52) inset;
+        border-radius: 33px;
         cursor: pointer;
+        padding: 0 20px;
+        .span2{
+          // padding:2px 11px;
+          // border-radius: 12px;
+          // box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
+          color: #FFFFFF;
+          // cursor: pointer;
+        }
+        .connect_icon{
+          border-width: 5px;
+          margin-top: 5px;
+          border-color: #FFFFFF;
+          border-style: dashed;
+          border-top-style: solid;
+          border-left-color: transparent;
+          border-right-color: transparent;
+          border-bottom-color: transparent;
+        }
       }
       .wallet_hover{
         display: none;
       }
     }
     .walletBox:hover{
+      .connect_triangle{
+        .connect_icon{
+          margin-top: -5px;
+          border-top-color: transparent;
+          border-bottom-color: #ffffff;
+          border-bottom-style: solid;
+        }
+      }
       .wallet_hover{
         position: absolute;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        width: 183px;
-        background: #0C153B;
-        // box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        // background: rgba(0, 0, 0, 0.2);
-        border-radius: 6px;
-        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-        .hover_span1{
-          width: 100%;
-          height: 40px;
+        .lastbox_hover{
+          margin-top: 26px;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: space-between;
-          color: #fff;
-          padding: 0 15px;
-          cursor: pointer;
+          justify-content: center;
+          width: 248px;
+          height: 80px;
+          background: #0C153B;
+          border-radius: 6px;
+          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+          .hover_span1{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            cursor: pointer;
+            .span_exit{
+              color: #fff;
+            }
+            .exit_class{
+              width: 18px;
+              object-fit: contain;
+            }
+          }
         }
       }
     }
@@ -396,7 +441,7 @@ export default {
     .lang_box{
       display: flex;
       align-items: center;
-      margin-left: 20px;
+      margin-left: 55px;
       .cnimg{
         width: 50px;
         object-fit: contain;
@@ -481,40 +526,70 @@ export default {
           .walletBox{
             position: relative;
             display: flex;
-            .span2{
-              padding:2px 11px;
-              border-radius: 12px;
-              box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
-              color: #FFFFFF;
+            flex-direction: column;
+            .connect_triangle{
+              width: 1.4rem;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 14px 0px rgba(194, 190, 190, 0.52) inset;
+              border-radius: 0.06rem;
               cursor: pointer;
+              padding: 0 0.12rem;
+              .span2{
+                color: #FFFFFF;
+              }
+              .connect_icon{
+                border-width: 0.05rem;
+                margin-top: 0.05rem;
+                border-color: #FFFFFF;
+                border-style: dashed;
+                border-top-style: solid;
+                border-left-color: transparent;
+                border-right-color: transparent;
+                border-bottom-color: transparent;
+              }
             }
             .wallet_hover{
               display: none;
             }
           }
           .walletBox:hover{
+            .connect_triangle{
+              .connect_icon{
+                margin-top: -0.05rem;
+                border-top-color: transparent;
+                border-bottom-color: #ffffff;
+                border-bottom-style: solid;
+              }
+            }
             .wallet_hover{
               position: absolute;
               display: flex;
               flex-direction: column;
               align-items: center;
-              justify-content: space-between;
-              // width: 183px;
+              justify-content: center;
+              width: 1.4rem;
+              height: 0.32rem;
               margin-top: 0.33rem;
               background: #0C153B;
-              // box-shadow: 0 0 10px rgba(0,0,0,0.5);
-              // background: rgba(0, 0, 0, 0.2);
-              border-radius: 6px;
+              border-radius: 0.06rem;
               box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
               .hover_span1{
                 width: 100%;
-                height: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 color: #fff;
-                padding: 0 15px;
+                padding: 0 0.12rem;
                 cursor: pointer;
+                .span_exit{
+                  color: #fff;
+                }
+                .exit_class{
+                  width: 0.12rem;
+                  object-fit: contain;
+                }
               }
             }
           }
@@ -618,9 +693,6 @@ export default {
           background: red;
         }
       }
-      // .mobileClass_animation{
-      //   animation: fade-out 1.5s;
-      // }
     }
   }
 }

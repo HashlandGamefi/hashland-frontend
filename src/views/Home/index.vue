@@ -115,6 +115,35 @@
           </div>
         </div>
       </div>
+      <div class="card_content">
+        <div class="compositeCard fontsize22">{{ $t("message.home.txt27") }}</div>
+        <div class="partner_box">
+          <div class="partner_class">
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner1.png`" class="partnerimg1 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner2.png`" class="partnerimg2 partnerimg"/></div>
+            <div class="imgbox img_center"><img :src="`${$store.state.imgUrl}partner17.png`" class="partnerimg3 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner4.png`" class="partnerimg4 partnerimg"/></div>
+          </div>
+          <div class="partner_class">
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner5.png`" class="partnerimg5 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner6.png`" class="partnerimg6 partnerimg"/></div>
+            <div class="imgbox img_center"><img :src="`${$store.state.imgUrl}partner7.png`" class="partnerimg7 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner8.png`" class="partnerimg8 partnerimg"/></div>
+          </div>
+          <div class="partner_class">
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner9.png`" class="partnerimg9 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner10.png`" class="partnerimg10 partnerimg"/></div>
+            <div class="imgbox img_center"><img :src="`${$store.state.imgUrl}partner11.png`" class="partnerimg11 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner12.png`" class="partnerimg12 partnerimg"/></div>
+          </div>
+          <div class="partner_class">
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner13.png`" class="partnerimg13 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner14.png`" class="partnerimg14 partnerimg"/></div>
+            <div class="imgbox img_center"><img :src="`${$store.state.imgUrl}partner15.png`" class="partnerimg15 partnerimg"/></div>
+            <div class="imgbox"><img :src="`${$store.state.imgUrl}partner3.png`" class="partnerimg16 partnerimg"/></div>
+          </div>
+        </div>
+      </div>
     </div>
     <Proup
       :btntxt="btntxt"
@@ -202,6 +231,24 @@ export default {
           txt2:'message.home.txt25'
         }
       ],
+      partnerArr:[
+        {src:`${this.$store.state.imgUrl}partner1.png`},
+        {src:`${this.$store.state.imgUrl}partner2.png`},
+        {src:`${this.$store.state.imgUrl}partner3.png`},
+        {src:`${this.$store.state.imgUrl}partner4.png`},
+        {src:`${this.$store.state.imgUrl}partner5.png`},
+        {src:`${this.$store.state.imgUrl}partner6.png`},
+        {src:`${this.$store.state.imgUrl}partner7.png`},
+        {src:`${this.$store.state.imgUrl}partner8.png`},
+        {src:`${this.$store.state.imgUrl}partner9.png`},
+        {src:`${this.$store.state.imgUrl}partner10.png`},
+        {src:`${this.$store.state.imgUrl}partner11.png`},
+        {src:`${this.$store.state.imgUrl}partner12.png`},
+        {src:`${this.$store.state.imgUrl}partner13.png`},
+        {src:`${this.$store.state.imgUrl}partner14.png`},
+        {src:`${this.$store.state.imgUrl}partner15.png`},
+        {src:`${this.$store.state.imgUrl}partner16.png`}
+      ]
     }
   },
   methods: {
@@ -423,6 +470,74 @@ export default {
         }
         .blue_borde{
           background: linear-gradient(180deg, #8BE6FE 0%, rgba(0, 30, 66, 0) 100%);
+        }
+      }
+      .partner_box{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 42px;
+        .partner_class{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          .imgbox{
+            width: 25%;
+            .partnerimg{
+              object-fit: contain;
+              margin-bottom: 70px;
+            }
+            .partnerimg1{
+              width: 235px;
+            }
+            .partnerimg2{
+              width: 245px;
+            }
+            .partnerimg3{
+              width: 177px;
+            }
+            .partnerimg4{
+              width: 247px;
+            }
+            .partnerimg5{
+              width: 185px;
+            }
+            .partnerimg6{
+              width: 174px;
+            }
+            .partnerimg7{
+              width: 179px;
+            }
+            .partnerimg8{
+              width: 247px;
+            }
+            .partnerimg9{
+              width: 196px;
+            }
+            .partnerimg10{
+              width: 251px;
+            }
+            .partnerimg11{
+              width: 92px;
+            }
+            .partnerimg12{
+              width: 250px;
+            }
+            .partnerimg13{
+              width: 174px;
+            }
+            .partnerimg14{
+              width: 203px;
+            }
+            .partnerimg15{
+              width: 176px;
+            }
+            .partnerimg16{
+              width: 157px;
+            }
+          }
         }
       }
     }
@@ -731,6 +846,79 @@ export default {
               .span2 {
                 color: #ffffff;
               }
+            }
+          }
+        }
+        .partner_box{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          margin-top: 0.41rem;
+          .partner_class{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            .imgbox{
+              width: 25%;
+              .partnerimg{
+                display: flex;
+                object-fit: contain;
+                margin-bottom: 0.2rem;
+              }
+              .partnerimg1{
+                width: 0.78rem;
+              }
+              .partnerimg2{
+                width: 0.81rem;
+              }
+              .partnerimg3{
+                width: 0.59rem;
+              }
+              .partnerimg4{
+                width: 0.82rem;
+              }
+              .partnerimg5{
+                width: 0.61rem;
+              }
+              .partnerimg6{
+                width: 0.58rem;
+              }
+              .partnerimg7{
+                width: 0.59rem;
+              }
+              .partnerimg8{
+                width: 0.82rem;
+              }
+              .partnerimg9{
+                width: 0.65rem;
+              }
+              .partnerimg10{
+                width: 0.83rem;
+              }
+              .partnerimg11{
+                width: 0.3rem;
+              }
+              .partnerimg12{
+                width: 0.83rem;
+              }
+              .partnerimg13{
+                width: 0.58rem;
+              }
+              .partnerimg14{
+                width: 0.67rem;
+              }
+              .partnerimg15{
+                width: 0.58rem;
+              }
+              .partnerimg16{
+                width: 0.52rem;
+              }
+            }
+            .img_center{
+              display: flex;
+              padding-left: 0.1rem;
             }
           }
         }

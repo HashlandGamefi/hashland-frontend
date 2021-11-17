@@ -310,6 +310,7 @@ export default {
       .box{
         position: relative;
         width: 618px;
+        min-height: 359px;
         .center_img{
           width: 100%;
           object-fit: contain;
@@ -507,6 +508,7 @@ export default {
       padding: 0 0.16rem;
       .box{
         width: 100%;
+        min-height: 1.7rem;
         .center_img{
           width: 100%;
           object-fit: contain;
