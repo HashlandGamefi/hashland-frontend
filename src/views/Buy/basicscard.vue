@@ -76,7 +76,7 @@
     <div class="connect_box fontsize18" v-else-if="!isapprove" @click="goApproveClick">{{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="connect_box fontsize18" v-else @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="right_box">
-      <div class="btn">{{$t("message.nftCard.txt14")}}</div>
+      <div class="btn fontsize16">{{$t("message.nftCard.txt14")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt15")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt16")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt17")}}</div>

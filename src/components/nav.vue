@@ -25,7 +25,7 @@
         <div class="wallet_hover">
           <div class="lastbox_hover">
             <div class="hover_span1" @click.stop="signOutFun">
-              <span class="span_exit">Disconnect</span>
+              <span class="span_exit fontsize18">Disconnect</span>
               <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class">
             </div>
           </div>
@@ -282,6 +282,7 @@ export default {
     top: 0;
     left: 90px;
     width: 169px;
+    display: flex;
     cursor: pointer;
     .imgs{
       width: 100%;
@@ -430,7 +431,7 @@ export default {
             .exit_class{
               width: 18px;
               object-fit: contain;
-              margin-left: 20px;
+              margin-left: 10px;
             }
           }
         }
