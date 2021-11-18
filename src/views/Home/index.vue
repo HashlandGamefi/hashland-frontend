@@ -327,7 +327,10 @@ export default {
         // spaceBetween: '10%'
       })
     }
-    this.hcNowPrice = await getHcPrice();
+    getHcPrice().then(res=>{
+      console.log(res);
+      this.hcNowPrice = res;
+    });
   }
 }
 </script>
