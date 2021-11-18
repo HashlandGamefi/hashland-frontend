@@ -28,6 +28,7 @@ export default {
       walletarr:[
         {name:'Metamask',src:`${this.$store.state.imgUrl}wallet1.png`},
         {name:'WalletConnect',src:`${this.$store.state.imgUrl}wallet2.png`},
+        {name:'Bitkeep',src:`${this.$store.state.imgUrl}wallet7.png`},
         {name:'Coin98',src:`${this.$store.state.imgUrl}wallet11.png`},
         {name:'TokenPocket',src:`${this.$store.state.imgUrl}wallet6.png`},
         // {name:'TrustWallet',src:`${this.$store.state.imgUrl}wallet3.png`},

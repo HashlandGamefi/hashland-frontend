@@ -228,14 +228,12 @@ export default {
       }
     },
     async walletClick(item){
-      console.log('当前点击钱包item: ', (item.name.toLowerCase()))
-      if(item.name.toLowerCase() == 'coin98'){
-        console.log("当前点击的是c98,传的是metamask")
+      if(item.name.toLowerCase() == 'coin98' || item.name.toLowerCase() == 'bitkeep'){
+        console.log("当前点击的是%s,传的是metamask",item.name.toLowerCase())
         this.metamaskLink('metamask')
       }else{
         this.metamaskLink(item.name.toLowerCase())
       }
-
     },
     // 链接钱包方法
     commonLink(){
@@ -373,13 +371,9 @@ export default {
         box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5), -2px 1px 14px 0px rgba(194, 190, 190, 0.52) inset;
         border-radius: 33px;
         cursor: pointer;
-        padding: 0 20px;
+        padding:5px 20px;
         .span2{
-          // padding:2px 11px;
-          // border-radius: 12px;
-          // box-shadow:26px 11px 40px 21px rgba(0,0,1,0.38), -5px 1px 34px 0px rgba(255, 255, 255,0.22) inset;
           color: #FFFFFF;
-          // cursor: pointer;
         }
         .connect_icon{
           border-width: 5px;
@@ -409,13 +403,14 @@ export default {
         position: absolute;
         display: flex;
         .lastbox_hover{
-          margin-top: 26px;
+          margin-top: 20px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          width: 248px;
-          height: 80px;
+          width: 160px;
+          padding: 6.5px 20px;
+          // height: 80px;
           background: #0C153B;
           border-radius: 6px;
           box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
@@ -424,7 +419,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 15px;
+            // padding: 0 15px;
             cursor: pointer;
             .span_exit{
               color: #fff;
@@ -435,6 +430,7 @@ export default {
             .exit_class{
               width: 18px;
               object-fit: contain;
+              margin-left: 20px;
             }
           }
         }
