@@ -155,7 +155,7 @@
   </div>
 </template>
 <script>
-import { hc, hn, getHcPrice } from 'hashland-sdk';
+import { hc, hn, info } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -327,7 +327,7 @@ export default {
         // spaceBetween: '10%'
       })
     }
-    getHcPrice().then(res=>{
+    info.getHcPrice().then(res=>{
       console.log(res);
       this.hcNowPrice = res;
     });
