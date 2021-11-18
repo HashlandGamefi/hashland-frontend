@@ -7,13 +7,13 @@
       <div class="center_box">
         <img :src="`${$store.state.imgUrl}logo.png`" class="footer3img" />
         <div class="btnbox">
-          <div class="btn1 fontsize14" @click="footerClick('Power')">
+          <!-- <div class="btn1 fontsize14" @click="footerClick('Power')">
             <img :src="`${$store.state.imgUrl}power.png`" class="addfooter_img" />
             {{ $t("message.footer.txt1") }}
-          </div>
-          <!-- <div class="btn1" @click="footerClick('BTC')">
-            <span class="span1 fontsize16">BTC.com</span>
           </div> -->
+          <div class="btn1" @click="footerClick('Power')">
+            <span class="span1 fontsize16">BTC.com</span>
+          </div>
           <div class="btn1" @click="footerClick('Certik')">
             <img
               :src="`${$store.state.imgUrl}certick.png`"
