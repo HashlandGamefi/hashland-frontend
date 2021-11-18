@@ -76,10 +76,7 @@ export default {
   computed: {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
     selectStatus(){
-      let istrue = this.pageshowarr.every(item => {
-        return item.status
-      })
-      return istrue
+      return this.selectimgArr.length == this.pageshowarr.length
     }
   },
   watch:{
@@ -125,14 +122,19 @@ export default {
       if(this.pageshowarr.length == 0)return
       this.selectALLBtn = !this.selectALLBtn
       if(this.selectALLBtn){
-        this.pageshowarr.forEach(item => {
+        this.pageshowarr.forEach((item,index) => {
           item.status = true
+          let obj = {}
+          obj.index = index
+          obj.id = item.cardID
+          this.selectimgArr.push(obj)
         })
         this.selectedNUM = this.pageshowarr.length
       }else{
         this.pageshowarr.forEach(item => {
           item.status = false
         })
+        this.selectimgArr = []
         this.selectedNUM = 0
       }
     },
