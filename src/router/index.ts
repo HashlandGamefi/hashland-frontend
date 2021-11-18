@@ -42,6 +42,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/NFTmining/synthesis.vue')
   },
   {
+    path: '/transfer',
+    name: 'Transfer',
+    component: () => import('../views/NFTmining/transfer.vue')
+  },
+  {
     path: '/invite',
     name: 'Invite',
     component: () => import('../views/Invite/index.vue')

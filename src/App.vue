@@ -21,7 +21,7 @@ export default {
   },
   watch:{
     $route(to,from){
-      if(to.path == '/synthesis'){
+      if(to.path == '/synthesis' || to.path == '/transfer'){
         this.isshowFooter = false
       }else{
         this.isshowFooter = true

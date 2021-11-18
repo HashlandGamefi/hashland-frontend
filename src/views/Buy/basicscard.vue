@@ -88,7 +88,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBox,hn,util,getSigner,erc20,token,contract } from 'hashland-sdk';
+import { hnBox,hn,util,getSigner,erc20,token,contract,getHnImg } from 'hashland-sdk';
 // const one = constant.WeiPerEther // 先定一个one  然后one.mul(12)   ----12*1e18
 export default {
   data () {
@@ -142,7 +142,7 @@ export default {
           let obj = {}
           obj.level = (await hn().level(item)).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
-          obj.src = this.$common.getHnImg(Number(item),Number(obj.level),race)
+          obj.src = getHnImg(Number(item),Number(obj.level),race)
           // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
           imgarr.push(obj)
         })

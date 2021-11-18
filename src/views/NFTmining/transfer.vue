@@ -3,9 +3,10 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
-    <div class="title_title fontsize32">{{$t("message.synthesis.txt1")}}</div>
-    <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt3")}}</div>
+    <div class="title_title fontsize32">转账</div>
+    <div class="title_son1 fontsize12_400">转账说明</div>
     <div class="content">
+      <!-- 几阶对应数量 -->
       <div class="left_content">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
@@ -13,80 +14,36 @@
           <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
         </div>
       </div>
+      <!-- 全选按钮 -->
       <div class="right_content" @click="selectAllClick">
-        <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
+        <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectStatus" />
         <img :src="`${$store.state.imgUrl}select.png`" class="selectimg" v-else />
         <span class="select_ttx fontsize16">{{$t("message.synthesis.txt5")}}</span>
       </div>
     </div>
-    <div class="bottom_txtbox" v-if="rank < 5">
+    <!-- 选中卡牌提示数量 -->
+    <div class="bottom_txtbox">
       <div class="bottom_txt1">
-        <span class="span1 fontsize22">{{$t("message.synthesis.txt6")}}</span>
+        <span class="span1 fontsize22">选中卡牌数量</span>
         <span class="span2 fontsize22"> {{selectedNUM}}</span>
       </div>
       <div class="bottom_txt1">
-        <span class="span1 fontsize12_400">{{$t("message.synthesis.txt2")}}</span>
-      </div>
-      <!-- <div class="bottom_txt2 fontsize16_400" v-if="selectedArr.length > 0">
-        {{$t("message.synthesis.txt7")}}{{rank}}{{$t("message.synthesis.txt10")}} {{compose}} {{rank + 1 }}{{$t("message.synthesis.txt11")}} {{powerNumber}}%
-      </div> -->
-    </div>
-    <!-- 选中以后的卡牌数组 -->
-    <div class="cardarr_class cardarr_class_selected" v-if="selectedArr.length > 0">
-      <div class="onebox selected_onebox" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
-        <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
-        <!-- <div class="bottom selected_bottom" :class="{scalebottom:index % 4 !== 0}">
-          <div class="five_pointed_star">
-            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
-          </div>
-          <div class="hc_btc_box">
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.hc}}</span>
-            </div>
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.btc}}</span>
-            </div>
-          </div>
-        </div> -->
-        <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
-        <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" v-if="index % 4 == 0" />
+        <span class="span1 fontsize12_400">选中卡牌</span>
       </div>
     </div>
     <!-- 页面展示数组 -->
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <!-- <div class="bottom">
-          <div class="five_pointed_star">
-            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
-          </div>
-          <div class="hc_btc_box">
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.hc}}</span>
-            </div>
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.btc}}</span>
-            </div>
-          </div>
-        </div> -->
-        <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
+        <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
+        <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
-      <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0 && isshowArr"></NoData>
+      <NoData v-if="pageshowarr.length == 0 && isshowArr"></NoData>
     </div>
-    <div class="Suspension_btnbox" v-if="pageshowarr.length > 0 || selectedArr.length > 0">
-      <span class="bottom_title fontsize12">{{$t("message.consumption")}} {{hcnum}} HC !</span>
-      <div class="btn_box fontsize16" @click="synthesisFun" v-if="isApproveHN && isApproveHC ">
+    <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
+      <span class="bottom_title fontsize12">一旦转账成功,卡牌将不可追回!</span>
+      <div class="btn_box fontsize16" @click="synthesisFun">
         {{$t("message.synthesis.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
-      </div>
-      <div class="btn_box fontsize16" @click="authorizationClick('hn')" v-if="!isApproveHN">
-        HN {{$t("message.approve")}}<BtnLoading :isloading="hnisloading"></BtnLoading>
-      </div>
-      <div class="btn_box fontsize16" @click="authorizationClick('hc')" v-else-if="!isApproveHC">
-        HC {{$t("message.approve")}}<BtnLoading :isloading="hcisloading"></BtnLoading>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -95,80 +52,48 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hnUpgrade, util, hc, hn, contract, getHnImg } from 'hashland-sdk';
+import { getSigner, hnUpgrade, util, hc, hn, getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
       isshowArr:false,// 页面暂时不显示nodata
-      hnisloading:false,// hn 授权loading
-      hcisloading:false,// hc 授权loading
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       cardarr:[],//所有卡牌信息的数组
-      selectedArr:[],//页面展示的选中的数组
       pageshowarr:[],//页面展示的数组
       rank:1,//1阶
       amount:0,//阶对应的卡牌数量
       selectedNUM:0,//选中的卡牌数量
-      compose:0,//合成的卡牌数量
       selectimgArr:[],//选中的卡牌的信息
-      isApproveHN:false,// hn授权
-      isApproveHC:false,// hc授权
       selectALLBtn:false,//全选按钮的状态
-      selectedCardnum:10000000000,// 本次全选可以选中的卡牌数量
-      hcnum:0, // 本次合成消耗多少hc
       synthesisDis:false,// 合成按钮loading
       timerll:null,
       timerll_result:null
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    selectStatus(){
+      let istrue = this.pageshowarr.every(item => {
+        return item.status
+      })
+      return istrue
+    }
   },
   watch:{
     'getIstrue':{
       handler: function (newValue, oldValue) {
-        console.log('合成页面的连接:', newValue,oldValue);
         if(newValue){
-          this.getSDKInfo()
           this.getUserAllCard()
-          // setTimeout(() => {
-          //   this.cardarr = JSON.parse(this.getUserCardInfo)
-          //   // this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
-          //   let arr = this.cardarr.filter(item => { return item.level == 1})
-          //   arr.sort((a, b) => {
-          //     return Number(a.type) > Number(b.type) ? 1 : -1;
-          //   })
-          //   this.pageshowarr = arr
-
-          //   this.isshowArr = true
-          //   this.amount = this.cardarr.filter(item => { return item.level == 1}).length
-          // },1500)
         }else{
           this.cardarr = []//所有卡牌信息的数组
-          this.selectedArr = []//页面展示的选中的数组
           this.pageshowarr = []//页面展示的数组
           this.rank = 1//1阶
           this.amount = 0//阶对应的卡牌数量
           this.selectedNUM = 0//选中的卡牌数量
-          this.compose = 0//合成的卡牌数量
           this.selectimgArr = []//选中的卡牌的信息
-        }
-      },
-      deep: true,
-      immediate: true
-    },
-    'selectedArr': {
-      handler: async function (newValue, oldValue) {
-        console.log('选中的卡牌数组变化newValue: ', newValue);
-        if(newValue.length > 0 && newValue.length % 4 == 0){
-          let arr = this.selectedArr.map(item => {
-            return item.cardID
-          })
-          this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
-          console.log('合成金额money: ', this.hcnum);
         }
       },
       deep: true,
@@ -183,6 +108,7 @@ export default {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
           this.cardarr = JSON.parse(this.getUserCardInfo)
+          console.log('JSON.parse(this.getUserCardInfo): ', JSON.parse(this.getUserCardInfo));
           let arr = this.cardarr.filter(item => { return item.level == 1})
           arr.sort((a, b) => {
             return Number(a.type) > Number(b.type) ? 1 : -1;
@@ -194,119 +120,38 @@ export default {
         console.log("获取用户信息")
       }, 1000);
     },
+    // 全选按钮选中事件
     selectAllClick(){
-      if(this.pageshowarr.length < 4 && this.selectedArr.length == 0)return // 先判断页面上展示的卡牌数组是否大于4,全选按钮才可以选
-      if(this.selectedArr.length >= this.selectedCardnum){ //选中数组长度等于计算出来的数字时,证明按钮现在是选中状态
-        this.selectALLBtn = false
-        this.hcnum = 0
-      }else{
-        this.selectALLBtn = true
-      }
-      if(this.selectedArr.length > 0){ // 判断选中卡牌数组书否大于0  大于0的情况下说明已选卡牌,清空重新计算
-        this.selectedArr = []
-        let arr = this.cardarr.filter(item => { return item.level == this.rank})
-        arr.sort((a, b) => {
-          return Number(a.type) > Number(b.type) ? 1 : -1;
+      if(this.pageshowarr.length == 0)return
+      this.selectALLBtn = !this.selectALLBtn
+      if(this.selectALLBtn){
+        this.pageshowarr.forEach(item => {
+          item.status = true
         })
-        this.pageshowarr = arr //this.cardarr.filter(item => { return item.level == this.rank})
-        this.selectedNUM = 0
-        this.compose = 0
-      }
-      this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      console.log('本次全选可以选中的卡牌数量this.selectedCardnum: ', this.selectedCardnum);
-      if(this.selectALLBtn){//选中的状态下
-        if(this.selectedCardnum == this.pageshowarr.length){
-          this.selectedArr = this.pageshowarr
-          this.pageshowarr = []
-        }else{
-          // 可选卡牌不是4的倍数的逻辑
-          this.selectedArr = this.pageshowarr.filter((item,index) => {
-            return index < this.selectedCardnum
-          })
-          this.pageshowarr.splice(0,this.selectedCardnum)
-        }
-        this.selectedNUM = this.selectedCardnum
-        this.compose = this.selectedNUM / 4
+        this.selectedNUM = this.pageshowarr.length
       }else{
-        // this.selectedArr = []
-        // let arr = this.cardarr.filter(item => { return item.level == this.rank})
-        // arr.sort((a, b) => {
-        //   return Number(a.type) > Number(b.type) ? 1 : -1;
-        // })
-        // this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
-        // this.selectedNUM = 0
-        // this.compose = 0
+        this.pageshowarr.forEach(item => {
+          item.status = false
+        })
+        this.selectedNUM = 0
       }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
     },
-    // 合成结果
-    watchResult(){
-      console.log("合成结果监听方法")
-      let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
-      hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
-        // this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
-        this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-          if(res1 > 1){
-            sessionStorage.setItem("count",res1)
-          }else{
-            sessionStorage.setItem("count",1)
-          }
-        })
-        let imgarr = []
-        events.map(async item => {
-          let obj = {}
-          obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
-          let race = await hn().getHashrates(item) // 算力数组
-          obj.src = getHnImg(Number(item),Number(obj.level),race)
-          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
-          imgarr.push(obj)
-        })
-        let lastObj = {
-          minserDis:true,
-          boxarr:imgarr,
-          proupTitle:'Craft Detail',
-        }
-        this.$store.commit("setrewardsInfo", lastObj);
-        this.synthesisDis = false
-        // setTimeout(() => {
-        //   console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
-        //   this.selectRankClik(this.rank,2)
-        // },4000);
-        clearInterval(this.timerll_result)
-        this.timerll_result = setInterval(() => {
-          if(sessionStorage.getItem('count')){
-            clearInterval(this.timerll_result)
-            this.selectRankClik(this.rank,2)
-          }
-          console.log("合成以后获取用户信息:",sessionStorage.getItem('count'))
-        }, 1000);
-      })
-    },
     // 合成方法
     async synthesisFun(){
       if(this.synthesisDis)return
-      console.log('this.synthesisDis: ', this.synthesisDis);
-      if(this.selectedArr.length < 4){
-        this.$common.selectLang('至少选择4张卡牌','You need to select a minimal of 4 cards',this)
+      if(this.selectedArr.length < 1){
+        this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
         return
       }
       let arr = this.selectedArr.map(item => {
         return item.cardID
       })
-      if(arr.length % 4 !== 0){
-        this.$common.selectLang('选择的卡牌必须4的倍数哦','You must select',this)
-        return
-      }
       // 获取用户的hc余额
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      console.log('balance:%s', balance);
-
-      // this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
-      // console.log('合成金额money: ', this.hcnum);
-
       if(Number(this.hcnum) <= Number(balance)){
         this.synthesisDis = true
         hnUpgrade().connect(getSigner()).upgrade(arr).then(res => {
@@ -320,109 +165,40 @@ export default {
         this.$common.selectLang('余额不足','Insufficent Balance',this)
       }
     },
-    // 选中的卡牌的点击事件
-    selectedCardClick(data,index){
-      this.selectedArr.splice(index,1) // 删除对应图片
-      this.selectedNUM--
-      this.compose = parseInt(this.selectedNUM / 4)
-      this.pageshowarr.push(data)
-      this.selectALLBtn = false
-    },
-    //选择单张卡牌
-    cardClick(data,index){ // index---当前数组的索引
-      console.log('data: ', data);
-      data.status = true
-      this.selectedNUM++
-      this.compose = parseInt(this.selectedNUM / 4)
-
-      this.selectedArr.push(data)
-      console.log('选中的数组this.selectedArr: ', this.selectedArr);
-
-      this.pageshowarr.splice(index,1)
+    //选择当前卡牌
+    cardClick(data,index){
+      console.log('选择当前卡牌: ', data,index);
+      data.status = !data.status
+      if(data.status){
+        this.selectedNUM++
+        let obj = {}
+        obj.id = data.cardID
+        obj.index = index
+        this.selectimgArr.push(obj)
+        console.log('选中卡牌的信息数组this.selectimgArr: ', this.selectimgArr);
+      }else{
+        for(var i = 0; i < this.selectimgArr.length; i++){
+          if(this.selectimgArr[i].index == index){
+            this.selectimgArr.splice(i,1)
+            this.selectedNUM--
+            console.log('未选中this.selectimgArr: ', this.selectimgArr);
+          }
+        }
+      }
     },
     // 选择阶数
-    selectRankClik(data,type = 1){
-      this.hcnum = 0 // 合成卡牌所需的hc金额
+    selectRankClik(data){
+      this.selectALLBtn = false
       this.selectedNUM = 0 // 选中的卡牌数量
-      this.compose = 0 // 选中的卡牌可以合成多少张更高以及的卡牌
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
       this.rank = data // 当前几阶
-      if(type == 2){
-        this.cardarr = JSON.parse(this.getUserCardInfo).sort((a, b) => {
-          return Number(a.type) > Number(b.type) ? 1 : -1;
-        })
-      }
       this.amount = this.cardarr.filter(item => { return item.level == data}).length
-      this.isshowArr = false
       this.pageshowarr = this.cardarr.filter(item => { return item.level == data}).sort((a, b) => {
         return Number(a.type) > Number(b.type) ? 1 : -1;
-      }) // 页面展示的卡牌数组重新置换
-      console.log('合成完成后,页面展示的数组的this.pageshowarr: ', this.cardarr);
-      this.isshowArr = true
-      this.selectedArr = [] // 页面展示的选中的数组
-      this.selectALLBtn = false // 全选按钮的展示
-      this.selectedCardnum = 100000000000
+      })
     },
     back(){
       this.$router.go(-1)
-    },
-    // sdk一系列方法---------判断是否授权
-    getSDKInfo(){
-      this.$common.isApproveFun(1,this.getAccount, contract().HNUpgrade).then(res => {
-        console.log('hn是否授权res: ', res);
-        if (res) {
-          this.isApproveHN = true
-        } else {
-          this.isApproveHN = false
-        }
-      }).catch(err => {
-        console.log('是否授权err: ', err);
-        this.isApproveHN = false
-      })
-      this.$common.isApproveFun(2,this.getAccount,contract().HNUpgrade).then(res => {
-        console.log('hc是否授权res: ', res);
-        if(res.toString() > 0){
-          this.isApproveHC = true
-        }else{
-          this.isApproveHC = false
-        }
-      }).catch( err => {
-        console.log('解锁是否授权err: ', err);
-        this.isApproveHC = false
-      })
-    },
-    // 授权操作
-    authorizationClick(data){
-      if(data == 'hn'){
-        if(!this.isApproveHN){
-          this.hnisloading = true
-          this.$common.delegatingFun(1, contract().HNUpgrade).then(async res => {
-            console.log('hn授权res: ', res);
-            const etReceipt = await res.wait();
-            if (etReceipt.status == 1) {
-              this.isApproveHN = true
-              this.hnisloading = false
-            }
-          }).catch(err => {
-            console.log('hn授权err: ', err);
-            this.isApproveHN = false
-            this.hnisloading = false
-          })
-        }
-      }else{
-        if(!this.isApproveHC){
-          this.hcisloading = true
-          this.$common.delegatingFun(2,contract().HNUpgrade).then(res => {
-            console.log('hc授权res: ', res);
-            this.isApproveHC = true
-            this.hcisloading = false
-          }).catch(err => {
-            console.log('hc授权err: ', err);
-            this.isApproveHC = false
-            this.hcisloading = false
-          })
-        }
-      }
     }
   }
 }
@@ -565,90 +341,12 @@ export default {
         width: 100%;
         object-fit: contain;
       }
-      .scaleimg{
-        transform: scale(1.3);
-      }
-      .bottom{
-        position: absolute;
-        top: 0;
-        display: flex;
-        align-items: center;
-        padding:10px 8px;
-        transform: scale(0.5);
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_btc_box{
-          display: flex;
-          align-items: center;
-          .hc_coefficient{
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            margin-right: 5px;
-            background: rgba(5, 24, 44, 0.88);
-            box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-            border-radius: 11px;
-            opacity: 0.56;
-            .imgcard{
-              width: 43px;
-              object-fit: contain;
-            }
-            .span1{
-              color: #FFFFFF;
-            }
-          }
-        }
-      }
       .select_img{
         position: absolute;
         top: 0;
         right: 0;
         width: 31px;
         object-fit: contain;
-      }
-      .selected_img{
-        position: absolute;
-        top: -42px;
-        right: -45px;
-        width: 43px;
-        object-fit: contain;
-        transform: scale(1.2);
-      }
-      .master_img{
-        position: absolute;
-        bottom: -35px;
-        right: -14px;
-        width: 78px;
-        object-fit: contain;
-      }
-      .orther_img{
-        position: absolute;
-        bottom: 10px;
-        right: 17px;
-        width: 44px;
-        object-fit: contain;
-      }
-    }
-  }
-  .cardarr_class_selected{
-    margin-top: 80px;
-    .onebox{
-      margin-bottom: 100px;
-      .selected_bottom{
-        position: absolute;
-        top: -37px;
-        transform: scale(0.7);
-      }
-      .scalebottom{
-        position: absolute;
-        top: 8px;
-        transform: scale(0.5);
       }
     }
   }
@@ -666,7 +364,7 @@ export default {
     border-radius: 79px;
     padding-top: 24px;
     .bottom_title{
-      color: #ffffff;
+      color: red;
     }
     .btn_box {
       width: 274px;
@@ -836,9 +534,6 @@ export default {
           width: 100%;
           object-fit: contain;
         }
-        .scaleimg{
-          transform: scale(1);
-        }
         .bottom{
           position: absolute;
           top: 0.22rem;
@@ -904,23 +599,6 @@ export default {
           right: 0.09rem;
           width: 0.24rem;
           object-fit: contain;
-        }
-      }
-    }
-    .cardarr_class_selected{
-      margin-top: 0.2rem;
-      margin-bottom: 0;
-      .onebox{
-        margin-bottom: 0.2rem;
-        .selected_bottom{
-          position: absolute;
-          top: 0;
-          transform: scale(0.5);
-        }
-        .scalebottom{
-          position: absolute;
-          top: 0;
-          transform: scale(0.5);
         }
       }
     }

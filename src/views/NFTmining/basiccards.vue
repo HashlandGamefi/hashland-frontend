@@ -4,13 +4,16 @@
     <div class="myCard">
       <div class="card_left">
         <span class="span1 fontsize22">{{ $t("message.nftMining.txt3") }}</span>
-        <div class="synthesis_btn fontsize16" @click="synthesisClick">
-          {{ $t("message.nftMining.txt5") }}
+        <div class="card_btnbox">
+          <div class="synthesis_btn btn_margin_left fontsize16" @click="transferClick">
+            转账
+          </div>
+          <div class="synthesis_btn fontsize16" @click="synthesisClick">
+            {{ $t("message.nftMining.txt5") }}
+          </div>
         </div>
       </div>
-      <span class="span2 fontsize12_400">{{
-        $t("message.nftMining.txt4")
-      }}</span>
+      <span class="span2 fontsize12_400">{{$t("message.nftMining.txt4")}}</span>
     </div>
     <!-- 我的卡牌轮播 -->
     <div class="swiper-container swiper-container1">
@@ -133,7 +136,7 @@
 <script>
 import { mapGetters } from "vuex";
 import Swiper from "swiper";
-import { hnPool, hn, getSigner, hc, util, contract } from "hashland-sdk";
+import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sdk";
 export default {
   data () {
     return {
@@ -433,6 +436,10 @@ export default {
     synthesisClick () {
       this.$router.push("/synthesis");
     },
+    // 转账
+    transferClick(){
+      this.$router.push("/transfer");
+    },
     // 我的卡牌跳转
     jumpDetails (item) {
       this.$router.push({
@@ -494,7 +501,7 @@ export default {
         obj.cardID = item.toString(); // 卡牌的id
         obj.level = (await hn().level(item.toString())).toString(); // 等级
         let race = await hn().getHashrates(item) // 算力数组
-        obj.src = this.$common.getHnImg(Number(item),Number(obj.level),race)
+        obj.src = getHnImg(Number(item),Number(obj.level),race)
         this.cardsoltArr.unshift(obj);
       });
       this.initSwiper(2);
@@ -532,8 +539,6 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
-    // align-items: center;
-    // justify-content: space-between;
     padding: 0 0 0 100px;
     .card_left {
       width: 100%;
@@ -543,16 +548,23 @@ export default {
       .span1 {
         color: #ffffff;
       }
-      .synthesis_btn {
-        width: 144px;
-        height: 49px;
-        line-height: 49px;
-        background-image: url(//cdn.hashland.com/images/nft_btn1.png);
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        text-align: center;
-        color: #ffffff;
-        cursor: pointer;
+      .card_btnbox{
+        display: flex;
+        align-items: center;
+        .synthesis_btn {
+          width: 144px;
+          height: 49px;
+          line-height: 49px;
+          background-image: url(//cdn.hashland.com/images/nft_btn1.png);
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          text-align: center;
+          color: #ffffff;
+          cursor: pointer;
+        }
+        .btn_margin_left{
+          margin-right: 50px;
+        }
       }
     }
     .span2 {
