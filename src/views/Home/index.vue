@@ -281,7 +281,7 @@ export default {
 
       // hn 已销毁
       hn().balanceOf('0x0000000000000000000000000000000000000010').then(data => {
-        this.$common.checkNumber((data / 1e18).toString(), res => {
+        this.$common.checkNumber(data.toString(), res => {
           this.nftArr[2].num = res
         })
       })
