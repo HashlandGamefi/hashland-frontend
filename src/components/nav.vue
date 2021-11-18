@@ -103,7 +103,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue","getMenuBG"])
+    ...mapGetters(["getMenuIndex","getSubtringAccount","getIstrue","getMenuBG","getAccount"])
   },
   methods:{
     // 退出钱包
@@ -197,7 +197,7 @@ export default {
         sessionStorage.setItem("setAccount",res[0])
         // this.$common.getUserCardInfoFun(res[0])
         this.$common.newgetUserCardInfoFun(res[0]).then(res1 => {
-          console.log('用户信息res: ', res1);
+          console.log('导航栏---账号链接获取用户信息res: ', res1);
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
           }else{
@@ -261,6 +261,18 @@ export default {
     mobilemenuClick(){
       this.mobilemenu = !this.mobilemenu
       this.InitialStatus = !this.InitialStatus
+    }
+  },
+  mounted(){
+    if(this.getAccount){
+      this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+        console.log('导航栏---页面加载获取用户信息res: ', res1);
+        if(res1 > 1){
+          sessionStorage.setItem("count",res1)
+        }else{
+          sessionStorage.setItem("count",1)
+        }
+      })
     }
   }
 }

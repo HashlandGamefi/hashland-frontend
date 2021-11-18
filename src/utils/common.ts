@@ -330,42 +330,6 @@ export default {
         .approve(contractAdrdess, TOKEN_amount);
     }
   },
-  // 获取用户的所有卡牌信息
-  // async getUserCardInfoFun(account: string) {
-  //   hn()
-  //     .tokensOfOwnerBySize(account, 0, 1000000)
-  //     .then(async res => {
-  //       //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-  //       // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
-  //       if (res[0].length == 0) {
-  //         store.commit("setCardInfo", JSON.stringify([]));
-  //         sessionStorage.setItem("setCardInfo", JSON.stringify([]));
-  //         return;
-  //       }
-  //       let infoArr: any = [];
-  //       res[0].map(async (item: any) => {
-  //         let obj = {
-  //           cardID: "",
-  //           type:'',// 卡牌的种类
-  //           level: "",
-  //           hc: "",
-  //           btc: "",
-  //           src: "",
-  //           status: false, // 选中与未选中
-  //           ismaster: false //主牌设置
-  //         };
-  //         obj.cardID = item.toString(); // 卡牌的id
-  //         obj.level = (await hn().level(item)).toString(); // 等级
-  //         obj.type = (await hn().getRandomNumber(item, 'class', 1, 4)).toString()
-  //         let race = await hn().getHashrates(item); // 算力数组
-  //         // @ts-ignore
-  //         obj.src = getHnImg(Number(item), obj.level, race);
-  //         infoArr.push(obj);
-  //         store.commit("setCardInfo", JSON.stringify(infoArr));
-  //         sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
-  //       });
-  //     });
-  // },
   // 函数节流
   flowFun(fn: any, that: any) {
     console.log("节流函数");
@@ -385,51 +349,17 @@ export default {
   complementString(str: string, nums: number, rule: string) {
     return str.padStart(nums, rule);
   },
-  //sdk获取图片 暂时本地先写后续要放到sdk
-  // getHnImg(hnId: any, level: any, hashrates: any, isOrigin: any) {
-  //   let fontSize = 12;
-  //   let x1 = 145;
-  //   let x2 = 275;
-  //   let y = 39;
-
-  //   if (isOrigin) {
-  //     fontSize = 24;
-  //     x1 = 395;
-  //     x2 = 655;
-  //     y = 79;
-  //   }
-
-  //   const cdnUrl = `//cdn.hashland.com/nft/images/hashland-nft-${hnId}-${level}.png?image_process=`;
-  //   const resizeAndCrop = "resize,w_512/crop,mid,w_410,h_512/";
-  //   const watermark = `watermark,text_${window
-  //     .btoa((hashrates[0] / 1e4).toFixed(4))
-  //     .replace(/\+/g, "-")
-  //     .replace(/\//g, "_")
-  //     .replace(
-  //       /\=+$/,
-  //       ""
-  //     )},type_enpnZnhpbmd5YW4,color_ffffff,size_${fontSize},g_nw,x_${x1},y_${y}/watermark,text_${window
-  //     .btoa((hashrates[1] / 1e4).toFixed(4))
-  //     .replace(/\+/g, "-")
-  //     .replace(/\//g, "_")
-  //     .replace(
-  //       /\=+$/,
-  //       ""
-  //     )},type_enpnZnhpbmd5YW4,color_ffffff,size_${fontSize},g_nw,x_${x2},y_${y}`;
-
-  //   return cdnUrl + (isOrigin ? "" : resizeAndCrop) + watermark;
-  // },
   // 新版链接
   // 获取用户的所有卡牌信息
   async newgetUserCardInfoFun(account: string) {
+    if(sessionStorage.getItem('count')){
+      sessionStorage.removeItem('count')
+    }
     return new Promise(resolve => {
-      if(sessionStorage.getItem('count')){
-        sessionStorage.removeItem('count')
-      }
       let count = 1
       hn().tokensOfOwnerBySize(account, 0, 100000000).then(async res => {
         //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-        console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+        // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
         if (res[0].length == 0) {
           store.commit("setCardInfo", JSON.stringify([]));
           sessionStorage.setItem("setCardInfo", JSON.stringify([]));
@@ -465,5 +395,5 @@ export default {
         });
       });
     })
-  },
+  }
 };

@@ -143,6 +143,7 @@ export const message = {
   details: "Detail",
   details1: 'Stake Purchased NFT Cards in "NFT mining" to mine',
   placeholder: "Enter Amount",
+  danger_placeholder:'请输入地址',
   msg: "Note",
   word1: "至少选择4张卡牌", //You need to select a minimal of 4 cards
   word2: "请输入购买数量", //Enter Purchase Amount

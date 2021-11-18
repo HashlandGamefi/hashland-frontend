@@ -132,6 +132,7 @@ export const message = {
   details:'详情',
   details1:'购买的NFT卡牌可前往“NFT挖矿”中质押挖矿',
   placeholder:'请输入数量',
+  danger_placeholder:'请输入地址',
   msg:'提示',
   word1:'至少选择4张卡牌',
   word2:'请输入购买数量',

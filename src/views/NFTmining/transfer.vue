@@ -43,8 +43,24 @@
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <span class="bottom_title fontsize12">一旦转账成功,卡牌将不可追回!</span>
       <div class="btn_box fontsize16" @click="synthesisFun">
-        {{$t("message.synthesis.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
+        转账<BtnLoading :isloading="synthesisDis"></BtnLoading>
       </div>
+    </div>
+    <div class="danger_proup" v-if="isdanger">
+      <div class="outbox_danger">
+        <div class="danger_wallet_box" @click.stop>
+          <span class="txt1">{{$t('message.msg')}}</span>
+          <span class="txt_danger">!</span>
+          <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{ dangerTxt }}</span></div>
+          <div class="inputbox">
+            <input type="text fontsize14" :placeholder='$t("message.danger_placeholder")' v-model="dangerTxtModel" class="input" />
+          </div>
+          <div class="btn_box">
+            <div class="txt3" @click.stop="sureDangerClick">Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading></div>
+          </div>
+        </div>
+      </div>
+      <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="dangerClick"/>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -52,10 +68,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hnUpgrade, util, hc, hn, getHnImg } from 'hashland-sdk';
+import { getSigner, hn, contract } from 'hashland-sdk';
 export default {
   data () {
     return {
+      dangerTxtModel:'',
+      dangerTxt:'Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved.',//转账文字
+      isdanger:false,//转账提示框
       isshowArr:false,// 页面暂时不显示nodata
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
@@ -75,15 +94,23 @@ export default {
   },
   computed: {
     ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
-    selectStatus(){
-      return this.selectimgArr.length == this.pageshowarr.length
-    }
+    selectStatus: {
+      get() {
+        if(this.selectedNUM == 0){
+          return false
+        }
+        return this.pageshowarr.length == this.selectedNUM
+      },
+      set(newValue) {
+        return newValue;
+      }
+    },
   },
   watch:{
     'getIstrue':{
-      handler: function (newValue, oldValue) {
+      handler: function (newValue) {
         if(newValue){
-          this.getUserAllCard()
+          this.getUserAllCard(1)
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.pageshowarr = []//页面展示的数组
@@ -98,21 +125,65 @@ export default {
     }
   },
   methods: {
+    // 取消转账
+    dangerClick(){
+      this.dangerTxtModel = ''
+      this.isdanger = false
+    },
+    // 确认转账
+    sureDangerClick(){
+      if(this.dangerTxtModel == '')return
+      this.synthesisDis = true
+      let arr = this.selectimgArr.map(item => {
+        return item.id
+      })
+      console.log('向合约传的id数组arr: ', arr);
+      hn().connect(getSigner()).safeTransferFromBatch(this.getAccount,this.dangerTxtModel,arr).then(async res => {
+        const etReceipt = await res.wait();
+        if(etReceipt.status == 1){
+          this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+            console.log('重新获取用户卡牌信息res1: ', res1);
+            sessionStorage.removeItem('count')
+            if(res1 > 1){
+              sessionStorage.setItem("count",res1)
+            }else{
+              sessionStorage.setItem("count",1)
+            }
+            this.getUserAllCard(this.rank) // 重新获取最新用户信息
+            this.$common.selectLang('转账成功','转账成功',this)
+            arr = []
+          })
+        }else{
+          this.selectALLBtn = this.selectStatus = false
+          this.selectedNUM = 0
+        }
+        this.isdanger = false
+        this.dangerTxtModel = ''
+      }).catch(err => {
+        console.log('转账err: ', err);
+        this.synthesisDis = false
+        this.isdanger = false
+        this.dangerTxtModel = ''
+      })
+    },
     // 用户总卡牌数据获取
-    getUserAllCard(){
+    getUserAllCard(level){
       clearInterval(this.timerll)
       this.timerll = setInterval(() => {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
           this.cardarr = JSON.parse(this.getUserCardInfo)
-          console.log('JSON.parse(this.getUserCardInfo): ', JSON.parse(this.getUserCardInfo));
-          let arr = this.cardarr.filter(item => { return item.level == 1})
+          let arr = this.cardarr.filter(item => { return item.level == level})
           arr.sort((a, b) => {
             return Number(a.type) > Number(b.type) ? 1 : -1;
           })
           this.pageshowarr = arr
           this.isshowArr = true
-          this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+          this.amount = this.cardarr.filter(item => { return item.level == level}).length
+          this.synthesisDis = false
+          this.selectALLBtn = this.selectStatus = false
+          this.selectedNUM = 0
+          this.selectimgArr = []
         }
         console.log("获取用户信息")
       }, 1000);
@@ -120,8 +191,15 @@ export default {
     // 全选按钮选中事件
     selectAllClick(){
       if(this.pageshowarr.length == 0)return
-      this.selectALLBtn = !this.selectALLBtn
-      if(this.selectALLBtn){
+      if(this.selectALLBtn || this.selectStatus){
+        this.selectALLBtn = this.selectStatus = false
+        this.pageshowarr.forEach(item => {
+          item.status = false
+        })
+        this.selectimgArr = []
+        this.selectedNUM = 0
+      }else{
+        this.selectALLBtn = this.selectStatus = true
         this.pageshowarr.forEach((item,index) => {
           item.status = true
           let obj = {}
@@ -130,42 +208,20 @@ export default {
           this.selectimgArr.push(obj)
         })
         this.selectedNUM = this.pageshowarr.length
-      }else{
-        this.pageshowarr.forEach(item => {
-          item.status = false
-        })
-        this.selectimgArr = []
-        this.selectedNUM = 0
       }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
     },
-    // 合成方法
+    // 转账
     async synthesisFun(){
       if(this.synthesisDis)return
-      if(this.selectedArr.length < 1){
+      if(this.selectimgArr.length < 1){
         this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
         return
       }
-      let arr = this.selectedArr.map(item => {
-        return item.cardID
-      })
-      // 获取用户的hc余额
-      let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      if(Number(this.hcnum) <= Number(balance)){
-        this.synthesisDis = true
-        hnUpgrade().connect(getSigner()).upgrade(arr).then(res => {
-          console.log('合成res: ', res);
-          this.watchResult()
-        }).catch(err => {
-          console.log('合成err: ', err);
-          this.synthesisDis = false
-        })
-      }else{
-        this.$common.selectLang('余额不足','Insufficent Balance',this)
-      }
+      this.isdanger = true
     },
     //选择当前卡牌
     cardClick(data,index){
@@ -177,13 +233,12 @@ export default {
         obj.id = data.cardID
         obj.index = index
         this.selectimgArr.push(obj)
-        console.log('选中卡牌的信息数组this.selectimgArr: ', this.selectimgArr);
       }else{
         for(var i = 0; i < this.selectimgArr.length; i++){
           if(this.selectimgArr[i].index == index){
             this.selectimgArr.splice(i,1)
             this.selectedNUM--
-            console.log('未选中this.selectimgArr: ', this.selectimgArr);
+            this.selectALLBtn = false
           }
         }
       }
@@ -339,6 +394,7 @@ export default {
       align-items: center;
       margin-bottom: 20px;
       margin-right: 46px;
+      cursor: pointer;
       .card_picture{
         width: 100%;
         object-fit: contain;
@@ -380,6 +436,110 @@ export default {
       color: #ffffff;
       cursor: pointer;
       margin-top: 14px;
+    }
+  }
+  .danger_proup {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99999999;
+    backdrop-filter: blur(6px);
+    .outbox_danger{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 580px;
+      height: 574px;
+      box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+      padding: 1px;
+      border-radius: 14px;
+      background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+      .danger_wallet_box {
+        width: 100%;
+        height: 100%;
+        padding: 38px 130px 85px 130px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 14px;
+        background:#011A31;
+        .txt1 {
+          width: 100%;
+          text-align: center;
+          font-style: normal;
+          font-size: 36px;
+          color: #ffffff;
+        }
+        .txt_danger{
+          font-size: 107px;
+          font-weight: 600;
+          color: #FFFFFF;
+          line-height: 100px;
+          letter-spacing: 7px;
+          background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .txtbox_danger{
+          width: 100%;
+          .txt2 {
+            width: 100%;
+            text-align: center;
+            font-style: normal;
+            color: rgba(255, 255, 255, 0.8);
+          }
+        }
+        .inputbox {
+          width: 100%;
+          display: flex;
+          .input {
+            width: 100%;
+            padding-left: 15px;
+            height: 37px;
+            border: none;
+            outline: none;
+            font-style: normal;
+            color: #ffffff;
+            box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+            border-radius: 14px;
+            background: transparent;
+          }
+        }
+        .btn_box{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          justify-content: center;
+          .txt3 {
+            width: 281px;
+            background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-style: normal;
+            font-size: 24px;
+            color: #ffffff;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .danger_close{
+      position: absolute;
+      top: 10px;
+      right: 100px;
+      width: 44px;
+      object-fit: contain;
+      cursor: pointer;
     }
   }
 }
@@ -632,6 +792,111 @@ export default {
         color: #ffffff;
         cursor: pointer;
         margin-top: 0.1rem;
+      }
+    }
+    .danger_proup {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99999999;
+      backdrop-filter: blur(6px);
+      padding: 0 0.38rem;
+      .outbox_danger{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 100%;
+        height: 2.82rem;
+        box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+        padding: 1px;
+        border-radius: 0.14rem;
+        background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+        .danger_wallet_box {
+          width: 100%;
+          height: 100%;
+          padding: 0.29rem 0.38rem 0.42rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 0.14rem;
+          background:#011A31;
+          .txt1 {
+            width: 100%;
+            text-align: center;
+            font-style: normal;
+            font-size: 0.36rem;
+            color: #ffffff;
+          }
+          .txt_danger{
+            font-size: 1rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1rem;
+            letter-spacing: 0.07rem;
+            background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          .txtbox_danger{
+            width: 100%;
+            .txt2 {
+              width: 100%;
+              text-align: center;
+              font-style: normal;
+              color: rgba(255, 255, 255, 0.8);
+            }
+          }
+          .inputbox {
+            width: 100%;
+            display: flex;
+            .input {
+              width: 100%;
+              padding-left: 0.1rem;
+              height: 0.37rem;
+              border: none;
+              outline: none;
+              font-style: normal;
+              color: #ffffff;
+              box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+              border-radius: 0.14rem;
+              background: transparent;
+            }
+          }
+          .btn_box{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            .txt3 {
+              width: 1.67rem;
+              background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 0.39rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-style: normal;
+              font-size: 0.24rem;
+              color: #ffffff;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      .danger_close{
+        position: absolute;
+        top: 0.3rem;
+        right: 0.2rem;
+        width: 0.36rem;
+        object-fit: contain;
+        cursor: pointer;
       }
     }
   }
