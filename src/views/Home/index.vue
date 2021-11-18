@@ -328,7 +328,6 @@ export default {
       })
     }
     info.getHcPrice().then(res=>{
-      console.log(res);
       this.hcNowPrice = res;
     });
   }
