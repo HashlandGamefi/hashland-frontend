@@ -283,7 +283,7 @@ export default {
         this.$common.checkNumber(data.toString(), res => {
           this.nftArr[0].num = res
         })
-        this.$common.checkNumber((6000 - data.toNumber()).toString(), res1 => {
+        this.$common.checkNumber((60000 - data.toNumber()).toString(), res1 => {
           this.nftArr[1].num = res1
         })
       })
