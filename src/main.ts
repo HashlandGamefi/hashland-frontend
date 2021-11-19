@@ -19,6 +19,9 @@ Vue.prototype.$common = common;
 import Proup from '@/components/proup.vue'
 Vue.component('Proup', Proup);
 
+import NewLoading from '@/components/newloading.vue'
+Vue.component('NewLoading', NewLoading)
+
 import NoData from '@/components/nodata.vue'
 Vue.component('NoData', NoData);
 

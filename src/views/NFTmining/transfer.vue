@@ -198,8 +198,9 @@ export default {
         this.selectimgArr = []
         this.selectedNUM = 0
       }else{
+        // 最多选择2张
+        this.selectALLBtn = this.selectStatus = true
         if(this.pageshowarr.length < 101){
-          this.selectALLBtn = this.selectStatus = true
           this.pageshowarr.forEach((item,index) => {
               item.status = true
               let obj = {}
@@ -239,7 +240,7 @@ export default {
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
-      if(this.selectedNUM >= 100){
+      if(this.selectedNUM > 100){
         this.$common.selectLang('最多100张','Up to 100',this)
         return
       }
@@ -443,7 +444,7 @@ export default {
     border-radius: 79px;
     padding-top: 24px;
     .bottom_title{
-      color: red;
+      color: #ffffff;
     }
     .btn_box {
       width: 274px;

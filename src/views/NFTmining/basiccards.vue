@@ -30,7 +30,8 @@
                 <span class="level_class fontsize16">LV{{ item.level }}</span>
               </div>
               <div class="num_details">
-                <span class="card_grade fontsize16">{{ item.num }}</span>
+                <div class="card_grade_loading fontsize16" v-if="item.status"><NewLoading></NewLoading></div>
+                <span class="card_grade fontsize16" v-else>{{ item.num }}</span>
                 <span class="details fontsize12">{{
                   $t("message.nftMining.txt6")
                 }}</span>
@@ -135,32 +136,36 @@ export default {
       buyHCMoney: 0, //解锁所需hc金额
       proupBtnstatus: false, // 弹窗的确认按钮 是否可以关闭弹窗
       datainfo: {}, // 点击解锁按钮 存储的信息
-      // slotArr: [], // 卡牌组1
       slotArr:[
         {
           level: 1,
           src: `${this.$store.state.imgUrl}level1.png`,
           num: 0,
+          status:true
         },
         {
           level: 2,
           src: `${this.$store.state.imgUrl}level2.png`,
           num: 0,
+          status:true
         },
         {
           level: 3,
           src: `${this.$store.state.imgUrl}level3.png`,
           num: 0,
+          status:true
         },
         {
           level: 4,
           src: `${this.$store.state.imgUrl}level4.png`,
           num: 0,
+          status:true
         },
         {
           level: 5,
           src: `${this.$store.state.imgUrl}level5.png`,
           num: 0,
+          status:true
         },
       ],
       cardsoltArr: [], // 卡牌组2
@@ -203,6 +208,7 @@ export default {
         } else {
           this.slotArr.forEach(item => {
             item.num = 0
+            item.status = false
           })
           this.cardsoltArr = [
             {
@@ -256,6 +262,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 1;
               }).length,
+              status:false
             },
             {
               level: 2,
@@ -263,6 +270,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 2;
               }).length,
+              status:false
             },
             {
               level: 3,
@@ -270,6 +278,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 3;
               }).length,
+              status:false
             },
             {
               level: 4,
@@ -277,6 +286,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 4;
               }).length,
+              status:false
             },
             {
               level: 5,
@@ -284,6 +294,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 5;
               }).length,
+              status:false
             },
           ]
           this.initSwiper(1);
@@ -334,7 +345,7 @@ export default {
           // console.log("解除卡槽res: ", res);
           const etReceipt = await res.wait();
           if (etReceipt.status == 1) {
-            this.$common.selectLang("解除成功", "Unlock Successful", this);
+            this.$common.selectLang("解除成功", "Uninserted successfully", this);
             item.isloading = false;
             this.getCardSlotInfo();
             this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
@@ -602,6 +613,9 @@ export default {
                 color: #ffffff;
                 margin-right: 5px;
               }
+              .card_grade_loading{
+                margin-right: 12px;
+              }
               .details {
                 padding: 0 10px;
                 background: #f5b252;
@@ -816,6 +830,9 @@ export default {
                 .card_grade {
                   color: #ffffff;
                   margin: 0 0.04rem;
+                }
+                .card_grade_loading{
+                  margin-right: 0.1rem;
                 }
                 .details {
                   padding: 0 0.05rem;

@@ -160,7 +160,7 @@ export const message = {
   word4: "余额不足", //Insufficent Balance
   word5: "购买成功", //Purchase Successful
   word6: "最大购买数量100", //Maximum Purchase Number is 100
-  word7: "解除成功", //Unlock Successful
+  word7: "解除成功", //Uninserted successfully
   word8: "授权成功", //Authorize Successful
   word9: "解锁成功", //Unlock Successful
   word10: "没有可提取余额", //No Remaining Balance to Claim
