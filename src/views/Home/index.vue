@@ -66,7 +66,7 @@
               <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
               <span class="span1 fontsize26">{{ $t("message.home.txt26") }}</span>
             </div>
-            <div class="span2 fontsize16">{{ $t("message.home.txt10") }}</div>
+            <div class="span2 fontsize16" @click="buyClick">{{ $t("message.home.txt10") }}</div>
           </div>
           <div class="trend_boxs">
             <div class="imgbox">
@@ -252,6 +252,9 @@ export default {
     }
   },
   methods: {
+    buyClick(){
+      window.location.href = 'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0'
+    },
     // 取消按钮(关闭弹窗)
     CloseFun () {
       this.proupDis = false
@@ -317,19 +320,19 @@ export default {
     this.getSDKInfo()
     if (document.body.clientWidth <= 980) {
       new Swiper('.swiper-container', {
-        slidesPerView: 'auto',
-        // centeredSlides: true,
-        // slidesOffsetBefore: 100,
+        slidesPerView: 'auto'
       })
     } else if (document.body.clientWidth > 980) {
       new Swiper('.swiper-container', {
-        slidesPerView: 3,
-        // spaceBetween: '10%'
+        slidesPerView: 3
       })
     }
-    info.getHcPrice().then(res=>{
-      this.hcNowPrice = res;
-    });
+    // info.getHcPrice().then(res=>{
+    //   console.log('hc价格res: ', res);
+    //   this.hcNowPrice = res;
+    // }).catch(err => {
+    //   console.log('hc价格err: ', err)
+    // })
   }
 }
 </script>
@@ -581,6 +584,7 @@ export default {
             background-image: url("//cdn.hashland.com/images/extract_btn.png");
             background-size: 100% 100%;
             color: #fff;
+            cursor: pointer;
           }
         }
         .trend_boxs {

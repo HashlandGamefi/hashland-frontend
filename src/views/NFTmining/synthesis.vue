@@ -83,7 +83,7 @@
         {{$t("message.synthesis.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
       </div>
       <div class="btn_box fontsize16" @click="authorizationClick('hn')" v-if="!isApproveHN">
-        HN {{$t("message.approve")}}<BtnLoading :isloading="hnisloading"></BtnLoading>
+        NTT {{$t("message.approve")}}<BtnLoading :isloading="hnisloading"></BtnLoading>
       </div>
       <div class="btn_box fontsize16" @click="authorizationClick('hc')" v-else-if="!isApproveHC">
         HC {{$t("message.approve")}}<BtnLoading :isloading="hcisloading"></BtnLoading>
