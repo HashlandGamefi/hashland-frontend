@@ -98,8 +98,8 @@ export default {
         if(this.selectedNUM == 0){
           return false
         }
-        if(this.pageshowarr.length >= 100){
-          return 100 == this.selectedNUM
+        if(this.pageshowarr.length >= 10){
+          return 10 == this.selectedNUM
         }else{
           return this.pageshowarr.length == this.selectedNUM
         }
@@ -205,7 +205,7 @@ export default {
       }else{
         // 最多选择5张
         this.selectALLBtn = this.selectStatus = true
-        if(this.pageshowarr.length < 101){
+        if(this.pageshowarr.length < 11){
           this.pageshowarr.forEach((item,index) => {
               item.status = true
               let obj = {}
@@ -219,7 +219,7 @@ export default {
             item.status = false
           })
           this.pageshowarr.forEach((item,index) => {
-            if(index <= 99){
+            if(index <= 9){
               item.status = true
               let obj = {}
               obj.index = index
@@ -248,7 +248,7 @@ export default {
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
-      if(this.selectedNUM >= 100){
+      if(this.selectedNUM >= 10){
         if(data.status){
           data.status = false
           for(let i = 0; i < this.selectimgArr.length; i++){
