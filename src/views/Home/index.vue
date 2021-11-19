@@ -76,7 +76,7 @@
             </div>
             <div class="nowPrice">
               <span class="span1 fontsize12">{{ $t("message.home.txt11") }}</span>
-              <span class="span1 fontsize16 span2">{{hcNowPrice}}$</span>
+              <span class="span1 fontsize16 span2">{{getCoinPrice.hc}}$</span>
               <span class="span1 fontsize12">{{ $t("message.home.txt12") }}</span>
               <span class="span1 fontsize16">{{ nextDay }}</span>
             </div>
@@ -155,11 +155,11 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import { hc, hn, info } from 'hashland-sdk';
 export default {
   data () {
     return {
-      hcNowPrice:1.5,//hc的现在价格
       proupDis: false,// 弹窗展示消失变量
       btntxt: '',// 弹窗页面的确认按钮
       word: '',//弹窗提示文字
@@ -251,6 +251,9 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters(["getCoinPrice"]),
+  },
   methods: {
     buyClick(){
       window.location.href = 'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0'
@@ -278,7 +281,9 @@ export default {
       // 已发行
       hn().totalSupply().then(data => {
         this.$common.checkNumber(data.toString(), res => {
+          console.log('1234245res: ', res);
           this.nftArr[0].num = res
+          this.nftArr[1].num = 60000 - data.toString()
         })
       })
 
