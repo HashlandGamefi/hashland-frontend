@@ -766,16 +766,23 @@ export default {
         .span1 {
           color: #ffffff;
         }
-        .synthesis_btn {
-          width: 0.8rem;
-          height: 0.3rem;
-          line-height: 0.3rem;
-          background-image: url("//cdn.hashland.com/images/nft_btn1.png");
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          text-align: center;
-          color: #ffffff;
-          cursor: pointer;
+        .card_btnbox{
+          display: flex;
+          align-items: center;
+          .synthesis_btn {
+            width: 0.8rem;
+            height: 0.3rem;
+            line-height: 0.3rem;
+            background-image: url("//cdn.hashland.com/images/nft_btn1.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            text-align: center;
+            color: #ffffff;
+            cursor: pointer;
+          }
+          .btn_margin_left{
+            margin-right: 0.1rem;
+          }
         }
       }
       .span2 {

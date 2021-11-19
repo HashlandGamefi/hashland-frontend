@@ -447,11 +447,10 @@ export default {
     background: rgba(0, 0, 0, 0.4);
     z-index: 99999999;
     backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .outbox_danger{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
       width: 580px;
       height: 574px;
       box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
@@ -480,16 +479,15 @@ export default {
           font-weight: 600;
           color: #FFFFFF;
           line-height: 100px;
-          letter-spacing: 7px;
           background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
         .txtbox_danger{
           width: 100%;
+          display: flex;
           .txt2 {
             width: 100%;
-            text-align: center;
             font-style: normal;
             color: rgba(255, 255, 255, 0.8);
           }
@@ -499,7 +497,7 @@ export default {
           display: flex;
           .input {
             width: 100%;
-            padding-left: 15px;
+            padding:0 15px;
             height: 37px;
             border: none;
             outline: none;
@@ -805,12 +803,8 @@ export default {
       backdrop-filter: blur(6px);
       padding: 0 0.38rem;
       .outbox_danger{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
         width: 100%;
-        height: 2.82rem;
+        height: 4.5rem;
         box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
         padding: 1px;
         border-radius: 0.14rem;
@@ -827,23 +821,22 @@ export default {
           background:#011A31;
           .txt1 {
             width: 100%;
-            text-align: center;
             font-style: normal;
             font-size: 0.36rem;
             color: #ffffff;
           }
           .txt_danger{
-            font-size: 1rem;
+            font-size: 0.6rem;
             font-weight: 600;
             color: #FFFFFF;
-            line-height: 1rem;
-            letter-spacing: 0.07rem;
+            line-height: 0.6rem;
             background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
           }
           .txtbox_danger{
             width: 100%;
+            display: flex;
             .txt2 {
               width: 100%;
               text-align: center;
@@ -856,7 +849,7 @@ export default {
             display: flex;
             .input {
               width: 100%;
-              padding-left: 0.1rem;
+              padding:0 0.1rem;
               height: 0.37rem;
               border: none;
               outline: none;

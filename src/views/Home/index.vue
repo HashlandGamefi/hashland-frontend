@@ -314,6 +314,13 @@ export default {
       this.$common.checkNumber(product.toString(), res => {
         this.todynums = this.$common.getBit(res, 2)
       }, 4)
+      // hc价格
+      info.getHcPrice().then(res=>{
+        console.log('hc价格res: ', res);
+        this.hcNowPrice = res;
+      }).catch(err => {
+        console.log('hc价格err: ', err)
+      })
     }
   },
   mounted () {
@@ -327,12 +334,6 @@ export default {
         slidesPerView: 3
       })
     }
-    // info.getHcPrice().then(res=>{
-    //   console.log('hc价格res: ', res);
-    //   this.hcNowPrice = res;
-    // }).catch(err => {
-    //   console.log('hc价格err: ', err)
-    // })
   }
 }
 </script>

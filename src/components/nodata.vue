@@ -42,8 +42,9 @@ export default {
     .connect_box {
       width: 274px;
       height: 59px;
-      line-height: 49px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -74,8 +75,6 @@ export default {
       .connect_box {
         width: 1.94rem;
         height: 0.38rem;
-        text-align: center;
-        line-height: 0.38rem;
         background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
