@@ -138,12 +138,21 @@ export const message = {
     txt12:'Address',
     txt13:'Territory proportion',
   },
+  transfer:{
+    txt1:'Gift',
+    txt2:'You can gift cards to your friends in batches',
+    txt3:'Selected quantity',
+    txt4:'Please select the card first',
+    txt5:'Once gifted successfully, the card cannot be recovered!',
+    danger_placeholder:'Please enter the address of the recipient',
+    txt7:'Gifted Successfully',
+    txt8:'Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved.'
+  },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
   details: "Detail",
   details1: 'Stake Purchased NFT Cards in "NFT mining" to mine',
   placeholder: "Enter Amount",
-  danger_placeholder:'请输入地址',
   msg: "Note",
   word1: "至少选择4张卡牌", //You need to select a minimal of 4 cards
   word2: "请输入购买数量", //Enter Purchase Amount

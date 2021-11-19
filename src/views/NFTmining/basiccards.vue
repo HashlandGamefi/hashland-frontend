@@ -6,7 +6,7 @@
         <span class="span1 fontsize22">{{ $t("message.nftMining.txt3") }}</span>
         <div class="card_btnbox">
           <div class="synthesis_btn btn_margin_left fontsize16" @click="transferClick">
-            转账
+            {{$t("message.transfer.txt1")}}
           </div>
           <div class="synthesis_btn fontsize16" @click="synthesisClick">
             {{ $t("message.nftMining.txt5") }}
@@ -67,21 +67,6 @@
                 class="swiper_img"
                 v-if="item.btnstatus !== 3"
               />
-              <!-- <div class="bottom" v-if="item.btnstatus == 2">
-                <div class="five_pointed_star">
-                  <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
-                </div>
-                <div class="hc_btc_box">
-                  <div class="hc_coefficient">
-                    <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-                    <span class="span1 fontsize12_400">{{item.hc}}</span>
-                  </div>
-                  <div class="hc_coefficient">
-                    <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-                    <span class="span1 fontsize12_400">{{item.btc}}</span>
-                  </div>
-                </div>
-              </div> -->
               <img
                 :src="item.src"
                 class="lock_swiper_img"
