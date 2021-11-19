@@ -76,7 +76,7 @@
             </div>
             <div class="nowPrice">
               <span class="span1 fontsize12">{{ $t("message.home.txt11") }}</span>
-              <span class="span1 fontsize16 span2">{{getCoinPrice.hc}}$</span>
+              <span class="span1 fontsize16 span2">$ {{getCoinPrice.hc}}</span>
               <span class="span1 fontsize12">{{ $t("message.home.txt12") }}</span>
               <span class="span1 fontsize16">{{ nextDay }}</span>
             </div>

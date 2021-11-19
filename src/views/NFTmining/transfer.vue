@@ -98,7 +98,12 @@ export default {
         if(this.selectedNUM == 0){
           return false
         }
-        return this.pageshowarr.length == this.selectedNUM
+        if(this.pageshowarr.length >= 100){
+          return 100 == this.selectedNUM
+        }else{
+          return this.pageshowarr.length == this.selectedNUM
+        }
+
       },
       set(newValue) {
         return newValue;
@@ -210,6 +215,9 @@ export default {
           })
           this.selectedNUM = this.pageshowarr.length
         }else{
+          this.pageshowarr.forEach(item =>{
+            item.status = false
+          })
           this.pageshowarr.forEach((item,index) => {
             if(index <= 99){
               item.status = true
@@ -241,18 +249,32 @@ export default {
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
       if(this.selectedNUM >= 100){
-        this.$common.selectLang('最多100张','Up to 100',this)
+        if(data.status){
+          data.status = false
+          for(let i = 0; i < this.selectimgArr.length; i++){
+            if(this.selectimgArr[i].index == index){
+              this.selectimgArr.splice(i,1)
+              this.selectedNUM--
+              this.selectALLBtn = false
+            }
+          }
+        }else{
+          this.$common.selectLang('最多100张','Up to 100',this)
+        }
         return
       }
       data.status = !data.status
+
       if(data.status){
+        console.log("status为true的状态")
         this.selectedNUM++
         let obj = {}
         obj.id = data.cardID
         obj.index = index
         this.selectimgArr.push(obj)
       }else{
-        for(var i = 0; i < this.selectimgArr.length; i++){
+        console.log("status为false的状态")
+        for(let i = 0; i < this.selectimgArr.length; i++){
           if(this.selectimgArr[i].index == index){
             this.selectimgArr.splice(i,1)
             this.selectedNUM--
