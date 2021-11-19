@@ -366,6 +366,7 @@ export default {
     .right_content{
       display: flex;
       align-items: center;
+      cursor: pointer;
       .selectimg{
         width: 40px;
         object-fit: contain;
