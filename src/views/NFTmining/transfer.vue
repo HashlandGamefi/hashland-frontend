@@ -59,8 +59,8 @@
             <div class="txt3" @click.stop="sureDangerClick">Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading></div>
           </div>
         </div>
+        <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="dangerClick"/>
       </div>
-      <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="dangerClick"/>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -198,7 +198,7 @@ export default {
         this.selectimgArr = []
         this.selectedNUM = 0
       }else{
-        // 最多选择2张
+        // 最多选择5张
         this.selectALLBtn = this.selectStatus = true
         if(this.pageshowarr.length < 101){
           this.pageshowarr.forEach((item,index) => {
@@ -240,7 +240,7 @@ export default {
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
-      if(this.selectedNUM > 100){
+      if(this.selectedNUM >= 100){
         this.$common.selectLang('最多100张','Up to 100',this)
         return
       }
@@ -473,6 +473,7 @@ export default {
     justify-content: center;
     align-items: center;
     .outbox_danger{
+      position: relative;
       width: 580px;
       height: 574px;
       box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
@@ -552,14 +553,14 @@ export default {
           }
         }
       }
-    }
-    .danger_close{
-      position: absolute;
-      top: 10px;
-      right: 100px;
-      width: 44px;
-      object-fit: contain;
-      cursor: pointer;
+      .danger_close{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 44px;
+        object-fit: contain;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -904,14 +905,14 @@ export default {
             }
           }
         }
-      }
-      .danger_close{
-        position: absolute;
-        top: 0.3rem;
-        right: 0.2rem;
-        width: 0.36rem;
-        object-fit: contain;
-        cursor: pointer;
+        .danger_close{
+          position: absolute;
+          top: 0.1rem;
+          right: 0.1rem;
+          width: 0.36rem;
+          object-fit: contain;
+          cursor: pointer;
+        }
       }
     }
   }

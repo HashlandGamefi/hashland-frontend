@@ -144,7 +144,7 @@ export const message = {
     txt3:'Selected quantity',
     txt4:'Please select the card first',
     txt5:'Once gifted successfully, the card cannot be recovered!',
-    danger_placeholder:'Please enter the address of the recipient',
+    danger_placeholder:'Enter the address of the recipient',
     txt7:'Gifted Successfully',
     txt8:'Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved.'
   },
