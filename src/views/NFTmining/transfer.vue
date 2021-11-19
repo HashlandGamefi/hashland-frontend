@@ -505,7 +505,7 @@ export default {
       .danger_wallet_box {
         width: 100%;
         height: 100%;
-        padding: 38px 130px 85px 130px;
+        padding: 38px 110px 85px;
         display: flex;
         flex-direction: column;
         align-items: center;
