@@ -281,9 +281,10 @@ export default {
       // 已发行
       hn().totalSupply().then(data => {
         this.$common.checkNumber(data.toString(), res => {
-          console.log('1234245res: ', res);
           this.nftArr[0].num = res
-          this.nftArr[1].num = 60000 - data.toString()
+        })
+        this.$common.checkNumber((6000 - data.toNumber()).toString(), res1 => {
+          this.nftArr[1].num = res1
         })
       })
 
