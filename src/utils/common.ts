@@ -149,6 +149,7 @@ export default {
   // 使用bignumbers计算  保留小数位  eg:num / 1e18保留8位
   useBigNumberDiv(num: any, bit = 8, nums = 1000000000000000000) {
     let big_number = new BigNumber(num);
+    console.log('big_number: ', big_number);
     let last_num = big_number.div(nums);
     if (bit == 0) {
       return this.editE(last_num.toNumber());
@@ -286,7 +287,7 @@ export default {
     calback({ h: H, m: M, s: S });
     endtime = endtime - 1;
   },
-  // 数字中是否带有e,有的话截取固定位数小数(bit),保留e的位数,没有则按正常显示(digit为要保留的小数位)
+  // 数字中是否带有e,有的话截取固定位数小数(bit),保留e的位数,没有则按正常显示(digit为要保留的小数位),(结果已经做过数据格式化,eg:1,00)
   checkNumber(str: string, callback: any, digit = 8, bit = 4) {
     if (str.indexOf("e") != -1) {
       callback(
@@ -395,5 +396,9 @@ export default {
         });
       });
     })
+  },
+  // 一个数乘以1e18   eg:convertNormalToBigNumber('input num',18)
+  convertNormalToBigNumber(num:any, decimals = 18, fix = 0) {
+    return new BigNumber(num).multipliedBy(new BigNumber(Math.pow(10, decimals))).minus(fix).toFixed(0);
   }
 };

@@ -137,6 +137,19 @@ export const message = {
     txt7:'转账成功',
     txt8:'Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved.'
   },
+  hclp:{
+    txt1:'农场',
+    txt2:'质押lp token 赚取平台币',
+    txt3:'年化',
+    txt4:'流通性',
+    txt5:'产出',
+    txt6:'我的质押',
+    txt7:'质押',
+    txt8:'解除质押',
+    txt9:'我的产出',
+    txt10:'累计产出:',
+    txt11:'提取'
+  },
   buy1:'购买记录',
   buy2:'购买NFT卡牌',
   details:'详情',

@@ -50,6 +50,11 @@ const routes: Array<RouteConfig> = [
     path: '/invite',
     name: 'Invite',
     component: () => import('../views/Invite/index.vue')
+  },
+  {
+    path: '/hclp',
+    name: 'Hclp',
+    component: () => import('../views/HClp/index.vue')
   }
 ]
 
