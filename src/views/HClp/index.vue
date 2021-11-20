@@ -10,12 +10,12 @@
             <span class="span1 fontsize22">HC-BUSD  LP</span>
           </div>
           <div class="oneline">
-            <span class="left fontsize16">年化</span>
-            <span class="right fontsize16">120.89%</span>
+            <span class="left fontsize16">APR</span>
+            <span class="right fontsize16">{{apr}}%</span>
           </div>
           <div class="oneline">
-            <span class="left fontsize16">流通性</span>
-            <span class="right fontsize16">$XXX</span>
+            <span class="left fontsize16">流动性</span>
+            <span class="right fontsize16">${{mobility}}</span>
           </div>
           <div class="oneline">
             <span class="left fontsize16">产出</span>
@@ -28,7 +28,7 @@
               <div class="title_txt">
                 <span class="span1 fontsize12_400">我的质押</span>
                 <div class="get_hclp">
-                  <span class="span1 fontsize12_400">Get HC-BUSD LP</span>
+                  <span class="span1 fontsize12_400" @click="buyhclpClick">Get HC-BUSD LP</span>
                   <span class="span2"></span>
                   <!-- <img src="" alt=""> -->
                 </div>
@@ -102,10 +102,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hclpPool, erc20, token, getSigner, contract } from 'hashland-sdk';
+import { hclpPool, erc20, token, getSigner, contract, info } from 'hashland-sdk';
 export default {
   data () {
     return {
+      mobility:0,//流动性
+      apr:0,
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
@@ -124,7 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount"])
+    ...mapGetters(["getIstrue","getAccount",'getCoinPrice'])
   },
   watch:{
     'getIstrue':{
@@ -140,6 +142,9 @@ export default {
     }
   },
   methods:{
+    buyhclpClick(){
+      window.location.href = `https://pancakeswap.finance/add/${token().HC}/${token().BUSD}`
+    },
     maxClick(){
       if(this.ispledge){
         this.dangerTxtModel = this.userbalance_one
@@ -311,6 +316,17 @@ export default {
         this.synthesisDis = false
       })
     },
+  },
+  mounted(){
+    info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
+      this.$common.checkNumber(res.toString(), res1 => {
+        this.apr = res1
+      },2)
+    })
+    erc20(token().BUSD).balanceOf(contract().HCLPPool).then(res => {
+      console.log('res: ', res);
+      this.mobility = (res / 1e18) * 2
+    })
   }
 }
 </script>
@@ -403,6 +419,7 @@ export default {
               .get_hclp{
                 display: flex;
                 align-items: center;
+                cursor: pointer;
                 .span1{
                   color: #D79C00;
                 }

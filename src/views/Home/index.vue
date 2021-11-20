@@ -156,7 +156,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { hc, hn, info } from 'hashland-sdk';
+import { hc, hn } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -256,6 +256,7 @@ export default {
   },
   methods: {
     buyClick(){
+      // window.location.href = `https://pancakeswap.finance/add/${token().HC}/${token().BUSD}`
       window.location.href = 'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0'
     },
     // 取消按钮(关闭弹窗)
