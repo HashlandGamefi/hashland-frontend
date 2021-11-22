@@ -211,7 +211,7 @@ export default {
       // let price = await info.getHNPoolApr(1.5, 60000)
       // console.log('全网apr: ', price);
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolUserApr(this.getAccount, 1.5, this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolUserApr(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc)
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{

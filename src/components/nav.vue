@@ -170,6 +170,9 @@ export default {
         case 0:
           this.$router.push('/buy')
           break;
+        case 2:
+          this.$router.push('/hclp')
+          break;
         case 4:
           window.location.href = 'https://land-hash.gitbook.io/official/dao/about-dao'
           break;
@@ -247,13 +250,7 @@ export default {
       const chainID = await wallet.getChainId() // 连接网络
       this.networkFun(chainID)
 
-      // 监听账号
-      wallet.onAccountChanged(this.connectFun)
 
-      // 监听网络
-      wallet.onChainChanged(this.OnNetworkFun)
-
-      wallet.onDisconnect(this.signOutFun)
 
       this.walletdis = false
     },
@@ -274,6 +271,13 @@ export default {
         }
       })
     }
+    // 监听账号
+    wallet.onAccountChanged(this.connectFun)
+
+    // 监听网络
+    wallet.onChainChanged(this.OnNetworkFun)
+
+    wallet.onDisconnect(this.signOutFun)
   }
 }
 </script>

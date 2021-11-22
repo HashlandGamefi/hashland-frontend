@@ -149,7 +149,6 @@ export default {
   // 使用bignumbers计算  保留小数位  eg:num / 1e18保留8位
   useBigNumberDiv(num: any, bit = 8, nums = 1000000000000000000) {
     let big_number = new BigNumber(num);
-    console.log('big_number: ', big_number);
     let last_num = big_number.div(nums);
     if (bit == 0) {
       return this.editE(last_num.toNumber());
@@ -387,7 +386,6 @@ export default {
           obj.src = getHnImg(Number(item), obj.level, race);
           infoArr.push(obj);
           if(count == res[0].length){
-            console.log('res[0].length: ', res[0].length,count);
             store.commit("setCardInfo", JSON.stringify(infoArr));
             sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
             resolve(count)

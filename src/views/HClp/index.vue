@@ -6,7 +6,7 @@
       <div class="outbox">
         <div class="boxs">
           <div class="title_box">
-            <div class="img"></div>
+            <img :src="`${$store.state.imgUrl}hclp_logo.png`" class="img">
             <span class="span1 fontsize22">HC-BUSD  LP</span>
           </div>
           <div class="oneline">
@@ -14,11 +14,11 @@
             <span class="right fontsize16">{{apr}}%</span>
           </div>
           <div class="oneline">
-            <span class="left fontsize16">流动性</span>
-            <span class="right fontsize16">${{mobility}}</span>
+            <span class="left fontsize16">{{ $t("message.hclp.txt4") }}</span>
+            <span class="right fontsize16">$ {{mobility}}</span>
           </div>
           <div class="oneline">
-            <span class="left fontsize16">产出</span>
+            <span class="left fontsize16">{{ $t("message.hclp.txt5") }}</span>
             <span class="right fontsize16">HC</span>
           </div>
         </div>
@@ -26,42 +26,49 @@
           <div class="insetbox">
             <div class="top_box">
               <div class="title_txt">
-                <span class="span1 fontsize12_400">我的质押</span>
-                <div class="get_hclp">
-                  <span class="span1 fontsize12_400" @click="buyhclpClick">Get HC-BUSD LP</span>
-                  <span class="span2"></span>
-                  <!-- <img src="" alt=""> -->
+                <span class="span1 fontsize12_400">{{ $t("message.hclp.txt6") }}</span>
+                <div class="get_hclp" @click="buyhclpClick">
+                  <span class="span1 fontsize12_400">Get HC-BUSD LP</span>
+                  <img :src="`${$store.state.imgUrl}buy_hclp.png`" class="buy_img">
                 </div>
               </div>
               <div class="_box">
                 <div class="left_span fontsize16">{{userPledge}}</div>
                 <div class="right_btn">
                   <div class="btn1 btn fontsize16" @click="pledgeClick">
-                    质押
+                    {{ $t("message.hclp.txt7") }}
                   </div>
                   <div class="btn2 btn fontsize16"  @click="removeClick">
-                    解除质押
+                    {{ $t("message.hclp.txt8") }}
                   </div>
                 </div>
               </div>
             </div>
             <div class="top_box">
               <div class="title_txt">
-                <span class="span1 fontsize12_400">我的产出</span>
+                <span class="span1 fontsize12_400">{{ $t("message.hclp.txt9") }}</span>
               </div>
               <div class="_box">
                 <div class="left_span_img">
                   <img :src="`${$store.state.imgUrl}hclogo.png`" class="img_hc" />
-                  <span class="span1 fontsize16">{{extactNUm}}</span>
+                  <span class="span1 fontsize16" v-if="extactNUm == 0">{{extactNUm}}</span>
+                  <span class="span1 fontsize16" v-else>
+                    <countTo
+                      :decimals="hcnumShow.length"
+                      :startVal="hcStarValue"
+                      :endVal="extactNUm"
+                      :duration="1500"
+                    ></countTo>
+                  </span>
                 </div>
                 <div class="right_btn">
                   <div class="btn1 btn fontsize16"  @click="extractClick">
-                    提取
+                    {{ $t("message.hclp.txt11") }}
                     <BtnLoading :isloading="extractDis"></BtnLoading>
                   </div>
                 </div>
               </div>
-              <div class="add_produce fontsize12_400">(累计产出：{{userAddPledge}})</div>
+              <div class="add_produce fontsize12_400">({{ $t("message.hclp.txt10") }}: {{userAddPledge}})</div>
             </div>
           </div>
         </div>
@@ -70,26 +77,28 @@
     <div class="danger_proup" v-if="isdanger">
       <div class="outbox_danger">
         <div class="danger_wallet_box" @click.stop>
-          <span class="txt1 fontsize18" v-if="ispledge">质押</span>
-          <span class="txt1 fontsize18" v-else>解除质押</span>
+          <span class="txt1 fontsize22" v-if="ispledge">{{ $t("message.hclp.txt7") }}</span>
+          <span class="txt1 fontsize22" v-else>{{ $t("message.hclp.txt8") }}</span>
           <span class="txt2 fontsize16_400">HC-BUSD LP</span>
           <div class="inputbox">
-            <div class="userBalance fontsize12">账户余额:{{userbalance}}</div>
+            <div class="userBalance fontsize12" v-if="ispledge">{{ $t("message.hclp.txt12") }}:{{userbalance}}</div>
+            <div class="userBalance fontsize12" v-else>{{ $t("message.hclp.txt12_1") }}:{{userbalance}}</div>
             <div class="outbox_input">
-              <input type="text fontsize14" placeholder='请输入数量' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d\d\d).*$/, '$1$2.$3').replace(/^\./g, '')" />
+              <input type="text fontsize14" @input="inputchangeFun" :placeholder='$t("message.hclp.txt13")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d\d\d).*$/, '$1$2.$3').replace(/^\./g, '')" />
               <div class="btn" @click="maxClick">MAX</div>
             </div>
+            <div class="dange_tip fontsize14" v-if="tiptxt">{{tiptxt}}</div>
           </div>
           <div class="btn_box">
             <div class="txt3 fontsize18" @click.stop="sureDangerClick" v-if="hclpApprove">
               Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading>
             </div>
             <div class="txt3 fontsize18" @click.stop="autionClick" v-else>
-              授权<BtnLoading :isloading="synthesisDis"></BtnLoading>
+              {{ $t("message.approve") }}<BtnLoading :isloading="synthesisDis"></BtnLoading>
             </div>
-            <div class="buy_hclp">
+            <div class="buy_hclp" @click="buyhclpClick">
               <span class="span1 fontsize16">Get HC-BUSD LP</span>
-              <div style="width:10px;height:10px;background:red"></div>
+              <img :src="`${$store.state.imgUrl}buy_hclp.png`" class="buy_img">
             </div>
           </div>
         </div>
@@ -106,6 +115,10 @@ import { hclpPool, erc20, token, getSigner, contract, info } from 'hashland-sdk'
 export default {
   data () {
     return {
+      tiptxt:'',// 提示语句
+      extactNUm:0,//可提取
+      hcStarValue:0,// hc 可提取初始值
+      hcnumShow:'12345678', // 数字滚动插件默认显示小数位数8位
       mobility:0,//流动性
       apr:0,
       btntxt:'',// 弹窗页面的确认按钮
@@ -116,13 +129,13 @@ export default {
       isdanger:false,//转账提示框
       userPledge:0,//用户质押hclp量
       userAddPledge:0,//累计产量
-      extactNUm:0,//可提取
       userbalance:0,// 用户hclp余额
       userbalance_one:0,// 用户hclp余额 计算使用
       userPledge_one:0,// 用户质押hclp余额 计算使用
       extractDis:false,// 提取按钮loading
       synthesisDis:false,//质押弹窗loading
       hclpApprove:false,// hclp是否授权
+      hc_timernull:null
     }
   },
   computed: {
@@ -142,12 +155,17 @@ export default {
     }
   },
   methods:{
+    inputchangeFun () {
+      this.tiptxt = ''
+    },
     buyhclpClick(){
       window.location.href = `https://pancakeswap.finance/add/${token().HC}/${token().BUSD}`
     },
     maxClick(){
+      this.tiptxt = ''
       if(this.ispledge){
         this.dangerTxtModel = this.userbalance_one
+        console.log('this.userbalance_one: ', this.userbalance_one);
       }else{
         this.dangerTxtModel = this.userPledge_one
       }
@@ -159,9 +177,16 @@ export default {
     // 弹窗确认质押
     sureDangerClick(){
       if(this.synthesisDis)return
-      if(!this.dangerTxtModel)return
-      this.synthesisDis = true
+      if(!this.dangerTxtModel){
+        this.tiptxt = '请输入数量' //
+        return
+      }
       if(this.ispledge){
+        if(this.dangerTxtModel > this.userbalance_one){
+          this.tiptxt = '余额不足'
+          return
+        }
+        this.synthesisDis = true
         hclpPool().connect(getSigner()).deposit(this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(async res => {
           console.log('用户质押HCLP---res: ', res);
           const etReceipt = await res.wait();
@@ -179,6 +204,11 @@ export default {
           this.isdanger = false
         })
       }else{
+        if(this.dangerTxtModel > this.userPledge_one){
+          this.tiptxt = '余额不足'
+          return
+        }
+        this.synthesisDis = true
         hclpPool().connect(getSigner()).withdraw(this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(async res => {
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
@@ -203,24 +233,21 @@ export default {
     pledgeClick(){
       console.log("质押")
       this.dangerTxtModel = ''
+      this.tiptxt = ''
       erc20(token().HCLP).balanceOf(this.getAccount).then(res => {
         console.log('用户hclp余额res: ', res.toString());
-        // this.$common.checkNumber((res / 1e18).toString(), res1 => {
-        //   this.userbalance = res1
-        // })
-        // this.userbalance_one = res / 1e18
-
         let nums = this.$common.useBigNumberDiv(res.toString())
         console.log('nums: ', nums);
         if (res / 1e18 < 1e-8) {
           this.userbalance = 0
           this.userbalance_one = 0
         }else{
-          this.userbalance = this.$common.numFormat(parseFloat(nums))
-          this.userbalance_one = parseFloat(nums)
+          this.$common.checkNumber(nums, res1 => {
+            this.userbalance = res1
+          })
+          // this.userbalance = this.$common.numFormat(parseFloat(nums))
+          this.userbalance_one = nums
         }
-      }).catch(err => {
-        console.log('用户hclp余额err: ', err);
       })
       this.isdanger = true
       this.ispledge = true
@@ -229,6 +256,7 @@ export default {
     removeClick(){
       console.log("解除",this.userPledge)
       this.dangerTxtModel = ''
+      this.tiptxt = ''
       this.userbalance = this.userPledge
       this.isdanger = true
       this.ispledge = false
@@ -244,7 +272,6 @@ export default {
           if(etReceipt.status == 1){
             this.extractDis = false
             this.$common.selectLang('提取成功','Claim success',this)
-            this.getSDKInfo()
           }else{
             this.extractDis = false
           }
@@ -271,22 +298,33 @@ export default {
           this.userPledge_one = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
         }
       })
-      hclpPool().getTokenTotalRewards(this.getAccount).then(res => {
-        // console.log('获取某用户的HC累计产量: ', res);
-        if ((res.toString() / 1e18) < 1e-8) {
-          this.userAddPledge = 0
-        }else{
-          this.userAddPledge = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
-        }
-      })
-      hclpPool().getTokenRewards(this.getAccount).then(res => {
-        // console.log('获取某用户可提取的HC数量: ', res);
-        if ((res.toString() / 1e18) < 1e-8) {
-          this.extactNUm = 0
-        }else{
-          this.extactNUm = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
-        }
-      })
+      this.realTimeGetHC()
+    },
+    realTimeGetHC(){
+      clearInterval(this.hc_timernull)
+      this.hc_timernull = setInterval(() => {
+        hclpPool().getTokenTotalRewards(this.getAccount).then(res => {
+          // console.log('获取某用户的HC累计产量: ', res);
+          if ((res.toString() / 1e18) < 1e-8) {
+            this.userAddPledge = 0
+          }else{
+            this.userAddPledge = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
+          }
+        })
+        hclpPool().getTokenRewards(this.getAccount).then(res => {
+          // console.log('获取某用户可提取的HC数量: ', res);
+          if ((res.toString() / 1e18) < 1e-8) {
+            this.extactNUm = 0
+          }else{
+            let num = this.$common.useBigNumberDiv(res.toString())
+            this.hcnumShow = num.substring(num.indexOf('.') + 1,num.length)
+            this.hcStarValue = this.extactNUm
+            this.extactNUm = Number(num)
+
+            // this.extactNUm = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
+          }
+        })
+      },5000)
     },
     isApprove(){
       erc20(token().HCLP).allowance(this.getAccount,contract().HCLPPool).then(res => {
@@ -317,6 +355,9 @@ export default {
       })
     },
   },
+  beforeDestroy(){
+    clearInterval(this.timernull)
+  },
   mounted(){
     info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
       this.$common.checkNumber(res.toString(), res1 => {
@@ -324,7 +365,6 @@ export default {
       },2)
     })
     erc20(token().BUSD).balanceOf(contract().HCLPPool).then(res => {
-      console.log('res: ', res);
       this.mobility = (res / 1e18) * 2
     })
   }
@@ -370,8 +410,7 @@ export default {
           margin-bottom: 47px;
           .img{
             width: 49px;
-            height: 49px;
-            background: red;
+            object-fit: contain;
           }
           .span1{
             color: #ffffff;
@@ -423,10 +462,9 @@ export default {
                 .span1{
                   color: #D79C00;
                 }
-                .span2{
-                  width: 10px;
-                  height: 10px;
-                  background: red;
+                .buy_img{
+                  width: 14px;
+                  object-fit: contain;
                   margin-left: 8px;
                 }
               }
@@ -567,6 +605,13 @@ export default {
               cursor: pointer;
             }
           }
+          .dange_tip{
+            width: 100%;
+            min-height: 18px;
+            text-align: right;
+            color: red;
+            margin-top: 20px;
+          }
         }
         .btn_box{
           width: 100%;
@@ -591,9 +636,14 @@ export default {
             display: flex;
             align-items: center;
             margin-top: 15px;
+            cursor: pointer;
             .span1{
               color: #D79C00;
               margin-right: 5px;
+            }
+            .buy_img{
+              width: 14px;
+              object-fit: contain;
             }
           }
         }
