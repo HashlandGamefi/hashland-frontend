@@ -35,12 +35,20 @@
               <div class="_box">
                 <div class="left_span fontsize16">{{userPledge}}</div>
                 <div class="right_btn">
-                  <div class="btn1 btn fontsize16" @click="pledgeClick">
+                  <div class="btn1 btn fontsize16 disable_bnb" @click="pledgeClick">
                     {{ $t("message.hclp.txt7") }}
                   </div>
-                  <div class="btn2 btn fontsize16"  @click="removeClick">
+                  <div class="btn2 btn fontsize16 disable_bnb"  @click="removeClick">
                     {{ $t("message.hclp.txt8") }}
                   </div>
+                </div>
+              </div>
+              <div class="mobile_right_btn">
+                <div class="btn1 btn fontsize16 disable_bnb" @click="pledgeClick">
+                  {{ $t("message.hclp.txt7") }}
+                </div>
+                <div class="btn2 btn fontsize16 disable_bnb"  @click="removeClick">
+                  {{ $t("message.hclp.txt8") }}
                 </div>
               </div>
             </div>
@@ -61,14 +69,14 @@
                     ></countTo>
                   </span>
                 </div>
-                <div class="right_btn">
+                <div class="right_btn mobile_extract">
                   <div class="btn1 btn fontsize16"  @click="extractClick">
                     {{ $t("message.hclp.txt11") }}
                     <BtnLoading :isloading="extractDis"></BtnLoading>
                   </div>
                 </div>
               </div>
-              <div class="add_produce fontsize12_400">({{ $t("message.hclp.txt10") }}: {{userAddPledge}})</div>
+              <div class="add_produce fontsize12_400">({{ $t("message.hclp.txt10") }} {{userAddPledge}})</div>
             </div>
           </div>
         </div>
@@ -232,6 +240,7 @@ export default {
     // 质押
     pledgeClick(){
       console.log("质押")
+      return
       this.dangerTxtModel = ''
       this.tiptxt = ''
       erc20(token().HCLP).balanceOf(this.getAccount).then(res => {
@@ -254,6 +263,7 @@ export default {
     },
     // 解除
     removeClick(){
+      return
       console.log("解除",this.userPledge)
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -494,7 +504,8 @@ export default {
                 display: flex;
                 align-items: center;
                 .btn{
-                  width: 97px;
+                  // width: 97px;
+                  padding: 0 10px;
                   height: 33px;
                   background-size: 100% 100%;
                   background-repeat: no-repeat;
@@ -512,6 +523,9 @@ export default {
                   margin-left: 15px;
                 }
               }
+            }
+            .mobile_right_btn{
+              display: none;
             }
             .add_produce{
               width: 100%;
@@ -706,8 +720,6 @@ export default {
             margin-bottom: 0.4rem;
             .img{
               width: 0.49rem;
-              height: 0.49rem;
-              background: red;
             }
             .span1{
               color: #ffffff;
@@ -788,11 +800,13 @@ export default {
                   }
                 }
                 .right_btn{
+                  display: none;
+                }
+                .mobile_extract{
                   display: flex;
-                  align-items: center;
                   .btn{
-                    width: 97px;
-                    height: 33px;
+                    padding: 0 0.1rem;
+                    height: 0.33rem;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
                     color: #FFFFFF;
@@ -806,14 +820,40 @@ export default {
                   }
                   .btn2{
                     background-image: url("//cdn.hashland.com/images/lock.png");
-                    margin-left: 15px;
+                    margin-left: 0.15rem;
                   }
+                }
+              }
+              .mobile_right_btn{
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-top: 0.1rem;
+                .btn{
+                  // width: 97px;
+                  padding: 0 0.1rem;
+                  height: 0.33rem;
+                  background-size: 100% 100%;
+                  background-repeat: no-repeat;
+                  color: #FFFFFF;
+                  cursor: pointer;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+                .btn1{
+                  background-image: url("//cdn.hashland.com/images/nft_btn2.png");
+                }
+                .btn2{
+                  background-image: url("//cdn.hashland.com/images/lock.png");
+                  margin-left: 0.15rem;
                 }
               }
               .add_produce{
                 width: 100%;
                 color: #A6A2A2;
-                margin-top: 17px;
+                margin-top: 0.17rem;
               }
             }
           }

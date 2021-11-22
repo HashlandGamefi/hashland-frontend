@@ -142,3 +142,10 @@ body {
 .word_line_feed{
   word-break:break-all
 }
+// 按钮禁用
+.disable_bnb{
+  color:rgb(187, 186, 186) !important;
+  background: rgba(255,255,255,0.6) !important;
+  cursor: not-allowed !important;
+  border-radius: 25px;
+}

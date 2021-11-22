@@ -204,6 +204,11 @@ export default {
           num:0
         },
         {
+          src:`${this.$store.state.imgUrl}circulation.png`,
+          txt:'message.home.txt15',
+          num:0
+        },
+        {
           src:`${this.$store.state.imgUrl}destroy.png`,
           txt:'message.home.txt8',
           num:0
@@ -256,8 +261,8 @@ export default {
   },
   methods: {
     buyClick(){
-      // window.location.href = `https://pancakeswap.finance/swap?inputCurrency=${token().BUSD}&outputCurrency=${token().HC}`
-      window.location.href = 'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0'
+      window.location.href = `https://pancakeswap.finance/swap?inputCurrency=${token().BUSD}&outputCurrency=${token().HC}`
+      // window.location.href = 'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0'
     },
     // 取消按钮(关闭弹窗)
     CloseFun () {
@@ -280,34 +285,37 @@ export default {
     },
     async getSDKInfo () {
       // 已发行
-      hn().totalSupply().then(data => {
-        this.$common.checkNumber(data.toString(), res => {
-          this.nftArr[0].num = res
-        })
-        this.$common.checkNumber((60000 - data.toNumber()).toString(), res1 => {
-          this.nftArr[1].num = res1
-        })
+      let hn_issued = await hn().totalSupply()
+      this.$common.checkNumber(hn_issued.toString(), res => {
+        this.nftArr[0].num = res
+      })
+      this.$common.checkNumber((60000 - hn_issued.toNumber()).toString(), res1 => {
+        this.nftArr[1].num = res1
       })
 
       // hn 已销毁
       hn().balanceOf('0x0000000000000000000000000000000000000010').then(data => {
         this.$common.checkNumber(data.toString(), res => {
-          this.nftArr[2].num = res
+          this.nftArr[3].num = res
+        })
+        this.$common.checkNumber((hn_issued.toNumber() - data.toNumber()).toString(), res1 => {
+          this.nftArr[2].num = res1
         })
       })
 
       // 流通量
-      hc().totalSupply().then(data => {
-        this.$common.checkNumber((data / 1e18).toString(), res => {
-          this.totalSupply = this.$common.getBit(res, 2)
-        })
-        // 产出比
-        this.proportion = this.$common.getBit((data / 1e18 / 21000000) * 100, 2)
-      })
+      let hc_totalSupply= await hc().totalSupply()
+
+      // 产出比
+      this.proportion = this.$common.getBit((hc_totalSupply / 1e18 / 21000000) * 100, 2)
+
       //hc 已销毁
       hc().balanceOf('0x0000000000000000000000000000000000000010').then(data => {
         this.$common.checkNumber((data / 1e18).toString(), res => {
           this.hcDestroy = this.$common.getBit(res, 2)
+        })
+        this.$common.checkNumber(((hc_totalSupply - data) / 1e18).toString(), res => {
+          this.totalSupply = this.$common.getBit(res, 2)
         })
       })
       // 下次减产时间
