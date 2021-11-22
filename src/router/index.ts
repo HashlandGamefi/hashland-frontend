@@ -55,6 +55,11 @@ const routes: Array<RouteConfig> = [
     path: '/hclp',
     name: 'Hclp',
     component: () => import('../views/HClp/index.vue')
+  },
+  {
+    path: '/gamefi',
+    name: 'Gamefi',
+    component: () => import('../views/Gamefi/index.vue')
   }
 ]
 
