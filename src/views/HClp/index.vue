@@ -93,7 +93,7 @@
             <div class="userBalance fontsize12" v-else>{{ $t("message.hclp.txt12_1") }}:{{userbalance}}</div>
             <div class="outbox_input">
               <input type="text fontsize14" @input="inputchangeFun" :placeholder='$t("message.hclp.txt13")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d\d\d).*$/, '$1$2.$3').replace(/^\./g, '')" />
-              <div class="btn" @click="maxClick">MAX</div>
+              <div class="btn fontsize14" @click="maxClick">MAX</div>
             </div>
             <div class="dange_tip fontsize14" v-if="tiptxt">{{tiptxt}}</div>
           </div>
@@ -173,7 +173,6 @@ export default {
       this.tiptxt = ''
       if(this.ispledge){
         this.dangerTxtModel = this.userbalance_one
-        console.log('this.userbalance_one: ', this.userbalance_one);
       }else{
         this.dangerTxtModel = this.userPledge_one
       }
@@ -186,12 +185,12 @@ export default {
     sureDangerClick(){
       if(this.synthesisDis)return
       if(!this.dangerTxtModel){
-        this.tiptxt = '请输入数量' //
+        this.tiptxt = 'Input number' //
         return
       }
       if(this.ispledge){
         if(this.dangerTxtModel > this.userbalance_one){
-          this.tiptxt = '余额不足'
+          this.tiptxt = 'Insufficient balance'
           return
         }
         this.synthesisDis = true
@@ -213,7 +212,7 @@ export default {
         })
       }else{
         if(this.dangerTxtModel > this.userPledge_one){
-          this.tiptxt = '余额不足'
+          this.tiptxt = 'Insufficient balance'
           return
         }
         this.synthesisDis = true
@@ -855,6 +854,130 @@ export default {
               }
             }
           }
+        }
+      }
+    }
+    .danger_proup {
+      padding: 0 0.37rem;
+      .outbox_danger{
+        position: relative;
+        width: 100%;
+        box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+        padding: 1px;
+        border-radius: 0.14rem;
+        background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+        .danger_wallet_box {
+          width: 100%;
+          // height: 100%;
+          padding: 0.3rem 0.36rem 0.69rem 0.38rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 14px;
+          background:#011A31;
+          .txt1 {
+            width: 100%;
+            text-align: center;
+            font-style: normal;
+            color: #ffffff;
+          }
+          .txt2 {
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.8);
+          }
+          .inputbox {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0.5rem;
+            .userBalance{
+              width: 100%;
+              text-align: right;
+              color: #ffffff;
+              margin-bottom: 0.1rem;
+            }
+            .outbox_input{
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-radius: 0.14rem;
+              box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+              .input {
+                width: 80%;
+                padding:0 0.1rem;
+                height: 0.37rem;
+                border: none;
+                outline: none;
+                font-style: normal;
+                color: #ffffff;
+                border-radius: 0.14rem;
+                background: transparent;
+              }
+              .btn{
+                width: 0.8rem;
+                height: 0.37rem;
+                text-align: center;
+                line-height: 0.37rem;
+                border-radius: 0.14rme;
+                color: #ffffff;
+                background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                cursor: pointer;
+              }
+            }
+            .dange_tip{
+              width: 100%;
+              min-height: 18px;
+              text-align: right;
+              color: red;
+              margin-top: 0.1rem;
+            }
+          }
+          .btn_box{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px;
+            .txt3 {
+              width: 1.67rem;
+              background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 0.39rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-style: normal;
+              color: #ffffff;
+              cursor: pointer;
+            }
+            .buy_hclp{
+              display: flex;
+              align-items: center;
+              margin-top: 15px;
+              cursor: pointer;
+              .span1{
+                color: #D79C00;
+                margin-right: 5px;
+              }
+              .buy_img{
+                width: 14px;
+                object-fit: contain;
+              }
+            }
+          }
+        }
+        .danger_close{
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 44px;
+          object-fit: contain;
+          cursor: pointer;
         }
       }
     }
