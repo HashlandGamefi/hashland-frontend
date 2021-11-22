@@ -156,7 +156,7 @@ export const message = {
     txt5:'Output',
     txt6:'My stake',
     txt7:'Stake',
-    txt8:'Release stake',
+    txt8:'Unstake',
     txt9:'My output',
     txt10:'Cumulative Output:',
     txt11:'Withdrawal',

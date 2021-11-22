@@ -502,8 +502,8 @@ export default {
                 display: flex;
                 align-items: center;
                 .btn{
-                  // width: 97px;
-                  padding: 0 10px;
+                  width: 97px;
+                  // padding: 0 10px;
                   height: 33px;
                   background-size: 100% 100%;
                   background-repeat: no-repeat;
@@ -829,8 +829,8 @@ export default {
                 align-items: center;
                 margin-top: 0.1rem;
                 .btn{
-                  // width: 97px;
-                  padding: 0 0.1rem;
+                  width: 0.75rem;
+                  // padding: 0 0.1rem;
                   height: 0.33rem;
                   background-size: 100% 100%;
                   background-repeat: no-repeat;
