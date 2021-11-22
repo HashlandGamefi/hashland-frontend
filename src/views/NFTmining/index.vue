@@ -208,24 +208,13 @@ export default {
     },
     // sdk一系列信息
     async getSDKInfo(){
-      // let price = await info.getHNPoolApr(1.5, 60000)
-      // console.log('全网apr: ', price);
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolUserApr(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolUserApr(this.getAccount, 90, this.getCoinPrice.btc)
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{
         this.personalApy = this.$common.getBit(personalapr, 2)
       }
-      console.log('个人apr: ', personalapr);
-
-      // let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量
-      // let btc_num = (await hnPool().tokensPerBlock(1) / 1e18).toString() // btc产量
-      // // console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
-      // let molecule = hc_num * 28800 * 365 * 10 + btc_num * 28800 * 365 * 400000 // 分子
-      // let cardNum = await hnPool().getHnIdsLength() // 获取池子质押的总卡牌数量
-      // this.apy = this.$common.getBit(molecule / (cardNum * 100))
-      // this.personalApy = 0
     }
   },
   beforeDestroy(){
