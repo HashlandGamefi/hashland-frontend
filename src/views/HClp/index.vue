@@ -35,19 +35,19 @@
               <div class="_box">
                 <div class="left_span fontsize16">{{userPledge}}</div>
                 <div class="right_btn">
-                  <div class="btn1 btn fontsize16 disable_bnb" @click="pledgeClick">
+                  <div class="btn1 btn fontsize16" @click="pledgeClick">
                     {{ $t("message.hclp.txt7") }}
                   </div>
-                  <div class="btn2 btn fontsize16 disable_bnb"  @click="removeClick">
+                  <div class="btn2 btn fontsize16"  @click="removeClick">
                     {{ $t("message.hclp.txt8") }}
                   </div>
                 </div>
               </div>
               <div class="mobile_right_btn">
-                <div class="btn1 btn fontsize16 disable_bnb" @click="pledgeClick">
+                <div class="btn1 btn fontsize16" @click="pledgeClick">
                   {{ $t("message.hclp.txt7") }}
                 </div>
-                <div class="btn2 btn fontsize16 disable_bnb"  @click="removeClick">
+                <div class="btn2 btn fontsize16"  @click="removeClick">
                   {{ $t("message.hclp.txt8") }}
                 </div>
               </div>
@@ -240,7 +240,6 @@ export default {
     // 质押
     pledgeClick(){
       console.log("质押")
-      return
       this.dangerTxtModel = ''
       this.tiptxt = ''
       erc20(token().HCLP).balanceOf(this.getAccount).then(res => {
@@ -263,7 +262,6 @@ export default {
     },
     // 解除
     removeClick(){
-      return
       console.log("解除",this.userPledge)
       this.dangerTxtModel = ''
       this.tiptxt = ''
