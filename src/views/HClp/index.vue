@@ -198,7 +198,7 @@ export default {
         return
       }
       if(this.ispledge){
-        if(this.dangerTxtModel > this.userbalance_one){
+        if(Number(this.dangerTxtModel) > Number(this.userbalance_one)){
           this.tiptxt = 'Insufficient balance'
           return
         }
@@ -220,7 +220,7 @@ export default {
           this.isdanger = false
         })
       }else{
-        if(this.dangerTxtModel > this.userPledge_one){
+        if(Number(this.dangerTxtModel) > Number(this.userPledge_one)){
           this.tiptxt = 'Insufficient balance'
           return
         }
