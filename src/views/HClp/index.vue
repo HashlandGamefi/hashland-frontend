@@ -376,13 +376,25 @@ export default {
   },
   mounted(){
     info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
+      console.log('apr---res: ', res);
       this.$common.checkNumber(res.toString(), res1 => {
         this.apr = res1
       },2)
+    }).catch(err => {
+      console.log('apr-----err: ', err);
+
     })
     erc20(token().BUSD).balanceOf(contract().HCLPPool).then(res => {
+      console.log('流通量res: ', res);
       this.mobility = (res / 1e18) * 2
+    }).catch(err => {
+      console.log('流通量err: ', err);
+
     })
+    // erc20('0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56').balanceOf('0x0AE7A7330f19c2A1dEaBbACce8dE6bD6c22De313').then(res => {
+    //   console.log('流通量res: ', res);
+    //   this.mobility = (res / 1e18) * 2
+    // })
   }
 }
 </script>
