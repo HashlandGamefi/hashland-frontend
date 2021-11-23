@@ -153,7 +153,7 @@ export const message = {
     txt2:'Stake lp token to earn platform token',
     txt3:'Annual percentage rate',
     txt4:'Liquidity',
-    txt5:'Output',
+    txt5:'Income',
     txt6:'My stake',
     txt7:'Stake',
     txt8:'Unstake',
