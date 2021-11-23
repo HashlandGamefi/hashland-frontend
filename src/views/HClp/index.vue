@@ -247,6 +247,8 @@ export default {
     },
     // 质押
     pledgeClick(){
+      this.$common.selectLang('敬请期待','Coming soon',this)
+      return
       console.log("质押")
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -270,6 +272,8 @@ export default {
     },
     // 解除
     removeClick(){
+      this.$common.selectLang('敬请期待','Coming soon',this)
+      return
       console.log("解除",this.userPledge)
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -279,6 +283,8 @@ export default {
     },
     // 提取
     extractClick(){
+      this.$common.selectLang('敬请期待','Coming soon',this)
+      return
       if(this.extractDis)return
       if(this.extactNUm){
         this.extractDis = true
