@@ -78,25 +78,7 @@
               {{ $t("message.home.txt10") }}
             </div>
           </div>
-          <!-- <div class="trend_boxs">
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}lineChart.png`" class="img" />
-              <span class="span1 span2 fontsize12_400">$15</span>
-              <span class="span1 span3 fontsize12_400">$1.5</span>
-            </div>
-            <div class="nowPrice">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt11")
-              }}</span>
-              <span class="span1 fontsize16 span2"
-                >$ {{ getCoinPrice.hc }}</span
-              >
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt12")
-              }}</span>
-              <span class="span1 fontsize16">{{ nextDay }}</span>
-            </div>
-          </div> -->
+
           <div class="trend_boxs">
             <!-- <img :src="`${$store.state.imgUrl}lineChart.png`" class="img" /> -->
             <div class="chart_box" id="chart_box"></div>
@@ -282,7 +264,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { hc, hn } from "hashland-sdk";
+import { hc, hn, token } from "hashland-sdk";
 import axios from "axios";
 import * as echarts from "echarts";
 export default {
@@ -392,20 +374,22 @@ export default {
      * https://www.coingecko.com/zh/api/documentation
      * https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart?vs_currency=usd&days=max&interval=daily  每日数据
      * https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart/range?vs_currency=usd&from=${from}&to=${to}
-     * from 项目开始时间 2021-11-18 19:00:00  1637233200    to 现在 new Date().getTime() / 1000
+     * from 项目开始时间 2021-11-18 19:00:00  1637233200000    to 现在 new Date().getTime() / 1000
      */
     getHashlandCoin() {
+      console.log("获取图表数据")
       const url =
         "https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart?vs_currency=usd&days=max&interval=daily";
       axios.get(url).then((res) => {
         if (res.status == 200) {
           const xData = [];
           const yData = [];
+          res.data.prices.unshift([1637233200000, 15]);
           res.data.prices.forEach((element) => {
-            // element[0] = this.$common.times(element[0], "yyyy-MM-dd HH:mm:ss");
-            // xData.push(element[0].split(" ")[0]);
-            xData.push(this.$common.times(element[0], "yyyy-MM-dd"));
-            yData.push(element[1].toFixed(2));
+            xData.push(
+              this.$common.foreignTimeFormat(element[0], "dd-MM-yyyy")
+            );
+            yData.push(element[1].toFixed(0));
           });
           this.initChart(xData, yData);
         }
@@ -416,12 +400,12 @@ export default {
       const myChart = echarts.init(chartDom, "dark");
       myChart.setOption({
         backgroundColor: "transparent",
-        grid: { left: "0", right: "0" },
         tooltip: {
           confine: true,
           trigger: "axis",
           backgroundColor: "#fff",
-          axisPointer: { type: "none", snap: true },
+          // axisPointer: { type: "none", snap: true },
+          axisPointer: { snap: true },
           formatter: "{b} <br/> ${c}",
           textStyle: {
             fontFamily: "Poppins-Bold, Poppins",
@@ -431,19 +415,17 @@ export default {
         },
         xAxis: {
           // name: "日期",
-          show: false,
+          axisLine: { show: false },
+          axisTick: { show: false },
           data: xData,
         },
         yAxis: {
           // name: "价格",
-          show: false,
           axisTick: { alignWithLabel: true },
           splitLine: { show: false },
-          min: function (value) {
-            return value.min - 50;
-          },
+          min: 0,
           max: function (value) {
-            return value.max + 50;
+            return value.max + 100;
           },
         },
         series: [
@@ -451,7 +433,16 @@ export default {
             type: "line",
             data: yData,
             smooth: true,
+            symbolSize: 10,
+            label: {
+              show: true,
+              formatter: "${c}",
+              fontFamily: "Poppins-Bold, Poppins",
+              color: "#fff",
+              fontSize: 15,
+            },
             lineStyle: {
+              width: 5,
               color: {
                 type: "linear",
                 x: 0,
@@ -466,42 +457,19 @@ export default {
               },
             },
             itemStyle: {
-              color: "rgba(64, 25, 236, 1)",
-              shadowColor: "rgba(64, 25, 236, 1)",
+              color: "#2eb1ec",
+              shadowColor: "#2eb1ec",
+              shadowBlur: 10,
             },
           },
         ],
         media: [
           {
-            query: { maxWidth: 375 },
+            query: { maxWidth: 414 },
             option: {
-              series: [
-                {
-                  label: { show: false },
-                  lineStyle: { width: 5 },
-                  symbolSize: 10,
-                  itemStyle: { shadowBlur: 10 },
-                },
-              ],
-            },
-          },
-          {
-            query: { minWidth: 375 },
-            option: {
-              series: [
-                {
-                  label: {
-                    show: true,
-                    formatter: "${c}",
-                    fontFamily: "Poppins-Bold, Poppins",
-                    color: "#fff",
-                    fontSize: 15,
-                  },
-                  lineStyle: { width: 10 },
-                  symbolSize: 20,
-                  itemStyle: { shadowBlur: 20 },
-                },
-              ],
+              xAxis: { show: false },
+              yAxis: { show: false },
+              series: [{ label: { show: false } }],
             },
           },
         ],
@@ -591,9 +559,9 @@ export default {
         .getNextReductionLeftBlocks()
         .then((data) => {
           // console.log('下次减产时间data: ', data * 3,Date.parse(new Date()));
-          this.nextDay = this.$common.timeFormat(
-            data * 3 + Date.parse(new Date()) / 1000,
-            2
+          this.nextDay = this.$common.foreignTimeFormat(
+            data * 3 * 1000 + Date.parse(new Date()),
+            "dd-MM-yyyy"
           );
         });
       // 今日产出
@@ -892,12 +860,11 @@ export default {
           justify-content: space-between;
           margin-top: 18px;
           .chart_box {
-            width: 720px;
-            height: 260px;
+            width: 80%;
+            height: 300px;
             position: relative;
           }
           .nowPrice {
-            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
@@ -1265,12 +1232,11 @@ export default {
             margin-top: 0.19rem;
             padding-left: 0;
             .chart_box {
-              width: 200px;
-              height: 120px;
+              width: 80%;
+              height: 250px;
               position: relative;
             }
             .nowPrice {
-              flex: 1;
               display: flex;
               flex-direction: column;
               align-items: flex-end;

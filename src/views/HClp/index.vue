@@ -35,19 +35,19 @@
               <div class="_box">
                 <div class="left_span fontsize16">{{userPledge}}</div>
                 <div class="right_btn">
-                  <div class="btn1 btn fontsize16" @click="pledgeClick">
+                  <div class="btn1 btn fontsize16 " @click="pledgeClick">
                     {{ $t("message.hclp.txt7") }}
                   </div>
-                  <div class="btn2 btn fontsize16"  @click="removeClick">
+                  <div class="btn2 btn fontsize16 "  @click="removeClick">
                     {{ $t("message.hclp.txt8") }}
                   </div>
                 </div>
               </div>
               <div class="mobile_right_btn">
-                <div class="btn1 btn fontsize16" @click="pledgeClick">
+                <div class="btn1 btn fontsize16 " @click="pledgeClick">
                   {{ $t("message.hclp.txt7") }}
                 </div>
-                <div class="btn2 btn fontsize16"  @click="removeClick">
+                <div class="btn2 btn fontsize16 "  @click="removeClick">
                   {{ $t("message.hclp.txt8") }}
                 </div>
               </div>
@@ -70,7 +70,7 @@
                   </span>
                 </div>
                 <div class="right_btn mobile_extract">
-                  <div class="btn1 btn fontsize16"  @click="extractClick">
+                  <div class="btn1 btn fontsize16 " @click="extractClick">
                     {{ $t("message.hclp.txt11") }}
                     <BtnLoading :isloading="extractDis"></BtnLoading>
                   </div>
@@ -156,6 +156,8 @@ export default {
         if(newValue){
           this.getSDKInfo()
           this.isApprove()
+        }else{
+          this.resetData()
         }
       },
       deep: true,
@@ -163,6 +165,13 @@ export default {
     }
   },
   methods:{
+    // 重置数据
+    resetData(){
+      clearInterval(this.hc_timernull)
+      this.tiptxt = this.dangerTxtModel = ''
+      this.userPledge = this.extactNUm = this.hcStarValue = this.userAddPledge = this.userbalance = this.userbalance_one = this.userPledge_one = 0
+      this.extractDis = this.proupDis = this.proupDis = this.synthesisDis = this.isdanger = this.hclpApprove = false
+    },
     inputchangeFun () {
       this.tiptxt = ''
     },
@@ -189,7 +198,7 @@ export default {
         return
       }
       if(this.ispledge){
-        if(this.dangerTxtModel > this.userbalance_one){
+        if(Number(this.dangerTxtModel) > Number(this.userbalance_one)){
           this.tiptxt = 'Insufficient balance'
           return
         }
@@ -211,7 +220,7 @@ export default {
           this.isdanger = false
         })
       }else{
-        if(this.dangerTxtModel > this.userPledge_one){
+        if(Number(this.dangerTxtModel) > Number(this.userPledge_one)){
           this.tiptxt = 'Insufficient balance'
           return
         }
@@ -238,6 +247,8 @@ export default {
     },
     // 质押
     pledgeClick(){
+      this.$common.selectLang('敬请期待','Coming soon',this)
+      return
       console.log("质押")
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -261,6 +272,8 @@ export default {
     },
     // 解除
     removeClick(){
+      this.$common.selectLang('敬请期待','Coming soon',this)
+      return
       console.log("解除",this.userPledge)
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -270,6 +283,8 @@ export default {
     },
     // 提取
     extractClick(){
+      this.$common.selectLang('敬请期待','Coming soon',this)
+      return
       if(this.extractDis)return
       if(this.extactNUm){
         this.extractDis = true
@@ -367,12 +382,25 @@ export default {
   },
   mounted(){
     info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
-      this.$common.checkNumber(res.toString(), res1 => {
-        this.apr = res1
-      },2)
+      console.log('apr---res: ', res);
+      if(isNaN(res)){
+        this.apr = 0
+      }else{
+        this.$common.checkNumber(res.toString(), res1 => {
+          this.apr = res1
+        },2)
+      }
+    }).catch(err => {
+      console.log('apr-----err: ', err);
+      this.apr = 0
     })
-    erc20(token().BUSD).balanceOf(contract().HCLPPool).then(res => {
-      this.mobility = (res / 1e18) * 2
+    erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
+      this.$common.checkNumber(((res / 1e18) * 2).toString(), res1 => {
+        this.mobility = res1
+      },4)
+    }).catch(err => {
+      console.log('流通量err: ', err);
+      this.mobility = 0
     })
   }
 }
@@ -802,7 +830,7 @@ export default {
                 .mobile_extract{
                   display: flex;
                   .btn{
-                    padding: 0 0.1rem;
+                    width: 0.75rem;
                     height: 0.33rem;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
@@ -811,13 +839,6 @@ export default {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                  }
-                  .btn1{
-                    background-image: url("//cdn.hashland.com/images/nft_btn2.png");
-                  }
-                  .btn2{
-                    background-image: url("//cdn.hashland.com/images/lock.png");
-                    margin-left: 0.15rem;
                   }
                 }
               }

@@ -75,15 +75,15 @@ export default {
     document.body.removeChild(dummy);
   },
   // 根据浏览器语言  自动切换中英文
-  isLang() {
-    // @ts-ignore
-    const lang = (navigator.systemLanguage ? navigator.systemLanguage : navigator.language).substr(0, 2);
-    if (lang == "zh") {
-      return "cn";
-    } else {
-      return "en";
-    }
-  },
+  // isLang() {
+  //   // @ts-ignore
+  //   const lang = (navigator.systemLanguage ? navigator.systemLanguage : navigator.language).substr(0, 2);
+  //   if (lang == "zh") {
+  //     return "cn";
+  //   } else {
+  //     return "en";
+  //   }
+  // },
   // 小数点后边有0  去掉0
   cutZero(old: any) {
     old = old.toString();
@@ -406,7 +406,10 @@ export default {
       .minus(fix)
       .toFixed(0);
   },
-  times(strDate: any, strFormat?: any) {
+  /**
+   * 国外时间格式
+   */
+  foreignTimeFormat(strDate: any, strFormat?: any) {
     if (!strDate) return;
     if (!strFormat) strFormat = "yyyy-MM-dd";
     switch (typeof strDate) {
