@@ -217,7 +217,10 @@ export default {
     // sdk一系列信息
     async getSDKInfo(){
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolRoi(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolRoi(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc).catch(err => {
+        console.log('ROI错误: ', err);
+      })
+      console.log('personalapr: ', personalapr);
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{
