@@ -1,7 +1,7 @@
 export const message = {
   home: {
     txt1: "purchase",
-    txt2: "UP to 180% APY",
+    txt2: "NFT Farm",
     txt3: "Mining",
     txt4: "My Land",
     txt5: "Claim",

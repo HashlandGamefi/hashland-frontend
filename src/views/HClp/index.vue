@@ -152,7 +152,7 @@ export default {
   watch:{
     'getIstrue':{
       handler: function (newValue) {
-        console.log('hclp页面newValue: ', newValue);
+        // console.log('hclp页面newValue: ', newValue);
         if(newValue){
           this.getSDKInfo()
           this.isApprove()
@@ -182,8 +182,10 @@ export default {
       this.tiptxt = ''
       if(this.ispledge){
         this.dangerTxtModel = this.userbalance_one
+        console.log('用户质押的数额', this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
       }else{
         this.dangerTxtModel = this.userPledge_one
+        console.log('用户解除质押的数额', this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
       }
     },
     // 取消按钮(关闭弹窗)
@@ -203,7 +205,9 @@ export default {
           return
         }
         this.synthesisDis = true
+        console.log('用户质押的数额', this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
         hclpPool().connect(getSigner()).deposit(this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(async res => {
+
           console.log('用户质押HCLP---res: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
@@ -225,6 +229,7 @@ export default {
           return
         }
         this.synthesisDis = true
+        console.log('用户解除质押的数额', this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
         hclpPool().connect(getSigner()).withdraw(this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(async res => {
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
@@ -313,16 +318,12 @@ export default {
     getSDKInfo(){
       hclpPool().userStake(this.getAccount).then(res => {
         console.log('获取某用户在池子里的HCLP质押量res: ', res,res / 1e18);
-        // this.userPledge = res.toNumber() / 1e18
-        // this.$common.checkNumber((res / 1e18).toString(), res1 => {
-        //   this.userPledge = res1
-        // })
         if ((res.toString() / 1e18) < 1e-8) {
           this.userPledge = 0
           this.userPledge_one = 0
         }else{
-          this.userPledge = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
-          this.userPledge_one = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
+          this.userPledge = this.$common.convertBigNumberToNormal(res.toString())
+          this.userPledge_one = this.$common.convertBigNumberToNormal(res.toString())
         }
       })
       this.realTimeGetHC()
@@ -387,7 +388,7 @@ export default {
   },
   mounted(){
     info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
-      console.log('apr---res: ', res);
+      // console.log('apr---res: ', res);
       if(isNaN(res)){
         this.apr = 0
       }else{

@@ -407,6 +407,24 @@ export default {
       .toFixed(0);
   },
   /**
+   * 一个数除以1e18,默认保留8位小数
+   */
+  convertBigNumberToNormal(bigNumber:any, decimals = 18,bit = 8) {
+    let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(Math.pow(10, decimals))));
+    return this.getBit(result,bit)
+  },
+  // sdkZutZeroFun(str:any) {
+  //   if (!Boolean(str)) return '0';
+  //   if (!str.includes(".")) return str
+  //   while (str.slice(-1) === "0") {
+  //       str = str.slice(0, -1)
+  //   }
+  //   if (str.endsWith(".")) {
+  //       str = str.slice(0, -1)
+  //   }
+  //   return str
+  // },
+  /**
    * 国外时间格式
    */
   foreignTimeFormat(strDate: any, strFormat?: any) {
