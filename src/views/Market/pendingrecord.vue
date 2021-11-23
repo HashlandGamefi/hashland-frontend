@@ -1,62 +1,59 @@
 <template>
-  <div class="buy_page">
-    <span class="title1_txt fontsize32">{{ $t("message.nav.txt7") }}</span>
-    <span class="title1_txt title2_txt fontsize16_100">{{ $t("message.nftCard.txt1") }}</span>
+  <div class="record_page">
+    <div class="title" @click="back">
+      <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
+    </div>
+    <span class="title1_txt fontsize32">挂单记录</span>
     <div class="tab_box">
       <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabIndex = 0" >
-        {{ $t("message.nftCard.txt2") }}
+        出售中
       </div>
       <div
         class="oneTab fontsize16"
         :class="{ activeTab: tabIndex == 1 }"
         @click="tabIndex = 1"
       >
-        {{ $t("message.nftCard.txt3") }}
-      </div>
-      <div
-        class="oneTab fontsize16"
-        :class="{ activeTab: tabIndex == 2 }"
-        @click="tabIndex = 2"
-      >
-        {{ $t("message.nftCard.txt4") }}
+        已完成
       </div>
     </div>
-    <BasicsCard v-if="tabIndex == 0"></BasicsCard>
-    <BlindBoxCard v-if="tabIndex == 1"></BlindBoxCard>
-    <PrivilegeCard v-if="tabIndex == 2"></PrivilegeCard>
   </div>
 </template>
 
 <script>
-import BasicsCard from './basicscard.vue'
-import BlindBoxCard from './blindboxcard.vue'
-import PrivilegeCard from './privilegecard.vue'
 export default {
   data () {
     return {
       tabIndex: 0,//tab索引
     }
   },
-  components: {
-    BasicsCard,
-    BlindBoxCard,
-    PrivilegeCard
+  methods:{
+    back(){
+      this.$router.go(-1)
+    }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.buy_page {
+.record_page {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 126px;
+  .title {
+    position: absolute;
+    top: 149px;
+    right: 90px;
+    width: 44px;
+    cursor: pointer;
+    .backimg {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
   .title1_txt {
     color: #ffffff;
-  }
-  .title2_txt {
-    margin-top: 10px;
+    margin-top: 208px;
   }
   .tab_box {
     display: flex;
@@ -81,13 +78,13 @@ export default {
   }
 }
 @media screen and (min-width: 1280px) {
-  .buy_page {
+  .record_page {
     max-width: 1162px;
     margin: 0 auto;
   }
 }
 @media screen and (max-width: 980px) {
-  .buy_page {
+  .record_page {
     width: 100%;
     display: flex;
     flex-direction: column;

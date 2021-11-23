@@ -27,10 +27,10 @@
       </div>
       <!-- 去挂单 -->
       <div class="right_content">
-        <div class="synthesis_btn fontsize16">
+        <div class="synthesis_btn fontsize16" @click="goOrder">
           {{ $t("message.gamefi.txt4") }}
         </div>
-        <img :src="`${$store.state.imgUrl}record.png`" class="record_img" />
+        <img :src="`${$store.state.imgUrl}record.png`" class="record_img" @click="recordClick" />
       </div>
     </div>
     <div class="show_gameArr">
@@ -106,6 +106,14 @@ export default {
     }
   },
   methods:{
+    // 去挂单
+    goOrder(){
+      this.$router.push('/hangingorder')
+    },
+    // 挂单记录
+    recordClick(){
+      this.$router.push('/pendingrecord')
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false

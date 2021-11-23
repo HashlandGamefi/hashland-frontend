@@ -57,10 +57,20 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/HClp/index.vue')
   },
   {
-    path: '/gamefi',
-    name: 'Gamefi',
-    component: () => import('../views/Gamefi/index.vue')
-  }
+    path: '/market',
+    name: 'Market',
+    component: () => import('../views/Market/index.vue')
+  },
+  {
+    path: '/hangingorder',
+    name: 'HangingOrder',
+    component: () => import('../views/Market/hangingorder.vue')
+  },
+  {
+    path: '/pendingrecord',
+    name: 'PendingRecord',
+    component: () => import('../views/Market/pendingrecord.vue')
+  },
 ]
 
 const router = new VueRouter({
