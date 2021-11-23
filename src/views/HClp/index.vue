@@ -35,19 +35,19 @@
               <div class="_box">
                 <div class="left_span fontsize16">{{userPledge}}</div>
                 <div class="right_btn">
-                  <div class="btn1 btn fontsize16 disable_bnb" @click="pledgeClick">
+                  <div class="btn1 btn fontsize16 " @click="pledgeClick">
                     {{ $t("message.hclp.txt7") }}
                   </div>
-                  <div class="btn2 btn fontsize16 disable_bnb"  @click="removeClick">
+                  <div class="btn2 btn fontsize16 "  @click="removeClick">
                     {{ $t("message.hclp.txt8") }}
                   </div>
                 </div>
               </div>
               <div class="mobile_right_btn">
-                <div class="btn1 btn fontsize16 disable_bnb" @click="pledgeClick">
+                <div class="btn1 btn fontsize16 " @click="pledgeClick">
                   {{ $t("message.hclp.txt7") }}
                 </div>
-                <div class="btn2 btn fontsize16 disable_bnb"  @click="removeClick">
+                <div class="btn2 btn fontsize16 "  @click="removeClick">
                   {{ $t("message.hclp.txt8") }}
                 </div>
               </div>
@@ -70,7 +70,7 @@
                   </span>
                 </div>
                 <div class="right_btn mobile_extract">
-                  <div class="btn1 btn fontsize16 disable_bnb" @click="extractClick">
+                  <div class="btn1 btn fontsize16 " @click="extractClick">
                     {{ $t("message.hclp.txt11") }}
                     <BtnLoading :isloading="extractDis"></BtnLoading>
                   </div>
@@ -247,7 +247,6 @@ export default {
     },
     // 质押
     pledgeClick(){
-      return
       console.log("质押")
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -271,7 +270,6 @@ export default {
     },
     // 解除
     removeClick(){
-      return
       console.log("解除",this.userPledge)
       this.dangerTxtModel = ''
       this.tiptxt = ''
@@ -281,7 +279,6 @@ export default {
     },
     // 提取
     extractClick(){
-      return
       if(this.extractDis)return
       if(this.extactNUm){
         this.extractDis = true
