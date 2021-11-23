@@ -94,6 +94,7 @@ export const message = {
     txt13:'累计赚取',
     txt14:'可提取',
     txt15:'插入卡槽',
+    txt16:'The annual return on investment is equal to the value of the BTC and HC you claimed from the inserted NFT within a year at the current exchange rate. It will change according to the change in the hashrate of the NFT you inserted.'
   },
   synthesis:{ // 合成
     txt1:'合成',

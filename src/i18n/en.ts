@@ -98,11 +98,12 @@ export const message = {
     txt8: "Slots are limited, please stake higher level cards first",
     txt9: "Uninsert",
     txt10: "Unlock Slot",
-    txt11: "Personal APR",
+    txt11: "Annual ROI at current rates",
     txt12: "Claim",
     txt13: "Total Income",
     txt14: "Claimable",
-    txt15: "Insert into Slot"
+    txt15: "Insert into Slot",
+    txt16:'The annual return on investment is equal to the value of the BTC and HC you claimed from the inserted NFT within a year at the current exchange rate. It will change according to the change in the hashrate of the NFT you inserted.'
   },
   synthesis: {
     // 合成

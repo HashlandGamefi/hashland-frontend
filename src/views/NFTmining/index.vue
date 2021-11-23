@@ -17,7 +17,15 @@
       </div> -->
       <div class="apy_title">
         <span class="span1 fontsize12">{{$t("message.nftMining.txt11")}}</span>
-        <span class="span1 span2 fontsize18">{{personalApy}}%</span>
+        <span class="span1 span2 fontsize18">$ {{personalApy}}</span>
+        <div class="img_boxs">
+          <img :src="`${$store.state.imgUrl}question.png`" class="imgs" />
+          <div class="img_box_hover">
+            <div class="content_box fontsize12_400">
+              {{$t("message.nftMining.txt16")}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer_box">
@@ -209,7 +217,7 @@ export default {
     // sdk一系列信息
     async getSDKInfo(){
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolUserApr(this.getAccount, 85, this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolRoi(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc)
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{
@@ -274,6 +282,45 @@ export default {
       }
       .span2{
         margin-left: 15px;
+      }
+      .img_boxs{
+        position: relative;
+        display: flex;
+        margin-left: 8px;
+        cursor: pointer;
+        .imgs{
+          width: 18px;
+          object-fit: contain;
+        }
+        .img_box_hover{
+          display: none;
+          position: absolute;
+          top: 0;
+          left: 18px;
+          z-index: 2;
+          width: 308px;
+          height: 153px;
+          box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+          padding: 1px;
+          border-radius: 14px;
+          background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+          .content_box{
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 14px;
+            background: #011730;
+          }
+        }
+      }
+      .img_boxs:hover{
+        .img_box_hover{
+          display: flex;
+        }
       }
     }
   }
