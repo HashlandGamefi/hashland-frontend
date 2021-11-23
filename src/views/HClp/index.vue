@@ -377,12 +377,16 @@ export default {
   mounted(){
     info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
       console.log('apr---res: ', res);
-      this.$common.checkNumber(res.toString(), res1 => {
-        this.apr = res1
-      },2)
+      if(isNaN(res)){
+        this.apr = 0
+      }else{
+        this.$common.checkNumber(res.toString(), res1 => {
+          this.apr = res1
+        },2)
+      }
     }).catch(err => {
       console.log('apr-----err: ', err);
-
+      this.apr = 0
     })
     erc20(token().BUSD).balanceOf(contract().HCLPPool).then(res => {
       console.log('流通量res: ', res);
