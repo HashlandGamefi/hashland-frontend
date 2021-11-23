@@ -209,7 +209,7 @@ export default {
     // sdk一系列信息
     async getSDKInfo(){
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolUserApr(this.getAccount, 90, this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolUserApr(this.getAccount, 85, this.getCoinPrice.btc)
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{

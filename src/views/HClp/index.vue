@@ -89,8 +89,8 @@
           <span class="txt1 fontsize22" v-else>{{ $t("message.hclp.txt8") }}</span>
           <span class="txt2 fontsize16_400">HC-BUSD LP</span>
           <div class="inputbox">
-            <div class="userBalance fontsize12" v-if="ispledge">{{ $t("message.hclp.txt12") }}:{{userbalance}}</div>
-            <div class="userBalance fontsize12" v-else>{{ $t("message.hclp.txt12_1") }}:{{userbalance}}</div>
+            <div class="userBalance fontsize12" v-if="ispledge">{{ $t("message.hclp.txt12") }}: {{userbalance}}</div>
+            <div class="userBalance fontsize12" v-else>{{ $t("message.hclp.txt12_1") }}: {{userbalance}}</div>
             <div class="outbox_input">
               <input type="text fontsize14" @input="inputchangeFun" :placeholder='$t("message.hclp.txt13")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d\d\d\d\d\d\d).*$/, '$1$2.$3').replace(/^\./g, '')" />
               <div class="btn fontsize14" @click="maxClick">MAX</div>
