@@ -70,7 +70,7 @@
                   </span>
                 </div>
                 <div class="right_btn mobile_extract">
-                  <div class="btn1 remove_btn btn fontsize16"  @click="extractClick">
+                  <div class="btn1 btn fontsize16"  @click="extractClick">
                     {{ $t("message.hclp.txt11") }}
                     <BtnLoading :isloading="extractDis"></BtnLoading>
                   </div>
@@ -389,11 +389,12 @@ export default {
       this.apr = 0
     })
     erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
-      console.log('流通量res: ', res);
-      this.mobility = (res / 1e18) * 2
+      this.$common.checkNumber(((res / 1e18) * 2).toString(), res1 => {
+        this.mobility = res1
+      },4)
     }).catch(err => {
       console.log('流通量err: ', err);
-
+      this.mobility = 0
     })
   }
 }
@@ -532,10 +533,6 @@ export default {
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                }
-                .remove_btn{
-                  width: 120px;
-                  height: 37px;
                 }
                 .btn1{
                   background-image: url("//cdn.hashland.com/images/nft_btn2.png");
@@ -826,9 +823,9 @@ export default {
                 }
                 .mobile_extract{
                   display: flex;
-                  .remove_btn{
-                    width: 1.3rem;
-                    height: 0.37rem;
+                  .btn{
+                    width: 0.75rem;
+                    height: 0.33rem;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
                     color: #FFFFFF;
