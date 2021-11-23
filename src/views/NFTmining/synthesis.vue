@@ -508,6 +508,9 @@ export default {
     .left_content:hover{
       .left_content_hover{
         display: flex;
+        .span1:hover{
+          color: #00E7F0;
+        }
       }
     }
     .right_content{

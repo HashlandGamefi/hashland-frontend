@@ -27,7 +27,7 @@
       </div>
       <!-- 去挂单 -->
       <div class="right_content">
-        <div class="synthesis_btn fontsize16" @click="synthesisClick">
+        <div class="synthesis_btn fontsize16">
           {{ $t("message.gamefi.txt4") }}
         </div>
         <img :src="`${$store.state.imgUrl}record.png`" class="record_img" />
@@ -196,6 +196,9 @@ export default {
       .left_content:hover{
         .left_content_hover{
           display: flex;
+          .span1:hover{
+            color: #00E7F0;
+          }
         }
       }
     }
