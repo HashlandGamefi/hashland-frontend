@@ -70,7 +70,7 @@
                   </span>
                 </div>
                 <div class="right_btn mobile_extract">
-                  <div class="btn1 btn fontsize16"  @click="extractClick">
+                  <div class="btn1 remove_btn btn fontsize16"  @click="extractClick">
                     {{ $t("message.hclp.txt11") }}
                     <BtnLoading :isloading="extractDis"></BtnLoading>
                   </div>
@@ -156,6 +156,8 @@ export default {
         if(newValue){
           this.getSDKInfo()
           this.isApprove()
+        }else{
+          this.resetData()
         }
       },
       deep: true,
@@ -163,6 +165,13 @@ export default {
     }
   },
   methods:{
+    // 重置数据
+    resetData(){
+      clearInterval(this.hc_timernull)
+      this.tiptxt = this.dangerTxtModel = ''
+      this.userPledge = this.extactNUm = this.hcStarValue = this.userAddPledge = this.userbalance = this.userbalance_one = this.userPledge_one = 0
+      this.extractDis = this.proupDis = this.proupDis = this.synthesisDis = this.isdanger = this.hclpApprove = false
+    },
     inputchangeFun () {
       this.tiptxt = ''
     },
@@ -512,6 +521,10 @@ export default {
                   justify-content: center;
                   align-items: center;
                 }
+                .remove_btn{
+                  width: 120px;
+                  height: 37px;
+                }
                 .btn1{
                   background-image: url("//cdn.hashland.com/images/nft_btn2.png");
                 }
@@ -801,9 +814,9 @@ export default {
                 }
                 .mobile_extract{
                   display: flex;
-                  .btn{
-                    padding: 0 0.1rem;
-                    height: 0.33rem;
+                  .remove_btn{
+                    width: 1.3rem;
+                    height: 0.37rem;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
                     color: #FFFFFF;
@@ -811,13 +824,6 @@ export default {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                  }
-                  .btn1{
-                    background-image: url("//cdn.hashland.com/images/nft_btn2.png");
-                  }
-                  .btn2{
-                    background-image: url("//cdn.hashland.com/images/lock.png");
-                    margin-left: 0.15rem;
                   }
                 }
               }
