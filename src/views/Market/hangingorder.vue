@@ -210,13 +210,29 @@ export default {
           return item.issell
         })
         console.log('sellArr: ',cardIDArr,priceArr,sellArr);
-        hnMarket().connect(getSigner()).sell(cardIDArr, priceArr, sellArr).then(res => {
+        hnMarket().connect(getSigner()).sell(cardIDArr, priceArr, sellArr).then(async res => {
           console.log('卖家批量出售HN卡牌res: ', res);
-          this.synthesisDis = false
+          const etReceipt = await res.wait();
+          if(etReceipt.status == 1){
+            this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+              console.log('重新获取用户卡牌信息res1: ', res1);
+              sessionStorage.removeItem('count')
+              if(res1 > 1){
+                sessionStorage.setItem("count",res1)
+              }else{
+                sessionStorage.setItem("count",1)
+              }
+              this.synthesisDis = false
+              this.getUserAllCard(this.rank) // 重新获取最新用户信息
+              this.$common.selectLang('出售成功','出售成功',this)
+              this.dangerTxtModel = ''
+            })
+          }else{
+            this.synthesisDis = false
+          }
         }).catch(err => {
           console.log('卖家批量出售HN卡牌err: ', err);
         })
-        this.synthesisDis = false
       })
     },
     // 合约需要的三个数组处理方法

@@ -5,10 +5,10 @@
       <div class="leftboxs">
         <!-- 几阶对应数量 -->
         <div class="left_content">
-          <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}}</span>
+          <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
           <div class="span2"></div>
           <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}}</span>
+            <span class="span1 fontsize16" @click="selectRankClik(ele,index)" v-for="(ele,index) in cardLengthArr" :key="index">{{$t("message.synthesis.txt4")}} {{index + 1}} ({{$t("message.synthesis.txt8")}} {{ele}})</span>
           </div>
         </div>
         <!-- 排序 -->
@@ -16,10 +16,10 @@
           <span class="span1 fontsize16">{{$t("message.gamefi.txt2")}}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectRankClik('asc')">
+            <span class="span1 fontsize16" @click="sortPriceClik('asc')">
               {{$t("message.gamefi.txt2")}}
             </span>
-            <span class="span1 fontsize16" @click="selectRankClik('desc')">
+            <span class="span1 fontsize16" @click="sortPriceClik('desc')">
               {{$t("message.gamefi.txt3")}}
             </span>
           </div>
@@ -52,36 +52,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnMarket } from 'hashland-sdk';
+import { hnMarket,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
-      pageshowarr:[
-        {
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
-          price:100,
-        },
-        {
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
-          price:100,
-        },
-        {
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
-          price:100,
-        },
-        {
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
-          price:100,
-        },
-        {
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
-          price:100,
-        },
-        {
-          src:`${this.$store.state.imgUrl}defaultcard.png`,
-          price:100,
-        }
-      ],//页面展示数组
+      cardInfoArr:[],//所有的出售卡牌信息数组
+      cardLengthArr:[],// 几阶对应的数量数组
       rank:1,//1阶
       amount:0,//阶对应的卡牌数量
       selectedNUM:0,//选中的卡牌数量
@@ -91,7 +67,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount",'getCoinPrice'])
+    ...mapGetters(["getIstrue","getAccount",'getCoinPrice']),
+    pageshowarr: {
+      get() {
+        return this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
+          return Number(a.type) > Number(b.type) ? 1 : -1;
+        })
+      },
+      set(newValue) {
+        return newValue;
+      }
+    },
   },
   watch:{
     'getIstrue':{
@@ -106,6 +92,20 @@ export default {
     }
   },
   methods:{
+    // 选择阶数
+    selectRankClik(ele,index){
+      console.log('选择阶数ele,index: ', ele,index);
+      this.rank = index + 1 // 当前几阶
+      this.amount = ele
+    },
+    // 排序
+    sortPriceClik(data){
+      console.log('排序data: ', data,this.pageshowarr);
+      this.pageshowarr.sort((a, b) => {
+        return Number(a.price) > Number(b.price) ? 1 : -1;
+      })
+      console.log("this.pageshowarr:",this.pageshowarr)
+    },
     // 去挂单
     goOrder(){
       this.$router.push('/hangingorder')
@@ -120,8 +120,37 @@ export default {
     },
     //获取sdk信息
     getSDKInfo(){
+      // 获取各阶所售卖的总卡牌数量
       hnMarket().getEachLevelHnIdsLength(5).then(res => {
-        console.log('获取市场正在出售的各等级的所有HN卡牌数量数组res: ', res);
+        this.cardLengthArr = res
+        this.amount = res[0]
+      })
+      // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
+      hnMarket().getHnIdsBySize(0,10000000).then(res => {
+        console.log('所有正在出售的卡牌id数组res: ', res);
+        let count = 1
+        let arr = []
+        res[0].map(async item => {
+          let obj = {
+            cardID: "",
+            level: "",
+            type: "", // 卡牌的种类
+            src: "",
+            price:""
+          }
+          obj.cardID = item.toString() // 卡牌的id
+          obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
+          obj.level = (await hn().level(item)).toString() // 等级
+          obj.price = (await hnMarket().hnPrice(item)).toString()
+          let race = await hn().getHashrates(item) // 算力数组
+          // @ts-ignore
+          obj.src = getHnImg(Number(item), obj.level, race);
+          arr.push(obj)
+          if (count == res[0].length) {
+            this.cardInfoArr = arr
+          }
+          count++;
+        })
       })
     }
   },
@@ -264,6 +293,7 @@ export default {
           .bsc_img{
             width: 24px;
             object-fit: contain;
+            margin-right: 4px;
           }
           .span1{
             color: #ffffff;
