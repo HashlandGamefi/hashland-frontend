@@ -37,7 +37,10 @@
         </div>
         <span class="span2 fontsize16">BUSD</span>
       </div>
-      <div class="btn_box fontsize16" @click="synthesisFun">
+      <div class="btn_box fontsize16" @click="authorizationClick" v-if="!isApproveHN">
+        NTT {{$t("message.approve")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
+      </div>
+      <div class="btn_box fontsize16" @click="synthesisFun" v-else>
         挂单<BtnLoading :isloading="synthesisDis"></BtnLoading>
       </div>
     </div>
@@ -47,12 +50,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hn } from 'hashland-sdk';
+import { contract,hnMarket,getSigner } from 'hashland-sdk';
 export default {
   data () {
     return {
       dangerTxtModel:'',
-      isdanger:false,//转账提示框
       isshowArr:false,// 页面暂时不显示nodata
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
@@ -67,7 +69,8 @@ export default {
       selectALLBtn:false,//全选按钮的状态
       synthesisDis:false,// 合成按钮loading
       timerll:null,
-      timerll_result:null
+      timerll_result:null,
+      isApproveHN:false// hn授权
     }
   },
   computed: {
@@ -77,8 +80,8 @@ export default {
         if(this.selectedNUM == 0){
           return false
         }
-        if(this.pageshowarr.length >= 100){
-          return 100 == this.selectedNUM
+        if(this.pageshowarr.length >= 10){
+          return 10 == this.selectedNUM
         }else{
           return this.pageshowarr.length == this.selectedNUM
         }
@@ -94,6 +97,7 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.getUserAllCard(1)
+          this.getSDKInfo()
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.pageshowarr = []//页面展示的数组
@@ -114,43 +118,6 @@ export default {
     // 取消转账
     dangerClick(){
       this.dangerTxtModel = ''
-      this.isdanger = false
-    },
-    // 确认转账
-    sureDangerClick(){
-      if(this.dangerTxtModel == '')return
-      this.synthesisDis = true
-      let arr = this.selectimgArr.map(item => {
-        return item.id
-      })
-      console.log('向合约传的id数组arr: ', arr);
-      hn().connect(getSigner()).safeTransferFromBatch(this.getAccount,this.dangerTxtModel,arr).then(async res => {
-        const etReceipt = await res.wait();
-        if(etReceipt.status == 1){
-          this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-            console.log('重新获取用户卡牌信息res1: ', res1);
-            sessionStorage.removeItem('count')
-            if(res1 > 1){
-              sessionStorage.setItem("count",res1)
-            }else{
-              sessionStorage.setItem("count",1)
-            }
-            this.getUserAllCard(this.rank) // 重新获取最新用户信息
-            this.$common.selectLang('转账成功','Gifted Successfully',this)
-            arr = []
-          })
-        }else{
-          this.selectALLBtn = this.selectStatus = false
-          this.selectedNUM = 0
-        }
-        this.isdanger = false
-        this.dangerTxtModel = ''
-      }).catch(err => {
-        console.log('转账err: ', err);
-        this.synthesisDis = false
-        this.isdanger = false
-        this.dangerTxtModel = ''
-      })
     },
     // 用户总卡牌数据获取
     getUserAllCard(level){
@@ -185,9 +152,10 @@ export default {
         this.selectimgArr = []
         this.selectedNUM = 0
       }else{
-        // 最多选择5张
+        // 最多选择10张
+        this.selectimgArr = []
         this.selectALLBtn = this.selectStatus = true
-        if(this.pageshowarr.length < 101){
+        if(this.pageshowarr.length < 11){
           this.pageshowarr.forEach((item,index) => {
               item.status = true
               let obj = {}
@@ -201,7 +169,7 @@ export default {
             item.status = false
           })
           this.pageshowarr.forEach((item,index) => {
-            if(index <= 99){
+            if(index <= 9){
               item.status = true
               let obj = {}
               obj.index = index
@@ -210,7 +178,7 @@ export default {
             }
           })
           this.selectedNUM = this.pageshowarr.filter(item => {return item.status == true}).length
-          this.$common.selectLang('最多100张','Up to 100',this)
+          this.$common.selectLang('最多10张','Up to 10',this)
         }
       }
     },
@@ -218,19 +186,66 @@ export default {
     CloseFun(){
       this.proupDis = false
     },
-    // 转账
+    // 售卖
     async synthesisFun(){
       if(this.synthesisDis)return
       if(this.selectimgArr.length < 1){
         this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
         return
       }
-      this.isdanger = true
+      if(!this.dangerTxtModel){
+        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
+        return
+      }
+      this.synthesisDis = true
+      this.processingArrayFun(this.selectimgArr,this.dangerTxtModel).then(info => {
+        console.log('合约需要的数组已经处理完毕: ', info);
+        let cardIDArr = info.map(item => {
+          return item.cardID
+        })
+        let priceArr = info.map(item => {
+          return item.prices
+        })
+        let sellArr = info.map(item => {
+          return item.issell
+        })
+        console.log('sellArr: ',cardIDArr,priceArr,sellArr);
+        hnMarket().connect(getSigner()).sell(cardIDArr, priceArr, sellArr).then(res => {
+          console.log('卖家批量出售HN卡牌res: ', res);
+          this.synthesisDis = false
+        }).catch(err => {
+          console.log('卖家批量出售HN卡牌err: ', err);
+        })
+        this.synthesisDis = false
+      })
+    },
+    // 合约需要的三个数组处理方法
+    processingArrayFun(arr,price){
+      console.log('arr: ', arr);
+      return new Promise((resolve) => {
+        let count = 1
+        let arr_cardinfo = []
+        arr.map(async item => {
+          let obj = {
+            cardID:'',
+            prices:'',
+            issell:false
+          }
+          obj.cardID = item.id
+          obj.prices = price
+          obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount, item.id)
+          arr_cardinfo.push(obj)
+          if (count == arr.length) {
+            resolve(arr_cardinfo);
+          }
+          count++
+        })
+      })
     },
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
-      if(this.selectedNUM >= 100){
+      if(this.selectedNUM >= 10){
         if(data.status){
           data.status = false
           for(let i = 0; i < this.selectimgArr.length; i++){
@@ -241,7 +256,7 @@ export default {
             }
           }
         }else{
-          this.$common.selectLang('最多100张','Up to 100',this)
+          this.$common.selectLang('最多10张','Up to 10',this)
         }
         return
       }
@@ -281,6 +296,38 @@ export default {
     },
     back(){
       this.$router.go(-1)
+    },
+    getSDKInfo(){
+      this.$common.isApproveFun(1,this.getAccount, contract().HNMarket).then(res => {
+        console.log('hn是否授权res: ', res);
+        if (res) {
+          this.isApproveHN = true
+        } else {
+          this.isApproveHN = false
+        }
+      }).catch(err => {
+        console.log('是否授权err: ', err);
+        this.isApproveHN = false
+      })
+    },
+    // 授权操作
+    authorizationClick(){
+      this.synthesisDis = true
+      this.$common.delegatingFun(1, contract().HNMarket).then(async res => {
+        console.log('hn授权res: ', res);
+        const etReceipt = await res.wait();
+        if (etReceipt.status == 1) {
+          this.isApproveHN = true
+          this.synthesisDis = false
+        }else{
+          this.isApproveHN = false
+          this.synthesisDis = false
+        }
+      }).catch(err => {
+        console.log('hn授权err: ', err);
+        this.isApproveHN = false
+        this.hnisloading = false
+      })
     }
   }
 }

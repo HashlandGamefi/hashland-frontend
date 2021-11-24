@@ -134,18 +134,6 @@ export default {
         if(newValue){
           this.getSDKInfo()
           this.getUserAllCard()
-          // setTimeout(() => {
-          //   this.cardarr = JSON.parse(this.getUserCardInfo)
-          //   // this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
-          //   let arr = this.cardarr.filter(item => { return item.level == 1})
-          //   arr.sort((a, b) => {
-          //     return Number(a.type) > Number(b.type) ? 1 : -1;
-          //   })
-          //   this.pageshowarr = arr
-
-          //   this.isshowArr = true
-          //   this.amount = this.cardarr.filter(item => { return item.level == 1}).length
-          // },1500)
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.selectedArr = []//页面展示的选中的数组
@@ -227,15 +215,6 @@ export default {
         }
         this.selectedNUM = this.selectedCardnum
         this.compose = this.selectedNUM / 4
-      }else{
-        // this.selectedArr = []
-        // let arr = this.cardarr.filter(item => { return item.level == this.rank})
-        // arr.sort((a, b) => {
-        //   return Number(a.type) > Number(b.type) ? 1 : -1;
-        // })
-        // this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
-        // this.selectedNUM = 0
-        // this.compose = 0
       }
     },
     // 取消按钮(关闭弹窗)
@@ -247,7 +226,6 @@ export default {
       console.log("合成结果监听方法")
       let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
       hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
-        // this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
@@ -261,7 +239,6 @@ export default {
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.src = getHnImg(Number(item),Number(obj.level),race)
-          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
           imgarr.push(obj)
         })
         let lastObj = {
@@ -271,10 +248,6 @@ export default {
         }
         this.$store.commit("setrewardsInfo", lastObj);
         this.synthesisDis = false
-        // setTimeout(() => {
-        //   console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
-        //   this.selectRankClik(this.rank,2)
-        // },4000);
         clearInterval(this.timerll_result)
         this.timerll_result = setInterval(() => {
           if(sessionStorage.getItem('count')){
