@@ -510,8 +510,8 @@ export default {
           break;
         case 1:
           this.$router.push("/nftmining");
-          this.$store.commit("HashMenu", 1);
-          sessionStorage.setItem("HashMenu", 1);
+          this.$store.commit("HashMenu", 0);
+          sessionStorage.setItem("HashMenu", 0);
           break;
         case 2:
           this.$common.selectLang("敬请期待", "Coming soon", this);
