@@ -56,6 +56,7 @@ import { hnMarket,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      pageshowarr:[],
       cardInfoArr:[],//所有的出售卡牌信息数组
       cardLengthArr:[],// 几阶对应的数量数组
       rank:1,//1阶
@@ -68,16 +69,16 @@ export default {
   },
   computed: {
     ...mapGetters(["getIstrue","getAccount",'getCoinPrice']),
-    pageshowarr: {
-      get() {
-        return this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
-          return Number(a.type) > Number(b.type) ? 1 : -1;
-        })
-      },
-      set(newValue) {
-        return newValue;
-      }
-    },
+    // pageshowarr:{
+    //   get() {
+    //     return this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
+    //       return Number(a.type) > Number(b.type) ? 1 : -1;
+    //     })
+    //   },
+    //   set(newValue) {
+    //     return newValue;
+    //   }
+    // },
   },
   watch:{
     'getIstrue':{
@@ -89,7 +90,20 @@ export default {
       },
       deep: true,
       immediate: true
-    }
+    },
+    'cardInfoArr':{
+      handler: function (newValue) {
+        console.log('市场页面newValue: ', newValue);
+        this.pageshowarr = newValue.filter(item => { return item.level == this.rank}).sort((a, b) => {
+          if(a.type === b.type){
+  　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
+          }
+          return Number(a.type) > Number(b.type) ? 1 : -1;
+        })
+      },
+      deep: true,
+      immediate: true
+    },
   },
   methods:{
     // 选择阶数
@@ -97,14 +111,30 @@ export default {
       console.log('选择阶数ele,index: ', ele,index);
       this.rank = index + 1 // 当前几阶
       this.amount = ele
+      this.pageshowarr = this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
+        if(a.type === b.type){
+　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
+        }
+        return Number(a.type) > Number(b.type) ? 1 : -1;
+      })
     },
     // 排序
     sortPriceClik(data){
-      console.log('排序data: ', data,this.pageshowarr);
-      this.pageshowarr.sort((a, b) => {
-        return Number(a.price) > Number(b.price) ? 1 : -1;
-      })
-      console.log("this.pageshowarr:",this.pageshowarr)
+      if(data == 'asc'){//升序
+        this.pageshowarr.sort((a, b) => {
+          if(a.type === b.type){
+  　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
+          }
+          return Number(a.type) > Number(b.type) ? 1 : -1;
+        })
+      }else{
+        this.pageshowarr.sort((a, b) => {
+          if(a.type === b.type){
+  　　　　  return Number(a.price) > Number(b.price) ? -1 : 1
+          }
+          return Number(a.type) > Number(b.type) ? 1 : -1;
+        })
+      }
     },
     // 去挂单
     goOrder(){
