@@ -204,6 +204,7 @@ export default {
         this.selectedNUM = 0
       }else{
         // 最多选择5张
+        this.selectimgArr = []
         this.selectALLBtn = this.selectStatus = true
         if(this.pageshowarr.length < 101){
           this.pageshowarr.forEach((item,index) => {
