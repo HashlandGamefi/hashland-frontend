@@ -276,6 +276,7 @@ export default {
     margin-top: 82px;
     padding: 0 100px;
     .apy_title{
+      position: relative;
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -287,7 +288,6 @@ export default {
         margin-left: 15px;
       }
       .img_boxs{
-        position: relative;
         display: flex;
         margin-left: 8px;
         cursor: pointer;
@@ -298,8 +298,8 @@ export default {
         .img_box_hover{
           display: none;
           position: absolute;
-          top: 0;
-          left: 18px;
+          top: 35px;
+          left: 0;
           z-index: 2;
           width: 308px;
           height: 153px;
@@ -475,17 +475,51 @@ export default {
       margin-top: 0.3rem;
       padding:0 0.2rem;
       .apy_title{
+        position: relative;
         width: 100%;
         color: #FFFFFF;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        // justify-content: space-between;
         margin-right: 0;
         .span1{
           color: #FFFFFF;
         }
         .span2{
-          margin-left: 0;
+          margin-left: 0.05rem;
+        }
+        .img_boxs{
+          display: flex;
+          margin-left: 0.08rem;
+          cursor: pointer;
+          .imgs{
+            width: 0.18rem;
+            object-fit: contain;
+          }
+          .img_box_hover{
+            display: none;
+            position: absolute;
+            top: 0.28rem;
+            left: 0;
+            z-index: 2;
+            width: 3rem;
+            height: auto;
+            box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+            padding: 1px;
+            border-radius: 0.14rem;
+            background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+            .content_box{
+              width: 100%;
+              height: 100%;
+              padding: 0.2rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              border-radius: 0.14rem;
+              background: #011730;
+            }
+          }
         }
       }
     }

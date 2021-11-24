@@ -18,17 +18,17 @@ export const message = {
     txt16: "Burnt Number",
     txt17: "HC Application",
 
-    txt18:'NFT Cards',
-    txt19:'Unlock slots, Craft Cards.',
-    txt20:'GameFi Application',
-    txt21:'Redeem Diamonds, Unlock New Chapters.',
-    txt22:'NFT Trade',
-    txt23:'Can be used as transaction fee in trading and lending',
-    txt24:'Others',
+    txt18: "NFT Cards",
+    txt19: "Unlock slots, Craft Cards.",
+    txt20: "GameFi Application",
+    txt21: "Redeem Diamonds, Unlock New Chapters.",
+    txt22: "NFT Trade",
+    txt23: "Can be used as transaction fee in trading and lending",
+    txt24: "Others",
     txt25: "LP Staking, Third Party Hashrate Staking, DAO Staking",
 
-    txt26:'HC Trend',
-    txt27:'Partners'
+    txt26: "HC Trend",
+    txt27: "Partners"
   },
   nav: {
     // 导航栏
@@ -40,7 +40,7 @@ export const message = {
     txt5: "WhitePaper",
     txt7: "NFT Card",
     txt8: "NFT Mining",
-    txt9:'邀请'
+    txt9: "邀请"
   },
   footer: {
     // footer
@@ -57,8 +57,8 @@ export const message = {
     txt4: "Priority Card",
     txt5: "Draw of Luck",
     txt6: "Basic Cards are the basic units of HashLand Metauniverse.",
-    txt6_1:'Contains cards of any level and any character.',
-    txt6_2:'One of the Limited Cards in Hashland, contains enormous hashrate.',
+    txt6_1: "Contains cards of any level and any character.",
+    txt6_2: "One of the Limited Cards in Hashland, contains enormous hashrate.",
     txt7: "No",
     txt8: "Price",
     txt9: "Amount",
@@ -67,25 +67,33 @@ export const message = {
     txt13: "Purchase",
     txt14: "Purchase Describtion",
 
-    txt15:'Each card features an unique ERC721 token, and represents a character in GameFi',
-    txt16:'Level-1 cards can be purchased directly, you can Craft to get higher level cards with a maximum level of 5.',
-    txt17:'Cards are certificates to BTC and HC mining hashrate，holding cards is equivalent to having the same amount of hashrate. Higher level Cards contains more hashrate.',
-    txt18:'BTC and HC can be mined after you insert the cards into slot, the higher the hashrate, the more yield. Note that level-1 card only has bitcoin hashrate and no HC hashrate. ',
+    txt15:
+      "Each card features an unique ERC721 token, and represents a character in GameFi",
+    txt16:
+      "Level-1 cards can be purchased directly, you can Craft to get higher level cards with a maximum level of 5.",
+    txt17:
+      "Cards are certificates to BTC and HC mining hashrate，holding cards is equivalent to having the same amount of hashrate. Higher level Cards contains more hashrate.",
+    txt18:
+      "BTC and HC can be mined after you insert the cards into slot, the higher the hashrate, the more yield. Note that level-1 card only has bitcoin hashrate and no HC hashrate. ",
 
-    txt19:'Need surprise? Blind-Box Cards are your best option.',
-    txt20:'Blind Box Contains cards of any level and any character Card level and character can be checked right after purchase.',
-    txt21:'The level and character of every Blind Box card will be determined by a random function in the contract. The code is open sourced on Hashland github address. ',
-    txt22:'BTC and HC can be mined after you insert the cards into slot, the higher the hashrate, the more yield. Note that level-1 card only has bitcoin hashrate and no HC hashrate. ',
+    txt19: "Need surprise? Blind-Box Cards are your best option.",
+    txt20:
+      "Blind Box Contains cards of any level and any character Card level and character can be checked right after purchase.",
+    txt21:
+      "The level and character of every Blind Box card will be determined by a random function in the contract. The code is open sourced on Hashland github address. ",
+    txt22:
+      "BTC and HC can be mined after you insert the cards into slot, the higher the hashrate, the more yield. Note that level-1 card only has bitcoin hashrate and no HC hashrate. ",
 
-    txt23:'Want to be different? Priority Cards are your best choice.',
-    txt24:'Purchase Priority Cards, features enormous hashrate bonus.',
-    txt25:'Extremely rare. Highly Collectible',
-    txt26:'There will be special Slots for priority cards, insert to earn BTC, HC. the higher the hashrate, the more yield',
+    txt23: "Want to be different? Priority Cards are your best choice.",
+    txt24: "Purchase Priority Cards, features enormous hashrate bonus.",
+    txt25: "Extremely rare. Highly Collectible",
+    txt26:
+      "There will be special Slots for priority cards, insert to earn BTC, HC. the higher the hashrate, the more yield"
 
     // txt27:'Level-1 cards can be purchased directly, you can Craft to get higher level cards',
     // txt28:'Insert into Priority Slot to mine BTC and HC, the higher the hashrate, the more yield.',
     // txt29:'More privileges will be announced later.'
-    },
+  },
   nftMining: {
     // nft 挖矿
     txt1: "NFT Card benefits",
@@ -103,7 +111,8 @@ export const message = {
     txt13: "Total Income",
     txt14: "Claimable",
     txt15: "Insert into Slot",
-    txt16:'The annual return on investment is equal to the value of the BTC and HC you claimed from the inserted NFT within a year at the current exchange rate. It will change according to the change in the hashrate of the NFT you inserted.'
+    txt16:
+      "The annual return on investment is equal to the value of the BTC and HC you claimed from the inserted NFT within a year at the current exchange rate. It will change according to the change in the hashrate of the NFT you inserted."
   },
   synthesis: {
     // 合成
@@ -125,47 +134,49 @@ export const message = {
     txt2: "Select the one you want to insert",
     txt3: "The higher the Multiplier, the higher the yield"
   },
-  invite:{
-    txt1:'邀请我的',
-    txt2:'我的邀请',
-    txt3:'Land contribution are calculated based on your referees’ slotted cards. More cards means more land contributions and higher Landlord rewards',
-    txt4:'Landlord Rank',
-    tx6:'The future DAO representatives',
-    txt7:'绑定',
-    txt8:'提取',
-    txt9:'Landlord Rank',
-    txt10:'The future DAO representatives',
-    txt11:'Ranking',
-    txt12:'Address',
-    txt13:'Territory proportion',
+  invite: {
+    txt1: "邀请我的",
+    txt2: "我的邀请",
+    txt3:
+      "Land contribution are calculated based on your referees’ slotted cards. More cards means more land contributions and higher Landlord rewards",
+    txt4: "Landlord Rank",
+    tx6: "The future DAO representatives",
+    txt7: "绑定",
+    txt8: "提取",
+    txt9: "Landlord Rank",
+    txt10: "The future DAO representatives",
+    txt11: "Ranking",
+    txt12: "Address",
+    txt13: "Territory proportion"
   },
-  transfer:{
-    txt1:'Gift',
-    txt2:'You can gift cards to your friends in batches',
-    txt3:'Selected quantity',
-    txt4:'Please select the card first',
-    txt5:'Once gifted successfully, the card cannot be recovered!',
-    danger_placeholder:'Enter the address of the recipient',
-    txt7:'Gifted Successfully',
-    txt8:'Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved.'
+  transfer: {
+    txt1: "Gift",
+    txt2: "You can gift cards to your friends in batches",
+    txt3: "Selected quantity",
+    txt4: "Please select the card first",
+    txt5: "Once gifted successfully, the card cannot be recovered!",
+    danger_placeholder: "Enter the address of the recipient",
+    txt7: "Gifted Successfully",
+    txt8:
+      "Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved."
   },
-  hclp:{
-    txt1:'Farm',
-    txt2:'Stake lp token to earn platform token',
-    txt3:'Annual percentage rate',
-    txt4:'Liquidity',
-    txt5:'Income',
-    txt6:'My stake',
-    txt7:'Stake',
-    txt8:'Unstake',
-    txt9:'My Income',
-    txt10:'Total Income:',
-    txt11:'Claim',
-    txt12:'Account Balance',
-    txt12_1:'Stake Balance',
-    txt13:'Input Number',
-    txt14:'Insufficient Balance'
-  },
+  hclp: {
+    txt1: "Farm",
+    txt2: "Stake lp token to earn platform token",
+    txt3: "Annual percentage rate",
+    txt4: "Liquidity",
+    txt5: "Output currency",
+    txt6: "My stake",
+    txt7: "Stake",
+    txt8: "Unstake",
+    txt9: "My Income",
+    txt10: "Total Income:",
+    txt11: "Claim",
+    txt12: "Account Balance",
+    txt12_1: "Stake Balance",
+    txt13: "Input Number",
+    txt14: "Insufficient Balance"
+  },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
   details: "Detail",
@@ -189,7 +200,7 @@ export const message = {
   word15: "选择的卡牌必须4的倍数哦", //You must select
   approve: "Authorize", //Authorize
   button1: "Confirm", //Confirm
-  nothing:'No Data',
-  button2:'To Buy',
-  consumption:'Craft needs to consume ',// 合成消耗hc数量
+  nothing: "No Data",
+  button2: "To Buy",
+  consumption: "Craft needs to consume " // 合成消耗hc数量
 };

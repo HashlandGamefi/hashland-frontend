@@ -505,9 +505,13 @@ export default {
       switch (index) {
         case 0:
           this.$router.push("/buy");
+          this.$store.commit("HashMenu", 0);
+          sessionStorage.setItem("HashMenu", 0);
           break;
         case 1:
           this.$router.push("/nftmining");
+          this.$store.commit("HashMenu", 2);
+          sessionStorage.setItem("HashMenu", 2);
           break;
         case 2:
           this.$common.selectLang("敬请期待", "Coming soon", this);
