@@ -19,8 +19,8 @@
         <span class="span1 fontsize12">{{$t("message.nftMining.txt11")}}</span>
         <span class="span1 span2 fontsize18">$ {{personalApy}}</span>
         <div class="img_boxs">
-          <img :src="`${$store.state.imgUrl}question.png`" class="imgs" />
-          <div class="img_box_hover">
+          <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick" />
+          <div class="img_box_hover" :class="{show_box_hover:ishover}">
             <div class="content_box fontsize12_400">
               {{$t("message.nftMining.txt16")}}
             </div>
@@ -85,6 +85,7 @@
         <img :src="`${$store.state.imgUrl}hclogo.png`" class="btcimg" />
       </div>
     </div>
+    <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -118,6 +119,7 @@ export default {
   },
   data () {
     return {
+      ishover:false,//显示roi
       btcStarValue:0,// btc 可提取初始值
       hcStarValue:0,// hc 可提取初始值
       timernull:null,//定时器对象
@@ -138,6 +140,9 @@ export default {
     }
   },
   methods: {
+    imgclick(){
+      this.ishover = true
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
@@ -319,9 +324,7 @@ export default {
             background: #011730;
           }
         }
-      }
-      .img_boxs:hover{
-        .img_box_hover{
+        .show_box_hover{
           display: flex;
         }
       }
@@ -426,6 +429,13 @@ export default {
       }
     }
   }
+  .positon_img_fixedbox{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 @media screen and (min-width: 1280px) {
   .nft_miningpage{
@@ -519,6 +529,9 @@ export default {
               border-radius: 0.14rem;
               background: #011730;
             }
+          }
+          .show_box_hover{
+            display: flex;
           }
         }
       }
