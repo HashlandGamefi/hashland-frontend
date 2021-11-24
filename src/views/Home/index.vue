@@ -510,8 +510,8 @@ export default {
           break;
         case 1:
           this.$router.push("/nftmining");
-          this.$store.commit("HashMenu", 2);
-          sessionStorage.setItem("HashMenu", 2);
+          this.$store.commit("HashMenu", 0);
+          sessionStorage.setItem("HashMenu", 0);
           break;
         case 2:
           this.$common.selectLang("敬请期待", "Coming soon", this);
@@ -768,6 +768,7 @@ export default {
           flex-wrap: wrap;
           .imgbox {
             width: 25%;
+            display: flex;
             .partnerimg {
               object-fit: contain;
               margin-bottom: 70px;
