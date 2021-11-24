@@ -41,7 +41,7 @@
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
             <span class="span1 fontsize16">{{item.price}} BUSD</span>
           </div>
-          <div class="btn">购买</div>
+          <div class="btn fontsize16">购买</div>
         </div>
       </div>
       <NoData v-if="pageshowarr.length == 0"></NoData>
