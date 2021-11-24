@@ -768,6 +768,7 @@ export default {
           flex-wrap: wrap;
           .imgbox {
             width: 25%;
+            display: flex;
             .partnerimg {
               object-fit: contain;
               margin-bottom: 70px;
