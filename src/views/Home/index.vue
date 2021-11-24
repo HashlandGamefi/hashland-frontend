@@ -96,6 +96,18 @@
             </div>
           </div>
           <div class="hashland_bottom">
+            <div class="onebox nowPrice">
+              <span class="span1 fontsize12">{{
+                $t("message.home.txt11")
+              }}</span>
+              <span class="span1 fontsize16">$ {{ getCoinPrice.hc }}</span>
+            </div>
+            <div class="onebox nowPrice">
+              <span class="span1 fontsize12">{{
+                $t("message.home.txt12")
+              }}</span>
+              <span class="span1 fontsize16">{{ nextDay }}</span>
+            </div>
             <div class="onebox">
               <span class="span1 fontsize12">{{
                 $t("message.home.txt13")
@@ -377,7 +389,7 @@ export default {
      * from 项目开始时间 2021-11-18 19:00:00  1637233200000    to 现在 new Date().getTime() / 1000
      */
     getHashlandCoin() {
-      console.log("获取图表数据")
+      console.log("获取图表数据");
       const url =
         "https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart?vs_currency=usd&days=max&interval=daily";
       axios.get(url).then((res) => {
@@ -404,7 +416,7 @@ export default {
           confine: true,
           trigger: "axis",
           backgroundColor: "#fff",
-          // axisPointer: { type: "none", snap: true },
+          grid: { right: 0 },
           axisPointer: { snap: true },
           formatter: "{b} <br/> ${c}",
           textStyle: {
@@ -466,6 +478,7 @@ export default {
         media: [
           {
             query: { maxWidth: 414 },
+            grid: { left: 0, right: 0, top: 0, bottom: 0 },
             option: {
               xAxis: { show: false },
               yAxis: { show: false },
@@ -492,9 +505,13 @@ export default {
       switch (index) {
         case 0:
           this.$router.push("/buy");
+          this.$store.commit("HashMenu", 0);
+          sessionStorage.setItem("HashMenu", 0);
           break;
         case 1:
           this.$router.push("/nftmining");
+          this.$store.commit("HashMenu", 2);
+          sessionStorage.setItem("HashMenu", 2);
           break;
         case 2:
           this.$common.selectLang("敬请期待", "Coming soon", this);
@@ -860,7 +877,7 @@ export default {
           justify-content: space-between;
           margin-top: 18px;
           .chart_box {
-            width: 80%;
+            width: 90%;
             height: 300px;
             position: relative;
           }
@@ -890,6 +907,9 @@ export default {
               color: #ffffff;
               margin-top: 7px;
             }
+          }
+          .nowPrice {
+            display: none;
           }
         }
       }
@@ -1232,21 +1252,12 @@ export default {
             margin-top: 0.19rem;
             padding-left: 0;
             .chart_box {
-              width: 80%;
+              width: 100%;
               height: 250px;
               position: relative;
             }
             .nowPrice {
-              display: flex;
-              flex-direction: column;
-              align-items: flex-end;
-              .span1 {
-                color: #ffffff;
-                margin-bottom: 0.1rem;
-              }
-              .span2 {
-                margin-bottom: 0.2rem;
-              }
+              display: none;
             }
           }
           .hashland_bottom {
@@ -1256,6 +1267,7 @@ export default {
             align-items: center;
             justify-content: space-between;
             margin: 0.1rem 0 0 0;
+
             .onebox {
               width: 100%;
               display: flex;

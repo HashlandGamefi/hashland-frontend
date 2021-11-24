@@ -233,7 +233,6 @@ export default {
       hn().totalSupply().then(async data => {
         this.cardNumber = data.toString()
       })
-        console.log('hnBox().tokenAddrs(1): ', await hnBox().tokenAddrs(1),token().BUSD);
       if(await hnBox().tokenAddrs(1) == token().BUSD){
         let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
         this.surplusNums = surplusNums.toString()
