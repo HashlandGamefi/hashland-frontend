@@ -13,7 +13,8 @@
         </div>
         <!-- 排序 -->
         <div class="left_content left_content_price">
-          <span class="span1 fontsize16">{{$t("message.gamefi.txt2")}}</span>
+          <span class="span1 fontsize16" v-if="sprtTxt == 'asc'">{{$t("message.gamefi.txt2")}}</span>
+          <span class="span1 fontsize16" v-else>{{$t("message.gamefi.txt3")}}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
             <span class="span1 fontsize16" @click="sortPriceClik('asc')">
@@ -41,7 +42,12 @@
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
             <span class="span1 fontsize16">{{item.price}} BUSD</span>
           </div>
-          <div class="btn fontsize16">购买</div>
+          <div class="btn fontsize12" @click="buyCard(item)" v-if="isapprove">
+            购买<BtnLoading :isloading="item.isstatus"></BtnLoading>
+          </div>
+          <div class="btn fontsize12" v-else @click="goApproveClick">
+            {{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading>
+          </div>
         </div>
       </div>
       <NoData v-if="pageshowarr.length == 0"></NoData>
@@ -52,7 +58,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnMarket,hn,getHnImg } from 'hashland-sdk';
+import { hnMarket,hn,getHnImg,erc20,token,contract,getSigner,util } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -65,52 +71,81 @@ export default {
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
+      isapprove:false,// 是否授权busd
+      buy_isloading:false,// 购买按钮loading
+      user_busd_balance:0,//用户busd余额
+      sprtTxt:'asc'
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount",'getCoinPrice']),
-    // pageshowarr:{
-    //   get() {
-    //     return this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
-    //       return Number(a.type) > Number(b.type) ? 1 : -1;
-    //     })
-    //   },
-    //   set(newValue) {
-    //     return newValue;
-    //   }
-    // },
+    ...mapGetters(["getIstrue","getAccount",'getCoinPrice'])
   },
   watch:{
     'getIstrue':{
       handler: function (newValue) {
-        console.log('市场页面newValue: ', newValue);
         if(newValue){
-
+          this.connetInfo()
         }
       },
       deep: true,
       immediate: true
     },
     'cardInfoArr':{
-      handler: function (newValue) {
-        console.log('市场页面newValue: ', newValue);
-        this.pageshowarr = newValue.filter(item => { return item.level == this.rank}).sort((a, b) => {
-          if(a.type === b.type){
-  　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
-          }
-          return Number(a.type) > Number(b.type) ? 1 : -1;
-        })
+      handler: function () {
+        this.pageArrInfo()
       },
       deep: true,
       immediate: true
     },
   },
   methods:{
+    // 购买卡牌
+    buyCard(item){
+      console.log('item: ', item);
+      if(item.isstatus)return
+      erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
+        let user_busd_balance = util.formatEther(res)
+        console.log('user_busd_balance: ', user_busd_balance);
+        if(Number(user_busd_balance) >= Number(item.price)){
+          item.isstatus = true
+          let arr = []
+          arr.push(item.cardID)
+          hnMarket().connect(getSigner()).buy(arr).then(async ele => {
+            console.log('买家批量购买卡牌res: ', ele);
+            const etReceipt = await ele.wait();
+            if(etReceipt.status == 1){
+              this.getMarketCardInfo().then(data => {
+                console.log('data: ', data);
+                if(data){
+                  this.$common.selectLang('购买成功','购买成功',this)
+                  this.getSDKInfo()
+                  this.pageArrInfo()
+                  item.isstatus = false
+                }
+              })
+            }else{
+              item.isstatus = false
+            }
+          }).catch(err => {
+            item.isstatus = false
+            console.log('买家批量购买卡牌err: ', err);
+          })
+        }else{
+          this.$common.selectLang('余额不足','余额不足',this)
+        }
+      })
+    },
     // 选择阶数
     selectRankClik(ele,index){
+      this.sprtTxt = 'asc'
+      this.current = index // 当前等级
       console.log('选择阶数ele,index: ', ele,index);
       this.rank = index + 1 // 当前几阶
       this.amount = ele
+      this.pageArrInfo()
+    },
+    // 页面数组信息--排序
+    pageArrInfo(){
       this.pageshowarr = this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
         if(a.type === b.type){
 　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
@@ -120,6 +155,7 @@ export default {
     },
     // 排序
     sortPriceClik(data){
+      this.sprtTxt = data
       if(data == 'asc'){//升序
         this.pageshowarr.sort((a, b) => {
           if(a.type === b.type){
@@ -152,40 +188,78 @@ export default {
     getSDKInfo(){
       // 获取各阶所售卖的总卡牌数量
       hnMarket().getEachLevelHnIdsLength(5).then(res => {
+        console.log('获取各阶所售卖的总卡牌数量res: ', res);
         this.cardLengthArr = res
-        this.amount = res[0]
+        this.amount = res[this.rank - 1]
       })
+    },
+    // 市场页面获取市场出售的所有卡牌
+    getMarketCardInfo(){
       // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
-      hnMarket().getHnIdsBySize(0,10000000).then(res => {
-        console.log('所有正在出售的卡牌id数组res: ', res);
-        let count = 1
-        let arr = []
-        res[0].map(async item => {
-          let obj = {
-            cardID: "",
-            level: "",
-            type: "", // 卡牌的种类
-            src: "",
-            price:""
-          }
-          obj.cardID = item.toString() // 卡牌的id
-          obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
-          obj.level = (await hn().level(item)).toString() // 等级
-          obj.price = (await hnMarket().hnPrice(item)).toString()
-          let race = await hn().getHashrates(item) // 算力数组
-          // @ts-ignore
-          obj.src = getHnImg(Number(item), obj.level, race);
-          arr.push(obj)
-          if (count == res[0].length) {
-            this.cardInfoArr = arr
-          }
-          count++;
+      return new Promise((resolve) => {
+        hnMarket().getHnIdsBySize(0,10000000).then(res => {
+          console.log('所有正在出售的卡牌id数组res: ', res);
+          let count = 1
+          let arr = []
+          res[0].map(async item => {
+            let obj = {
+              cardID: "",
+              level: "",
+              type: "", // 卡牌的种类
+              src: "",
+              price:"",
+              isstatus:false//是否授权
+            }
+            obj.cardID = item.toString() // 卡牌的id
+            obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
+            obj.level = (await hn().level(item)).toString() // 等级
+            obj.price = (await hnMarket().hnPrice(item)).toString()
+            let race = await hn().getHashrates(item) // 算力数组
+            // @ts-ignore
+            obj.src = getHnImg(Number(item), obj.level, race);
+            arr.push(obj)
+            if (count == res[0].length) {
+              this.cardInfoArr = arr
+              resolve(true);
+            }
+            count++;
+          })
         })
       })
-    }
+    },
+    connetInfo(){
+      // 是否授权
+      erc20(token().BUSD).allowance(this.getAccount,contract().HNMarket).then(res => {
+        // console.log('是否授权res: ', res);
+        if(res.toString() > 0){
+          this.isapprove = true
+        }else{
+          this.isapprove = false
+        }
+      }).catch(err => {
+        console.log('是否授权busderr: ', err);
+        this.isapprove = false
+      })
+    },
+    // 去授权
+    goApproveClick(){
+      if(this.buy_isloading)return
+      this.buy_isloading = true
+      const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
+      erc20(token().BUSD).connect(getSigner()).approve(contract().HNMarket,TOKEN_amount).then(async res => {
+        const etReceipt = await res.wait();
+        if(etReceipt.status == 1){
+          this.isapprove = true
+          this.buy_isloading = false
+        }
+      }).catch(() => {
+        this.buy_isloading = false
+      })
+    },
   },
   mounted(){
-    this.getSDKInfo()
+    this.getSDKInfo(this)
+    this.getMarketCardInfo(this)
   }
 }
 </script>
@@ -330,7 +404,8 @@ export default {
           }
         }
         .btn{
-          width: 65px;
+          // width: 65px;
+          padding: 0 10px;
           height: 22px;
           border-radius: 15px;
           display: flex;
