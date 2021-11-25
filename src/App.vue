@@ -124,12 +124,4 @@ export default {
     background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
   }
 }
-.fade-enter-active,
-.fade-leave-avtive {
-  transition: opacity 1s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
 </style>

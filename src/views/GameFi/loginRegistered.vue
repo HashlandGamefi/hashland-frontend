@@ -7,12 +7,12 @@
         @click="closeLR"
       />
       <ul class="in_box" v-if="loginOrRegister == 'login'">
-        <li class="header_title ban_select">账号登录</li>
+        <li class="header_title ban_select fontsize22">账号登录</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select">仅限于游戏</li>
+        <li class="prompt ban_select fontsize12">仅限于游戏</li>
         <li class="input_box">
           <div class="input_title">
-            <span>账号</span>
+            <span class="fontsize16">账号</span>
             <span v-if="loginForm.prompt1">---{{ loginForm.prompt1 }}</span>
           </div>
           <div class="input_box_box">
@@ -25,7 +25,7 @@
         </li>
         <li class="input_box">
           <div class="input_title">
-            <span>密码</span>
+            <span class="fontsize16">密码</span>
             <span v-if="loginForm.prompt2">---{{ loginForm.prompt2 }}</span>
           </div>
           <div class="input_box_box">
@@ -42,18 +42,22 @@
             </div>
           </div>
         </li>
-        <li class="btn login_btn ban_select" @click="toLogin">登录</li>
+        <li class="btn login_btn ban_select fontsize14" @click="toLogin">
+          登录
+        </li>
         <li class="login_footer ban_select">
-          <span @click="registerNow">没有账号？立即注册</span>
-          <span @click="forgotPassword">忘记密码</span>
+          <span class="fontsize16" @click="registerNow"
+            >没有账号？立即注册</span
+          >
+          <span class="fontsize16" @click="forgotPassword">忘记密码</span>
         </li>
       </ul>
-      <ul class="in_box" v-if="loginOrRegister == 'registered'">
-        <li class="header_title ban_select">账号注册</li>
+      <ul class="in_box register_box" v-if="loginOrRegister == 'registered'">
+        <li class="header_title ban_select fontsize22">账号注册</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select">账号注册</li>
+        <li class="prompt ban_select fontsize16">账号注册</li>
         <li class="input_box">
-          <div class="input_title">邮箱</div>
+          <div class="input_title fontsize16">邮箱</div>
           <div class="input_box_box">
             <input
               type="text"
@@ -63,18 +67,20 @@
           </div>
         </li>
         <li class="input_box">
-          <div class="input_title">验证码</div>
+          <div class="input_title fontsize16">验证码</div>
           <div class="input_box_box">
             <input
               type="text"
               placeholder="请输入验证码"
               v-model="registerForm.verifyCode"
             />
-            <div class="verification ban_select" @click="getCode">获取</div>
+            <div class="verification ban_select fontsize14" @click="getCode">
+              获取
+            </div>
           </div>
         </li>
         <li class="input_box">
-          <div class="input_title">密码</div>
+          <div class="input_title fontsize16">密码</div>
           <div class="input_box_box">
             <input
               :type="isShowPassword ? 'text' : 'password'"
@@ -91,9 +97,12 @@
         </li>
         <li class="checkoutside_box ban_select" @click="isRead = !isRead">
           <div><div v-if="isRead"></div></div>
-          <div>我已阅读了《某某某条约》</div>
+          <div class="fontsize16">我已阅读了《某某某条约》</div>
         </li>
-        <li class="btn registered_btn ban_select" @click="toRegistered">
+        <li
+          class="btn registered_btn ban_select fontsize16"
+          @click="toRegistered"
+        >
           注册
         </li>
       </ul>
@@ -344,11 +353,11 @@ export default {
   padding: 1px;
   .close {
     cursor: pointer;
-    width: 70px;
+    width: 44px;
     height: auto;
     position: absolute;
-    top: -100px;
-    right: -100px;
+    top: 10px;
+    right: 10px;
   }
 }
 .in_box {
@@ -359,9 +368,6 @@ export default {
   padding: 30px 80px;
   text-align: center;
   > .header_title {
-    font-size: 22px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
     color: #ffffff;
     letter-spacing: 1px;
     margin: 0 auto;
@@ -377,22 +383,16 @@ export default {
     margin-bottom: 10px;
   }
   .prompt {
-    font-size: 12px;
-    font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
     color: #ffffff;
     margin: 0 auto;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   .input_box {
     text-align: left;
     margin: 0 auto;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     width: fit-content;
     .input_title {
-      font-size: 16px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: 600;
       color: #ffffff;
       text-indent: 1em;
       margin-bottom: 10px;
@@ -416,17 +416,11 @@ export default {
         outline: none;
         background: transparent;
         color: #fff;
-        font-size: 14px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
       }
       input:-ms-input-placeholder,
       input::-webkit-input-placeholder,
       input::-moz-placeholder,
       input:-moz-placeholder {
-        font-size: 12px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
         color: #71787f;
       }
       .eye {
@@ -459,9 +453,6 @@ export default {
         background-size: 100% 100%;
         background-repeat: no-repeat;
         cursor: pointer;
-        font-size: 18px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
         color: #ffffff;
         text-shadow: 0px 2px 4px #a16c28;
       }
@@ -490,9 +481,6 @@ export default {
       }
       &:nth-child(2) {
         margin-left: 5px;
-        font-size: 12px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
         color: #818386;
       }
     }
@@ -506,9 +494,6 @@ export default {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     cursor: pointer;
-    font-size: 18px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
     color: #ffffff;
     letter-spacing: 1px;
     text-shadow: -1px 4px 4px #723104;
@@ -521,9 +506,6 @@ export default {
   }
 
   .login_footer {
-    font-size: 16px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -533,54 +515,52 @@ export default {
     }
   }
 }
+.register_box {
+  padding: 12px 80px;
+}
 @media screen and (min-width: 981px) {
 }
 @media screen and (max-width: 980px) {
   .outside_box {
     .close {
-      width: 30px;
+      width: 0.36rem;
       height: auto;
-      top: -60px;
-      right: -10px;
+      top: 0.1rem;
+      right: 0.1rem;
     }
     .in_box {
-      padding: 20px 50px;
+      padding: 0.2rem 0.5rem;
       .prompt {
-        font-size: 10px;
-        margin-bottom: 18px;
+        margin-bottom: 0.18rem;
       }
       .input_box {
-        margin-bottom: 18px;
+        margin-bottom: 0.18rem;
       }
       .logo_img {
-        width: 60px;
-        height: 60px;
+        width: 0.6rem;
+        height: 0.6rem;
       }
       .input_box_box {
-        width: 226px;
-        height: 38px;
+        width: 2.26rem;
+        height: 0.38rem;
         .eye {
           div {
-            width: 25px;
+            width: 0.25rem;
             height: 100%;
           }
         }
         .verification {
           width: 100px;
           height: calc(100% * 1.2);
-          font-size: 14px;
         }
       }
       .btn {
-        width: 170px;
-        height: 40px;
-        line-height: 40px;
+        width: 1.7rem;
+        height: 0.4rem;
+        line-height: 0.4rem;
       }
       .login_btn {
-        margin: 30px auto 20px auto;
-      }
-      .login_footer {
-        font-size: 14px;
+        margin: 0.3rem auto 0.2rem auto;
       }
     }
   }

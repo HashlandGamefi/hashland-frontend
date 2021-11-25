@@ -25,35 +25,6 @@
         </li>
       </ul>
     </div>
-    <transition name="fade">
-      <div class="login_register fontsize18 ban_select" v-if="showLRP == 1">
-        <span @click="openLoginOrRegistered('login')">
-          {{ $t("message.nav.txt10") }}
-        </span>
-        <span> / </span>
-        <span @click="openLoginOrRegistered('registered')">
-          {{ $t("message.nav.txt11") }}
-        </span>
-      </div>
-      <div class="account_box" v-if="showLRP == 2">
-        <img
-          class="man_img"
-          :src="`${$store.state.imgUrl}personalCenter.png`"
-        />
-        <span>12345678912345</span>
-        <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
-        <div class="toolbox">
-          <div @click="toPersonalCenter($event)">
-            <span>个人中心</span>
-            <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
-          </div>
-          <div @click="toLogOut">
-            <span>退出登录</span>
-            <img :src="`${$store.state.imgUrl}exit.png`" />
-          </div>
-        </div>
-      </div>
-    </transition>
     <div class="connect_box">
       <div class="walletBox" v-if="getIstrue">
         <div class="connect_triangle">
@@ -70,13 +41,41 @@
         </div>
       </div>
       <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
+      <transition name="fade">
+        <div class="login_register ban_select" v-if="showLRP == 1">
+          <span class="fontsize18" @click="openLoginOrRegistered('login')">
+            {{ $t("message.nav.txt10") }}
+          </span>
+          <span class="fontsize18"> / </span>
+          <span class="fontsize18" @click="openLoginOrRegistered('registered')">
+            {{ $t("message.nav.txt11") }}
+          </span>
+        </div>
+        <div class="account_box" v-if="showLRP == 2">
+          <img
+            class="man_img"
+            :src="`${$store.state.imgUrl}personalCenter.png`"
+          />
+          <span class="fontsize12">12345678912345</span>
+          <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+          <div class="toolbox">
+            <div class="inset_box_add">
+              <div @click="toPersonalCenter($event)">
+                <span>个人中心</span>
+                <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+              </div>
+              <div @click="toLogOut">
+                <span>退出登录</span>
+                <img :src="`${$store.state.imgUrl}exit.png`" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
       <div class="lang_box">
-        <!-- <img src="../assets/images/cn.png" class="cnimg" /> -->
         <span class="lang_txt fontsize18">EN</span>
-        <!-- <img src="../assets/images/accrow.png" class="downimg" /> -->
       </div>
     </div>
-
     <div class="mobile_menu">
       <div class="top_line" :class="{ mobile_border: !InitialStatus }">
         <img
@@ -123,6 +122,35 @@
         v-if="mobilemenu"
         @click="mobilemenu = false"
       >
+        <transition name="fade">
+          <div class="login_register ban_select" v-if="showLRP == 1">
+            <span class="fontsize18" @click="openLoginOrRegistered('login')">
+              {{ $t("message.nav.txt10") }}
+            </span>
+            <span class="fontsize18"> / </span>
+            <span class="fontsize18" @click="openLoginOrRegistered('registered')">
+              {{ $t("message.nav.txt11") }}
+            </span>
+          </div>
+          <div class="account_box" v-if="showLRP == 2">
+            <img
+              class="man_img"
+              :src="`${$store.state.imgUrl}personalCenter.png`"
+            />
+            <span class="fontsize12">12345678912345</span>
+            <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+            <div class="toolbox">
+              <div @click="toPersonalCenter($event)">
+                <span class="fontsize18">个人中心</span>
+                <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+              </div>
+              <div @click="toLogOut">
+                <span class="fontsize18">退出登录</span>
+                <img :src="`${$store.state.imgUrl}exit.png`" />
+              </div>
+            </div>
+          </div>
+        </transition>
         <div class="mobile_box">
           <ul class="ul_">
             <li
@@ -415,13 +443,15 @@ export default {
     /**是否已登录 */
     loggedInOrNotLoggedIn() {
       // 已登录
-      // this.showLRP = 2;
+      this.showLRP = 2;
       // 未登录
-      this.showLRP = 1;
+      // this.showLRP = 1;
     },
     /**打开登录与注册 */
     openLoginOrRegistered(str) {
       this.showLOrR = str;
+      this.InitialStatus = true;
+      this.mobilemenu = false;
     },
     /**关闭登录与注册 */
     closeLoginOrRegistered() {
@@ -440,93 +470,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.fade-enter-active,.fade-leave-active/* 可以设置不同的进入和离开动画，设置持续时间和动画函数 */ {
-  transition: opacity 1s;
-}
-.fade-enter,.fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
-  opacity: 0;
-}
-.login_register {
-  min-width: 200px;
-  position: relative;
-  color: #ffffff;
-  cursor: pointer;
-  text-align: center;
-}
-.account_box {
-  min-width: 150px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  position: relative;
-  cursor: pointer;
-  &:hover,
-  &.active {
-    .accrow_img {
-      transform: rotate(0);
-    }
-    .toolbox {
-      display: block;
-    }
-  }
-  .man_img {
-    width: 25px;
-    height: auto;
-    margin-right: 10px;
-  }
-  .accrow_img {
-    width: 15px;
-    height: auto;
-    transform: rotate(-90deg);
-    transition: all 0.3s;
-  }
-  span {
-    margin-right: 10px;
-    font-size: 12px;
-    font-family: PingFangSC-Semibold, PingFang SC;
-    font-weight: 600;
-    color: #ffffff;
-  }
-  .toolbox {
-    display: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
-      -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-    position: absolute;
-    top: 25px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    div {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 0;
-      &:hover,
-      &.active {
-        span {
-          color: #00e7f0;
-        }
-      }
-      span {
-        font-size: 18px;
-        font-family: PingFangSC-Semibold, PingFang SC;
-        font-weight: 600;
-        color: #ffffff;
-      }
-      img {
-        width: 15px;
-        height: auto;
-        &.accrow_img {
-          transform: rotate(-90deg);
-        }
-      }
-    }
-  }
-}
 .nav_box {
   position: fixed;
   top: 0;
@@ -551,7 +494,7 @@ export default {
     }
   }
   .menu_box {
-    // width: calc(100% - 430px);
+    width: calc(100% - 430px);
     .ul_ {
       width: 100%;
       display: flex;
@@ -626,6 +569,7 @@ export default {
     align-items: center;
     .walletBox {
       position: relative;
+      margin-right: 5px;
       .connect_triangle {
         width: 160px;
         display: flex;
@@ -708,21 +652,93 @@ export default {
         -5px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
       color: #ffffff;
       cursor: pointer;
+      margin-right: 5px;
+    }
+    .login_register {
+      min-width: 160px;
+      position: relative;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+    }
+    .account_box {
+      min-width: 150px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      position: relative;
+      cursor: pointer;
+      &:hover,
+      &.active {
+        .accrow_img {
+          transform: rotate(0);
+        }
+        .toolbox {
+          display: block;
+        }
+      }
+      .man_img {
+        width: 25px;
+        height: auto;
+        margin-right: 10px;
+      }
+      .accrow_img {
+        width: 15px;
+        height: auto;
+        transform: rotate(-90deg);
+        transition: all 0.3s;
+      }
+      span {
+        margin-right: 10px;
+        color: #ffffff;
+      }
+      .toolbox {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        .inset_box_add{
+          padding: 10px 20px;
+          border-radius: 6px;
+          background: rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
+            -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+          margin: auto;
+          margin-top: 54px;
+          div {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            &:hover,
+            &.active {
+              span {
+                color: #00e7f0;
+              }
+            }
+            span {
+              color: #ffffff;
+            }
+            img {
+              width: 15px;
+              height: auto;
+              &.accrow_img {
+                transform: rotate(-90deg);
+              }
+            }
+          }
+        }
+      }
     }
     .lang_box {
       display: flex;
       align-items: center;
-      .cnimg {
-        width: 50px;
-        object-fit: contain;
-      }
+      margin-left: 5px;
       .lang_txt {
         color: #ffffff;
-        margin: 0 8px;
-      }
-      .downimg {
-        width: 20px;
-        object-fit: contain;
       }
     }
   }
@@ -740,7 +756,12 @@ export default {
 @media screen and (min-width: 981px) and (max-width: 1439px) {
   .nav_box {
     .menu_box {
-      // width: calc(100% - 200px);
+      width: calc(100% - 300px);
+      .ul_{
+        li{
+          padding: 0 15px;
+        }
+      }
     }
   }
 }
@@ -887,6 +908,86 @@ export default {
         background: rgba(0, 0, 0, 0.2);
         display: flex;
         flex-direction: column;
+        .login_register {
+          width: 100%;
+          display: flex;
+          border-left: 2px solid rgba(161, 64, 248, 1);
+          border-right: 2px solid rgba(161, 64, 248, 1);
+          background: #021c3a;
+          color: #ffffff;
+          padding: 0 0.2rem;
+        }
+        .account_box {
+          min-width: 150px;
+          display: flex;
+          align-items: center;
+          padding: 0 10px;
+          position: relative;
+          cursor: pointer;
+          border-left: 2px solid rgba(161, 64, 248, 1);
+          border-right: 2px solid rgba(161, 64, 248, 1);
+          background: #021c3a;
+          &:hover{
+            .accrow_img {
+              transform: rotate(0);
+            }
+            .toolbox {
+              display: block;
+            }
+          }
+          .man_img {
+            width: 25px;
+            height: auto;
+            margin-right: 10px;
+          }
+          .accrow_img {
+            width: 15px;
+            height: auto;
+            transform: rotate(-90deg);
+            transition: all 0.3s;
+          }
+          span {
+            margin-right: 10px;
+            color: #ffffff;
+          }
+          .toolbox {
+            display: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
+              -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            z-index: 999999;
+            margin: auto;
+            div {
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 10px 0;
+              &:hover,
+              &.active {
+                span {
+                  color: #00e7f0;
+                }
+              }
+              span {
+                color: #ffffff;
+              }
+              img {
+                width: 15px;
+                height: auto;
+                &.accrow_img {
+                  transform: rotate(-90deg);
+                }
+              }
+            }
+          }
+        }
         .mobile_box {
           border-radius: 0px 0px 17px 17px;
           border: 2px solid rgba(161, 64, 248, 1);
