@@ -318,6 +318,9 @@ export default {
         case 1:
           this.$router.push("/gameFi");
           break;
+        case 2:
+          this.$router.push('/hclp')
+          break;
         case 4:
           window.location.href =
             "https://land-hash.gitbook.io/official/dao/about-dao";
@@ -393,17 +396,16 @@ export default {
       this.walletdis = true;
     },
     // 小狐狸链接
-    async metamaskLink(data) {
-      const account = await wallet.getAccount(data); //链接钱包
-      this.connectFun(account);
-      const chainID = await wallet.getChainId(); // 连接网络
-      this.networkFun(chainID);
-      // 监听账号
-      wallet.onAccountChanged(this.connectFun);
-      // 监听网络
-      wallet.onChainChanged(this.OnNetworkFun);
-      wallet.onDisconnect(this.signOutFun);
-      this.walletdis = false;
+    async metamaskLink(data){
+      const account = await wallet.getAccount(data) //链接钱包
+      this.connectFun(account)
+
+      const chainID = await wallet.getChainId() // 连接网络
+      this.networkFun(chainID)
+
+
+
+      this.walletdis = false
     },
     // 移动端展开菜单
     mobilemenuClick() {

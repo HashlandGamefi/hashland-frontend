@@ -233,8 +233,13 @@ export default {
       hn().totalSupply().then(async data => {
         this.cardNumber = data.toString()
       })
-      let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
-      this.surplusNums = surplusNums.toString()
+      if(await hnBox().tokenAddrs(1) == token().BUSD){
+        let surplusNums = await hnBox().getBoxesLeftSupply() // 获取盲盒剩余可销售数量
+        this.surplusNums = surplusNums.toString()
+      }else{
+        this.surplusNums = 0
+      }
+
     },
     connectGetInfo(){
       erc20(token().BUSD).balanceOf(this.getAccount).then(res => {

@@ -8,9 +8,11 @@ body {
   height: 100%;
   font-family: "PingFang SC", "Poppins", "微软雅黑";
 }
-@media screen and (min-width: 1280px) {
-  .fontsize12 {
-    // purchase
+@media screen and (min-width: 1280px){
+  .fontsize12_bold{ // purchase
+    font-size: 12px;
+  }
+  .fontsize12{ // purchase
     font-size: 12px;
     font-weight: 100;
     font-family: "Poppins-Regular";
@@ -164,4 +166,11 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+// 按钮禁用
+.disable_bnb{
+  color:rgb(187, 186, 186) !important;
+  background: rgba(255,255,255,0.6) !important;
+  cursor: not-allowed !important;
+  border-radius: 25px;
 }

@@ -6,7 +6,7 @@
         <span class="span1 fontsize22">{{ $t("message.nftMining.txt3") }}</span>
         <div class="card_btnbox">
           <div class="synthesis_btn btn_margin_left fontsize16" @click="transferClick">
-            转账
+            {{$t("message.transfer.txt1")}}
           </div>
           <div class="synthesis_btn fontsize16" @click="synthesisClick">
             {{ $t("message.nftMining.txt5") }}
@@ -30,7 +30,8 @@
                 <span class="level_class fontsize16">LV{{ item.level }}</span>
               </div>
               <div class="num_details">
-                <span class="card_grade fontsize16">{{ item.num }}</span>
+                <div class="card_grade_loading fontsize16" v-if="item.status"><NewLoading></NewLoading></div>
+                <span class="card_grade fontsize16" v-else>{{ item.num }}</span>
                 <span class="details fontsize12">{{
                   $t("message.nftMining.txt6")
                 }}</span>
@@ -67,21 +68,6 @@
                 class="swiper_img"
                 v-if="item.btnstatus !== 3"
               />
-              <!-- <div class="bottom" v-if="item.btnstatus == 2">
-                <div class="five_pointed_star">
-                  <img :src="`${$store.state.imgUrl}start.png`" v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
-                </div>
-                <div class="hc_btc_box">
-                  <div class="hc_coefficient">
-                    <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-                    <span class="span1 fontsize12_400">{{item.hc}}</span>
-                  </div>
-                  <div class="hc_coefficient">
-                    <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-                    <span class="span1 fontsize12_400">{{item.btc}}</span>
-                  </div>
-                </div>
-              </div> -->
               <img
                 :src="item.src"
                 class="lock_swiper_img"
@@ -150,32 +136,36 @@ export default {
       buyHCMoney: 0, //解锁所需hc金额
       proupBtnstatus: false, // 弹窗的确认按钮 是否可以关闭弹窗
       datainfo: {}, // 点击解锁按钮 存储的信息
-      // slotArr: [], // 卡牌组1
       slotArr:[
         {
           level: 1,
           src: `${this.$store.state.imgUrl}level1.png`,
           num: 0,
+          status:true
         },
         {
           level: 2,
           src: `${this.$store.state.imgUrl}level2.png`,
           num: 0,
+          status:true
         },
         {
           level: 3,
           src: `${this.$store.state.imgUrl}level3.png`,
           num: 0,
+          status:true
         },
         {
           level: 4,
           src: `${this.$store.state.imgUrl}level4.png`,
           num: 0,
+          status:true
         },
         {
           level: 5,
           src: `${this.$store.state.imgUrl}level5.png`,
           num: 0,
+          status:true
         },
       ],
       cardsoltArr: [], // 卡牌组2
@@ -218,6 +208,7 @@ export default {
         } else {
           this.slotArr.forEach(item => {
             item.num = 0
+            item.status = false
           })
           this.cardsoltArr = [
             {
@@ -271,6 +262,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 1;
               }).length,
+              status:false
             },
             {
               level: 2,
@@ -278,6 +270,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 2;
               }).length,
+              status:false
             },
             {
               level: 3,
@@ -285,6 +278,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 3;
               }).length,
+              status:false
             },
             {
               level: 4,
@@ -292,6 +286,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 4;
               }).length,
+              status:false
             },
             {
               level: 5,
@@ -299,6 +294,7 @@ export default {
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 5;
               }).length,
+              status:false
             },
           ]
           this.initSwiper(1);
@@ -349,7 +345,7 @@ export default {
           // console.log("解除卡槽res: ", res);
           const etReceipt = await res.wait();
           if (etReceipt.status == 1) {
-            this.$common.selectLang("解除成功", "Unlock Successful", this);
+            this.$common.selectLang("解除成功", "Uninserted successfully", this);
             item.isloading = false;
             this.getCardSlotInfo();
             this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
@@ -617,6 +613,9 @@ export default {
                 color: #ffffff;
                 margin-right: 5px;
               }
+              .card_grade_loading{
+                margin-right: 12px;
+              }
               .details {
                 padding: 0 10px;
                 background: #f5b252;
@@ -831,6 +830,9 @@ export default {
                 .card_grade {
                   color: #ffffff;
                   margin: 0 0.04rem;
+                }
+                .card_grade_loading{
+                  margin-right: 0.1rem;
                 }
                 .details {
                   padding: 0 0.05rem;

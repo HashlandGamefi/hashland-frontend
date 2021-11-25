@@ -75,15 +75,15 @@ export default {
     document.body.removeChild(dummy);
   },
   // 根据浏览器语言  自动切换中英文
-  isLang() {
-    // @ts-ignore
-    const lang = (navigator.systemLanguage? navigator.systemLanguage: navigator.language).substr(0, 2);
-    if (lang == "zh") {
-      return "cn";
-    } else {
-      return "en";
-    }
-  },
+  // isLang() {
+  //   // @ts-ignore
+  //   const lang = (navigator.systemLanguage ? navigator.systemLanguage : navigator.language).substr(0, 2);
+  //   if (lang == "zh") {
+  //     return "cn";
+  //   } else {
+  //     return "en";
+  //   }
+  // },
   // 小数点后边有0  去掉0
   cutZero(old: any) {
     old = old.toString();
@@ -286,7 +286,7 @@ export default {
     calback({ h: H, m: M, s: S });
     endtime = endtime - 1;
   },
-  // 数字中是否带有e,有的话截取固定位数小数(bit),保留e的位数,没有则按正常显示(digit为要保留的小数位)
+  // 数字中是否带有e,有的话截取固定位数小数(bit),保留e的位数,没有则按正常显示(digit为要保留的小数位),(结果已经做过数据格式化,eg:1,00)
   checkNumber(str: string, callback: any, digit = 8, bit = 4) {
     if (str.indexOf("e") != -1) {
       callback(
@@ -334,7 +334,7 @@ export default {
   flowFun(fn: any, that: any) {
     console.log("节流函数");
     let canRun = true; // 通过闭包保存一个标记
-    return function() {
+    return function () {
       if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
       canRun = false; // 立即设置为false
       setTimeout(() => {
@@ -352,48 +352,112 @@ export default {
   // 新版链接
   // 获取用户的所有卡牌信息
   async newgetUserCardInfoFun(account: string) {
-    if(sessionStorage.getItem('count')){
-      sessionStorage.removeItem('count')
+    if (sessionStorage.getItem("count")) {
+      sessionStorage.removeItem("count");
     }
-    return new Promise(resolve => {
-      let count = 1
-      hn().tokensOfOwnerBySize(account, 0, 100000000).then(async res => {
-        //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-        // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
-        if (res[0].length == 0) {
-          store.commit("setCardInfo", JSON.stringify([]));
-          sessionStorage.setItem("setCardInfo", JSON.stringify([]));
-          resolve(count)
-          return;
-        }
-        let infoArr: any = [];
-        res[0].map(async (item: any) => {
-          let obj = {
-            cardID: "",
-            type:'',// 卡牌的种类
-            level: "",
-            hc: "",
-            btc: "",
-            src: "",
-            status: false, // 选中与未选中
-            ismaster: false //主牌设置
-          };
-          obj.cardID = item.toString(); // 卡牌的id
-          obj.level = (await hn().level(item)).toString(); // 等级
-          obj.type = (await hn().getRandomNumber(item, 'class', 1, 4)).toString()
-          let race = await hn().getHashrates(item); // 算力数组
-          // @ts-ignore
-          obj.src = getHnImg(Number(item), obj.level, race);
-          infoArr.push(obj);
-          if(count == res[0].length){
-            console.log('res[0].length: ', res[0].length,count);
-            store.commit("setCardInfo", JSON.stringify(infoArr));
-            sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
-            resolve(count)
+    return new Promise((resolve) => {
+      let count = 1;
+      hn()
+        .tokensOfOwnerBySize(account, 0, 100000000)
+        .then(async (res) => {
+          //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
+          // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
+          if (res[0].length == 0) {
+            store.commit("setCardInfo", JSON.stringify([]));
+            sessionStorage.setItem("setCardInfo", JSON.stringify([]));
+            resolve(count);
+            return;
           }
-          count++
+          let infoArr: any = [];
+          res[0].map(async (item: any) => {
+            let obj = {
+              cardID: "",
+              type: "", // 卡牌的种类
+              level: "",
+              hc: "",
+              btc: "",
+              src: "",
+              status: false, // 选中与未选中
+              ismaster: false, //主牌设置
+            };
+            obj.cardID = item.toString(); // 卡牌的id
+            obj.level = (await hn().level(item)).toString(); // 等级
+            obj.type = (
+              await hn().getRandomNumber(item, "class", 1, 4)
+            ).toString();
+            let race = await hn().getHashrates(item); // 算力数组
+            // @ts-ignore
+            obj.src = getHnImg(Number(item), obj.level, race);
+            infoArr.push(obj);
+            if (count == res[0].length) {
+              store.commit("setCardInfo", JSON.stringify(infoArr));
+              sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
+              resolve(count);
+            }
+            count++;
+          });
         });
-      });
-    })
-  }
+    });
+  },
+  // 一个数乘以1e18   eg:convertNormalToBigNumber('input num',18)
+  convertNormalToBigNumber(num: any, decimals = 18, fix = 0) {
+    return new BigNumber(num)
+      .multipliedBy(new BigNumber(Math.pow(10, decimals)))
+      .minus(fix)
+      .toFixed(0);
+  },
+  /**
+   * 一个数除以1e18,默认保留8位小数
+   */
+  convertBigNumberToNormal(bigNumber:any, decimals = 18,bit = 8) {
+    let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(Math.pow(10, decimals))));
+    return this.getBit(result,bit)
+  },
+  // sdkZutZeroFun(str:any) {
+  //   if (!Boolean(str)) return '0';
+  //   if (!str.includes(".")) return str
+  //   while (str.slice(-1) === "0") {
+  //       str = str.slice(0, -1)
+  //   }
+  //   if (str.endsWith(".")) {
+  //       str = str.slice(0, -1)
+  //   }
+  //   return str
+  // },
+  /**
+   * 国外时间格式
+   */
+  foreignTimeFormat(strDate: any, strFormat?: any) {
+    if (!strDate) return;
+    if (!strFormat) strFormat = "yyyy-MM-dd";
+    switch (typeof strDate) {
+      case "string":
+        strDate = new Date(strDate.replace(/-/g, "/"));
+        break;
+      case "number":
+        strDate = new Date(strDate);
+        break;
+    }
+    if (strDate instanceof Date) {
+      const dict: any = {
+        yyyy: strDate.getFullYear(),
+        M: strDate.getMonth() + 1,
+        d: strDate.getDate(),
+        H: strDate.getHours(),
+        m: strDate.getMinutes(),
+        s: strDate.getSeconds(),
+        MM: ("" + (strDate.getMonth() + 101)).substr(1),
+        dd: ("" + (strDate.getDate() + 100)).substr(1),
+        HH: ("" + (strDate.getHours() + 100)).substr(1),
+        mm: ("" + (strDate.getMinutes() + 100)).substr(1),
+        ss: ("" + (strDate.getSeconds() + 100)).substr(1),
+      };
+      return strFormat.replace(
+        /(yyyy|MM?|dd?|HH?|ss?|mm?)/g,
+        function (m: any) {
+          return dict[m];
+        }
+      );
+    }
+  },
 };

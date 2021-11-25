@@ -17,7 +17,15 @@
       </div> -->
       <div class="apy_title">
         <span class="span1 fontsize12">{{$t("message.nftMining.txt11")}}</span>
-        <span class="span1 span2 fontsize18">{{personalApy}}%</span>
+        <span class="span1 span2 fontsize18">$ {{personalApy}}</span>
+        <div class="img_boxs">
+          <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick" />
+          <div class="img_box_hover" :class="{show_box_hover:ishover}">
+            <div class="content_box fontsize12_400">
+              {{$t("message.nftMining.txt16")}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer_box">
@@ -77,6 +85,7 @@
         <img :src="`${$store.state.imgUrl}hclogo.png`" class="btcimg" />
       </div>
     </div>
+    <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -110,6 +119,7 @@ export default {
   },
   data () {
     return {
+      ishover:false,//显示roi
       btcStarValue:0,// btc 可提取初始值
       hcStarValue:0,// hc 可提取初始值
       timernull:null,//定时器对象
@@ -130,6 +140,9 @@ export default {
     }
   },
   methods: {
+    imgclick(){
+      this.ishover = true
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
@@ -208,24 +221,16 @@ export default {
     },
     // sdk一系列信息
     async getSDKInfo(){
-      // let price = await info.getHNPoolApr(1.5, 60000)
-      // console.log('全网apr: ', price);
       console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
-      let personalapr = await info.getHNPoolUserApr(this.getAccount, 1.5, this.getCoinPrice.btc)
+      let personalapr = await info.getHNPoolRoi(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc).catch(err => {
+        console.log('ROI错误: ', err);
+      })
+      console.log('personalapr: ', personalapr);
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{
         this.personalApy = this.$common.getBit(personalapr, 2)
       }
-      console.log('个人apr: ', personalapr);
-
-      // let hc_num = (await hc().getPoolTokenPerBlock(contract().HNPool) / 1e18).toString() // hc产量
-      // let btc_num = (await hnPool().tokensPerBlock(1) / 1e18).toString() // btc产量
-      // // console.log('hc产量:%s,btc产量:%s ', hc_num,btc_num);
-      // let molecule = hc_num * 28800 * 365 * 10 + btc_num * 28800 * 365 * 400000 // 分子
-      // let cardNum = await hnPool().getHnIdsLength() // 获取池子质押的总卡牌数量
-      // this.apy = this.$common.getBit(molecule / (cardNum * 100))
-      // this.personalApy = 0
     }
   },
   beforeDestroy(){
@@ -276,6 +281,7 @@ export default {
     margin-top: 82px;
     padding: 0 100px;
     .apy_title{
+      position: relative;
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -285,6 +291,42 @@ export default {
       }
       .span2{
         margin-left: 15px;
+      }
+      .img_boxs{
+        display: flex;
+        margin-left: 8px;
+        cursor: pointer;
+        .imgs{
+          width: 18px;
+          object-fit: contain;
+        }
+        .img_box_hover{
+          display: none;
+          position: absolute;
+          top: 35px;
+          left: 0;
+          z-index: 2;
+          width: 308px;
+          height: 153px;
+          box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+          padding: 1px;
+          border-radius: 14px;
+          background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+          .content_box{
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 14px;
+            background: #011730;
+          }
+        }
+        .show_box_hover{
+          display: flex;
+        }
       }
     }
   }
@@ -387,6 +429,13 @@ export default {
       }
     }
   }
+  .positon_img_fixedbox{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 @media screen and (min-width: 1280px) {
   .nft_miningpage{
@@ -436,17 +485,54 @@ export default {
       margin-top: 0.3rem;
       padding:0 0.2rem;
       .apy_title{
+        position: relative;
         width: 100%;
         color: #FFFFFF;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        // justify-content: space-between;
         margin-right: 0;
         .span1{
           color: #FFFFFF;
         }
         .span2{
-          margin-left: 0;
+          margin-left: 0.05rem;
+        }
+        .img_boxs{
+          display: flex;
+          margin-left: 0.08rem;
+          cursor: pointer;
+          .imgs{
+            width: 0.18rem;
+            object-fit: contain;
+          }
+          .img_box_hover{
+            display: none;
+            position: absolute;
+            top: 0.28rem;
+            left: 0;
+            z-index: 2;
+            width: 3rem;
+            height: auto;
+            box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+            padding: 1px;
+            border-radius: 0.14rem;
+            background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+            .content_box{
+              width: 100%;
+              height: 100%;
+              padding: 0.2rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              border-radius: 0.14rem;
+              background: #011730;
+            }
+          }
+          .show_box_hover{
+            display: flex;
+          }
         }
       }
     }

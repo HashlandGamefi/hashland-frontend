@@ -3,8 +3,8 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
-    <div class="title_title fontsize32">转账</div>
-    <div class="title_son1 fontsize12_400">转账说明</div>
+    <div class="title_title fontsize32">{{$t("message.transfer.txt1")}}</div>
+    <div class="title_son1 fontsize12_400">{{$t("message.transfer.txt2")}}</div>
     <div class="content">
       <!-- 几阶对应数量 -->
       <div class="left_content">
@@ -24,11 +24,11 @@
     <!-- 选中卡牌提示数量 -->
     <div class="bottom_txtbox">
       <div class="bottom_txt1">
-        <span class="span1 fontsize22">选中卡牌数量</span>
-        <span class="span2 fontsize22"> {{selectedNUM}}</span>
+        <span class="span1 fontsize22">{{$t("message.transfer.txt3")}}</span>
+        <span class="span2 fontsize22">{{selectedNUM}}</span>
       </div>
       <div class="bottom_txt1">
-        <span class="span1 fontsize12_400">选中卡牌</span>
+        <span class="span1 fontsize12_400">{{$t("message.transfer.txt4")}}</span>
       </div>
     </div>
     <!-- 页面展示数组 -->
@@ -41,9 +41,9 @@
       <NoData v-if="pageshowarr.length == 0 && isshowArr"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
-      <span class="bottom_title fontsize12">一旦转账成功,卡牌将不可追回!</span>
+      <span class="bottom_title fontsize12">{{$t("message.transfer.txt5")}}</span>
       <div class="btn_box fontsize16" @click="synthesisFun">
-        转账<BtnLoading :isloading="synthesisDis"></BtnLoading>
+        {{$t("message.transfer.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
       </div>
     </div>
     <div class="danger_proup" v-if="isdanger">
@@ -51,16 +51,16 @@
         <div class="danger_wallet_box" @click.stop>
           <span class="txt1">{{$t('message.msg')}}</span>
           <span class="txt_danger">!</span>
-          <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{ dangerTxt }}</span></div>
+          <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{$t("message.transfer.txt8")}}</span></div>
           <div class="inputbox">
-            <input type="text fontsize14" :placeholder='$t("message.danger_placeholder")' v-model="dangerTxtModel" class="input" />
+            <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" />
           </div>
           <div class="btn_box">
             <div class="txt3" @click.stop="sureDangerClick">Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading></div>
           </div>
         </div>
+        <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="dangerClick"/>
       </div>
-      <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="dangerClick"/>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -68,12 +68,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hn, contract } from 'hashland-sdk';
+import { getSigner, hn } from 'hashland-sdk';
 export default {
   data () {
     return {
       dangerTxtModel:'',
-      dangerTxt:'Please be sure to confirm the address of the batch transfer, after the transfer, all the cards you selected will not be retrieved.',//转账文字
       isdanger:false,//转账提示框
       isshowArr:false,// 页面暂时不显示nodata
       powerNumber:0,//合成卡牌提升算力
@@ -99,7 +98,12 @@ export default {
         if(this.selectedNUM == 0){
           return false
         }
-        return this.pageshowarr.length == this.selectedNUM
+        if(this.pageshowarr.length >= 100){
+          return 100 == this.selectedNUM
+        }else{
+          return this.pageshowarr.length == this.selectedNUM
+        }
+
       },
       set(newValue) {
         return newValue;
@@ -150,7 +154,7 @@ export default {
               sessionStorage.setItem("count",1)
             }
             this.getUserAllCard(this.rank) // 重新获取最新用户信息
-            this.$common.selectLang('转账成功','转账成功',this)
+            this.$common.selectLang('转账成功','Gifted Successfully',this)
             arr = []
           })
         }else{
@@ -199,15 +203,34 @@ export default {
         this.selectimgArr = []
         this.selectedNUM = 0
       }else{
+        // 最多选择5张
+        this.selectimgArr = []
         this.selectALLBtn = this.selectStatus = true
-        this.pageshowarr.forEach((item,index) => {
-          item.status = true
-          let obj = {}
-          obj.index = index
-          obj.id = item.cardID
-          this.selectimgArr.push(obj)
-        })
-        this.selectedNUM = this.pageshowarr.length
+        if(this.pageshowarr.length < 101){
+          this.pageshowarr.forEach((item,index) => {
+              item.status = true
+              let obj = {}
+              obj.index = index
+              obj.id = item.cardID
+              this.selectimgArr.push(obj)
+          })
+          this.selectedNUM = this.pageshowarr.length
+        }else{
+          this.pageshowarr.forEach(item =>{
+            item.status = false
+          })
+          this.pageshowarr.forEach((item,index) => {
+            if(index <= 99){
+              item.status = true
+              let obj = {}
+              obj.index = index
+              obj.id = item.cardID
+              this.selectimgArr.push(obj)
+            }
+          })
+          this.selectedNUM = this.pageshowarr.filter(item => {return item.status == true}).length
+          this.$common.selectLang('最多100张','Up to 100',this)
+        }
       }
     },
     // 取消按钮(关闭弹窗)
@@ -226,15 +249,33 @@ export default {
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
+      if(this.selectedNUM >= 100){
+        if(data.status){
+          data.status = false
+          for(let i = 0; i < this.selectimgArr.length; i++){
+            if(this.selectimgArr[i].index == index){
+              this.selectimgArr.splice(i,1)
+              this.selectedNUM--
+              this.selectALLBtn = false
+            }
+          }
+        }else{
+          this.$common.selectLang('最多100张','Up to 100',this)
+        }
+        return
+      }
       data.status = !data.status
+
       if(data.status){
+        console.log("status为true的状态")
         this.selectedNUM++
         let obj = {}
         obj.id = data.cardID
         obj.index = index
         this.selectimgArr.push(obj)
       }else{
-        for(var i = 0; i < this.selectimgArr.length; i++){
+        console.log("status为false的状态")
+        for(let i = 0; i < this.selectimgArr.length; i++){
           if(this.selectimgArr[i].index == index){
             this.selectimgArr.splice(i,1)
             this.selectedNUM--
@@ -249,6 +290,9 @@ export default {
       this.selectedNUM = 0 // 选中的卡牌数量
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
       this.rank = data // 当前几阶
+      this.pageshowarr.forEach(item => {
+        item.status = false
+      })
       this.amount = this.cardarr.filter(item => { return item.level == data}).length
       this.pageshowarr = this.cardarr.filter(item => { return item.level == data}).sort((a, b) => {
         return Number(a.type) > Number(b.type) ? 1 : -1;
@@ -346,6 +390,7 @@ export default {
     .right_content{
       display: flex;
       align-items: center;
+      cursor: pointer;
       .selectimg{
         width: 40px;
         object-fit: contain;
@@ -422,7 +467,7 @@ export default {
     border-radius: 79px;
     padding-top: 24px;
     .bottom_title{
-      color: red;
+      color: #ffffff;
     }
     .btn_box {
       width: 274px;
@@ -451,6 +496,7 @@ export default {
     justify-content: center;
     align-items: center;
     .outbox_danger{
+      position: relative;
       width: 580px;
       height: 574px;
       box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
@@ -460,7 +506,7 @@ export default {
       .danger_wallet_box {
         width: 100%;
         height: 100%;
-        padding: 38px 130px 85px 130px;
+        padding: 38px 110px 85px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -475,10 +521,10 @@ export default {
           color: #ffffff;
         }
         .txt_danger{
-          font-size: 107px;
+          font-size: 66px;
           font-weight: 600;
           color: #FFFFFF;
-          line-height: 100px;
+          line-height: 55px;
           background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -530,14 +576,14 @@ export default {
           }
         }
       }
-    }
-    .danger_close{
-      position: absolute;
-      top: 10px;
-      right: 100px;
-      width: 44px;
-      object-fit: contain;
-      cursor: pointer;
+      .danger_close{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 44px;
+        object-fit: contain;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -882,14 +928,14 @@ export default {
             }
           }
         }
-      }
-      .danger_close{
-        position: absolute;
-        top: 0.3rem;
-        right: 0.2rem;
-        width: 0.36rem;
-        object-fit: contain;
-        cursor: pointer;
+        .danger_close{
+          position: absolute;
+          top: 0.1rem;
+          right: 0.1rem;
+          width: 0.36rem;
+          object-fit: contain;
+          cursor: pointer;
+        }
       }
     }
   }

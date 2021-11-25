@@ -61,6 +61,11 @@ const routes: Array<RouteConfig> = [
     name: 'PersonalCenter',
     component: () => import('../views/GameFi/personalCenter.vue')
   },
+  {
+    path: '/hclp',
+    name: 'Hclp',
+    component: () => import('../views/HClp/index.vue')
+  }
 ]
 
 const router = new VueRouter({

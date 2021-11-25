@@ -8,7 +8,7 @@ export default new Vuex.Store({
     menuBG:sessionStorage.getItem("menuBG") || 'no',//导航栏背景是否展示
     CurrenciesInfo:{
       btc:sessionStorage.getItem("btcprice") || 0,
-      hc:1.5
+      hc:sessionStorage.getItem("hcprice") || 0
     },//各种币的价格
     imgUrl:'//cdn.hashland.com/images/',//图片前缀
     userCardInfo:sessionStorage.getItem('setCardInfo') || [],//用户卡牌信息
