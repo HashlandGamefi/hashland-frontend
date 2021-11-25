@@ -11,21 +11,28 @@
         <li class="logo_img"></li>
         <li class="prompt ban_select">仅限于游戏</li>
         <li class="input_box">
-          <div class="input_title">账号</div>
+          <div class="input_title">
+            <span>账号</span>
+            <span v-if="loginForm.prompt1">---{{ loginForm.prompt1 }}</span>
+          </div>
           <div class="input_box_box">
             <input
               type="text"
               placeholder="请输入邮箱"
-              @blur="mailboxVerification()"
+              v-model="loginForm.mailAccount"
             />
           </div>
         </li>
         <li class="input_box">
-          <div class="input_title">密码</div>
+          <div class="input_title">
+            <span>密码</span>
+            <span v-if="loginForm.prompt2">---{{ loginForm.prompt2 }}</span>
+          </div>
           <div class="input_box_box">
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
+              v-model="loginForm.token"
             />
             <div class="eye">
               <div
@@ -51,14 +58,18 @@
             <input
               type="text"
               placeholder="请输入邮箱"
-              @blur="mailboxVerification()"
+              v-model="registerForm.mailAccount"
             />
           </div>
         </li>
         <li class="input_box">
           <div class="input_title">验证码</div>
           <div class="input_box_box">
-            <input type="text" placeholder="请输入验证码" />
+            <input
+              type="text"
+              placeholder="请输入验证码"
+              v-model="registerForm.verifyCode"
+            />
             <div class="verification ban_select" @click="getCode">获取</div>
           </div>
         </li>
@@ -68,6 +79,7 @@
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
+              v-model="registerForm.password"
             />
             <div class="eye">
               <div
@@ -90,6 +102,8 @@
 </template>
 
 <script>
+const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+const pwReg = /^[a-zA-Z0-9_]{6,16}$/; //校验密码：只能输入6-20个字母、数字、下划线
 export default {
   props: {
     showLOrR: { type: String, default: "login" },
@@ -100,13 +114,20 @@ export default {
       isRead: false,
       loginOrRegister: "",
       loginForm: {
-        mailAccount: "123456@163.com",
-        token: "注册时返回的token",
+        mailAccount: "",
+        token: "",
+        // mailAccount: "123456@163.com",
+        // token: "注册时返回的token",
+        prompt1: "",
+        prompt2: "",
       },
       registerForm: {
         mailAccount: "123456@163.com",
         password: "123456",
         verifyCode: "123456",
+        prompt1: "",
+        prompt2: "",
+        prompt3: "",
       },
       bindingForm: {
         mailAccount: "123456@163.com",
@@ -119,14 +140,6 @@ export default {
     this.loginOrRegister = this.showLOrR;
   },
   methods: {
-    /**邮箱验证 */
-    mailboxVerification() {
-      const reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; // 邮箱验证的正则表达式
-      let str = this.email;
-      if (reg.test(str)) {
-      } else {
-      }
-    },
     /**是否显示密码 */
     showPassword() {
       this.isShowPassword = !this.isShowPassword;
@@ -140,19 +153,55 @@ export default {
      * 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 nonce(绑定钱包签名nonce)
      */
     toLogin() {
-      const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&token=${this.loginForm.token}`;
-      this.$axios
-        .get(url)
-        .then((res) => {
-          // console.log("💥 ~ res", res);
-          if (res.data.result === "SUCCESS") {
-            // this.closeLR();
-          } else if (res.data.result === "FAIL") {
-          }
-        })
-        .catch((err) => {
-          // console.log("💥 ~ err", err);
-        });
+      console.log(this.$parent.showLRP);
+      if (this.loginForm.mailAccount) {
+        console.log(mailReg.test(this.loginForm.mailAccount));
+        if (mailReg.test(this.loginForm.mailAccount)) {
+          this.loginForm.prompt1 = "";
+        } else {
+          // 账号不合法
+          this.loginForm.prompt1 = "账号不合法";
+        }
+      } else {
+        // 请填写账号
+        this.loginForm.prompt1 = "请填写账号";
+      }
+      if (this.loginForm.token) {
+        if (pwReg.test(this.loginForm.token)) {
+          this.loginForm.prompt2 = "";
+        } else {
+          // 密码不合法
+          this.loginForm.prompt2 = "密码不合法";
+        }
+      } else {
+        // 请填写密码
+        this.loginForm.prompt2 = "请填写密码";
+      }
+      if (
+        this.loginForm.mailAccount &&
+        mailReg.test(this.loginForm.mailAccount) &&
+        this.loginForm.token &&
+        pwReg.test(this.loginForm.token)
+      ) {
+        console.log("登录");
+        this.$parent.showLRP = 2;
+        sessionStorage.setItem("loginInfo");
+        // sessionStorage.getItem("loginInfo");
+        this.closeLR();
+        // const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&token=${this.loginForm.token}`;
+        // this.$axios
+        //   .get(url)
+        //   .then((res) => {
+        //     // console.log("💥 ~ res", res);
+        //     if (res.data.result === "SUCCESS") {
+        //       this.closeLR();
+        //     } else if (res.data.result === "FAIL") {
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     // console.log("💥 ~ err", err);
+        //   });
+      }
     },
     /**没有账号？立即注册 */
     registerNow() {
@@ -193,19 +242,56 @@ export default {
      * 发送成功时会返回以下参数：mailAccount邮箱账号  password密码 time注册时间 token登录令牌 nonce(绑定钱包签名nonce)
      */
     toRegistered() {
-      const url = `http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-      this.$axios
-        .get(url)
-        .then((res) => {
-          // console.log("💥 ~ res", res);
-          if (res.data.result === "SUCCESS") {
-            // this.loginOrRegister = "login";
-          } else if (res.data.result === "FAIL") {
-          }
-        })
-        .catch((err) => {
-          // console.log("💥 ~ err", err);
-        });
+      if (this.registerForm.mailAccount) {
+        console.log(mailReg.test(this.registerForm.mailAccount));
+        if (mailReg.test(this.registerForm.mailAccount)) {
+          this.registerForm.prompt1 = "";
+        } else {
+          // 账号不合法
+          this.registerForm.prompt1 = "账号不合法";
+        }
+      } else {
+        // 请填写账号
+        this.registerForm.prompt1 = "请填写账号";
+      }
+      if (this.registerForm.verifyCode) {
+        //  验证码
+      } else {
+        // 请填写密码
+        this.registerForm.prompt2 = "请填写验证码";
+      }
+      if (this.registerForm.password) {
+        if (pwReg.test(this.registerForm.password)) {
+          this.registerForm.prompt3 = "";
+        } else {
+          // 密码不合法
+          this.registerForm.prompt3 = "密码不合法";
+        }
+      } else {
+        // 请填写密码
+        this.registerForm.prompt3 = "请填写密码";
+      }
+      if (
+        this.registerForm.mailAccount &&
+        this.registerForm.verifyCode &&
+        this.registerForm.password &&
+        mailReg.test(this.registerForm.mailAccount) &&
+        mailReg.test(this.registerForm.password)
+      ) {
+        const url = `http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+        this.$axios
+          .get(url)
+          .then((res) => {
+            // console.log("💥 ~ res", res);
+            if (res.data.result === "SUCCESS") {
+              // this.loginOrRegister = "login";
+            } else if (res.data.result === "FAIL") {
+            }
+          })
+          .catch((err) => {
+            // console.log("💥 ~ err", err);
+          });
+      }
     },
     /**关闭弹窗 */
     closeLR() {
