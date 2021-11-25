@@ -50,7 +50,17 @@ const routes: Array<RouteConfig> = [
     path: '/invite',
     name: 'Invite',
     component: () => import('../views/Invite/index.vue')
-  }
+  },
+  {
+    path: '/gameFi',
+    name: 'GameFi',
+    component: () => import('../views/GameFi/index.vue')
+  },
+  {
+    path: '/personalCenter',
+    name: 'PersonalCenter',
+    component: () => import('../views/GameFi/personalCenter.vue')
+  },
 ]
 
 const router = new VueRouter({

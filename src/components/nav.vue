@@ -25,15 +25,35 @@
         </li>
       </ul>
     </div>
-    <div class="login_register fontsize18 ban_select">
-      <span @click="openLoginOrRegistered('login')">
-        {{ $t("message.nav.txt10") }}
-      </span>
-      <span> / </span>
-      <span @click="openLoginOrRegistered('registered')">
-        {{ $t("message.nav.txt11") }}
-      </span>
-    </div>
+    <transition name="fade">
+      <div class="login_register fontsize18 ban_select" v-if="showLRP == 1">
+        <span @click="openLoginOrRegistered('login')">
+          {{ $t("message.nav.txt10") }}
+        </span>
+        <span> / </span>
+        <span @click="openLoginOrRegistered('registered')">
+          {{ $t("message.nav.txt11") }}
+        </span>
+      </div>
+      <div class="account_box" v-if="showLRP == 2">
+        <img
+          class="man_img"
+          :src="`${$store.state.imgUrl}personalCenter.png`"
+        />
+        <span>12345678912345</span>
+        <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+        <div class="toolbox">
+          <div @click="toPersonalCenter($event)">
+            <span>个人中心</span>
+            <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+          </div>
+          <div @click="toLogOut">
+            <span>退出登录</span>
+            <img :src="`${$store.state.imgUrl}exit.png`" />
+          </div>
+        </div>
+      </div>
+    </transition>
     <div class="connect_box">
       <div class="walletBox" v-if="getIstrue">
         <div class="connect_triangle">
@@ -56,6 +76,7 @@
         <!-- <img src="../assets/images/accrow.png" class="downimg" /> -->
       </div>
     </div>
+
     <div class="mobile_menu">
       <div class="top_line" :class="{ mobile_border: !InitialStatus }">
         <img
@@ -63,6 +84,7 @@
           class="mobile_imgs"
           @click="menuClick(-1)"
         />
+
         <div class="mobile_right_menu">
           <div class="walletBox" v-if="getIstrue">
             <div class="connect_triangle">
@@ -151,10 +173,7 @@
       @walletClick="walletClick"
     ></WalletComponents>
     <transition name="fade">
-      <LoginAndRegistered
-        v-if="isShowLR"
-        :showLOrR="showLOrR"
-      ></LoginAndRegistered>
+      <LoginRegistered v-if="showLOrR" :showLOrR="showLOrR"></LoginRegistered>
     </transition>
   </div>
 </template>
@@ -162,9 +181,10 @@
 import { mapGetters } from "vuex";
 import { wallet, network } from "hashland-sdk";
 import WalletComponents from "./walletcomponents.vue";
-import LoginAndRegistered from "../views/LoginAndRegistered/loginAndRegistered.vue";
+import LoginRegistered from "../views/GameFi/loginRegistered.vue";
+import * as axios from "axios";
 export default {
-  components: { WalletComponents, LoginAndRegistered },
+  components: { WalletComponents, LoginRegistered },
   inject: ["reload"],
   data() {
     return {
@@ -184,8 +204,8 @@ export default {
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
-      isShowLR: false,
-      showLOrR: "login",
+      showLRP: null, // 不显示登录注册个人中心
+      showLOrR: "", // 登录注册
     };
   },
   computed: {
@@ -196,6 +216,48 @@ export default {
       "getMenuBG",
       "getAccount",
     ]),
+  },
+  watch: {
+    $route: {
+      handler(newRouter) {
+        // console.log("当前路由变化", newRouter.path);
+        if (newRouter.path == "/gameFi") {
+          this.loggedInOrNotLoggedIn();
+        } else if (newRouter.path == "/personalCenter") {
+          this.showLRP = 2;
+        } else {
+          this.showLRP = null;
+        }
+      },
+    },
+  },
+  mounted() {
+    // axios
+    //   .get(
+    //     "http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=123456@163.com"
+    //   )
+    //   .then((res) => {
+    //     console.log("💥 ~ res", res);
+    //     //请求的数据存储在res.data 中
+    //   });
+    if (this.getAccount) {
+      this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
+        console.log("导航栏---页面加载获取用户信息res: ", res1);
+        if (res1 > 1) {
+          sessionStorage.setItem("count", res1);
+        } else {
+          sessionStorage.setItem("count", 1);
+        }
+      });
+    }
+    // console.log("当前路由", this.$route.path);
+    if (this.$route.path == "/gameFi") {
+      this.loggedInOrNotLoggedIn();
+    } else if (this.$route.path == "/personalCenter") {
+      this.showLRP = 2;
+    } else {
+      this.showLRP = null;
+    }
   },
   methods: {
     // 退出钱包
@@ -261,6 +323,9 @@ export default {
           break;
         case 0:
           this.$router.push("/buy");
+          break;
+        case 1:
+          this.$router.push("/gameFi");
           break;
         case 4:
           window.location.href =
@@ -340,18 +405,13 @@ export default {
     async metamaskLink(data) {
       const account = await wallet.getAccount(data); //链接钱包
       this.connectFun(account);
-
       const chainID = await wallet.getChainId(); // 连接网络
       this.networkFun(chainID);
-
       // 监听账号
       wallet.onAccountChanged(this.connectFun);
-
       // 监听网络
       wallet.onChainChanged(this.OnNetworkFun);
-
       wallet.onDisconnect(this.signOutFun);
-
       this.walletdis = false;
     },
     // 移动端展开菜单
@@ -359,26 +419,30 @@ export default {
       this.mobilemenu = !this.mobilemenu;
       this.InitialStatus = !this.InitialStatus;
     },
+    /**是否已登录 */
+    loggedInOrNotLoggedIn() {
+      // 已登录
+      this.showLRP = 2;
+      // 未登录
+      // this.showLRP = 1;
+    },
     /**打开登录与注册 */
     openLoginOrRegistered(str) {
-      this.isShowLR = true;
       this.showLOrR = str;
     },
+    /**关闭登录与注册 */
     closeLoginOrRegistered() {
-      this.isShowLR = false;
+      this.showLOrR = "";
     },
-  },
-  mounted() {
-    if (this.getAccount) {
-      this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
-        console.log("导航栏---页面加载获取用户信息res: ", res1);
-        if (res1 > 1) {
-          sessionStorage.setItem("count", res1);
-        } else {
-          sessionStorage.setItem("count", 1);
-        }
-      });
-    }
+    /**个人中心 */
+    toPersonalCenter(e) {
+      // e.currentTarget.parentElement.style.display = "none";
+      this.$router.push("/personalCenter");
+    },
+    /**退出登录 */
+    toLogOut() {
+      this.$router.push("/gameFi");
+    },
   },
 };
 </script>
@@ -390,10 +454,85 @@ export default {
   opacity: 0;
 }
 .login_register {
+  min-width: 200px;
   position: relative;
-  padding: 0 18px;
   color: #ffffff;
   cursor: pointer;
+  text-align: center;
+}
+.account_box {
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+  cursor: pointer;
+  &:hover,
+  &.active {
+    .accrow_img {
+      transform: rotate(0);
+    }
+    .toolbox {
+      display: block;
+    }
+  }
+  .man_img {
+    width: 25px;
+    height: auto;
+    margin-right: 10px;
+  }
+  .accrow_img {
+    width: 15px;
+    height: auto;
+    transform: rotate(-90deg);
+    transition: all 0.3s;
+  }
+  span {
+    margin-right: 10px;
+    font-size: 12px;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  .toolbox {
+    display: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
+      -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    div {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      &:hover,
+      &.active {
+        span {
+          color: #00e7f0;
+        }
+      }
+      span {
+        font-size: 18px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #ffffff;
+      }
+      img {
+        width: 15px;
+        height: auto;
+        &.accrow_img {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
 }
 .nav_box {
   position: fixed;
@@ -580,7 +719,6 @@ export default {
     .lang_box {
       display: flex;
       align-items: center;
-      margin-left: 55px;
       .cnimg {
         width: 50px;
         object-fit: contain;

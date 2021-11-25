@@ -6,7 +6,7 @@
         :src="`${$store.state.imgUrl}proupclose.png`"
         @click="closeLR"
       />
-      <ul class="in_box" v-if="showLOrR == 'login'">
+      <ul class="in_box" v-if="loginOrRegister == 'login'">
         <li class="header_title ban_select">账号登录</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select">仅限于游戏</li>
@@ -31,12 +31,13 @@
             </div>
           </div>
         </li>
-        <li class="btn login_btn ban_select">登录</li>
+        <li class="btn login_btn ban_select" @click="toLogin">登录</li>
         <li class="login_footer ban_select">
-          <span>没有账号？立即注册</span> <span>忘记密码</span>
+          <span @click="registerNow">没有账号？立即注册</span>
+          <span @click="forgotPassword">忘记密码</span>
         </li>
       </ul>
-      <ul class="in_box" v-if="showLOrR == 'registered'">
+      <ul class="in_box" v-if="loginOrRegister == 'registered'">
         <li class="header_title ban_select">账号注册</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select">账号注册</li>
@@ -50,7 +51,7 @@
           <div class="input_title">验证码</div>
           <div class="input_box_box">
             <input type="text" placeholder="请输入验证码" />
-            <div class="verification ban_select">获取</div>
+            <div class="verification ban_select" @click="getCode">获取</div>
           </div>
         </li>
         <li class="input_box">
@@ -72,7 +73,9 @@
           <div><div v-if="isRead"></div></div>
           <div>我已阅读了《某某某条约》</div>
         </li>
-        <li class="btn registered_btn ban_select">注册</li>
+        <li class="btn registered_btn ban_select" @click="toRegistered">
+          注册
+        </li>
       </ul>
     </div>
   </div>
@@ -81,23 +84,38 @@
 <script>
 export default {
   props: {
-    showLOrR: {
-      type: String,
-      default: "login",
-    },
+    showLOrR: { type: String, default: "login" },
   },
   data() {
     return {
       isShowPassword: false,
       isRead: false,
+      loginOrRegister: "",
     };
   },
   created() {
-    console.log(this.showLOrR);
+    this.loginOrRegister = this.showLOrR;
   },
   methods: {
+    /**是否显示密码 */
     showPassword() {
       this.isShowPassword = !this.isShowPassword;
+    },
+    /**登录 */
+    toLogin() {
+      this.closeLR();
+    },
+    /**没有账号？立即注册 */
+    registerNow() {
+      this.loginOrRegister = "registered";
+    },
+    /**忘记密码 */
+    forgotPassword() {},
+    /**获取验证码 */
+    getCode() {},
+    /**注册 */
+    toRegistered() {
+      this.loginOrRegister = "login";
     },
     /**关闭弹窗 */
     closeLR() {
@@ -121,13 +139,12 @@ export default {
   justify-content: center;
 }
 .outside_box {
+  position: relative;
+  background: linear-gradient(rgba(139, 230, 254, 1), rgba(139, 230, 254, 0));
+  box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38),
+    -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
   border-radius: 14px;
   padding: 1px;
-  position: relative;
-  box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38),
-    -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-  background: linear-gradient(180deg, #8be6fe 0%, rgba(139, 230, 254, 0) 100%);
-
   .close {
     cursor: pointer;
     width: 70px;
@@ -141,7 +158,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 14px;
-  background: #011a31;
+  background: linear-gradient(180deg, #010f20 0%, #021c3b 100%);
   padding: 30px 80px;
   text-align: center;
   > .header_title {
@@ -162,7 +179,6 @@ export default {
     margin: 0 auto;
     margin-bottom: 10px;
   }
-
   .prompt {
     font-size: 12px;
     font-family: PingFangSC-Regular, PingFang SC;
@@ -238,7 +254,7 @@ export default {
       }
       .verification {
         width: 30%;
-        height: calc(38px * 1.2);
+        height: calc(100% * 1.2);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -320,6 +336,56 @@ export default {
     }
   }
 }
-@media screen and (min-width: 981px) and (max-width: 1439px) {
+@media screen and (min-width: 981px) {
+}
+@media screen and (max-width: 980px) {
+  .outside_box {
+    .close {
+      width: 30px;
+      height: auto;
+      top: -60px;
+      right: -10px;
+    }
+    .in_box {
+      padding: 20px 50px;
+      .prompt {
+        font-size: 10px;
+        margin-bottom: 18px;
+      }
+      .input_box {
+        margin-bottom: 18px;
+      }
+      .logo_img {
+        width: 60px;
+        height: 60px;
+      }
+      .input_box_box {
+        width: 226px;
+        height: 38px;
+        .eye {
+          div {
+            width: 25px;
+            height: 100%;
+          }
+        }
+        .verification {
+          width: 100px;
+          height: calc(100% * 1.2);
+          font-size: 14px;
+        }
+      }
+      .btn {
+        width: 170px;
+        height: 40px;
+        line-height: 40px;
+      }
+      .login_btn {
+        margin: 30px auto 20px auto;
+      }
+      .login_footer {
+        font-size: 14px;
+      }
+    }
+  }
 }
 </style>

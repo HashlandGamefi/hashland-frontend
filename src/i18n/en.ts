@@ -41,8 +41,8 @@ export const message = {
     txt7: "NFT Card",
     txt8: "NFT Mining",
     txt9:'邀请',
-    txt10:'登录',
-    txt11:'注册',
+    txt10:'Sign in',
+    txt11:'register',
   },
   footer: {
     // footer
