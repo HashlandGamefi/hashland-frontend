@@ -13,7 +13,11 @@
         <li class="input_box">
           <div class="input_title">账号</div>
           <div class="input_box_box">
-            <input type="text" placeholder="请输入邮箱或手机" />
+            <input
+              type="text"
+              placeholder="请输入邮箱"
+              @blur="mailboxVerification()"
+            />
           </div>
         </li>
         <li class="input_box">
@@ -44,7 +48,11 @@
         <li class="input_box">
           <div class="input_title">邮箱</div>
           <div class="input_box_box">
-            <input type="text" placeholder="请输入邮箱" />
+            <input
+              type="text"
+              placeholder="请输入邮箱"
+              @blur="mailboxVerification()"
+            />
           </div>
         </li>
         <li class="input_box">
@@ -91,19 +99,60 @@ export default {
       isShowPassword: false,
       isRead: false,
       loginOrRegister: "",
+      loginForm: {
+        mailAccount: "123456@163.com",
+        token: "注册时返回的token",
+      },
+      registerForm: {
+        mailAccount: "123456@163.com",
+        password: "123456",
+        verifyCode: "123456",
+      },
+      bindingForm: {
+        mailAccount: "123456@163.com",
+        walletAddress: "jdkvjig98jfidkjfkjf",
+        signature: "8dfdgjdkgjkdjg",
+      },
     };
   },
   created() {
     this.loginOrRegister = this.showLOrR;
   },
   methods: {
+    /**邮箱验证 */
+    mailboxVerification() {
+      const reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; // 邮箱验证的正则表达式
+      let str = this.email;
+      if (reg.test(str)) {
+      } else {
+      }
+    },
     /**是否显示密码 */
     showPassword() {
       this.isShowPassword = !this.isShowPassword;
     },
-    /**登录 */
+    /**
+     * 3、邮箱登录接口
+     * 请求url: http://center服域名:端口号/va_cent/mail_login
+     * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=123456@163.com&token=注册时返回的token
+     * 请求参数：mailAccount 邮箱账号 token 登录令牌
+     * 返回参数：result(值为SUCCESS登录成功 FAIL表示登录失败)  msg(登录失败提示语)
+     * 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 nonce(绑定钱包签名nonce)
+     */
     toLogin() {
-      this.closeLR();
+      const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&token=${this.loginForm.token}`;
+      this.$axios
+        .get(url)
+        .then((res) => {
+          // console.log("💥 ~ res", res);
+          if (res.data.result === "SUCCESS") {
+            // this.closeLR();
+          } else if (res.data.result === "FAIL") {
+          }
+        })
+        .catch((err) => {
+          // console.log("💥 ~ err", err);
+        });
     },
     /**没有账号？立即注册 */
     registerNow() {
@@ -111,15 +160,77 @@ export default {
     },
     /**忘记密码 */
     forgotPassword() {},
-    /**获取验证码 */
-    getCode() {},
-    /**注册 */
+    /**
+     * 1、获取邮箱验证码接口
+     * 请求url: http://center服域名:端口号/va_cent/get_mail_code
+     * 请求示例：http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=123456@163.com
+     * 请求参数：mailAccount 邮箱账号
+     * 返回参数：result(值为SUCCESS 发送邮件验证码成功 FAIL表示发送邮件验证码失败)  msg(发送成功或者失败提示语)
+     */
+    getCode() {
+      const mailAccount = "123456@163.com";
+      const url = `http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=${mailAccount}`;
+      this.$axios
+        .get(url)
+        .then((res) => {
+          // console.log("💥 ~ res", res);
+          if (res.data.result === "SUCCESS") {
+            res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+          } else if (res.data.result === "FAIL") {
+            res.data.msg; // "10分钟内只能发送一次确认码"
+          }
+        })
+        .catch((err) => {
+          // console.log("💥 ~ err", err);
+        });
+    },
+    /**
+     * 2、邮箱账号注册游戏接口
+     * 请求url: http://center服域名:端口号/va_cent/mail_register
+     * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=123456@163.com&password=123456&verifyCode=123456
+     * 请求参数：mailAccount 邮箱账号
+     * 返回参数：result(值为SUCCESS注册成功  FAIL注册失败) msg (注册失败相关提示语)
+     * 发送成功时会返回以下参数：mailAccount邮箱账号  password密码 time注册时间 token登录令牌 nonce(绑定钱包签名nonce)
+     */
     toRegistered() {
-      this.loginOrRegister = "login";
+      const url = `http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+      this.$axios
+        .get(url)
+        .then((res) => {
+          // console.log("💥 ~ res", res);
+          if (res.data.result === "SUCCESS") {
+            // this.loginOrRegister = "login";
+          } else if (res.data.result === "FAIL") {
+          }
+        })
+        .catch((err) => {
+          // console.log("💥 ~ err", err);
+        });
     },
     /**关闭弹窗 */
     closeLR() {
       this.$parent.closeLoginOrRegistered();
+    },
+    /**
+     * 4、绑定钱包接口 请求url: http://center服域名:端口号/va_cent/bind_wallet
+     * 请求示例：http://vov2021.mynatapp.cc/va_cent/bind_wallet?mailAccount=123456@163.com&walletAddress=jdkvjig98jfidkjfkjf&signature=8dfdgjdkgjkdjg
+     * 请求参数：mailAccount 邮箱账号 walletAddress 钱包地址 signature 前端签名
+     * 返回参数：result(值为SUCCESS登录成功 FAIL表示绑定失败)  msg(绑定成功或者失败的提示语)
+     * 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 walletAddress(请求时传入的绑定钱包地址)
+     */
+    bindingThePurse() {
+      const url = `http://vov2021.mynatapp.cc/va_cent/bind_wallet?mailAccount=${this.bindingForm.mailAccount}&walletAddress=${this.bindingForm.walletAddress}&signature=${this.bindingForm.signature}`;
+      this.$axios
+        .get(url)
+        .then((res) => {
+          // console.log("💥 ~ res", res);
+          if (res.data.result === "SUCCESS") {
+          } else if (res.data.result === "FAIL") {
+          }
+        })
+        .catch((err) => {
+          // console.log("💥 ~ err", err);
+        });
     },
   },
 };

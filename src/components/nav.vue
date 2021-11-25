@@ -182,7 +182,6 @@ import { mapGetters } from "vuex";
 import { wallet, network } from "hashland-sdk";
 import WalletComponents from "./walletcomponents.vue";
 import LoginRegistered from "../views/GameFi/loginRegistered.vue";
-import * as axios from "axios";
 export default {
   components: { WalletComponents, LoginRegistered },
   inject: ["reload"],
@@ -232,14 +231,6 @@ export default {
     },
   },
   mounted() {
-    // axios
-    //   .get(
-    //     "http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=123456@163.com"
-    //   )
-    //   .then((res) => {
-    //     console.log("💥 ~ res", res);
-    //     //请求的数据存储在res.data 中
-    //   });
     if (this.getAccount) {
       this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
         console.log("导航栏---页面加载获取用户信息res: ", res1);
@@ -422,9 +413,9 @@ export default {
     /**是否已登录 */
     loggedInOrNotLoggedIn() {
       // 已登录
-      this.showLRP = 2;
+      // this.showLRP = 2;
       // 未登录
-      // this.showLRP = 1;
+      this.showLRP = 1;
     },
     /**打开登录与注册 */
     openLoginOrRegistered(str) {
