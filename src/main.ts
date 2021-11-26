@@ -19,6 +19,9 @@ Vue.prototype.$common = common;
 import Input from '@/components/inputcomponents.vue'
 Vue.component('Input', Input);
 
+import Btn from '@/components/btn.vue'
+Vue.component('Btn', Btn);
+
 import Proup from '@/components/proup.vue'
 Vue.component('Proup', Proup);
 

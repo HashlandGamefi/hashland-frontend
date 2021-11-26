@@ -42,12 +42,13 @@
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
             <span class="span1 fontsize16">{{item.price}} BUSD</span>
           </div>
-          <div class="btn fontsize12" @click="buyCard(item)" v-if="isapprove">
-            购买<BtnLoading :isloading="item.isstatus"></BtnLoading>
+          <div class="btn fontsize12">
+            <!-- 购买<BtnLoading :isloading="item.isstatus"></BtnLoading> -->
+            <Btn :approveloading="item.isstatus" :isloading="item.isstatus" :word="'购买'" ref="mychild" @sonapprove="sonapprove(item)" @dosomething="buyCard(item)"/>
           </div>
-          <div class="btn fontsize12" v-else @click="goApproveClick">
+          <!-- <div class="btn fontsize12" v-else @click="goApproveClick">
             {{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading>
-          </div>
+          </div> -->
         </div>
       </div>
       <NoData v-if="pageshowarr.length == 0"></NoData>
@@ -74,7 +75,8 @@ export default {
       isapprove:false,// 是否授权busd
       buy_isloading:false,// 购买按钮loading
       user_busd_balance:0,//用户busd余额
-      sprtTxt:'asc'
+      sprtTxt:'asc',
+      time_btn:null//判断是否授权按钮的定时器
     }
   },
   computed: {
@@ -85,6 +87,15 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.connetInfo()
+          this.time_btn = setInterval(() => {
+            if(this.pageshowarr.length > 0){
+              clearInterval(this.time_btn)
+              for (let index = 0; index <this.$refs.mychild.length; index++) {
+                this.$refs.mychild[index].isApproveFun('busd',contract().HNMarket);
+              }
+            }
+            console.log("分设备的接口")
+          },1000)
         }
       },
       deep: true,
@@ -99,6 +110,18 @@ export default {
     },
   },
   methods:{
+    sonapprove(item){
+      console.log('父组件页面调用子组件的授权方法,授权busd')
+      for (let index = 0; index < this.pageshowarr.length; index++) {
+        const element = this.pageshowarr[index];
+        element.isstatus = true
+      }
+      // 逻辑问题 需重新整理
+      // for (let index = 0; index <this.$refs.mychild.length; index++) {
+      //   this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
+      // }
+      this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
+    },
     // 购买卡牌
     buyCard(item){
       console.log('item: ', item);

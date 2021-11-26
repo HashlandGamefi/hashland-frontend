@@ -4,6 +4,9 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="title1_txt fontsize32">挂单记录</span>
+    <div class="btn_father">
+      <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/>
+    </div>
     <div class="tab_box">
       <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabIndex = 0" >
         出售中
@@ -16,17 +19,70 @@
         已完成
       </div>
     </div>
+    <div class="show_gameArr">
+      <div class="onebox" v-for="(item,index) in pageshowarr" :key="index">
+        <img :src="item.src" class="img" />
+        <div class="bottom_box">
+          <div class="left_price">
+            <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
+            <span class="span1 fontsize16">{{item.price}} BUSD</span>
+          </div>
+          <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/>
+          <!-- <div class="btn fontsize12" @click="buyCard(item)" v-if="isapprove">
+            购买<BtnLoading :isloading="item.isstatus"></BtnLoading>
+          </div>
+          <div class="btn fontsize12" v-else @click="goApproveClick">
+            {{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading>
+          </div> -->
+        </div>
+      </div>
+      <NoData v-if="pageshowarr.length == 0"></NoData>
+    </div>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { contract } from 'hashland-sdk';
 export default {
   data () {
     return {
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
+      proupDis:false,// 弹窗展示消失变量
       tabIndex: 0,//tab索引
+      pageshowarr:[]
+    }
+  },
+  computed: {
+    ...mapGetters(["getIstrue","getAccount"])
+  },
+  watch:{
+    'getIstrue':{
+      handler: function (newValue) {
+        if(newValue){
+          setTimeout(() => {
+            this.$refs.mychild.isApproveFun('busd',contract().HNUpgrade);
+          },1000)
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   methods:{
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
+    sonapprove(){
+      console.log('父组件页面调用子组件的授权方法,授权busd')
+      this.$refs.mychild.goApproveFun('busd',contract().HNUpgrade)
+    },
+    buy(){
+      console.log('授权成功后,子组件返回的方法,父组件可以做自己的事情了')
+    },
     back(){
       this.$router.go(-1)
     }
@@ -54,6 +110,15 @@ export default {
   .title1_txt {
     color: #ffffff;
     margin-top: 208px;
+  }
+  .btn_father{
+    width: 274px;
+    height: 59px;
+    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-top: 70px;
+    cursor: pointer;
   }
   .tab_box {
     display: flex;
