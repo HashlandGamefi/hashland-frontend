@@ -19,8 +19,11 @@ Vue.prototype.$axios = axios;
 import common from "./utils/common";
 Vue.prototype.$common = common;
 
-import Proup from "@/components/proup.vue";
-Vue.component("Proup", Proup);
+import Input from '@/components/inputcomponents.vue'
+Vue.component('Input', Input);
+
+import Proup from '@/components/proup.vue'
+Vue.component('Proup', Proup);
 
 import NewLoading from '@/components/newloading.vue'
 Vue.component('NewLoading', NewLoading)
