@@ -32,7 +32,7 @@
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
-              v-model="loginForm.token"
+              v-model="loginForm.password"
             />
             <div class="eye">
               <div
@@ -46,9 +46,9 @@
           登录
         </li>
         <li class="login_footer ban_select">
-          <span class="fontsize16" @click="registerNow"
-            >没有账号？立即注册</span
-          >
+          <span class="fontsize16" @click="registerNow">
+            没有账号？立即注册
+          </span>
           <span class="fontsize16" @click="forgotPassword">忘记密码</span>
         </li>
       </ul>
@@ -111,8 +111,10 @@
 </template>
 
 <script>
-const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-const pwReg = /^[a-zA-Z0-9_]{6,16}$/; //校验密码：只能输入6-20个字母、数字、下划线
+const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱校验
+// const mailReg =
+//   /^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$/; // 邮箱校验
+const pwReg = /^[a-zA-Z0-9]{6,16}$/; //校验密码：只能输入6-16个字母、数字 6-16位字符,可包含数字，字母(区分大小写)
 export default {
   props: {
     showLOrR: { type: String, default: "login" },
@@ -123,17 +125,15 @@ export default {
       isRead: false,
       loginOrRegister: "",
       loginForm: {
-        mailAccount: "",
-        token: "",
-        // mailAccount: "123456@163.com",
-        // token: "注册时返回的token",
+        mailAccount: "641160771@qq.com",
+        password: "123456",
         prompt1: "",
         prompt2: "",
       },
       registerForm: {
-        mailAccount: "123456@163.com",
+        mailAccount: "641160771@qq.com",
         password: "123456",
-        verifyCode: "123456",
+        verifyCode: "",
         prompt1: "",
         prompt2: "",
         prompt3: "",
@@ -157,14 +157,13 @@ export default {
      * 3、邮箱登录接口
      * 请求url: http://center服域名:端口号/va_cent/mail_login
      * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=123456@163.com&token=注册时返回的token
+     * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=123456@163.com&password=注册时返回的password
      * 请求参数：mailAccount 邮箱账号 token 登录令牌
      * 返回参数：result(值为SUCCESS登录成功 FAIL表示登录失败)  msg(登录失败提示语)
      * 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 nonce(绑定钱包签名nonce)
      */
     toLogin() {
-      console.log(this.$parent.showLRP);
       if (this.loginForm.mailAccount) {
-        console.log(mailReg.test(this.loginForm.mailAccount));
         if (mailReg.test(this.loginForm.mailAccount)) {
           this.loginForm.prompt1 = "";
         } else {
@@ -175,8 +174,8 @@ export default {
         // 请填写账号
         this.loginForm.prompt1 = "请填写账号";
       }
-      if (this.loginForm.token) {
-        if (pwReg.test(this.loginForm.token)) {
+      if (this.loginForm.password) {
+        if (pwReg.test(this.loginForm.password)) {
           this.loginForm.prompt2 = "";
         } else {
           // 密码不合法
@@ -189,27 +188,20 @@ export default {
       if (
         this.loginForm.mailAccount &&
         mailReg.test(this.loginForm.mailAccount) &&
-        this.loginForm.token &&
-        pwReg.test(this.loginForm.token)
+        this.loginForm.password &&
+        pwReg.test(this.loginForm.password)
       ) {
-        console.log("登录");
-        this.$parent.showLRP = 2;
-        sessionStorage.setItem("loginInfo");
-        // sessionStorage.getItem("loginInfo");
-        this.closeLR();
-        // const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&token=${this.loginForm.token}`;
-        // this.$axios
-        //   .get(url)
-        //   .then((res) => {
-        //     // console.log("💥 ~ res", res);
-        //     if (res.data.result === "SUCCESS") {
-        //       this.closeLR();
-        //     } else if (res.data.result === "FAIL") {
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     // console.log("💥 ~ err", err);
-        //   });
+        const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
+        this.$axios.get(url).then((res) => {
+          console.log("toLogin", res.data);
+          if (res.data.result === "SUCCESS") {
+            this.$parent.showLRP = 2;
+            sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
+            // sessionStorage.getItem("loginInfo");
+            this.closeLR();
+          } else if (res.data.result === "FAIL") {
+          }
+        });
       }
     },
     /**没有账号？立即注册 */
@@ -226,21 +218,15 @@ export default {
      * 返回参数：result(值为SUCCESS 发送邮件验证码成功 FAIL表示发送邮件验证码失败)  msg(发送成功或者失败提示语)
      */
     getCode() {
-      const mailAccount = "123456@163.com";
-      const url = `http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=${mailAccount}`;
-      this.$axios
-        .get(url)
-        .then((res) => {
-          // console.log("💥 ~ res", res);
-          if (res.data.result === "SUCCESS") {
-            res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
-          } else if (res.data.result === "FAIL") {
-            res.data.msg; // "10分钟内只能发送一次确认码"
-          }
-        })
-        .catch((err) => {
-          // console.log("💥 ~ err", err);
-        });
+      const url = `http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=${this.registerForm.mailAccount}`;
+      this.$axios.get(url).then((res) => {
+        console.log("getCode", res.data);
+        if (res.data.result === "SUCCESS") {
+          // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+        } else if (res.data.result === "FAIL") {
+          // res.data.msg; // "10分钟内只能发送一次确认码"
+        }
+      });
     },
     /**
      * 2、邮箱账号注册游戏接口
@@ -252,7 +238,6 @@ export default {
      */
     toRegistered() {
       if (this.registerForm.mailAccount) {
-        console.log(mailReg.test(this.registerForm.mailAccount));
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
         } else {
@@ -280,28 +265,36 @@ export default {
         // 请填写密码
         this.registerForm.prompt3 = "请填写密码";
       }
+      // 106548
+      if (!this.isRead) console.log("请先阅读《某某某条约》");
       if (
         this.registerForm.mailAccount &&
         this.registerForm.verifyCode &&
         this.registerForm.password &&
         mailReg.test(this.registerForm.mailAccount) &&
-        mailReg.test(this.registerForm.password)
+        pwReg.test(this.registerForm.password) &&
+        this.isRead
       ) {
         const url = `http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-        this.$axios
-          .get(url)
-          .then((res) => {
-            // console.log("💥 ~ res", res);
-            if (res.data.result === "SUCCESS") {
-              // this.loginOrRegister = "login";
-            } else if (res.data.result === "FAIL") {
-            }
-          })
-          .catch((err) => {
-            // console.log("💥 ~ err", err);
-          });
+        this.$axios.get(url).then((res) => {
+          console.log("toLogin", res.data);
+          if (res.data.result === "SUCCESS") {
+            // mailAccount: "641160771@qq.com"
+            // nonce: 8614
+            // password: "123456"
+            // platformId: "163783660401000001"
+            // sign: "44ce4c5721ad40237420d511fab090cf"
+            // time: 1637836604015
+            // token: "66b724f77bf796c22ccdef47aea0b4b8"
+            this.loginOrRegister = "login";
+            this.loginForm.mailAccount = res.data.mailAccount;
+            this.loginForm.password = res.data.password;
+          } else if (res.data.result === "FAIL") {
+          }
+        });
       }
     },
+
     /**关闭弹窗 */
     closeLR() {
       this.$parent.closeLoginOrRegistered();
@@ -315,17 +308,12 @@ export default {
      */
     bindingThePurse() {
       const url = `http://vov2021.mynatapp.cc/va_cent/bind_wallet?mailAccount=${this.bindingForm.mailAccount}&walletAddress=${this.bindingForm.walletAddress}&signature=${this.bindingForm.signature}`;
-      this.$axios
-        .get(url)
-        .then((res) => {
-          // console.log("💥 ~ res", res);
-          if (res.data.result === "SUCCESS") {
-          } else if (res.data.result === "FAIL") {
-          }
-        })
-        .catch((err) => {
-          // console.log("💥 ~ err", err);
-        });
+      this.$axios.get(url).then((res) => {
+        // console.log("💥 ~ res", res);
+        if (res.data.result === "SUCCESS") {
+        } else if (res.data.result === "FAIL") {
+        }
+      });
     },
   },
 };

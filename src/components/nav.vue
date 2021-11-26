@@ -56,13 +56,16 @@
             class="man_img"
             :src="`${$store.state.imgUrl}personalCenter.png`"
           />
-          <span class="fontsize12">12345678912345</span>
+          <span class="fontsize12">{{ mailAccount }}</span>
           <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
           <div class="toolbox">
             <div class="inset_box_add">
               <div @click="toPersonalCenter($event)">
                 <span>个人中心</span>
-                <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+                <img
+                  class="accrow_img"
+                  :src="`${$store.state.imgUrl}accrow.png`"
+                />
               </div>
               <div @click="toLogOut">
                 <span>退出登录</span>
@@ -128,7 +131,10 @@
               {{ $t("message.nav.txt10") }}
             </span>
             <span class="fontsize18"> / </span>
-            <span class="fontsize18" @click="openLoginOrRegistered('registered')">
+            <span
+              class="fontsize18"
+              @click="openLoginOrRegistered('registered')"
+            >
               {{ $t("message.nav.txt11") }}
             </span>
           </div>
@@ -142,7 +148,10 @@
             <div class="toolbox">
               <div @click="toPersonalCenter($event)">
                 <span class="fontsize18">个人中心</span>
-                <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+                <img
+                  class="accrow_img"
+                  :src="`${$store.state.imgUrl}accrow.png`"
+                />
               </div>
               <div @click="toLogOut">
                 <span class="fontsize18">退出登录</span>
@@ -233,6 +242,7 @@ export default {
       mobile_menuDis: false, // nfts展开菜单,
       showLRP: null, // 不显示登录注册个人中心
       showLOrR: "", // 登录注册
+      mailAccount: "",
     };
   },
   computed: {
@@ -248,10 +258,11 @@ export default {
     $route: {
       handler(newRouter) {
         // console.log("当前路由变化", newRouter.path);
-        if (newRouter.path == "/gameFi") {
+        if (
+          newRouter.path == "/gameFi" ||
+          newRouter.path == "/personalCenter"
+        ) {
           this.loggedInOrNotLoggedIn();
-        } else if (newRouter.path == "/personalCenter") {
-          this.showLRP = 2;
         } else {
           this.showLRP = null;
         }
@@ -270,10 +281,11 @@ export default {
       });
     }
     // console.log("当前路由", this.$route.path);
-    if (this.$route.path == "/gameFi") {
+    if (
+      this.$route.path == "/gameFi" ||
+      this.$route.path == "/personalCenter"
+    ) {
       this.loggedInOrNotLoggedIn();
-    } else if (this.$route.path == "/personalCenter") {
-      this.showLRP = 2;
     } else {
       this.showLRP = null;
     }
@@ -347,7 +359,7 @@ export default {
           this.$router.push("/gameFi");
           break;
         case 2:
-          this.$router.push('/hclp')
+          this.$router.push("/hclp");
           break;
         case 4:
           window.location.href =
@@ -424,16 +436,14 @@ export default {
       this.walletdis = true;
     },
     // 小狐狸链接
-    async metamaskLink(data){
-      const account = await wallet.getAccount(data) //链接钱包
-      this.connectFun(account)
+    async metamaskLink(data) {
+      const account = await wallet.getAccount(data); //链接钱包
+      this.connectFun(account);
 
-      const chainID = await wallet.getChainId() // 连接网络
-      this.networkFun(chainID)
+      const chainID = await wallet.getChainId(); // 连接网络
+      this.networkFun(chainID);
 
-
-
-      this.walletdis = false
+      this.walletdis = false;
     },
     // 移动端展开菜单
     mobilemenuClick() {
@@ -442,10 +452,13 @@ export default {
     },
     /**是否已登录 */
     loggedInOrNotLoggedIn() {
-      // 已登录
-      this.showLRP = 2;
-      // 未登录
-      // this.showLRP = 1;
+      if (sessionStorage.getItem("loginInfo")) {
+        this.showLRP = 2; // 已登录
+        const loginInfo = JSON.parse(sessionStorage.getItem("loginInfo"));
+        this.mailAccount = loginInfo.mailAccount;
+      } else {
+        this.showLRP = 1; // 未登录
+      }
     },
     /**打开登录与注册 */
     openLoginOrRegistered(str) {
@@ -699,7 +712,7 @@ export default {
         top: 0;
         left: 0;
         right: 0;
-        .inset_box_add{
+        .inset_box_add {
           padding: 10px 20px;
           border-radius: 6px;
           background: rgba(0, 0, 0, 0.2);
@@ -757,8 +770,8 @@ export default {
   .nav_box {
     .menu_box {
       width: calc(100% - 300px);
-      .ul_{
-        li{
+      .ul_ {
+        li {
           padding: 0 15px;
         }
       }
@@ -927,7 +940,7 @@ export default {
           border-left: 2px solid rgba(161, 64, 248, 1);
           border-right: 2px solid rgba(161, 64, 248, 1);
           background: #021c3a;
-          &:hover{
+          &:hover {
             .accrow_img {
               transform: rotate(0);
             }
