@@ -53,7 +53,7 @@
           <span class="txt_danger">!</span>
           <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{$t("message.transfer.txt8")}}</span></div>
           <div class="inputbox">
-            <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" />
+            <Input v-model="dangerTxtModel" :placeholder="$t('message.transfer.danger_placeholder')" :inputvalue="dangerTxtModel"></Input>
           </div>
           <div class="btn_box">
             <div class="txt3" @click.stop="sureDangerClick">Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading></div>
@@ -136,6 +136,7 @@ export default {
     },
     // 确认转账
     sureDangerClick(){
+      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
       if(this.dangerTxtModel == '')return
       this.synthesisDis = true
       let arr = this.selectimgArr.map(item => {
@@ -541,18 +542,10 @@ export default {
         .inputbox {
           width: 100%;
           display: flex;
-          .input {
-            width: 100%;
-            padding:0 15px;
-            height: 37px;
-            border: none;
-            outline: none;
-            font-style: normal;
-            color: #ffffff;
-            box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-            border-radius: 14px;
-            background: transparent;
-          }
+          height: 37px;
+          border-radius: 14px;
+          padding: 0 15px;
+          background: rgba(78, 197, 227, 0.34);
         }
         .btn_box{
           width: 100%;
@@ -893,18 +886,9 @@ export default {
           .inputbox {
             width: 100%;
             display: flex;
-            .input {
-              width: 100%;
-              padding:0 0.1rem;
-              height: 0.37rem;
-              border: none;
-              outline: none;
-              font-style: normal;
-              color: #ffffff;
-              box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-              border-radius: 0.14rem;
-              background: transparent;
-            }
+            height: 0.37rem;
+            padding: 0 0.1rem;
+            border-radius: 0.14rem;
           }
           .btn_box{
             width: 100%;
