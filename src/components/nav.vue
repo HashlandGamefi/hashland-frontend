@@ -240,8 +240,8 @@ export default {
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
-      showLRP: null, // 不显示登录注册个人中心
-      showLOrR: "", // 登录注册
+      showLRP: null, // 登录注册状态
+      showLOrR: "", // 登录注册弹窗
       mailAccount: "",
     };
   },
@@ -257,12 +257,10 @@ export default {
   watch: {
     $route: {
       handler(newRouter) {
-        // console.log("当前路由变化", newRouter.path);
-        if (
-          newRouter.path == "/gameFi" ||
-          newRouter.path == "/personalCenter"
-        ) {
-          this.loggedInOrNotLoggedIn();
+        // console.log("newRouter", newRouter.path);
+        if (newRouter.path == "/gameFi") {
+          this.againAutoLogin();
+        } else if (newRouter.path == "/personalCenter") {
         } else {
           this.showLRP = null;
         }
@@ -280,17 +278,61 @@ export default {
         }
       });
     }
-    // console.log("当前路由", this.$route.path);
-    if (
-      this.$route.path == "/gameFi" ||
-      this.$route.path == "/personalCenter"
-    ) {
-      this.loggedInOrNotLoggedIn();
+
+    // console.log("mounted", this.$route.path);
+    if (this.$route.path == "/") return;
+    if (this.$route.path == "/gameFi") {
+      this.againAutoLogin();
+    } else if (this.$route.path == "/personalCenter") {
     } else {
       this.showLRP = null;
     }
   },
   methods: {
+    /**再次自动登录 */
+    againAutoLogin() {
+      if (localStorage.getItem("loginInfo")) {
+        const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+        if (loginInfo.mailAccount && loginInfo.newToken) {
+          const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
+          this.$axios.get(url).then((res) => {
+            console.log("再次自动登录", res.data);
+            if (res.data.result === "SUCCESS") {
+              this.showLRP = 2; // 已登录
+              this.mailAccount = res.data.mailAccount;
+              localStorage.setItem("loginInfo", JSON.stringify(res.data));
+            } else if (res.data.result === "FAIL") {
+            }
+          });
+        }
+      } else {
+        this.showLRP = 1;
+      }
+    },
+    /**打开登录与注册 */
+    openLoginOrRegistered(str) {
+      this.showLOrR = str;
+      this.InitialStatus = true;
+      this.mobilemenu = false;
+    },
+    /**关闭登录与注册 */
+    closeLoginOrRegistered() {
+      this.showLOrR = "";
+    },
+    /**个人中心 */
+    toPersonalCenter(e) {
+      // e.currentTarget.parentElement.style.display = "none";
+      this.$router.push("/personalCenter");
+    },
+    /**退出登录 */
+    toLogOut() {
+      console.log("退出登录");
+      localStorage.removeItem("loginInfo");
+      this.showLRP = 1; // 未登录
+      if (this.$route.path !== "/gameFi") {
+        this.$router.push("/gameFi");
+      }
+    },
     // 退出钱包
     async signOutFun() {
       sessionStorage.removeItem("setAccount");
@@ -449,35 +491,6 @@ export default {
     mobilemenuClick() {
       this.mobilemenu = !this.mobilemenu;
       this.InitialStatus = !this.InitialStatus;
-    },
-    /**是否已登录 */
-    loggedInOrNotLoggedIn() {
-      if (sessionStorage.getItem("loginInfo")) {
-        this.showLRP = 2; // 已登录
-        const loginInfo = JSON.parse(sessionStorage.getItem("loginInfo"));
-        this.mailAccount = loginInfo.mailAccount;
-      } else {
-        this.showLRP = 1; // 未登录
-      }
-    },
-    /**打开登录与注册 */
-    openLoginOrRegistered(str) {
-      this.showLOrR = str;
-      this.InitialStatus = true;
-      this.mobilemenu = false;
-    },
-    /**关闭登录与注册 */
-    closeLoginOrRegistered() {
-      this.showLOrR = "";
-    },
-    /**个人中心 */
-    toPersonalCenter(e) {
-      // e.currentTarget.parentElement.style.display = "none";
-      this.$router.push("/personalCenter");
-    },
-    /**退出登录 */
-    toLogOut() {
-      this.$router.push("/gameFi");
     },
   },
 };
