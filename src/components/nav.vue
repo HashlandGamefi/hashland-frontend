@@ -61,14 +61,14 @@
           <div class="toolbox">
             <div class="inset_box_add">
               <div @click="toPersonalCenter($event)">
-                <span>个人中心</span>
+                <span class="fontsize18">个人中心</span>
                 <img
                   class="accrow_img"
                   :src="`${$store.state.imgUrl}accrow.png`"
                 />
               </div>
               <div @click="toLogOut">
-                <span>退出登录</span>
+                <span class="fontsize18">退出登录</span>
                 <img :src="`${$store.state.imgUrl}exit.png`" />
               </div>
             </div>
