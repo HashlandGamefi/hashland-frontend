@@ -16,6 +16,9 @@ Vue.prototype.$api = api;
 import common from "./utils/common";
 Vue.prototype.$common = common;
 
+import Input from '@/components/inputcomponents.vue'
+Vue.component('Input', Input);
+
 import Proup from '@/components/proup.vue'
 Vue.component('Proup', Proup);
 
