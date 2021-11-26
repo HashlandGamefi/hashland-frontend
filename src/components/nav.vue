@@ -104,8 +104,8 @@
             </div>
           </div>
           <span class="span1 fontsize18" @click="commonLink" v-else
-            >Connect</span
-          >
+            >Connect
+          </span>
           <img
             :src="`${$store.state.imgUrl}mobilemenu.png`"
             class="mobile_menu_class"
@@ -120,22 +120,26 @@
           />
         </div>
       </div>
-      <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
+      <div
+        class="mobile_fixed_menu"
+        v-if="mobilemenu"
+        @click="mobilemenu = false"
+      >
         <div class="login_register ban_select" v-if="showLRP == 1">
           <span class="fontsize18" @click="openLoginOrRegistered('login')">
             {{ $t("message.nav.txt10") }}
           </span>
           <span class="fontsize18"> / </span>
-          <span
-            class="fontsize18"
-            @click="openLoginOrRegistered('registered')"
-          >
+          <span class="fontsize18" @click="openLoginOrRegistered('registered')">
             {{ $t("message.nav.txt11") }}
           </span>
         </div>
         <div class="account_box" v-if="showLRP == 2" @click.stop>
-          <img class="man_img" :src="`${$store.state.imgUrl}personalCenter.png`" />
-          <span class="fontsize12">12345678912345</span>
+          <img
+            class="man_img"
+            :src="`${$store.state.imgUrl}personalCenter.png`"
+          />
+          <span class="fontsize12">{{ mailAccount }}</span>
           <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
           <div class="toolbox">
             <div @click="toPersonalCenter($event)">
@@ -248,10 +252,17 @@ export default {
   watch: {
     $route: {
       handler(newRouter) {
-        // console.log("newRouter", newRouter.path);
+        // 判断是否已登录
         if (newRouter.path == "/gameFi") {
           this.againAutoLogin();
         } else if (newRouter.path == "/personalCenter") {
+          if (localStorage.getItem("loginInfo")) {
+            const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+            this.showLRP = 2; // 已登录
+            this.mailAccount = loginInfo.mailAccount;
+          } else {
+            this.showLRP = 1;
+          }
         } else {
           this.showLRP = null;
         }
@@ -269,15 +280,23 @@ export default {
         }
       });
     }
-
-    // console.log("mounted", this.$route.path);
-    if (this.$route.path == "/") return;
-    if (this.$route.path == "/gameFi") {
-      this.againAutoLogin();
-    } else if (this.$route.path == "/personalCenter") {
-    } else {
-      this.showLRP = null;
-    }
+    setTimeout(() => {
+      // 判断是否已登录
+      if (this.$route.path == "/") return;
+      if (this.$route.path == "/gameFi") {
+        this.againAutoLogin();
+      } else if (this.$route.path == "/personalCenter") {
+        if (localStorage.getItem("loginInfo")) {
+          const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+          this.showLRP = 2; // 已登录
+          this.mailAccount = loginInfo.mailAccount;
+        } else {
+          this.showLRP = 1;
+        }
+      } else {
+        this.showLRP = null;
+      }
+    }, 500);
   },
   methods: {
     /**再次自动登录 */
@@ -312,12 +331,10 @@ export default {
     },
     /**个人中心 */
     toPersonalCenter(e) {
-      // e.currentTarget.parentElement.style.display = "none";
       this.$router.push("/personalCenter");
     },
     /**退出登录 */
     toLogOut() {
-      console.log("退出登录");
       localStorage.removeItem("loginInfo");
       this.showLRP = 1; // 未登录
       if (this.$route.path !== "/gameFi") {

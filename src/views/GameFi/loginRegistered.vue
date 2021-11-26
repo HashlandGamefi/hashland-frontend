@@ -13,9 +13,11 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">账号</span>
-            <span v-if="loginForm.prompt1">---{{ loginForm.prompt1 }}</span>
+            <span class="fontsize14" v-show="loginForm.prompt1">
+              *{{ loginForm.prompt1 }}
+            </span>
           </div>
-          <div class="input_box_box">
+          <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
             <input
               type="text"
               placeholder="请输入邮箱"
@@ -26,9 +28,11 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">密码</span>
-            <span v-if="loginForm.prompt2">---{{ loginForm.prompt2 }}</span>
+            <span class="fontsize14" v-show="loginForm.prompt2">
+              *{{ loginForm.prompt2 }}
+            </span>
           </div>
-          <div class="input_box_box">
+          <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
@@ -49,8 +53,7 @@
           <span class="fontsize16" @click="registerNow">
             没有账号？立即注册
           </span>
-          <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
-          <span class="fontsize16" @click="bindingThePurse">绑定钱包</span>
+          <span class="fontsize16" @click="forgotPassword">忘记密码</span>
         </li>
       </ul>
       <ul class="in_box register_box" v-if="loginOrRegister == 'registered'">
@@ -58,8 +61,13 @@
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize16">账号注册</li>
         <li class="input_box">
-          <div class="input_title fontsize16">邮箱</div>
-          <div class="input_box_box">
+          <div class="input_title">
+            <span class="fontsize16">邮箱</span>
+            <span class="fontsize14" v-show="registerForm.prompt1">
+              *{{ registerForm.prompt1 }}
+            </span>
+          </div>
+          <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
             <input
               type="text"
               placeholder="请输入邮箱"
@@ -68,8 +76,13 @@
           </div>
         </li>
         <li class="input_box">
-          <div class="input_title fontsize16">验证码</div>
-          <div class="input_box_box">
+          <div class="input_title">
+            <span class="fontsize16">验证码</span>
+            <span class="fontsize14" v-show="registerForm.prompt2">
+              *{{ registerForm.prompt2 }}
+            </span>
+          </div>
+          <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
             <input
               type="text"
               placeholder="请输入验证码"
@@ -81,8 +94,13 @@
           </div>
         </li>
         <li class="input_box">
-          <div class="input_title fontsize16">密码</div>
-          <div class="input_box_box">
+          <div class="input_title">
+            <span class="fontsize16">密码</span>
+            <span class="fontsize14" v-show="registerForm.prompt3">
+              *{{ registerForm.prompt3 }}
+            </span>
+          </div>
+          <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
@@ -127,14 +145,18 @@ export default {
       isRead: false,
       loginOrRegister: "",
       loginForm: {
-        mailAccount: "641160771@qq.com",
-        password: "123456",
+        // mailAccount: "641160771@qq.com",
+        // password: "123456",
+        mailAccount: "",
+        password: "",
         prompt1: "",
         prompt2: "",
       },
       registerForm: {
-        mailAccount: "641160771@qq.com",
-        password: "123456",
+        // mailAccount: "641160771@qq.com",
+        // password: "123456",
+        mailAccount: "",
+        password: "",
         verifyCode: "",
         prompt1: "",
         prompt2: "",
@@ -217,16 +239,6 @@ export default {
           console.log("toRegistered", res.data);
           if (res.data.result === "SUCCESS") {
             this.firstAutoLogin(res.data.mailAccount, res.data.token);
-            // mailAccount: "641160771@qq.com"
-            // nonce: 8614
-            // password: "123456"
-            // platformId: "163783660401000001"
-            // sign: "44ce4c5721ad40237420d511fab090cf"
-            // time: 1637836604015
-            // token: "66b724f77bf796c22ccdef47aea0b4b8"
-            // this.loginOrRegister = "login";
-            // this.loginForm.mailAccount = res.data.mailAccount;
-            // this.loginForm.password = res.data.password;
           } else if (res.data.result === "FAIL") {
           }
         });
@@ -238,13 +250,6 @@ export default {
       this.$axios.get(url).then((res) => {
         console.log("自动登录", res.data);
         if (res.data.result === "SUCCESS") {
-          // const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-          // loginInfo.token = res.data.newToken;
-          // 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 nonce(绑定钱包签名nonce)
-          // mailAccount: "641160771@qq.com"
-          // newToken: "45cf6ea175762dabfd71200fa895ca9c"
-          // nonce: "4296"
-          // result: "SUCCESS"
           localStorage.setItem("loginInfo", JSON.stringify(res.data));
           this.switchingLoginStatus(res.data.mailAccount);
           this.closeLOrR();
@@ -390,9 +395,17 @@ export default {
     margin-bottom: 15px;
     width: fit-content;
     .input_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       color: #ffffff;
-      text-indent: 1em;
+      // text-indent: 1em;
       margin-bottom: 10px;
+      span {
+        &:nth-child(2) {
+          color: red;
+        }
+      }
     }
     .input_box_box {
       width: 320px;
@@ -405,6 +418,9 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      &.active {
+        box-shadow: -2px 1px 8px 0px red;
+      }
       input {
         width: 100%;
         height: 100%;
