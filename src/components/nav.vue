@@ -120,46 +120,37 @@
           />
         </div>
       </div>
-      <div
-        class="mobile_fixed_menu"
-        v-if="mobilemenu"
-        @click="mobilemenu = false"
-      >
-        <transition name="fade">
-          <div class="login_register ban_select" v-if="showLRP == 1">
-            <span class="fontsize18" @click="openLoginOrRegistered('login')">
-              {{ $t("message.nav.txt10") }}
-            </span>
-            <span class="fontsize18"> / </span>
-            <span
-              class="fontsize18"
-              @click="openLoginOrRegistered('registered')"
-            >
-              {{ $t("message.nav.txt11") }}
-            </span>
-          </div>
-          <div class="account_box" v-if="showLRP == 2">
-            <img
-              class="man_img"
-              :src="`${$store.state.imgUrl}personalCenter.png`"
-            />
-            <span class="fontsize12">12345678912345</span>
-            <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
-            <div class="toolbox">
-              <div @click="toPersonalCenter($event)">
-                <span class="fontsize18">个人中心</span>
-                <img
-                  class="accrow_img"
-                  :src="`${$store.state.imgUrl}accrow.png`"
-                />
-              </div>
-              <div @click="toLogOut">
-                <span class="fontsize18">退出登录</span>
-                <img :src="`${$store.state.imgUrl}exit.png`" />
-              </div>
+      <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
+        <div class="login_register ban_select" v-if="showLRP == 1">
+          <span class="fontsize18" @click="openLoginOrRegistered('login')">
+            {{ $t("message.nav.txt10") }}
+          </span>
+          <span class="fontsize18"> / </span>
+          <span
+            class="fontsize18"
+            @click="openLoginOrRegistered('registered')"
+          >
+            {{ $t("message.nav.txt11") }}
+          </span>
+        </div>
+        <div class="account_box" v-if="showLRP == 2" @click.stop>
+          <img class="man_img" :src="`${$store.state.imgUrl}personalCenter.png`" />
+          <span class="fontsize12">12345678912345</span>
+          <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+          <div class="toolbox">
+            <div @click="toPersonalCenter($event)">
+              <span class="fontsize18">个人中心</span>
+              <img
+                class="accrow_img"
+                :src="`${$store.state.imgUrl}accrow.png`"
+              />
+            </div>
+            <div @click="toLogOut">
+              <span class="fontsize18">退出登录</span>
+              <img :src="`${$store.state.imgUrl}exit.png`" />
             </div>
           </div>
-        </transition>
+        </div>
         <div class="mobile_box">
           <ul class="ul_">
             <li
@@ -870,6 +861,7 @@ export default {
             }
             .wallet_hover {
               position: absolute;
+              z-index: 99;
               display: flex;
               flex-direction: column;
               align-items: center;
@@ -931,57 +923,47 @@ export default {
           padding: 0 0.2rem;
         }
         .account_box {
-          min-width: 150px;
+          min-width: 1rem;
           display: flex;
           align-items: center;
-          padding: 0 10px;
+          padding: 0 0.1rem;
           position: relative;
           cursor: pointer;
           border-left: 2px solid rgba(161, 64, 248, 1);
           border-right: 2px solid rgba(161, 64, 248, 1);
           background: #021c3a;
-          &:hover {
-            .accrow_img {
-              transform: rotate(0);
-            }
-            .toolbox {
-              display: block;
-            }
-          }
           .man_img {
-            width: 25px;
+            width: 0.25rem;
             height: auto;
-            margin-right: 10px;
+            margin-right: 0.1rem;
           }
           .accrow_img {
-            width: 15px;
+            width: 0.15rem;
             height: auto;
             transform: rotate(-90deg);
             transition: all 0.3s;
           }
           span {
-            margin-right: 10px;
+            margin-right: 0.1rem;
             color: #ffffff;
           }
           .toolbox {
             display: none;
-            padding: 10px 20px;
+            width: 1.68rem;
+            padding: 0.1rem 0.2rem;
             border-radius: 6px;
-            background: rgba(0, 0, 0, 0.2);
+            background: #00000033;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
               -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
             position: absolute;
-            top: 25px;
+            top: 0.25rem;
             left: 0;
             right: 0;
-            z-index: 999999;
-            margin: auto;
             div {
-              cursor: pointer;
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 10px 0;
+              padding: 0.1rem 0;
               &:hover,
               &.active {
                 span {
@@ -992,13 +974,21 @@ export default {
                 color: #ffffff;
               }
               img {
-                width: 15px;
+                width: 0.15rem;
                 height: auto;
                 &.accrow_img {
                   transform: rotate(-90deg);
                 }
               }
             }
+          }
+        }
+        .account_box:hover {
+          .accrow_img {
+            transform: rotate(0);
+          }
+          .toolbox {
+            display: block;
           }
         }
         .mobile_box {
