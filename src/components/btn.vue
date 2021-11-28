@@ -18,16 +18,14 @@ export default {
       type: Boolean,
       default: false // 授权成功以后的操作按钮loading
     },
-    // approveloading:{
-    //   type: Boolean,
-    //   default: false // 授权成功以后的操作按钮loading
-    // },
-  },
-  data(){
-    return {
-      isapprove:false,// 是否授权
-      approveloading:false, // 授权按钮loading
-    }
+    approveloading:{
+      type: Boolean,
+      default: false // 授权操作按钮loading
+    },
+    isapprove:{
+      type: Boolean,
+      default: false //是否授权
+    },
   },
   computed: {
     ...mapGetters(["getIstrue","getAccount"])
@@ -36,93 +34,99 @@ export default {
     // 判断是否授权
     isApproveFun(type, contractAdrdess) {
       if (type == 'hn') {
-        hn().isApprovedForAll(this.getAccount, contractAdrdess).then(res => {
-          console.log('子组件方法--hn是否授权res: ', res);
-          if (res) {
-            this.isapprove = true
-          } else {
-            this.isapprove = false
-          }
-        }).catch(err => {
-          console.log('子组件方法--hn是否授权err: ', err);
-          this.isapprove = false
+        return new Promise(resolve => {
+          hn().isApprovedForAll(this.getAccount, contractAdrdess).then(res => {
+            // console.log('子组件方法--hn是否授权res: ', res);
+            if (res) {
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--hn是否授权err: ', err);
+            resolve(false)
+          })
         })
+
       } else if(type == 'hc') {
-        hc().allowance(this.getAccount, contractAdrdess).then(res => {
-          console.log('子组件方法--hc是否授权res: ', res);
-          if (res.toString() > 0) {
-            this.isapprove = true;
-          } else {
-            this.isapprove = false;
-          }
-        }).catch(err => {
-          console.log('子组件方法--hc是否授权err: ', err);
-          this.isapprove = false
+        return new Promise(resolve => {
+          hc().allowance(this.getAccount, contractAdrdess).then(res => {
+            // console.log('子组件方法--hc是否授权res: ', res);
+            if (res.toString() > 0) {
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--hc是否授权err: ', err);
+            resolve(false)
+          })
         })
+
       }else if(type == 'busd'){
-        erc20(token().BUSD).allowance(this.getAccount,contractAdrdess).then(res => {
-          console.log('子组件方法--busd是否授权res: ', res);
-          if (res.toString() > 0) {
-            this.isapprove = true;
-          } else {
-            this.isapprove = false;
-          }
-        }).catch(err => {
-          console.log('子组件方法--hc是否授权err: ', err);
-          this.isapprove = false
+        return new Promise(resolve => {
+          erc20(token().BUSD).allowance(this.getAccount,contractAdrdess).then(res => {
+            // console.log('子组件方法--busd是否授权res: ', res);
+            if (res.toString() > 0) {
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--hc是否授权err: ', err);
+            resolve(false)
+          })
         })
       }
     },
     // 去授权
     goApproveFun(type, contractAdrdess) {
-      if(this.approveloading)return
-      this.approveloading = true
       if (type == 'hn') {
-        hn().connect(getSigner()).setApprovalForAll(contractAdrdess, true).then(async res => {
-          console.log('子组件方法--hn去授权res: ', res);
-          const etReceipt = await res.wait();
-          if(etReceipt.status == 1){
-            this.isapprove = true
-            this.approveloading = false
-          }else{
-            this.isapprove = false
-            this.approveloading = false
-          }
-        }).catch(err => {
-          console.log('子组件方法--hn去授权err: ', err);
-          this.approveloading = false
+        return new Promise((resolve,reject) => {
+          hn().connect(getSigner()).setApprovalForAll(contractAdrdess, true).then(async res => {
+            console.log('子组件方法--hn去授权res: ', res);
+            const etReceipt = await res.wait();
+            if(etReceipt.status == 1){
+              resolve(true)
+            }else{
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--busd去授权err: ', err);
+            reject(false)
+          })
         })
       }else if(type == 'hc') {
         const TOKEN_amount = "50000000000000000000000000000000000000000000000000000000000";
-        hc().connect(getSigner()).approve(contractAdrdess, TOKEN_amount).then(async res => {
-          console.log('子组件方法--hc去授权res: ', res);
-          const etReceipt = await res.wait();
-          if(etReceipt.status == 1){
-            this.isapprove = true
-            this.approveloading = false
-          }else{
-            this.isapprove = false
-            this.approveloading = false
-          }
-        }).catch(err => {
-          console.log('子组件方法--hc去授权err: ', err);
-          this.approveloading = false
+        return new Promise((resolve,reject) => {
+          hc().connect(getSigner()).approve(contractAdrdess, TOKEN_amount).then(async res => {
+            console.log('子组件方法--hc去授权res: ', res);
+            const etReceipt = await res.wait();
+            if(etReceipt.status == 1){
+              resolve(true)
+            }else{
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--busd去授权err: ', err);
+            reject(false)
+          })
         })
       }else if(type == 'busd'){
         const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
-        erc20(token().BUSD).connect(getSigner()).approve(contractAdrdess,TOKEN_amount).then(async res => {
-          console.log('子组件方法--busd去授权res: ', res);
-          const etReceipt = await res.wait();
-          if(etReceipt.status == 1){
-            this.isapprove = true
-            this.approveloading = false
-          }else{
-            this.isapprove = false
-            this.approveloading = false
-          }
-        }).catch(err => {
-          console.log('子组件方法--busd去授权err: ', err);
-          this.approveloading = false
+        return new Promise((resolve,reject) => {
+          erc20(token().BUSD).connect(getSigner()).approve(contractAdrdess,TOKEN_amount).then(async res => {
+            console.log('子组件方法--busd去授权res: ', res);
+            const etReceipt = await res.wait();
+            if(etReceipt.status == 1){
+              resolve(true)
+            }else{
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--busd去授权err: ', err);
+            reject(false)
+          })
         })
       }
     },

@@ -43,12 +43,8 @@
             <span class="span1 fontsize16">{{item.price}} BUSD</span>
           </div>
           <div class="btn fontsize12">
-            <!-- 购买<BtnLoading :isloading="item.isstatus"></BtnLoading> -->
-            <Btn :approveloading="item.isstatus" :isloading="item.isstatus" :word="'购买'" ref="mychild" @sonapprove="sonapprove(item)" @dosomething="buyCard(item)"/>
+            <Btn :isapprove="isapprove" :approveloading="item.isstatus" :isloading="item.isstatus" :word="'购买'" ref="mychild" @sonapprove="sonapprove(item)" @dosomething="buyCard(item)"/>
           </div>
-          <!-- <div class="btn fontsize12" v-else @click="goApproveClick">
-            {{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading>
-          </div> -->
         </div>
       </div>
       <NoData v-if="pageshowarr.length == 0"></NoData>
@@ -73,10 +69,9 @@ export default {
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       isapprove:false,// 是否授权busd
-      buy_isloading:false,// 购买按钮loading
       user_busd_balance:0,//用户busd余额
       sprtTxt:'asc',
-      time_btn:null//判断是否授权按钮的定时器
+      time_btn:null,//判断是否授权按钮的定时器
     }
   },
   computed: {
@@ -86,15 +81,23 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          this.connetInfo()
+          this.connectInfo()
+          clearInterval(this.time_btn)
           this.time_btn = setInterval(() => {
             if(this.pageshowarr.length > 0){
               clearInterval(this.time_btn)
               for (let index = 0; index <this.$refs.mychild.length; index++) {
-                this.$refs.mychild[index].isApproveFun('busd',contract().HNMarket);
+                this.$refs.mychild[index].isApproveFun('busd',contract().HNMarket).then(res => {
+                  // console.log("shishou:",res)
+                  if(res){
+                    this.isapprove = true
+                  }else{
+                    this.isapprove = false
+                  }
+                });
               }
             }
-            console.log("分设备的接口")
+            console.log("链接状态为true时判断是否授权")
           },1000)
         }
       },
@@ -111,52 +114,67 @@ export default {
   },
   methods:{
     sonapprove(item){
-      console.log('父组件页面调用子组件的授权方法,授权busd')
+      if(item.isstatus)return
+      console.log('父组件页面调用子组件的授权方法,授权busd',item)
       for (let index = 0; index < this.pageshowarr.length; index++) {
         const element = this.pageshowarr[index];
         element.isstatus = true
       }
-      // 逻辑问题 需重新整理
-      // for (let index = 0; index <this.$refs.mychild.length; index++) {
-      //   this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
-      // }
-      this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
+      this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket).then(res => {
+        if(res){
+          for (let index = 0; index < this.pageshowarr.length; index++) {
+            const element = this.pageshowarr[index];
+            element.isstatus = false
+          }
+          this.isapprove = true
+        }else{
+          for (let index = 0; index < this.pageshowarr.length; index++) {
+            const element = this.pageshowarr[index];
+            element.isstatus = false
+          }
+          this.isapprove = false
+        }
+      }).catch(err => {
+        for (let index = 0; index < this.pageshowarr.length; index++) {
+          const element = this.pageshowarr[index];
+          element.isstatus = false
+        }
+        this.isapprove = false
+      })
+      // this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
     },
     // 购买卡牌
     buyCard(item){
       console.log('item: ', item);
       if(item.isstatus)return
-      erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
-        let user_busd_balance = util.formatEther(res)
-        console.log('user_busd_balance: ', user_busd_balance);
-        if(Number(user_busd_balance) >= Number(item.price)){
-          item.isstatus = true
-          let arr = []
-          arr.push(item.cardID)
-          hnMarket().connect(getSigner()).buy(arr).then(async ele => {
-            console.log('买家批量购买卡牌res: ', ele);
-            const etReceipt = await ele.wait();
-            if(etReceipt.status == 1){
-              this.getMarketCardInfo().then(data => {
-                console.log('data: ', data);
-                if(data){
-                  this.$common.selectLang('购买成功','购买成功',this)
-                  this.getSDKInfo()
-                  this.pageArrInfo()
-                  item.isstatus = false
-                }
-              })
-            }else{
-              item.isstatus = false
-            }
-          }).catch(err => {
+      if(Number(this.user_busd_balance) >= Number(item.price)){
+        item.isstatus = true
+        let arr = []
+        arr.push(item.cardID)
+        hnMarket().connect(getSigner()).buy(arr).then(async ele => {
+          console.log('买家批量购买卡牌res: ', ele);
+          const etReceipt = await ele.wait();
+          if(etReceipt.status == 1){
+            this.getMarketCardInfo().then(data => {
+              console.log('data: ', data);
+              if(data){
+                this.$common.selectLang('购买成功','购买成功',this)
+                this.getSDKInfo()
+                this.pageArrInfo()
+                this.connectInfo()
+                item.isstatus = false
+              }
+            })
+          }else{
             item.isstatus = false
-            console.log('买家批量购买卡牌err: ', err);
-          })
-        }else{
-          this.$common.selectLang('余额不足','余额不足',this)
-        }
-      })
+          }
+        }).catch(err => {
+          item.isstatus = false
+          console.log('买家批量购买卡牌err: ', err);
+        })
+      }else{
+        this.$common.selectLang('余额不足','余额不足',this)
+      }
     },
     // 选择阶数
     selectRankClik(ele,index){
@@ -216,6 +234,12 @@ export default {
         this.amount = res[this.rank - 1]
       })
     },
+    connectInfo(){
+      // 获取用户余额
+      erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
+        this.user_busd_balance = util.formatEther(res)
+      })
+    },
     // 市场页面获取市场出售的所有卡牌
     getMarketCardInfo(){
       // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
@@ -249,36 +273,7 @@ export default {
           })
         })
       })
-    },
-    connetInfo(){
-      // 是否授权
-      erc20(token().BUSD).allowance(this.getAccount,contract().HNMarket).then(res => {
-        // console.log('是否授权res: ', res);
-        if(res.toString() > 0){
-          this.isapprove = true
-        }else{
-          this.isapprove = false
-        }
-      }).catch(err => {
-        console.log('是否授权busderr: ', err);
-        this.isapprove = false
-      })
-    },
-    // 去授权
-    goApproveClick(){
-      if(this.buy_isloading)return
-      this.buy_isloading = true
-      const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
-      erc20(token().BUSD).connect(getSigner()).approve(contract().HNMarket,TOKEN_amount).then(async res => {
-        const etReceipt = await res.wait();
-        if(etReceipt.status == 1){
-          this.isapprove = true
-          this.buy_isloading = false
-        }
-      }).catch(() => {
-        this.buy_isloading = false
-      })
-    },
+    }
   },
   mounted(){
     this.getSDKInfo(this)
