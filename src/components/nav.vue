@@ -137,7 +137,7 @@ export default {
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if(data == 'card'){
-        this.$router.push('/buy')
+        this.$router.push('/buy/0/1')
       }else if(data == 'mining'){
         this.$router.push('/nftmining')
       }
@@ -168,7 +168,7 @@ export default {
           this.$router.push('/home')
           break;
         case 0:
-          this.$router.push('/buy')
+          this.$router.push('/buy/0/1')
           break;
         case 2:
           this.$router.push('/hclp')
@@ -249,9 +249,6 @@ export default {
 
       const chainID = await wallet.getChainId() // 连接网络
       this.networkFun(chainID)
-
-
-
       this.walletdis = false
     },
     // 移动端展开菜单

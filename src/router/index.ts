@@ -17,7 +17,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Home/index.vue')
   },
   {
-    path: '/buy',
+    path: '/buy/:id/:type',
     name: 'Buy',
     component: () => import('../views/Buy/index.vue')
   },
