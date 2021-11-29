@@ -96,7 +96,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBlindBox,hn,erc20,contract,token,util,getSigner } from 'hashland-sdk';
+import { hnBlindBox,hn,erc20,contract,token,util,getSigner,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -124,6 +124,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
+          this.watchResult()
           this.connectGetInfo()
           this.getTokenInfo(this.tokenID)
           setTimeout(() => {
@@ -195,6 +196,36 @@ export default {
         this.buy_isloading = false
       })
     },
+    // 监听盲盒开奖结果
+    watchResult(){
+      let filter = hnBlindBox().filters.SpawnHns(this.getAccount)
+      hnBlindBox().on(filter, (user, boxslengths, boxarrID,events) => {
+        console.log('监听盲盒开奖结果: ', user, boxslengths, boxarrID,events);
+        let str = boxarrID.toString()
+        let arr = str.split(',')
+        let imgarr = []
+        arr.map(async item => {
+          let obj = {}
+          obj.level = (await hn().level(item)).toString() // 卡牌等级
+          let race = await hn().getHashrates(item) // 算力数组
+          obj.src = getHnImg(Number(item),Number(obj.level),race)
+          imgarr.push(obj)
+        })
+        let lastObj = {
+          minserDis:true,
+          boxarr:imgarr,
+          proupTitle:'Purchase Detail',
+        }
+        this.$store.commit("setrewardsInfo", lastObj);
+        this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+          if(res1 > 1){
+            sessionStorage.setItem("count",res1)
+          }else{
+            sessionStorage.setItem("count",1)
+          }
+        })
+      });
+    },
     // 买盲盒
     buyBindCard(){
       if(this.disable)return
@@ -222,6 +253,7 @@ export default {
         this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0
+        this.getTokenInfo(this.tokenID)
       }).catch(err => {
         console.log('购买盒子err: ', err);
         this.buy_isloading = false
