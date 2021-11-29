@@ -4,9 +4,6 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="title1_txt fontsize32">挂单记录</span>
-    <div class="btn_father">
-      <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/>
-    </div>
     <div class="tab_box">
       <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabIndex = 0" >
         出售中
@@ -27,13 +24,13 @@
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
             <span class="span1 fontsize16">{{item.price}} BUSD</span>
           </div>
-          <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/>
-          <!-- <div class="btn fontsize12" @click="buyCard(item)" v-if="isapprove">
-            购买<BtnLoading :isloading="item.isstatus"></BtnLoading>
+          <!-- <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/> -->
+          <div class="btn fontsize12" @click="cancleOrder(item)" v-if="item.issell">
+            撤单<BtnLoading :isloading="item.isloading"></BtnLoading>
           </div>
-          <div class="btn fontsize12" v-else @click="goApproveClick">
-            {{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading>
-          </div> -->
+          <div class="btn fontsize12" @click="collect(item)" v-else>
+            收取<BtnLoading :isloading="item.isloading"></BtnLoading>
+          </div>
         </div>
       </div>
       <NoData v-if="pageshowarr.length == 0"></NoData>
@@ -44,7 +41,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { contract } from 'hashland-sdk';
+import { hnMarket,hn,getHnImg,getSigner } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -62,9 +59,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          setTimeout(() => {
-            this.$refs.mychild.isApproveFun('busd',contract().HNUpgrade);
-          },1000)
+          this.connectInfo()
         }
       },
       deep: true,
@@ -72,20 +67,89 @@ export default {
     }
   },
   methods:{
+    // 取消订单
+    cancleOrder(item){
+      if(item.isloading)return
+      item.isloading = true
+      console.log("取消订单:",item)
+      hnMarket().connect(getSigner()).cancel([item.cardID]).then(async res => {
+        console.log('卖家批量取消出售卡牌res: ', res);
+        const etReceipt = await res.wait();
+          if(etReceipt.status == 1){
+            this.$common.selectLang('撤单成功','撤单成功',this)
+            this.connectInfo()
+            item.isloading = false
+          }else{
+            item.isloading = false
+          }
+      }).catch(() => {
+        item.isloading = false
+      })
+    },
+    // 收取
+    collect(item){
+      if(item.isloading)return
+      item.isloading = true
+      console.log("收取:",item)
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
     },
-    sonapprove(){
-      console.log('父组件页面调用子组件的授权方法,授权busd')
-      this.$refs.mychild.goApproveFun('busd',contract().HNUpgrade)
-    },
-    buy(){
-      console.log('授权成功后,子组件返回的方法,父组件可以做自己的事情了')
-    },
     back(){
       this.$router.go(-1)
-    }
+    },
+    connectInfo(){
+      this.getMarketCardInfo().then(res =>{
+        if(res.istrue){
+          this.pageshowarr = this.pageArrInfo(res.arr)
+        }
+      })
+    },
+    // 市场页面获取市场出售的所有卡牌
+    getMarketCardInfo(){
+      // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
+      return new Promise((resolve) => {
+        hnMarket().getSellerHnIdsBySize(this.getAccount,0,10000000).then(res => {
+          console.log('获取某卖家正在出售卡牌id数组res: ', res);
+          let count = 1
+          let arr = []
+          res[0].map(async item => {
+            let obj = {
+              cardID: "",
+              level: "",
+              type: "", // 卡牌的种类
+              src: "",
+              price:"",
+              issell:false,//是否正在售卖
+              isloading:false//按钮loading
+            }
+            obj.cardID = item.toString() // 卡牌的id
+            obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
+            obj.level = (await hn().level(item)).toString() // 等级
+            obj.price = (await hnMarket().hnPrice(item)).toString()
+            let race = await hn().getHashrates(item) // 算力数组
+            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount, item)
+            // @ts-ignore
+            obj.src = getHnImg(Number(item), obj.level, race);
+            arr.push(obj)
+            if (count == res[0].length) {
+              resolve({'istrue':true,'arr':arr})
+            }
+            count++;
+          })
+        })
+      })
+    },
+    // 页面数组信息--排序
+    pageArrInfo(arr){
+      return arr.sort((a, b) => {
+        if(a.type === b.type){
+　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
+        }
+        return Number(a.type) > Number(b.type) ? 1 : -1;
+      })
+    },
   }
 }
 </script>
@@ -139,6 +203,60 @@ export default {
     .activeTab {
       background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
       box-shadow: 0 9px 2px #23447c;
+    }
+  }
+  .show_gameArr{
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 550px;
+    overflow-y: auto;
+    max-height: 800px;
+    .onebox{
+      width: 228px;
+      display: flex;
+      flex-direction: column;
+      margin-right: 60px;
+      margin-bottom: 57px;
+      .img{
+        width: 228px;
+        object-fit: contain;
+      }
+      .bottom_box{
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+        padding: 4px 8px;
+        .left_price{
+          display: flex;
+          align-items: center;
+          .bsc_img{
+            width: 24px;
+            object-fit: contain;
+            margin-right: 4px;
+          }
+          .span1{
+            color: #ffffff;
+          }
+        }
+        .btn{
+          // width: 65px;
+          padding: 0 10px;
+          height: 22px;
+          border-radius: 15px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background:#DD9005;
+          color: #ffffff;
+          cursor: pointer;
+        }
+      }
     }
   }
 }

@@ -29,7 +29,7 @@
       </div>
       <NoData v-if="pageshowarr.length == 0 && isshowArr"></NoData>
     </div>
-    <div class="Suspension_btnbox">
+    <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <div class="input_border">
         <span class="span1 fontsize16">单价</span>
         <div class="inputbox">
@@ -37,11 +37,8 @@
         </div>
         <span class="span2 fontsize16">BUSD</span>
       </div>
-      <div class="btn_box fontsize16" @click="authorizationClick" v-if="!isApproveHN">
-        NTT {{$t("message.approve")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
-      </div>
-      <div class="btn_box fontsize16" @click="synthesisFun" v-else>
-        挂单<BtnLoading :isloading="synthesisDis"></BtnLoading>
+      <div class="btn_box fontsize16">
+        <Btn :isapprove="isApproveHN" :approveloading="synthesisDis" :isloading="synthesisDis" :word="'挂单'" ref="mychild" @sonapprove="sonapprove" @dosomething="synthesisFun"/>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -97,7 +94,15 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.getUserAllCard(1)
-          this.getSDKInfo()
+          setTimeout(() => {
+            this.$refs.mychild.isApproveFun('hn',contract().HNMarket).then(res => {
+              if(res){
+                this.isApproveHN = true
+              }else{
+                this.isApproveHN = false
+              }
+            })
+          },1000)
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.pageshowarr = []//页面展示的数组
@@ -112,6 +117,24 @@ export default {
     }
   },
   methods: {
+    sonapprove(){
+      if(this.synthesisDis)return
+      this.synthesisDis = true
+      console.log('父组件页面调用子组件的授权方法,授权hn')
+      this.$refs.mychild.goApproveFun('hn',contract().HNMarket).then(res => {
+        if(res){
+          this.isApproveHN = true
+          this.synthesisDis = false
+        }else{
+          this.isApproveHN = false
+          this.synthesisDis = false
+        }
+      }).catch(() => {
+        this.isApproveHN = false
+        this.synthesisDis = false
+      })
+
+    },
     back(){
       this.$router.go(-1)
     },
@@ -186,7 +209,7 @@ export default {
     CloseFun(){
       this.proupDis = false
     },
-    // 售卖
+    // 售卖(是否在质押存在疑问,需确认)
     async synthesisFun(){
       if(this.synthesisDis)return
       if(this.selectimgArr.length < 1){
@@ -249,6 +272,7 @@ export default {
           }
           obj.cardID = item.id
           obj.prices = price
+          // 获取某卖家的某HN卡牌是否正在出售
           obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount, item.id)
           arr_cardinfo.push(obj)
           if (count == arr.length) {
@@ -312,38 +336,6 @@ export default {
     },
     back(){
       this.$router.go(-1)
-    },
-    getSDKInfo(){
-      this.$common.isApproveFun(1,this.getAccount, contract().HNMarket).then(res => {
-        console.log('hn是否授权res: ', res);
-        if (res) {
-          this.isApproveHN = true
-        } else {
-          this.isApproveHN = false
-        }
-      }).catch(err => {
-        console.log('是否授权err: ', err);
-        this.isApproveHN = false
-      })
-    },
-    // 授权操作
-    authorizationClick(){
-      this.synthesisDis = true
-      this.$common.delegatingFun(1, contract().HNMarket).then(async res => {
-        console.log('hn授权res: ', res);
-        const etReceipt = await res.wait();
-        if (etReceipt.status == 1) {
-          this.isApproveHN = true
-          this.synthesisDis = false
-        }else{
-          this.isApproveHN = false
-          this.synthesisDis = false
-        }
-      }).catch(err => {
-        console.log('hn授权err: ', err);
-        this.isApproveHN = false
-        this.hnisloading = false
-      })
     }
   }
 }
