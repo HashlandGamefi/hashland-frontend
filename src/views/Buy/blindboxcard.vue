@@ -562,7 +562,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 0;
+      margin-top:0.9rem;
       min-height: 1rem;
       .bgimg{
         width: 100%;
@@ -572,6 +572,7 @@ export default {
         width: 100%;
         height: auto;
         perspective: 14rem;
+        margin-top: -0.6rem;
         .box-content {
           width: 200px;
           height: 200px;
