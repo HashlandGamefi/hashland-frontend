@@ -272,7 +272,7 @@ export default {
   mounted() {
     if (this.getAccount) {
       this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
-        console.log("导航栏---页面加载获取用户信息res: ", res1);
+        // console.log("导航栏---页面加载获取用户信息res: ", res1);
         if (res1 > 1) {
           sessionStorage.setItem("count", res1);
         } else {
@@ -304,16 +304,20 @@ export default {
       if (localStorage.getItem("loginInfo")) {
         const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
         if (loginInfo.mailAccount && loginInfo.newToken) {
-          const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
-          this.$axios.get(url).then((res) => {
-            console.log("再次自动登录", res.data);
-            if (res.data.result === "SUCCESS") {
-              this.showLRP = 2; // 已登录
-              this.mailAccount = res.data.mailAccount;
-              localStorage.setItem("loginInfo", JSON.stringify(res.data));
-            } else if (res.data.result === "FAIL") {
-            }
-          });
+          const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
+          this.$axios
+            .get(url)
+            .then((res) => {
+              // console.log("再次自动登录：", res.data);
+              if (res.data.result === "SUCCESS") {
+                this.showLRP = 2; // 已登录
+                this.mailAccount = res.data.mailAccount;
+                localStorage.setItem("loginInfo", JSON.stringify(res.data));
+              } else if (res.data.result === "FAIL") {
+                this.$common.selectLang(res.data.msg, res.data.msg, this);
+              }
+            })
+            .catch((err) => {});
         }
       } else {
         this.showLRP = 1;
@@ -429,7 +433,7 @@ export default {
     },
     // 账号链接抽离方法
     connectFun(res) {
-      console.log("账号切换res: ", res);
+      // console.log("账号切换res: ", res);
       if (res.length == 0) {
         this.$store.commit("setAccount", "no");
         sessionStorage.setItem("setAccount", "no");
@@ -440,7 +444,7 @@ export default {
         sessionStorage.setItem("setAccount", res[0]);
         // this.$common.getUserCardInfoFun(res[0])
         this.$common.newgetUserCardInfoFun(res[0]).then((res1) => {
-          console.log("导航栏---账号链接获取用户信息res: ", res1);
+          // console.log("导航栏---账号链接获取用户信息res: ", res1);
           if (res1 > 1) {
             sessionStorage.setItem("count", res1);
           } else {
@@ -475,7 +479,7 @@ export default {
         item.name.toLowerCase() == "coin98" ||
         item.name.toLowerCase() == "bitkeep"
       ) {
-        console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
+        // console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
         this.metamaskLink("metamask");
       } else {
         this.metamaskLink(item.name.toLowerCase());

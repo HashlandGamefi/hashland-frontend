@@ -47,7 +47,6 @@ export default {
   methods: {
     // 弹窗关闭
     dispearfun () {
-      console.log('弹窗关闭')
       this.$emit('closedis')
     },
     // 去绑定

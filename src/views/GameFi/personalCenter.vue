@@ -4,12 +4,12 @@
       <div class="tiile">个人中心</div>
       <div class="tiile title_small">快速修改密码等安全设置</div>
       <ul>
-        <li>
+        <!-- <li>
           <span>昵称：</span>
           <span>{{ nickName }}</span>
-        </li>
+        </li> -->
         <li>
-          <span>邮箱绑定：</span>
+          <span>邮箱地址：</span>
           <span>{{ mailAccount }}</span>
         </li>
         <template v-if="walletAddresses.length > 0">
@@ -24,9 +24,17 @@
         v-if="walletAddresses.length < 3"
         @click="bindingThePurse"
       >
-        点击绑定钱包地址
+        <span>点击绑定钱包地址</span>
+        <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
     </div>
+    <Proup
+      :btntxt="btntxt"
+      :word="word"
+      :proupDis="proupDis"
+      @besurefun="CloseFun"
+      @closedis="CloseFun"
+    ></Proup>
   </div>
 </template>
 
@@ -36,48 +44,83 @@ import { hc, hn, token, getSigner } from "hashland-sdk";
 export default {
   data() {
     return {
+      btntxt: "", // 弹窗页面的确认按钮
+      word: "", //弹窗提示文字
+      proupDis: false, // 弹窗展示消失变量
       nickName: "",
       mailAccount: "",
       walletAddresses: [],
+      bindingloading: false,
     };
   },
   computed: {
     ...mapGetters(["getAccount"]),
   },
   created() {
-    if (!localStorage.getItem("loginInfo")) return;
-    const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-    this.mailAccount = loginInfo.mailAccount;
-    this.walletAddresses = loginInfo.walletAddresses;
+    this.againAutoLogin();
   },
   methods: {
+    /**再次自动登录 */
+    againAutoLogin() {
+      if (!localStorage.getItem("loginInfo")) return;
+      const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+      if (loginInfo.mailAccount && loginInfo.newToken) {
+        const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
+        this.$axios
+          .get(url)
+          .then((res) => {
+            if (res.data.result === "SUCCESS") {
+              this.mailAccount = res.data.mailAccount;
+              this.walletAddresses = res.data.walletAddresses;
+              localStorage.setItem("loginInfo", JSON.stringify(res.data));
+            } else if (res.data.result === "FAIL") {
+              this.$common.selectLang(res.data.msg, res.data.msg, this);
+            }
+          })
+          .catch((err) => {});
+      }
+    },
     /**绑定钱包 */
     bindingThePurse() {
-      if (!localStorage.getItem("loginInfo")) return;
-      const haveThisWallet = this.walletAddresses.some(
-        (item) => item === this.getAccount
-      );
-      if (haveThisWallet)
-        return console.log("这个钱包已经绑定了，请切换钱包！");
+      if (!localStorage.getItem("loginInfo"))
+        return this.$common.selectLang("请先登录！", "请先登录！", this);
+      // const haveThisWallet = this.walletAddresses.some((item) => item === this.getAccount);
+      if (!this.getAccount)
+        return this.$common.selectLang("请连接钱包！", "请链接钱包！", this);
+      if (this.walletAddresses.some((item) => item === this.getAccount))
+        return this.$common.selectLang("请切换钱包！", "请切换钱包！", this);
 
+      if (this.bindingloading) return;
+      this.bindingloading = true;
       const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
       getSigner()
         .signMessage(loginInfo.nonce)
         .then((signature) => {
-          console.log("💥 ~ nonce", loginInfo.nonce);
-          console.log("💥 ~ 邮箱账号", loginInfo.mailAccount);
-          console.log("💥 ~ 钱包地址", this.getAccount);
-          console.log("💥 ~ 前端签名", signature);
-          // walletAddress // 请求时传入的绑定钱包地址  this.getAccount
-          const url = `http://vov2021.mynatapp.cc/va_cent/bind_wallet?mailAccount=${loginInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
+          // console.log("nonce：", loginInfo.nonce);
+          // console.log("邮箱账号：", loginInfo.mailAccount);
+          // console.log("钱包地址：", this.getAccount);
+          // console.log("前端签名：", signature);
+          const url = `http://47.57.191.195:8080/va_cent/bind_wallet?mailAccount=${loginInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
           this.$axios.get(url).then((res) => {
-            console.log("💥 ~ 绑定钱包结果", res.data);
+            this.bindingloading = false;
+            // console.log("绑定钱包结果", res.data);
             if (res.data.result === "SUCCESS") {
+              this.walletAddresses.push(res.data.walletAddress);
+              const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+              loginInfo.walletAddresses = this.walletAddresses;
+              localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
             } else if (res.data.result === "FAIL") {
+              this.$common.selectLang(res.data.msg, res.data.msg, this);
             }
           });
         })
-        .catch((err) => {});
+        .catch((err) => {
+          this.bindingloading = false;
+        });
+    },
+    /**公用提示框（关闭方法） closePopupPrompts */
+    CloseFun() {
+      this.proupDis = false;
     },
   },
 };
@@ -135,15 +178,16 @@ export default {
     }
   }
   .btn_img {
-    width: fit-content;
+    width: 200px;
+    height: 50px;
     margin: 30px auto;
-    padding: 30px 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn1.png");
-    background-size: 100% 100%;
+    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+    background-size: 100%;
     background-repeat: no-repeat;
+    background-position: center;
     cursor: pointer;
     color: #ffffff;
     text-shadow: 0px 2px 4px #a16c28;
@@ -174,7 +218,8 @@ export default {
       }
     }
     .btn_img {
-      padding: 20px 30px;
+      width: 2rem;
+      height: 0.5rem;
     }
   }
 }

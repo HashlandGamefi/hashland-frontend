@@ -17,7 +17,7 @@
               *{{ loginForm.prompt1 }}
             </span>
           </div>
-          <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
+          <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
             <input
               type="text"
               placeholder="请输入邮箱"
@@ -46,8 +46,9 @@
             </div>
           </div>
         </li>
-        <li class="btn login_btn ban_select fontsize14" @click="toLogin">
-          登录
+        <li class="btn login_btn ban_select fontsize14" @click="manuallyLogin">
+          <span>登录</span>
+          <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer ban_select">
           <span class="fontsize16" @click="registerNow">
@@ -89,7 +90,8 @@
               v-model="registerForm.verifyCode"
             />
             <div class="verification ban_select fontsize14" @click="getCode">
-              获取
+              <span>获取</span>
+              <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
           </div>
         </li>
@@ -122,25 +124,39 @@
           class="btn registered_btn ban_select fontsize16"
           @click="toRegistered"
         >
-          注册
+          <span>注册</span>
+          <BtnLoading :isloading="registerbtnloading"></BtnLoading>
         </li>
       </ul>
     </div>
+    <!-- <Proup :btntxt="popupConfirmBtn" :word="popupPromptText" :proupDis="popupShow" @besurefun="closePopupPrompts" @closedis="closePopupPrompts"></Proup> -->
+    <Proup
+      :btntxt="btntxt"
+      :word="word"
+      :proupDis="proupDis"
+      @besurefun="CloseFun"
+      @closedis="CloseFun"
+    ></Proup>
   </div>
 </template>
 
 <script>
-// const mailReg = /^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$/; // 邮箱校验
+// const mailReg = /^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$/; // 后台邮箱校验
 const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱校验
 const pwReg = /^[a-zA-Z0-9]{6,16}$/; //校验密码： 6-16位字符,可包含数字，字母(区分大小写)
 import { mapGetters } from "vuex";
-import { hc, hn, token, getSigner } from "hashland-sdk";
 export default {
   props: {
     showLOrR: { type: String, default: "login" },
   },
   data() {
     return {
+      btntxt: "", // 弹窗页面的确认按钮
+      word: "", //弹窗提示文字
+      proupDis: false, // 弹窗展示消失变量
+      // popupConfirmBtn: "", // 公用提示框的确认按钮
+      // popupPromptText: "", // 公用提示框的提示文字
+      // popupShow: false, // 公用提示框不显示
       isShowPassword: false,
       isRead: false,
       loginOrRegister: "",
@@ -162,6 +178,9 @@ export default {
         prompt2: "",
         prompt3: "",
       },
+      loginbtnloading: false,
+      codebtnloading: false,
+      registerbtnloading: false,
     };
   },
   computed: {
@@ -171,39 +190,9 @@ export default {
     this.loginOrRegister = this.showLOrR;
   },
   methods: {
-    /**
-     * 1、获取邮箱验证码接口
-     * 请求url: http://center服域名:端口号/va_cent/get_mail_code
-     * 请求示例：http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=123456@163.com
-     * 请求参数：mailAccount 邮箱账号
-     * 返回参数：result(值为SUCCESS 发送邮件验证码成功 FAIL表示发送邮件验证码失败)  msg(发送成功或者失败提示语)
-     */
-    /**
-     * 2、邮箱账号注册游戏接口
-     * 请求url: http://center服域名:端口号/va_cent/mail_register
-     * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=123456@163.com&password=123456&verifyCode=123456
-     * 请求参数：mailAccount 邮箱账号
-     * 返回参数：result(值为SUCCESS注册成功  FAIL注册失败) msg (注册失败相关提示语)
-     * 发送成功时会返回以下参数：mailAccount邮箱账号  password密码 time注册时间 token登录令牌 nonce(绑定钱包签名nonce)
-     */
-    /**
-     * 3、邮箱登录接口
-     * 请求url: http://center服域名:端口号/va_cent/mail_login
-     * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=123456@163.com&token=注册时返回的token
-     * 请求示例：http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=123456@163.com&password=注册时返回的password
-     * 请求参数：mailAccount 邮箱账号 token 登录令牌
-     * 返回参数：result(值为SUCCESS登录成功 FAIL表示登录失败)  msg(登录失败提示语)
-     * 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 nonce(绑定钱包签名nonce)
-     */
-    /**
-     * 4、绑定钱包接口 请求url: http://center服域名:端口号/va_cent/bind_wallet
-     * 请求示例：http://vov2021.mynatapp.cc/va_cent/bind_wallet?mailAccount=123456@163.com&walletAddress=jdkvjig98jfidkjfkjf&signature=8dfdgjdkgjkdjg
-     * 请求参数：mailAccount 邮箱账号 walletAddress 钱包地址 signature 前端签名
-     * 返回参数：result(值为SUCCESS登录成功 FAIL表示绑定失败)  msg(绑定成功或者失败的提示语)
-     * 发送成功时会返回以下参数：mailAccount邮箱账号  newToken新的登录令牌 walletAddress(请求时传入的绑定钱包地址)
-     */
     /**注册账号 */
     toRegistered() {
+      if (this.registerbtnloading) return;
       if (this.registerForm.mailAccount) {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
@@ -225,7 +214,13 @@ export default {
       } else {
         this.registerForm.prompt3 = "请填写密码"; // 请填写密码
       }
-      if (!this.isRead) console.log("请先阅读《某某某条约》");
+      if (!this.isRead) {
+        this.$common.selectLang(
+          "请先阅读《某某某条约》",
+          "请先阅读《某某某条约》",
+          this
+        );
+      }
       if (
         this.registerForm.mailAccount &&
         this.registerForm.verifyCode &&
@@ -234,31 +229,44 @@ export default {
         pwReg.test(this.registerForm.password) &&
         this.isRead
       ) {
-        const url = `http://vov2021.mynatapp.cc/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-        this.$axios.get(url).then((res) => {
-          console.log("toRegistered", res.data);
-          if (res.data.result === "SUCCESS") {
-            this.firstAutoLogin(res.data.mailAccount, res.data.token);
-          } else if (res.data.result === "FAIL") {
-          }
-        });
+        this.registerbtnloading = true;
+        const url = `http://47.57.191.195:8080/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+        this.$axios
+          .get(url)
+          .then((res) => {
+            // console.log("注册账号：", res.data);
+            this.registerbtnloading = false;
+            if (res.data.result === "SUCCESS") {
+              this.firstAutoLogin(res.data.mailAccount, res.data.token);
+            } else if (res.data.result === "FAIL") {
+              this.$common.selectLang(res.data.msg, res.data.msg, this);
+            }
+          })
+          .catch((err) => {
+            this.registerbtnloading = false;
+          });
       }
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
     firstAutoLogin(mailAccount, token) {
-      const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${mailAccount}&token=${token}`;
-      this.$axios.get(url).then((res) => {
-        console.log("自动登录", res.data);
-        if (res.data.result === "SUCCESS") {
-          localStorage.setItem("loginInfo", JSON.stringify(res.data));
-          this.switchingLoginStatus(res.data.mailAccount);
-          this.closeLOrR();
-        } else if (res.data.result === "FAIL") {
-        }
-      });
+      const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${mailAccount}&token=${token}`;
+      this.$axios
+        .get(url)
+        .then((res) => {
+          // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
+          if (res.data.result === "SUCCESS") {
+            localStorage.setItem("loginInfo", JSON.stringify(res.data));
+            this.switchingLoginStatus(res.data.mailAccount);
+            this.closeLOrR();
+          } else if (res.data.result === "FAIL") {
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
+          }
+        })
+        .catch((err) => {});
     },
     /**手动登录，使用账号和密码 */
-    toLogin() {
+    manuallyLogin() {
+      if (this.loginbtnloading) return;
       if (this.loginForm.mailAccount) {
         if (mailReg.test(this.loginForm.mailAccount)) {
           this.loginForm.prompt1 = "";
@@ -283,17 +291,25 @@ export default {
         mailReg.test(this.loginForm.mailAccount) &&
         pwReg.test(this.loginForm.password)
       ) {
-        const url = `http://vov2021.mynatapp.cc/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
-        this.$axios.get(url).then((res) => {
-          console.log("toLogin", res.data);
-          if (res.data.result === "SUCCESS") {
-            localStorage.setItem("loginInfo", JSON.stringify(res.data));
-            this.switchingLoginStatus(res.data.mailAccount);
-            this.closeLOrR();
-            this.$router.push("/personalCenter");
-          } else if (res.data.result === "FAIL") {
-          }
-        });
+        this.loginbtnloading = true;
+        const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
+        this.$axios
+          .get(url)
+          .then((res) => {
+            // console.log("手动登录，使用账号和密码：", res.data);
+            this.loginbtnloading = false;
+            if (res.data.result === "SUCCESS") {
+              localStorage.setItem("loginInfo", JSON.stringify(res.data));
+              this.switchingLoginStatus(res.data.mailAccount);
+              this.closeLOrR();
+              this.$router.push("/personalCenter");
+            } else if (res.data.result === "FAIL") {
+              this.$common.selectLang(res.data.msg, res.data.msg, this);
+            }
+          })
+          .catch((err) => {
+            this.loginbtnloading = false;
+          });
       }
     },
 
@@ -302,20 +318,44 @@ export default {
       this.loginOrRegister = "registered";
     },
     /**忘记密码 */
-    forgotPassword() {},
+    forgotPassword() {
+      this.$common.selectLang("忘记密码", "Forgot Password", this);
+    },
     /**获取验证码 */
     getCode() {
-      const url = `http://vov2021.mynatapp.cc/va_cent/get_mail_code?mailAccount=${this.registerForm.mailAccount}`;
-      this.$axios.get(url).then((res) => {
-        console.log("getCode", res.data);
-        if (res.data.result === "SUCCESS") {
-          // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
-        } else if (res.data.result === "FAIL") {
-          // res.data.msg; // "10分钟内只能发送一次确认码"
+      if (this.registerForm.mailAccount) {
+        if (mailReg.test(this.registerForm.mailAccount)) {
+          this.registerForm.prompt1 = "";
+        } else {
+          this.registerForm.prompt1 = "账号不合法"; // 账号不合法
         }
-      });
+      } else {
+        this.registerForm.prompt1 = "请填写账号"; // 请填写账号
+      }
+      if (
+        this.registerForm.mailAccount &&
+        mailReg.test(this.registerForm.mailAccount)
+      ) {
+        if (this.codebtnloading) return;
+        this.codebtnloading = true;
+        const url = `http://47.57.191.195:8080/va_cent/get_mail_code?mailAccount=${this.registerForm.mailAccount}`;
+        this.$axios
+          .get(url)
+          .then((res) => {
+            // console.log("获取验证码：", res.data);
+            this.codebtnloading = false;
+            if (res.data.result === "SUCCESS") {
+              // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+            } else if (res.data.result === "FAIL") {
+              // res.data.msg; // "10分钟内只能发送一次确认码"
+            }
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
+          })
+          .catch((err) => {
+            this.codebtnloading = true;
+          });
+      }
     },
-
     /**是否显示密码 */
     showPassword() {
       this.isShowPassword = !this.isShowPassword;
@@ -328,6 +368,10 @@ export default {
     /**关闭登录与注册 */
     closeLOrR() {
       this.$parent.showLOrR = "";
+    },
+    /**公用提示框（关闭方法） closePopupPrompts */
+    CloseFun() {
+      this.proupDis = false;
     },
   },
 };
@@ -399,11 +443,10 @@ export default {
       align-items: center;
       justify-content: space-between;
       color: #ffffff;
-      // text-indent: 1em;
       margin-bottom: 10px;
       span {
         &:nth-child(2) {
-          color: red;
+          color: #fb3e3e;
         }
       }
     }
@@ -419,7 +462,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       &.active {
-        box-shadow: -2px 1px 8px 0px red;
+        box-shadow: -2px 1px 8px 0px #fb3e3e;
       }
       input {
         width: 100%;
@@ -457,7 +500,7 @@ export default {
         }
       }
       .verification {
-        width: 30%;
+        width: 40%;
         height: calc(100% * 1.2);
         display: flex;
         align-items: center;
@@ -501,15 +544,15 @@ export default {
   .btn {
     width: 228px;
     height: 56px;
-    line-height: 56px;
-    text-align: center;
+    color: #ffffff;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    cursor: pointer;
-    color: #ffffff;
-    letter-spacing: 1px;
     text-shadow: -1px 4px 4px #723104;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .login_btn {
     margin: 50px auto 30px auto;
@@ -563,7 +606,7 @@ export default {
           }
         }
         .verification {
-          width: 100px;
+          width: 1.15rem;
           height: calc(100% * 1.2);
         }
       }
