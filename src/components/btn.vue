@@ -33,6 +33,7 @@ export default {
   methods:{
     // 判断是否授权
     isApproveFun(type, contractAdrdess) {
+      console.log('当前币种%s是否授权: ', type);
       if (type == 'hn') {
         return new Promise(resolve => {
           hn().isApprovedForAll(this.getAccount, contractAdrdess).then(res => {
@@ -47,7 +48,6 @@ export default {
             resolve(false)
           })
         })
-
       } else if(type == 'hc') {
         return new Promise(resolve => {
           hc().allowance(this.getAccount, contractAdrdess).then(res => {
@@ -62,10 +62,9 @@ export default {
             resolve(false)
           })
         })
-
-      }else if(type == 'busd'){
+      }else{
         return new Promise(resolve => {
-          erc20(token().BUSD).allowance(this.getAccount,contractAdrdess).then(res => {
+          erc20(token()[type]).allowance(this.getAccount,contractAdrdess).then(res => {
             // console.log('子组件方法--busd是否授权res: ', res);
             if (res.toString() > 0) {
               resolve(true)
@@ -112,10 +111,10 @@ export default {
             reject(false)
           })
         })
-      }else if(type == 'busd'){
+      }else{
         const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
         return new Promise((resolve,reject) => {
-          erc20(token().BUSD).connect(getSigner()).approve(contractAdrdess,TOKEN_amount).then(async res => {
+          erc20(token()[type]).connect(getSigner()).approve(contractAdrdess,TOKEN_amount).then(async res => {
             console.log('子组件方法--busd去授权res: ', res);
             const etReceipt = await res.wait();
             if(etReceipt.status == 1){
