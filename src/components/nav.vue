@@ -260,7 +260,7 @@ export default {
   mounted(){
     if(this.getAccount){
       this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-        console.log('导航栏---页面加载获取用户信息res: ', res1);
+        console.log('导航栏页面--页面刷新获取用户持有的卡牌总数量: ', res1);
         if(res1 > 1){
           sessionStorage.setItem("count",res1)
         }else{

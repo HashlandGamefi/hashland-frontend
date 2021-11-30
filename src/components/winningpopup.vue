@@ -8,7 +8,13 @@
     />
     <div class="boxarr">
       <div class="onebox" v-for="(item, index) in boxarr" :key="index">
-        <img :src="item.src" class="imgcard" />
+        <img
+          :src="
+            item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`
+          "
+          class="imgcard"
+          :class="{ blindBox_drop_anim: item.loading }"
+        />
       </div>
     </div>
     <div class="Suspension_btnbox">
@@ -38,6 +44,22 @@ export default {
       default: ''
     }
   },
+  watch: {
+    'boxarr': {
+      handler: function (newValue) {
+        newValue.map(item => {
+          let newImg = new Image()
+          newImg.src = item.src
+          newImg.onload = () => { // 图片加载成功后把地址给原来的img
+            // console.log("图片加载完成")
+            item.loading = true
+          }
+        })
+      },
+      deep: true,
+      immediate: true
+    },
+  },
   methods: {
     // 弹窗关闭
     closepage () {
@@ -62,6 +84,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadein 5s linear 1;
   .title {
     margin-top: 50px;
     width: 100%;
@@ -97,6 +120,9 @@ export default {
       .imgcard {
         width: 100%;
         object-fit: contain;
+      }
+      .blindBox_drop_anim {
+        animation: blindBox_drop_anim 0.6s ease-in;
       }
     }
   }
@@ -135,6 +161,23 @@ export default {
     }
   }
 }
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes blindBox_drop_anim {
+  0% {
+    transform: translateY(-80px) rotate(720deg) scale(0.1);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
 @media screen and (min-width: 1280px) {
   .record_page {
     .boxarr {
@@ -161,7 +204,7 @@ export default {
     }
     .boxarr {
       width: 100%;
-      padding:0 0.2rem;
+      padding: 0 0.2rem;
       display: flex;
       align-items: center;
       justify-content: center;

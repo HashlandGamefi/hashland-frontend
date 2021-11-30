@@ -33,7 +33,7 @@ export default {
   methods:{
     // 判断是否授权
     isApproveFun(type, contractAdrdess) {
-      console.log('type: ', type);
+      console.log('当前币种%s是否授权: ', type);
       if (type == 'hn') {
         return new Promise(resolve => {
           hn().isApprovedForAll(this.getAccount, contractAdrdess).then(res => {

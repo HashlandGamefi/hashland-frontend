@@ -247,7 +247,6 @@ export default {
       console.log("合成结果监听方法")
       let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
       hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
-        // this.$common.getUserCardInfoFun(this.getAccount) // 全局更新数据
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
@@ -261,7 +260,7 @@ export default {
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.src = getHnImg(Number(item),Number(obj.level),race)
-          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
+          obj.loading = false
           imgarr.push(obj)
         })
         let lastObj = {

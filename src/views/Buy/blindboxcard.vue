@@ -139,7 +139,7 @@ export default {
               type = 'HT'
             }
             this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
-              console.log('type: ', type);
+              console.log('当前页面的币种: ', type);
               if(res){
                 this.isapprove = true
               }else{
@@ -153,14 +153,13 @@ export default {
       immediate: true
     },
     $route(to){
-      console.log('盲盒页面to: ', to);
       this.tokenID = to.params.type
       this.getTokenInfo(to.params.type)
     }
   },
   methods: {
     inputchangeFun() {
-      console.log("输入框改变事件")
+      // console.log("输入框改变事件")
       if(this.boxnums == ''){
         this.total = 0
       }else if(Number(this.boxnums) > Number(this.maxbuy)){
@@ -209,6 +208,7 @@ export default {
           obj.level = (await hn().level(item)).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.src = getHnImg(Number(item),Number(obj.level),race)
+          obj.loading = false
           imgarr.push(obj)
         })
         let lastObj = {
@@ -249,7 +249,6 @@ export default {
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        // this.watchResult()
         this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0
