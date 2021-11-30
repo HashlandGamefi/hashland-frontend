@@ -270,7 +270,7 @@ export default {
     },
     // 获取某代币信息
     getTokenInfo(tokenID){
-      console.log('获取某代币信息',tokenID)
+      // console.log('获取某代币信息',tokenID)
       hnBlindBox().getBoxesLeftSupply(tokenID).then(res => {
         this.surplusNums = res
       })
@@ -278,12 +278,12 @@ export default {
         this.cardNumber = data.toString()
       })
       hnBlindBox().getTokenInfo(tokenID).then(res => {
-        console.log('获取某代币信息res: ', res);
+        // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
         this.maxbuy = res[3].toString()
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
-            console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
+            // console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
             if(istrue){
               this.disable = false
             }else{

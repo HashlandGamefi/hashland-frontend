@@ -9,24 +9,6 @@
     <div class="boxarr">
       <div class="onebox" v-for="(item, index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <!-- <div class="bottom">
-          <div class="five_pointed_star">
-            <img
-              :src="`${$store.state.imgUrl}start.png`"
-              v-for="(item1, index1) in Number(item.level)"
-              :key="index1"
-              class="five_start_img"
-            />
-          </div>
-          <div class="hc_coefficient">
-            <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-            <span class="span1 fontsize12_400">{{ item.hc }}</span>
-          </div>
-          <div class="hc_coefficient">
-            <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-            <span class="span1 fontsize12_400">{{ item.btc }}</span>
-          </div>
-        </div> -->
       </div>
     </div>
     <div class="Suspension_btnbox">
@@ -116,38 +98,6 @@ export default {
         width: 100%;
         object-fit: contain;
       }
-      .bottom {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        display: flex;
-        align-items: center;
-        padding: 10px 8px;
-        transform: translateX(-50%) scale(0.5);
-        .five_pointed_star {
-          display: flex;
-          align-items: center;
-          .five_start_img {
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_coefficient {
-          display: flex;
-          align-items: center;
-          background: #302f2e;
-          box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-          border-radius: 4px;
-          margin-right: 5px;
-          .imgcard {
-            width: 43px;
-            object-fit: contain;
-          }
-          .span1 {
-            color: #ffffff;
-          }
-        }
-      }
     }
   }
   .Suspension_btnbox {
@@ -231,38 +181,6 @@ export default {
         .imgcard {
           width: 100%;
           object-fit: contain;
-        }
-        .bottom {
-          position: absolute;
-          top: 0;
-          left: 50%;
-          display: flex;
-          align-items: center;
-          padding: 0.1rem 0.08rem;
-          transform: translateX(-50%) scale(0.4);
-          .five_pointed_star {
-            display: flex;
-            align-items: center;
-            .five_start_img {
-              width: 0.18rem;
-              object-fit: contain;
-            }
-          }
-          .hc_coefficient {
-            display: flex;
-            align-items: center;
-            background: #302f2e;
-            box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-            border-radius: 0.04rem;
-            margin-right: 0.05rem;
-            .imgcard {
-              width: 0.13rem;
-              object-fit: contain;
-            }
-            .span1 {
-              color: #ffffff;
-            }
-          }
         }
       }
     }
