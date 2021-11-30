@@ -383,7 +383,7 @@ export default {
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if (data == "card") {
-        this.$router.push("/buy");
+        this.$router.push('/buy/0/1')
       } else if (data == "mining") {
         this.$router.push("/nftmining");
       }
@@ -414,7 +414,7 @@ export default {
           this.$router.push("/home");
           break;
         case 0:
-          this.$router.push("/buy");
+          this.$router.push('/buy/0/1')
           break;
         case 1:
           this.$router.push("/gameFi");
