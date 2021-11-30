@@ -493,10 +493,8 @@ export default {
     async metamaskLink(data) {
       const account = await wallet.getAccount(data); //链接钱包
       this.connectFun(account);
-
       const chainID = await wallet.getChainId(); // 连接网络
       this.networkFun(chainID);
-
       this.walletdis = false;
     },
     // 移动端展开菜单

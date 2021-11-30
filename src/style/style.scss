@@ -174,9 +174,17 @@ body {
   cursor: not-allowed !important;
   border-radius: 25px;
 }
-.fade-enter-active,.fade-leave-active/* 可以设置不同的进入和离开动画，设置持续时间和动画函数 */ {
+/* 可以设置不同的进入和离开动画，设置持续时间和动画函数 */
+.fade-enter-active,.fade-leave-active {
   transition: opacity 1s;
 }
-.fade-enter,.fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+/* .fade-leave-active, 2.1.8 版本以下 */
+.fade-enter,.fade-leave-to  {
   opacity: 0;
+}
+input::-webkit-input-placeholder {
+  color: #909292;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Poppins-Regular';
 }

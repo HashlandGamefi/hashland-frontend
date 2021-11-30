@@ -3,20 +3,20 @@
     <span class="title1_txt fontsize32">{{ $t("message.nav.txt7") }}</span>
     <span class="title1_txt title2_txt fontsize16_100">{{ $t("message.nftCard.txt1") }}</span>
     <div class="tab_box">
-      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabIndex = 0" >
+      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabClick(0)" >
         {{ $t("message.nftCard.txt2") }}
       </div>
       <div
         class="oneTab fontsize16"
         :class="{ activeTab: tabIndex == 1 }"
-        @click="tabIndex = 1"
+        @click="tabClick(1)"
       >
         {{ $t("message.nftCard.txt3") }}
       </div>
       <div
         class="oneTab fontsize16"
         :class="{ activeTab: tabIndex == 2 }"
-        @click="tabIndex = 2"
+        @click="tabClick(2)"
       >
         {{ $t("message.nftCard.txt4") }}
       </div>
@@ -41,6 +41,20 @@ export default {
     BasicsCard,
     BlindBoxCard,
     PrivilegeCard
+  },
+  watch:{
+    $route(to){
+      this.tabIndex = to.params.id
+    }
+  },
+  methods:{
+    tabClick(index){
+      console.log('index: ', index);
+      this.$router.push(`/buy/${index}/1`)
+    }
+  },
+  mounted(){
+    this.tabIndex = this.$route.params.id
   }
 }
 </script>
