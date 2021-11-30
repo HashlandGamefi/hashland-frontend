@@ -245,8 +245,8 @@ export default {
           }
         }
         .btn{
-          // width: 65px;
-          padding: 0 10px;
+          min-width: 56px;
+          padding: 10px 5px;
           height: 22px;
           border-radius: 15px;
           display: flex;

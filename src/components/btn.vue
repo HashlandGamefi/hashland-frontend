@@ -1,8 +1,8 @@
 <template>
   <div class="btn_page">
-    <div class="connect_box fontsize18" v-if="!getIstrue">Connect</div>
-    <div class="connect_box fontsize18" v-else-if="!isapprove" @click="sonapprove">{{$t("message.approve")}}<BtnLoading :isloading="approveloading"></BtnLoading></div>
-    <div class="connect_box fontsize18" v-else @click="dosomething">{{word}}<BtnLoading :isloading="isloading"></BtnLoading></div>
+    <div class="connect_box" v-if="!getIstrue">Connect</div>
+    <div class="connect_box" v-else-if="!isapprove" @click="sonapprove">{{$t("message.approve")}}<BtnLoading :isloading="approveloading"></BtnLoading></div>
+    <div class="connect_box" v-else @click="dosomething">{{word}}<BtnLoading :isloading="isloading"></BtnLoading></div>
   </div>
 </template>
 <script>

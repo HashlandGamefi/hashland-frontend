@@ -87,7 +87,7 @@ export default {
             if(this.pageshowarr.length > 0){
               clearInterval(this.time_btn)
               for (let index = 0; index <this.$refs.mychild.length; index++) {
-                this.$refs.mychild[index].isApproveFun('busd',contract().HNMarket).then(res => {
+                this.$refs.mychild[index].isApproveFun('BUSD',contract().HNMarket).then(res => {
                   // console.log("shishou:",res)
                   if(res){
                     this.isapprove = true
@@ -120,7 +120,7 @@ export default {
         const element = this.pageshowarr[index];
         element.isstatus = true
       }
-      this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket).then(res => {
+      this.$refs.mychild[0].goApproveFun('BUSD',contract().HNMarket).then(res => {
         if(res){
           for (let index = 0; index < this.pageshowarr.length; index++) {
             const element = this.pageshowarr[index];
@@ -422,8 +422,8 @@ export default {
           }
         }
         .btn{
-          // width: 65px;
-          padding: 0 10px;
+          min-width: 56px;
+          padding: 10px 5px;
           height: 22px;
           border-radius: 15px;
           display: flex;
