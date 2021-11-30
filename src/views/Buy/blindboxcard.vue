@@ -425,19 +425,6 @@ export default {
       width: 100%;
       object-fit: contain;
     }
-    // .onebox{
-    //   position: absolute;
-    //   top: 30%;
-    //   left: 47%;
-    //   transform: translate(-50%,-50%);
-    //   display: flex;
-    //   flex-direction: column;
-    //   align-items: center;
-    //   .cardimg{
-    //     width: 497px;
-    //     object-fit: contain;
-    //   }
-    // }
     .wrap-box{
       position: absolute;
       width: 100%;
@@ -460,37 +447,37 @@ export default {
         }
         // 前方元素
         ._front {
-          background-image: url("//cdn.hashland.com/images/bindimg.png");
+          background-image: url("//cdn.hashland.com/images/bindimg.jpg");
           background-size: 100% 100%;
           transform: translateZ(130px);
         }
         /*  后方元素 */
         ._back{
-          background-image: url("//cdn.hashland.com/images/bindimg.png");
+          background-image: url("//cdn.hashland.com/images/bindimg.jpg");
           background-size: 100% 100%;
           transform: translateZ(-130px);
         }
         // 左边元素
         ._left{
-          background-image: url("//cdn.hashland.com/images/bindimg.png");
+          background-image: url("//cdn.hashland.com/images/bindimg.jpg");
           background-size: 100% 100%;
           transform: translateX(-130px) rotateY(-90deg);
         }
         /* 右边元素 */
         ._right{
-          background-image: url("//cdn.hashland.com/images/bindimg.png");
+          background-image: url("//cdn.hashland.com/images/bindimg.jpg");
           background-size: 100% 100%;
           transform: translateX(130px) rotateY(90deg);
         }
         /*上方*/
         ._top{
-          background-image: url("//cdn.hashland.com/images/bindimg.png");
+          background-image: url("//cdn.hashland.com/images/bindimg.jpg");
           background-size: 100% 100%;
           transform: translateY(-130px) rotateX(-90deg);
         }
         /*下方*/
         ._bottom{
-          background-image: url("//cdn.hashland.com/images/bindimg.png");
+          background-image: url("//cdn.hashland.com/images/bindimg.jpg");
           background-size: 100% 100%;
           transform: translateY(130px) rotateX(90deg);
         }
@@ -590,37 +577,37 @@ export default {
           }
           // 前方元素
           ._front {
-            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-image: url("//cdn.hashland.com/images/bindimg.jpg");
             background-size: 100% 100%;
             transform: translateZ(100px);
           }
           /*  后方元素 */
           ._back{
-            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-image: url("//cdn.hashland.com/images/bindimg.jpg");
             background-size: 100% 100%;
             transform: translateZ(-100px);
           }
           // 左边元素
           ._left{
-            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-image: url("//cdn.hashland.com/images/bindimg.jpg");
             background-size: 100% 100%;
             transform: translateX(-100px) rotateY(-90deg);
           }
           /* 右边元素 */
           ._right{
-            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-image: url("//cdn.hashland.com/images/bindimg.jpg");
             background-size: 100% 100%;
             transform: translateX(100px) rotateY(90deg);
           }
           /*上方*/
           ._top{
-            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-image: url("//cdn.hashland.com/images/bindimg.jpg");
             background-size: 100% 100%;
             transform: translateY(-100px) rotateX(-90deg);
           }
           /*下方*/
           ._bottom{
-            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-image: url("//cdn.hashland.com/images/bindimg.jpg");
             background-size: 100% 100%;
             transform: translateY(100px) rotateX(90deg);
           }
