@@ -425,19 +425,19 @@ export default {
       width: 100%;
       object-fit: contain;
     }
-    .onebox{
-      position: absolute;
-      top: 30%;
-      left: 47%;
-      transform: translate(-50%,-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .cardimg{
-        width: 497px;
-        object-fit: contain;
-      }
-    }
+    // .onebox{
+    //   position: absolute;
+    //   top: 30%;
+    //   left: 47%;
+    //   transform: translate(-50%,-50%);
+    //   display: flex;
+    //   flex-direction: column;
+    //   align-items: center;
+    //   .cardimg{
+    //     width: 497px;
+    //     object-fit: contain;
+    //   }
+    // }
     .wrap-box{
       position: absolute;
       width: 100%;
@@ -540,6 +540,17 @@ export default {
     transform: rotateX(140deg) rotateY(360deg)
   }
 }
+@keyframes rotate1 {
+  0% {
+    transform: rotateX(10deg) rotateY(0deg)
+  }
+  50% {
+    transform: rotateX(-20deg) rotateY(180deg)
+  }
+  100% {
+    transform: rotateX(10deg) rotateY(360deg)
+  }
+}
 @media screen and (max-width: 980px){
   .composite_card{
     .left_box{
@@ -557,53 +568,60 @@ export default {
         width: 100%;
         object-fit: contain;
       }
-      .onebox{
-        position: absolute;
-        top: 31%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .cardimg{
-          width: 1.56rem;
-          object-fit: contain;
-        }
-        .bottom{
-          position: absolute;
-          top: 0.05rem;
-          display: flex;
-          align-items: center;
-          padding:0.1rem 0.08rem;
-          transform: scale(0.5);
-          .five_pointed_star{
-            display: flex;
-            align-items: center;
-            .start_img{
-              width: 0.26rem;
-              object-fit: contain;
-            }
+      .wrap-box{
+        width: 100%;
+        height: auto;
+        perspective: 14rem;
+        .box-content {
+          width: 200px;
+          height: 200px;
+          margin: 0.2rem auto 0.4rem;
+          transform-style: preserve-3d;
+          position: relative;
+          animation: rotate1 10s infinite linear;
+          ._3dbox{
+            position: absolute;
+            transition: all 0.2s ease;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            top: 0;
           }
-          .hc_btc_box{
-            display: flex;
-            align-items: center;
-            .hc_coefficient{
-              display: flex;
-              align-items: center;
-              border-radius: 4px;
-              margin-right: 5px;
-              background: rgba(5, 24, 44, 0.88);
-              box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-              border-radius: 11px;
-              opacity: 0.56;
-              .imgcard{
-                width: 43px;
-                object-fit: contain;
-              }
-              .span1{
-                color: #FFFFFF;
-              }
-            }
+          // 前方元素
+          ._front {
+            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-size: 100% 100%;
+            transform: translateZ(100px);
+          }
+          /*  后方元素 */
+          ._back{
+            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-size: 100% 100%;
+            transform: translateZ(-100px);
+          }
+          // 左边元素
+          ._left{
+            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-size: 100% 100%;
+            transform: translateX(-100px) rotateY(-90deg);
+          }
+          /* 右边元素 */
+          ._right{
+            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-size: 100% 100%;
+            transform: translateX(100px) rotateY(90deg);
+          }
+          /*上方*/
+          ._top{
+            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-size: 100% 100%;
+            transform: translateY(-100px) rotateX(-90deg);
+          }
+          /*下方*/
+          ._bottom{
+            background-image: url("//cdn.hashland.com/images/bindimg.png");
+            background-size: 100% 100%;
+            transform: translateY(100px) rotateX(90deg);
           }
         }
       }
