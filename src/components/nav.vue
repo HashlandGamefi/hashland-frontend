@@ -280,6 +280,13 @@ export default {
         }
       });
     }
+    // 监听账号
+    wallet.onAccountChanged(this.connectFun)
+
+    // 监听网络
+    wallet.onChainChanged(this.OnNetworkFun)
+
+    wallet.onDisconnect(this.signOutFun)
     setTimeout(() => {
       // 判断是否已登录
       if (this.$route.path == "/") return;
