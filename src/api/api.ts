@@ -36,7 +36,7 @@ import axios from "axios";
  */
 let apiGame: string = ""; // 游戏账号登陆注册api
 if (process.env.NODE_ENV == "development") {
-  apiGame = `http://hw-api.hashland.com:8080`;
+  apiGame = `https://hw-api.hashland.com:8080`;
 } else if (process.env.NODE_ENV == "production") {
   apiGame = `http://47.57.191.195:8080`;
 }
