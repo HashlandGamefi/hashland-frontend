@@ -54,7 +54,7 @@
           <span class="fontsize16" @click="registerNow">
             没有账号？立即注册
           </span>
-          <span class="fontsize16" @click="forgotPassword">忘记密码</span>
+          <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
         </li>
       </ul>
       <ul class="in_box register_box" v-if="loginOrRegister == 'registered'">
@@ -630,7 +630,8 @@ export default {
     color: #ffffff;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    // justify-content: space-between;
+    justify-content: center;
     span {
       cursor: pointer;
     }
