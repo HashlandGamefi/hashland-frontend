@@ -1,17 +1,20 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import './style/reset.scss'
-import './style/style.scss'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import "./style/reset.scss";
+import "./style/style.scss";
 
-import i18n from './i18n/index'
+import i18n from "./i18n/index";
 
-import 'swiper/dist/css/swiper.min.css'
-import 'swiper/dist/js/swiper.min'
+import "swiper/dist/css/swiper.min.css";
+import "swiper/dist/js/swiper.min";
 
 import api from "./api/api";
 Vue.prototype.$api = api;
+
+import * as axios from "axios";
+Vue.prototype.$axios = axios;
 
 import common from "./utils/common";
 Vue.prototype.$common = common;
@@ -31,17 +34,17 @@ Vue.component('NewLoading', NewLoading)
 import NoData from '@/components/nodata.vue'
 Vue.component('NoData', NoData);
 
-import BtnLoading from './components/btnloading.vue'
-Vue.component('BtnLoading', BtnLoading)
+import BtnLoading from "./components/btnloading.vue";
+Vue.component("BtnLoading", BtnLoading);
 // @ts-ignore
-import countTo from 'vue-count-to';
-Vue.component('countTo', countTo);
+import countTo from "vue-count-to";
+Vue.component("countTo", countTo);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
   i18n,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");

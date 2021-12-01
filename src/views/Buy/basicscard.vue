@@ -143,7 +143,7 @@ export default {
           obj.level = (await hn().level(item)).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.src = getHnImg(Number(item),Number(obj.level),race)
-          // obj.src = `//cdn.hashland.com/nft/images/hashland-nft-${item.toString()}-${obj.level}.png/w400`
+          obj.loading = false
           imgarr.push(obj)
         })
 
@@ -185,7 +185,6 @@ export default {
       hnBox().connect(getSigner()).buyBoxes(this.boxnums,1).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        // this.watchResult()
         this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0

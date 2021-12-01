@@ -17,7 +17,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Home/index.vue')
   },
   {
-    path: '/buy',
+    path: '/buy/:id/:type',
     name: 'Buy',
     component: () => import('../views/Buy/index.vue')
   },
@@ -50,6 +50,16 @@ const routes: Array<RouteConfig> = [
     path: '/invite',
     name: 'Invite',
     component: () => import('../views/Invite/index.vue')
+  },
+  {
+    path: '/gameFi',
+    name: 'GameFi',
+    component: () => import('../views/GameFi/index.vue')
+  },
+  {
+    path: '/personalCenter',
+    name: 'PersonalCenter',
+    component: () => import('../views/GameFi/personalCenter.vue')
   },
   {
     path: '/hclp',

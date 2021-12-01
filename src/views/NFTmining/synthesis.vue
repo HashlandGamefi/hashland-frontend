@@ -239,6 +239,7 @@ export default {
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.src = getHnImg(Number(item),Number(obj.level),race)
+          obj.loading = false
           imgarr.push(obj)
         })
         let lastObj = {

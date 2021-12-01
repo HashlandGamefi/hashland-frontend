@@ -389,7 +389,6 @@ export default {
      * from 项目开始时间 2021-11-18 19:00:00  1637233200000    to 现在 new Date().getTime() / 1000
      */
     getHashlandCoin() {
-      console.log("获取图表数据");
       const url =
         "https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart?vs_currency=usd&days=max&interval=daily";
       axios.get(url).then((res) => {

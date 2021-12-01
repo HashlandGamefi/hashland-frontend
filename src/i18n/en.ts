@@ -40,7 +40,9 @@ export const message = {
     txt5: "WhitePaper",
     txt7: "NFT Card",
     txt8: "NFT Mining",
-    txt9: "邀请"
+    txt9:'邀请',
+    txt10:'Sign in',
+    txt11:'register',
   },
   footer: {
     // footer

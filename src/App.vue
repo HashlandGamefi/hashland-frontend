@@ -50,7 +50,6 @@ export default {
       })
     },
     setRem () {
-      console.log('当前窗口宽度:', document.body.clientWidth)// 当前窗口的宽度
       const bodyWidth = document.body.clientWidth
       const rem375 = bodyWidth * 100 / 375
       if (bodyWidth <= 980) {
@@ -124,13 +123,5 @@ export default {
     min-height: 100%;
     background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
   }
-}
-.fade-enter-active,
-.fade-leave-avtive {
-  transition: opacity 1s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

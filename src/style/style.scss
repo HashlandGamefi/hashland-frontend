@@ -1,12 +1,12 @@
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html,
 body {
   width: 100%;
   height: 100%;
-  font-family: 'PingFang SC','Poppins','微软雅黑';
+  font-family: "PingFang SC", "Poppins", "微软雅黑";
 }
 @media screen and (min-width: 1280px){
   .fontsize12_bold{ // purchase
@@ -15,108 +15,123 @@ body {
   .fontsize12{ // purchase
     font-size: 12px;
     font-weight: 100;
-    font-family: 'Poppins-Regular';
+    font-family: "Poppins-Regular";
     line-height: 17px;
   }
-  .fontsize12_400{ // go
+  .fontsize12_400 {
+    // go
     font-size: 12px;
     font-weight: 400;
-    font-family: 'Poppins-Regular';
+    font-family: "Poppins-Regular";
     line-height: 17px;
   }
-  .fontsize14{// 导航栏
+  .fontsize14 {
+    // 导航栏
     font-size: 14px;
-    font-family: 'Poppins-Regular';
+    font-family: "Poppins-Regular";
   }
-  .fontsize16{//次标题
+  .fontsize16 {
+    //次标题
     font-size: 16px;
     // font-weight: 500;
     font-weight: bold;
-    font-family: 'Poppins-Bold';
+    font-family: "Poppins-Bold";
   }
-  .fontsize16_400{
+  .fontsize16_400 {
     font-size: 16px;
     font-weight: 400;
-    font-family: 'Poppins-Regular';
+    font-family: "Poppins-Regular";
   }
-  .fontsize16_100{//标题说明
+  .fontsize16_100 {
+    //标题说明
     font-size: 16px;
     font-weight: 100;
-    font-family: 'Poppins-Regular';
+    font-family: "Poppins-Regular";
   }
-  .fontsize18{// 导航栏
+  .fontsize18 {
+    // 导航栏
     font-size: 18px;
     font-weight: 500;
   }
-  .fontsize22{
+  .fontsize22 {
     font-size: 22px;
     font-weight: 600;
   }
-  .fontsize26{// 特殊数字
+  .fontsize26 {
+    // 特殊数字
     font-size: 26px;
     font-weight: bold;
   }
-  .fontsize32{//大标题
+  .fontsize32 {
+    //大标题
     font-size: 32px;
     line-height: 45px;
     font-weight: bold;
-    font-family: 'Poppins-Bold';
+    font-family: "Poppins-Bold";
   }
 }
-@media screen and (max-width: 1279px){
+@media screen and (max-width: 1279px) {
   html,
   body {
     width: 100%;
     height: 100%;
     font-size: 100px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     -webkit-overflow-scrolling: touch;
   }
-  .fontsize12{ // purchase
+  .fontsize12 {
+    // purchase
     font-size: 0.12rem;
     font-weight: 100;
     // font-family: 'Poppins-Regular';
     line-height: 0.17rem;
   }
-  .fontsize12_400{ // go
+  .fontsize12_400 {
+    // go
     font-size: 0.12rem;
     font-weight: 400;
     // font-family: 'Poppins-Regular';
     line-height: 0.17rem;
   }
-  .fontsize14{// 导航栏
+  .fontsize14 {
+    // 导航栏
     font-size: 0.14rem;
     // font-family: 'Poppins-Regular';
   }
-  .fontsize16{//次标题
+  .fontsize16 {
+    //次标题
     font-size: 0.14rem;
     // font-weight: 500;
     font-weight: bold;
     // font-family: 'Poppins-Bold';
   }
-  .fontsize16_400{
+  .fontsize16_400 {
     font-size: 0.14rem;
     font-weight: 400;
     // font-family: 'Poppins-Regular';
   }
-  .fontsize16_100{//标题说明
+  .fontsize16_100 {
+    //标题说明
     font-size: 0.14rem;
     font-weight: 100;
     // font-family: 'Poppins-Regular';
   }
-  .fontsize18{// 导航栏
+  .fontsize18 {
+    // 导航栏
     font-size: 0.18rem;
     font-weight: 500;
   }
-  .fontsize22{
+  .fontsize22 {
     font-size: 0.18rem;
     font-weight: 600;
   }
-  .fontsize26{// 特殊数字
+  .fontsize26 {
+    // 特殊数字
     font-size: 0.2rem;
     font-weight: bold;
   }
-  .fontsize32{//大标题
+  .fontsize32 {
+    //大标题
     font-size: 0.22rem;
     line-height: 0.3rem;
     font-weight: bold;
@@ -125,8 +140,12 @@ body {
 }
 // 透明度由
 @keyframes fade-out {
-  0% {opacity: 1;}/*初始状态 透明度为0*/
-  100% {opacity: 0;}/*结束状态 透明度为1*/
+  0% {
+    opacity: 1;
+  } /*初始状态 透明度为0*/
+  100% {
+    opacity: 0;
+  } /*结束状态 透明度为1*/
 }
 // 重置滚动条样式  (可以滚动的部分的重置)
 ::-webkit-scrollbar {
@@ -139,8 +158,14 @@ body {
   white-space: nowrap;
 }
 // 文字换行
-.word_line_feed{
-  word-break:break-all
+.word_line_feed {
+  word-break: break-all;
+}
+.ban_select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 // 按钮禁用
 .disable_bnb{
@@ -148,4 +173,18 @@ body {
   background: rgba(255,255,255,0.6) !important;
   cursor: not-allowed !important;
   border-radius: 25px;
+}
+/* 可以设置不同的进入和离开动画，设置持续时间和动画函数 */
+.fade-enter-active,.fade-leave-active {
+  transition: opacity 1s;
+}
+/* .fade-leave-active, 2.1.8 版本以下 */
+.fade-enter,.fade-leave-to  {
+  opacity: 0;
+}
+input::-webkit-input-placeholder {
+  color: #909292;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Poppins-Regular';
 }
