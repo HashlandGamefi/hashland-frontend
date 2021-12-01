@@ -230,9 +230,9 @@ export default {
         this.isRead
       ) {
         this.registerbtnloading = true;
-        const url = `http://47.57.191.195:8080/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-        this.$axios
-          .get(url)
+        const url = `mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+        this.$api
+          .gameMailRegister(url)
           .then((res) => {
             // console.log("注册账号：", res.data);
             this.registerbtnloading = false;
@@ -245,13 +245,28 @@ export default {
           .catch((err) => {
             this.registerbtnloading = false;
           });
+        // const url = `http://47.57.191.195:8080/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+        // this.$axios
+        //   .get(url)
+        //   .then((res) => {
+        //     // console.log("注册账号：", res.data);
+        //     this.registerbtnloading = false;
+        //     if (res.data.result === "SUCCESS") {
+        //       this.firstAutoLogin(res.data.mailAccount, res.data.token);
+        //     } else if (res.data.result === "FAIL") {
+        //       this.$common.selectLang(res.data.msg, res.data.msg, this);
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     this.registerbtnloading = false;
+        //   });
       }
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
     firstAutoLogin(mailAccount, token) {
-      const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${mailAccount}&token=${token}`;
-      this.$axios
-        .get(url)
+      const url = `mailAccount=${mailAccount}&token=${token}`;
+      this.$api
+        .gameMailLogin(url)
         .then((res) => {
           // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
           if (res.data.result === "SUCCESS") {
@@ -263,6 +278,20 @@ export default {
           }
         })
         .catch((err) => {});
+      // const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${mailAccount}&token=${token}`;
+      // this.$axios
+      //   .get(url)
+      //   .then((res) => {
+      //     // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
+      //     if (res.data.result === "SUCCESS") {
+      //       localStorage.setItem("loginInfo", JSON.stringify(res.data));
+      //       this.switchingLoginStatus(res.data.mailAccount);
+      //       this.closeLOrR();
+      //     } else if (res.data.result === "FAIL") {
+      //       this.$common.selectLang(res.data.msg, res.data.msg, this);
+      //     }
+      //   })
+      //   .catch((err) => {});
     },
     /**手动登录，使用账号和密码 */
     manuallyLogin() {
@@ -292,9 +321,9 @@ export default {
         pwReg.test(this.loginForm.password)
       ) {
         this.loginbtnloading = true;
-        const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
-        this.$axios
-          .get(url)
+        const url = `mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
+        this.$api
+          .gameMailLogin(url)
           .then((res) => {
             // console.log("手动登录，使用账号和密码：", res.data);
             this.loginbtnloading = false;
@@ -310,6 +339,24 @@ export default {
           .catch((err) => {
             this.loginbtnloading = false;
           });
+        // const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
+        // this.$axios
+        //   .get(url)
+        //   .then((res) => {
+        //     // console.log("手动登录，使用账号和密码：", res.data);
+        //     this.loginbtnloading = false;
+        //     if (res.data.result === "SUCCESS") {
+        //       localStorage.setItem("loginInfo", JSON.stringify(res.data));
+        //       this.switchingLoginStatus(res.data.mailAccount);
+        //       this.closeLOrR();
+        //       this.$router.push("/personalCenter");
+        //     } else if (res.data.result === "FAIL") {
+        //       this.$common.selectLang(res.data.msg, res.data.msg, this);
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     this.loginbtnloading = false;
+        //   });
       }
     },
 
@@ -338,11 +385,11 @@ export default {
       ) {
         if (this.codebtnloading) return;
         this.codebtnloading = true;
-        const url = `http://47.57.191.195:8080/va_cent/get_mail_code?mailAccount=${this.registerForm.mailAccount}`;
-        this.$axios
-          .get(url)
+        const url = `mailAccount=${this.registerForm.mailAccount}`;
+        this.$api
+          .gameMailCode(url)
           .then((res) => {
-            // console.log("获取验证码：", res.data);
+            console.log("获取验证码：", res.data);
             this.codebtnloading = false;
             if (res.data.result === "SUCCESS") {
               // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
@@ -352,8 +399,26 @@ export default {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           })
           .catch((err) => {
-            this.codebtnloading = true;
+            this.codebtnloading = false;
           });
+
+        // const url = `http://hw-api.hashland.com:8080/va_cent/get_mail_code?mailAccount=${this.registerForm.mailAccount}`;
+        // this.$axios
+        //   .get(url)
+        //   .then((res) => {
+        //     // console.log("获取验证码：", res.data);
+        //     this.codebtnloading = false;
+        //     if (res.data.result === "SUCCESS") {
+        //       // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+        //     } else if (res.data.result === "FAIL") {
+        //       // res.data.msg; // "10分钟内只能发送一次确认码"
+        //     }
+        //     console.log(this);
+        //     this.$common.selectLang(res.data.msg, res.data.msg, this);
+        //   })
+        //   .catch((err) => {
+        //     this.codebtnloading = true;
+        //   });
       }
     },
     /**是否显示密码 */
