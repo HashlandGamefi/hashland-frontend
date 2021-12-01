@@ -80,11 +80,12 @@ export default {
   z-index: 99999999;
   width: 100%;
   height: 100%;
+  // backdrop-filter: blur(16px);
   background: rgba(0, 0, 0, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: fadein 5s linear 1;
+  animation: fadein 3s linear 1;
   .title {
     margin-top: 50px;
     width: 100%;

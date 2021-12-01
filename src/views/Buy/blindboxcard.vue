@@ -37,9 +37,7 @@
     </div>
     <div class="center_box">
       <img :src="`${$store.state.imgUrl}blindcard.png`" class="bgimg" />
-      <!-- <div class="onebox">
-        <img :src="`${$store.state.imgUrl}box.png`" class="cardimg" />
-      </div> -->
+      <!-- <img src="../../assets/222.gif" class="bgimg" /> -->
       <div class="wrap-box">
         <div class="box-content">
           <div class="_3dbox _front"></div>
@@ -126,7 +124,7 @@ export default {
         if(newValue){
           this.watchResult()
           this.connectGetInfo()
-          this.getTokenInfo(this.tokenID)
+          this.getTokenInfoFun(this.tokenID)
           setTimeout(() => {
             let type = ''
             if(this.tokenID == 0){
@@ -154,7 +152,7 @@ export default {
     },
     $route(to){
       this.tokenID = to.params.type
-      this.getTokenInfo(to.params.type)
+      this.getTokenInfoFun(to.params.type)
     }
   },
   methods: {
@@ -200,6 +198,7 @@ export default {
       let filter = hnBlindBox().filters.SpawnHns(this.getAccount)
       hnBlindBox().on(filter, (user, boxslengths, boxarrID,events) => {
         console.log('监听盲盒开奖结果: ', user, boxslengths, boxarrID,events);
+        this.getTokenInfoFun(this.tokenID)
         let str = boxarrID.toString()
         let arr = str.split(',')
         let imgarr = []
@@ -252,7 +251,6 @@ export default {
         this.$common.selectLang('购买成功','Purchase Successful',this)
         this.boxnums = ''
         this.total = 0
-        this.getTokenInfo(this.tokenID)
       }).catch(err => {
         console.log('购买盒子err: ', err);
         this.buy_isloading = false
@@ -268,7 +266,7 @@ export default {
       this.proupDis = false
     },
     // 获取某代币信息
-    getTokenInfo(tokenID){
+    getTokenInfoFun(tokenID){
       // console.log('获取某代币信息',tokenID)
       hnBlindBox().getBoxesLeftSupply(tokenID).then(res => {
         this.surplusNums = res
@@ -276,10 +274,17 @@ export default {
       hn().totalSupply().then(data => {
         this.cardNumber = data.toString()
       })
+      // 1小时之内某用户的剩余购买量
+      hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then(res => {
+        // console.log('1小时之内某用户的剩余购买量res: ', res)
+        this.maxbuy = res.toString()
+      }).catch(err => {
+        // console.log('1小时之内某用户的剩余购买量err: ', err)
+        this.maxbuy = 0
+      })
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
-        this.maxbuy = res[3].toString()
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
             // console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
@@ -294,7 +299,7 @@ export default {
     }
   },
   mounted(){
-    this.getTokenInfo(this.$route.params.type)
+    this.getTokenInfoFun(this.$route.params.type)
   }
 }
 </script>
