@@ -163,7 +163,7 @@ export default {
       }else if(Number(this.boxnums) > Number(this.maxbuy)){
         this.boxnums = this.maxbuy
         this.total = this.maxbuy * this.boxPrice
-        this.$common.selectLang(`最大购买数量${this.maxbuy}`,`Maximum Purchase Number is ${this.maxbuy}`,this)
+        this.$common.selectLang(`最大购买数量${this.maxbuy}`,`Remaining purchaseable quantity per hour is ${this.maxbuy}`,this)
       }else{
         this.proupDis = false
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
