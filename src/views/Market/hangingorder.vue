@@ -221,7 +221,7 @@ export default {
         return
       }
       this.synthesisDis = true
-      this.processingArrayFun(this.selectimgArr,this.dangerTxtModel).then(info => {
+      this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
         console.log('合约需要的数组已经处理完毕: ', info);
         let cardIDArr = info.map(item => {
           return item.cardID

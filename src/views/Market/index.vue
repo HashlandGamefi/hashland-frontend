@@ -4,7 +4,8 @@
     <div class="info_box">
       <div class="onebox" v-for="(item,index) in infoArr" :key="index">
         <p class="p1 fontsize12">{{ $t(item.title) }}</p>
-        <p class="p1 fontsize20">{{item.num}}</p>
+        <p class="p1 fontsize20" v-if="index == 2">$ {{item.num}}</p>
+        <p class="p1 fontsize20" v-else>{{item.num}}</p>
       </div>
     </div>
     <div class="content">
@@ -58,12 +59,11 @@
         Loading...
       </div>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
-      <div class="bottom_loading" v-if="pageshowarr.length > 8">
+      <div class="bottom_loading" v-if="pageshowarr.length > 4">
         <span class="fontsize16" v-if="pagesize > 0 && pulldown">上拉加载更多</span>
-        <span class="fontsize16" v-else-if="pagesize > 0 && !pulldown">加载中...</span>
+        <span class="fontsize16" v-else-if="pagesize > 0  && !pulldown">加载中...</span>
         <span class="fontsize16" v-else-if="pagesize == 0">到底了</span>
       </div>
-
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -78,7 +78,6 @@ export default {
       pulldown:true,// 上拉加载变量
       pageshowLoading:true,// 数据秘没有加载玩之前显示loading
       pageshowarr:[],
-      // cardInfoArr:[],//所有的出售卡牌信息数组
       cardLengthArr:[],// 几阶对应的数量数组
       rank:1,//1阶
       pagesize:0,// 加载数据从0开始
@@ -129,14 +128,7 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    // 'cardInfoArr':{
-    //   handler: function () {
-    //     this.pageArrInfo()
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // },
+    }
   },
   methods:{
     sonapprove(item){
@@ -181,8 +173,7 @@ export default {
           console.log('买家批量购买卡牌res: ', ele);
           const etReceipt = await ele.wait();
           if(etReceipt.status == 1){
-            console.log("this.pagesize",this.pagesize)
-            this.getMarketCardInfo(this.rank,this.pagesize-1).then(data => {
+            this.getMarketCardInfo(this.rank,0).then(data => {
               console.log('data: ', data);
               if(data.istrue){
                 this.pageshowarr = data.arr
@@ -191,12 +182,13 @@ export default {
                 this.connectInfo()
                 item.isstatus = false
               }
-              // if(data){
-              //   this.$common.selectLang('购买成功','购买成功',this)
-              //   this.getSDKInfo()
-              //   this.connectInfo()
-              //   item.isstatus = false
-              // }
+              if(res.arr.length == 0){
+                this.pagesize = 0 // 没有数据  设为0
+                return
+              }
+              if(this.pagesize > 0){
+                this.pulldown = true // 还有数据,显示上拉加载更多
+              }
             })
           }else{
             item.isstatus = false
@@ -263,27 +255,25 @@ export default {
       this.proupDis = false
     },
     //获取sdk信息
-    getSDKInfo(){
+    async getSDKInfo(){
       // 获取各阶所售卖的总卡牌数量
       hnMarket().getEachLevelHnIdsLength(5).then(res => {
         // console.log('获取各阶所售卖的总卡牌数量res: ', res);
         this.cardLengthArr = res
         this.amount = res[this.rank - 1]
       })
-      // 获取总成交次数
-      hnMarket().totalSellCount().then(res => {
-        console.log('获取总成交次数: ', res)
-        this.infoArr[0].num = res.toNumber()
-      })
-      // 获取总成交额，除1e18
-      hnMarket().totalSellAmount().then(res => {
-        console.log('获取总成交额，除1e18: ', res)
-        this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toNumber())
-      })
       // 获取市场正在出售的所有HN卡牌数量
       hnMarket().getHnIdsLength().then(res => {
-        console.log('获取市场正在出售的所有HN卡牌数量: ', res)
+        // console.log('获取市场正在出售的所有HN卡牌数量: ', res)
         this.infoArr[3].num = res.toNumber()
+      })
+      // 获取总成交次数
+      this.infoArr[0].num = await hnMarket().totalSellCount()
+      // 获取总成交额，除1e18
+      hnMarket().totalSellAmount().then(res => {
+        // console.log('获取总成交额，除1e18: ', res)
+        this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toNumber())
+        this.infoArr[2].num = this.infoArr[1].num / this.infoArr[0].num
       })
     },
     connectInfo(){
@@ -294,10 +284,9 @@ export default {
     },
     // 市场页面获取市场出售的所有卡牌
     getMarketCardInfo(level,size,num = 8){
-      // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
       return new Promise((resolve) => {
         hnMarket().getLevelHnIdsBySize(level,size,num).then(res => {
-          console.log('所有正在出售的卡牌id数组res: ', res);
+          // console.log('所有正在出售的卡牌id数组res: ', res);
           this.pagesize = res[1].toNumber()
           let count = 1
           let arr = []
@@ -317,13 +306,12 @@ export default {
             obj.cardID = item.toString() // 卡牌的id
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
             obj.level = (await hn().level(item)).toString() // 等级
-            obj.price = (await hnMarket().hnPrice(item)).toString()
+            obj.price = (await hnMarket().hnPrice(item) / 1e18).toString()
             let race = await hn().getHashrates(item) // 算力数组
             // @ts-ignore
             obj.src = getHnImg(Number(item), obj.level, race);
             arr.push(obj)
             if (count == res[0].length) {
-              // this.cardInfoArr = arr
               resolve({'istrue':true,'arr':arr});
             }
             count++;
@@ -335,13 +323,15 @@ export default {
     listenerBoxScroll(){
       this.$refs.showBoxRef.addEventListener('scroll',() => {
         if(this.timeoutOBJ){
-          console.log("到底了,定时器对象存在")
           clearTimeout(this.timeoutOBJ)
+          if(this.pagesize == 0)return
+          this.pulldown = false // 显示加载中
           this.timeoutOBJ = setTimeout(() => {
             this.pulldownFun()
           },4000)
         }else{
-          console.log("到底了,定时器对象不存在")
+          if(this.pagesize == 0)return
+          this.pulldown = false // 显示加载中
           this.timeoutOBJ = setTimeout(() => {
             this.pulldownFun()
           },300)
@@ -350,13 +340,9 @@ export default {
     },
     pulldownFun(){
       if(this.$refs.showBoxRef.scrollTop + 10 > this.$refs.showBoxRef.scrollHeight - this.$refs.showBoxRef.offsetHeight){
-        if(this.pagesize == 0)return
-        this.pulldown = false // 显示加载中
         this.getMarketCardInfo(this.rank,this.pagesize).then(res => {
-          console.log('第二次res: ', res);
           if(res.istrue){
             this.pageshowarr = this.pageshowarr.concat(res.arr)
-            console.log('第二次加载this.pageshowarr: ', this.pageshowarr);
             if(res.arr.length == 0){
               this.pagesize = 0 // 没有数据  设为0
               return
@@ -377,10 +363,8 @@ export default {
     })
     this.getSDKInfo()
     this.getMarketCardInfo(this.rank,this.pagesize).then(res => {
-      console.log('返回数据::::::::::res: ', res);
       if(res.istrue){
         this.pageshowarr = this.pageshowarr.concat(res.arr)
-        console.log('第一次加载this.pageshowarr: ', this.pageshowarr);
         this.pageshowLoading = false
       }else{
         this.pageshowLoading = false
@@ -518,15 +502,14 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    overflow-y: auto;
-    max-height: 750px;
-    padding-bottom: 30px;
+    overflow-y: scroll;
+    max-height: 720px;
     .onebox{
       width: 228px;
       display: flex;
       flex-direction: column;
       margin-right: 60px;
-      margin-bottom: 57px;
+      margin-bottom: 30px;
       .img{
         width: 228px;
         object-fit: contain;
