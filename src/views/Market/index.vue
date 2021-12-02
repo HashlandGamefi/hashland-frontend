@@ -1,6 +1,12 @@
 <template>
   <div class="gamefi_page">
-    <span class="title1_txt fontsize32">{{ $t("message.gamefi.txt1") }}</span>
+    <span class="title1_txt fontsize32">{{ $t("message.market.txt1") }}</span>
+    <div class="info_box">
+      <div class="onebox" v-for="(item,index) in infoArr" :key="index">
+        <p class="p1 fontsize12">{{ $t(item.title) }}</p>
+        <p class="p1 fontsize20">{{item.num}}</p>
+      </div>
+    </div>
     <div class="content">
       <div class="leftboxs">
         <!-- 几阶对应数量 -->
@@ -11,27 +17,27 @@
             <span class="span1 fontsize16" @click="selectRankClik(ele,index)" v-for="(ele,index) in cardLengthArr" :key="index">{{$t("message.synthesis.txt4")}} {{index + 1}} ({{$t("message.synthesis.txt8")}} {{ele}})</span>
           </div>
         </div>
-        <!-- 排序 -->
+        <!-- 价格排序 -->
         <div class="left_content left_content_price">
-          <span class="span1 fontsize16" v-if="sprtTxt == 'asc'">{{$t("message.gamefi.txt2")}}</span>
-          <span class="span1 fontsize16" v-else>{{$t("message.gamefi.txt3")}}</span>
+          <span class="span1 fontsize16" v-if="sprtTxt == 'asc'">{{$t("message.market.txt2")}}</span>
+          <span class="span1 fontsize16" v-else>{{$t("message.market.txt3")}}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
             <span class="span1 fontsize16" @click="sortPriceClik('asc')">
-              {{$t("message.gamefi.txt2")}}
+              {{$t("message.market.txt2")}}
             </span>
             <span class="span1 fontsize16" @click="sortPriceClik('desc')">
-              {{$t("message.gamefi.txt3")}}
+              {{$t("message.market.txt3")}}
             </span>
           </div>
         </div>
       </div>
       <!-- 去挂单 -->
       <div class="right_content">
-        <div class="synthesis_btn fontsize16" @click="goOrder">
-          {{ $t("message.gamefi.txt4") }}
-        </div>
         <img :src="`${$store.state.imgUrl}record.png`" class="record_img" @click="recordClick" />
+        <div class="synthesis_btn fontsize16" @click="goOrder">
+          {{ $t("message.market.txt4") }}
+        </div>
       </div>
     </div>
     <div class="show_gameArr">
@@ -72,6 +78,12 @@ export default {
       user_busd_balance:0,//用户busd余额
       sprtTxt:'asc',
       time_btn:null,//判断是否授权按钮的定时器
+      infoArr:[
+        {title:"message.market.txt5",num:0},
+        {title:"message.market.txt6",num:0},
+        {title:"message.market.txt7",num:0},
+        {title:"message.market.txt8",num:0},
+      ]
     }
   },
   computed: {
@@ -97,7 +109,7 @@ export default {
                 });
               }
             }
-            console.log("链接状态为true时判断是否授权")
+            // console.log("链接状态为true时判断是否授权")
           },1000)
         }
       },
@@ -229,9 +241,24 @@ export default {
     getSDKInfo(){
       // 获取各阶所售卖的总卡牌数量
       hnMarket().getEachLevelHnIdsLength(5).then(res => {
-        console.log('获取各阶所售卖的总卡牌数量res: ', res);
+        // console.log('获取各阶所售卖的总卡牌数量res: ', res);
         this.cardLengthArr = res
         this.amount = res[this.rank - 1]
+      })
+      // 获取总成交次数
+      hnMarket().totalSellCount().then(res => {
+        console.log('获取总成交次数: ', res)
+        this.infoArr[0].num = res.toNumber()
+      })
+      // 获取总成交额，除1e18
+      hnMarket().totalSellAmount().then(res => {
+        console.log('获取总成交额，除1e18: ', res)
+        this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toNumber())
+      })
+      // 获取市场正在出售的所有HN卡牌数量
+      hnMarket().getHnIdsLength().then(res => {
+        console.log('获取市场正在出售的所有HN卡牌数量: ', res)
+        this.infoArr[3].num = res.toNumber()
       })
     },
     connectInfo(){
@@ -245,7 +272,7 @@ export default {
       // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
       return new Promise((resolve) => {
         hnMarket().getHnIdsBySize(0,10000000).then(res => {
-          console.log('所有正在出售的卡牌id数组res: ', res);
+          // console.log('所有正在出售的卡牌id数组res: ', res);
           let count = 1
           let arr = []
           res[0].map(async item => {
@@ -276,8 +303,8 @@ export default {
     }
   },
   mounted(){
-    this.getSDKInfo(this)
-    this.getMarketCardInfo(this)
+    this.getSDKInfo()
+    this.getMarketCardInfo()
   }
 }
 </script>
@@ -289,6 +316,28 @@ export default {
   flex-direction: column;
   align-items: center;
   padding-top: 126px;
+  .info_box{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 54px;
+    .onebox{
+      width: 234px;
+      height: 115px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      background: #021E3E;
+      box-shadow: 0px 2px 13px 0px rgba(2, 18, 35, 0.68);
+      border-radius: 4px;
+      padding: 28px 0 25px;
+      margin-right: 54px;
+      .p1{
+        color: #ffffff;
+      }
+    }
+  }
   .title1_txt {
     color: #ffffff;
   }
@@ -297,7 +346,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 90px;
+    margin-top: 71px;
     .leftboxs{
       display: flex;
       align-items: center;
@@ -377,8 +426,9 @@ export default {
         cursor: pointer;
       }
       .record_img{
-        width: 55px;
+        width: 40px;
         object-fit: contain;
+        margin-right: 20px;
       }
     }
   }
@@ -389,7 +439,7 @@ export default {
     flex-wrap: wrap;
     min-height: 550px;
     overflow-y: auto;
-    max-height: 800px;
+    height: 800px;
     .onebox{
       width: 228px;
       display: flex;

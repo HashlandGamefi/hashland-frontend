@@ -179,15 +179,15 @@ export const message = {
     txt13: "Input Number",
     txt14: "Insufficient Balance"
   },
-  gamefi:{
+  market:{
     txt1:'NFT市场',
     txt2:'价格升序',
     txt3:'价格降序',
     txt4:'去挂单',
-    txt5:'余额不足',
-    txt6:'余额不足',
-    txt7:'余额不足',
-    txt8:'余额不足',
+    txt5:'总交易数',
+    txt6:'总交易额',
+    txt7:'平均价格',
+    txt8:'卡牌数量',
     txt9:'余额不足',
     txt10:'余额不足',
     txt11:'余额不足',
