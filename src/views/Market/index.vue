@@ -40,7 +40,8 @@
         </div>
       </div>
     </div>
-    <div class="show_gameArr">
+    <!-- 页面展示卡牌盒子 -->
+    <div class="show_gameArr" ref="showBoxRef">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index">
         <img :src="item.src" class="img" />
         <div class="bottom_box">
@@ -227,7 +228,13 @@ export default {
     },
     // 去挂单
     goOrder(){
-      this.$router.push('/hangingorder')
+      console.log('scrollTop:',this.$refs.showBoxRef.scrollTop)
+      console.log('scrollHeight:',this.$refs.showBoxRef.scrollHeight)
+      console.log('offsetHeight:',this.$refs.showBoxRef.offsetHeight)
+      // this.$router.push('/hangingorder')
+    },
+    scrollFun(e){
+      console.log("e",e)
     },
     // 挂单记录
     recordClick(){
@@ -303,6 +310,12 @@ export default {
     }
   },
   mounted(){
+    this.$nextTick(() => {
+      this.$refs.showBoxRef.addEventListener('scroll',(e) => {
+        console.log('e: ', e);
+
+      })
+    })
     this.getSDKInfo()
     this.getMarketCardInfo()
   }
