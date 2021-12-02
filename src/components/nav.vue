@@ -281,12 +281,12 @@ export default {
       });
     }
     // 监听账号
-    wallet.onAccountChanged(this.connectFun)
+    wallet.onAccountChanged(this.connectFun);
 
     // 监听网络
-    wallet.onChainChanged(this.OnNetworkFun)
+    wallet.onChainChanged(this.OnNetworkFun);
 
-    wallet.onDisconnect(this.signOutFun)
+    wallet.onDisconnect(this.signOutFun);
     setTimeout(() => {
       // 判断是否已登录
       if (this.$route.path == "/") return;
@@ -397,7 +397,7 @@ export default {
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if (data == "card") {
-        this.$router.push('/buy/0/1')
+        this.$router.push("/buy/0/1");
       } else if (data == "mining") {
         this.$router.push("/nftmining");
       }
@@ -428,10 +428,11 @@ export default {
           this.$router.push("/home");
           break;
         case 0:
-          this.$router.push('/buy/0/1')
+          this.$router.push("/buy/0/1");
           break;
         case 1:
-          this.$router.push("/gameFi");
+          // this.$router.push("/gameFi");
+          this.$common.selectLang("敬请期待", "Coming soon", this);
           break;
         case 2:
           this.$router.push("/hclp");
