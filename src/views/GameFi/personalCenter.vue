@@ -150,6 +150,9 @@ export default {
           //   .catch((err) => {
           //     this.bindingloading = false;
           //   });
+        })
+        .catch((err) => {
+          this.bindingloading = false;
         });
     },
     /**公用提示框（关闭方法） closePopupPrompts */
