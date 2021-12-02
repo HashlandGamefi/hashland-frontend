@@ -1,12 +1,13 @@
 import service from "./service";
 import axios from "axios";
-// center服域名和端口号 GAME_API
-// 内网测试 vov2021.mynatapp.cc
-// 外网测试 hw-api.hashland.com:8080
+
 const BASE_API = process.env.VUE_APP_BASE_API;
 const GAME_API = process.env.VUE_APP_GAME_API;
-console.log("BASE_API: ", BASE_API);
-console.log("GAME_API: ", GAME_API);
+// center服域名和端口号 GAME_API
+// 内网测试 vov2021.mynatapp.cc
+// 外网测试 hw-api.hashland.com
+// console.log("BASE_API: ", BASE_API);
+// console.log("GAME_API: ", GAME_API);
 
 export default {
   // 获取币的价格
