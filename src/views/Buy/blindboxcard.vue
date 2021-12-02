@@ -11,9 +11,10 @@
       </div>
       <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
       <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HCLP</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} BUSD</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} HT</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
       <span class="composite_line_color"></span>
       <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
@@ -24,9 +25,10 @@
       <div class="last">
         <span class="span1 fontsize12">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
         <span class="span2 fontsize12" v-if="tokenID == 0">{{$t("message.nftCard.txt11")}}: {{total}} BNB</span>
-        <span class="span2 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
-        <span class="span2 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
-        <span class="span2 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="span2 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HC</span>
+        <span class="span2 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
+        <span class="span2 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
+        <span class="span2 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
       </div>
     </div>
     <div class="mobile_top">
@@ -57,9 +59,10 @@
       <div class="mobile_line">
         <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
         <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HCLP</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} BUSD</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} HT</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
       </div>
       <span class="composite_line_color"></span>
       <div class="mobile_line">
@@ -73,9 +76,10 @@
       <div class="mobile_line">
         <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
         <span class="composite_span3 fontsize12" v-if="tokenID == 0">{{$t("message.nftCard.txt11")}}: {{total}} BNB</span>
-        <span class="composite_span3 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
-        <span class="composite_span3 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
-        <span class="composite_span3 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HC</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
       </div>
     </div>
     <div class="connect_box fontsize18" :class="{disable_bnb:disable}">
