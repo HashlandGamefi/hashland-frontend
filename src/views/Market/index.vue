@@ -54,7 +54,16 @@
           </div>
         </div>
       </div>
-      <NoData v-if="pageshowarr.length == 0"></NoData>
+      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+        Loading...
+      </div>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
+      <div class="bottom_loading" v-else>
+        <span class="fontsize16" v-if="pagesize > 0 && pulldown">上拉加载更多</span>
+        <span class="fontsize16" v-else-if="pagesize > 0 && !pulldown">加载中...</span>
+        <span class="fontsize16" v-else-if="pagesize == 0">到底了</span>
+      </div>
+
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -66,10 +75,14 @@ import { hnMarket,hn,getHnImg,erc20,token,contract,getSigner,util } from 'hashla
 export default {
   data () {
     return {
+      pulldown:true,// 上拉加载变量
+      pageshowLoading:true,// 数据秘没有加载玩之前显示loading
       pageshowarr:[],
       cardInfoArr:[],//所有的出售卡牌信息数组
       cardLengthArr:[],// 几阶对应的数量数组
       rank:1,//1阶
+      pagesize:0,// 加载数据从0开始
+      pagenum:8,//每页显示多少数据
       amount:0,//阶对应的卡牌数量
       selectedNUM:0,//选中的卡牌数量
       btntxt:'',// 弹窗页面的确认按钮
@@ -117,13 +130,13 @@ export default {
       deep: true,
       immediate: true
     },
-    'cardInfoArr':{
-      handler: function () {
-        this.pageArrInfo()
-      },
-      deep: true,
-      immediate: true
-    },
+    // 'cardInfoArr':{
+    //   handler: function () {
+    //     this.pageArrInfo()
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
   },
   methods:{
     sonapprove(item){
@@ -173,7 +186,7 @@ export default {
               if(data){
                 this.$common.selectLang('购买成功','购买成功',this)
                 this.getSDKInfo()
-                this.pageArrInfo()
+                // this.pageArrInfo()
                 this.connectInfo()
                 item.isstatus = false
               }
@@ -196,17 +209,17 @@ export default {
       console.log('选择阶数ele,index: ', ele,index);
       this.rank = index + 1 // 当前几阶
       this.amount = ele
-      this.pageArrInfo()
+      // this.pageArrInfo()
     },
     // 页面数组信息--排序
-    pageArrInfo(){
-      this.pageshowarr = this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
-        if(a.type === b.type){
-　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
-        }
-        return Number(a.type) > Number(b.type) ? 1 : -1;
-      })
-    },
+//     pageArrInfo(){
+//       this.pageshowarr = this.cardInfoArr.filter(item => { return item.level == this.rank}).sort((a, b) => {
+//         if(a.type === b.type){
+// 　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
+//         }
+//         return Number(a.type) > Number(b.type) ? 1 : -1;
+//       })
+//     },
     // 排序
     sortPriceClik(data){
       this.sprtTxt = data
@@ -228,13 +241,7 @@ export default {
     },
     // 去挂单
     goOrder(){
-      console.log('scrollTop:',this.$refs.showBoxRef.scrollTop)
-      console.log('scrollHeight:',this.$refs.showBoxRef.scrollHeight)
-      console.log('offsetHeight:',this.$refs.showBoxRef.offsetHeight)
-      // this.$router.push('/hangingorder')
-    },
-    scrollFun(e){
-      console.log("e",e)
+      this.$router.push('/hangingorder')
     },
     // 挂单记录
     recordClick(){
@@ -275,13 +282,18 @@ export default {
       })
     },
     // 市场页面获取市场出售的所有卡牌
-    getMarketCardInfo(){
+    getMarketCardInfo(level,size,num){
       // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
       return new Promise((resolve) => {
-        hnMarket().getHnIdsBySize(0,10000000).then(res => {
-          // console.log('所有正在出售的卡牌id数组res: ', res);
+        hnMarket().getLevelHnIdsBySize(level,size,num).then(res => {
+          console.log('所有正在出售的卡牌id数组res: ', res);
+          this.pagesize = res[1].toNumber()
           let count = 1
           let arr = []
+          if(res[0].length == 0){
+            resolve({'istrue':true,'arr':arr});
+            return
+          }
           res[0].map(async item => {
             let obj = {
               cardID: "",
@@ -300,24 +312,54 @@ export default {
             obj.src = getHnImg(Number(item), obj.level, race);
             arr.push(obj)
             if (count == res[0].length) {
-              this.cardInfoArr = arr
-              resolve(true);
+              // this.cardInfoArr = arr
+              resolve({'istrue':true,'arr':arr});
             }
             count++;
           })
         })
       })
+    },
+    // 监听盒子的滚动事件
+    listenerBoxScroll(){
+      this.$refs.showBoxRef.addEventListener('scroll',() => {
+        if(this.$refs.showBoxRef.scrollTop + 50 > this.$refs.showBoxRef.scrollHeight - this.$refs.showBoxRef.offsetHeight){
+          console.log("到底了")
+          if(this.pagesize == 0)return
+          this.pulldown = false // 显示加载中
+          this.getMarketCardInfo(this.rank,this.pagesize,this.pagenum).then(res => {
+            if(res.istrue){
+              console.log('第er次加载this.pageshowarr: ', this.pageshowarr);
+              this.pageshowarr = this.pageshowarr.concat(res.arr)
+              if(res.arr.length == 0){
+                this.pagesize = 0 // 还有数据,显示加载中
+                return
+              }
+              if(this.pagesize > 0){
+                this.pulldown = true // 还有数据,显示加载中
+              }
+            }
+          })
+        }else{
+          console.log("没有到底",Math.round(this.$refs.showBoxRef.scrollTop))
+        }
+      })
     }
   },
   mounted(){
     this.$nextTick(() => {
-      this.$refs.showBoxRef.addEventListener('scroll',(e) => {
-        console.log('e: ', e);
-
-      })
+      this.listenerBoxScroll()
     })
     this.getSDKInfo()
-    this.getMarketCardInfo()
+    this.getMarketCardInfo(this.rank,this.pagesize,this.pagenum).then(res => {
+      if(res.istrue){
+        console.log('第一次加载this.pageshowarr: ', this.pageshowarr);
+        this.pageshowarr = this.pageshowarr.concat(res.arr)
+        this.pageshowLoading = false
+      }else{
+        this.pageshowLoading = false
+      }
+    })
   }
 }
 </script>
@@ -453,6 +495,7 @@ export default {
     min-height: 550px;
     overflow-y: auto;
     height: 800px;
+    padding-bottom: 30px;
     .onebox{
       width: 228px;
       display: flex;
@@ -497,6 +540,21 @@ export default {
           cursor: pointer;
         }
       }
+    }
+    .loadingbox{
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+    }
+    .bottom_loading{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
     }
   }
 }
