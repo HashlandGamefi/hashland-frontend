@@ -98,9 +98,9 @@ export default {
       // 比特币价格
       this.$api.getCurrencyFun('0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c').then(res => {
         this.$api.getCurrencyFun('0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0').then(res1 => {
-          this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.price),'hc':this.$common.getBit(res1.price)})
-          sessionStorage.setItem('btcprice',this.$common.getBit(res.price))
-          sessionStorage.setItem('hcprice',this.$common.getBit(res1.price))
+          this.$store.commit("setCurrenciesPrice",{'btc':this.$common.getBit(res.data.data.price),'hc':this.$common.getBit(res1.data.data.price)})
+          sessionStorage.setItem('btcprice',this.$common.getBit(res.data.data.price))
+          sessionStorage.setItem('hcprice',this.$common.getBit(res1.data.data.price))
         })
       }).catch(err => {
         console.log('获取各种币的价格err:',err)

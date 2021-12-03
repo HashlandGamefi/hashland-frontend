@@ -120,10 +120,11 @@ export default {
               this.bindingloading = false;
               // console.log("绑定钱包结果", res.data);
               if (res.data.result === "SUCCESS") {
-                this.walletAddresses.push(res.data.walletAddress);
-                const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-                loginInfo.walletAddresses = this.walletAddresses;
-                localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+                this.againAutoLogin();
+                // this.walletAddresses.push(res.data.walletAddress);
+                // const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+                // loginInfo.walletAddresses = this.walletAddresses;
+                // localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
               } else if (res.data.result === "FAIL") {
                 this.$common.selectLang(res.data.msg, res.data.msg, this);
               }
@@ -149,6 +150,9 @@ export default {
           //   .catch((err) => {
           //     this.bindingloading = false;
           //   });
+        })
+        .catch((err) => {
+          this.bindingloading = false;
         });
     },
     /**公用提示框（关闭方法） closePopupPrompts */

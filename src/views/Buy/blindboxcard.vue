@@ -11,9 +11,10 @@
       </div>
       <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
       <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HCLP</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} BUSD</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} HT</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
       <span class="composite_line_color"></span>
       <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
@@ -24,9 +25,10 @@
       <div class="last">
         <span class="span1 fontsize12">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
         <span class="span2 fontsize12" v-if="tokenID == 0">{{$t("message.nftCard.txt11")}}: {{total}} BNB</span>
-        <span class="span2 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
-        <span class="span2 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
-        <span class="span2 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="span2 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HC</span>
+        <span class="span2 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
+        <span class="span2 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
+        <span class="span2 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
       </div>
     </div>
     <div class="mobile_top">
@@ -57,9 +59,10 @@
       <div class="mobile_line">
         <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
         <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HCLP</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} BUSD</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} HT</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
       </div>
       <span class="composite_line_color"></span>
       <div class="mobile_line">
@@ -73,13 +76,15 @@
       <div class="mobile_line">
         <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
         <span class="composite_span3 fontsize12" v-if="tokenID == 0">{{$t("message.nftCard.txt11")}}: {{total}} BNB</span>
-        <span class="composite_span3 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
-        <span class="composite_span3 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
-        <span class="composite_span3 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HC</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
       </div>
     </div>
     <div class="connect_box fontsize18" :class="{disable_bnb:disable}">
-      <Btn :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
+      <div v-if="disable" class="disablebtn">Not Qualified</div>
+      <Btn v-else :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
     </div>
     <div class="right_box">
       <div class="btn fontsize16">{{$t("message.nftCard.txt14")}}</div>
@@ -112,7 +117,7 @@ export default {
       isapprove:false,//是否授权
       tokenID:1, // 代币id------0 bnb  1 hclp  2 busd 3 ht
       maxbuy:0, // 最大购买数量
-      disable:false,//购买按钮是否禁用(是否在白名单)
+      disable:true,//购买按钮是否禁用(是否在白名单)
     }
   },
   computed: {
@@ -163,7 +168,7 @@ export default {
       }else if(Number(this.boxnums) > Number(this.maxbuy)){
         this.boxnums = this.maxbuy
         this.total = this.maxbuy * this.boxPrice
-        this.$common.selectLang(`最大购买数量${this.maxbuy}`,`Maximum Purchase Number is ${this.maxbuy}`,this)
+        this.$common.selectLang(`最大购买数量${this.maxbuy}`,`Remaining purchaseable quantity per hour is ${this.maxbuy}`,this)
       }else{
         this.proupDis = false
         this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
@@ -248,7 +253,7 @@ export default {
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        this.$common.selectLang('购买成功','Purchase Successful',this)
+        this.$common.selectLang('购买成功',"The NFT cards will display in few swconds,and it doesn't affect any action.",this)
         this.boxnums = ''
         this.total = 0
       }).catch(err => {
@@ -519,6 +524,13 @@ export default {
     background-repeat: no-repeat;
     color: #ffffff;
     cursor: pointer;
+    .disablebtn{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 @keyframes rotate {
@@ -707,10 +719,15 @@ export default {
       background-size: contain;
       background-repeat: no-repeat;
       font-size: 0.18rem;
-
-
       color: #ffffff;
       cursor: pointer;
+      .disablebtn{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
     .right_box{
       position: static;
