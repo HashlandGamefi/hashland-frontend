@@ -409,8 +409,13 @@ export default {
   /**
    * 一个数除以1e18,默认保留8位小数
    */
-  convertBigNumberToNormal(bigNumber:any, decimals = 18,bit = 8) {
+  convertBigNumberToNormal(bigNumber:any, bit = 8,decimals = 18) {
     let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(Math.pow(10, decimals))));
+    return this.getBit(result,bit)
+  },
+  divBigNumber(bigNumber:any, decimals:any,bit = 8){
+    console.log('bigNumber: ', bigNumber,decimals,bit);
+    let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(decimals)));
     return this.getBit(result,bit)
   },
   // sdkZutZeroFun(str:any) {

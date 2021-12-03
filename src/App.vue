@@ -4,6 +4,9 @@
     <transition name="fade">
       <router-view v-if="isRouterAlive" />
     </transition>
+    <div class="top_btn fontsize16" @click="gotop">
+      Top
+    </div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup :proupTitle="getrewardsInfo.proupTitle" :minserdis="getrewardsInfo.minserDis" :boxarr="getrewardsInfo.boxarr" @winbtnsure="winbtnsure" @closepage="closepageFun"></WinningPopup>
   </div>
@@ -21,6 +24,7 @@ export default {
   },
   watch:{
     $route(to,from){
+      window.scrollTo(0,0)
       if(to.path == '/synthesis' || to.path == '/transfer'){
         this.isshowFooter = false
       }else{
@@ -40,9 +44,23 @@ export default {
     return {
       isRouterAlive: true,//控制视图是否显示的变量
       isshowFooter:true,// 合成页面底部不显示变量
+      temArr: []
     }
   },
   methods: {
+    gotop(){
+      window.scrollTo(0,0)
+      this.addDom(document)
+      this.temArr.forEach(element => {
+        element.scrollTop = 0
+      })
+    },
+    addDom(dom){
+      [...dom.children].forEach(v => {
+        this.temArr.push(v)
+        this.addDom(v)
+      })
+    },
     reload () {
       this.isRouterAlive = false //先关闭，
       this.$nextTick(function () {
@@ -106,6 +124,24 @@ export default {
 }
 </script>
 <style lang="scss">
+.top_btn{
+  position: fixed;
+  bottom: 150px;
+  right: -30px;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  background: #ccc;
+  color: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:all .5s;
+}
+.top_btn:hover{
+  right:10px;
+  background: linear-gradient(90deg, #06366D 50%, #034088 100%);
+}
 @media screen and (min-width: 981px) {
   #app {
     width: 100%;

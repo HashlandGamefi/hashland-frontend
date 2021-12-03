@@ -4,9 +4,21 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="title1_txt fontsize32">去挂单</span>
-    <div class="content">
+    <div class="tab_box">
+      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
+        My Wallet Cards
+      </div>
+      <div
+        class="oneTab fontsize16"
+        :class="{ activeTab: tabIndex == 1 }"
+        @click="tabFun(1)"
+      >
+        My Sloted Cards
+      </div>
+    </div>
+    <div class="content" :class="{content_end:tabIndex == 1}">
       <!-- 几阶对应数量 -->
-      <div class="left_content">
+      <div class="left_content" v-if="tabIndex == 0">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -27,13 +39,16 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
-      <NoData v-if="pageshowarr.length == 0 && isshowArr"></NoData>
+      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+        Loading...
+      </div>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <div class="input_border">
         <span class="span1 fontsize16">单价</span>
         <div class="inputbox">
-          <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" />
+          <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^0-9\]/g,'')" />
         </div>
         <span class="span2 fontsize16">BUSD</span>
       </div>
@@ -47,18 +62,21 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { contract,hnMarket,getSigner } from 'hashland-sdk';
+import { contract,hnMarket,getSigner,hnPool,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      pageshowLoading:true,//数据没有加载完之前显示loading
+      tabIndex:0,
       dangerTxtModel:'',
-      isshowArr:false,// 页面暂时不显示nodata
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
+      cardslotArr:[],// 卡槽数据
       cardarr:[],//所有卡牌信息的数组
       pageshowarr:[],//页面展示的数组
+      waletArr:[],//钱包数据
       rank:1,//1阶
       amount:0,//阶对应的卡牌数量
       selectedNUM:0,//选中的卡牌数量
@@ -67,7 +85,8 @@ export default {
       synthesisDis:false,// 合成按钮loading
       timerll:null,
       timerll_result:null,
-      isApproveHN:false// hn授权
+      isApproveHN:false,// hn授权
+      time_arrNull:null,// 获取hn是否授权计时器对象
     }
   },
   computed: {
@@ -94,18 +113,25 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.getUserAllCard(1)
-          setTimeout(() => {
-            this.$refs.mychild.isApproveFun('hn',contract().HNMarket).then(res => {
-              if(res){
-                this.isApproveHN = true
-              }else{
-                this.isApproveHN = false
-              }
-            })
+          this.getUserPledgeInfo()
+          clearInterval(this.time_arrNull)
+          this.time_arrNull = setInterval(() => {
+            if(this.pageshowarr.length > 0){
+              clearInterval(this.time_arrNull)
+              this.$refs.mychild.isApproveFun('hn',contract().HNMarket).then(res => {
+                if(res){
+                  this.isApproveHN = true
+                }else{
+                  this.isApproveHN = false
+                }
+              })
+            }
           },1000)
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.pageshowarr = []//页面展示的数组
+          this.waletArr = []
+          this.cardslotArr = []
           this.rank = 1//1阶
           this.amount = 0//阶对应的卡牌数量
           this.selectedNUM = 0//选中的卡牌数量
@@ -117,6 +143,27 @@ export default {
     }
   },
   methods: {
+    tabFun(index){
+      if(this.pageshowLoading)return
+      this.tabIndex = index
+      console.log('index: ', index);
+      this.selectALLBtn = false
+      this.selectedNUM = 0 // 选中的卡牌数量
+      this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
+      this.rank = 1 // 当前几阶
+      this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+      this.waletArr.forEach(item => {
+        item.status = false
+      })
+      this.cardslotArr.forEach(item => {
+        item.status = false
+      })
+      if(index == 0){
+        this.pageshowarr = this.waletArr//钱包数据
+      }else{
+        this.pageshowarr = this.cardslotArr
+      }
+    },
     sonapprove(){
       if(this.synthesisDis)return
       this.synthesisDis = true
@@ -141,28 +188,6 @@ export default {
     // 取消转账
     dangerClick(){
       this.dangerTxtModel = ''
-    },
-    // 用户总卡牌数据获取
-    getUserAllCard(level){
-      clearInterval(this.timerll)
-      this.timerll = setInterval(() => {
-        if(sessionStorage.getItem('count')){
-          clearInterval(this.timerll)
-          this.cardarr = JSON.parse(this.getUserCardInfo)
-          let arr = this.cardarr.filter(item => { return item.level == level})
-          arr.sort((a, b) => {
-            return Number(a.type) > Number(b.type) ? 1 : -1;
-          })
-          this.pageshowarr = arr
-          this.isshowArr = true
-          this.amount = this.cardarr.filter(item => { return item.level == level}).length
-          this.synthesisDis = false
-          this.selectALLBtn = this.selectStatus = false
-          this.selectedNUM = 0
-          this.selectimgArr = []
-        }
-        console.log("获取用户信息")
-      }, 1000);
     },
     // 全选按钮选中事件
     selectAllClick(){
@@ -220,6 +245,7 @@ export default {
         this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
         return
       }
+      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
       this.synthesisDis = true
       this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
         console.log('合约需要的数组已经处理完毕: ', info);
@@ -254,6 +280,7 @@ export default {
             this.synthesisDis = false
           }
         }).catch(err => {
+          this.synthesisDis = false
           console.log('卖家批量出售HN卡牌err: ', err);
         })
       })
@@ -268,12 +295,10 @@ export default {
           let obj = {
             cardID:'',
             prices:'',
-            issell:false
+            issell:this.tabIndex == 0?false:true //获取某卖家的某HN卡牌是否正在出售
           }
           obj.cardID = item.id
           obj.prices = price
-          // 获取某卖家的某HN卡牌是否正在出售
-          obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount, item.id)
           arr_cardinfo.push(obj)
           if (count == arr.length) {
             resolve(arr_cardinfo);
@@ -322,6 +347,7 @@ export default {
     },
     // 选择阶数
     selectRankClik(data){
+      if(this.pageshowLoading)return
       this.selectALLBtn = false
       this.selectedNUM = 0 // 选中的卡牌数量
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
@@ -336,6 +362,56 @@ export default {
     },
     back(){
       this.$router.go(-1)
+    },
+    // 用户钱包总卡牌数据获取
+    getUserAllCard(level){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          this.cardarr = JSON.parse(this.getUserCardInfo)
+          let arr = this.cardarr.filter(item => { return item.level == level})
+          arr.sort((a, b) => {
+            return Number(a.type) > Number(b.type) ? 1 : -1;
+          })
+          this.pageshowarr = this.waletArr = arr
+          this.pageshowLoading = false
+          this.amount = this.cardarr.filter(item => { return item.level == level}).length
+          this.synthesisDis = false
+          this.selectALLBtn = this.selectStatus = false
+          this.selectedNUM = 0
+          this.selectimgArr = []
+        }
+        console.log("获取用户信息")
+      }, 1000);
+    },
+    // 获取用户在质押中的卡牌信息
+    getUserPledgeInfo(){
+      hnPool().getUserHnIdsBySize(this.getAccount,0,1000).then(res => {
+        console.log('获取用户在质押中的卡牌信息res: ', res);
+        if(res[0].length == 0){
+          this.cardslotArr = []
+          return
+        }
+        let count = 1
+        let arr = []
+        res[0].map(async (item) => {
+          let obj = {
+            src: "",
+            cardID: "",
+            level: "",
+          };
+          obj.cardID = item.toString(); // 卡牌的id
+          obj.level = (await hn().level(item.toString())).toString(); // 等级
+          let race = await hn().getHashrates(item) // 算力数组
+          obj.src = getHnImg(Number(item),Number(obj.level),race)
+          arr.push(obj)
+          if (count == res[0].length) {
+            this.cardslotArr = arr
+          }
+          count++;
+        })
+      })
     }
   }
 }
@@ -349,7 +425,7 @@ export default {
   align-items: center;
   .title {
     position: absolute;
-    top: 149px;
+    top: 100px;
     right: 90px;
     width: 44px;
     cursor: pointer;
@@ -361,6 +437,31 @@ export default {
   .title1_txt {
     color: #ffffff;
     margin-top: 208px;
+  }
+  .tab_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 65px;
+    .oneTab {
+      width: 158px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      color: #ffffff;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+    }
+    .activeTab {
+      background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+      box-shadow: 0 9px 2px #23447c;
+    }
+  }
+  .activeTab {
+    background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+    box-shadow: 0 9px 2px #23447c;
   }
   .content{
     width: 100%;
@@ -426,6 +527,7 @@ export default {
       display: flex;
       align-items: center;
       cursor: pointer;
+      height: 48px;
       .selectimg{
         width: 40px;
         object-fit: contain;
@@ -435,6 +537,9 @@ export default {
         color: #FFFFFF;
       }
     }
+  }
+  .content_end{
+    justify-content: flex-end;
   }
   .cardarr_class{
     width: 100%;
@@ -466,12 +571,19 @@ export default {
         object-fit: contain;
       }
     }
+    .loadingbox{
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+    }
   }
   .Suspension_btnbox{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
     .input_border{
       width: 428px;
       height: 61px;

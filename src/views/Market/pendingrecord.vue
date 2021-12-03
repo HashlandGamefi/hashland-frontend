@@ -162,7 +162,7 @@ export default {
   align-items: center;
   .title {
     position: absolute;
-    top: 149px;
+    top: 100px;
     right: 90px;
     width: 44px;
     cursor: pointer;
