@@ -51,16 +51,16 @@ const routes: Array<RouteConfig> = [
     name: 'Invite',
     component: () => import('../views/Invite/index.vue')
   },
-  {
-    path: '/gameFi',
-    name: 'GameFi',
-    component: () => import('../views/GameFi/index.vue')
-  },
-  {
-    path: '/personalCenter',
-    name: 'PersonalCenter',
-    component: () => import('../views/GameFi/personalCenter.vue')
-  },
+  // {
+  //   path: '/gameFi',
+  //   name: 'GameFi',
+  //   component: () => import('../views/GameFi/index.vue')
+  // },
+  // {
+  //   path: '/personalCenter',
+  //   name: 'PersonalCenter',
+  //   component: () => import('../views/GameFi/personalCenter.vue')
+  // },
   {
     path: '/hclp',
     name: 'Hclp',

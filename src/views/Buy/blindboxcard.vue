@@ -253,7 +253,7 @@ export default {
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        this.$common.selectLang('购买成功',"The NFT cards will display in few swconds,and it doesn't affect any action.",this)
+        this.$common.selectLang('购买成功',"The NFT cards will display in few seconds, and it doesn't affect any action.",this)
         this.boxnums = ''
         this.total = 0
       }).catch(err => {
