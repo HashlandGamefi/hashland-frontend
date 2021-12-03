@@ -5,13 +5,13 @@
     </div>
     <span class="title1_txt fontsize32">挂单记录</span>
     <div class="tab_box">
-      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabIndex = 0" >
+      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
         出售中
       </div>
       <div
         class="oneTab fontsize16"
         :class="{ activeTab: tabIndex == 1 }"
-        @click="tabIndex = 1"
+        @click="tabFun(1)"
       >
         已完成
       </div>
@@ -33,7 +33,10 @@
           </div>
         </div>
       </div>
-      <NoData v-if="pageshowarr.length == 0"></NoData>
+      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+        Loading...
+      </div>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData> -->
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -45,11 +48,13 @@ import { hnMarket,hn,getHnImg,getSigner } from 'hashland-sdk';
 export default {
   data () {
     return {
+      pageshowLoading:true,//数据没有加载完之前显示loading
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       tabIndex: 0,//tab索引
-      pageshowarr:[]
+      pageshowarr:[],// 页面展示数组
+      cardInfoArr:[]
     }
   },
   computed: {
@@ -59,7 +64,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          this.connectInfo()
+          // this.connectInfo()
         }
       },
       deep: true,
@@ -67,6 +72,19 @@ export default {
     }
   },
   methods:{
+    tabFun(index){
+      this.tabIndex = index
+      if(index == 0){
+        this.pageshowarr = this.cardInfoArr.filter(item => {
+          return item.issell
+        })
+      }else{
+          console.log('this.pageshowarr: ', this.pageshowarr);
+        this.pageshowarr = this.cardInfoArr.filter(item => {
+          return !item.issell
+        })
+      }
+    },
     // 取消订单
     cancleOrder(item){
       if(item.isloading)return
@@ -101,8 +119,9 @@ export default {
     },
     connectInfo(){
       this.getMarketCardInfo().then(res =>{
+        this.pageshowLoading = false
         if(res.istrue){
-          this.pageshowarr = this.pageArrInfo(res.arr)
+          this.cardInfoArr = this.pageshowarr = this.pageArrInfo(res.arr)
         }
       })
     },
@@ -127,7 +146,7 @@ export default {
             obj.cardID = item.toString() // 卡牌的id
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
             obj.level = (await hn().level(item)).toString() // 等级
-            obj.price = (await hnMarket().hnPrice(item)).toString()
+            obj.price = (await hnMarket().hnPrice(item) / 1e18).toString()
             let race = await hn().getHashrates(item) // 算力数组
             obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount, item)
             // @ts-ignore
@@ -210,7 +229,7 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    min-height: 550px;
+    // min-height: 550px;
     overflow-y: auto;
     max-height: 800px;
     .onebox{
@@ -257,6 +276,14 @@ export default {
           cursor: pointer;
         }
       }
+    }
+    .loadingbox{
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
     }
   }
 }

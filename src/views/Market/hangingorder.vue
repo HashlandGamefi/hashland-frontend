@@ -16,9 +16,11 @@
         My Sloted Cards
       </div>
     </div>
-    <div class="content" :class="{content_end:tabIndex == 1}">
+    <!-- :class="{content_end:tabIndex == 1}" -->
+    <div class="content">
       <!-- 几阶对应数量 -->
-      <div class="left_content" v-if="tabIndex == 0">
+      <!-- v-if="tabIndex == 0" -->
+      <div class="left_content" >
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -48,7 +50,7 @@
       <div class="input_border">
         <span class="span1 fontsize16">单价</span>
         <div class="inputbox">
-          <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^0-9\]/g,'')" />
+          <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
         </div>
         <span class="span2 fontsize16">BUSD</span>
       </div>
@@ -161,7 +163,7 @@ export default {
       if(index == 0){
         this.pageshowarr = this.waletArr//钱包数据
       }else{
-        this.pageshowarr = this.cardslotArr
+        // this.pageshowarr = this.cardslotArr
       }
     },
     sonapprove(){
@@ -546,7 +548,6 @@ export default {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 20px;
     min-height: 300px;
     max-height: 600px;
     overflow-y: auto;
@@ -556,7 +557,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 20px;
+      margin-top: 20px;
       margin-right: 46px;
       cursor: pointer;
       .card_picture{
@@ -584,6 +585,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
     .input_border{
       width: 428px;
       height: 61px;
