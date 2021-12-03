@@ -83,7 +83,8 @@
       </div>
     </div>
     <div class="connect_box fontsize18" :class="{disable_bnb:disable}">
-      <Btn :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
+      <div v-if="disable" class="disablebtn">Not Qualified</div>
+      <Btn v-else :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
     </div>
     <div class="right_box">
       <div class="btn fontsize16">{{$t("message.nftCard.txt14")}}</div>
@@ -116,7 +117,7 @@ export default {
       isapprove:false,//是否授权
       tokenID:1, // 代币id------0 bnb  1 hclp  2 busd 3 ht
       maxbuy:0, // 最大购买数量
-      disable:false,//购买按钮是否禁用(是否在白名单)
+      disable:true,//购买按钮是否禁用(是否在白名单)
     }
   },
   computed: {
@@ -252,7 +253,7 @@ export default {
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        this.$common.selectLang('购买成功','Purchase Successful',this)
+        this.$common.selectLang('购买成功',"The NFT cards will display in few swconds,and it doesn't affect any action.",this)
         this.boxnums = ''
         this.total = 0
       }).catch(err => {
@@ -523,6 +524,13 @@ export default {
     background-repeat: no-repeat;
     color: #ffffff;
     cursor: pointer;
+    .disablebtn{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 @keyframes rotate {
@@ -711,10 +719,15 @@ export default {
       background-size: contain;
       background-repeat: no-repeat;
       font-size: 0.18rem;
-
-
       color: #ffffff;
       cursor: pointer;
+      .disablebtn{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
     .right_box{
       position: static;
