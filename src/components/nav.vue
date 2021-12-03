@@ -431,14 +431,11 @@ export default {
           this.$router.push("/buy/0/1");
           break;
         case 1:
-          this.$router.push("/gameFi");
-          // this.$common.selectLang("敬请期待", "Coming soon", this);
+          // this.$router.push("/gameFi");
+          this.$common.selectLang("敬请期待", "Coming soon", this);
           break;
         case 2:
           this.$router.push("/hclp");
-          break;
-        case 3:
-          this.$router.push('/market')
           break;
         case 4:
           window.location.href =
