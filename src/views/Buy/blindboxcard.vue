@@ -299,6 +299,8 @@ export default {
               this.disable = true
             }
           })
+        }else{
+          this.disable = false
         }
       })
     }
