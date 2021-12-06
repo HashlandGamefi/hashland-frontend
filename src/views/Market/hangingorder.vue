@@ -16,11 +16,9 @@
         My Sloted Cards
       </div>
     </div>
-    <!-- :class="{content_end:tabIndex == 1}" -->
-    <div class="content">
+    <div class="content" :class="{content_end:tabIndex == 1}">
       <!-- 几阶对应数量 -->
-      <!-- v-if="tabIndex == 0" -->
-      <div class="left_content" >
+      <div class="left_content" v-if="tabIndex == 0">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -58,7 +56,7 @@
         <Btn :isapprove="isApproveHN" :approveloading="synthesisDis" :isloading="synthesisDis" :word="'挂单'" ref="mychild" @sonapprove="sonapprove" @dosomething="synthesisFun"/>
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="goSell" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -163,7 +161,7 @@ export default {
       if(index == 0){
         this.pageshowarr = this.waletArr//钱包数据
       }else{
-        // this.pageshowarr = this.cardslotArr
+        this.pageshowarr = this.cardslotArr
       }
     },
     sonapprove(){
@@ -235,20 +233,16 @@ export default {
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
+      this.synthesisDis = false
     },
-    // 售卖(是否在质押存在疑问,需确认)
-    async synthesisFun(){
-      if(this.synthesisDis)return
-      if(this.selectimgArr.length < 1){
-        this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
+    // 弹窗去售卖
+    goSell(){
+      if(!this.synthesisDis){
+        this.proupDis = false
         return
       }
-      if(!this.dangerTxtModel){
-        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
-        return
-      }
-      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
-      this.synthesisDis = true
+      console.log('this.synthesisDis: ', this.synthesisDis);
+      this.proupDis = false
       this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
         console.log('合约需要的数组已经处理完毕: ', info);
         let cardIDArr = info.map(item => {
@@ -286,6 +280,21 @@ export default {
           console.log('卖家批量出售HN卡牌err: ', err);
         })
       })
+    },
+    // 售卖
+    async synthesisFun(){
+      if(this.synthesisDis)return
+      if(this.selectimgArr.length < 1){
+        this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
+        return
+      }
+      if(!this.dangerTxtModel){
+        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
+        return
+      }
+      this.$common.selectLang('Once NFT cards are reactivated, the original game data will be cleared.','Once NFT cards are reactivated, the original game data will be cleared.',this)
+      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
+      this.synthesisDis = true
     },
     // 合约需要的三个数组处理方法
     processingArrayFun(arr,price){
@@ -549,7 +558,7 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     min-height: 300px;
-    max-height: 600px;
+    max-height: 540px;
     overflow-y: auto;
     .onebox{
       position: relative;

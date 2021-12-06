@@ -414,7 +414,7 @@ export default {
     return this.getBit(result,bit)
   },
   divBigNumber(bigNumber:any, decimals:any,bit = 8){
-    console.log('bigNumber: ', bigNumber,decimals,bit);
+    // console.log('bigNumber: ', bigNumber,decimals,bit);
     let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(decimals)));
     return this.getBit(result,bit)
   },
