@@ -1,23 +1,35 @@
 <template>
-  <div class="login_registered" @click.self="closeLOrR">
+  <div
+    class="login_registered"
+    @click.self="closeLOrR"
+  >
     <div class="outside_box">
       <img
         class="close"
         :src="`${$store.state.imgUrl}proupclose.png`"
         @click="closeLOrR"
       />
-      <ul class="in_box" v-if="loginOrRegister == 'login'">
+      <ul
+        class="in_box"
+        v-if="loginOrRegister == 'login'"
+      >
         <li class="header_title ban_select fontsize22">账号登录</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize12">仅限于游戏</li>
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">账号</span>
-            <span class="fontsize14" v-show="loginForm.prompt1">
+            <span
+              class="fontsize14"
+              v-show="loginForm.prompt1"
+            >
               *{{ loginForm.prompt1 }}
             </span>
           </div>
-          <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
+          <div
+            class="input_box_box"
+            :class="{ active: loginForm.prompt1 }"
+          >
             <input
               type="text"
               placeholder="请输入邮箱"
@@ -28,11 +40,17 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">密码</span>
-            <span class="fontsize14" v-show="loginForm.prompt2">
+            <span
+              class="fontsize14"
+              v-show="loginForm.prompt2"
+            >
               *{{ loginForm.prompt2 }}
             </span>
           </div>
-          <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
+          <div
+            class="input_box_box"
+            :class="{ active: loginForm.prompt2 }"
+          >
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
@@ -46,29 +64,44 @@
             </div>
           </div>
         </li>
-        <li class="btn login_btn ban_select fontsize14" @click="manuallyLogin">
+        <li
+          class="btn login_btn ban_select fontsize14"
+          @click="manuallyLogin"
+        >
           <span>登录</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer ban_select">
-          <span class="fontsize16" @click="registerNow">
+          <span
+            class="fontsize16"
+            @click="registerNow"
+          >
             没有账号？立即注册
           </span>
           <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
         </li>
       </ul>
-      <ul class="in_box register_box" v-if="loginOrRegister == 'registered'">
+      <ul
+        class="in_box register_box"
+        v-if="loginOrRegister == 'registered'"
+      >
         <li class="header_title ban_select fontsize22">账号注册</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize16">账号注册</li>
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">邮箱</span>
-            <span class="fontsize14" v-show="registerForm.prompt1">
+            <span
+              class="fontsize14"
+              v-show="registerForm.prompt1"
+            >
               *{{ registerForm.prompt1 }}
             </span>
           </div>
-          <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
+          <div
+            class="input_box_box"
+            :class="{ active: registerForm.prompt1 }"
+          >
             <input
               type="text"
               placeholder="请输入邮箱"
@@ -79,17 +112,26 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">验证码</span>
-            <span class="fontsize14" v-show="registerForm.prompt2">
+            <span
+              class="fontsize14"
+              v-show="registerForm.prompt2"
+            >
               *{{ registerForm.prompt2 }}
             </span>
           </div>
-          <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
+          <div
+            class="input_box_box"
+            :class="{ active: registerForm.prompt2 }"
+          >
             <input
               type="text"
               placeholder="请输入验证码"
               v-model="registerForm.verifyCode"
             />
-            <div class="verification ban_select fontsize14" @click="getCode">
+            <div
+              class="verification ban_select fontsize14"
+              @click="getCode"
+            >
               <span>获取</span>
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
@@ -98,11 +140,17 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">密码</span>
-            <span class="fontsize14" v-show="registerForm.prompt3">
+            <span
+              class="fontsize14"
+              v-show="registerForm.prompt3"
+            >
               *{{ registerForm.prompt3 }}
             </span>
           </div>
-          <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
+          <div
+            class="input_box_box"
+            :class="{ active: registerForm.prompt3 }"
+          >
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
@@ -116,9 +164,18 @@
             </div>
           </div>
         </li>
-        <li class="checkoutside_box ban_select" @click="isRead = !isRead">
-          <div><div v-if="isRead"></div></div>
-          <div class="fontsize16">我已阅读了《某某某条约》</div>
+        <li
+          class="checkoutside_box ban_select"
+          @click="readTheTreaty"
+        >
+          <div>
+            <div v-if="isRead"></div>
+          </div>
+          <div class="fontsize16">
+            我已阅读了《
+            <span @click="openTreaty">某某某条约</span>
+            》
+          </div>
         </li>
         <li
           class="btn registered_btn ban_select fontsize16"
@@ -129,7 +186,6 @@
         </li>
       </ul>
     </div>
-    <!-- <Proup :btntxt="popupConfirmBtn" :word="popupPromptText" :proupDis="popupShow" @besurefun="closePopupPrompts" @closedis="closePopupPrompts"></Proup> -->
     <Proup
       :btntxt="btntxt"
       :word="word"
@@ -154,9 +210,6 @@ export default {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      // popupConfirmBtn: "", // 公用提示框的确认按钮
-      // popupPromptText: "", // 公用提示框的提示文字
-      // popupShow: false, // 公用提示框不显示
       isShowPassword: false,
       isRead: false,
       loginOrRegister: "",
@@ -215,11 +268,7 @@ export default {
         this.registerForm.prompt3 = "请填写密码"; // 请填写密码
       }
       if (!this.isRead) {
-        this.$common.selectLang(
-          "请先阅读《某某某条约》",
-          "请先阅读《某某某条约》",
-          this
-        );
+        this.$common.selectLang("请先阅读条约", "请先阅读条约", this);
       }
       if (
         this.registerForm.mailAccount &&
@@ -245,21 +294,6 @@ export default {
           .catch((err) => {
             this.registerbtnloading = false;
           });
-        // const url = `http://47.57.191.195:8080/va_cent/mail_register?mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-        // this.$axios
-        //   .get(url)
-        //   .then((res) => {
-        //     // console.log("注册账号：", res.data);
-        //     this.registerbtnloading = false;
-        //     if (res.data.result === "SUCCESS") {
-        //       this.firstAutoLogin(res.data.mailAccount, res.data.token);
-        //     } else if (res.data.result === "FAIL") {
-        //       this.$common.selectLang(res.data.msg, res.data.msg, this);
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     this.registerbtnloading = false;
-        //   });
       }
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
@@ -278,20 +312,6 @@ export default {
           }
         })
         .catch((err) => {});
-      // const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${mailAccount}&token=${token}`;
-      // this.$axios
-      //   .get(url)
-      //   .then((res) => {
-      //     // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
-      //     if (res.data.result === "SUCCESS") {
-      //       localStorage.setItem("loginInfo", JSON.stringify(res.data));
-      //       this.switchingLoginStatus(res.data.mailAccount);
-      //       this.closeLOrR();
-      //     } else if (res.data.result === "FAIL") {
-      //       this.$common.selectLang(res.data.msg, res.data.msg, this);
-      //     }
-      //   })
-      //   .catch((err) => {});
     },
     /**手动登录，使用账号和密码 */
     manuallyLogin() {
@@ -339,27 +359,8 @@ export default {
           .catch((err) => {
             this.loginbtnloading = false;
           });
-        // const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
-        // this.$axios
-        //   .get(url)
-        //   .then((res) => {
-        //     // console.log("手动登录，使用账号和密码：", res.data);
-        //     this.loginbtnloading = false;
-        //     if (res.data.result === "SUCCESS") {
-        //       localStorage.setItem("loginInfo", JSON.stringify(res.data));
-        //       this.switchingLoginStatus(res.data.mailAccount);
-        //       this.closeLOrR();
-        //       this.$router.push("/personalCenter");
-        //     } else if (res.data.result === "FAIL") {
-        //       this.$common.selectLang(res.data.msg, res.data.msg, this);
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     this.loginbtnloading = false;
-        //   });
       }
     },
-
     /**没有账号？立即注册 */
     registerNow() {
       this.loginOrRegister = "registered";
@@ -401,25 +402,15 @@ export default {
           .catch((err) => {
             this.codebtnloading = false;
           });
-
-        // const url = `http://hw-api.hashland.com:8080/va_cent/get_mail_code?mailAccount=${this.registerForm.mailAccount}`;
-        // this.$axios
-        //   .get(url)
-        //   .then((res) => {
-        //     // console.log("获取验证码：", res.data);
-        //     this.codebtnloading = false;
-        //     if (res.data.result === "SUCCESS") {
-        //       // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
-        //     } else if (res.data.result === "FAIL") {
-        //       // res.data.msg; // "10分钟内只能发送一次确认码"
-        //     }
-        //     console.log(this);
-        //     this.$common.selectLang(res.data.msg, res.data.msg, this);
-        //   })
-        //   .catch((err) => {
-        //     this.codebtnloading = true;
-        //   });
       }
+    },
+    /**阅读条约 */
+    readTheTreaty() {
+      this.isRead = !this.isRead;
+    },
+    /**打开条约 */
+    openTreaty() {
+      // console.log("open");
     },
     /**是否显示密码 */
     showPassword() {
