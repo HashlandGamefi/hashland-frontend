@@ -390,7 +390,7 @@ export default {
         this.$api
           .gameMailCode(url)
           .then((res) => {
-            console.log("获取验证码：", res.data);
+            // console.log("获取验证码：", res.data);
             this.codebtnloading = false;
             if (res.data.result === "SUCCESS") {
               // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
