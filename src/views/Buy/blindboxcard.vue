@@ -135,10 +135,12 @@ export default {
             if(this.tokenID == 0){
               type = 'BNB'
             }else if(this.tokenID == 1){
-              type = 'HCLP'
+              type = 'HC'
             }else if(this.tokenID == 2){
-              type = 'BUSD'
+              type = 'HCLP'
             }else if(this.tokenID == 3){
+              type = 'BUSD'
+            }else if(this.tokenID == 4){
               type = 'HT'
             }
             this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
