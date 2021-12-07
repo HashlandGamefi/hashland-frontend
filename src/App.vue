@@ -21,6 +21,7 @@ export default {
   },
   watch:{
     $route(to,from){
+      window.scrollTo(0,0)
       if(to.path == '/synthesis' || to.path == '/transfer'){
         this.isshowFooter = false
       }else{
