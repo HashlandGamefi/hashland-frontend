@@ -248,11 +248,10 @@ export default {
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
-      if(Number(this.total) > Number(this.balance)){
-        console.log('Number(this.total) > Number(this.balance): ', Number(this.total),Number(this.balance));
-        this.$common.selectLang('余额不足','Insufficent Balance',this)
-        return
-      }
+      // if(Number(this.total) > Number(this.balance)){
+      //   this.$common.selectLang('余额不足','Insufficent Balance',this)
+      //   return
+      // }
       this.buy_isloading = true
       // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
