@@ -17,35 +17,42 @@
     <div class="content">
       <!-- 排序  卡牌信息 -->
       <div class="leftboxs">
-        <!-- 几阶对应数量 -->
+        <!-- 等级排序 -->
         <div class="left_content">
-          <span class="span1 fontsize16"
-            >{{ $t("message.synthesis.txt4") }} {{ rank }} ({{
-              $t("message.synthesis.txt8")
-            }}
-            {{ amount }})</span
-          >
+          <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}}{{ amount }})</span>
           <div class="span2"></div>
           <div class="left_content_hover">
-            <span
-              class="span1 fontsize16"
-              @click="selectRankClik(ele, index)"
-              v-for="(ele, index) in cardLengthArr"
-              :key="index"
-              >{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{
-                $t("message.synthesis.txt8")
-              }}
-              {{ ele }})</span
-            >
+            <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}}{{ ele }})</span>
           </div>
         </div>
-        <!-- 排序 -->
+        <!-- 职业排序 -->
+        <div class="left_content">
+          <span class="span1 fontsize16">{{$t(occupationTxt)}}</span>
+          <div class="span2"></div>
+          <div class="left_content_hover">
+            <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{$t(ele.name)}}</span>
+          </div>
+        </div>
+        <!-- 筛选-->
         <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
           <span class="span1 fontsize16">{{ item.name }}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
             <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
               {{ ele.name }}
+            </span>
+          </div>
+        </div>
+        <!-- 倒叙--正序 -->
+        <div class="left_content_price">
+          <span class="span1 fontsize16">{{$t(sequenceTxt)}}</span>
+          <div class="span2"></div>
+          <div class="left_content_hover">
+            <span class="span1 fontsize16" @click="sequenceFun('message.market.txt14','asc')">
+              {{ $t("message.market.txt14") }}
+            </span>
+            <span class="span1 fontsize16" @click="sequenceFun('message.market.txt15','desc')">
+              {{ $t("message.market.txt15") }}
             </span>
           </div>
         </div>
@@ -65,8 +72,8 @@
     <!-- 页面展示卡牌盒子 -->
     <div class="show_gameArr" ref="showBoxRef">
       <div class="onebox" v-for="(item, index) in pageshowarr" :key="index">
-        <img :src="getsrc(item)" />
-        <!-- <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" /> -->
+        <!-- <img :src="getsrc(item)" /> -->
+        <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" />
         <div class="bottom_box">
           <div class="left_price">
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
@@ -110,21 +117,32 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnMarketInfo, hnMarket, hn, getHnImg, erc20, token, contract, getSigner, util } from 'hashland-sdk';
+import { hnMarketInfo, hnMarket, getHnImg, erc20, token, contract, getSigner, util } from 'hashland-sdk';
 export default {
   data () {
     return {
       orderArr:[
-        {name:'价格排序',arr:[{name:'升序',describe:'1'},{name:'降序',describe:'2'}]},
-        {name:'等级排序',arr:[{name:'Level 1',describe:'1'},{name:'Level 2',describe:'2'},{name:'Level 3',describe:'3'},{name:'Level 4',describe:'4'},{name:'Level 5',describe:'5'}]},
-        {name:'职业排序',arr:[{name:'Cavalryman',describe:'1'},{name:'Holy',describe:'2'},{name:'Blade',describe:'3'},{name:'Hex',describe:'4'}]}
+        {name:'筛选字段',
+          arr:[
+            {name:'BTC筛选',describe:1},
+            {name:'HC筛选',describe:2},
+            {name:'价格筛选',describe:3},
+            {name:'上架时间筛选',describe:4}
+          ]
+        }
       ],
-      raceSort: 'message.market.txt10',//种族排序
-      priceSort: 'message.market.txt9',//价格排序
+      sequenceTxt:'message.market.txt14',// 正序 --倒序
+      occupationTxt:'message.market.txt9',//职业排序
+      occupationArr:[
+        {name:'message.market.txt10',describe:1},
+        {name:'message.market.txt11',describe:2},
+        {name:'message.market.txt12',describe:3},
+        {name:'message.market.txt13',describe:4}
+      ],//职业排序数组
+      cardLengthArr: [],// 几阶对应的数量数组
       pulldown: true,// 上拉加载变量
       pageshowLoading: true,// 数据没有加载完之前显示loading
-      pageshowarr: [],
-      cardLengthArr: [],// 几阶对应的数量数组
+      pageshowarr: [],//页面展示数组
       rank: 1,//1阶
       amount: 0,//阶对应的卡牌数量
       selectedNUM: 0,//选中的卡牌数量
@@ -141,10 +159,17 @@ export default {
         { title: "message.market.txt8", num: 0, loading: true }
       ],
       timeoutOBJ: null,// 下拉加载定时器对象
-      pagenum:2,//每页展示数量
-      dabasenum:0,//页数
       nodata:false,// 没有数据展示字段
       isPull:false,// 是否可以再次上拉字段
+      sortObj:{
+        first: 15,  //查询结果数量，比如填10，就展示前10个结果
+        skip: 0,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
+        orderBy: 'sellTime',  // 排序字段，填字段名，所有字段见下文查询结果
+        orderDirection: 'asc',  // 降序or升序，填desc或asc
+        level: 1, // 按等级筛选，填1-5
+        hnClass:'', // 按职业筛选，填1-4
+        seller: '' // 按卖家筛选，填钱包地址
+      }
     }
   },
   computed: {
@@ -195,8 +220,25 @@ export default {
     },
   },
   methods: {
-    getsrc (item) {
-      return getHnImg(item.hnId, item.level, [item.hcHashrate, item.btcHashrate])
+    // 正序--倒叙方式
+    sequenceFun(data,style){
+      console.log('data: ', data);
+      this.sequenceTxt = data
+      this.sortObj.orderDirection = style
+      this.sortObj.skip = 0
+      this.pageshowLoading = true
+      this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
+        if (res.status == 0) {
+          this.pageshowarr = res.arr
+          this.pageshowLoading = false
+        } else if (res.status == 1) {
+          this.pageshowarr = []
+          this.pageshowLoading = false
+        }
+      }).catch(() => {
+        this.pageshowarr = []
+        this.pageshowLoading = false
+      })
     },
     sonapprove (item) {
       if (item.isstatus) return
@@ -253,7 +295,6 @@ export default {
               }
             })
             this.getDatabaseaFun(this.pagenum,0).then(data => {
-              this.dabasenum += this.pagenum
               if (data.status == 0) {
                 this.pageshowarr = data.arr
                 this.pageshowLoading = false
@@ -269,23 +310,6 @@ export default {
                 this.nodata = true
               }
             })
-            // this.getMarketCardInfo(this.rank, 0).then(data => {
-            //   console.log('data: ', data);
-            //   if (data.istrue) {
-            //     this.pageshowarr = data.arr
-            //     this.$common.selectLang('购买成功', '购买成功', this)
-            //     this.getSDKInfo()
-            //     this.connectInfo()
-            //     item.isstatus = false
-            //   }
-            //   if (data.arr.length == 0) {
-            //     this.pagesize = 0 // 没有数据  设为0
-            //     return
-            //   }
-            //   if (this.pagesize > 0) {
-            //     this.pulldown = true // 还有数据,显示上拉加载更多
-            //   }
-            // })
           } else {
             item.isstatus = false
           }
@@ -302,14 +326,15 @@ export default {
       if (this.pageshowLoading) return
       this.rank = index + 1 // 当前几阶
       this.amount = ele
-      this.priceSort = 'message.market.txt9'
       this.pageshowarr = []
       this.pulldown = true// 上拉加载变量
       this.pageshowLoading = true// 数据秘没有加载玩之前显示loading
       this.nodata = false
-      this.dabasenum = 0 // 从第0页开始
-      this.getDatabaseaFun(this.pagenum,0,this.rank).then(res => {
-        this.dabasenum += this.pagenum
+      this.occupationIstrue = true // 职业排序此字段的true与false决定排序数组是否有值
+      this.sortObj.level = this.rank // 选择当前等级
+      this.sortObj.skip = 0 // 当前页数重置为0
+      this.getDatabaseaFun(this.sortObj).then(res => {
+        this.sortObj.skip += this.sortObj.first
         if (res.status == 0) {
           this.pageshowarr = res.arr
           this.pageshowLoading = false
@@ -317,65 +342,89 @@ export default {
           this.pageshowarr = []
           this.pageshowLoading = false
         }
+      }).catch(err => {
+        this.pageshowarr = []
+        this.pageshowLoading = false
+      })
+    },
+    // 职业排序
+    occupationFun(ele){
+      console.log('ele: ', ele);
+      this.occupationTxt = ele.name
+      this.sortObj.hnClass = ele.describe
+      this.sortObj.skip = 0
+      this.pageshowLoading = true
+      this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
+        if (res.status == 0) {
+          this.pageshowarr = res.arr
+          this.pageshowLoading = false
+        } else if (res.status == 1) {
+          this.pageshowarr = []
+          this.pageshowLoading = false
+        }
+      }).catch(() => {
+        this.pageshowarr = []
+        this.pageshowLoading = false
       })
     },
     // 排序
     sortPriceClik (item,data) {
-      // console.log('data: ',item, data);
-      if(item.name == '等级排序'){
+      console.log('data: ',item, data);
+      // if(this.occupationIstrue){
+      //   this.occupationArr = this.pageshowarr
+      // }
+      // this.occupationIstrue = false
+      if(item.name == 'hc排序'){
+        // let istrue = this.occupationArr.every(item => {
+        //   return item.hcHashrate > 0
+        // })
+        // if(!istrue)return
+        // console.log('istrue: ', istrue);
         switch (data.describe) {
-          case '1':
-            console.log("等级1")
+          case 1:
+            console.log("升序")
+            this.pageshowarr = this.occupationArr.sort((a, b) => {
+              return Number(a.hcHashrate) > Number(b.hcHashrate) ? 1 : -1;
+            })
             break;
-          case '2':
-            console.log("等级2")
+          case 2:
+            console.log("降序")
+            this.pageshowarr = this.occupationArr.sort((a, b) => {
+              return Number(a.hcHashrate) > Number(b.hcHashrate) ? -1 : 1;
+            })
             break;
-          case '3':
-            console.log("等级3")
+          default:
             break;
-          case '4':
-            console.log("等级4")
+        }
+      }else if(item.name == 'btc排序'){
+        switch (data.describe) {
+          case 1:
+            console.log("升序")
+            this.pageshowarr = this.occupationArr.sort((a, b) => {
+              return Number(a.btcHashrate) > Number(b.btcHashrate) ? 1 : -1;
+            })
             break;
-          case '5':
-            console.log("等级5")
+          case 2:
+            console.log("降序")
+            this.pageshowarr = this.occupationArr.sort((a, b) => {
+              return Number(a.btcHashrate) > Number(b.btcHashrate) ? -1 : 1;
+            })
             break;
           default:
             break;
         }
       }else if(item.name == '价格排序'){
         switch (data.describe) {
-          case '1':
-            console.log("升序")
-            break;
-          case '2':
-            console.log("降序")
-            break;
-          default:
-            break;
-        }
-      }else if(item.name == '职业排序'){
-        switch (data.describe) {
-          case '1':
-            console.log("职业1")
-            this.getDatabaseaFun(this.pagenum,0).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
-              this.dabasenum += this.pagenum
-              if (res.status == 0) {
-                this.pageshowarr = res.arr
-                this.pageshowLoading = false
-              } else if (res.status == 1) {
-                this.pageshowarr = []
-                this.pageshowLoading = false
-              }
+          case 1:
+            this.pageshowarr = this.occupationArr.sort((a, b) => {
+              return Number(a.price) > Number(b.price) ? 1 : -1;
             })
             break;
-          case '2':
-            console.log("职业2")
-            break;
-          case '3':
-            console.log("职业3")
-            break;
-          case '4':
-            console.log("职业4")
+          case 2:
+            console.log("降序")
+            this.pageshowarr = this.occupationArr.sort((a, b) => {
+              return Number(a.price) > Number(b.price) ? -1 : 1;
+            })
             break;
           default:
             break;
@@ -437,13 +486,13 @@ export default {
             if (this.isPull || this.nodata) return
             this.pulldown = false // 显示加载中
             this.timeoutOBJ = setTimeout(() => {
-              this.pulldownFun(this.dabasenum)
+              this.pulldownFun(this.sortObj.skip)
             }, 500)
           } else {
             if (this.isPull || this.nodata) return
             this.pulldown = false // 显示加载中
             this.timeoutOBJ = setTimeout(() => {
-              this.pulldownFun(this.dabasenum)
+              this.pulldownFun(this.sortObj.skip)
             }, 300)
           }
         }
@@ -452,9 +501,10 @@ export default {
     pulldownFun (num) {
       console.log('上拉加载传进来的num: ', num);
         this.isPull = true
-        this.getDatabaseaFun(this.pagenum,num).then(res => {
+        this.sortObj.skip = num
+        this.getDatabaseaFun(this.sortObj).then(res => {
           this.isPull = false
-          this.dabasenum += this.pagenum
+          this.sortObj.skip += this.sortObj.first
           if (res.status == 0) {
             this.pageshowarr = this.pageshowarr.concat(res.arr)
             this.pulldown = true
@@ -462,9 +512,14 @@ export default {
           } else if (res.status == 1) {
             this.nodata = true
           }
+        }).catch(err => {
+          console.log('士大夫十分err: ', err);
+          this.pageshowarr = []
+          this.nodata = true
         })
     },
-    getDatabaseaFun (first = 8, skip = 0, level = 1, orderBy = 'sellTime', orderDirection = 'asc', hnClass = '', seller = '') {
+    // 合约数据库信息
+    getDatabaseaFun (sortObj) {
       //first?: number,  //查询结果数量，比如填10，就展示前10个结果
       //skip?: number,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
       //orderBy?: string,  // 排序字段，填字段名，所有字段见下文查询结果
@@ -472,13 +527,14 @@ export default {
       //level?: number, // 按等级筛选，填1-5
       //hnClass?: number, // 按职业筛选，填1-4
       //seller?: string, // 按卖家筛选，填钱包地址
-      return new Promise((resolve) => {
-        hnMarketInfo.getSellInfo(first, skip, orderBy, orderDirection, level, hnClass, seller).then(res => {
-          // console.log('第一步合约数据库返回信息res: ', res);
+      return new Promise((resolve,reject) => {
+        hnMarketInfo.getSellInfo(sortObj.first,sortObj.skip,sortObj.orderBy,sortObj.orderDirection,sortObj.level,sortObj.hnClass,sortObj.seller).then(res => {
+          console.log('第一步合约数据库返回信息res: ', res);
           if (res.data.sellInfos.length > 0) {
-
             const arr = JSON.parse(JSON.stringify(res.data.sellInfos))
             arr.forEach(element => {
+              element.loading = false
+              element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate])
               element.price = this.$common.convertBigNumberToNormal(element.price.toString(),2)
             });
             resolve({ 'status': 0, 'arr': arr, 'msg': 'Success' })
@@ -496,9 +552,8 @@ export default {
     this.$nextTick(() => {
       this.listenerBoxScroll()
     })
-    this.getDatabaseaFun(this.pagenum,0).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
-      // console.log("调用数据库返回信息:", res)
-      this.dabasenum += this.pagenum
+    this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
+      this.sortObj.skip += this.sortObj.first
       if (res.status == 0) {
         this.pageshowarr = res.arr
         this.pageshowLoading = false
@@ -506,6 +561,9 @@ export default {
         this.pageshowarr = []
         this.pageshowLoading = false
       }
+    }).catch(() => {
+      this.pageshowarr = []
+      this.pageshowLoading = false
     })
   }
 }
@@ -566,6 +624,7 @@ export default {
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
+        margin-right: 15px;
         .span1 {
           color: #ffffff;
           margin-right: 10px;
@@ -687,7 +746,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
-    max-height: 370px;
+    max-height: 425px;
+    // max-height: 370px;
     // max-height: 720px;
     .onebox {
       width: 228px;
@@ -749,6 +809,7 @@ export default {
       justify-content: center;
       align-items: center;
       color: #ffffff;
+      margin-top: 60px;
     }
   }
 }
