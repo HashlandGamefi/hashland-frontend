@@ -249,6 +249,7 @@ export default {
         return
       }
       if(Number(this.total) > Number(this.balance)){
+        console.log('Number(this.total) > Number(this.balance): ', Number(this.total),Number(this.balance));
         this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
