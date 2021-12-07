@@ -570,9 +570,10 @@ export default {
     async walletClick(item) {
       if (
         item.name.toLowerCase() == "coin98" ||
+        item.name.toLowerCase() == "onto" ||
         item.name.toLowerCase() == "bitkeep"
       ) {
-        // console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
+        console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
         this.metamaskLink("metamask");
       } else {
         this.metamaskLink(item.name.toLowerCase());
