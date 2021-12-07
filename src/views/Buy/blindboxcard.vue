@@ -248,7 +248,7 @@ export default {
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
-      if(this.total > this.balance){
+      if(Number(this.total) > Number(this.balance)){
         this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
