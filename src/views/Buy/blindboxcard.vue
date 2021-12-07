@@ -267,6 +267,7 @@ export default {
     },
     connectGetInfo(){
       erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
+        console.log('钱包余额res: ', res);
         this.balance = util.formatEther(res)
       })
     },
