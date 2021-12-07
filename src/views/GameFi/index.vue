@@ -2,7 +2,10 @@
   <div class="page">
     <div class="outside_box">
       <div class="in_box">
-        <img class="center_img" :src="`${$store.state.imgUrl}gamefibg1.png`" />
+        <img
+          class="center_img"
+          :src="`${$store.state.imgUrl}gamefibg1.png`"
+        />
       </div>
     </div>
   </div>
@@ -28,11 +31,6 @@ export default {};
     .in_box {
       border-radius: 14px;
       background: linear-gradient(180deg, #010f20 0%, #021c3b 100%);
-      // padding: 25px;
-      // .center_img {
-      //   width: 785px;
-      //   height: auto;
-      // }
     }
   }
 }

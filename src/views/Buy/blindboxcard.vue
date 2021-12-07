@@ -84,7 +84,7 @@
     </div>
     <div class="connect_box fontsize18" :class="{disable_bnb:disable}">
       <div v-if="disable" class="disablebtn">Not Qualified</div>
-      <Btn v-else :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
+      <Btn v-show="!disable" :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
     </div>
     <div class="right_box">
       <div class="btn fontsize16">{{$t("message.nftCard.txt14")}}</div>
@@ -135,10 +135,12 @@ export default {
             if(this.tokenID == 0){
               type = 'BNB'
             }else if(this.tokenID == 1){
-              type = 'HCLP'
+              type = 'HC'
             }else if(this.tokenID == 2){
-              type = 'BUSD'
+              type = 'HCLP'
             }else if(this.tokenID == 3){
+              type = 'BUSD'
+            }else if(this.tokenID == 4){
               type = 'HT'
             }
             this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
@@ -183,10 +185,12 @@ export default {
       if(this.tokenID == 0){
         type = 'BNB'
       }else if(this.tokenID == 1){
-        type = 'HCLP'
+        type = 'HC'
       }else if(this.tokenID == 2){
-        type = 'BUSD'
+        type = 'HCLP'
       }else if(this.tokenID == 3){
+        type = 'BUSD'
+      }else if(this.tokenID == 4){
         type = 'HT'
       }
       this.$refs.mychild.goApproveFun(type,contract().HNBlindBox).then(res => {
@@ -299,6 +303,8 @@ export default {
               this.disable = true
             }
           })
+        }else{
+          this.disable = false
         }
       })
     }

@@ -1,4 +1,3 @@
-import service from "./service";
 import axios from "axios";
 
 const BASE_API = process.env.VUE_APP_BASE_API;

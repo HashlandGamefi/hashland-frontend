@@ -13,7 +13,10 @@
           <span>{{ mailAccount }}</span>
         </li>
         <template v-if="walletAddresses.length > 0">
-          <li v-for="(item, index) in walletAddresses" :key="item">
+          <li
+            v-for="(item, index) in walletAddresses"
+            :key="item"
+          >
             <span>钱包地址{{ index + 1 }}：</span>
             <span>{{ item }}</span>
           </li>
@@ -78,19 +81,6 @@ export default {
             }
           })
           .catch((err) => {});
-        // const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
-        // this.$axios
-        //   .get(url)
-        //   .then((res) => {
-        //     if (res.data.result === "SUCCESS") {
-        //       this.mailAccount = res.data.mailAccount;
-        //       this.walletAddresses = res.data.walletAddresses;
-        //       localStorage.setItem("loginInfo", JSON.stringify(res.data));
-        //     } else if (res.data.result === "FAIL") {
-        //       this.$common.selectLang(res.data.msg, res.data.msg, this);
-        //     }
-        //   })
-        //   .catch((err) => {});
       }
     },
     /**绑定钱包 */
@@ -102,7 +92,6 @@ export default {
         return this.$common.selectLang("请连接钱包！", "请链接钱包！", this);
       if (this.walletAddresses.some((item) => item === this.getAccount))
         return this.$common.selectLang("请切换钱包！", "请切换钱包！", this);
-
       if (this.bindingloading) return;
       this.bindingloading = true;
       const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
@@ -121,10 +110,6 @@ export default {
               // console.log("绑定钱包结果", res.data);
               if (res.data.result === "SUCCESS") {
                 this.againAutoLogin();
-                // this.walletAddresses.push(res.data.walletAddress);
-                // const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-                // loginInfo.walletAddresses = this.walletAddresses;
-                // localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
               } else if (res.data.result === "FAIL") {
                 this.$common.selectLang(res.data.msg, res.data.msg, this);
               }
@@ -132,24 +117,6 @@ export default {
             .catch((err) => {
               this.bindingloading = false;
             });
-          // const url = `http://47.57.191.195:8080/va_cent/bind_wallet?mailAccount=${loginInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
-          // this.$axios
-          //   .get(url)
-          //   .then((res) => {
-          //     this.bindingloading = false;
-          //     // console.log("绑定钱包结果", res.data);
-          //     if (res.data.result === "SUCCESS") {
-          //       this.walletAddresses.push(res.data.walletAddress);
-          //       const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-          //       loginInfo.walletAddresses = this.walletAddresses;
-          //       localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-          //     } else if (res.data.result === "FAIL") {
-          //       this.$common.selectLang(res.data.msg, res.data.msg, this);
-          //     }
-          //   })
-          //   .catch((err) => {
-          //     this.bindingloading = false;
-          //   });
         })
         .catch((err) => {
           this.bindingloading = false;

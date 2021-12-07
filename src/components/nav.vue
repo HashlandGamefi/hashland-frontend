@@ -1,7 +1,16 @@
 <template>
-  <div class="nav_box" :class="{ navbg: getMenuBG == 'yes' }">
-    <div class="logo_img" @click="menuClick(-1)">
-      <img :src="`${$store.state.imgUrl}logo.png`" class="imgs" />
+  <div
+    class="nav_box"
+    :class="{ navbg: getMenuBG == 'yes' }"
+  >
+    <div
+      class="logo_img"
+      @click="menuClick(-1)"
+    >
+      <img
+        :src="`${$store.state.imgUrl}logo.png`"
+        class="imgs"
+      />
     </div>
     <div class="menu_box">
       <ul class="ul_">
@@ -12,12 +21,21 @@
           @click="menuClick(index)"
         >
           {{ $t(item) }}
-          <div class="nft_hover" v-show="index == 0">
+          <div
+            class="nft_hover"
+            v-show="index == 0"
+          >
             <div class="box_nft">
-              <div class="span1" @click.stop="nftFun('card')">
+              <div
+                class="span1"
+                @click.stop="nftFun('card')"
+              >
                 {{ $t("message.nav.txt7") }} <span class="icon-v-right"></span>
               </div>
-              <div class="span1" @click.stop="nftFun('mining')">
+              <div
+                class="span1"
+                @click.stop="nftFun('mining')"
+              >
                 {{ $t("message.nav.txt8") }} <span class="icon-v-right"></span>
               </div>
             </div>
@@ -26,38 +44,66 @@
       </ul>
     </div>
     <div class="connect_box">
-      <div class="walletBox" v-if="getIstrue">
+      <div
+        class="walletBox"
+        v-if="getIstrue"
+      >
         <div class="connect_triangle">
           <span class="span2 fontsize18">{{ getSubtringAccount }}</span>
           <span class="connect_icon"></span>
         </div>
         <div class="wallet_hover">
           <div class="lastbox_hover">
-            <div class="hover_span1" @click.stop="signOutFun">
+            <div
+              class="hover_span1"
+              @click.stop="signOutFun"
+            >
               <span class="span_exit fontsize18">Disconnect</span>
-              <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class" />
+              <img
+                :src="`${$store.state.imgUrl}exit.png`"
+                class="exit_class"
+              />
             </div>
           </div>
         </div>
       </div>
-      <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
+      <span
+        class="span1 fontsize18"
+        @click="commonLink"
+        v-else
+      >Connect</span>
       <transition name="fade">
-        <div class="login_register ban_select" v-if="showLRP == 1">
-          <span class="fontsize18" @click="openLoginOrRegistered('login')">
+        <div
+          class="login_register ban_select"
+          v-if="showLRP == 1"
+        >
+          <span
+            class="fontsize18"
+            @click="openLoginOrRegistered('login')"
+          >
             {{ $t("message.nav.txt10") }}
           </span>
           <span class="fontsize18"> / </span>
-          <span class="fontsize18" @click="openLoginOrRegistered('registered')">
+          <span
+            class="fontsize18"
+            @click="openLoginOrRegistered('registered')"
+          >
             {{ $t("message.nav.txt11") }}
           </span>
         </div>
-        <div class="account_box" v-if="showLRP == 2">
+        <div
+          class="account_box"
+          v-if="showLRP == 2"
+        >
           <img
             class="man_img"
             :src="`${$store.state.imgUrl}personalCenter.png`"
           />
           <span class="fontsize12">{{ mailAccount }}</span>
-          <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+          <img
+            class="accrow_img"
+            :src="`${$store.state.imgUrl}accrow.png`"
+          />
           <div class="toolbox">
             <div class="inset_box_add">
               <div @click="toPersonalCenter($event)">
@@ -80,7 +126,10 @@
       </div>
     </div>
     <div class="mobile_menu">
-      <div class="top_line" :class="{ mobile_border: !InitialStatus }">
+      <div
+        class="top_line"
+        :class="{ mobile_border: !InitialStatus }"
+      >
         <img
           :src="`${$store.state.imgUrl}logo.png`"
           class="mobile_imgs"
@@ -88,13 +137,19 @@
         />
 
         <div class="mobile_right_menu">
-          <div class="walletBox" v-if="getIstrue">
+          <div
+            class="walletBox"
+            v-if="getIstrue"
+          >
             <div class="connect_triangle">
               <span class="span2 fontsize18">{{ getSubtringAccount }}</span>
               <span class="connect_icon"></span>
             </div>
             <div class="wallet_hover">
-              <div class="hover_span1" @click.stop="signOutFun">
+              <div
+                class="hover_span1"
+                @click.stop="signOutFun"
+              >
                 <span class="span_exit fontsize14">Disconnect</span>
                 <img
                   :src="`${$store.state.imgUrl}exit.png`"
@@ -103,8 +158,11 @@
               </div>
             </div>
           </div>
-          <span class="span1 fontsize18" @click="commonLink" v-else
-            >Connect
+          <span
+            class="span1 fontsize18"
+            @click="commonLink"
+            v-else
+          >Connect
           </span>
           <img
             :src="`${$store.state.imgUrl}mobilemenu.png`"
@@ -125,22 +183,38 @@
         v-if="mobilemenu"
         @click="mobilemenu = false"
       >
-        <div class="login_register ban_select" v-if="showLRP == 1">
-          <span class="fontsize18" @click="openLoginOrRegistered('login')">
+        <div
+          class="login_register ban_select"
+          v-if="showLRP == 1"
+        >
+          <span
+            class="fontsize18"
+            @click="openLoginOrRegistered('login')"
+          >
             {{ $t("message.nav.txt10") }}
           </span>
           <span class="fontsize18"> / </span>
-          <span class="fontsize18" @click="openLoginOrRegistered('registered')">
+          <span
+            class="fontsize18"
+            @click="openLoginOrRegistered('registered')"
+          >
             {{ $t("message.nav.txt11") }}
           </span>
         </div>
-        <div class="account_box" v-if="showLRP == 2" @click.stop>
+        <div
+          class="account_box"
+          v-if="showLRP == 2"
+          @click.stop
+        >
           <img
             class="man_img"
             :src="`${$store.state.imgUrl}personalCenter.png`"
           />
           <span class="fontsize12">{{ mailAccount }}</span>
-          <img class="accrow_img" :src="`${$store.state.imgUrl}accrow.png`" />
+          <img
+            class="accrow_img"
+            :src="`${$store.state.imgUrl}accrow.png`"
+          />
           <div class="toolbox">
             <div @click="toPersonalCenter($event)">
               <span class="fontsize18">个人中心</span>
@@ -177,11 +251,20 @@
                   v-if="index == 0"
                 ></span>
               </div>
-              <div class="box_nft" v-if="mobile_menuDis && index == 0">
-                <div class="span1" @click.stop="nftFun('card')">
+              <div
+                class="box_nft"
+                v-if="mobile_menuDis && index == 0"
+              >
+                <div
+                  class="span1"
+                  @click.stop="nftFun('card')"
+                >
                   {{ $t("message.nav.txt7") }}
                 </div>
-                <div class="span1" @click.stop="nftFun('mining')">
+                <div
+                  class="span1"
+                  @click.stop="nftFun('mining')"
+                >
                   {{ $t("message.nav.txt8") }}
                 </div>
               </div>
@@ -205,7 +288,10 @@
       @walletClick="walletClick"
     ></WalletComponents>
     <transition name="fade">
-      <LoginRegistered v-if="showLOrR" :showLOrR="showLOrR"></LoginRegistered>
+      <LoginRegistered
+        v-if="showLOrR"
+        :showLOrR="showLOrR"
+      ></LoginRegistered>
     </transition>
   </div>
 </template>
@@ -280,12 +366,8 @@ export default {
         }
       });
     }
-    // 监听账号
-    wallet.onAccountChanged(this.connectFun);
-
-    // 监听网络
-    wallet.onChainChanged(this.OnNetworkFun);
-
+    wallet.onAccountChanged(this.connectFun); // 监听账号
+    wallet.onChainChanged(this.OnNetworkFun); // 监听网络
     wallet.onDisconnect(this.signOutFun);
     setTimeout(() => {
       // 判断是否已登录
@@ -325,20 +407,6 @@ export default {
               }
             })
             .catch((err) => {});
-          // const url = `http://47.57.191.195:8080/va_cent/mail_login?mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
-          // this.$axios
-          //   .get(url)
-          //   .then((res) => {
-          //     // console.log("再次自动登录：", res.data);
-          //     if (res.data.result === "SUCCESS") {
-          //       this.showLRP = 2; // 已登录
-          //       this.mailAccount = res.data.mailAccount;
-          //       localStorage.setItem("loginInfo", JSON.stringify(res.data));
-          //     } else if (res.data.result === "FAIL") {
-          //       this.$common.selectLang(res.data.msg, res.data.msg, this);
-          //     }
-          //   })
-          //   .catch((err) => {});
         }
       } else {
         this.showLRP = 1;
@@ -431,14 +499,14 @@ export default {
           this.$router.push("/buy/0/1");
           break;
         case 1:
-          // this.$router.push("/gameFi");
-          this.$common.selectLang("敬请期待", "Coming soon", this);
+          if (process.env.NODE_ENV == "development") {
+            this.$router.push("/gameFi");
+          } else {
+            this.$common.selectLang("敬请期待", "Coming soon", this);
+          }
           break;
         case 2:
           this.$router.push("/hclp");
-          break;
-        case 3:
-          this.$router.push("/market");
           break;
         case 4:
           window.location.href =
@@ -502,9 +570,10 @@ export default {
     async walletClick(item) {
       if (
         item.name.toLowerCase() == "coin98" ||
+        item.name.toLowerCase() == "onto" ||
         item.name.toLowerCase() == "bitkeep"
       ) {
-        // console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
+        console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
         this.metamaskLink("metamask");
       } else {
         this.metamaskLink(item.name.toLowerCase());

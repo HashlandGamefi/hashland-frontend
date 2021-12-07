@@ -503,7 +503,7 @@ export default {
     swiperClick(index) {
       switch (index) {
         case 0:
-          this.$router.push("/buy");
+          this.$router.push("/buy/0/1");
           this.$store.commit("HashMenu", 0);
           sessionStorage.setItem("HashMenu", 0);
           break;
