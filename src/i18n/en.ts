@@ -195,6 +195,11 @@ export const message = {
     txt13:'Hex',
     txt14:'正序',
     txt15:'倒序',
+    txt16:'筛选字段',
+    txt17:'BTC筛选',
+    txt18:'HC筛选',
+    txt19:'价格筛选',
+    txt20:'上架时间筛选'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

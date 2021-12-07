@@ -35,11 +35,11 @@
         </div>
         <!-- 筛选-->
         <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
-          <span class="span1 fontsize16">{{ item.name }}</span>
+          <span class="span1 fontsize16">{{ $t(item.name) }}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
             <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
-              {{ ele.name }}
+              {{ $t(ele.name) }}
             </span>
           </div>
         </div>
@@ -122,12 +122,12 @@ export default {
   data () {
     return {
       orderArr:[
-        {name:'筛选字段',
+        {name:'message.market.txt16',
           arr:[
-            {name:'BTC筛选',describe:1},
-            {name:'HC筛选',describe:2},
-            {name:'价格筛选',describe:3},
-            {name:'上架时间筛选',describe:4}
+            {name:'message.market.txt17',describe:'btc'},
+            {name:'message.market.txt18',describe:'hc'},
+            {name:'message.market.txt19',describe:'price'},
+            {name:'message.market.txt20',describe:'time'}
           ]
         }
       ],
@@ -227,18 +227,7 @@ export default {
       this.sortObj.orderDirection = style
       this.sortObj.skip = 0
       this.pageshowLoading = true
-      this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
-        if (res.status == 0) {
-          this.pageshowarr = res.arr
-          this.pageshowLoading = false
-        } else if (res.status == 1) {
-          this.pageshowarr = []
-          this.pageshowLoading = false
-        }
-      }).catch(() => {
-        this.pageshowarr = []
-        this.pageshowLoading = false
-      })
+      this.encapsulationFun()
     },
     sonapprove (item) {
       if (item.isstatus) return
@@ -354,6 +343,37 @@ export default {
       this.sortObj.hnClass = ele.describe
       this.sortObj.skip = 0
       this.pageshowLoading = true
+      this.encapsulationFun()
+    },
+    // 筛选
+    sortPriceClik (item,data) {
+      console.log('data: ',item, data);
+      item.name = data.name
+      this.sortObj.skip = 0
+      this.pageshowLoading = true
+      switch (data.describe) {
+        case 'btc':
+          this.sortObj.orderBy = 'btcHashrate'
+          this.encapsulationFun()
+          break;
+        case 'hc':
+          this.sortObj.orderBy = 'hcHashrate'
+          this.encapsulationFun()
+          break;
+        case 'price':
+          this.sortObj.orderBy = 'price'
+          this.encapsulationFun()
+          break;
+        case 'time':
+          this.sortObj.orderBy = 'sellTime'
+          this.encapsulationFun()
+          break;
+        default:
+          break;
+      }
+    },
+    // 排序--筛选--封装函数
+    encapsulationFun(){
       this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
         if (res.status == 0) {
           this.pageshowarr = res.arr
@@ -366,70 +386,6 @@ export default {
         this.pageshowarr = []
         this.pageshowLoading = false
       })
-    },
-    // 排序
-    sortPriceClik (item,data) {
-      console.log('data: ',item, data);
-      // if(this.occupationIstrue){
-      //   this.occupationArr = this.pageshowarr
-      // }
-      // this.occupationIstrue = false
-      if(item.name == 'hc排序'){
-        // let istrue = this.occupationArr.every(item => {
-        //   return item.hcHashrate > 0
-        // })
-        // if(!istrue)return
-        // console.log('istrue: ', istrue);
-        switch (data.describe) {
-          case 1:
-            console.log("升序")
-            this.pageshowarr = this.occupationArr.sort((a, b) => {
-              return Number(a.hcHashrate) > Number(b.hcHashrate) ? 1 : -1;
-            })
-            break;
-          case 2:
-            console.log("降序")
-            this.pageshowarr = this.occupationArr.sort((a, b) => {
-              return Number(a.hcHashrate) > Number(b.hcHashrate) ? -1 : 1;
-            })
-            break;
-          default:
-            break;
-        }
-      }else if(item.name == 'btc排序'){
-        switch (data.describe) {
-          case 1:
-            console.log("升序")
-            this.pageshowarr = this.occupationArr.sort((a, b) => {
-              return Number(a.btcHashrate) > Number(b.btcHashrate) ? 1 : -1;
-            })
-            break;
-          case 2:
-            console.log("降序")
-            this.pageshowarr = this.occupationArr.sort((a, b) => {
-              return Number(a.btcHashrate) > Number(b.btcHashrate) ? -1 : 1;
-            })
-            break;
-          default:
-            break;
-        }
-      }else if(item.name == '价格排序'){
-        switch (data.describe) {
-          case 1:
-            this.pageshowarr = this.occupationArr.sort((a, b) => {
-              return Number(a.price) > Number(b.price) ? 1 : -1;
-            })
-            break;
-          case 2:
-            console.log("降序")
-            this.pageshowarr = this.occupationArr.sort((a, b) => {
-              return Number(a.price) > Number(b.price) ? -1 : 1;
-            })
-            break;
-          default:
-            break;
-        }
-      }
     },
     // 去挂单
     goOrder () {
