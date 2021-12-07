@@ -19,10 +19,10 @@
       <div class="leftboxs">
         <!-- 等级排序 -->
         <div class="left_content">
-          <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}}{{ amount }})</span>
+          <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}} {{ amount }})</span>
           <div class="span2"></div>
           <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}}{{ ele }})</span>
+            <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}} {{ ele }})</span>
           </div>
         </div>
         <!-- 职业排序 -->
@@ -321,19 +321,7 @@ export default {
       this.occupationIstrue = true // 职业排序此字段的true与false决定排序数组是否有值
       this.sortObj.level = this.rank // 选择当前等级
       this.sortObj.skip = 0 // 当前页数重置为0
-      this.getDatabaseaFun(this.sortObj).then(res => {
-        this.sortObj.skip += this.sortObj.first
-        if (res.status == 0) {
-          this.pageshowarr = res.arr
-          this.pageshowLoading = false
-        } else if (res.status == 1) {
-          this.pageshowarr = []
-          this.pageshowLoading = false
-        }
-      }).catch(err => {
-        this.pageshowarr = []
-        this.pageshowLoading = false
-      })
+      this.encapsulationFun('ccupation')
     },
     // 职业排序
     occupationFun(ele){
@@ -342,7 +330,7 @@ export default {
       this.sortObj.hnClass = ele.describe
       this.sortObj.skip = 0
       this.pageshowLoading = true
-      this.encapsulationFun()
+      this.encapsulationFun('ccupation')
     },
     // 筛选
     sortPriceClik (item,data) {
@@ -372,8 +360,11 @@ export default {
       }
     },
     // 排序--筛选--封装函数
-    encapsulationFun(){
+    encapsulationFun(type = ''){
       this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
+        if(type = 'ccupation'){
+          this.sortObj.skip += this.sortObj.first
+        }
         if (res.status == 0) {
           this.pageshowarr = res.arr
           this.pageshowLoading = false
@@ -507,19 +498,7 @@ export default {
     this.$nextTick(() => {
       this.listenerBoxScroll()
     })
-    this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
-      this.sortObj.skip += this.sortObj.first
-      if (res.status == 0) {
-        this.pageshowarr = res.arr
-        this.pageshowLoading = false
-      } else if (res.status == 1) {
-        this.pageshowarr = []
-        this.pageshowLoading = false
-      }
-    }).catch(() => {
-      this.pageshowarr = []
-      this.pageshowLoading = false
-    })
+    this.encapsulationFun('ccupation')
   }
 }
 </script>

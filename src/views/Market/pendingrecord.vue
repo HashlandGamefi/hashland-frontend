@@ -4,7 +4,7 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="title1_txt fontsize32">挂单记录</span>
-    <div class="tab_box">
+    <!-- <div class="tab_box">
       <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
         出售中
       </div>
@@ -15,7 +15,7 @@
       >
         已完成
       </div>
-    </div>
+    </div> -->
     <div class="show_gameArr">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index">
         <img :src="item.src" class="img" />
@@ -25,18 +25,18 @@
             <span class="span1 fontsize16">{{item.price}} BUSD</span>
           </div>
           <!-- <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/> -->
-          <div class="btn fontsize12" @click="cancleOrder(item)" v-if="item.issell">
+          <div class="btn fontsize12" @click="cancleOrder(item)">
             撤单<BtnLoading :isloading="item.isloading"></BtnLoading>
           </div>
-          <div class="btn fontsize12" @click="collect(item)" v-else>
+          <!-- <div class="btn fontsize12" @click="collect(item)" v-else>
             收取<BtnLoading :isloading="item.isloading"></BtnLoading>
-          </div>
+          </div> -->
         </div>
       </div>
-      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
       </div>
-      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData> -->
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
@@ -64,7 +64,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          // this.connectInfo()
+          this.connectInfo()
         }
       },
       deep: true,
@@ -72,20 +72,20 @@ export default {
     }
   },
   methods:{
-    tabFun(index){
-      this.tabIndex = index
-      if(index == 0){
-        this.pageshowarr = this.cardInfoArr.filter(item => {
-          return item.issell
-        })
-      }else{
-          console.log('this.pageshowarr: ', this.pageshowarr);
-        this.pageshowarr = this.cardInfoArr.filter(item => {
-          return !item.issell
-        })
-      }
-    },
-    // 取消订单
+    // tabFun(index){
+    //   this.tabIndex = index
+    //   if(index == 0){
+    //     this.pageshowarr = this.cardInfoArr.filter(item => {
+    //       return item.issell
+    //     })
+    //   }else{
+    //       console.log('this.pageshowarr: ', this.pageshowarr);
+    //     this.pageshowarr = this.cardInfoArr.filter(item => {
+    //       return !item.issell
+    //     })
+    //   }
+    // },
+    // 撤单
     cancleOrder(item){
       if(item.isloading)return
       item.isloading = true
@@ -140,15 +140,13 @@ export default {
               type: "", // 卡牌的种类
               src: "",
               price:"",
-              issell:false,//是否正在售卖
-              isloading:false//按钮loading
+              isloading:false
             }
             obj.cardID = item.toString() // 卡牌的id
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
             obj.level = (await hn().level(item)).toString() // 等级
             obj.price = (await hnMarket().hnPrice(item) / 1e18).toString()
             let race = await hn().getHashrates(item) // 算力数组
-            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount, item)
             // @ts-ignore
             obj.src = getHnImg(Number(item), obj.level, race);
             arr.push(obj)

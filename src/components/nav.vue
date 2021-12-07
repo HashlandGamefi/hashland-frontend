@@ -508,6 +508,9 @@ export default {
         case 2:
           this.$router.push("/hclp");
           break;
+        case 3:
+          this.$router.push("/market");
+          break;
         case 4:
           window.location.href =
             "https://land-hash.gitbook.io/official/dao/about-dao";
