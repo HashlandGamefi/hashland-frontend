@@ -222,7 +222,7 @@ export default {
   methods: {
     // 正序--倒叙方式
     sequenceFun(data,style){
-      console.log('data: ', data);
+      console.log('正序--倒叙方式data: ', data,style);
       this.sequenceTxt = data
       this.sortObj.orderDirection = style
       this.sortObj.skip = 0
@@ -283,10 +283,10 @@ export default {
                 sessionStorage.setItem("count", 1)
               }
             })
-            this.getDatabaseaFun(this.pagenum,0).then(data => {
+            this.sortObj.skip = 0
+            this.getDatabaseaFun(this.sortObj).then(data => {
               if (data.status == 0) {
                 this.pageshowarr = data.arr
-                this.pageshowLoading = false
                 this.nodata = false
                 this.pulldown = true
                 this.$common.selectLang('购买成功', '购买成功', this)
@@ -295,7 +295,6 @@ export default {
                 item.isstatus = false
               } else if (data.status == 1) {
                 this.pageshowarr = []
-                this.pageshowLoading = false
                 this.nodata = true
               }
             })
