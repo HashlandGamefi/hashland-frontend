@@ -131,6 +131,10 @@ export default {
       return new Promise((resolve) => {
         hnMarket().getSellerHnIdsBySize(this.getAccount,0,10000000).then(res => {
           console.log('获取某卖家正在出售卡牌id数组res: ', res);
+          if(res[0].length == 0){
+            resolve({'istrue':true,'arr':[]})
+            return
+          }
           let count = 1
           let arr = []
           res[0].map(async item => {
