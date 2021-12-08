@@ -243,16 +243,16 @@ export default {
         this.$common.selectLang('请输入购买数量','Enter Purchase Amount',this)
         return
       }
-      // console.log('this.boxnums: ', this.boxnums,this.surplusNums);
       if(Number(this.boxnums) > Number(this.surplusNums)){
         console.log('可购买数量不足')
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
-      // if(Number(this.total) > Number(this.balance)){
-      //   this.$common.selectLang('余额不足','Insufficent Balance',this)
-      //   return
-      // }
+      console.log('购买前余额跟盒子总价比较: ', Number(this.total),Number(this.balance));
+      if(Number(this.total) > Number(this.balance)){
+        this.$common.selectLang('余额不足','Insufficent Balance',this)
+        return
+      }
       this.buy_isloading = true
       // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
@@ -266,43 +266,32 @@ export default {
         this.buy_isloading = false
       })
     },
+    getuserBalance(type){
+      erc20(token()[type]).balanceOf(this.getAccount).then(res => {
+        this.balance = util.formatEther(res)
+        console.log('%s钱包余额res: ', type,this.balance);
+      }).catch(err => {
+        console.log('%s钱包余额err: ', err);
+      })
+    },
     connectGetInfo(tokenID){
       console.log('tokenID: ', tokenID);
       // tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
       switch(tokenID){
         case '0':
-          erc20(token()['BNB']).balanceOf(this.getAccount).then(res => {
-            this.balance = util.formatEther(res)
-            console.log('BNB钱包余额res: ', this.balance);
-          }).catch(err => {
-            console.log('BNB钱包余额err: ', err);
-          })
+          this.getuserBalance('BNB')
           break;
         case '1':
-          erc20(token()['HC']).balanceOf(this.getAccount).then(res => {
-            this.balance = util.formatEther(res)
-            console.log('HC钱包余额res: ', this.balance);
-          }).catch(err => {
-            console.log('HC钱包余额err: ', err);
-          })
+          this.getuserBalance('HC')
           break;
         case '2':
-          erc20(token()['HCLP']).balanceOf(this.getAccount).then(res => {
-            this.balance = util.formatEther(res)
-            console.log('HCLP钱包余额res: ', this.balance);
-          })
+          this.getuserBalance('HCLP')
           break;
         case '3':
-          erc20(token()['BUSD']).balanceOf(this.getAccount).then(res => {
-            this.balance = util.formatEther(res)
-            console.log('BUSD钱包余额res: ', this.balance);
-          })
+          this.getuserBalance('BUSD')
           break;
         case '4':
-          erc20(token()['HT']).balanceOf(this.getAccount).then(res => {
-            this.balance = util.formatEther(res)
-            console.log('HT钱包余额res: ', this.balance);
-          })
+          this.getuserBalance('HT')
           break;
         default:
           break;
