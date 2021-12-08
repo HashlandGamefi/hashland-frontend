@@ -84,7 +84,7 @@
               :isapprove="isapprove"
               :approveloading="item.isstatus"
               :isloading="item.isstatus"
-              :word="'购买'"
+              :word="'buy'"
               ref="mychild"
               @sonapprove="sonapprove(item)"
               @dosomething="buyCard(item)"
@@ -480,7 +480,8 @@ export default {
           if (res.data.sellInfos.length > 0) {
             const arr = JSON.parse(JSON.stringify(res.data.sellInfos))
             arr.forEach(element => {
-              element.loading = false
+              element.loading = false // 图片加载的loading
+              element.isstatus = false // 授权以及其他按钮操作的loading
               element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate])
               element.price = this.$common.convertBigNumberToNormal(element.price.toString(),2)
             });
