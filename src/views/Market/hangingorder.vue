@@ -136,6 +136,7 @@ export default {
           this.amount = 0//阶对应的卡牌数量
           this.selectedNUM = 0//选中的卡牌数量
           this.selectimgArr = []//选中的卡牌的信息
+          this.pageshowLoading = false
         }
       },
       deep: true,

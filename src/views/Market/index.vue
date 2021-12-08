@@ -8,10 +8,10 @@
         <p class="p1 fontsize22" v-if="item.loading">
           <NewLoading></NewLoading>
         </p>
-        <p class="p1 fontsize22" v-else-if="(index == 2 || index == 1) && !item.loading ">
-          $ {{ item.num }}
+        <p class="p1 fontsize22" v-else-if="(index == 0 || index == 4) && !item.loading ">
+          {{ item.num }}
         </p>
-        <p class="p1 fontsize22" v-else>{{ item.num }}</p>
+        <p class="p1 fontsize22" v-else>$ {{ item.num }}</p>
       </div>
     </div>
     <div class="content">
@@ -122,7 +122,7 @@ export default {
   data () {
     return {
       orderArr:[
-        {name:'message.market.txt16',
+        {name:'message.market.txt20',
           arr:[
             {name:'message.market.txt17',describe:'btc'},
             {name:'message.market.txt18',describe:'hc'},
@@ -131,7 +131,7 @@ export default {
           ]
         }
       ],
-      sequenceTxt:'message.market.txt14',// 正序 --倒序
+      sequenceTxt:'message.market.txt15',// 正序 --倒序
       occupationTxt:'message.market.txt9',//职业排序
       occupationArr:[
         {name:'message.market.txt10',describe:1},
@@ -156,7 +156,8 @@ export default {
         { title: "message.market.txt5", num: 0, loading: true },
         { title: "message.market.txt6", num: 0, loading: true },
         { title: "message.market.txt7", num: 0, loading: true },
-        { title: "message.market.txt8", num: 0, loading: true }
+        { title: "message.market.txt24", num: 0, loading: true },
+        { title: "message.market.txt8", num: 0, loading: true },
       ],
       timeoutOBJ: null,// 下拉加载定时器对象
       nodata:false,// 没有数据展示字段
@@ -165,7 +166,7 @@ export default {
         first: 15,  //查询结果数量，比如填10，就展示前10个结果
         skip: 0,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
         orderBy: 'sellTime',  // 排序字段，填字段名，所有字段见下文查询结果
-        orderDirection: 'asc',  // 降序or升序，填desc或asc
+        orderDirection: 'desc',  // 降序or升序，填desc或asc
         level: 1, // 按等级筛选，填1-5
         hnClass:'', // 按职业筛选，填1-4
         seller: '' // 按卖家筛选，填钱包地址
@@ -392,28 +393,40 @@ export default {
     },
     //获取sdk信息
     async getSDKInfo () {
-      // 获取各阶所售卖的总卡牌数量
+      // 获取市场正在出售的各等级的所有HN卡牌数量数组
       hnMarket().getEachLevelHnIdsLength(5).then(res => {
-        // console.log('获取各阶所售卖的总卡牌数量res: ', res);
+        // console.log('获取市场正在出售的各等级的所有HN卡牌数量数组res: ', res);
         this.cardLengthArr = res
         this.amount = res[this.rank - 1]
       })
       // 获取市场正在出售的所有HN卡牌数量
       hnMarket().getHnIdsLength().then(res => {
         // console.log('获取市场正在出售的所有HN卡牌数量: ', res)
-        this.infoArr[3].num = res.toNumber()
-        this.infoArr[3].loading = false
+        this.infoArr[4].num = res.toNumber()
+        this.infoArr[4].loading = false
       })
       // 获取总成交次数
-      this.infoArr[0].num = await hnMarket().totalSellCount()
-      this.infoArr[0].loading = false
+      hnMarket().totalSellCount().then(res => {
+        this.infoArr[0].num = res
+        this.infoArr[0].loading = false
+      })
       // 获取总成交额，除1e18
       hnMarket().totalSellAmount().then(res => {
         // console.log('获取总成交额，除1e18: ', res)
         this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toString(), 2)
-        this.infoArr[2].num = this.$common.divBigNumber(this.infoArr[1].num, (this.infoArr[0].num).toString(), 2)
-        this.infoArr[2].loading = false
         this.infoArr[1].loading = false
+      })
+      // 地板价
+      hnMarketInfo.getSellInfo(1,0,'price','asc').then(res => {
+        console.log('地板价res: ', res);
+        this.infoArr[2].num = this.$common.convertBigNumberToNormal((res.data.sellInfos[0].price).toString(), 2)
+        this.infoArr[2].loading = false
+      })
+      //最新成交价
+      hnMarketInfo.getBuyInfo(1,0,'buyTime','desc').then(res => {
+        console.log('最新成交价res: ', res);
+        this.infoArr[3].num = this.$common.convertBigNumberToNormal((res.data.buyInfos[0].price).toString(), 2)
+        this.infoArr[3].loading = false
       })
     },
     connectInfo () {
@@ -476,7 +489,7 @@ export default {
       //seller?: string, // 按卖家筛选，填钱包地址
       return new Promise((resolve,reject) => {
         hnMarketInfo.getSellInfo(sortObj.first,sortObj.skip,sortObj.orderBy,sortObj.orderDirection,sortObj.level,sortObj.hnClass,sortObj.seller).then(res => {
-          console.log('第一步合约数据库返回信息res: ', res);
+          console.log('合约数据库返回信息res: ', res);
           if (res.data.sellInfos.length > 0) {
             const arr = JSON.parse(JSON.stringify(res.data.sellInfos))
             arr.forEach(element => {
@@ -517,8 +530,9 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 54px;
+    justify-content: space-between;
     .onebox {
-      width: 234px;
+      width: 190px;
       height: 115px;
       display: flex;
       flex-direction: column;
@@ -528,7 +542,6 @@ export default {
       box-shadow: 0px 2px 13px 0px rgba(2, 18, 35, 0.68);
       border-radius: 4px;
       padding: 28px 0 25px;
-      margin-right: 54px;
       .p1 {
         color: #ffffff;
       }
