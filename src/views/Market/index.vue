@@ -231,6 +231,7 @@ export default {
     },
     sonapprove (item) {
       if (item.isstatus) return
+      item.isstatus = true
       console.log('父组件页面调用子组件的授权方法,授权busd', item)
       for (let index = 0; index < this.pageshowarr.length; index++) {
         const element = this.pageshowarr[index];
