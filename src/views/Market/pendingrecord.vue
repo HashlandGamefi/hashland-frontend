@@ -196,36 +196,27 @@ export default {
     color: #ffffff;
     margin-top: 208px;
   }
-  .btn_father{
-    width: 274px;
-    height: 59px;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    margin-top: 70px;
-    cursor: pointer;
-  }
-  .tab_box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 65px;
-    .oneTab {
-      width: 158px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      color: #ffffff;
-      border-radius: 5px;
-      cursor: pointer;
-      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
-        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-    }
-    .activeTab {
-      background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
-      box-shadow: 0 9px 2px #23447c;
-    }
-  }
+  // .tab_box {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   margin-top: 65px;
+  //   .oneTab {
+  //     width: 158px;
+  //     height: 40px;
+  //     line-height: 40px;
+  //     text-align: center;
+  //     color: #ffffff;
+  //     border-radius: 5px;
+  //     cursor: pointer;
+  //     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+  //       -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+  //   }
+  //   .activeTab {
+  //     background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+  //     box-shadow: 0 9px 2px #23447c;
+  //   }
+  // }
   .show_gameArr{
     margin-top: 40px;
     width: 100%;
@@ -301,35 +292,107 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 0.15rem;
     padding-top: 0.94rem;
+    .title{
+      position: absolute;
+      top: 0.05rem;
+      right: 0.2rem;
+      width: 0.36rem;
+      cursor: pointer;
+      .backimg{
+        width: 100%;
+        object-fit: contain;
+      }
+    }
     .title1_txt {
       color: #ffffff;
+      margin-top: 0;
     }
-    .title2_txt {
-      color: #ffffff;
-    }
-    .tab_box {
+    .show_gameArr{
+      margin-top: 0.4rem;
+      width: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 0.33rem;
-      .oneTab {
-        width: 1rem;
-        height: 0.24rem;
-        font-size: 0.12rem;
-        line-height: 0.24rem;
-        text-align: center;
-        color: #ffffff;
-        border-radius: 5px;
-        cursor: pointer;
-        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
-          -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      overflow-y: auto;
+      max-height: 6.5rem;
+      .onebox{
+        width: 49%;
+        display: flex;
+        flex-direction: column;
+        margin-right: 0;
+        margin-bottom: 0.2rem;
+        .img{
+          width: 100%;
+          object-fit: contain;
+        }
+        .bottom_box{
+          width: 100%;
+          margin-top: 0.1rem;
+          border-radius: 0.15rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          box-shadow: -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+          padding: 0.02rem 0.04rem;
+          .left_price{
+            display: flex;
+            align-items: center;
+            .bsc_img{
+              width: 0.18rem;
+              object-fit: contain;
+              margin-right: 0.02rem;
+            }
+            .span1{
+              color: #ffffff;
+            }
+          }
+          .btn{
+            min-width: 0.56rem;
+            padding: 0.05rem;
+            height: 0.22rem;
+            border-radius: 0.15rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:#DD9005;
+            color: #ffffff;
+            cursor: pointer;
+          }
+        }
       }
-      .activeTab {
-        background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
-        box-shadow: 0 0.06rem 2px #23447c;
+      .loadingbox{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
       }
     }
+    // .tab_box {
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
+    //   margin-top: 0.33rem;
+    //   .oneTab {
+    //     width: 1rem;
+    //     height: 0.24rem;
+    //     font-size: 0.12rem;
+    //     line-height: 0.24rem;
+    //     text-align: center;
+    //     color: #ffffff;
+    //     border-radius: 5px;
+    //     cursor: pointer;
+    //     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+    //       -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+    //   }
+    //   .activeTab {
+    //     background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+    //     box-shadow: 0 0.06rem 2px #23447c;
+    //   }
+    // }
   }
 }
 </style>

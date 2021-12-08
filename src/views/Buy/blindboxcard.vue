@@ -115,7 +115,7 @@ export default {
       cardNumber:'0',//卡牌的编号
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       isapprove:false,//是否授权
-      tokenID:1, // 代币id------0 bnb  1 hclp  2 busd 3 ht
+      tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
       maxbuy:0, // 最大购买数量
       disable:true,//购买按钮是否禁用(是否在白名单)
     }
@@ -128,9 +128,9 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.watchResult()
-          this.connectGetInfo()
           this.getTokenInfoFun(this.tokenID)
           setTimeout(() => {
+            this.connectGetInfo(this.tokenID)
             let type = ''
             if(this.tokenID == 0){
               type = 'BNB'
@@ -159,6 +159,7 @@ export default {
     },
     $route(to){
       this.tokenID = to.params.type
+      this.connectGetInfo(to.params.type)
       this.getTokenInfoFun(to.params.type)
     }
   },
@@ -265,11 +266,47 @@ export default {
         this.buy_isloading = false
       })
     },
-    connectGetInfo(){
-      erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
-        console.log('钱包余额res: ', res);
-        this.balance = util.formatEther(res)
-      })
+    connectGetInfo(tokenID){
+      console.log('tokenID: ', tokenID);
+      // tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
+      switch(tokenID){
+        case '0':
+          erc20(token()['BNB']).balanceOf(this.getAccount).then(res => {
+            this.balance = util.formatEther(res)
+            console.log('BNB钱包余额res: ', this.balance);
+          }).catch(err => {
+            console.log('BNB钱包余额err: ', err);
+          })
+          break;
+        case '1':
+          erc20(token()['HC']).balanceOf(this.getAccount).then(res => {
+            this.balance = util.formatEther(res)
+            console.log('HC钱包余额res: ', this.balance);
+          }).catch(err => {
+            console.log('HC钱包余额err: ', err);
+          })
+          break;
+        case '2':
+          erc20(token()['HCLP']).balanceOf(this.getAccount).then(res => {
+            this.balance = util.formatEther(res)
+            console.log('HCLP钱包余额res: ', this.balance);
+          })
+          break;
+        case '3':
+          erc20(token()['BUSD']).balanceOf(this.getAccount).then(res => {
+            this.balance = util.formatEther(res)
+            console.log('BUSD钱包余额res: ', this.balance);
+          })
+          break;
+        case '4':
+          erc20(token()['HT']).balanceOf(this.getAccount).then(res => {
+            this.balance = util.formatEther(res)
+            console.log('HT钱包余额res: ', this.balance);
+          })
+          break;
+        default:
+          break;
+      }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
@@ -312,6 +349,8 @@ export default {
   },
   mounted(){
     this.getTokenInfoFun(this.$route.params.type)
+    this.tokenID = this.$route.params.type
+    // console.log('this.$route: ', this.$route.params.type);
   }
 }
 </script>

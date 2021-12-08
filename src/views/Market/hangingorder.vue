@@ -654,7 +654,7 @@ export default {
     padding-top: 1.07rem;
     .title{
       position: absolute;
-      top: 0.15rem;
+      top: 0.05rem;
       right: 0.2rem;
       width: 0.36rem;
       cursor: pointer;
@@ -663,22 +663,37 @@ export default {
         object-fit: contain;
       }
     }
-    .title_title {
+    .title1_txt {
       color: #ffffff;
-      margin-bottom: 0.05rem;
-      margin-top: 0.25rem;
+      margin-top: 0;
     }
-    .title_son1{
-      width: 80%;
-      text-align: center;
-      color: #ffffff;
+    .tab_box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.33rem;
+      .oneTab {
+        width: 158px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        color: #ffffff;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+          -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+      }
+      .activeTab {
+        background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+        box-shadow: 0 9px 2px #23447c;
+      }
     }
     .content{
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.4rem;
+      margin-top: 0.33rem;
       .left_content{
         position: relative;
         width: 1.71rem;
@@ -751,9 +766,8 @@ export default {
       align-items: center;
       flex-wrap: wrap;
       min-height: 1rem;
-      margin-top: 0.2rem;
+      max-height: 3.6rem;
       padding-bottom: 0;
-      margin-bottom: 0.8rem;
       .onebox{
         position: relative;
         width: 50%;
@@ -835,16 +849,37 @@ export default {
       }
     }
     .Suspension_btnbox{
-      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
-      border-radius: 0.8rem;
-      padding: 0.12rem 0;
-      .bottom_title{
-        color: #ffffff;
+      margin-top: 0.2rem;
+      .input_border{
+        width: 100%;
+        height: 0.6rem;
+        background: #052141;
+        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+        border-radius: 0.18rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.16rem;
+        .span1,.span2{
+          color: #ffffff;
+        }
+        .inputbox {
+          width: 70%;
+          display: flex;
+          .input {
+            width: 100%;
+            padding:0 0.15rem;
+            height: 0.61rem;
+            border: none;
+            outline: none;
+            font-style: normal;
+            color: #ffffff;
+            background: transparent;
+          }
+        }
       }
       .btn_box {
         width: 1.94rem;
@@ -856,8 +891,8 @@ export default {
         background-size: 100% 100%;
         background-repeat: no-repeat;
         color: #ffffff;
+        margin-top: 0.2rem;
         cursor: pointer;
-        margin-top: 0.1rem;
       }
     }
   }

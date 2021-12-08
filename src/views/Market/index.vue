@@ -897,38 +897,39 @@ export default {
         margin-bottom: 0.2rem;
         .img {
           width: 100%;
+          min-height: 1rem;
           object-fit: contain;
         }
-        .bottom_box {
+        .bottom_box{
           width: 100%;
-          margin-top: 20px;
-          border-radius: 15px;
+          margin-top: 0.1rem;
+          border-radius: 0.15rem;
           display: flex;
           align-items: center;
           justify-content: space-between;
           box-shadow: -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-          padding: 4px 8px;
-          .left_price {
+          padding: 0.02rem 0.04rem;
+          .left_price{
             display: flex;
             align-items: center;
-            .bsc_img {
+            .bsc_img{
               width: 0.18rem;
               object-fit: contain;
               margin-right: 0.02rem;
             }
-            .span1 {
+            .span1{
               color: #ffffff;
             }
           }
-          .btn {
-            min-width: 56px;
-            padding: 10px 5px;
-            height: 22px;
-            border-radius: 15px;
+          .btn{
+            min-width: 0.56rem;
+            padding: 0.05rem;
+            height: 0.22rem;
+            border-radius: 0.15rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #dd9005;
+            background:#DD9005;
             color: #ffffff;
             cursor: pointer;
           }
