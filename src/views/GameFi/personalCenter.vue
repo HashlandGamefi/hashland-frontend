@@ -65,17 +65,17 @@ export default {
   methods: {
     /**再次自动登录 */
     againAutoLogin() {
-      if (!localStorage.getItem("loginInfo")) return;
-      const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-      if (loginInfo.mailAccount && loginInfo.newToken) {
-        const url = `mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
+      if (!localStorage.getItem("hashlandGameFiInfo")) return;
+      const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
+      if (gameFiInfo.mailAccount && gameFiInfo.newToken) {
+        const url = `mailAccount=${gameFiInfo.mailAccount}&token=${gameFiInfo.newToken}`;
         this.$api
           .gameMailLogin(url)
           .then((res) => {
             if (res.data.result === "SUCCESS") {
               this.mailAccount = res.data.mailAccount;
               this.walletAddresses = res.data.walletAddresses;
-              localStorage.setItem("loginInfo", JSON.stringify(res.data));
+              localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
             } else if (res.data.result === "FAIL") {
               this.$common.selectLang(res.data.msg, res.data.msg, this);
             }
@@ -85,7 +85,7 @@ export default {
     },
     /**绑定钱包 */
     bindingThePurse() {
-      if (!localStorage.getItem("loginInfo"))
+      if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录！", "请先登录！", this);
       // const haveThisWallet = this.walletAddresses.some((item) => item === this.getAccount);
       if (!this.getAccount)
@@ -94,15 +94,15 @@ export default {
         return this.$common.selectLang("请切换钱包！", "请切换钱包！", this);
       if (this.bindingloading) return;
       this.bindingloading = true;
-      const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
+      const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       getSigner()
-        .signMessage(loginInfo.nonce)
+        .signMessage(gameFiInfo.nonce)
         .then((signature) => {
-          // console.log("nonce：", loginInfo.nonce);
-          // console.log("邮箱账号：", loginInfo.mailAccount);
+          // console.log("nonce：", gameFiInfo.nonce);
+          // console.log("邮箱账号：", gameFiInfo.mailAccount);
           // console.log("钱包地址：", this.getAccount);
           // console.log("前端签名：", signature);
-          const url = `mailAccount=${loginInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
+          const url = `mailAccount=${gameFiInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
           this.$api
             .gameBindWallet(url)
             .then((res) => {

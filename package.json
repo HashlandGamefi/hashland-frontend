@@ -10,11 +10,12 @@
     "publish": "npm run build:prod && rimraf -- prod && cpr -- dist prod"
   },
   "dependencies": {
-    "echarts": "^5.2.2",
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
-    "hashland-sdk": "^1.0.94",
+    "echarts": "^5.2.2",
+    "hashland-sdk": "^1.0.99",
+    "react": "^17.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-count-to": "^1.0.13",

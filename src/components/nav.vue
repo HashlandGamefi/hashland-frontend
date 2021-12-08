@@ -1,16 +1,7 @@
 <template>
-  <div
-    class="nav_box"
-    :class="{ navbg: getMenuBG == 'yes' }"
-  >
-    <div
-      class="logo_img"
-      @click="menuClick(-1)"
-    >
-      <img
-        :src="`${$store.state.imgUrl}logo.png`"
-        class="imgs"
-      />
+  <div class="nav_box" :class="{ navbg: getMenuBG == 'yes' }">
+    <div class="logo_img" @click="menuClick(-1)">
+      <img :src="`${$store.state.imgUrl}logo.png`" class="imgs" />
     </div>
     <div class="menu_box">
       <ul class="ul_">
@@ -21,21 +12,12 @@
           @click="menuClick(index)"
         >
           {{ $t(item) }}
-          <div
-            class="nft_hover"
-            v-show="index == 0"
-          >
+          <div class="nft_hover" v-show="index == 0">
             <div class="box_nft">
-              <div
-                class="span1"
-                @click.stop="nftFun('card')"
-              >
+              <div class="span1" @click.stop="nftFun('card')">
                 {{ $t("message.nav.txt7") }} <span class="icon-v-right"></span>
               </div>
-              <div
-                class="span1"
-                @click.stop="nftFun('mining')"
-              >
+              <div class="span1" @click.stop="nftFun('mining')">
                 {{ $t("message.nav.txt8") }} <span class="icon-v-right"></span>
               </div>
             </div>
@@ -44,112 +26,40 @@
       </ul>
     </div>
     <div class="connect_box">
-      <div
-        class="walletBox"
-        v-if="getIstrue"
-      >
+      <div class="walletBox" v-if="getIstrue">
         <div class="connect_triangle">
           <span class="span2 fontsize18">{{ getSubtringAccount }}</span>
           <span class="connect_icon"></span>
         </div>
         <div class="wallet_hover">
           <div class="lastbox_hover">
-            <div
-              class="hover_span1"
-              @click.stop="signOutFun"
-            >
+            <div class="hover_span1" @click.stop="signOutFun">
               <span class="span_exit fontsize18">Disconnect</span>
-              <img
-                :src="`${$store.state.imgUrl}exit.png`"
-                class="exit_class"
-              />
+              <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class" />
             </div>
           </div>
         </div>
       </div>
-      <span
-        class="span1 fontsize18"
-        @click="commonLink"
-        v-else
-      >Connect</span>
-      <transition name="fade">
-        <div
-          class="login_register ban_select"
-          v-if="showLRP == 1"
-        >
-          <span
-            class="fontsize18"
-            @click="openLoginOrRegistered('login')"
-          >
-            {{ $t("message.nav.txt10") }}
-          </span>
-          <span class="fontsize18"> / </span>
-          <span
-            class="fontsize18"
-            @click="openLoginOrRegistered('registered')"
-          >
-            {{ $t("message.nav.txt11") }}
-          </span>
-        </div>
-        <div
-          class="account_box"
-          v-if="showLRP == 2"
-        >
-          <img
-            class="man_img"
-            :src="`${$store.state.imgUrl}personalCenter.png`"
-          />
-          <span class="fontsize12">{{ mailAccount }}</span>
-          <img
-            class="accrow_img"
-            :src="`${$store.state.imgUrl}accrow.png`"
-          />
-          <div class="toolbox">
-            <div class="inset_box_add">
-              <div @click="toPersonalCenter($event)">
-                <span class="fontsize18">个人中心</span>
-                <img
-                  class="accrow_img"
-                  :src="`${$store.state.imgUrl}accrow.png`"
-                />
-              </div>
-              <div @click="toLogOut">
-                <span class="fontsize18">退出登录</span>
-                <img :src="`${$store.state.imgUrl}exit.png`" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
+      <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
       <div class="lang_box">
         <span class="lang_txt fontsize18">EN</span>
       </div>
     </div>
     <div class="mobile_menu">
-      <div
-        class="top_line"
-        :class="{ mobile_border: !InitialStatus }"
-      >
+      <div class="top_line" :class="{ mobile_border: !InitialStatus }">
         <img
           :src="`${$store.state.imgUrl}logo.png`"
           class="mobile_imgs"
           @click="menuClick(-1)"
         />
-
         <div class="mobile_right_menu">
-          <div
-            class="walletBox"
-            v-if="getIstrue"
-          >
+          <div class="walletBox" v-if="getIstrue">
             <div class="connect_triangle">
               <span class="span2 fontsize18">{{ getSubtringAccount }}</span>
               <span class="connect_icon"></span>
             </div>
             <div class="wallet_hover">
-              <div
-                class="hover_span1"
-                @click.stop="signOutFun"
-              >
+              <div class="hover_span1" @click.stop="signOutFun">
                 <span class="span_exit fontsize14">Disconnect</span>
                 <img
                   :src="`${$store.state.imgUrl}exit.png`"
@@ -158,11 +68,8 @@
               </div>
             </div>
           </div>
-          <span
-            class="span1 fontsize18"
-            @click="commonLink"
-            v-else
-          >Connect
+          <span class="span1 fontsize18" @click="commonLink" v-else
+            >Connect
           </span>
           <img
             :src="`${$store.state.imgUrl}mobilemenu.png`"
@@ -183,52 +90,6 @@
         v-if="mobilemenu"
         @click="mobilemenu = false"
       >
-        <div
-          class="login_register ban_select"
-          v-if="showLRP == 1"
-        >
-          <span
-            class="fontsize18"
-            @click="openLoginOrRegistered('login')"
-          >
-            {{ $t("message.nav.txt10") }}
-          </span>
-          <span class="fontsize18"> / </span>
-          <span
-            class="fontsize18"
-            @click="openLoginOrRegistered('registered')"
-          >
-            {{ $t("message.nav.txt11") }}
-          </span>
-        </div>
-        <div
-          class="account_box"
-          v-if="showLRP == 2"
-          @click.stop
-        >
-          <img
-            class="man_img"
-            :src="`${$store.state.imgUrl}personalCenter.png`"
-          />
-          <span class="fontsize12">{{ mailAccount }}</span>
-          <img
-            class="accrow_img"
-            :src="`${$store.state.imgUrl}accrow.png`"
-          />
-          <div class="toolbox">
-            <div @click="toPersonalCenter($event)">
-              <span class="fontsize18">个人中心</span>
-              <img
-                class="accrow_img"
-                :src="`${$store.state.imgUrl}accrow.png`"
-              />
-            </div>
-            <div @click="toLogOut">
-              <span class="fontsize18">退出登录</span>
-              <img :src="`${$store.state.imgUrl}exit.png`" />
-            </div>
-          </div>
-        </div>
         <div class="mobile_box">
           <ul class="ul_">
             <li
@@ -251,20 +112,11 @@
                   v-if="index == 0"
                 ></span>
               </div>
-              <div
-                class="box_nft"
-                v-if="mobile_menuDis && index == 0"
-              >
-                <div
-                  class="span1"
-                  @click.stop="nftFun('card')"
-                >
+              <div class="box_nft" v-if="mobile_menuDis && index == 0">
+                <div class="span1" @click.stop="nftFun('card')">
                   {{ $t("message.nav.txt7") }}
                 </div>
-                <div
-                  class="span1"
-                  @click.stop="nftFun('mining')"
-                >
+                <div class="span1" @click.stop="nftFun('mining')">
                   {{ $t("message.nav.txt8") }}
                 </div>
               </div>
@@ -287,27 +139,19 @@
       @closewalletpage="walletClose"
       @walletClick="walletClick"
     ></WalletComponents>
-    <transition name="fade">
-      <LoginRegistered
-        v-if="showLOrR"
-        :showLOrR="showLOrR"
-      ></LoginRegistered>
-    </transition>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { wallet, network } from "hashland-sdk";
 import WalletComponents from "./walletcomponents.vue";
-import LoginRegistered from "../views/GameFi/loginRegistered.vue";
 export default {
-  components: { WalletComponents, LoginRegistered },
+  components: { WalletComponents },
   inject: ["reload"],
   data() {
     return {
       walletdis: false, //选择钱包
       InitialStatus: true, // 移动端菜单栏按钮转换变量
-      // addbg:false,// 导航栏背景
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
@@ -321,9 +165,6 @@ export default {
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
-      showLRP: null, // 登录注册状态
-      showLOrR: "", // 登录注册弹窗
-      mailAccount: "",
     };
   },
   computed: {
@@ -335,30 +176,10 @@ export default {
       "getAccount",
     ]),
   },
-  watch: {
-    $route: {
-      handler(newRouter) {
-        // 判断是否已登录
-        if (newRouter.path == "/gameFi") {
-          this.againAutoLogin();
-        } else if (newRouter.path == "/personalCenter") {
-          if (localStorage.getItem("loginInfo")) {
-            const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-            this.showLRP = 2; // 已登录
-            this.mailAccount = loginInfo.mailAccount;
-          } else {
-            this.showLRP = 1;
-          }
-        } else {
-          this.showLRP = null;
-        }
-      },
-    },
-  },
+
   mounted() {
     if (this.getAccount) {
       this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
-        // console.log("导航栏---页面加载获取用户信息res: ", res1);
         if (res1 > 1) {
           sessionStorage.setItem("count", res1);
         } else {
@@ -369,78 +190,14 @@ export default {
     wallet.onAccountChanged(this.connectFun); // 监听账号
     wallet.onChainChanged(this.OnNetworkFun); // 监听网络
     wallet.onDisconnect(this.signOutFun);
-    setTimeout(() => {
-      // 判断是否已登录
-      if (this.$route.path == "/") return;
-      if (this.$route.path == "/gameFi") {
-        this.againAutoLogin();
-      } else if (this.$route.path == "/personalCenter") {
-        if (localStorage.getItem("loginInfo")) {
-          const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-          this.showLRP = 2; // 已登录
-          this.mailAccount = loginInfo.mailAccount;
-        } else {
-          this.showLRP = 1;
-        }
-      } else {
-        this.showLRP = null;
-      }
-    }, 500);
   },
   methods: {
-    /**再次自动登录 */
-    againAutoLogin() {
-      if (localStorage.getItem("loginInfo")) {
-        const loginInfo = JSON.parse(localStorage.getItem("loginInfo"));
-        if (loginInfo.mailAccount && loginInfo.newToken) {
-          const url = `mailAccount=${loginInfo.mailAccount}&token=${loginInfo.newToken}`;
-          this.$api
-            .gameMailLogin(url)
-            .then((res) => {
-              // console.log("再次自动登录：", res.data);
-              if (res.data.result === "SUCCESS") {
-                this.showLRP = 2; // 已登录
-                this.mailAccount = res.data.mailAccount;
-                localStorage.setItem("loginInfo", JSON.stringify(res.data));
-              } else if (res.data.result === "FAIL") {
-                this.$common.selectLang(res.data.msg, res.data.msg, this);
-              }
-            })
-            .catch((err) => {});
-        }
-      } else {
-        this.showLRP = 1;
-      }
-    },
-    /**打开登录与注册 */
-    openLoginOrRegistered(str) {
-      this.showLOrR = str;
-      this.InitialStatus = true;
-      this.mobilemenu = false;
-    },
-    /**关闭登录与注册 */
-    closeLoginOrRegistered() {
-      this.showLOrR = "";
-    },
-    /**个人中心 */
-    toPersonalCenter(e) {
-      this.$router.push("/personalCenter");
-    },
-    /**退出登录 */
-    toLogOut() {
-      localStorage.removeItem("loginInfo");
-      this.showLRP = 1; // 未登录
-      if (this.$route.path !== "/gameFi") {
-        this.$router.push("/gameFi");
-      }
-    },
     // 退出钱包
     async signOutFun() {
       sessionStorage.removeItem("setAccount");
       sessionStorage.removeItem("setCardInfo");
       sessionStorage.removeItem("setChain");
       sessionStorage.removeItem("count");
-      // localStorage.removeItem('walletconnect')
       if (localStorage.getItem("walletType") == "walletconnect") {
         wallet.disconnect();
       }
@@ -474,7 +231,6 @@ export default {
     },
     // 菜单栏切换状态
     menuClick(index) {
-      // this.addbg = true
       this.$store.commit("menuBG", "yes");
       sessionStorage.setItem("menuBG", "yes");
       this.$store.commit("HashMenu", index);
@@ -490,7 +246,6 @@ export default {
         case -1:
           this.mobile_menuDis = false;
           this.mobilemenu = false;
-          // this.addbg = false
           this.$store.commit("menuBG", "no");
           sessionStorage.setItem("menuBG", "no");
           this.$router.push("/home");
@@ -516,9 +271,7 @@ export default {
           window.location.href =
             "https://land-hash.gitbook.io/official/white-paper/abstract";
           break;
-        // case 6:
-        //   this.$router.push('/invite')
-        //   break;
+
         default:
           this.$common.selectLang("敬请期待", "Coming soon", this);
           break;
@@ -526,7 +279,6 @@ export default {
     },
     // 账号链接抽离方法
     connectFun(res) {
-      // console.log("账号切换res: ", res);
       if (res.length == 0) {
         this.$store.commit("setAccount", "no");
         sessionStorage.setItem("setAccount", "no");
@@ -535,9 +287,7 @@ export default {
       } else {
         this.$store.commit("setAccount", res[0]);
         sessionStorage.setItem("setAccount", res[0]);
-        // this.$common.getUserCardInfoFun(res[0])
         this.$common.newgetUserCardInfoFun(res[0]).then((res1) => {
-          // console.log("导航栏---账号链接获取用户信息res: ", res1);
           if (res1 > 1) {
             sessionStorage.setItem("count", res1);
           } else {
@@ -572,7 +322,6 @@ export default {
         item.name.toLowerCase() == "coin98" ||
         item.name.toLowerCase() == "bitkeep"
       ) {
-        // console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
         this.metamaskLink("metamask");
       } else {
         this.metamaskLink(item.name.toLowerCase());
@@ -747,7 +496,6 @@ export default {
           justify-content: center;
           width: 160px;
           padding: 6.5px 20px;
-          // height: 80px;
           background: #0c153b;
           border-radius: 6px;
           box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
@@ -757,7 +505,6 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            // padding: 0 15px;
             cursor: pointer;
             .span_exit {
               color: #fff;
@@ -790,77 +537,6 @@ export default {
       cursor: pointer;
       display: flex;
       justify-content: center;
-    }
-    .account_box {
-      min-width: 150px;
-      display: flex;
-      align-items: center;
-      padding: 0 10px;
-      position: relative;
-      cursor: pointer;
-      &:hover,
-      &.active {
-        .accrow_img {
-          transform: rotate(0);
-        }
-        .toolbox {
-          display: block;
-        }
-      }
-      .man_img {
-        width: 25px;
-        height: auto;
-        margin-right: 10px;
-      }
-      .accrow_img {
-        width: 15px;
-        height: auto;
-        transform: rotate(-90deg);
-        transition: all 0.3s;
-      }
-      span {
-        margin-right: 10px;
-        color: #ffffff;
-      }
-      .toolbox {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        .inset_box_add {
-          padding: 10px 20px;
-          border-radius: 6px;
-          background: rgba(0, 0, 0, 0.2);
-          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
-            -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-          margin: auto;
-          margin-top: 54px;
-          div {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            &:hover,
-            &.active {
-              span {
-                color: #00e7f0;
-              }
-            }
-            span {
-              color: #ffffff;
-            }
-            img {
-              width: 15px;
-              height: auto;
-              &.accrow_img {
-                transform: rotate(-90deg);
-              }
-            }
-          }
-        }
-      }
     }
     .lang_box {
       display: flex;
@@ -1047,75 +723,6 @@ export default {
           color: #ffffff;
           padding: 0 0.2rem;
         }
-        .account_box {
-          min-width: 1rem;
-          display: flex;
-          align-items: center;
-          padding: 0 0.1rem;
-          position: relative;
-          cursor: pointer;
-          border-left: 2px solid rgba(161, 64, 248, 1);
-          border-right: 2px solid rgba(161, 64, 248, 1);
-          background: #021c3a;
-          .man_img {
-            width: 0.25rem;
-            height: auto;
-            margin-right: 0.1rem;
-          }
-          .accrow_img {
-            width: 0.15rem;
-            height: auto;
-            transform: rotate(-90deg);
-            transition: all 0.3s;
-          }
-          span {
-            margin-right: 0.1rem;
-            color: #ffffff;
-          }
-          .toolbox {
-            display: none;
-            width: 1.68rem;
-            padding: 0.1rem 0.2rem;
-            border-radius: 6px;
-            background: #00000033;
-            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
-              -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-            position: absolute;
-            top: 0.25rem;
-            left: 0;
-            right: 0;
-            div {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              padding: 0.1rem 0;
-              &:hover,
-              &.active {
-                span {
-                  color: #00e7f0;
-                }
-              }
-              span {
-                color: #ffffff;
-              }
-              img {
-                width: 0.15rem;
-                height: auto;
-                &.accrow_img {
-                  transform: rotate(-90deg);
-                }
-              }
-            }
-          }
-        }
-        .account_box:hover {
-          .accrow_img {
-            transform: rotate(0);
-          }
-          .toolbox {
-            display: block;
-          }
-        }
         .mobile_box {
           border-radius: 0px 0px 17px 17px;
           border: 2px solid rgba(161, 64, 248, 1);
@@ -1126,8 +733,6 @@ export default {
           padding: 0 0.2rem;
           padding-bottom: 0.26rem;
           background: #021c3a;
-          // height: 4rem;
-          // background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162E 100%);
           .ul_ {
             width: 100%;
             margin-top: 0.14rem;

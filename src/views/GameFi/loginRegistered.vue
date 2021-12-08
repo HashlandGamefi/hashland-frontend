@@ -1,38 +1,26 @@
 <template>
-  <div
-    class="login_registered"
-    @click.self="closeLOrR"
-  >
+  <div class="login_registered" @click.self="$parent.closeLoginRegistered()">
     <div class="outside_box">
       <img
         class="close"
         :src="`${$store.state.imgUrl}proupclose.png`"
-        @click="closeLOrR"
+        @click="$parent.closeLoginRegistered()"
       />
-      <ul
-        class="in_box"
-        v-if="loginOrRegister == 'login'"
-      >
+      <ul class="in_box" v-if="showLogin">
         <li class="header_title ban_select fontsize22">账号登录</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize12">仅限于游戏</li>
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">账号</span>
-            <span
-              class="fontsize14"
-              v-show="loginForm.prompt1"
-            >
+            <span class="fontsize14" v-show="loginForm.prompt1">
               *{{ loginForm.prompt1 }}
             </span>
           </div>
-          <div
-            class="input_box_box"
-            :class="{ active: loginForm.prompt1 }"
-          >
+          <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
             <input
               type="text"
-              placeholder="请输入邮箱"
+              placeholder="请输入账号"
               v-model="loginForm.mailAccount"
             />
           </div>
@@ -40,17 +28,11 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">密码</span>
-            <span
-              class="fontsize14"
-              v-show="loginForm.prompt2"
-            >
+            <span class="fontsize14" v-show="loginForm.prompt2">
               *{{ loginForm.prompt2 }}
             </span>
           </div>
-          <div
-            class="input_box_box"
-            :class="{ active: loginForm.prompt2 }"
-          >
+          <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
@@ -64,44 +46,29 @@
             </div>
           </div>
         </li>
-        <li
-          class="btn login_btn ban_select fontsize14"
-          @click="manuallyLogin"
-        >
+        <li class="btn login_btn ban_select fontsize14" @click="manuallyLogin">
           <span>登录</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer ban_select">
-          <span
-            class="fontsize16"
-            @click="registerNow"
-          >
+          <span class="fontsize16" @click="registerNow">
             没有账号？立即注册
           </span>
           <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
         </li>
       </ul>
-      <ul
-        class="in_box register_box"
-        v-if="loginOrRegister == 'registered'"
-      >
+      <ul class="in_box register_box" v-if="!showLogin">
         <li class="header_title ban_select fontsize22">账号注册</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize16">账号注册</li>
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">邮箱</span>
-            <span
-              class="fontsize14"
-              v-show="registerForm.prompt1"
-            >
+            <span class="fontsize14" v-show="registerForm.prompt1">
               *{{ registerForm.prompt1 }}
             </span>
           </div>
-          <div
-            class="input_box_box"
-            :class="{ active: registerForm.prompt1 }"
-          >
+          <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
             <input
               type="text"
               placeholder="请输入邮箱"
@@ -112,26 +79,17 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">验证码</span>
-            <span
-              class="fontsize14"
-              v-show="registerForm.prompt2"
-            >
+            <span class="fontsize14" v-show="registerForm.prompt2">
               *{{ registerForm.prompt2 }}
             </span>
           </div>
-          <div
-            class="input_box_box"
-            :class="{ active: registerForm.prompt2 }"
-          >
+          <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
             <input
               type="text"
               placeholder="请输入验证码"
               v-model="registerForm.verifyCode"
             />
-            <div
-              class="verification ban_select fontsize14"
-              @click="getCode"
-            >
+            <div class="verification ban_select fontsize14" @click="getCode">
               <span>获取</span>
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
@@ -140,17 +98,11 @@
         <li class="input_box">
           <div class="input_title">
             <span class="fontsize16">密码</span>
-            <span
-              class="fontsize14"
-              v-show="registerForm.prompt3"
-            >
+            <span class="fontsize14" v-show="registerForm.prompt3">
               *{{ registerForm.prompt3 }}
             </span>
           </div>
-          <div
-            class="input_box_box"
-            :class="{ active: registerForm.prompt3 }"
-          >
+          <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
               placeholder="请输入密码"
@@ -164,10 +116,7 @@
             </div>
           </div>
         </li>
-        <li
-          class="checkoutside_box ban_select"
-          @click="readTheTreaty"
-        >
+        <li class="checkoutside_box ban_select" @click="readTheTreaty">
           <div>
             <div v-if="isRead"></div>
           </div>
@@ -202,9 +151,9 @@ const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱校验
 const pwReg = /^[a-zA-Z0-9]{6,16}$/; //校验密码： 6-16位字符,可包含数字，字母(区分大小写)
 import { mapGetters } from "vuex";
 export default {
-  props: {
-    showLOrR: { type: String, default: "login" },
-  },
+  // props: {
+  //   showLR: { type: String, default: "login" }
+  // },
   data() {
     return {
       btntxt: "", // 弹窗页面的确认按钮
@@ -212,7 +161,7 @@ export default {
       proupDis: false, // 弹窗展示消失变量
       isShowPassword: false,
       isRead: false,
-      loginOrRegister: "",
+      showLogin: true,
       loginForm: {
         // mailAccount: "641160771@qq.com",
         // password: "123456",
@@ -239,9 +188,7 @@ export default {
   computed: {
     ...mapGetters(["getAccount"]),
   },
-  created() {
-    this.loginOrRegister = this.showLOrR;
-  },
+
   methods: {
     /**注册账号 */
     toRegistered() {
@@ -250,10 +197,10 @@ export default {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
         } else {
-          this.registerForm.prompt1 = "账号不合法"; // 账号不合法
+          this.registerForm.prompt1 = "邮箱不合法"; // 邮箱不合法
         }
       } else {
-        this.registerForm.prompt1 = "请填写账号"; // 请填写账号
+        this.registerForm.prompt1 = "请填写邮箱"; // 请填写邮箱
       }
       if (!this.registerForm.verifyCode) {
         this.registerForm.prompt2 = "请填写验证码"; // 请填写验证码
@@ -304,9 +251,11 @@ export default {
         .then((res) => {
           // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
           if (res.data.result === "SUCCESS") {
-            localStorage.setItem("loginInfo", JSON.stringify(res.data));
-            this.switchingLoginStatus(res.data.mailAccount);
-            this.closeLOrR();
+            localStorage.setItem(
+              "hashlandGameFiInfo",
+              JSON.stringify(res.data)
+            );
+            this.loginRegisteredSucc(res.data.mailAccount);
           } else if (res.data.result === "FAIL") {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           }
@@ -348,10 +297,12 @@ export default {
             // console.log("手动登录，使用账号和密码：", res.data);
             this.loginbtnloading = false;
             if (res.data.result === "SUCCESS") {
-              localStorage.setItem("loginInfo", JSON.stringify(res.data));
-              this.switchingLoginStatus(res.data.mailAccount);
-              this.closeLOrR();
-              this.$router.push("/personalCenter");
+              localStorage.setItem(
+                "hashlandGameFiInfo",
+                JSON.stringify(res.data)
+              );
+              this.loginRegisteredSucc(res.data.mailAccount);
+              // this.$router.push("/personalCenter");
             } else if (res.data.result === "FAIL") {
               this.$common.selectLang(res.data.msg, res.data.msg, this);
             }
@@ -363,12 +314,12 @@ export default {
     },
     /**没有账号？立即注册 */
     registerNow() {
-      this.loginOrRegister = "registered";
+      this.showLogin = false;
     },
     /**忘记密码 */
-    forgotPassword() {
-      this.$common.selectLang("忘记密码", "Forgot Password", this);
-    },
+    // forgotPassword() {
+    //   this.$common.selectLang("忘记密码", "Forgot Password", this);
+    // },
     /**获取验证码 */
     getCode() {
       if (this.registerForm.mailAccount) {
@@ -417,14 +368,12 @@ export default {
       this.isShowPassword = !this.isShowPassword;
     },
     /**登录成功，切换登录注册的状态，修改信息 */
-    switchingLoginStatus(mailAccount) {
-      this.$parent.showLRP = 2;
+    loginRegisteredSucc(mailAccount) {
+      this.$parent.loginRegisteredStatus = true;
+      this.$parent.showLoginRegistered = false;
       this.$parent.mailAccount = mailAccount;
     },
-    /**关闭登录与注册 */
-    closeLOrR() {
-      this.$parent.showLOrR = "";
-    },
+
     /**公用提示框（关闭方法） closePopupPrompts */
     CloseFun() {
       this.proupDis = false;
@@ -621,7 +570,6 @@ export default {
     color: #ffffff;
     display: flex;
     align-items: center;
-    // justify-content: space-between;
     justify-content: center;
     span {
       cursor: pointer;
@@ -631,15 +579,11 @@ export default {
 .register_box {
   padding: 12px 80px;
 }
-@media screen and (min-width: 981px) {
-}
+
 @media screen and (max-width: 980px) {
   .outside_box {
     .close {
-      width: 0.36rem;
-      height: auto;
-      top: 0.1rem;
-      right: 0.1rem;
+      width: 8vw;
     }
     .in_box {
       padding: 0.2rem 0.5rem;

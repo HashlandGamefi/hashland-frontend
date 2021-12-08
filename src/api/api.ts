@@ -17,7 +17,7 @@ export default {
   gameMailCode: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/get_mail_code?${data}`);
   },
-  /**2、邮箱账号注册游戏接口 */
+  /**2、邮箱注册游戏接口 */
   gameMailRegister: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/mail_register?${data}`);
   },
