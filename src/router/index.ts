@@ -46,33 +46,38 @@ let routes: Array<RouteConfig> = [
     name: "Transfer",
     component: () => import("../views/NFTmining/transfer.vue")
   },
-
   {
     path: "/hclp",
     name: "Hclp",
     component: () => import("../views/HClp/index.vue")
+  },
+  {
+    path: "/market",
+    name: "Market",
+    component: () => import("../views/Market/index.vue"),
+  },
+  {
+    path: "/hangingorder",
+    name: "HangingOrder",
+    component: () => import("../views/Market/hangingorder.vue"),
+  },
+  {
+    path: "/pendingrecord",
+    name: "Pendingrecord",
+    component: () => import("../views/Market/pendingrecord.vue"),
+  },
+  {
+    path: "/gameFi",
+    name: "GameFi",
+    component: () => import("../views/GameFi/index.vue")
+  },
+  {
+    path: "/personalCenter",
+    name: "PersonalCenter",
+    component: () => import("../views/GameFi/personalCenter.vue")
   }
 ];
-if (process.env.NODE_ENV == "development") {
-  const yangWroteRoutes = [
-    // {
-    //   path: "/invite",
-    //   name: "Invite",
-    //   component: () => import("../views/Invite/index.vue")// 邀请
-    // },
-    {
-      path: "/gameFi",
-      name: "GameFi",
-      component: () => import("../views/GameFi/index.vue")
-    },
-    {
-      path: "/personalCenter",
-      name: "PersonalCenter",
-      component: () => import("../views/GameFi/personalCenter.vue")
-    }
-  ];
-  routes = routes.concat(yangWroteRoutes);
-}
+
 
 const router = new VueRouter({
   routes

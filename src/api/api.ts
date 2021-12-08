@@ -7,11 +7,10 @@ const GAME_API = process.env.VUE_APP_GAME_API;
 // 外网测试 hw-api.hashland.com
 // console.log("BASE_API: ", BASE_API);
 // console.log("GAME_API: ", GAME_API);
-
 export default {
   // 获取币的价格
   getCurrencyFun: (data: any) => {
-    return axios.get(`${BASE_API}/api/v2/tokens/${data}`);
+    return axios.get(`${BASE_API}/api/v3/simple/price/?ids=${data}&vs_currencies=usd`);
   },
   /**1、获取邮箱验证码接口 */
   gameMailCode: (data: any) => {

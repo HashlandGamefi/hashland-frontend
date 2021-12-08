@@ -84,7 +84,7 @@
     </div>
     <div class="connect_box fontsize18" :class="{disable_bnb:disable}">
       <div v-if="disable" class="disablebtn">Not Qualified</div>
-      <Btn v-else :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
+      <Btn v-show="!disable" :isapprove="isapprove" :approveloading="buy_isloading" :isloading="buy_isloading" :word="$t('message.nftCard.txt13')" ref="mychild" @sonapprove="sonapprove" @dosomething="buyBindCard"/>
     </div>
     <div class="right_box">
       <div class="btn fontsize16">{{$t("message.nftCard.txt14")}}</div>
@@ -115,7 +115,7 @@ export default {
       cardNumber:'0',//卡牌的编号
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       isapprove:false,//是否授权
-      tokenID:1, // 代币id------0 bnb  1 hclp  2 busd 3 ht
+      tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
       maxbuy:0, // 最大购买数量
       disable:true,//购买按钮是否禁用(是否在白名单)
     }
@@ -128,17 +128,19 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.watchResult()
-          this.connectGetInfo()
           this.getTokenInfoFun(this.tokenID)
           setTimeout(() => {
+            this.connectGetInfo(this.tokenID)
             let type = ''
             if(this.tokenID == 0){
               type = 'BNB'
             }else if(this.tokenID == 1){
-              type = 'HCLP'
+              type = 'HC'
             }else if(this.tokenID == 2){
-              type = 'BUSD'
+              type = 'HCLP'
             }else if(this.tokenID == 3){
+              type = 'BUSD'
+            }else if(this.tokenID == 4){
               type = 'HT'
             }
             this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
@@ -157,6 +159,7 @@ export default {
     },
     $route(to){
       this.tokenID = to.params.type
+      this.connectGetInfo(to.params.type)
       this.getTokenInfoFun(to.params.type)
     }
   },
@@ -183,10 +186,12 @@ export default {
       if(this.tokenID == 0){
         type = 'BNB'
       }else if(this.tokenID == 1){
-        type = 'HCLP'
+        type = 'HC'
       }else if(this.tokenID == 2){
-        type = 'BUSD'
+        type = 'HCLP'
       }else if(this.tokenID == 3){
+        type = 'BUSD'
+      }else if(this.tokenID == 4){
         type = 'HT'
       }
       this.$refs.mychild.goApproveFun(type,contract().HNBlindBox).then(res => {
@@ -238,13 +243,13 @@ export default {
         this.$common.selectLang('请输入购买数量','Enter Purchase Amount',this)
         return
       }
-      // console.log('this.boxnums: ', this.boxnums,this.surplusNums);
       if(Number(this.boxnums) > Number(this.surplusNums)){
         console.log('可购买数量不足')
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
-      if(this.total > this.balance){
+      console.log('购买前余额跟盒子总价比较: ', Number(this.total),Number(this.balance));
+      if(Number(this.total) > Number(this.balance)){
         this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
@@ -261,10 +266,36 @@ export default {
         this.buy_isloading = false
       })
     },
-    connectGetInfo(){
-      erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
+    getuserBalance(type){
+      erc20(token()[type]).balanceOf(this.getAccount).then(res => {
         this.balance = util.formatEther(res)
+        console.log('%s钱包余额res: ', type,this.balance);
+      }).catch(err => {
+        console.log('%s钱包余额err: ', err);
       })
+    },
+    connectGetInfo(tokenID){
+      console.log('tokenID: ', tokenID);
+      // tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
+      switch(tokenID){
+        case '0':
+          this.getuserBalance('BNB')
+          break;
+        case '1':
+          this.getuserBalance('HC')
+          break;
+        case '2':
+          this.getuserBalance('HCLP')
+          break;
+        case '3':
+          this.getuserBalance('BUSD')
+          break;
+        case '4':
+          this.getuserBalance('HT')
+          break;
+        default:
+          break;
+      }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
@@ -299,12 +330,16 @@ export default {
               this.disable = true
             }
           })
+        }else{
+          this.disable = false
         }
       })
     }
   },
   mounted(){
     this.getTokenInfoFun(this.$route.params.type)
+    this.tokenID = this.$route.params.type
+    // console.log('this.$route: ', this.$route.params.type);
   }
 }
 </script>

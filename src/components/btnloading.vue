@@ -17,8 +17,8 @@ export default {
   border: 2px solid rgba(0, 0, 0, 0.1);
   border-left-color: #ffffff;
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   animation: donut-spin 1.2s linear infinite;
   margin-left:5px;
 }

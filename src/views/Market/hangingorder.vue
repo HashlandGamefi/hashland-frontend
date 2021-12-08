@@ -1,13 +1,24 @@
 <template>
-  <div class="insertcard_page">
+  <div class="order_page">
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
-    <div class="title_title fontsize32">{{$t("message.transfer.txt1")}}</div>
-    <div class="title_son1 fontsize12_400">{{$t("message.transfer.txt2")}}</div>
-    <div class="content">
+    <span class="title1_txt fontsize32">去挂单</span>
+    <div class="tab_box">
+      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
+        My Wallet Cards
+      </div>
+      <div
+        class="oneTab fontsize16"
+        :class="{ activeTab: tabIndex == 1 }"
+        @click="tabFun(1)"
+      >
+        My Sloted Cards
+      </div>
+    </div>
+    <div class="content" :class="{content_end:tabIndex == 1}">
       <!-- 几阶对应数量 -->
-      <div class="left_content">
+      <div class="left_content" v-if="tabIndex == 0">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -21,16 +32,6 @@
         <span class="select_ttx fontsize16">{{$t("message.synthesis.txt5")}}</span>
       </div>
     </div>
-    <!-- 选中卡牌提示数量 -->
-    <div class="bottom_txtbox">
-      <div class="bottom_txt1">
-        <span class="span1 fontsize22">{{$t("message.transfer.txt3")}}</span>
-        <span class="span2 fontsize22">{{selectedNUM}}</span>
-      </div>
-      <div class="bottom_txt1">
-        <span class="span1 fontsize12_400">{{$t("message.transfer.txt4")}}</span>
-      </div>
-    </div>
     <!-- 页面展示数组 -->
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
@@ -38,49 +39,44 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
-      <NoData v-if="pageshowarr.length == 0 && isshowArr"></NoData>
+      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+        Loading...
+      </div>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
-      <span class="bottom_title fontsize12">{{$t("message.transfer.txt5")}}</span>
-      <div class="btn_box fontsize16" @click="synthesisFun">
-        {{$t("message.transfer.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
-      </div>
-    </div>
-    <div class="danger_proup" v-if="isdanger">
-      <div class="outbox_danger">
-        <div class="danger_wallet_box" @click.stop>
-          <span class="txt1">{{$t('message.msg')}}</span>
-          <span class="txt_danger">!</span>
-          <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{$t("message.transfer.txt8")}}</span></div>
-          <div class="inputbox">
-            <Input v-model="dangerTxtModel" :placeholder="$t('message.transfer.danger_placeholder')" :inputvalue="dangerTxtModel"></Input>
-          </div>
-          <div class="btn_box">
-            <div class="txt3" @click.stop="sureDangerClick">Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading></div>
-          </div>
+      <div class="input_border">
+        <span class="span1 fontsize16">单价</span>
+        <div class="inputbox">
+          <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
         </div>
-        <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="dangerClick"/>
+        <span class="span2 fontsize16">BUSD</span>
+      </div>
+      <div class="btn_box fontsize16">
+        <Btn :isapprove="isApproveHN" :approveloading="synthesisDis" :isloading="synthesisDis" :word="'挂单'" ref="mychild" @sonapprove="sonapprove" @dosomething="synthesisFun"/>
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="goSell" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hn } from 'hashland-sdk';
+import { contract,hnMarket,getSigner,hnPool,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      pageshowLoading:true,//数据没有加载完之前显示loading
+      tabIndex:0,
       dangerTxtModel:'',
-      isdanger:false,//转账提示框
-      isshowArr:false,// 页面暂时不显示nodata
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
+      cardslotArr:[],// 卡槽数据
       cardarr:[],//所有卡牌信息的数组
       pageshowarr:[],//页面展示的数组
+      waletArr:[],//钱包数据
       rank:1,//1阶
       amount:0,//阶对应的卡牌数量
       selectedNUM:0,//选中的卡牌数量
@@ -88,7 +84,9 @@ export default {
       selectALLBtn:false,//全选按钮的状态
       synthesisDis:false,// 合成按钮loading
       timerll:null,
-      timerll_result:null
+      timerll_result:null,
+      isApproveHN:false,// hn授权
+      time_arrNull:null,// 获取hn是否授权计时器对象
     }
   },
   computed: {
@@ -98,8 +96,8 @@ export default {
         if(this.selectedNUM == 0){
           return false
         }
-        if(this.pageshowarr.length >= 100){
-          return 100 == this.selectedNUM
+        if(this.pageshowarr.length >= 10){
+          return 10 == this.selectedNUM
         }else{
           return this.pageshowarr.length == this.selectedNUM
         }
@@ -115,9 +113,25 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.getUserAllCard(1)
+          this.getUserPledgeInfo()
+          clearInterval(this.time_arrNull)
+          this.time_arrNull = setInterval(() => {
+            if(this.pageshowarr.length > 0){
+              clearInterval(this.time_arrNull)
+              this.$refs.mychild.isApproveFun('hn',contract().HNMarket).then(res => {
+                if(res){
+                  this.isApproveHN = true
+                }else{
+                  this.isApproveHN = false
+                }
+              })
+            }
+          },1000)
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.pageshowarr = []//页面展示的数组
+          this.waletArr = []
+          this.cardslotArr = []
           this.rank = 1//1阶
           this.amount = 0//阶对应的卡牌数量
           this.selectedNUM = 0//选中的卡牌数量
@@ -129,69 +143,51 @@ export default {
     }
   },
   methods: {
+    tabFun(index){
+      if(this.pageshowLoading)return
+      this.tabIndex = index
+      console.log('index: ', index);
+      this.selectALLBtn = false
+      this.selectedNUM = 0 // 选中的卡牌数量
+      this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
+      this.rank = 1 // 当前几阶
+      this.amount = this.cardarr.filter(item => { return item.level == 1}).length
+      this.waletArr.forEach(item => {
+        item.status = false
+      })
+      this.cardslotArr.forEach(item => {
+        item.status = false
+      })
+      if(index == 0){
+        this.pageshowarr = this.waletArr//钱包数据
+      }else{
+        this.pageshowarr = this.cardslotArr
+      }
+    },
+    sonapprove(){
+      if(this.synthesisDis)return
+      this.synthesisDis = true
+      console.log('父组件页面调用子组件的授权方法,授权hn')
+      this.$refs.mychild.goApproveFun('hn',contract().HNMarket).then(res => {
+        if(res){
+          this.isApproveHN = true
+          this.synthesisDis = false
+        }else{
+          this.isApproveHN = false
+          this.synthesisDis = false
+        }
+      }).catch(() => {
+        this.isApproveHN = false
+        this.synthesisDis = false
+      })
+
+    },
+    back(){
+      this.$router.go(-1)
+    },
     // 取消转账
     dangerClick(){
       this.dangerTxtModel = ''
-      this.isdanger = false
-    },
-    // 确认转账
-    sureDangerClick(){
-      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
-      if(this.dangerTxtModel == '')return
-      this.synthesisDis = true
-      let arr = this.selectimgArr.map(item => {
-        return item.id
-      })
-      console.log('向合约传的id数组arr: ', arr);
-      hn().connect(getSigner()).safeTransferFromBatch(this.getAccount,this.dangerTxtModel,arr).then(async res => {
-        const etReceipt = await res.wait();
-        if(etReceipt.status == 1){
-          this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-            console.log('重新获取用户卡牌信息res1: ', res1);
-            sessionStorage.removeItem('count')
-            if(res1 > 1){
-              sessionStorage.setItem("count",res1)
-            }else{
-              sessionStorage.setItem("count",1)
-            }
-            this.getUserAllCard(this.rank) // 重新获取最新用户信息
-            this.$common.selectLang('转账成功','Gifted Successfully',this)
-            arr = []
-          })
-        }else{
-          this.selectALLBtn = this.selectStatus = false
-          this.selectedNUM = 0
-        }
-        this.isdanger = false
-        this.dangerTxtModel = ''
-      }).catch(err => {
-        console.log('转账err: ', err);
-        this.synthesisDis = false
-        this.isdanger = false
-        this.dangerTxtModel = ''
-      })
-    },
-    // 用户总卡牌数据获取
-    getUserAllCard(level){
-      clearInterval(this.timerll)
-      this.timerll = setInterval(() => {
-        if(sessionStorage.getItem('count')){
-          clearInterval(this.timerll)
-          this.cardarr = JSON.parse(this.getUserCardInfo)
-          let arr = this.cardarr.filter(item => { return item.level == level})
-          arr.sort((a, b) => {
-            return Number(a.type) > Number(b.type) ? 1 : -1;
-          })
-          this.pageshowarr = arr
-          this.isshowArr = true
-          this.amount = this.cardarr.filter(item => { return item.level == level}).length
-          this.synthesisDis = false
-          this.selectALLBtn = this.selectStatus = false
-          this.selectedNUM = 0
-          this.selectimgArr = []
-        }
-        console.log("获取用户信息")
-      }, 1000);
     },
     // 全选按钮选中事件
     selectAllClick(){
@@ -204,10 +200,10 @@ export default {
         this.selectimgArr = []
         this.selectedNUM = 0
       }else{
-        // 最多选择5张
+        // 最多选择10张
         this.selectimgArr = []
         this.selectALLBtn = this.selectStatus = true
-        if(this.pageshowarr.length < 101){
+        if(this.pageshowarr.length < 11){
           this.pageshowarr.forEach((item,index) => {
               item.status = true
               let obj = {}
@@ -221,7 +217,7 @@ export default {
             item.status = false
           })
           this.pageshowarr.forEach((item,index) => {
-            if(index <= 99){
+            if(index <= 9){
               item.status = true
               let obj = {}
               obj.index = index
@@ -230,27 +226,102 @@ export default {
             }
           })
           this.selectedNUM = this.pageshowarr.filter(item => {return item.status == true}).length
-          this.$common.selectLang('最多100张','Up to 100',this)
+          this.$common.selectLang('最多10张','Up to 10',this)
         }
       }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
+      this.synthesisDis = false
     },
-    // 转账
+    // 弹窗去售卖
+    goSell(){
+      if(!this.synthesisDis){
+        this.proupDis = false
+        return
+      }
+      console.log('this.synthesisDis: ', this.synthesisDis);
+      this.proupDis = false
+      this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
+        console.log('合约需要的数组已经处理完毕: ', info);
+        let cardIDArr = info.map(item => {
+          return item.cardID
+        })
+        let priceArr = info.map(item => {
+          return item.prices
+        })
+        let sellArr = info.map(item => {
+          return item.issell
+        })
+        console.log('sellArr: ',cardIDArr,priceArr,sellArr);
+        hnMarket().connect(getSigner()).sell(cardIDArr, priceArr, sellArr).then(async res => {
+          console.log('卖家批量出售HN卡牌res: ', res);
+          const etReceipt = await res.wait();
+          if(etReceipt.status == 1){
+            this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+              console.log('重新获取用户卡牌信息res1: ', res1);
+              sessionStorage.removeItem('count')
+              if(res1 > 1){
+                sessionStorage.setItem("count",res1)
+              }else{
+                sessionStorage.setItem("count",1)
+              }
+              this.synthesisDis = false
+              this.getUserAllCard(this.rank) // 重新获取最新用户信息
+              this.$common.selectLang('出售成功','Success',this)
+              this.dangerTxtModel = ''
+            })
+          }else{
+            this.synthesisDis = false
+          }
+        }).catch(err => {
+          this.synthesisDis = false
+          console.log('卖家批量出售HN卡牌err: ', err);
+        })
+      })
+    },
+    // 售卖
     async synthesisFun(){
       if(this.synthesisDis)return
       if(this.selectimgArr.length < 1){
         this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
         return
       }
-      this.isdanger = true
+      if(!this.dangerTxtModel){
+        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
+        return
+      }
+      this.$common.selectLang('Once NFT cards are reactivated, the original game data will be cleared.','Once NFT cards are reactivated, the original game data will be cleared.',this)
+      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
+      this.synthesisDis = true
+    },
+    // 合约需要的三个数组处理方法
+    processingArrayFun(arr,price){
+      console.log('arr: ', arr);
+      return new Promise((resolve) => {
+        let count = 1
+        let arr_cardinfo = []
+        arr.map(async item => {
+          let obj = {
+            cardID:'',
+            prices:'',
+            issell:this.tabIndex == 0?false:true //获取某卖家的某HN卡牌是否正在出售
+          }
+          obj.cardID = item.id
+          obj.prices = price
+          arr_cardinfo.push(obj)
+          if (count == arr.length) {
+            resolve(arr_cardinfo);
+          }
+          count++
+        })
+      })
     },
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
-      if(this.selectedNUM >= 100){
+      if(this.selectedNUM >= 10){
         if(data.status){
           data.status = false
           for(let i = 0; i < this.selectimgArr.length; i++){
@@ -261,7 +332,7 @@ export default {
             }
           }
         }else{
-          this.$common.selectLang('最多100张','Up to 100',this)
+          this.$common.selectLang('最多10张','Up to 10',this)
         }
         return
       }
@@ -287,6 +358,7 @@ export default {
     },
     // 选择阶数
     selectRankClik(data){
+      if(this.pageshowLoading)return
       this.selectALLBtn = false
       this.selectedNUM = 0 // 选中的卡牌数量
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
@@ -301,20 +373,70 @@ export default {
     },
     back(){
       this.$router.go(-1)
+    },
+    // 用户钱包总卡牌数据获取
+    getUserAllCard(level){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          this.cardarr = JSON.parse(this.getUserCardInfo)
+          let arr = this.cardarr.filter(item => { return item.level == level})
+          arr.sort((a, b) => {
+            return Number(a.type) > Number(b.type) ? 1 : -1;
+          })
+          this.pageshowarr = this.waletArr = arr
+          this.pageshowLoading = false
+          this.amount = this.cardarr.filter(item => { return item.level == level}).length
+          this.synthesisDis = false
+          this.selectALLBtn = this.selectStatus = false
+          this.selectedNUM = 0
+          this.selectimgArr = []
+        }
+        console.log("获取用户信息")
+      }, 1000);
+    },
+    // 获取用户在质押中的卡牌信息
+    getUserPledgeInfo(){
+      hnPool().getUserHnIdsBySize(this.getAccount,0,1000).then(res => {
+        console.log('获取用户在质押中的卡牌信息res: ', res);
+        if(res[0].length == 0){
+          this.cardslotArr = []
+          return
+        }
+        let count = 1
+        let arr = []
+        res[0].map(async (item) => {
+          let obj = {
+            src: "",
+            cardID: "",
+            level: "",
+          };
+          obj.cardID = item.toString(); // 卡牌的id
+          obj.level = (await hn().level(item.toString())).toString(); // 等级
+          let race = await hn().getHashrates(item) // 算力数组
+          obj.src = getHnImg(Number(item),Number(obj.level),race)
+          arr.push(obj)
+          if (count == res[0].length) {
+            this.cardslotArr = arr
+          }
+          count++;
+        })
+      })
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.insertcard_page {
+.order_page {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   .title {
     position: absolute;
-    top: 149px;
+    top: 100px;
     right: 90px;
     width: 44px;
     cursor: pointer;
@@ -323,13 +445,34 @@ export default {
       object-fit: contain;
     }
   }
-  .title_title {
+  .title1_txt {
     color: #ffffff;
-    margin-bottom: 15px;
     margin-top: 208px;
   }
-  .title_son1{
-    color: #ffffff;
+  .tab_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 65px;
+    .oneTab {
+      width: 158px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      color: #ffffff;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+        -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+    }
+    .activeTab {
+      background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+      box-shadow: 0 9px 2px #23447c;
+    }
+  }
+  .activeTab {
+    background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+    box-shadow: 0 9px 2px #23447c;
   }
   .content{
     width: 100%;
@@ -395,6 +538,7 @@ export default {
       display: flex;
       align-items: center;
       cursor: pointer;
+      height: 48px;
       .selectimg{
         width: 40px;
         object-fit: contain;
@@ -405,43 +549,24 @@ export default {
       }
     }
   }
-  .bottom_txtbox {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 23px;
-    .bottom_txt1 {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      .span1 {
-        color: #ffffff;
-        margin-right:40px;
-      }
-      .span2 {
-        color: #00e7f0;
-      }
-    }
-    .bottom_txt2 {
-      width: 100%;
-      color: #ccbebe;
-    }
+  .content_end{
+    justify-content: flex-end;
   }
   .cardarr_class{
     width: 100%;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 20px;
     min-height: 300px;
-    padding-bottom: 120px;
+    max-height: 540px;
+    overflow-y: auto;
     .onebox{
       position: relative;
       width: 237px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 20px;
+      margin-top: 20px;
       margin-right: 46px;
       cursor: pointer;
       .card_picture{
@@ -456,22 +581,47 @@ export default {
         object-fit: contain;
       }
     }
+    .loadingbox{
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+    }
   }
   .Suspension_btnbox{
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%);
-    width: 637px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
-    border-radius: 79px;
-    padding-top: 24px;
-    .bottom_title{
-      color: #ffffff;
+    margin-top: 20px;
+    .input_border{
+      width: 428px;
+      height: 61px;
+      background: #052141;
+      box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+      border-radius: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      .span1,.span2{
+        color: #ffffff;
+      }
+      .inputbox {
+        width: 70%;
+        display: flex;
+        .input {
+          width: 100%;
+          padding:0 15px;
+          height: 61px;
+          border: none;
+          outline: none;
+          font-style: normal;
+          color: #ffffff;
+          background: transparent;
+        }
+      }
     }
     .btn_box {
       width: 274px;
@@ -483,114 +633,19 @@ export default {
       background-size: 100% 100%;
       background-repeat: no-repeat;
       color: #ffffff;
+      margin-top: 34px;
       cursor: pointer;
-      margin-top: 14px;
-    }
-  }
-  .danger_proup {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 99999999;
-    backdrop-filter: blur(6px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .outbox_danger{
-      position: relative;
-      width: 580px;
-      height: 574px;
-      box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-      padding: 1px;
-      border-radius: 14px;
-      background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
-      .danger_wallet_box {
-        width: 100%;
-        height: 100%;
-        padding: 38px 110px 85px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        border-radius: 14px;
-        background:#011A31;
-        .txt1 {
-          width: 100%;
-          text-align: center;
-          font-style: normal;
-          font-size: 36px;
-          color: #ffffff;
-        }
-        .txt_danger{
-          font-size: 66px;
-          font-weight: 600;
-          color: #FFFFFF;
-          line-height: 55px;
-          background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .txtbox_danger{
-          width: 100%;
-          display: flex;
-          .txt2 {
-            width: 100%;
-            font-style: normal;
-            color: rgba(255, 255, 255, 0.8);
-          }
-        }
-        .inputbox {
-          width: 100%;
-          display: flex;
-          height: 37px;
-          border-radius: 14px;
-          padding: 0 15px;
-          background: rgba(78, 197, 227, 0.34);
-        }
-        .btn_box{
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          justify-content: center;
-          .txt3 {
-            width: 281px;
-            background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-style: normal;
-            font-size: 24px;
-            color: #ffffff;
-            cursor: pointer;
-          }
-        }
-      }
-      .danger_close{
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 44px;
-        object-fit: contain;
-        cursor: pointer;
-      }
     }
   }
 }
 @media screen and (min-width: 1280px) {
-  .insertcard_page{
+  .order_page{
     max-width: 1162px;
     margin: 0 auto;
   }
 }
 @media screen and (max-width: 980px){
-  .insertcard_page {
+  .order_page {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -599,7 +654,7 @@ export default {
     padding-top: 1.07rem;
     .title{
       position: absolute;
-      top: 0.15rem;
+      top: 0.05rem;
       right: 0.2rem;
       width: 0.36rem;
       cursor: pointer;
@@ -608,22 +663,37 @@ export default {
         object-fit: contain;
       }
     }
-    .title_title {
+    .title1_txt {
       color: #ffffff;
-      margin-bottom: 0.05rem;
-      margin-top: 0.25rem;
+      margin-top: 0;
     }
-    .title_son1{
-      width: 80%;
-      text-align: center;
-      color: #ffffff;
+    .tab_box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.33rem;
+      .oneTab {
+        width: 158px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        color: #ffffff;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
+          -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
+      }
+      .activeTab {
+        background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
+        box-shadow: 0 9px 2px #23447c;
+      }
     }
     .content{
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.4rem;
+      margin-top: 0.33rem;
       .left_content{
         position: relative;
         width: 1.71rem;
@@ -690,40 +760,14 @@ export default {
         }
       }
     }
-    .bottom_txtbox {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      margin-top: 0.1rem;
-      .bottom_txt1 {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        margin-top: 0.05rem;
-        .span1 {
-          color: #ffffff;
-          line-height: auto;
-          margin-right: 0.05rem;
-        }
-        .span2 {
-          color: #00e7f0;
-          line-height: 0.28rem;
-        }
-      }
-      .bottom_txt2 {
-        width: 100%;
-        color: #ccbebe;
-      }
-    }
     .cardarr_class{
       width: 100%;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       min-height: 1rem;
-      margin-top: 0.2rem;
+      max-height: 3.6rem;
       padding-bottom: 0;
-      margin-bottom: 0.8rem;
       .onebox{
         position: relative;
         width: 50%;
@@ -805,20 +849,37 @@ export default {
       }
     }
     .Suspension_btnbox{
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translate(-50%);
-      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
-      border-radius: 0.8rem;
-      padding: 0.12rem 0;
-      .bottom_title{
-        color: #ffffff;
+      margin-top: 0.2rem;
+      .input_border{
+        width: 100%;
+        height: 0.6rem;
+        background: #052141;
+        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+        border-radius: 0.18rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.16rem;
+        .span1,.span2{
+          color: #ffffff;
+        }
+        .inputbox {
+          width: 70%;
+          display: flex;
+          .input {
+            width: 100%;
+            padding:0 0.15rem;
+            height: 0.61rem;
+            border: none;
+            outline: none;
+            font-style: normal;
+            color: #ffffff;
+            background: transparent;
+          }
+        }
       }
       .btn_box {
         width: 1.94rem;
@@ -830,99 +891,8 @@ export default {
         background-size: 100% 100%;
         background-repeat: no-repeat;
         color: #ffffff;
+        margin-top: 0.2rem;
         cursor: pointer;
-        margin-top: 0.1rem;
-      }
-    }
-    .danger_proup {
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 99999999;
-      backdrop-filter: blur(6px);
-      padding: 0 0.38rem;
-      .outbox_danger{
-        width: 100%;
-        height: 4.5rem;
-        box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
-        padding: 1px;
-        border-radius: 0.14rem;
-        background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
-        .danger_wallet_box {
-          width: 100%;
-          height: 100%;
-          padding: 0.29rem 0.38rem 0.42rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
-          border-radius: 0.14rem;
-          background:#011A31;
-          .txt1 {
-            width: 100%;
-            font-style: normal;
-            font-size: 0.36rem;
-            color: #ffffff;
-          }
-          .txt_danger{
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: #FFFFFF;
-            line-height: 0.6rem;
-            background: linear-gradient(180deg, #F7C000 0%, #E77917 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-          }
-          .txtbox_danger{
-            width: 100%;
-            display: flex;
-            .txt2 {
-              width: 100%;
-              text-align: center;
-              font-style: normal;
-              color: rgba(255, 255, 255, 0.8);
-            }
-          }
-          .inputbox {
-            width: 100%;
-            display: flex;
-            height: 0.37rem;
-            padding: 0 0.1rem;
-            border-radius: 0.14rem;
-          }
-          .btn_box{
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            justify-content: center;
-            .txt3 {
-              width: 1.67rem;
-              background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-              background-size: 100% 100%;
-              background-repeat: no-repeat;
-              height: 0.39rem;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              font-style: normal;
-              font-size: 0.24rem;
-              color: #ffffff;
-              cursor: pointer;
-            }
-          }
-        }
-        .danger_close{
-          position: absolute;
-          top: 0.1rem;
-          right: 0.1rem;
-          width: 0.36rem;
-          object-fit: contain;
-          cursor: pointer;
-        }
       }
     }
   }

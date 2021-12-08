@@ -1,5 +1,5 @@
 <template>
-  <div class="buy_page" ref="buypage">
+  <div class="buy_page">
     <span class="title1_txt fontsize32">{{ $t("message.nav.txt7") }}</span>
     <span class="title1_txt title2_txt fontsize16_100">{{ $t("message.nftCard.txt1") }}</span>
     <div class="tab_box">

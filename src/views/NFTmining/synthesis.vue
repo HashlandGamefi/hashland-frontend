@@ -83,7 +83,7 @@
         {{$t("message.synthesis.txt1")}}<BtnLoading :isloading="synthesisDis"></BtnLoading>
       </div>
       <div class="btn_box fontsize16" @click="authorizationClick('hn')" v-if="!isApproveHN">
-        NTT {{$t("message.approve")}}<BtnLoading :isloading="hnisloading"></BtnLoading>
+        NFT {{$t("message.approve")}}<BtnLoading :isloading="hnisloading"></BtnLoading>
       </div>
       <div class="btn_box fontsize16" @click="authorizationClick('hc')" v-else-if="!isApproveHC">
         HC {{$t("message.approve")}}<BtnLoading :isloading="hcisloading"></BtnLoading>
@@ -134,18 +134,6 @@ export default {
         if(newValue){
           this.getSDKInfo()
           this.getUserAllCard()
-          // setTimeout(() => {
-          //   this.cardarr = JSON.parse(this.getUserCardInfo)
-          //   // this.pageshowarr = this.cardarr.filter(item => { return item.level == 1})
-          //   let arr = this.cardarr.filter(item => { return item.level == 1})
-          //   arr.sort((a, b) => {
-          //     return Number(a.type) > Number(b.type) ? 1 : -1;
-          //   })
-          //   this.pageshowarr = arr
-
-          //   this.isshowArr = true
-          //   this.amount = this.cardarr.filter(item => { return item.level == 1}).length
-          // },1500)
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.selectedArr = []//页面展示的选中的数组
@@ -227,15 +215,6 @@ export default {
         }
         this.selectedNUM = this.selectedCardnum
         this.compose = this.selectedNUM / 4
-      }else{
-        // this.selectedArr = []
-        // let arr = this.cardarr.filter(item => { return item.level == this.rank})
-        // arr.sort((a, b) => {
-        //   return Number(a.type) > Number(b.type) ? 1 : -1;
-        // })
-        // this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank})
-        // this.selectedNUM = 0
-        // this.compose = 0
       }
     },
     // 取消按钮(关闭弹窗)
@@ -270,10 +249,6 @@ export default {
         }
         this.$store.commit("setrewardsInfo", lastObj);
         this.synthesisDis = false
-        // setTimeout(() => {
-        //   console.log("合成完成后,过1.5s后调selectRankClik方法",this.rank)
-        //   this.selectRankClik(this.rank,2)
-        // },4000);
         clearInterval(this.timerll_result)
         this.timerll_result = setInterval(() => {
           if(sessionStorage.getItem('count')){
@@ -507,6 +482,9 @@ export default {
     .left_content:hover{
       .left_content_hover{
         display: flex;
+        .span1:hover{
+          color: #00E7F0;
+        }
       }
     }
     .right_content{

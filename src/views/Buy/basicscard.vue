@@ -253,6 +253,7 @@ export default {
         }
       }).catch(err => {
         console.log('是否授权busderr: ', err);
+        this.isapprove = false
       })
     }
   },
