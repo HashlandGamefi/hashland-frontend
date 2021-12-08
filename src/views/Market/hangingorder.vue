@@ -269,7 +269,7 @@ export default {
               }
               this.synthesisDis = false
               this.getUserAllCard(this.rank) // 重新获取最新用户信息
-              this.$common.selectLang('出售成功','出售成功',this)
+              this.$common.selectLang('出售成功','Success',this)
               this.dangerTxtModel = ''
             })
           }else{

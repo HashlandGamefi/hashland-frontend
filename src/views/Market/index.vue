@@ -84,7 +84,7 @@
               :isapprove="isapprove"
               :approveloading="item.isstatus"
               :isloading="item.isstatus"
-              :word="'buy'"
+              :word="'Buy'"
               ref="mychild"
               @sonapprove="sonapprove(item)"
               @dosomething="buyCard(item)"
@@ -290,7 +290,7 @@ export default {
                 this.pageshowarr = data.arr
                 this.nodata = false
                 this.pulldown = true
-                this.$common.selectLang('购买成功', '购买成功', this)
+                this.$common.selectLang('购买成功', '购买成功,数据延迟,耐心等待', this)
                 this.getSDKInfo()
                 this.connectInfo()
                 item.isstatus = false
@@ -307,7 +307,7 @@ export default {
           console.log('买家批量购买卡牌err: ', err);
         })
       } else {
-        this.$common.selectLang('余额不足', '余额不足', this)
+        this.$common.selectLang('余额不足', 'Insufficent Balance', this)
       }
     },
     // 选择阶数

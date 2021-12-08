@@ -178,8 +178,8 @@ export const message = {
     txt12_1: "Stake Balance",
     txt13: "Input Number",
     txt14: "Insufficient Balance"
-  },
-  market:{
+  },market:{
+    txt:'NFT市场',
     txt1:'NFT市场',
     txt2:'价格升序',
     txt3:'价格降序',
@@ -199,7 +199,10 @@ export const message = {
     txt17:'BTC筛选',
     txt18:'HC筛选',
     txt19:'价格筛选',
-    txt20:'上架时间筛选'
+    txt20:'上架时间筛选',
+    txt21:'购买成功,数据延迟,耐心等待',
+    txt22:'请输入售卖价格',
+    txt23:'撤单成功'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
