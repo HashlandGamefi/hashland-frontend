@@ -248,10 +248,10 @@ export default {
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
-      if(this.total > this.balance){
-        this.$common.selectLang('余额不足','Insufficent Balance',this)
-        return
-      }
+      // if(Number(this.total) > Number(this.balance)){
+      //   this.$common.selectLang('余额不足','Insufficent Balance',this)
+      //   return
+      // }
       this.buy_isloading = true
       // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
@@ -267,6 +267,7 @@ export default {
     },
     connectGetInfo(){
       erc20(token().BUSD).balanceOf(this.getAccount).then(res => {
+        console.log('钱包余额res: ', res);
         this.balance = util.formatEther(res)
       })
     },
