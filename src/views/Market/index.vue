@@ -8,52 +8,56 @@
         <p class="p1 fontsize22" v-if="item.loading">
           <NewLoading></NewLoading>
         </p>
-        <p class="p1 fontsize22" v-else-if="(index == 2 || index == 1) && !item.loading ">
-          $ {{ item.num }}
+        <p class="p1 fontsize22" v-else-if="(index == 0 || index == 4) && !item.loading ">
+          {{ item.num }}
         </p>
-        <p class="p1 fontsize22" v-else>{{ item.num }}</p>
+        <p class="p1 fontsize22" v-else>$ {{ item.num }}</p>
       </div>
     </div>
     <div class="content">
       <!-- 排序  卡牌信息 -->
       <div class="leftboxs">
-        <!-- 等级排序 -->
-        <div class="left_content">
-          <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}} {{ amount }})</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}} {{ ele }})</span>
+        <div class="add_leftbox">
+          <!-- 等级排序 -->
+          <div class="left_content">
+            <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}} {{ amount }})</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}} {{ ele }})</span>
+            </div>
+          </div>
+          <!-- 职业排序 -->
+          <div class="left_content">
+            <span class="span1 fontsize16">{{$t(occupationTxt)}}</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{$t(ele.name)}}</span>
+            </div>
           </div>
         </div>
-        <!-- 职业排序 -->
-        <div class="left_content">
-          <span class="span1 fontsize16">{{$t(occupationTxt)}}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{$t(ele.name)}}</span>
+        <div class="add_leftbox">
+          <!-- 筛选-->
+          <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
+            <span class="span1 fontsize16">{{ $t(item.name) }}</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
+                {{ $t(ele.name) }}
+              </span>
+            </div>
           </div>
-        </div>
-        <!-- 筛选-->
-        <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
-          <span class="span1 fontsize16">{{ $t(item.name) }}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
-              {{ $t(ele.name) }}
-            </span>
-          </div>
-        </div>
-        <!-- 倒叙--正序 -->
-        <div class="left_content_price">
-          <span class="span1 fontsize16">{{$t(sequenceTxt)}}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="sequenceFun('message.market.txt14','asc')">
-              {{ $t("message.market.txt14") }}
-            </span>
-            <span class="span1 fontsize16" @click="sequenceFun('message.market.txt15','desc')">
-              {{ $t("message.market.txt15") }}
-            </span>
+          <!-- 倒叙--正序 -->
+          <div class="left_content_price">
+            <span class="span1 fontsize16">{{$t(sequenceTxt)}}</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" @click="sequenceFun('message.market.txt14','asc')">
+                {{ $t("message.market.txt14") }}
+              </span>
+              <span class="span1 fontsize16" @click="sequenceFun('message.market.txt15','desc')">
+                {{ $t("message.market.txt15") }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -122,7 +126,7 @@ export default {
   data () {
     return {
       orderArr:[
-        {name:'message.market.txt16',
+        {name:'message.market.txt20',
           arr:[
             {name:'message.market.txt17',describe:'btc'},
             {name:'message.market.txt18',describe:'hc'},
@@ -131,7 +135,7 @@ export default {
           ]
         }
       ],
-      sequenceTxt:'message.market.txt14',// 正序 --倒序
+      sequenceTxt:'message.market.txt15',// 正序 --倒序
       occupationTxt:'message.market.txt9',//职业排序
       occupationArr:[
         {name:'message.market.txt10',describe:1},
@@ -156,7 +160,8 @@ export default {
         { title: "message.market.txt5", num: 0, loading: true },
         { title: "message.market.txt6", num: 0, loading: true },
         { title: "message.market.txt7", num: 0, loading: true },
-        { title: "message.market.txt8", num: 0, loading: true }
+        { title: "message.market.txt24", num: 0, loading: true },
+        { title: "message.market.txt8", num: 0, loading: true },
       ],
       timeoutOBJ: null,// 下拉加载定时器对象
       nodata:false,// 没有数据展示字段
@@ -165,7 +170,7 @@ export default {
         first: 15,  //查询结果数量，比如填10，就展示前10个结果
         skip: 0,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
         orderBy: 'sellTime',  // 排序字段，填字段名，所有字段见下文查询结果
-        orderDirection: 'asc',  // 降序or升序，填desc或asc
+        orderDirection: 'desc',  // 降序or升序，填desc或asc
         level: 1, // 按等级筛选，填1-5
         hnClass:'', // 按职业筛选，填1-4
         seller: '' // 按卖家筛选，填钱包地址
@@ -261,9 +266,12 @@ export default {
       // this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
     },
     // 购买卡牌
-    buyCard (item) {
+    async buyCard (item) {
       console.log('item: ', item);
       if (item.isstatus) return
+      let issell = await hnMarket().getSellerHnIdExistence(item.seller,item.hnId)
+      console.log('判断当前卡是否正在出售issell: ', issell);
+      if(!issell)return // 判断当前卡是否正在出售
       if (Number(this.user_busd_balance) >= Number(item.price)) {
         item.isstatus = true
         let arr = []
@@ -392,28 +400,40 @@ export default {
     },
     //获取sdk信息
     async getSDKInfo () {
-      // 获取各阶所售卖的总卡牌数量
+      // 获取市场正在出售的各等级的所有HN卡牌数量数组
       hnMarket().getEachLevelHnIdsLength(5).then(res => {
-        // console.log('获取各阶所售卖的总卡牌数量res: ', res);
+        // console.log('获取市场正在出售的各等级的所有HN卡牌数量数组res: ', res);
         this.cardLengthArr = res
         this.amount = res[this.rank - 1]
       })
       // 获取市场正在出售的所有HN卡牌数量
       hnMarket().getHnIdsLength().then(res => {
         // console.log('获取市场正在出售的所有HN卡牌数量: ', res)
-        this.infoArr[3].num = res.toNumber()
-        this.infoArr[3].loading = false
+        this.infoArr[4].num = res.toNumber()
+        this.infoArr[4].loading = false
       })
       // 获取总成交次数
-      this.infoArr[0].num = await hnMarket().totalSellCount()
-      this.infoArr[0].loading = false
+      hnMarket().totalSellCount().then(res => {
+        this.infoArr[0].num = res
+        this.infoArr[0].loading = false
+      })
       // 获取总成交额，除1e18
       hnMarket().totalSellAmount().then(res => {
         // console.log('获取总成交额，除1e18: ', res)
         this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toString(), 2)
-        this.infoArr[2].num = this.$common.divBigNumber(this.infoArr[1].num, (this.infoArr[0].num).toString(), 2)
-        this.infoArr[2].loading = false
         this.infoArr[1].loading = false
+      })
+      // 地板价
+      hnMarketInfo.getSellInfo(1,0,'price','asc').then(res => {
+        console.log('地板价res: ', res);
+        this.infoArr[2].num = this.$common.convertBigNumberToNormal((res.data.sellInfos[0].price).toString(), 2)
+        this.infoArr[2].loading = false
+      })
+      //最新成交价
+      hnMarketInfo.getBuyInfo(1,0,'buyTime','desc').then(res => {
+        console.log('最新成交价res: ', res);
+        this.infoArr[3].num = this.$common.convertBigNumberToNormal((res.data.buyInfos[0].price).toString(), 2)
+        this.infoArr[3].loading = false
       })
     },
     connectInfo () {
@@ -476,7 +496,7 @@ export default {
       //seller?: string, // 按卖家筛选，填钱包地址
       return new Promise((resolve,reject) => {
         hnMarketInfo.getSellInfo(sortObj.first,sortObj.skip,sortObj.orderBy,sortObj.orderDirection,sortObj.level,sortObj.hnClass,sortObj.seller).then(res => {
-          console.log('第一步合约数据库返回信息res: ', res);
+          console.log('合约数据库返回信息res: ', res);
           if (res.data.sellInfos.length > 0) {
             const arr = JSON.parse(JSON.stringify(res.data.sellInfos))
             arr.forEach(element => {
@@ -517,8 +537,9 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 54px;
+    justify-content: space-between;
     .onebox {
-      width: 234px;
+      width: 190px;
       height: 115px;
       display: flex;
       flex-direction: column;
@@ -528,7 +549,6 @@ export default {
       box-shadow: 0px 2px 13px 0px rgba(2, 18, 35, 0.68);
       border-radius: 4px;
       padding: 28px 0 25px;
-      margin-right: 54px;
       .p1 {
         color: #ffffff;
       }
@@ -544,112 +564,116 @@ export default {
     align-items: center;
     margin-top: 71px;
     .leftboxs {
+      width: 80%;
       display: flex;
       align-items: center;
-      justify-content: center;
-      .left_content {
-        position: relative;
-        width: 200px;
-        height: 44px;
-        background: #031224;
-        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-          -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-        border-radius: 9px;
-        padding: 0 10px;
+      justify-content: space-between;
+      .add_leftbox{
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        margin-right: 15px;
-        .span1 {
-          color: #ffffff;
-          margin-right: 10px;
-        }
-        .span2 {
-          border-width: 7px;
-          border-color: #00e7f0;
-          border-bottom-width: 0;
-          border-style: dashed;
-          border-top-style: solid;
-          border-left-color: transparent;
-          border-right-color: transparent;
-        }
-        .left_content_hover {
-          position: absolute;
-          top: -3px;
-          left: 0;
-          z-index: 9;
+        .left_content {
+          position: relative;
           width: 200px;
-          display: none;
-          flex-direction: column;
-          justify-content: space-between;
-          background: rgba(0, 0, 0, 0.9);
-          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-          filter: blur(0px);
-          border-radius: 4px;
-          padding: 10px 19px;
-          margin-top: 47px;
-          line-height: 39px;
-          .span1 {
-            color: #e2dada;
-            cursor: pointer;
-          }
-        }
-      }
-      .left_content:hover,.left_content_price:hover {
-        .left_content_hover {
+          height: 44px;
+          background: #031224;
+          box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
+            -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+          border-radius: 9px;
+          padding: 0 10px;
           display: flex;
-          .span1:hover {
-            color: #00e7f0;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          margin-right: 15px;
+          .span1 {
+            color: #ffffff;
+            margin-right: 10px;
+          }
+          .span2 {
+            border-width: 7px;
+            border-color: #00e7f0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover {
+            position: absolute;
+            top: -3px;
+            left: 0;
+            z-index: 9;
+            width: 200px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+            filter: blur(0px);
+            border-radius: 4px;
+            padding: 10px 19px;
+            margin-top: 47px;
+            line-height: 39px;
+            .span1 {
+              color: #e2dada;
+              cursor: pointer;
+            }
           }
         }
-      }
-      .left_content_price {
-        margin-left: 15px;
-        width:160px;
-        position: relative;
-        height: 44px;
-        background: #031224;
-        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-          -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-        border-radius: 9px;
-        padding: 0 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        .span1 {
-          color: #ffffff;
-          margin-right: 10px;
+        .left_content:hover,.left_content_price:hover {
+          .left_content_hover {
+            display: flex;
+            .span1:hover {
+              color: #00e7f0;
+            }
+          }
         }
-        .span2 {
-          border-width: 7px;
-          border-color: #00e7f0;
-          border-bottom-width: 0;
-          border-style: dashed;
-          border-top-style: solid;
-          border-left-color: transparent;
-          border-right-color: transparent;
-        }
-        .left_content_hover {
-          position: absolute;
-          top: -3px;
-          left: 0;
-          z-index: 9;
-          width:160px;
-          display: none;
-          flex-direction: column;
+        .left_content_price {
+          margin-right: 15px;
+          width:230px;
+          position: relative;
+          height: 44px;
+          background: #031224;
+          box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
+            -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+          border-radius: 9px;
+          padding: 0 10px;
+          display: flex;
+          align-items: center;
           justify-content: space-between;
-          background: rgba(0, 0, 0, 0.9);
-          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-          filter: blur(0px);
-          border-radius: 4px;
-          padding: 10px 19px;
-          margin-top: 47px;
-          line-height: 39px;
+          cursor: pointer;
           .span1 {
-            color: #e2dada;
-            cursor: pointer;
+            color: #ffffff;
+            margin-right: 10px;
+          }
+          .span2 {
+            border-width: 7px;
+            border-color: #00e7f0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover {
+            position: absolute;
+            top: -3px;
+            left: 0;
+            z-index: 9;
+            width:230px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+            filter: blur(0px);
+            border-radius: 4px;
+            padding: 10px 19px;
+            margin-top: 47px;
+            line-height: 39px;
+            .span1 {
+              color: #e2dada;
+              cursor: pointer;
+            }
           }
         }
       }

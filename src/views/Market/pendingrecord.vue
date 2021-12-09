@@ -65,6 +65,10 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.connectInfo()
+        }else{
+          this.pageshowLoading = false,//数据没有加载完之前显示loading
+          this.pageshowarr = [],// 页面展示数组
+          this.cardInfoArr = []
         }
       },
       deep: true,

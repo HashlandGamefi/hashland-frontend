@@ -3,7 +3,7 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
-    <span class="title1_txt fontsize32">去挂单</span>
+    <span class="title1_txt fontsize32">{{$t("message.market.txt4")}}</span>
     <div class="tab_box">
       <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
         My Wallet Cards
@@ -46,14 +46,14 @@
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <div class="input_border">
-        <span class="span1 fontsize16">单价</span>
+        <span class="span1 fontsize16">{{$t("message.market.txt25")}}</span>
         <div class="inputbox">
           <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
         </div>
         <span class="span2 fontsize16">BUSD</span>
       </div>
       <div class="btn_box fontsize16">
-        <Btn :isapprove="isApproveHN" :approveloading="synthesisDis" :isloading="synthesisDis" :word="'挂单'" ref="mychild" @sonapprove="sonapprove" @dosomething="synthesisFun"/>
+        <Btn :isapprove="isApproveHN" :approveloading="synthesisDis" :isloading="synthesisDis" :word="$t('message.market.txt4')" ref="mychild" @sonapprove="sonapprove" @dosomething="synthesisFun"/>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="goSell" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -136,6 +136,7 @@ export default {
           this.amount = 0//阶对应的卡牌数量
           this.selectedNUM = 0//选中的卡牌数量
           this.selectimgArr = []//选中的卡牌的信息
+          this.pageshowLoading = false
         }
       },
       deep: true,
