@@ -3,7 +3,7 @@
     <div class="title" @click="back">
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
-    <span class="title1_txt fontsize32">挂单记录</span>
+    <span class="title1_txt fontsize32">{{$t("message.market.txt28")}}</span>
     <!-- <div class="tab_box">
       <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
         出售中

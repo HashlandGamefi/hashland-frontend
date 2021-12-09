@@ -16,6 +16,8 @@
         My Sloted Cards
       </div>
     </div>
+    <div class="add_title fontsize18" v-if="tabIndex == 0">{{$t("message.market.txt26")}}</div>
+    <div class="add_title fontsize18" v-if="tabIndex == 1">{{$t("message.market.txt27")}}</div>
     <div class="content" :class="{content_end:tabIndex == 1}">
       <!-- 几阶对应数量 -->
       <div class="left_content" v-if="tabIndex == 0">
@@ -454,7 +456,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 65px;
+    margin-top: 30px;
     .oneTab {
       width: 158px;
       height: 40px;
@@ -471,6 +473,12 @@ export default {
       box-shadow: 0 9px 2px #23447c;
     }
   }
+  .add_title{
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 30px;
+  }
   .activeTab {
     background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
     box-shadow: 0 9px 2px #23447c;
@@ -480,7 +488,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 90px;
+    margin-top: 35px;
     .left_content{
       position: relative;
       width: 204px;

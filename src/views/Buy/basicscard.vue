@@ -185,7 +185,7 @@ export default {
       hnBox().connect(getSigner()).buyBoxes(this.boxnums,1).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
-        this.$common.selectLang('购买成功','Purchase Successful',this)
+        this.$common.selectLang('购买成功',"The NFT cards will display in few seconds, and it doesn't affect any action.",this)
         this.boxnums = ''
         this.total = 0
         this.getSDKInfo()
