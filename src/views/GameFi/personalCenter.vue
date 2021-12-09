@@ -20,7 +20,7 @@
         <span>Click add wallet address</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
-      <div v-else class="tiile fontsize14">A single account can be bound to only three wallet addresses</div>
+      <div v-else class="tiile fontsize12">A single account can be bound to only three wallet addresses</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
@@ -149,7 +149,7 @@ export default {
   }
   .tiile {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 20px 0;
   }
   ul {
     li {
@@ -197,7 +197,7 @@ export default {
     }
     .tiile {
       text-align: center;
-      margin-bottom: 2vw;
+      margin: 2vw 0;
     }
     ul {
       font-size: 12px;
