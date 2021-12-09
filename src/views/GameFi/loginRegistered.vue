@@ -3,22 +3,22 @@
     <div class="outside_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="$parent.closeLoginRegistered()" />
       <ul class="in_box" v-if="showLogin">
-        <li class="header_title ban_select fontsize22">Email login</li>
+        <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text7") }}</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select fontsize12">Limited to games</li>
+        <li class="prompt ban_select fontsize12">{{ $t("message.gameFi.text8") }}</li>
         <li class="input_box fontsize16">
-          <div class="input_title">Email</div>
+          <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
-            <input type="text" placeholder="please enter your email" v-model="loginForm.mailAccount" />
+            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model="loginForm.mailAccount" />
           </div>
           <div class="input_prompt fontsize12" v-show="loginForm.prompt1">* {{ loginForm.prompt1 }}</div>
         </li>
         <li class="input_box fontsize16">
-          <div class="input_title">Password</div>
+          <div class="input_title">{{ $t("message.gameFi.text11") }}</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
-              placeholder="Please fill in the password"
+              :placeholder="$t('message.gameFi.text12')"
               v-model="loginForm.password"
             />
             <div class="eye">
@@ -28,42 +28,41 @@
           <div class="input_prompt fontsize12" v-show="loginForm.prompt2">* {{ loginForm.prompt2 }}</div>
         </li>
         <li class="btn ban_select fontsize14" @click="manuallyLogin">
-          <span>Log in</span>
+          <span>{{ $t("message.gameFi.text13") }}</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer ban_select">
-          <span class="fontsize16" @click="registerNow"> No account? Sign up now </span>
-          <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
+          <span class="fontsize16" @click="registerNow">{{ $t("message.gameFi.text14") }}</span>
         </li>
       </ul>
       <ul class="in_box" v-if="!showLogin">
-        <li class="header_title ban_select fontsize22">Register an account</li>
+        <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text15") }}</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select fontsize12">Register an account</li>
+        <li class="prompt ban_select fontsize12">{{ $t("message.gameFi.text8") }}</li>
         <li class="input_box fontsize16">
-          <div class="input_title">Email</div>
+          <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
-            <input type="text" placeholder="please enter your email" v-model="registerForm.mailAccount" />
+            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model="registerForm.mailAccount" />
           </div>
           <div class="input_prompt fontsize12" v-show="registerForm.prompt1">* {{ registerForm.prompt1 }}</div>
         </li>
         <li class="input_box fontsize16">
-          <div class="input_title">Verification code</div>
+          <div class="input_title">{{ $t("message.gameFi.text16") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
-            <input type="text" placeholder="Please fill in the verification code" v-model="registerForm.verifyCode" />
+            <input type="text" :placeholder="$t('message.gameFi.text17')" v-model="registerForm.verifyCode" />
             <div class="verification ban_select fontsize14" @click="getCode">
-              <span>Obtain</span>
+              <span>{{ $t("message.gameFi.text18") }}</span>
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
           </div>
           <div class="input_prompt fontsize12" v-show="registerForm.prompt2">* {{ registerForm.prompt2 }}</div>
         </li>
         <li class="input_box fontsize16">
-          <div class="input_title">Password</div>
+          <div class="input_title">{{ $t("message.gameFi.text11") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
-              placeholder="Please fill in the password"
+              :placeholder="$t('message.gameFi.text12')"
               v-model="registerForm.password"
             />
             <div class="eye">
@@ -73,11 +72,11 @@
           <div class="input_prompt fontsize12" v-show="registerForm.prompt3">* {{ registerForm.prompt3 }}</div>
         </li>
         <li class="input_box fontsize16">
-          <div class="input_title">Confirm password</div>
+          <div class="input_title">{{ $t("message.gameFi.text19") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt4 }">
             <input
               :type="isShowPassword2 ? 'text' : 'password'"
-              placeholder="Please fill in your password again"
+              :placeholder="$t('message.gameFi.text12')"
               v-model="registerForm.password2"
             />
             <div class="eye">
@@ -91,13 +90,12 @@
             <div v-if="isRead"></div>
           </div>
           <div class="fontsize12">
-            I have read
-            <a href="//cdn.hashland.com/singlehtml/gameFi-register-treaty.html"> HashLand GameFi Agreement </a>
-            <!-- <span @click="openTreaty"> HashLand GameFi Agreement </span> -->
+            {{ $t("message.gameFi.text20") }}
+            <a href="//cdn.hashland.com/singlehtml/gameFi-register-treaty.html"> {{ $t("message.gameFi.text21") }}</a>
           </div>
         </li>
         <li class="btn ban_select fontsize16" @click="toRegistered">
-          <span>register</span>
+          <span>{{ $t("message.gameFi.text22") }}</span>
           <BtnLoading :isloading="registerbtnloading"></BtnLoading>
         </li>
       </ul>
@@ -108,13 +106,10 @@
 
 <script>
 // const mailReg = /^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$/; // 后台邮箱校验
-const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱校验
+const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱输入校验
 const pwReg = /^[a-zA-Z0-9]{6,16}$/; //校验密码： 6-16位字符,可包含数字，字母(区分大小写)
 import { mapGetters } from "vuex";
 export default {
-  // props: {
-  //   showLR: { type: String, default: "login" }
-  // },
   data() {
     return {
       btntxt: "", // 弹窗页面的确认按钮
@@ -125,16 +120,12 @@ export default {
       isRead: false,
       showLogin: true,
       loginForm: {
-        // mailAccount: "641160771@qq.com",
-        // password: "123456",
         mailAccount: "",
         password: "",
         prompt1: "",
         prompt2: "",
       },
       registerForm: {
-        // mailAccount: "641160771@qq.com",
-        // password: "123456",
         mailAccount: "",
         password: "",
         password2: "",
@@ -188,32 +179,31 @@ export default {
                             this.registerbtnloading = false;
                           });
                       } else {
-                        this.$common.selectLang("请先阅读条约", "Please read the treaty first", this);
+                        this.$common.selectLang("请先确认条款！", "Please confirm terms first", this);
                       }
                     } else {
-                      this.registerForm.prompt3 = "The two passwords are inconsistent"; // 两次输入密码不一致
-                      this.registerForm.prompt4 = "The two passwords are inconsistent";
+                      this.registerForm.prompt3 = this.registerForm.prompt4 = "Password verification failed"; // 密码校验不通过
                     }
                   } else {
                     this.registerForm.prompt4 = "Invalid password"; // 密码不合法
                   }
                 } else {
-                  this.registerForm.prompt4 = "Please fill in the password again"; // 请再次填写密码
+                  this.registerForm.prompt4 = "Repeat password"; // 再次填写密码
                 }
               } else {
                 this.registerForm.prompt3 = "Invalid password"; // 密码不合法
               }
             } else {
-              this.registerForm.prompt3 = "Please fill in the password"; // 请填写密码
+              this.registerForm.prompt3 = "Enter password"; // 填写密码
             }
           } else {
-            this.registerForm.prompt2 = "Please fill in the verification code"; // 请填写验证码
+            this.registerForm.prompt2 = "Enter verification code"; // 填写验证码
           }
         } else {
           this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
-        this.registerForm.prompt1 = "please enter your email"; // 请填写邮箱
+        this.registerForm.prompt1 = "Enter email"; // 填写邮箱
       }
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
@@ -239,10 +229,10 @@ export default {
         if (mailReg.test(this.loginForm.mailAccount)) {
           this.loginForm.prompt1 = "";
         } else {
-          this.loginForm.prompt1 = "Invalid account"; // 账号不合法
+          this.loginForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
-        this.loginForm.prompt1 = "Please fill in the account number"; // 请填写账号
+        this.loginForm.prompt1 = "Enter email"; // 填写邮箱
       }
       if (this.loginForm.password) {
         if (pwReg.test(this.loginForm.password)) {
@@ -251,7 +241,7 @@ export default {
           this.loginForm.prompt2 = "Invalid password"; // 密码不合法
         }
       } else {
-        this.loginForm.prompt2 = "Please fill in the password"; // 请填写密码
+        this.loginForm.prompt2 = "Enter password"; // 填写密码
       }
       if (
         this.loginForm.mailAccount &&
@@ -293,10 +283,10 @@ export default {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
         } else {
-          this.registerForm.prompt1 = "Invalid account"; // 账号不合法
+          this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
-        this.registerForm.prompt1 = "Please fill in the account number"; // 请填写账号
+        this.registerForm.prompt1 = "Enter email"; // 填写邮箱
       }
       if (this.registerForm.mailAccount && mailReg.test(this.registerForm.mailAccount)) {
         if (this.codebtnloading) return;
@@ -324,9 +314,9 @@ export default {
       this.isRead = !this.isRead;
     },
     /**打开条约 */
-    openTreaty() {
-      window.location.href = "//cdn.hashland.com/singlehtml/gameFi-register-treaty.html";
-    },
+    // openTreaty() {
+    //   window.location.href = "//cdn.hashland.com/singlehtml/gameFi-register-treaty.html";
+    // },
     /**是否显示密码 */
     showPassword() {
       this.isShowPassword = !this.isShowPassword;
