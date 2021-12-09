@@ -1,5 +1,5 @@
 <template>
-  <div class="login_registered" @click.self="$parent.closeLoginRegistered()">
+  <div class="login_registered">
     <div class="outside_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="$parent.closeLoginRegistered()" />
       <ul class="in_box" v-if="showLogin">
@@ -91,7 +91,10 @@
           </div>
           <div class="fontsize12">
             {{ $t("message.gameFi.text20") }}
-            <a href="//cdn.hashland.com/singlehtml/gameFi-register-treaty.html"> {{ $t("message.gameFi.text21") }}</a>
+            <!-- <span @click="openTreaty"> {{ $t("message.gameFi.text21") }}</span> -->
+            <a href="//cdn.hashland.com/singlehtml/gameFi-register-treaty.html" target="_blank">
+              {{ $t("message.gameFi.text21") }}
+            </a>
           </div>
         </li>
         <li class="btn ban_select fontsize16" @click="toRegistered">
@@ -228,45 +231,38 @@ export default {
       if (this.loginForm.mailAccount) {
         if (mailReg.test(this.loginForm.mailAccount)) {
           this.loginForm.prompt1 = "";
+          if (this.loginForm.password) {
+            if (pwReg.test(this.loginForm.password)) {
+              this.loginForm.prompt2 = "";
+              this.loginbtnloading = true;
+              const url = `mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
+              this.$api
+                .gameMailLogin(url)
+                .then((res) => {
+                  // console.log("手动登录，使用账号和密码：", res.data);
+                  this.loginbtnloading = false;
+                  if (res.data.result === "SUCCESS") {
+                    localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
+                    this.loginRegisteredSucc(res.data.mailAccount);
+                    // this.$router.push("/personalCenter");
+                  } else if (res.data.result === "FAIL") {
+                    this.$common.selectLang(res.data.msg, res.data.msg, this);
+                  }
+                })
+                .catch((err) => {
+                  this.loginbtnloading = false;
+                });
+            } else {
+              this.loginForm.prompt2 = "Invalid password"; // 密码不合法
+            }
+          } else {
+            this.loginForm.prompt2 = "Enter password"; // 填写密码
+          }
         } else {
           this.loginForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
         this.loginForm.prompt1 = "Enter email"; // 填写邮箱
-      }
-      if (this.loginForm.password) {
-        if (pwReg.test(this.loginForm.password)) {
-          this.loginForm.prompt2 = "";
-        } else {
-          this.loginForm.prompt2 = "Invalid password"; // 密码不合法
-        }
-      } else {
-        this.loginForm.prompt2 = "Enter password"; // 填写密码
-      }
-      if (
-        this.loginForm.mailAccount &&
-        this.loginForm.password &&
-        mailReg.test(this.loginForm.mailAccount) &&
-        pwReg.test(this.loginForm.password)
-      ) {
-        this.loginbtnloading = true;
-        const url = `mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
-        this.$api
-          .gameMailLogin(url)
-          .then((res) => {
-            // console.log("手动登录，使用账号和密码：", res.data);
-            this.loginbtnloading = false;
-            if (res.data.result === "SUCCESS") {
-              localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
-              this.loginRegisteredSucc(res.data.mailAccount);
-              // this.$router.push("/personalCenter");
-            } else if (res.data.result === "FAIL") {
-              this.$common.selectLang(res.data.msg, res.data.msg, this);
-            }
-          })
-          .catch((err) => {
-            this.loginbtnloading = false;
-          });
       }
     },
     /**没有账号？立即注册 */
@@ -279,34 +275,32 @@ export default {
     // },
     /**获取验证码 */
     getCode() {
+      if (this.codebtnloading) return;
       if (this.registerForm.mailAccount) {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
+          this.codebtnloading = true;
+          const url = `mailAccount=${this.registerForm.mailAccount}`;
+          this.$api
+            .gameMailCode(url)
+            .then((res) => {
+              // console.log("获取验证码：", res.data);
+              this.codebtnloading = false;
+              if (res.data.result === "SUCCESS") {
+                // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+              } else if (res.data.result === "FAIL") {
+                // res.data.msg; // "10分钟内只能发送一次确认码"
+              }
+              this.$common.selectLang(res.data.msg, res.data.msg, this);
+            })
+            .catch((err) => {
+              this.codebtnloading = false;
+            });
         } else {
           this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
         this.registerForm.prompt1 = "Enter email"; // 填写邮箱
-      }
-      if (this.registerForm.mailAccount && mailReg.test(this.registerForm.mailAccount)) {
-        if (this.codebtnloading) return;
-        this.codebtnloading = true;
-        const url = `mailAccount=${this.registerForm.mailAccount}`;
-        this.$api
-          .gameMailCode(url)
-          .then((res) => {
-            // console.log("获取验证码：", res.data);
-            this.codebtnloading = false;
-            if (res.data.result === "SUCCESS") {
-              // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
-            } else if (res.data.result === "FAIL") {
-              // res.data.msg; // "10分钟内只能发送一次确认码"
-            }
-            this.$common.selectLang(res.data.msg, res.data.msg, this);
-          })
-          .catch((err) => {
-            this.codebtnloading = false;
-          });
       }
     },
     /**阅读条约 */
@@ -315,7 +309,7 @@ export default {
     },
     /**打开条约 */
     // openTreaty() {
-    //   window.location.href = "//cdn.hashland.com/singlehtml/gameFi-register-treaty.html";
+    //   window.open("//cdn.hashland.com/singlehtml/gameFi-register-treaty.html", "_blank");
     // },
     /**是否显示密码 */
     showPassword() {
@@ -503,7 +497,8 @@ input:-moz-placeholder {
         color: #818386;
       }
     }
-    a {
+    a,
+    span {
       color: #818386;
       text-decoration: underline;
     }
