@@ -33,7 +33,6 @@
         <div class="game_title fontsize32">Hash warfare</div>
         <div class="player_box1">
           <iframe
-            id="player"
             class="player"
             src="https://www.youtube.com/embed/liqxQp6wP6w"
             title="YouTube video player"

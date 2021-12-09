@@ -298,8 +298,7 @@ export default {
     },
     /**打开条约 */
     openTreaty() {
-      const href = "//cdn.hashland.com/singlehtml/gameFi-register-treaty.html";
-      window.open(href, "_blank");
+      window.location.href = "//cdn.hashland.com/singlehtml/gameFi-register-treaty.html";
     },
     /**是否显示密码 */
     showPassword() {
@@ -526,9 +525,6 @@ input:-moz-placeholder {
         padding-bottom: 0.2rem;
         .input_title {
           margin-bottom: 0.1rem;
-        }
-        .input_prompt {
-          bottom: 0.1rem;
         }
       }
       .logo_img {
