@@ -19,20 +19,20 @@ Vue.prototype.$axios = axios;
 import common from "./utils/common";
 Vue.prototype.$common = common;
 
-import Input from '@/components/inputcomponents.vue'
-Vue.component('Input', Input);
+import Input from "@/components/inputcomponents.vue";
+Vue.component("Input", Input);
 
-import Btn from '@/components/btn.vue'
-Vue.component('Btn', Btn);
+import Btn from "@/components/btn.vue";
+Vue.component("Btn", Btn);
 
-import Proup from '@/components/proup.vue'
-Vue.component('Proup', Proup);
+import Proup from "@/components/proup.vue";
+Vue.component("Proup", Proup);
 
-import NewLoading from '@/components/newloading.vue'
-Vue.component('NewLoading', NewLoading)
+import NewLoading from "@/components/newloading.vue";
+Vue.component("NewLoading", NewLoading);
 
-import NoData from '@/components/nodata.vue'
-Vue.component('NoData', NoData);
+import NoData from "@/components/nodata.vue";
+Vue.component("NoData", NoData);
 
 import BtnLoading from "./components/btnloading.vue";
 Vue.component("BtnLoading", BtnLoading);
@@ -46,5 +46,5 @@ new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

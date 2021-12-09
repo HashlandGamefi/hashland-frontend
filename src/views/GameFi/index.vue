@@ -4,27 +4,18 @@
       <div class="game_banner">
         <div class="info_tool" v-if="loginRegisteredStatus">
           <div class="information_box">
-            <img
-              class="personal_center"
-              :src="`${$store.state.imgUrl}personalCenter.png`"
-            />
+            <img class="personal_center" :src="`${$store.state.imgUrl}personalCenter.png`" />
             <div class="mailAccount fontsize18">
               <span class="fontsize14">{{ mailAccount }}</span>
-              <img
-                class="information_accrow"
-                :src="`${$store.state.imgUrl}accrow.png`"
-              />
+              <img class="information_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
             </div>
             <div class="toolbox">
               <div @click="toPersonalCenter">
-                <span class="fontsize14">个人中心</span>
-                <img
-                  class="toolbox_accrow"
-                  :src="`${$store.state.imgUrl}accrow.png`"
-                />
+                <span class="fontsize14">Personal center</span>
+                <img class="toolbox_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
               </div>
               <div @click="toLogOut">
-                <span class="fontsize14">退出登录</span>
+                <span class="fontsize14">Sign out</span>
                 <img :src="`${$store.state.imgUrl}exit.png`" />
               </div>
             </div>
@@ -34,8 +25,8 @@
           <div @click="openLoginOrRegistered" v-if="!loginRegisteredStatus">
             {{ $t("message.nav.txt10") + " / " + $t("message.nav.txt11") }}
           </div>
-          <!-- <div @click="openRecharge">充值</div> -->
-          <!-- <div @click="downloadGame">play</div> -->
+          <!-- <div @click="openRecharge">Recharge</div> -->
+          <!-- <div @click="downloadGame">Play</div> -->
         </div>
       </div>
       <div class="game_introduction">
@@ -52,25 +43,19 @@
           ></iframe>
         </div>
         <div class="game_model">
-          <div class="fontsize18">游戏模式</div>
+          <div class="fontsize18">Game mode</div>
           <ul>
             <li>
               <span class="fontsize16">PVE</span>
-              <div class="fontsize12">
-                Unlock new chapters, earn HC token and items
-              </div>
+              <div class="fontsize12">Unlock new chapters, earn HC token and items</div>
             </li>
             <li>
               <span class="fontsize16">PVP</span>
-              <div class="fontsize12">
-                Build teams to challenge other players and earn HC token
-              </div>
+              <div class="fontsize12">Build teams to challenge other players and earn HC token</div>
             </li>
             <li>
               <span class="fontsize16">GVE</span>
-              <div class="fontsize12">
-                Team up against bosses and compete for rare items
-              </div>
+              <div class="fontsize12">Team up against bosses and compete for rare items</div>
             </li>
             <li>
               <span class="fontsize16">GVG</span>
@@ -84,13 +69,7 @@
       <LoginRegistered v-if="showLoginRegistered"></LoginRegistered>
       <Recharge v-if="showRecharge"></Recharge>
     </transition>
-    <Proup
-      :btntxt="btntxt"
-      :word="word"
-      :proupDis="proupDis"
-      @besurefun="CloseFun"
-      @closedis="CloseFun"
-    ></Proup>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -109,12 +88,6 @@ export default {
       showRecharge: false,
       loginRegisteredStatus: false,
       mailAccount: "",
-      // videoPlayer1: {
-      //   sources: require("./videoplayback.mp4"),
-      //   poster: require("./mqdefault_6s.webp"), // 封面地址
-      //   // sources: "http://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4",
-      //   // poster: "https://img1.wxzxzj.com/vpc-example-cover-your-name-c.png", // 封面地址
-      // },
     };
   },
   computed: {
@@ -158,9 +131,12 @@ export default {
     /**打开充值 */
     openRecharge() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
-        return this.$common.selectLang("请先登录！", "请先登录！", this);
+        return this.$common.selectLang("please log in first!", "please log in first!", this);
       if (!this.getAccount)
-        return this.$common.selectLang("请连接钱包！", "请链接钱包！", this);
+        return this.$common.selectLang("Please connect to the wallet!", "Please connect to the wallet!", this);
+        // if()
+        // 判断链接钱包
+        // 请切换至本账号绑定的钱包，否则充值无法到账
       this.showRecharge = true;
     },
     /**游戏下载 */
@@ -190,7 +166,6 @@ export default {
   background-repeat: no-repeat;
   position: relative;
   color: #ffffff;
-  border-bottom:  1px solid #ccc;
   .info_tool {
     position: absolute;
     left: 130px;
@@ -218,8 +193,7 @@ export default {
         line-height: 30px;
         padding: 0 5px;
         background: rgba(28, 23, 24, 0.5);
-        box-shadow: -10px -10px 30px 30px rgba(28, 23, 24, 0.5) inset,
-          10px 10px 30px 30px rgba(28, 23, 24, 0.5) inset;
+        box-shadow: -10px -10px 30px 30px rgba(28, 23, 24, 0.5) inset, 10px 10px 30px 30px rgba(28, 23, 24, 0.5) inset;
         border-radius: 10px;
         .information_accrow {
           width: 15px;
@@ -237,9 +211,9 @@ export default {
         left: 0;
         right: 0;
         background: rgba(28, 23, 24, 0.5);
-        box-shadow: -10px -10px 30px 30px rgba(28, 23, 24, 0.5) inset,
-          10px 10px 30px 30px rgba(28, 23, 24, 0.5) inset;
+        box-shadow: -10px -10px 30px 30px rgba(28, 23, 24, 0.5) inset, 10px 10px 30px 30px rgba(28, 23, 24, 0.5) inset;
         border-radius: 10px;
+        padding: 10px;
         .toolbox_accrow {
           transform: rotate(-90deg);
         }
@@ -307,8 +281,7 @@ export default {
     height: auto;
     background: linear-gradient(180deg, #010f20 0%, #021c3b 100%)
       linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
-    box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4),
-      -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+    box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
     border-radius: 6px;
     margin: 30px auto;
     padding: 20px;

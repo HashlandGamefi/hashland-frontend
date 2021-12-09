@@ -1,43 +1,26 @@
 <template>
   <div class="page">
     <div>
-      <div class="tiile">个人中心</div>
-      <div class="tiile title_small">快速修改密码等安全设置</div>
+      <div class="tiile">Personal center</div>
+      <div class="tiile title_small">Quickly modify security settings such as passwords</div>
       <ul>
-        <!-- <li>
-          <span>昵称：</span>
-          <span>{{ nickName }}</span>
-        </li> -->
         <li>
-          <span>邮箱地址：</span>
+          <span>email address: </span>
           <span>{{ mailAccount }}</span>
         </li>
         <template v-if="walletAddresses.length > 0">
-          <li
-            v-for="(item, index) in walletAddresses"
-            :key="item"
-          >
-            <span>钱包地址{{ index + 1 }}：</span>
+          <li v-for="(item, index) in walletAddresses" :key="item">
+            <span>Wallet address {{ index + 1 }}: </span>
             <span>{{ item }}</span>
           </li>
         </template>
       </ul>
-      <div
-        class="btn_img ban_select fontsize14"
-        v-if="walletAddresses.length < 3"
-        @click="bindingThePurse"
-      >
-        <span>点击绑定钱包地址</span>
+      <div class="btn_img ban_select fontsize14" v-if="walletAddresses.length < 3" @click="bindingThePurse">
+        <span>Click to connect wallet address</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
     </div>
-    <Proup
-      :btntxt="btntxt"
-      :word="word"
-      :proupDis="proupDis"
-      @besurefun="CloseFun"
-      @closedis="CloseFun"
-    ></Proup>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -86,12 +69,11 @@ export default {
     /**绑定钱包 */
     bindingThePurse() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
-        return this.$common.selectLang("请先登录！", "请先登录！", this);
+        return this.$common.selectLang("请先登录！", "please log in first!", this);
       // const haveThisWallet = this.walletAddresses.some((item) => item === this.getAccount);
-      if (!this.getAccount)
-        return this.$common.selectLang("请连接钱包！", "请链接钱包！", this);
+      if (!this.getAccount) return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
       if (this.walletAddresses.some((item) => item === this.getAccount))
-        return this.$common.selectLang("请切换钱包！", "请切换钱包！", this);
+        return this.$common.selectLang("请切换钱包！", "Please switch wallet!", this);
       if (this.bindingloading) return;
       this.bindingloading = true;
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
@@ -140,7 +122,6 @@ export default {
   .tiile {
     text-align: center;
     font-size: 22px;
-    font-family: PingFangSC-Semibold, PingFang SC;
     font-weight: 600;
     color: #ffffff;
     line-height: 40px;
@@ -155,7 +136,6 @@ export default {
       overflow: hidden;
       padding: 30px 0;
       font-size: 22px;
-      font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: #ffffff;
       display: flex;
@@ -170,12 +150,12 @@ export default {
         1 1;
       span {
         &:nth-child(1) {
-          width: 20%;
-          min-width: 6em;
+          width: 40%;
+          min-width: 10em;
         }
         &:nth-child(2) {
-          width: 80%;
-          min-width: calc(100% - 6em);
+          width: 60%;
+          min-width: calc(100% - 10em);
           text-align: center;
         }
       }
@@ -197,8 +177,6 @@ export default {
     text-shadow: 0px 2px 4px #a16c28;
   }
 }
-@media screen and (min-width: 981px) {
-}
 @media screen and (max-width: 980px) {
   .page {
     padding: 80px 0 0 0;
@@ -215,8 +193,13 @@ export default {
         font-size: 14px;
         span {
           &:nth-child(1) {
-            width: 20%;
-            min-width: 6em;
+            width: 40%;
+            min-width: 10em;
+          }
+          &:nth-child(2) {
+            width: 60%;
+            min-width: calc(100% - 10em);
+            text-align: center;
           }
         }
       }

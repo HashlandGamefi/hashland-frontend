@@ -1,30 +1,26 @@
 <template>
   <div class="mask_layer" @click.self="closeCurrentPage">
     <div class="outline_box">
-      <img
-        class="close"
-        :src="`${$store.state.imgUrl}proupclose.png`"
-        @click="closeCurrentPage"
-      />
+      <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeCurrentPage" />
       <div class="inside_box">
-        <div class="inside_box_title fontsize30">充值</div>
+        <div class="inside_box_title fontsize30">Recharge</div>
         <ul>
           <li>
             <div>
               <img :src="`${$store.state.imgUrl}personalCenter2.png`" />
               <span class="fontsize12"> {{ mailAccount }} </span>
             </div>
-            <div>
+            <div @click="getHC">
               <span class="fontsize12">Get HC</span>
               <img :src="`${$store.state.imgUrl}buy_hclp.png`" />
             </div>
           </li>
           <li>
-            <div class="fontsize18 li_title">充值金额：</div>
+            <div class="fontsize18 li_title">Recharge amount:</div>
             <div class="input_box_box">
               <input
                 type="text"
-                placeholder="输入需要的HC数值"
+                placeholder="Please fill in HC values"
                 v-model="HCValue"
                 @input="
                   HCValue = HCValue.replace(/[^\d.]/g, '')
@@ -43,14 +39,9 @@
             </div>
           </li>
           <li>
-            <div class="fontsize18 li_title">快捷输入：</div>
+            <div class="fontsize18 li_title">Fill in quickly:</div>
             <div class="quick_input">
-              <div
-                class="fontsize14"
-                v-for="item in quickInput"
-                :key="item"
-                @click="quickInputHC(item)"
-              >
+              <div class="fontsize14" v-for="item in quickInput" :key="item" @click="quickInputHC(item)">
                 {{ item }}HC
               </div>
             </div>
@@ -59,7 +50,7 @@
             <div class="enter_btn fontsize18">
               <Btn
                 ref="mychild"
-                :word="'充值'"
+                :word="'Recharge'"
                 :isapprove="isapprove"
                 :approveloading="buy_isloading"
                 :isloading="buy_isloading"
@@ -70,39 +61,23 @@
           </li>
         </ul>
         <div class="recharge_instructions">
-          <div class="fontsize16">充值说明：</div>
+          <div class="fontsize16">Recharge instructions:</div>
+          <div class="instructions fontsize12"><span></span><span>1HC=10000 diamonds</span></div>
+          <div class="instructions fontsize12"><span></span><span>Once recharged, it cannot be cancelled</span></div>
           <div class="instructions fontsize12">
-            <span></span><span>1HC=10000钻石</span>
-          </div>
-          <div class="instructions fontsize12">
-            <span></span><span>一经充值，不可取消</span>
-          </div>
-          <div class="instructions fontsize12">
-            <span></span><span>充值完成，同步到游戏需要些时间，请耐心等候</span>
+            <span></span
+            ><span>The recharge is complete, it will take some time to sync to the game, please wait patiently</span>
           </div>
         </div>
       </div>
     </div>
-    <Proup
-      :btntxt="btntxt"
-      :word="word"
-      :proupDis="proupDis"
-      @besurefun="CloseFun"
-      @closedis="CloseFun"
-    />
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import {
-  erc20,
-  token,
-  util,
-  getSigner,
-  hwDeposit,
-  contract,
-} from "hashland-sdk";
+import { erc20, token, util, getSigner, hwDeposit, contract } from "hashland-sdk";
 export default {
   data() {
     return {
@@ -122,11 +97,9 @@ export default {
       handler: function (newValue) {
         if (newValue) {
           setTimeout(() => {
-            this.$refs.mychild
-              .isApproveFun("hc", contract().HWDeposit)
-              .then((res) => {
-                this.isapprove = res;
-              });
+            this.$refs.mychild.isApproveFun("hc", contract().HWDeposit).then((res) => {
+              this.isapprove = res;
+            });
           }, 1000);
         }
       },
@@ -175,11 +148,7 @@ export default {
     toRecharge() {
       if (this.buy_isloading) return;
       if (!this.HCValue)
-        return this.$common.selectLang(
-          "请输入您要充值的金额",
-          "请输入您要充值的金额",
-          this
-        );
+        return this.$common.selectLang("请输入您要充值的金额", "Please fill in the amount you want to top up", this);
       this.buy_isloading = true;
       const amount = this.$common.convertNormalToBigNumber(this.HCValue, 18);
       hwDeposit()
@@ -189,7 +158,7 @@ export default {
           const etReceipt = await res.wait();
           if (etReceipt.status == 1) {
             this.buy_isloading = false;
-            this.$common.selectLang("充值成功", "充值成功", this);
+            this.$common.selectLang("充值成功", "Top up successfully", this);
             // this.closeCurrentPage();
             this.HCValue = null;
           } else {
@@ -199,6 +168,9 @@ export default {
         .catch((err) => {
           this.buy_isloading = false;
         });
+    },
+    getHC() {
+      window.location.href = `https://pancakeswap.finance/add/${token().HC}/${token().BUSD}`;
     },
     /**快捷输入 */
     quickInputHC(num) {
@@ -234,8 +206,7 @@ export default {
   .outline_box {
     position: relative;
     background: linear-gradient(rgba(139, 230, 254, 1), rgba(139, 230, 254, 0));
-    box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38),
-      -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
+    box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
     border-radius: 14px;
     padding: 1px;
     .close {
@@ -296,8 +267,7 @@ export default {
               width: 100%;
               height: 38px;
               background: rgba(11, 22, 43, 0.99);
-              box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-                0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
+              box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
               border-radius: 18px;
               overflow: hidden;
               display: flex;
@@ -345,8 +315,7 @@ export default {
               justify-content: space-between;
               div {
                 padding: 5px 30px;
-                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset,
-                  0px 0px 9px 0px rgba(194, 190, 190, 0.52) inset;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, 0px 0px 9px 0px rgba(194, 190, 190, 0.52) inset;
                 border-radius: 4px;
                 cursor: pointer;
                 &:hover {

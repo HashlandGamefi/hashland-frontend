@@ -12,12 +12,7 @@
       <div class="content">
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(item, index) in swiperArr"
-              :key="index"
-              @click="swiperClick(index)"
-            >
+            <div class="swiper-slide" v-for="(item, index) in swiperArr" :key="index" @click="swiperClick(index)">
               <div class="left">
                 <img :src="item.src" class="home1_img" />
                 <div class="txtbox">
@@ -31,9 +26,7 @@
               <div class="mobile_box_swiper">
                 <img :src="item.mobilesrc" class="mobileimg1" />
                 <div class="mobile_box">
-                  <span class="span1 mobile_new_familay fontsize16">{{
-                    $t(item.txt1)
-                  }}</span>
+                  <span class="span1 mobile_new_familay fontsize16">{{ $t(item.txt1) }}</span>
                   <span class="span1 fontsize12">{{ $t(item.txt2) }}</span>
                   <div class="mobile_go">
                     <span class="span1_go fontsize12_400">GO ></span>
@@ -50,11 +43,7 @@
         <div class="compositeCard fontsize22">{{ $t("message.nav.txt7") }}</div>
         <img :src="`${$store.state.imgUrl}compositecard.png`" class="img" />
         <div class="cardboxs">
-          <div
-            class="out_boxs blue_borde"
-            v-for="(item, index) in nftArr"
-            :key="index"
-          >
+          <div class="out_boxs blue_borde" v-for="(item, index) in nftArr" :key="index">
             <div class="one_box">
               <div class="containbox">
                 <img :src="item.src" class="img" />
@@ -70,9 +59,7 @@
           <div class="hashland_title">
             <div class="leftbox">
               <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
-              <span class="span1 fontsize26">{{
-                $t("message.home.txt26")
-              }}</span>
+              <span class="span1 fontsize26">{{ $t("message.home.txt26") }}</span>
             </div>
             <div class="span2 fontsize16" @click="buyClick">
               {{ $t("message.home.txt10") }}
@@ -83,53 +70,35 @@
             <!-- <img :src="`${$store.state.imgUrl}lineChart.png`" class="img" /> -->
             <div class="chart_box" id="chart_box"></div>
             <div class="nowPrice">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt11")
-              }}</span>
-              <span class="span1 fontsize16 span2"
-                >$ {{ getCoinPrice.hc }}</span
-              >
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt12")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt11") }}</span>
+              <span class="span1 fontsize16 span2">$ {{ getCoinPrice.hc }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt12") }}</span>
               <span class="span1 fontsize16">{{ nextDay }}</span>
             </div>
           </div>
           <div class="hashland_bottom">
             <div class="onebox nowPrice">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt11")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt11") }}</span>
               <span class="span1 fontsize16">$ {{ getCoinPrice.hc }}</span>
             </div>
             <div class="onebox nowPrice">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt12")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt12") }}</span>
               <span class="span1 fontsize16">{{ nextDay }}</span>
             </div>
             <div class="onebox">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt13")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt13") }}</span>
               <span class="span1 fontsize16">{{ todynums }}</span>
             </div>
             <div class="onebox">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt14")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt14") }}</span>
               <span class="span1 fontsize16">21,000,000/{{ proportion }}%</span>
             </div>
             <div class="onebox">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt15")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt15") }}</span>
               <span class="span1 fontsize16">{{ totalSupply }}</span>
             </div>
             <div class="onebox">
-              <span class="span1 fontsize12">{{
-                $t("message.home.txt16")
-              }}</span>
+              <span class="span1 fontsize12">{{ $t("message.home.txt16") }}</span>
               <span class="span1 fontsize16">{{ hcDestroy }}</span>
             </div>
           </div>
@@ -139,11 +108,7 @@
         <div class="embedded_box">
           <span class="span1 fontsize22">{{ $t("message.home.txt17") }}</span>
           <div class="horizontal">
-            <div
-              class="horizontal_onebox"
-              v-for="(item, index) in pagebottomArr"
-              :key="index"
-            >
+            <div class="horizontal_onebox" v-for="(item, index) in pagebottomArr" :key="index">
               <img :src="item.src" class="img" />
               <div class="footerboxs">
                 <span class="span1_ fontsize16">{{ $t(item.txt1) }}</span>
@@ -160,118 +125,64 @@
         <div class="partner_box">
           <div class="partner_class">
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner1.png`"
-                class="partnerimg1 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner1.png`" class="partnerimg1 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner2.png`"
-                class="partnerimg2 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner2.png`" class="partnerimg2 partnerimg" />
             </div>
             <div class="imgbox img_center">
-              <img
-                :src="`${$store.state.imgUrl}partner17.png`"
-                class="partnerimg3 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner17.png`" class="partnerimg3 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner4.png`"
-                class="partnerimg4 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner4.png`" class="partnerimg4 partnerimg" />
             </div>
           </div>
           <div class="partner_class">
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner5.png`"
-                class="partnerimg5 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner5.png`" class="partnerimg5 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner6.png`"
-                class="partnerimg6 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner6.png`" class="partnerimg6 partnerimg" />
             </div>
             <div class="imgbox img_center">
-              <img
-                :src="`${$store.state.imgUrl}partner7.png`"
-                class="partnerimg7 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner7.png`" class="partnerimg7 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner8.png`"
-                class="partnerimg8 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner8.png`" class="partnerimg8 partnerimg" />
             </div>
           </div>
           <div class="partner_class">
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner9.png`"
-                class="partnerimg9 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner9.png`" class="partnerimg9 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner10.png`"
-                class="partnerimg10 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner10.png`" class="partnerimg10 partnerimg" />
             </div>
             <div class="imgbox img_center">
-              <img
-                :src="`${$store.state.imgUrl}partner11.png`"
-                class="partnerimg11 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner11.png`" class="partnerimg11 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner12.png`"
-                class="partnerimg12 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner12.png`" class="partnerimg12 partnerimg" />
             </div>
           </div>
           <div class="partner_class">
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner13.png`"
-                class="partnerimg13 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner13.png`" class="partnerimg13 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner14.png`"
-                class="partnerimg14 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner14.png`" class="partnerimg14 partnerimg" />
             </div>
             <div class="imgbox img_center">
-              <img
-                :src="`${$store.state.imgUrl}partner15.png`"
-                class="partnerimg15 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner15.png`" class="partnerimg15 partnerimg" />
             </div>
             <div class="imgbox">
-              <img
-                :src="`${$store.state.imgUrl}partner3.png`"
-                class="partnerimg16 partnerimg"
-              />
+              <img :src="`${$store.state.imgUrl}partner3.png`" class="partnerimg16 partnerimg" />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <Proup
-      :btntxt="btntxt"
-      :word="word"
-      :proupDis="proupDis"
-      @closedis="CloseFun"
-      @besurefun="CloseFun"
-    ></Proup>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @closedis="CloseFun" @besurefun="CloseFun"></Proup>
   </div>
 </template>
 <script>
@@ -393,19 +304,31 @@ export default {
         "https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart?vs_currency=usd&days=max&interval=daily";
       axios.get(url).then((res) => {
         if (res.status == 200) {
-          const xData = [];
-          const yData = [];
-          res.data.prices.unshift([1637233200000, 15]);
-          res.data.prices.forEach((element) => {
-            xData.push(
-              this.$common.foreignTimeFormat(element[0], "dd-MM-yyyy")
-            );
+          // let oldPricesArr = new Set(res.data.prices);
+          let oldPricesArr = res.data.prices;
+          const centerlength = oldPricesArr.length - 1;
+          const startArr = [[1637233200000, 15]]; // ["18-11-2021", "15"] 第一天上线价格
+          const centerArr = oldPricesArr.slice(0, centerlength);
+          const endArr = [oldPricesArr[centerlength]];
+          let average = (centerlength / 13).toFixed(0);
+          let newCenterArr = [];
+          centerArr.forEach((element, index) => {
+            if (index % average == 0) {
+              newCenterArr.push(element);
+            }
+          });
+          const finalArr = [...startArr, ...newCenterArr, ...endArr];
+          let xData = [];
+          let yData = [];
+          finalArr.forEach((element) => {
+            xData.push(this.$common.foreignTimeFormat(element[0], "dd-MM-yyyy"));
             yData.push(element[1].toFixed(0));
           });
           this.initChart(xData, yData);
         }
       });
     },
+    /**初始化图表 */
     initChart(xData, yData) {
       const chartDom = document.getElementById("chart_box");
       const myChart = echarts.init(chartDom, "dark");
@@ -425,13 +348,13 @@ export default {
           },
         },
         xAxis: {
-          // name: "日期",
+          // type: "category",
           axisLine: { show: false },
           axisTick: { show: false },
+          // interval: "auto",
           data: xData,
         },
         yAxis: {
-          // name: "价格",
           axisTick: { alignWithLabel: true },
           splitLine: { show: false },
           min: 0,
@@ -491,9 +414,9 @@ export default {
       });
     },
     buyClick() {
-      window.location.href = `https://pancakeswap.finance/swap?inputCurrency=${
-        token().BUSD
-      }&outputCurrency=${token().HC}`;
+      window.location.href = `https://pancakeswap.finance/swap?inputCurrency=${token().BUSD}&outputCurrency=${
+        token().HC
+      }`;
       // window.location.href = 'https://pancakeswap.finance/swap?inputCurrency=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56&outputCurrency=0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0'
     },
     // 取消按钮(关闭弹窗)
@@ -525,12 +448,9 @@ export default {
       this.$common.checkNumber(hn_issued.toString(), (res) => {
         this.nftArr[0].num = res;
       });
-      this.$common.checkNumber(
-        (60000 - hn_issued.toNumber()).toString(),
-        (res1) => {
-          this.nftArr[1].num = res1;
-        }
-      );
+      this.$common.checkNumber((60000 - hn_issued.toNumber()).toString(), (res1) => {
+        this.nftArr[1].num = res1;
+      });
 
       // hn 已销毁
       hn()
@@ -539,22 +459,16 @@ export default {
           this.$common.checkNumber(data.toString(), (res) => {
             this.nftArr[3].num = res;
           });
-          this.$common.checkNumber(
-            (hn_issued.toNumber() - data.toNumber()).toString(),
-            (res1) => {
-              this.nftArr[2].num = res1;
-            }
-          );
+          this.$common.checkNumber((hn_issued.toNumber() - data.toNumber()).toString(), (res1) => {
+            this.nftArr[2].num = res1;
+          });
         });
 
       // 流通量
       let hc_totalSupply = await hc().totalSupply();
 
       // 产出比
-      this.proportion = this.$common.getBit(
-        (hc_totalSupply / 1e18 / 21000000) * 100,
-        2
-      );
+      this.proportion = this.$common.getBit((hc_totalSupply / 1e18 / 21000000) * 100, 2);
 
       //hc 已销毁
       hc()
@@ -563,22 +477,16 @@ export default {
           this.$common.checkNumber((data / 1e18).toString(), (res) => {
             this.hcDestroy = this.$common.getBit(res, 2);
           });
-          this.$common.checkNumber(
-            ((hc_totalSupply - data) / 1e18).toString(),
-            (res) => {
-              this.totalSupply = this.$common.getBit(res, 2);
-            }
-          );
+          this.$common.checkNumber(((hc_totalSupply - data) / 1e18).toString(), (res) => {
+            this.totalSupply = this.$common.getBit(res, 2);
+          });
         });
       // 下次减产时间
       hc()
         .getNextReductionLeftBlocks()
         .then((data) => {
           // console.log('下次减产时间data: ', data * 3,Date.parse(new Date()));
-          this.nextDay = this.$common.foreignTimeFormat(
-            data * 3 * 1000 + Date.parse(new Date()),
-            "dd-MM-yyyy"
-          );
+          this.nextDay = this.$common.foreignTimeFormat(data * 3 * 1000 + Date.parse(new Date()), "dd-MM-yyyy");
         });
       // 今日产出
       let product = ((await hc().getTokenPerBlock()) / 1e18) * 28800;
@@ -747,11 +655,7 @@ export default {
           }
         }
         .blue_borde {
-          background: linear-gradient(
-            180deg,
-            #8be6fe 0%,
-            rgba(0, 30, 66, 0) 100%
-          );
+          background: linear-gradient(180deg, #8be6fe 0%, rgba(0, 30, 66, 0) 100%);
         }
       }
       .partner_box {
@@ -829,14 +733,8 @@ export default {
       margin-top: 91px;
       padding: 20px;
       border-radius: 6px;
-      background: linear-gradient(
-        90deg,
-        #021f3e 0%,
-        #01142a 100%,
-        #034088 100%
-      );
-      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5),
-        -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
+      background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
         -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
       .hashland_content {
         width: 100%;
@@ -919,8 +817,7 @@ export default {
       padding: 20px;
       background: linear-gradient(180deg, #010f20 0%, #021c3b 100%)
         linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
-      box-shadow: -13px 10px 13px -2px rgba(2, 12, 23, 0.69),
-        -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+      box-shadow: -13px 10px 13px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
       border-radius: 6px;
       margin-top: 82px;
       .embedded_box {
@@ -1285,12 +1182,7 @@ export default {
       }
       .page_bottom {
         width: 100%;
-        background: linear-gradient(
-          90deg,
-          #021f3e 0%,
-          #01142a 100%,
-          #034088 100%
-        );
+        background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
         // box-shadow: -13px 10px 13px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         box-shadow: none;
         border-radius: 0.14rem;

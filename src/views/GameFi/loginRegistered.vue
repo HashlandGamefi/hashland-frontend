@@ -1,118 +1,84 @@
 <template>
   <div class="login_registered" @click.self="$parent.closeLoginRegistered()">
     <div class="outside_box">
-      <img
-        class="close"
-        :src="`${$store.state.imgUrl}proupclose.png`"
-        @click="$parent.closeLoginRegistered()"
-      />
+      <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="$parent.closeLoginRegistered()" />
       <ul class="in_box" v-if="showLogin">
-        <li class="header_title ban_select fontsize22">账号登录</li>
+        <li class="header_title ban_select fontsize22">Account login</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select fontsize12">仅限于游戏</li>
+        <li class="prompt ban_select fontsize12">Limited to games</li>
         <li class="input_box">
           <div class="input_title">
-            <span class="fontsize16">账号</span>
-            <span class="fontsize14" v-show="loginForm.prompt1">
-              *{{ loginForm.prompt1 }}
-            </span>
+            <span class="fontsize16">Email</span>
+            <span class="fontsize14" v-show="loginForm.prompt1"> *{{ loginForm.prompt1 }} </span>
           </div>
           <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
-            <input
-              type="text"
-              placeholder="请输入账号"
-              v-model="loginForm.mailAccount"
-            />
+            <input type="text" placeholder="please enter your email" v-model="loginForm.mailAccount" />
           </div>
         </li>
         <li class="input_box">
           <div class="input_title">
-            <span class="fontsize16">密码</span>
-            <span class="fontsize14" v-show="loginForm.prompt2">
-              *{{ loginForm.prompt2 }}
-            </span>
+            <span class="fontsize16">Password</span>
+            <span class="fontsize14" v-show="loginForm.prompt2"> *{{ loginForm.prompt2 }} </span>
           </div>
           <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
-              placeholder="请输入密码"
+              placeholder="Please fill in the password"
               v-model="loginForm.password"
             />
             <div class="eye">
-              <div
-                @click="isShowPassword = !isShowPassword"
-                :class="{ active: isShowPassword }"
-              ></div>
+              <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
           </div>
         </li>
         <li class="btn login_btn ban_select fontsize14" @click="manuallyLogin">
-          <span>登录</span>
+          <span>Log in</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer ban_select">
-          <span class="fontsize16" @click="registerNow">
-            没有账号？立即注册
-          </span>
+          <span class="fontsize16" @click="registerNow"> No account? Sign up now </span>
           <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
         </li>
       </ul>
       <ul class="in_box register_box" v-if="!showLogin">
-        <li class="header_title ban_select fontsize22">账号注册</li>
+        <li class="header_title ban_select fontsize22">Register an account</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select fontsize16">账号注册</li>
+        <li class="prompt ban_select fontsize12">Register an account</li>
         <li class="input_box">
           <div class="input_title">
-            <span class="fontsize16">邮箱</span>
-            <span class="fontsize14" v-show="registerForm.prompt1">
-              *{{ registerForm.prompt1 }}
-            </span>
+            <span class="fontsize16">Email</span>
+            <span class="fontsize14" v-show="registerForm.prompt1"> *{{ registerForm.prompt1 }} </span>
           </div>
           <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
-            <input
-              type="text"
-              placeholder="请输入邮箱"
-              v-model="registerForm.mailAccount"
-            />
+            <input type="text" placeholder="please enter your email" v-model="registerForm.mailAccount" />
           </div>
         </li>
         <li class="input_box">
           <div class="input_title">
-            <span class="fontsize16">验证码</span>
-            <span class="fontsize14" v-show="registerForm.prompt2">
-              *{{ registerForm.prompt2 }}
-            </span>
+            <span class="fontsize16">Verification code</span>
+            <span class="fontsize14" v-show="registerForm.prompt2"> *{{ registerForm.prompt2 }} </span>
           </div>
           <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
-            <input
-              type="text"
-              placeholder="请输入验证码"
-              v-model="registerForm.verifyCode"
-            />
+            <input type="text" placeholder="Please fill in the verification code" v-model="registerForm.verifyCode" />
             <div class="verification ban_select fontsize14" @click="getCode">
-              <span>获取</span>
+              <span>Obtain</span>
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
           </div>
         </li>
         <li class="input_box">
           <div class="input_title">
-            <span class="fontsize16">密码</span>
-            <span class="fontsize14" v-show="registerForm.prompt3">
-              *{{ registerForm.prompt3 }}
-            </span>
+            <span class="fontsize16">Password</span>
+            <span class="fontsize14" v-show="registerForm.prompt3"> *{{ registerForm.prompt3 }} </span>
           </div>
           <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
-              placeholder="请输入密码"
+              placeholder="Please fill in the password"
               v-model="registerForm.password"
             />
             <div class="eye">
-              <div
-                @click="isShowPassword = !isShowPassword"
-                :class="{ active: isShowPassword }"
-              ></div>
+              <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
           </div>
         </li>
@@ -121,27 +87,17 @@
             <div v-if="isRead"></div>
           </div>
           <div class="fontsize16">
-            我已阅读了《
-            <span @click="openTreaty">某某某条约</span>
-            》
+            I have read
+            <span @click="openTreaty"> "HashLand GameFi License and Service Agreement" </span>
           </div>
         </li>
-        <li
-          class="btn registered_btn ban_select fontsize16"
-          @click="toRegistered"
-        >
-          <span>注册</span>
+        <li class="btn registered_btn ban_select fontsize16" @click="toRegistered">
+          <span>register</span>
           <BtnLoading :isloading="registerbtnloading"></BtnLoading>
         </li>
       </ul>
     </div>
-    <Proup
-      :btntxt="btntxt"
-      :word="word"
-      :proupDis="proupDis"
-      @besurefun="CloseFun"
-      @closedis="CloseFun"
-    ></Proup>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -197,25 +153,25 @@ export default {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
         } else {
-          this.registerForm.prompt1 = "邮箱不合法"; // 邮箱不合法
+          this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
-        this.registerForm.prompt1 = "请填写邮箱"; // 请填写邮箱
+        this.registerForm.prompt1 = "please enter your email"; // 请填写邮箱
       }
       if (!this.registerForm.verifyCode) {
-        this.registerForm.prompt2 = "请填写验证码"; // 请填写验证码
+        this.registerForm.prompt2 = "Please fill in the verification code"; // 请填写验证码
       }
       if (this.registerForm.password) {
         if (pwReg.test(this.registerForm.password)) {
           this.registerForm.prompt3 = "";
         } else {
-          this.registerForm.prompt3 = "密码不合法"; // 密码不合法
+          this.registerForm.prompt3 = "Invalid password"; // 密码不合法
         }
       } else {
-        this.registerForm.prompt3 = "请填写密码"; // 请填写密码
+        this.registerForm.prompt3 = "Please fill in the password"; // 请填写密码
       }
       if (!this.isRead) {
-        this.$common.selectLang("请先阅读条约", "请先阅读条约", this);
+        this.$common.selectLang("请先阅读条约", "Please read the treaty first", this);
       }
       if (
         this.registerForm.mailAccount &&
@@ -251,10 +207,7 @@ export default {
         .then((res) => {
           // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
           if (res.data.result === "SUCCESS") {
-            localStorage.setItem(
-              "hashlandGameFiInfo",
-              JSON.stringify(res.data)
-            );
+            localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
             this.loginRegisteredSucc(res.data.mailAccount);
           } else if (res.data.result === "FAIL") {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
@@ -269,19 +222,19 @@ export default {
         if (mailReg.test(this.loginForm.mailAccount)) {
           this.loginForm.prompt1 = "";
         } else {
-          this.loginForm.prompt1 = "账号不合法"; // 账号不合法
+          this.loginForm.prompt1 = "Invalid account"; // 账号不合法
         }
       } else {
-        this.loginForm.prompt1 = "请填写账号"; // 请填写账号
+        this.loginForm.prompt1 = "Please fill in the account number"; // 请填写账号
       }
       if (this.loginForm.password) {
         if (pwReg.test(this.loginForm.password)) {
           this.loginForm.prompt2 = "";
         } else {
-          this.loginForm.prompt2 = "密码不合法"; // 密码不合法
+          this.loginForm.prompt2 = "Invalid password"; // 密码不合法
         }
       } else {
-        this.loginForm.prompt2 = "请填写密码"; // 请填写密码
+        this.loginForm.prompt2 = "Please fill in the password"; // 请填写密码
       }
       if (
         this.loginForm.mailAccount &&
@@ -297,10 +250,7 @@ export default {
             // console.log("手动登录，使用账号和密码：", res.data);
             this.loginbtnloading = false;
             if (res.data.result === "SUCCESS") {
-              localStorage.setItem(
-                "hashlandGameFiInfo",
-                JSON.stringify(res.data)
-              );
+              localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
               this.loginRegisteredSucc(res.data.mailAccount);
               // this.$router.push("/personalCenter");
             } else if (res.data.result === "FAIL") {
@@ -326,15 +276,12 @@ export default {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
         } else {
-          this.registerForm.prompt1 = "账号不合法"; // 账号不合法
+          this.registerForm.prompt1 = "Invalid account"; // 账号不合法
         }
       } else {
-        this.registerForm.prompt1 = "请填写账号"; // 请填写账号
+        this.registerForm.prompt1 = "Please fill in the account number"; // 请填写账号
       }
-      if (
-        this.registerForm.mailAccount &&
-        mailReg.test(this.registerForm.mailAccount)
-      ) {
+      if (this.registerForm.mailAccount && mailReg.test(this.registerForm.mailAccount)) {
         if (this.codebtnloading) return;
         this.codebtnloading = true;
         const url = `mailAccount=${this.registerForm.mailAccount}`;
@@ -361,7 +308,8 @@ export default {
     },
     /**打开条约 */
     openTreaty() {
-      // console.log("open");
+      const href = "//cdn.hashland.com/singlehtml/gameFi-register-treaty.html";
+      window.open(href, "_blank");
     },
     /**是否显示密码 */
     showPassword() {
@@ -373,7 +321,6 @@ export default {
       this.$parent.showLoginRegistered = false;
       this.$parent.mailAccount = mailAccount;
     },
-
     /**公用提示框（关闭方法） closePopupPrompts */
     CloseFun() {
       this.proupDis = false;
@@ -396,10 +343,11 @@ export default {
   justify-content: center;
 }
 .outside_box {
+  max-width: 500px;
+  width: 80vw;
   position: relative;
   background: linear-gradient(rgba(139, 230, 254, 1), rgba(139, 230, 254, 0));
-  box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38),
-    -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
+  box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22);
   border-radius: 14px;
   padding: 1px;
   .close {
@@ -459,8 +407,7 @@ export default {
       width: 320px;
       height: 38px;
       background: rgba(11, 22, 43, 0.99);
-      box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-        -2px 1px 8px 0px rgba(194, 190, 190, 0.52);
+      box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52);
       border-radius: 18px;
       overflow: hidden;
       display: flex;
@@ -528,6 +475,8 @@ export default {
       cursor: pointer;
       &:nth-child(1) {
         border-radius: 50%;
+        min-width: 14px;
+        min-height: 14px;
         width: 14px;
         height: 14px;
         border: 1px solid #818386;
@@ -537,6 +486,8 @@ export default {
         div {
           width: 8px;
           height: 8px;
+          min-width: 8px;
+          min-height: 8px;
           background: #818386;
         }
       }
@@ -586,7 +537,7 @@ export default {
       width: 8vw;
     }
     .in_box {
-      padding: 0.2rem 0.5rem;
+      padding: 2vw 5vw;
       .prompt {
         margin-bottom: 0.18rem;
       }

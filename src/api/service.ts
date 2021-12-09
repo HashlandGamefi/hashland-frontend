@@ -13,26 +13,26 @@ const service = axios.create({
 
 service.defaults.headers.post["Content-Type"] = "application/json";
 service.interceptors.request.use(
-  (config) => {
+  config => {
     // 发请求前做的一些处理，数据转化，配置请求头，设置token,设置loading等，根据需求去添加
     // 最后return config
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
 // 响应拦截
 service.interceptors.response.use(
-  (response) => {
+  response => {
     //接收到响应数据并成功后的一些共有的处理，关闭loading等
-    if(response.status == 200){
-      return response.data.data
-    }else{
-      return response
+    if (response.status == 200) {
+      return response.data.data;
+    } else {
+      return response;
     }
   },
-  (error) => {
+  error => {
     //如果不需要错误处理，以上的处理过程都可省略
     return Promise.resolve(error.response);
   }
@@ -68,10 +68,10 @@ export default {
     return new Promise((resolve, reject) => {
       service
         .post(url, data)
-        .then((res) => {
+        .then(res => {
           resolve(res);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
