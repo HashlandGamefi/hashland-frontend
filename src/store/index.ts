@@ -10,7 +10,7 @@ export default new Vuex.Store({
       btc:sessionStorage.getItem("btcprice") || 0,
       hc:sessionStorage.getItem("hcprice") || 0
     },//各种币的价格
-    imgUrl:'//cdn.hashland.com/images/',//图片前缀
+    imgUrl:process.env.NODE_ENV === 'production'?'//cdn.hashland.com/images/':'//cdn.hashland.com/testimgs/',//图片前缀
     userCardInfo:sessionStorage.getItem('setCardInfo') || [],//用户卡牌信息
     rewardsInfo:{
       proupTitle:'',//标题
