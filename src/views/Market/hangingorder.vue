@@ -47,18 +47,52 @@
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
-      <div class="input_border">
+      <!-- <div class="input_border">
         <span class="span1 fontsize16">{{$t("message.market.txt25")}}</span>
         <div class="inputbox">
           <input type="text fontsize14" :placeholder='$t("message.transfer.danger_placeholder")' v-model="dangerTxtModel" class="input" oninput="value=value.replace(/[^\d]/g, '')" />
         </div>
         <span class="span2 fontsize16">BUSD</span>
-      </div>
+      </div> -->
       <div class="btn_box fontsize16">
         <Btn :isapprove="isApproveHN" :approveloading="synthesisDis" :isloading="synthesisDis" :word="$t('message.market.txt4')" ref="mychild" @sonapprove="sonapprove" @dosomething="synthesisFun"/>
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" @besurefun="goSell" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <!-- 手续费  售卖价格弹窗 -->
+    <div class="danger_proup" v-if="isdanger">
+      <div class="outbox_danger">
+        <div class="danger_wallet_box" @click.stop>
+          <span class="txt1 fontsize18">{{$t("message.market.txt29")}}</span>
+          <div class="line_outbox">
+            <span class="span1 fontsize18">{{$t("message.market.txt30")}}:</span>
+            <div class="inputbox">
+              <input class="input_" type="text" oninput="value=value.replace(/[^\d]/g, '')" @input="inputchangeFun" v-model="dangerTxtModel" placeholder="请输入挂单金额">
+              <span class="input_txt fontsize18">BUSD</span>
+            </div>
+          </div>
+          <div class="line_outbox">
+            <span class="span1 fontsize18">{{fee}}%{{$t("message.market.txt31")}}:</span>
+            <div class="Handling_fee">
+              <span class="fee_span1 fontsize18">{{HandlingFee}}</span>
+              <span class="fee_span2 fontsize18">BUSD</span>
+            </div>
+          </div>
+          <div class="line_outbox">
+            <span class="span1 fontsize18">实际收益:</span>
+            <div class="Handling_fee">
+              <span class="fee_span1 fontsize18">{{actualMoney}}</span>
+              <span class="fee_span2 fontsize18">BUSD</span>
+            </div>
+          </div>
+          <div class="tip_txt fontsize18">{{$t("message.market.txt32")}}</div>
+          <div class="btn_box">
+            <div class="txt3" @click.stop="orderClick">Confirm<BtnLoading :isloading="synthesisDis"></BtnLoading></div>
+          </div>
+        </div>
+        <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="isdanger = false"/>
+      </div>
+    </div>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -68,6 +102,10 @@ import { contract,hnMarket,getSigner,hnPool,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      fee:0,// 手续费率
+      HandlingFee:0,//手续费
+      actualMoney:0,// 实际收益
+      isdanger:false,// 售卖价格弹窗
       pageshowLoading:true,//数据没有加载完之前显示loading
       tabIndex:0,
       dangerTxtModel:'',
@@ -114,6 +152,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
+          this.getConnectInfo()
           this.getUserAllCard(1)
           this.getUserPledgeInfo()
           clearInterval(this.time_arrNull)
@@ -146,6 +185,11 @@ export default {
     }
   },
   methods: {
+    inputchangeFun(){
+      console.log('this.fee',this.fee)
+      this.HandlingFee = Number(this.dangerTxtModel) * (Number(this.fee / 100))
+      this.actualMoney = Number(this.dangerTxtModel) - Number(this.HandlingFee)
+    },
     tabFun(index){
       if(this.pageshowLoading)return
       this.tabIndex = index
@@ -238,14 +282,14 @@ export default {
       this.proupDis = false
       this.synthesisDis = false
     },
-    // 弹窗去售卖
-    goSell(){
-      if(!this.synthesisDis){
-        this.proupDis = false
+    // 新增弹窗确认挂单
+    orderClick(){
+      if(!this.dangerTxtModel){
+        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
         return
       }
-      console.log('this.synthesisDis: ', this.synthesisDis);
-      this.proupDis = false
+      this.synthesisDis = true
+      console.log("新增弹窗确认挂单")
       this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
         console.log('合约需要的数组已经处理完毕: ', info);
         let cardIDArr = info.map(item => {
@@ -291,13 +335,7 @@ export default {
         this.$common.selectLang('至少选择1张卡牌','You need to select a minimal of 1 cards',this)
         return
       }
-      if(!this.dangerTxtModel){
-        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
-        return
-      }
-      this.$common.selectLang('Once NFT cards are reactivated, the original game data will be cleared.','Once NFT cards are reactivated, the original game data will be cleared.',this)
-      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
-      this.synthesisDis = true
+      this.isdanger = true
     },
     // 合约需要的三个数组处理方法
     processingArrayFun(arr,price){
@@ -425,6 +463,15 @@ export default {
           }
           count++;
         })
+      })
+    },
+    getConnectInfo(){
+      hnMarket().feeRatio().then(res => {
+        console.log('获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)
+        this.fee = (res.toNumber() / 1e4) * 100
+      }).catch(err => {
+        this.fee = 0
+        console.log('获取手续费率，除1e4，乘100err: ', err);
       })
     }
   }
@@ -604,34 +651,6 @@ export default {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    .input_border{
-      width: 428px;
-      height: 61px;
-      background: #052141;
-      box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-      border-radius: 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 16px;
-      .span1,.span2{
-        color: #ffffff;
-      }
-      .inputbox {
-        width: 70%;
-        display: flex;
-        .input {
-          width: 100%;
-          padding:0 15px;
-          height: 61px;
-          border: none;
-          outline: none;
-          font-style: normal;
-          color: #ffffff;
-          background: transparent;
-        }
-      }
-    }
     .btn_box {
       width: 274px;
       height: 59px;
@@ -644,6 +663,125 @@ export default {
       color: #ffffff;
       margin-top: 34px;
       cursor: pointer;
+    }
+  }
+  .danger_proup {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .outbox_danger{
+      position: relative;
+      width: 580px;
+      height: 574px;
+      box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+      padding: 1px;
+      border-radius: 14px;
+      background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+      .danger_wallet_box {
+        width: 100%;
+        height: 100%;
+        padding: 32px 38px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 14px;
+        background:#011A31;
+        .txt1 {
+          width: 100%;
+          text-align: center;
+          font-style: normal;
+          font-size: 32px;
+          color: #ffffff;
+        }
+        .line_outbox {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .span1{
+            color: #ffffff;
+          }
+          .inputbox{
+            position: relative;
+            width: 411px;
+            height: 37px;
+            padding: 1px;
+            border-radius: 18px;
+            background:linear-gradient(180deg, #8BE6FE 0%, #8BE6FE 100%);
+            .input_{
+              width: 100%;
+              padding:0 15px;
+              height: 100%;
+              border: none;
+              outline: none;
+              color: #ffffff;
+              background:#011A31;
+              border-radius: 18px;
+            }
+            .input_txt{
+              position: absolute;
+              right: 10px;
+              top: 5px;
+              color: #ffffff;
+            }
+          }
+          .Handling_fee{
+            width: 411px;
+            border-bottom: 1px solid;
+            padding-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), #2bd9e5, rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
+            .fee_span1,.fee_span2{
+              color: #ffffff;
+            }
+          }
+        }
+        .tip_txt{
+          width: 100%;
+          text-align: center;
+          color: #ffffff;
+        }
+        .btn_box{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          justify-content: center;
+          .txt3 {
+            width: 281px;
+            background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-style: normal;
+            font-size: 24px;
+            color: #ffffff;
+            cursor: pointer;
+          }
+        }
+      }
+      .danger_close{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 44px;
+        object-fit: contain;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -862,34 +1000,6 @@ export default {
       flex-direction: column;
       align-items: center;
       margin-top: 0.2rem;
-      .input_border{
-        width: 100%;
-        height: 0.6rem;
-        background: #052141;
-        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-        border-radius: 0.18rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 0.16rem;
-        .span1,.span2{
-          color: #ffffff;
-        }
-        .inputbox {
-          width: 70%;
-          display: flex;
-          .input {
-            width: 100%;
-            padding:0 0.15rem;
-            height: 0.61rem;
-            border: none;
-            outline: none;
-            font-style: normal;
-            color: #ffffff;
-            background: transparent;
-          }
-        }
-      }
       .btn_box {
         width: 1.94rem;
         height: 0.38rem;
@@ -902,6 +1012,114 @@ export default {
         color: #ffffff;
         margin-top: 0.2rem;
         cursor: pointer;
+      }
+    }
+    .danger_proup {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99999999;
+      backdrop-filter: blur(6px);
+      padding: 0 0.38rem;
+      .outbox_danger{
+        width: 100%;
+        height: 4.5rem;
+        box-shadow: -15px 11px 40px 21px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+        padding: 1px;
+        border-radius: 0.14rem;
+        background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+        .danger_wallet_box {
+          width: 100%;
+          height: 100%;
+          padding: 0.2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 0.14rem;
+          background:#011A31;
+          .txt1 {
+            width: 100%;
+            font-style: normal;
+            font-size: 0.32rem;
+            color: #ffffff;
+          }
+          .line_outbox {
+            .inputbox{
+              position: relative;
+              width: 100%;
+              height: 0.37rem;
+              padding: 1px;
+              border-radius: 0.18rem;
+              background:linear-gradient(180deg, #8BE6FE 0%, #8BE6FE 100%);
+              .input_{
+                width: 100%;
+                padding:0 0.15rem;
+                height: 100%;
+                border: none;
+                outline: none;
+                color: #ffffff;
+                background:#011A31;
+                border-radius: 0.18rem;
+              }
+              .input_txt{
+                position: absolute;
+                right: 0.1rem;
+                top: 0.05rem;
+                color: #ffffff;
+              }
+            }
+            .Handling_fee{
+              width: 100%;
+              border-bottom: 1px solid;
+              padding-right: 0.1rem;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), #2bd9e5, rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
+              .fee_span1,.fee_span2{
+                color: #ffffff;
+              }
+            }
+          }
+          .tip_txt{
+            width: 100%;
+            text-align: center;
+            color: #ffffff;
+          }
+          .btn_box{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            .txt3 {
+              width: 1.67rem;
+              background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 0.39rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-style: normal;
+              font-size: 0.24rem;
+              color: #ffffff;
+              cursor: pointer;
+            }
+          }
+        }
+        .danger_close{
+          position: absolute;
+          top: 0.1rem;
+          right: 0.1rem;
+          width: 0.36rem;
+          object-fit: contain;
+          cursor: pointer;
+        }
       }
     }
   }

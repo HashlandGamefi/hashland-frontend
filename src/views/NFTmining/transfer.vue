@@ -521,7 +521,7 @@ export default {
           width: 100%;
           text-align: center;
           font-style: normal;
-          font-size: 36px;
+          font-size: 32px;
           color: #ffffff;
         }
         .txt_danger{
@@ -864,7 +864,7 @@ export default {
           .txt1 {
             width: 100%;
             font-style: normal;
-            font-size: 0.36rem;
+            font-size: 0.32rem;
             color: #ffffff;
           }
           .txt_danger{
