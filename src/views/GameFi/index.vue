@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="game_introduction">
-        <div class="game_title fontsize18">Hash warfare</div>
+        <div class="game_title fontsize32">Hash warfare</div>
         <div class="player_box1">
           <iframe
             id="player"
@@ -43,7 +43,7 @@
           ></iframe>
         </div>
         <div class="game_model">
-          <div class="fontsize18">Game mode</div>
+          <div class="fontsize32">Game mode</div>
           <ul>
             <li>
               <span class="fontsize16">PVE</span>
