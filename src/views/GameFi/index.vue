@@ -58,7 +58,7 @@
             </li>
             <li>
               <span class="fontsize16"> {{ $t("message.gameFi.text39") }} </span>
-              <div class="fontsize12">{{ $t("message.gameFi.tex40") }}</div>
+              <div class="fontsize12">{{ $t("message.gameFi.text40") }}</div>
             </li>
           </ul>
         </div>
