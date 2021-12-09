@@ -3,23 +3,18 @@
     <div class="outside_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="$parent.closeLoginRegistered()" />
       <ul class="in_box" v-if="showLogin">
-        <li class="header_title ban_select fontsize22">Account login</li>
+        <li class="header_title ban_select fontsize22">Email login</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize12">Limited to games</li>
-        <li class="input_box">
-          <div class="input_title">
-            <span class="fontsize16">Email</span>
-            <span class="fontsize14" v-show="loginForm.prompt1"> *{{ loginForm.prompt1 }} </span>
-          </div>
+        <li class="input_box fontsize16">
+          <div class="input_title">Email</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
             <input type="text" placeholder="please enter your email" v-model="loginForm.mailAccount" />
           </div>
+          <div class="input_prompt fontsize12" v-show="loginForm.prompt1">* {{ loginForm.prompt1 }}</div>
         </li>
-        <li class="input_box">
-          <div class="input_title">
-            <span class="fontsize16">Password</span>
-            <span class="fontsize14" v-show="loginForm.prompt2"> *{{ loginForm.prompt2 }} </span>
-          </div>
+        <li class="input_box fontsize16">
+          <div class="input_title">Password</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
@@ -30,8 +25,9 @@
               <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
           </div>
+          <div class="input_prompt fontsize12" v-show="loginForm.prompt2">* {{ loginForm.prompt2 }}</div>
         </li>
-        <li class="btn login_btn ban_select fontsize14" @click="manuallyLogin">
+        <li class="btn ban_select fontsize14" @click="manuallyLogin">
           <span>Log in</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
@@ -40,24 +36,19 @@
           <!-- <span class="fontsize16" @click="forgotPassword">忘记密码</span> -->
         </li>
       </ul>
-      <ul class="in_box register_box" v-if="!showLogin">
+      <ul class="in_box" v-if="!showLogin">
         <li class="header_title ban_select fontsize22">Register an account</li>
         <li class="logo_img"></li>
         <li class="prompt ban_select fontsize12">Register an account</li>
-        <li class="input_box">
-          <div class="input_title">
-            <span class="fontsize16">Email</span>
-            <span class="fontsize14" v-show="registerForm.prompt1"> *{{ registerForm.prompt1 }} </span>
-          </div>
+        <li class="input_box fontsize16">
+          <div class="input_title">Email</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
             <input type="text" placeholder="please enter your email" v-model="registerForm.mailAccount" />
           </div>
+          <div class="input_prompt fontsize12" v-show="registerForm.prompt1">* {{ registerForm.prompt1 }}</div>
         </li>
-        <li class="input_box">
-          <div class="input_title">
-            <span class="fontsize16">Verification code</span>
-            <span class="fontsize14" v-show="registerForm.prompt2"> *{{ registerForm.prompt2 }} </span>
-          </div>
+        <li class="input_box fontsize16">
+          <div class="input_title">Verification code</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
             <input type="text" placeholder="Please fill in the verification code" v-model="registerForm.verifyCode" />
             <div class="verification ban_select fontsize14" @click="getCode">
@@ -65,12 +56,10 @@
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
           </div>
+          <div class="input_prompt fontsize12" v-show="registerForm.prompt2">* {{ registerForm.prompt2 }}</div>
         </li>
-        <li class="input_box">
-          <div class="input_title">
-            <span class="fontsize16">Password</span>
-            <span class="fontsize14" v-show="registerForm.prompt3"> *{{ registerForm.prompt3 }} </span>
-          </div>
+        <li class="input_box fontsize16">
+          <div class="input_title">Password</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
             <input
               :type="isShowPassword ? 'text' : 'password'"
@@ -81,17 +70,18 @@
               <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
           </div>
+          <div class="input_prompt fontsize12" v-show="registerForm.prompt3">* {{ registerForm.prompt3 }}</div>
         </li>
         <li class="checkoutside_box ban_select" @click="readTheTreaty">
           <div>
             <div v-if="isRead"></div>
           </div>
-          <div class="fontsize16">
+          <div class="fontsize12">
             I have read
             <span @click="openTreaty"> "HashLand GameFi License and Service Agreement" </span>
           </div>
         </li>
-        <li class="btn registered_btn ban_select fontsize16" @click="toRegistered">
+        <li class="btn ban_select fontsize16" @click="toRegistered">
           <span>register</span>
           <BtnLoading :isloading="registerbtnloading"></BtnLoading>
         </li>
@@ -330,6 +320,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input {
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  text-indent: 1em;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+input::-ms-input-placeholder,
+input::-webkit-input-placeholder,
+input::-moz-placeholder,
+input:-moz-placeholder {
+  color: #71787f;
+  font-size: 10px !important;
+}
 .login_registered {
   width: 100vw;
   height: 100vh;
@@ -341,6 +347,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  font-size: 0;
+  color: #ffffff;
 }
 .outside_box {
   max-width: 500px;
@@ -352,7 +361,7 @@ export default {
   padding: 1px;
   .close {
     cursor: pointer;
-    width: 44px;
+    width: 40px;
     height: auto;
     position: absolute;
     top: 10px;
@@ -367,7 +376,6 @@ export default {
   padding: 30px 80px;
   text-align: center;
   > .header_title {
-    color: #ffffff;
     letter-spacing: 1px;
     margin: 0 auto;
     margin-bottom: 10px;
@@ -382,26 +390,24 @@ export default {
     margin-bottom: 10px;
   }
   .prompt {
-    color: #ffffff;
     margin: 0 auto;
     margin-bottom: 20px;
   }
   .input_box {
-    text-align: left;
     margin: 0 auto;
-    margin-bottom: 15px;
+    text-align: left;
     width: fit-content;
+    padding-bottom: 20px;
+    position: relative;
     .input_title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #ffffff;
       margin-bottom: 10px;
-      span {
-        &:nth-child(2) {
-          color: #fb3e3e;
-        }
-      }
+    }
+    .input_prompt {
+      text-align: right;
+      color: #fb3e3e;
+      position: absolute;
+      bottom: 0;
+      right: 0;
     }
     .input_box_box {
       width: 320px;
@@ -416,21 +422,7 @@ export default {
       &.active {
         box-shadow: -2px 1px 8px 0px #fb3e3e;
       }
-      input {
-        width: 100%;
-        height: 100%;
-        text-indent: 1em;
-        border: none;
-        outline: none;
-        background: transparent;
-        color: #fff;
-      }
-      input:-ms-input-placeholder,
-      input::-webkit-input-placeholder,
-      input::-moz-placeholder,
-      input:-moz-placeholder {
-        color: #71787f;
-      }
+
       .eye {
         width: 20%;
         height: 100%;
@@ -452,6 +444,7 @@ export default {
         }
       }
       .verification {
+        cursor: pointer;
         width: 40%;
         height: calc(100% * 1.2);
         display: flex;
@@ -460,8 +453,6 @@ export default {
         background-image: url("//cdn.hashland.com/images/SpeciaBtn1.png");
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        cursor: pointer;
-        color: #ffffff;
         text-shadow: 0px 2px 4px #a16c28;
       }
     }
@@ -470,24 +461,24 @@ export default {
     width: fit-content;
     display: flex;
     align-items: center;
-    margin: 0 auto;
-    div {
+    margin: 20px auto;
+    > div {
       cursor: pointer;
       &:nth-child(1) {
-        border-radius: 50%;
-        min-width: 14px;
-        min-height: 14px;
-        width: 14px;
-        height: 14px;
-        border: 1px solid #818386;
         display: flex;
         align-items: center;
         justify-content: center;
-        div {
-          width: 8px;
-          height: 8px;
-          min-width: 8px;
-          min-height: 8px;
+        min-width: 25px;
+        min-height: 25px;
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+        border-radius: 50%;
+        border: 1px solid #818386;
+        > div {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
           background: #818386;
         }
       }
@@ -498,27 +489,20 @@ export default {
     }
   }
   .btn {
+    cursor: pointer;
     width: 228px;
     height: 56px;
-    color: #ffffff;
+    margin: 20px auto;
     background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
     text-shadow: -1px 4px 4px #723104;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .login_btn {
-    margin: 50px auto 30px auto;
-  }
-  .registered_btn {
-    margin: 30px auto 0 auto;
-  }
 
   .login_footer {
-    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -527,22 +511,25 @@ export default {
     }
   }
 }
-.register_box {
-  padding: 12px 80px;
-}
 
 @media screen and (max-width: 980px) {
   .outside_box {
     .close {
-      width: 8vw;
+      width: 0.3rem;
     }
     .in_box {
-      padding: 2vw 5vw;
+      padding: 0.3rem;
       .prompt {
         margin-bottom: 0.18rem;
       }
       .input_box {
-        margin-bottom: 0.18rem;
+        padding-bottom: 0.2rem;
+        .input_title {
+          margin-bottom: 0.1rem;
+        }
+        .input_prompt {
+          bottom: 0.1rem;
+        }
       }
       .logo_img {
         width: 0.6rem;
@@ -567,9 +554,22 @@ export default {
         height: 0.4rem;
         line-height: 0.4rem;
       }
-      .login_btn {
-        margin: 0.3rem auto 0.2rem auto;
-      }
+    }
+  }
+}
+.checkoutside_box {
+  margin: 0.2rem auto;
+  > div {
+    cursor: pointer;
+    &:nth-child(1) {
+      min-width: 0.25rem;
+      min-height: 0.25rem;
+      width: 0.25rem;
+      height: 0.25rem;
+      padding: 0.05rem;
+    }
+    &:nth-child(2) {
+      margin-left: 0.05rem;
     }
   }
 }

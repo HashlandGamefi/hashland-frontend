@@ -375,7 +375,7 @@ export default {
     font-size: 0;
     .outline_box {
       .close {
-        width: 8vw;
+        width: 0.3rem;
       }
       .inside_box ul {
         li:nth-child(2) .input_box_box .input_btn {

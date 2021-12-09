@@ -134,9 +134,9 @@ export default {
         return this.$common.selectLang("please log in first!", "please log in first!", this);
       if (!this.getAccount)
         return this.$common.selectLang("Please connect to the wallet!", "Please connect to the wallet!", this);
-        // if()
-        // 判断链接钱包
-        // 请切换至本账号绑定的钱包，否则充值无法到账
+      // if()
+      // 判断链接钱包
+      // 请切换至本账号绑定的钱包，否则充值无法到账
       this.showRecharge = true;
     },
     /**游戏下载 */
@@ -218,7 +218,7 @@ export default {
           transform: rotate(-90deg);
         }
         div {
-          padding: 5px 10px;
+          padding: 10px;
           cursor: pointer;
           display: flex;
           align-items: center;
