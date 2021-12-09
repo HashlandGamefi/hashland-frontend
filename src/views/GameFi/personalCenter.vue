@@ -1,21 +1,23 @@
 <template>
   <div class="page">
-    <div>
-      <div class="tiile">Personal center</div>
-      <div class="tiile title_small">Quickly modify security settings such as passwords</div>
-      <ul>
+    <img class="return_img" @click="returnToPreviousPage" src="//cdn.hashland.com/images/back.png" alt="" />
+    <div class="main">
+      <div class="tiile fontsize32">Personal center</div>
+      <div class="tiile fontsize12">Quickly modify security settings such as passwords</div>
+      <ul class="fontsize18">
         <li>
-          <span>email address: </span>
+          <span>Email: </span>
           <span>{{ mailAccount }}</span>
         </li>
         <template v-if="walletAddresses.length > 0">
           <li v-for="(item, index) in walletAddresses" :key="item">
-            <span>Wallet address {{ index + 1 }}: </span>
+            <span>Wallet {{ index + 1 }}: </span>
             <span>{{ item }}</span>
           </li>
         </template>
       </ul>
-      <div class="btn_img ban_select fontsize14" v-if="walletAddresses.length < 3" @click="bindingThePurse">
+      <!-- v-if="walletAddresses.length < 3" -->
+      <div class="btn_img ban_select fontsize14" @click="bindingThePurse">
         <span>Click to connect wallet address</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
@@ -36,7 +38,7 @@ export default {
       nickName: "",
       mailAccount: "",
       walletAddresses: [],
-      bindingloading: false,
+      bindingloading: true,
     };
   },
   computed: {
@@ -104,6 +106,11 @@ export default {
           this.bindingloading = false;
         });
     },
+    /**返回上一页 */
+    returnToPreviousPage() {
+      // this.$router.push("/gameFi");
+      history.back();
+    },
     /**公用提示框（关闭方法） closePopupPrompts */
     CloseFun() {
       this.proupDis = false;
@@ -114,30 +121,26 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 150px 0 0 0;
-  overflow: auto;
+  padding: 130px 10vw 0 10vw;
+  color: #fff;
+  font-size: 0;
+  .return_img {
+    cursor: pointer;
+    width: 100px;
+    height: auto;
+    margin-right: 10px;
+  }
+  > div,
+  ul {
+    margin: 0 auto;
+  }
   .tiile {
     text-align: center;
-    font-size: 22px;
-    font-weight: 600;
-    color: #ffffff;
-    line-height: 40px;
-  }
-  .title_small {
-    font-size: 12px;
-    font-weight: 400;
+    margin-bottom: 20px;
   }
   ul {
-    width: 845px;
     li {
-      overflow: hidden;
-      padding: 30px 0;
-      font-size: 22px;
-      font-weight: 600;
-      color: #ffffff;
+      padding: 20px 0;
       display: flex;
       border-bottom: 1px solid;
       border-image: linear-gradient(
@@ -149,64 +152,52 @@ export default {
         )
         1 1;
       span {
+        text-align: center;
         &:nth-child(1) {
-          width: 40%;
-          min-width: 10em;
+          width: 20%;
         }
         &:nth-child(2) {
-          width: 60%;
-          min-width: calc(100% - 10em);
-          text-align: center;
+          width: 80%;
         }
       }
     }
   }
   .btn_img {
-    width: 200px;
-    height: 50px;
-    margin: 30px auto;
+    cursor: pointer;
+    width: fit-content;
+    line-height: 100px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    color: #ffffff;
+    padding: 0 20px;
+    background: url("//cdn.hashland.com/images/SpeciaBtn2.png") no-repeat center;
+    background-size: 100% auto;
     text-shadow: 0px 2px 4px #a16c28;
   }
 }
 @media screen and (max-width: 980px) {
   .page {
-    padding: 80px 0 0 0;
-    .tiile {
-      font-size: 18px;
+    padding: 80px 5vw 0 5vw;
+    .return_img {
+      img {
+        width: 20vw;
+        height: auto;
+        margin-right: 2vw;
+      }
     }
-    .title_small {
-      font-size: 10px;
+    .tiile {
+      text-align: center;
+      margin-bottom: 2vw;
     }
     ul {
-      width: 90vw;
+      font-size: 12px;
       li {
-        overflow: hidden;
-        font-size: 14px;
-        span {
-          &:nth-child(1) {
-            width: 40%;
-            min-width: 10em;
-          }
-          &:nth-child(2) {
-            width: 60%;
-            min-width: calc(100% - 10em);
-            text-align: center;
-          }
-        }
+        padding: 5vw 0;
       }
     }
     .btn_img {
-      width: 2rem;
-      height: 0.5rem;
+      width: fit-content;
+      line-height: 25vw;
     }
   }
 }
