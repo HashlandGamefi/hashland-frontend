@@ -11,11 +11,11 @@
             </div>
             <div class="toolbox">
               <div @click="toPersonalCenter">
-                <span class="fontsize14">Personal center</span>
+                <span class="fontsize14"> {{ $t("message.gameFi.text1") }} </span>
                 <img class="toolbox_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
               </div>
               <div @click="toLogOut">
-                <span class="fontsize14">Sign out</span>
+                <span class="fontsize14"> {{ $t("message.gameFi.text2") }} </span>
                 <img :src="`${$store.state.imgUrl}exit.png`" />
               </div>
             </div>
@@ -23,14 +23,14 @@
         </div>
         <div class="btn_group fontsize18">
           <div @click="openLoginOrRegistered" v-if="!loginRegisteredStatus">
-            {{ $t("message.nav.txt10") + " / " + $t("message.nav.txt11") }}
+            {{ $t("message.gameFi.text13") + " / " + $t("message.gameFi.text22") }}
           </div>
           <!-- <div @click="openRecharge">Recharge</div> -->
           <!-- <div @click="downloadGame">Play</div> -->
         </div>
       </div>
       <div class="game_introduction">
-        <div class="game_title fontsize32">Hash warfare</div>
+        <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
         <div class="player_box1">
           <iframe
             class="player"
@@ -42,23 +42,23 @@
           ></iframe>
         </div>
         <div class="game_model">
-          <div class="fontsize32">Game mode</div>
+          <div class="fontsize32">{{ $t("message.gameFi.text4") }}</div>
           <ul>
             <li>
-              <span class="fontsize16">PVE</span>
-              <div class="fontsize12">Unlock new chapters, earn HC token and items</div>
+              <span class="fontsize16"> {{ $t("message.gameFi.text33") }} </span>
+              <div class="fontsize12">{{ $t("message.gameFi.text34") }}</div>
             </li>
             <li>
-              <span class="fontsize16">PVP</span>
-              <div class="fontsize12">Build teams to challenge other players and earn HC token</div>
+              <span class="fontsize16"> {{ $t("message.gameFi.text35") }} </span>
+              <div class="fontsize12">{{ $t("message.gameFi.text36") }}</div>
             </li>
             <li>
-              <span class="fontsize16">GVE</span>
-              <div class="fontsize12">Team up against bosses and compete for rare items</div>
+              <span class="fontsize16"> {{ $t("message.gameFi.text37") }} </span>
+              <div class="fontsize12">{{ $t("message.gameFi.text38") }}</div>
             </li>
             <li>
-              <span class="fontsize16">GVG</span>
-              <div class="fontsize12">Join guilds and fight with teammates</div>
+              <span class="fontsize16"> {{ $t("message.gameFi.text39") }} </span>
+              <div class="fontsize12">{{ $t("message.gameFi.text40") }}</div>
             </li>
           </ul>
         </div>
@@ -100,14 +100,6 @@ export default {
     } else {
       this.loginRegisteredStatus = false;
     }
-    // const sUserAgent = navigator.userAgent.toLowerCase();
-    // if (/ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(sUserAgent)) {
-    //   this.isMobile = true;
-    //   console.log("移动端");
-    // } else {
-    //   this.isMobile = false;
-    //   console.log("PC端");
-    // }
   },
   methods: {
     /**打开登录与注册 */
@@ -130,9 +122,8 @@ export default {
     /**打开充值 */
     openRecharge() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
-        return this.$common.selectLang("please log in first!", "please log in first!", this);
-      if (!this.getAccount)
-        return this.$common.selectLang("Please connect to the wallet!", "Please connect to the wallet!", this);
+        return this.$common.selectLang("请先登录！", "Please log in first!", this);
+      if (!this.getAccount) return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
       // if()
       // 判断链接钱包
       // 请切换至本账号绑定的钱包，否则充值无法到账

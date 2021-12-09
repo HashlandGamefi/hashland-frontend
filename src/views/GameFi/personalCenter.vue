@@ -2,25 +2,24 @@
   <div class="page">
     <img class="return_img" @click="returnToPreviousPage" src="//cdn.hashland.com/images/back.png" alt="" />
     <div class="main">
-      <div class="tiile fontsize32">Personal center</div>
-      <div class="tiile fontsize12">Quickly modify security settings such as passwords</div>
+      <div class="main_tiile fontsize32">{{ $t("message.gameFi.text1") }}</div>
       <ul class="fontsize18">
         <li>
-          <span>Email: </span>
+          <span>{{ $t("message.gameFi.text9") }}: </span>
           <span>{{ mailAccount }}</span>
         </li>
         <template v-if="walletAddresses.length > 0">
           <li v-for="(item, index) in walletAddresses" :key="item">
-            <span>Wallet {{ index + 1 }}: </span>
+            <span>{{ $t("message.gameFi.text29") }} {{ index + 1 }}: </span>
             <span>{{ item }}</span>
           </li>
         </template>
       </ul>
       <div class="btn_img ban_select fontsize14" v-if="walletAddresses.length < 3" @click="bindingThePurse">
-        <span>Click add wallet address</span>
+        <span>{{ $t("message.gameFi.text30") }}</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
-      <div v-else class="tiile fontsize12">A single account can be bound to only three wallet addresses</div>
+      <div v-else class="prompt fontsize12">{{ $t("message.gameFi.text31") }}</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
@@ -77,7 +76,7 @@ export default {
       if (this.walletAddresses.some((item) => item === this.getAccount))
         return this.$common.selectLang(
           "该钱包已绑定，请切换其他钱包！",
-          "This wallet is bound, please switch to another wallet!",
+          "This wallet has been bound, please switch to another wallet!",
           this
         );
       if (this.bindingloading) return;
@@ -147,9 +146,13 @@ export default {
   ul {
     margin: 0 auto;
   }
-  .tiile {
+  .main_tiile {
     text-align: center;
     margin: 20px 0;
+  }
+  .prompt {
+    margin: 30px 0;
+    text-align: center;
   }
   ul {
     li {
@@ -165,6 +168,9 @@ export default {
           rgba(19, 177, 198, 0)
         )
         1 1;
+      &:last-child {
+        border-bottom: none;
+      }
       span {
         text-align: center;
         &:nth-child(1) {
@@ -195,9 +201,13 @@ export default {
     .return_img {
       width: 0.5rem;
     }
-    .tiile {
+    .main_tiile {
       text-align: center;
       margin: 2vw 0;
+    }
+    .prompt {
+      margin: 3vw 0;
+      text-align: center;
     }
     ul {
       font-size: 12px;
