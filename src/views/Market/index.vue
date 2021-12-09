@@ -17,43 +17,47 @@
     <div class="content">
       <!-- 排序  卡牌信息 -->
       <div class="leftboxs">
-        <!-- 等级排序 -->
-        <div class="left_content">
-          <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}} {{ amount }})</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}} {{ ele }})</span>
+        <div class="add_leftbox">
+          <!-- 等级排序 -->
+          <div class="left_content">
+            <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}} {{ amount }})</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">{{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{$t("message.synthesis.txt8")}} {{ ele }})</span>
+            </div>
+          </div>
+          <!-- 职业排序 -->
+          <div class="left_content">
+            <span class="span1 fontsize16">{{$t(occupationTxt)}}</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{$t(ele.name)}}</span>
+            </div>
           </div>
         </div>
-        <!-- 职业排序 -->
-        <div class="left_content">
-          <span class="span1 fontsize16">{{$t(occupationTxt)}}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{$t(ele.name)}}</span>
+        <div class="add_leftbox">
+          <!-- 筛选-->
+          <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
+            <span class="span1 fontsize16">{{ $t(item.name) }}</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
+                {{ $t(ele.name) }}
+              </span>
+            </div>
           </div>
-        </div>
-        <!-- 筛选-->
-        <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
-          <span class="span1 fontsize16">{{ $t(item.name) }}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
-              {{ $t(ele.name) }}
-            </span>
-          </div>
-        </div>
-        <!-- 倒叙--正序 -->
-        <div class="left_content_price">
-          <span class="span1 fontsize16">{{$t(sequenceTxt)}}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="sequenceFun('message.market.txt14','asc')">
-              {{ $t("message.market.txt14") }}
-            </span>
-            <span class="span1 fontsize16" @click="sequenceFun('message.market.txt15','desc')">
-              {{ $t("message.market.txt15") }}
-            </span>
+          <!-- 倒叙--正序 -->
+          <div class="left_content_price">
+            <span class="span1 fontsize16">{{$t(sequenceTxt)}}</span>
+            <div class="span2"></div>
+            <div class="left_content_hover">
+              <span class="span1 fontsize16" @click="sequenceFun('message.market.txt14','asc')">
+                {{ $t("message.market.txt14") }}
+              </span>
+              <span class="span1 fontsize16" @click="sequenceFun('message.market.txt15','desc')">
+                {{ $t("message.market.txt15") }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -262,9 +266,12 @@ export default {
       // this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
     },
     // 购买卡牌
-    buyCard (item) {
+    async buyCard (item) {
       console.log('item: ', item);
       if (item.isstatus) return
+      let issell = await hnMarket().getSellerHnIdExistence(item.seller,item.hnId)
+      console.log('获取某卖家的某HN卡牌是否正在出售issell: ', issell);
+      return
       if (Number(this.user_busd_balance) >= Number(item.price)) {
         item.isstatus = true
         let arr = []
@@ -557,112 +564,116 @@ export default {
     align-items: center;
     margin-top: 71px;
     .leftboxs {
+      width: 80%;
       display: flex;
       align-items: center;
-      justify-content: center;
-      .left_content {
-        position: relative;
-        width: 200px;
-        height: 44px;
-        background: #031224;
-        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-          -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-        border-radius: 9px;
-        padding: 0 10px;
+      justify-content: space-between;
+      .add_leftbox{
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        margin-right: 15px;
-        .span1 {
-          color: #ffffff;
-          margin-right: 10px;
-        }
-        .span2 {
-          border-width: 7px;
-          border-color: #00e7f0;
-          border-bottom-width: 0;
-          border-style: dashed;
-          border-top-style: solid;
-          border-left-color: transparent;
-          border-right-color: transparent;
-        }
-        .left_content_hover {
-          position: absolute;
-          top: -3px;
-          left: 0;
-          z-index: 9;
+        .left_content {
+          position: relative;
           width: 200px;
-          display: none;
-          flex-direction: column;
-          justify-content: space-between;
-          background: rgba(0, 0, 0, 0.9);
-          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-          filter: blur(0px);
-          border-radius: 4px;
-          padding: 10px 19px;
-          margin-top: 47px;
-          line-height: 39px;
-          .span1 {
-            color: #e2dada;
-            cursor: pointer;
-          }
-        }
-      }
-      .left_content:hover,.left_content_price:hover {
-        .left_content_hover {
+          height: 44px;
+          background: #031224;
+          box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
+            -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+          border-radius: 9px;
+          padding: 0 10px;
           display: flex;
-          .span1:hover {
-            color: #00e7f0;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          margin-right: 15px;
+          .span1 {
+            color: #ffffff;
+            margin-right: 10px;
+          }
+          .span2 {
+            border-width: 7px;
+            border-color: #00e7f0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover {
+            position: absolute;
+            top: -3px;
+            left: 0;
+            z-index: 9;
+            width: 200px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+            filter: blur(0px);
+            border-radius: 4px;
+            padding: 10px 19px;
+            margin-top: 47px;
+            line-height: 39px;
+            .span1 {
+              color: #e2dada;
+              cursor: pointer;
+            }
           }
         }
-      }
-      .left_content_price {
-        margin-left: 15px;
-        width:160px;
-        position: relative;
-        height: 44px;
-        background: #031224;
-        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-          -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-        border-radius: 9px;
-        padding: 0 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        .span1 {
-          color: #ffffff;
-          margin-right: 10px;
+        .left_content:hover,.left_content_price:hover {
+          .left_content_hover {
+            display: flex;
+            .span1:hover {
+              color: #00e7f0;
+            }
+          }
         }
-        .span2 {
-          border-width: 7px;
-          border-color: #00e7f0;
-          border-bottom-width: 0;
-          border-style: dashed;
-          border-top-style: solid;
-          border-left-color: transparent;
-          border-right-color: transparent;
-        }
-        .left_content_hover {
-          position: absolute;
-          top: -3px;
-          left: 0;
-          z-index: 9;
-          width:160px;
-          display: none;
-          flex-direction: column;
+        .left_content_price {
+          margin-right: 15px;
+          width:230px;
+          position: relative;
+          height: 44px;
+          background: #031224;
+          box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
+            -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+          border-radius: 9px;
+          padding: 0 10px;
+          display: flex;
+          align-items: center;
           justify-content: space-between;
-          background: rgba(0, 0, 0, 0.9);
-          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-          filter: blur(0px);
-          border-radius: 4px;
-          padding: 10px 19px;
-          margin-top: 47px;
-          line-height: 39px;
+          cursor: pointer;
           .span1 {
-            color: #e2dada;
-            cursor: pointer;
+            color: #ffffff;
+            margin-right: 10px;
+          }
+          .span2 {
+            border-width: 7px;
+            border-color: #00e7f0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover {
+            position: absolute;
+            top: -3px;
+            left: 0;
+            z-index: 9;
+            width:230px;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+            filter: blur(0px);
+            border-radius: 4px;
+            padding: 10px 19px;
+            margin-top: 47px;
+            line-height: 39px;
+            .span1 {
+              color: #e2dada;
+              cursor: pointer;
+            }
           }
         }
       }

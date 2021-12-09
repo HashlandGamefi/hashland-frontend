@@ -158,7 +158,6 @@ export const message = {
     txt14:'余额不足'
   },
   market:{
-    txt:'NFT市场',
     txt1:'NFT市场',
     txt2:'价格升序',
     txt3:'价格降序',
