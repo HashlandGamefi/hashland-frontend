@@ -180,38 +180,45 @@ export const message = {
     txt14: "Insufficient Balance"
   },
   market:{
-    txt1:'NFT market',
+    txt1:'NFT Market',
     txt2:'price ascending order',
     txt3:'Price descending order',
-    txt4:'Pending order',
-    txt5:'Total transactions',
-    txt6:'Total transaction volume',
-    txt7:'Average price',
-    txt8:'Number of cards',
-    txt24:'Latest transaction price',
-    txt9:'Occupation Sort',
+    txt4:'Pending Order',
+    txt5:'Transactions',
+    txt6:'Volume',
+    txt7:'Floor Price',
+    txt8:'Items',
+    txt24:'Latest Price',
+    txt9:'All Class',
     txt10:'Cavalryman',
     txt11:'Holy',
     txt12:'Blade',
     txt13:'Hex',
     txt14:'ascending order',
-    txt15:'Descending order',
+    txt15:'Descending Order',
     txt16:'Filter field',
-    txt17:'BTC screening',
-    txt18:'HC screening',
-    txt19:'price screening',
-    txt20:'Selling time screening',
+    txt17:'BTC Hashrate: High to Low', // HC低 desc
+    txt17_1:'BTC Hashrate: Low to High', // HC低 desc
+    txt18:'HC Hashrate: High to Low', // HC低 desc
+    txt18_1:'HC Hashrate: Low to High', // HC低 desc
+    txt19:'Price: High to Low', // 价格低 desc
+    txt19_1:'Price: Low to High', // 价格高 asc
+    txt20:'Recently Listed',// 最新上架 desc
+    txt20_1:'Oldest',//最老上架 asc
     txt21:'Successful purchased, data delay, wait patiently',
     txt22:'Please enter the selling price',
     txt23:'Order cancelled successfully',
     txt25:'Price',
+    txt26:'You can insert NFTs to the slot to mine  BTC/HC before pending.',
+    txt27:'Once the NFT of the pending order in the card slot is removed, the pending order will be cancelled.',
+    txt28:'Order Record',
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
   details: "Detail",
   details1: 'Stake Purchased NFT Cards in "NFT mining" to mine',
   placeholder: "Enter Amount",
-  msg: "Note",
+  msg: "Tips",
   word1: "至少选择4张卡牌", //You need to select a minimal of 4 cards
   word2: "请输入购买数量", //Enter Purchase Amount
   word3: "可购买数量不足", //Insufficent quantity left

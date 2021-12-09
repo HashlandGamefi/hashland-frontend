@@ -46,19 +46,6 @@
               </span>
             </div>
           </div>
-          <!-- 倒叙--正序 -->
-          <div class="left_content_price">
-            <span class="span1 fontsize16">{{$t(sequenceTxt)}}</span>
-            <div class="span2"></div>
-            <div class="left_content_hover">
-              <span class="span1 fontsize16" @click="sequenceFun('message.market.txt14','asc')">
-                {{ $t("message.market.txt14") }}
-              </span>
-              <span class="span1 fontsize16" @click="sequenceFun('message.market.txt15','desc')">
-                {{ $t("message.market.txt15") }}
-              </span>
-            </div>
-          </div>
         </div>
       </div>
       <!-- 去挂单 -->
@@ -128,22 +115,26 @@ export default {
       orderArr:[
         {name:'message.market.txt20',
           arr:[
-            {name:'message.market.txt17',describe:'btc'},
-            {name:'message.market.txt18',describe:'hc'},
-            {name:'message.market.txt19',describe:'price'},
-            {name:'message.market.txt20',describe:'time'}
+            {name:'message.market.txt17',describe:'btc_desc'},
+            {name:'message.market.txt17_1',describe:'btc_asc'},
+            {name:'message.market.txt18',describe:'hc_desc'},
+            {name:'message.market.txt18_1',describe:'hc_asc'},
+            {name:'message.market.txt19',describe:'price_desc'},
+            {name:'message.market.txt19_1',describe:'price_asc'},
+            {name:'message.market.txt20',describe:'time_desc'},
+            {name:'message.market.txt20_1',describe:'time_asc'}
           ]
         }
       ],
-      sequenceTxt:'message.market.txt15',// 正序 --倒序
       occupationTxt:'message.market.txt9',//职业排序
       occupationArr:[
+        {name:'message.market.txt9',describe:0},
         {name:'message.market.txt10',describe:1},
         {name:'message.market.txt11',describe:2},
         {name:'message.market.txt12',describe:3},
         {name:'message.market.txt13',describe:4}
       ],//职业排序数组
-      cardLengthArr: [],// 几阶对应的数量数组
+      cardLengthArr: [0,0,0,0,0],// 几阶对应的数量数组
       pulldown: true,// 上拉加载变量
       pageshowLoading: true,// 数据没有加载完之前显示loading
       pageshowarr: [],//页面展示数组
@@ -225,15 +216,6 @@ export default {
     },
   },
   methods: {
-    // 正序--倒叙方式
-    sequenceFun(data,style){
-      console.log('正序--倒叙方式data: ', data,style);
-      this.sequenceTxt = data
-      this.sortObj.orderDirection = style
-      this.sortObj.skip = 0
-      this.pageshowLoading = true
-      this.encapsulationFun()
-    },
     sonapprove (item) {
       if (item.isstatus) return
       item.isstatus = true
@@ -339,7 +321,12 @@ export default {
     occupationFun(ele){
       console.log('ele: ', ele);
       this.occupationTxt = ele.name
-      this.sortObj.hnClass = ele.describe
+      if(ele.describe == 0){
+        this.sortObj.hnClass = ''
+      }else{
+        this.sortObj.hnClass = ele.describe
+      }
+
       this.sortObj.skip = 0
       this.pageshowLoading = true
       this.encapsulationFun('ccupation')
@@ -351,20 +338,44 @@ export default {
       this.sortObj.skip = 0
       this.pageshowLoading = true
       switch (data.describe) {
-        case 'btc':
+        case 'btc_desc':
           this.sortObj.orderBy = 'btcHashrate'
+          this.sortObj.orderDirection = 'desc'
           this.encapsulationFun()
           break;
-        case 'hc':
+        case 'btc_asc':
+          this.sortObj.orderBy = 'btcHashrate'
+          this.sortObj.orderDirection = 'asc'
+          this.encapsulationFun()
+          break;
+        case 'hc_desc':
           this.sortObj.orderBy = 'hcHashrate'
+          this.sortObj.orderDirection = 'desc'
           this.encapsulationFun()
           break;
-        case 'price':
+        case 'hc_asc':
+          this.sortObj.orderBy = 'hcHashrate'
+          this.sortObj.orderDirection = 'asc'
+          this.encapsulationFun()
+          break;
+        case 'price_desc':
           this.sortObj.orderBy = 'price'
+          this.sortObj.orderDirection = 'desc'
           this.encapsulationFun()
           break;
-        case 'time':
+        case 'price_asc':
+          this.sortObj.orderBy = 'price'
+          this.sortObj.orderDirection = 'asc'
+          this.encapsulationFun()
+          break;
+        case 'time_desc':
           this.sortObj.orderBy = 'sellTime'
+          this.sortObj.orderDirection = 'desc'
+          this.encapsulationFun()
+          break;
+        case 'time_asc':
+          this.sortObj.orderBy = 'sellTime'
+          this.sortObj.orderDirection = 'asc'
           this.encapsulationFun()
           break;
         default:
@@ -374,7 +385,7 @@ export default {
     // 排序--筛选--封装函数
     encapsulationFun(type = ''){
       this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
-        if(type = 'ccupation'){
+        if(type == 'ccupation'){
           this.sortObj.skip += this.sortObj.first
         }
         if (res.status == 0) {
@@ -414,29 +425,43 @@ export default {
         // console.log('获取市场正在出售的所有HN卡牌数量: ', res)
         this.infoArr[4].num = res.toNumber()
         this.infoArr[4].loading = false
+      }).catch(err => {
+        console.log('获取市场正在出售的所有HN卡牌数量err: ', err);
       })
       // 获取总成交次数
       hnMarket().totalSellCount().then(res => {
         this.infoArr[0].num = res
         this.infoArr[0].loading = false
+      }).catch(err => {
+        console.log('获取总成交次数err: ', err);
       })
       // 获取总成交额，除1e18
       hnMarket().totalSellAmount().then(res => {
         // console.log('获取总成交额，除1e18: ', res)
         this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toString(), 2)
         this.infoArr[1].loading = false
+      }).catch(err => {
+        console.log('获取总成交额，除1e18err: ', err);
       })
       // 地板价
       hnMarketInfo.getSellInfo(1,0,'price','asc').then(res => {
         console.log('地板价res: ', res);
-        this.infoArr[2].num = this.$common.convertBigNumberToNormal((res.data.sellInfos[0].price).toString(), 2)
+        if(res.data.sellInfos.length == 0){
+          this.infoArr[2].num = 0
+        }else{
+          this.infoArr[2].num = this.$common.convertBigNumberToNormal((res.data.sellInfos[0].price).toString(), 2)
+        }
         this.infoArr[2].loading = false
+      }).catch(err => {
+        console.log('地板价err: ', err);
       })
       //最新成交价
       hnMarketInfo.getBuyInfo(1,0,'buyTime','desc').then(res => {
         console.log('最新成交价res: ', res);
         this.infoArr[3].num = this.$common.convertBigNumberToNormal((res.data.buyInfos[0].price).toString(), 2)
         this.infoArr[3].loading = false
+      }).catch(err => {
+        console.log('最新成交价err: ', err);
       })
     },
     connectInfo () {
@@ -613,7 +638,7 @@ export default {
             box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
             filter: blur(0px);
             border-radius: 4px;
-            padding: 10px 19px;
+            padding: 10px;
             margin-top: 47px;
             line-height: 39px;
             .span1 {
@@ -632,7 +657,7 @@ export default {
         }
         .left_content_price {
           margin-right: 15px;
-          width:230px;
+          width:260px;
           position: relative;
           height: 44px;
           background: #031224;
@@ -662,7 +687,7 @@ export default {
             top: -3px;
             left: 0;
             z-index: 9;
-            width:230px;
+            width:260px;
             display: none;
             flex-direction: column;
             justify-content: space-between;
@@ -670,7 +695,7 @@ export default {
             box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
             filter: blur(0px);
             border-radius: 4px;
-            padding: 10px 19px;
+            padding: 10px;
             margin-top: 47px;
             line-height: 39px;
             .span1 {

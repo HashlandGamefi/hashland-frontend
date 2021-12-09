@@ -175,14 +175,21 @@ export const message = {
     txt14:'升序',
     txt15:'降序',
     txt16:'筛选字段',
-    txt17:'BTC算力 排序',
-    txt18:'HC算力 排序',
-    txt19:'价格 排序',
-    txt20:'上架时间 排序',
+    txt17:'BTC:desc', // btc 降序
+    txt17_1:'BTC:asc', // btc 升序
+    txt18:'HC:desc', // hc 降序
+    txt18_1:'HC:asc', // hc 升序
+    txt19:'Price:desc', // 价格低 desc
+    txt19_1:'Price:asc', // 价格高 asc
+    txt20:'最新上架',// 最新上架 desc
+    txt20_1:'最老上架',//最老上架 asc
     txt21:'购买成功,数据延迟,耐心等待',
     txt22:'请输入售卖价格',
     txt23:'撤单成功',
     txt25:'单价',
+    txt26:'You can insert NFTs to the slot to mine  BTC/HC before pending.',
+    txt27:'Once the NFT of the pending order in the card slot is removed, the pending order will be cancelled.',
+    txt28:'挂单记录',
   },
   buy1:'购买记录',
   buy2:'购买NFT卡牌',
