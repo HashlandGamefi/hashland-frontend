@@ -17,9 +17,10 @@
         </template>
       </ul>
       <div class="btn_img ban_select fontsize14" v-if="walletAddresses.length < 3" @click="bindingThePurse">
-        <span>Click to connect wallet address</span>
+        <span>Click add wallet address</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
+      <div v-else class="tiile fontsize14">A single account can be bound to only three wallet addresses</div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
@@ -71,19 +72,29 @@ export default {
     bindingThePurse() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录！", "please log in first!", this);
-      // const haveThisWallet = this.walletAddresses.some((item) => item === this.getAccount);
-      if (!this.getAccount) return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
+      if (!this.getAccount || this.getAccount == "no")
+        return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
       if (this.walletAddresses.some((item) => item === this.getAccount))
-        return this.$common.selectLang("请切换钱包！", "Please switch wallet!", this);
+        return this.$common.selectLang(
+          "该钱包已绑定，请切换其他钱包！",
+          "This wallet is bound, please switch to another wallet!",
+          this
+        );
       if (this.bindingloading) return;
       this.bindingloading = true;
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
+      // console.log("邮箱账号：", gameFiInfo.mailAccount);
+      // console.log("钱包地址1：", this.getAccount);
+      // console.log("nonce：", gameFiInfo.nonce);
       getSigner()
         .signMessage(gameFiInfo.nonce)
         .then((signature) => {
-          // console.log("nonce：", gameFiInfo.nonce);
-          // console.log("邮箱账号：", gameFiInfo.mailAccount);
-          // console.log("钱包地址：", this.getAccount);
+          // console.log("钱包地址2：", this.getAccount);
+          if (!this.getAccount || this.getAccount == "no") {
+            this.bindingloading = false;
+            this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
+            return;
+          }
           // console.log("前端签名：", signature);
           const url = `mailAccount=${gameFiInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
           this.$api
@@ -127,6 +138,10 @@ export default {
     cursor: pointer;
     width: 100px;
     height: auto;
+  }
+  .main {
+    width: 100%;
+    max-width: 700px;
   }
   > div,
   ul {

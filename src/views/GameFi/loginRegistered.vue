@@ -72,13 +72,28 @@
           </div>
           <div class="input_prompt fontsize12" v-show="registerForm.prompt3">* {{ registerForm.prompt3 }}</div>
         </li>
+        <li class="input_box fontsize16">
+          <div class="input_title">Confirm password</div>
+          <div class="input_box_box" :class="{ active: registerForm.prompt4 }">
+            <input
+              :type="isShowPassword2 ? 'text' : 'password'"
+              placeholder="Please fill in your password again"
+              v-model="registerForm.password2"
+            />
+            <div class="eye">
+              <div @click="isShowPassword2 = !isShowPassword2" :class="{ active: isShowPassword2 }"></div>
+            </div>
+          </div>
+          <div class="input_prompt fontsize12" v-show="registerForm.prompt4">* {{ registerForm.prompt4 }}</div>
+        </li>
         <li class="checkoutside_box ban_select" @click="readTheTreaty">
           <div>
             <div v-if="isRead"></div>
           </div>
           <div class="fontsize12">
             I have read
-            <span @click="openTreaty"> "HashLand GameFi License and Service Agreement" </span>
+            <a href="//cdn.hashland.com/singlehtml/gameFi-register-treaty.html"> HashLand GameFi Agreement </a>
+            <!-- <span @click="openTreaty"> HashLand GameFi Agreement </span> -->
           </div>
         </li>
         <li class="btn ban_select fontsize16" @click="toRegistered">
@@ -106,6 +121,7 @@ export default {
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
       isShowPassword: false,
+      isShowPassword2: false,
       isRead: false,
       showLogin: true,
       loginForm: {
@@ -121,10 +137,12 @@ export default {
         // password: "123456",
         mailAccount: "",
         password: "",
+        password2: "",
         verifyCode: "",
         prompt1: "",
         prompt2: "",
         prompt3: "",
+        prompt4: "",
       },
       loginbtnloading: false,
       codebtnloading: false,
@@ -142,51 +160,60 @@ export default {
       if (this.registerForm.mailAccount) {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
+          if (this.registerForm.verifyCode) {
+            this.registerForm.prompt2 = "";
+            if (this.registerForm.password) {
+              if (pwReg.test(this.registerForm.password)) {
+                this.registerForm.prompt3 = "";
+                if (this.registerForm.password2) {
+                  if (pwReg.test(this.registerForm.password2)) {
+                    if (this.registerForm.password2 == this.registerForm.password) {
+                      this.registerForm.prompt3 = "";
+                      this.registerForm.prompt4 = "";
+                      if (this.isRead) {
+                        this.registerbtnloading = true;
+                        const url = `mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+                        this.$api
+                          .gameMailRegister(url)
+                          .then((res) => {
+                            // console.log("注册账号：", res.data);
+                            this.registerbtnloading = false;
+                            if (res.data.result === "SUCCESS") {
+                              this.firstAutoLogin(res.data.mailAccount, res.data.token);
+                            } else if (res.data.result === "FAIL") {
+                              this.$common.selectLang(res.data.msg, res.data.msg, this);
+                            }
+                          })
+                          .catch((err) => {
+                            this.registerbtnloading = false;
+                          });
+                      } else {
+                        this.$common.selectLang("请先阅读条约", "Please read the treaty first", this);
+                      }
+                    } else {
+                      this.registerForm.prompt3 = "The two passwords are inconsistent"; // 两次输入密码不一致
+                      this.registerForm.prompt4 = "The two passwords are inconsistent";
+                    }
+                  } else {
+                    this.registerForm.prompt4 = "Invalid password"; // 密码不合法
+                  }
+                } else {
+                  this.registerForm.prompt4 = "Please fill in the password again"; // 请再次填写密码
+                }
+              } else {
+                this.registerForm.prompt3 = "Invalid password"; // 密码不合法
+              }
+            } else {
+              this.registerForm.prompt3 = "Please fill in the password"; // 请填写密码
+            }
+          } else {
+            this.registerForm.prompt2 = "Please fill in the verification code"; // 请填写验证码
+          }
         } else {
           this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
       } else {
         this.registerForm.prompt1 = "please enter your email"; // 请填写邮箱
-      }
-      if (!this.registerForm.verifyCode) {
-        this.registerForm.prompt2 = "Please fill in the verification code"; // 请填写验证码
-      }
-      if (this.registerForm.password) {
-        if (pwReg.test(this.registerForm.password)) {
-          this.registerForm.prompt3 = "";
-        } else {
-          this.registerForm.prompt3 = "Invalid password"; // 密码不合法
-        }
-      } else {
-        this.registerForm.prompt3 = "Please fill in the password"; // 请填写密码
-      }
-      if (!this.isRead) {
-        this.$common.selectLang("请先阅读条约", "Please read the treaty first", this);
-      }
-      if (
-        this.registerForm.mailAccount &&
-        this.registerForm.verifyCode &&
-        this.registerForm.password &&
-        mailReg.test(this.registerForm.mailAccount) &&
-        pwReg.test(this.registerForm.password) &&
-        this.isRead
-      ) {
-        this.registerbtnloading = true;
-        const url = `mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-        this.$api
-          .gameMailRegister(url)
-          .then((res) => {
-            // console.log("注册账号：", res.data);
-            this.registerbtnloading = false;
-            if (res.data.result === "SUCCESS") {
-              this.firstAutoLogin(res.data.mailAccount, res.data.token);
-            } else if (res.data.result === "FAIL") {
-              this.$common.selectLang(res.data.msg, res.data.msg, this);
-            }
-          })
-          .catch((err) => {
-            this.registerbtnloading = false;
-          });
       }
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
@@ -409,7 +436,7 @@ input:-moz-placeholder {
       right: 0;
     }
     .input_box_box {
-      width: 320px;
+      width: 350px;
       height: 38px;
       background: rgba(11, 22, 43, 0.99);
       box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), -2px 1px 8px 0px rgba(194, 190, 190, 0.52);
@@ -486,6 +513,10 @@ input:-moz-placeholder {
         color: #818386;
       }
     }
+    a {
+      color: #818386;
+      text-decoration: underline;
+    }
   }
   .btn {
     cursor: pointer;
@@ -517,7 +548,7 @@ input:-moz-placeholder {
       width: 0.3rem;
     }
     .in_box {
-      padding: 0.3rem;
+      padding: 0.1rem 0.3rem;
       .prompt {
         margin-bottom: 0.18rem;
       }
