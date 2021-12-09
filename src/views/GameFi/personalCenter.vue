@@ -16,8 +16,7 @@
           </li>
         </template>
       </ul>
-      <!-- v-if="walletAddresses.length < 3" -->
-      <div class="btn_img ban_select fontsize14" @click="bindingThePurse">
+      <div class="btn_img ban_select fontsize14" v-if="walletAddresses.length < 3" @click="bindingThePurse">
         <span>Click to connect wallet address</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
@@ -38,7 +37,7 @@ export default {
       nickName: "",
       mailAccount: "",
       walletAddresses: [],
-      bindingloading: true,
+      bindingloading: false,
     };
   },
   computed: {
@@ -128,7 +127,6 @@ export default {
     cursor: pointer;
     width: 100px;
     height: auto;
-    margin-right: 10px;
   }
   > div,
   ul {
@@ -140,8 +138,9 @@ export default {
   }
   ul {
     li {
-      padding: 20px 0;
       display: flex;
+      padding: 20px 0;
+      overflow: hidden;
       border-bottom: 1px solid;
       border-image: linear-gradient(
           22deg,
@@ -179,11 +178,7 @@ export default {
   .page {
     padding: 80px 5vw 0 5vw;
     .return_img {
-      img {
-        width: 20vw;
-        height: auto;
-        margin-right: 2vw;
-      }
+      width: 0.5rem;
     }
     .tiile {
       text-align: center;
