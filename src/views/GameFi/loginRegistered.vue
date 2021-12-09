@@ -53,8 +53,7 @@
             <input type="text" placeholder="Please fill in the verification code" v-model="registerForm.verifyCode" />
             <div class="verification ban_select fontsize14" @click="getCode">
               <span>Obtain</span>
-              <BtnLoading :isloading="true"></BtnLoading>
-              <!-- <BtnLoading :isloading="codebtnloading"></BtnLoading> -->
+              <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
           </div>
           <div class="input_prompt fontsize12" v-show="registerForm.prompt2">* {{ registerForm.prompt2 }}</div>
