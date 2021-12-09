@@ -203,7 +203,8 @@ export const message = {
     txt20:'Selling time screening',
     txt21:'Successful purchased, data delay, wait patiently',
     txt22:'Please enter the selling price',
-    txt23:'Order cancelled successfully'
+    txt23:'Order cancelled successfully',
+    txt25:'Price',
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

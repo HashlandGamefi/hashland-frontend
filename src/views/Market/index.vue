@@ -270,8 +270,8 @@ export default {
       console.log('item: ', item);
       if (item.isstatus) return
       let issell = await hnMarket().getSellerHnIdExistence(item.seller,item.hnId)
-      console.log('获取某卖家的某HN卡牌是否正在出售issell: ', issell);
-      return
+      console.log('判断当前卡是否正在出售issell: ', issell);
+      if(!issell)return // 判断当前卡是否正在出售
       if (Number(this.user_busd_balance) >= Number(item.price)) {
         item.isstatus = true
         let arr = []
