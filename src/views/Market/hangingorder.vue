@@ -351,6 +351,9 @@ export default {
         return
       }
       this.isdanger = true
+      this.dangerTxtModel = ''
+      this.HandlingFee = 0 //手续费
+      this.actualMoney = 0 // 实际收益
     },
     // 合约需要的三个数组处理方法
     processingArrayFun(arr,price){
