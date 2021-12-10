@@ -193,8 +193,10 @@ export const message = {
     txt29:'挂单明细',
     txt30:'挂单金额',
     txt31:'手续费',
-    txt32:'Once NFT are reactivated, the original game data will be cleared.',
+    txt32:'Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.',
     txt33:'80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.'
+    txt34:'撤单',
+    txt35:'实际收益'
   },
   buy1:'购买记录',
   buy2:'购买NFT卡牌',

@@ -26,7 +26,7 @@
           </div>
           <!-- <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/> -->
           <div class="btn fontsize12" @click="cancleOrder(item)">
-            撤单<BtnLoading :isloading="item.isloading"></BtnLoading>
+            {{$t("message.market.txt34")}}<BtnLoading :isloading="item.isloading"></BtnLoading>
           </div>
           <!-- <div class="btn fontsize12" @click="collect(item)" v-else>
             收取<BtnLoading :isloading="item.isloading"></BtnLoading>
@@ -98,7 +98,7 @@ export default {
         console.log('卖家批量取消出售卡牌res: ', res);
         const etReceipt = await res.wait();
           if(etReceipt.status == 1){
-            this.$common.selectLang('撤单成功','撤单成功',this)
+            this.$common.selectLang('撤单成功','Withdraw Successfully',this)
             this.connectInfo()
             item.isloading = false
           }else{

@@ -206,17 +206,19 @@ export const message = {
     txt20:'Recently Listed',// 最新上架 desc
     txt20_1:'Oldest',//最老上架 asc
     txt21:'Successful purchased, data delay, wait patiently',
-    txt22:'Please enter the selling price',
+    txt22:'Please enter price',
     txt23:'Order cancelled successfully',
     txt25:'Price',
     txt26:'You can insert NFTs to the slot to mine  BTC/HC before pending.',
     txt27:'Once the NFT of the pending order in the card slot is removed, the pending order will be cancelled.',
     txt28:'Order Record',
-    txt29:'挂单明细',
-    txt30:'挂单金额',
-    txt31:'手续费',
-    txt32:'Once NFT are reactivated, the original game data will be cleared.',
+    txt29:'Order Detail',
+    txt30:'Price',
+    txt31:'fee',
+    txt32:'Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.',
     txt33:'80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.'
+    txt34:'Withdraw',
+    txt35:'Income'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

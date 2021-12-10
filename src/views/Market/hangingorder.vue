@@ -66,21 +66,21 @@
           <div class="line_outbox">
             <span class="span1 fontsize18">{{$t("message.market.txt30")}}:</span>
             <div class="inputbox">
-              <input class="input_" type="text" oninput="value=value.replace(/[^\d]/g, '')" @input="inputchangeFun" v-model="dangerTxtModel" placeholder="请输入挂单金额">
+              <input class="input_" type="text" oninput="value=value.replace(/[^\d]/g, '')" @input="inputchangeFun" v-model="dangerTxtModel" :placeholder='$t("message.market.txt22")'>
               <span class="input_txt fontsize18">BUSD</span>
             </div>
           </div>
           <div class="line_outbox">
             <div class="hoverboxs">
-              <span class="span1 fontsize18">{{fee}}%{{$t("message.market.txt31")}}:</span>
-              <div class="img_boxs">
+              <span class="span1 fontsize18">{{fee}}% {{$t("message.market.txt31")}}:</span>
+              <!-- <div class="img_boxs">
                 <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick" />
                 <div class="img_box_hover" :class="{show_box_hover:ishover}">
                   <div class="content_box fontsize12_400">
                     {{$t("message.market.txt33")}}
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{HandlingFee}}</span>
@@ -88,7 +88,7 @@
             </div>
           </div>
           <div class="line_outbox">
-            <span class="span1 fontsize18">实际收益:</span>
+            <span class="span1 fontsize18">{{$t("message.market.txt35")}}:</span>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{actualMoney}}</span>
               <span class="fee_span2 fontsize18">BUSD</span>
@@ -102,7 +102,7 @@
         <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="isdanger = false"/>
       </div>
     </div>
-    <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div>
+    <!-- <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div> -->
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -300,7 +300,7 @@ export default {
     // 新增弹窗确认挂单
     orderClick(){
       if(!this.dangerTxtModel){
-        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
+        this.$common.selectLang('请输入售卖价格','Please enter price',this)
         return
       }
       this.synthesisDis = true
@@ -332,7 +332,7 @@ export default {
               this.synthesisDis = false
               this.getUserAllCard(this.rank) // 重新获取最新用户信息
               this.$common.selectLang('出售成功','Success',this)
-              this.dangerTxtModel = ''
+              this.isdanger = false
             })
           }else{
             this.synthesisDis = false
@@ -775,7 +775,7 @@ export default {
           }
           .inputbox{
             position: relative;
-            width: 400px;
+            width: 411px;
             height: 37px;
             display: flex;
             padding: 1px;
@@ -799,7 +799,7 @@ export default {
             }
           }
           .Handling_fee{
-            width: 400px;
+            width: 411px;
             border-bottom: 1px solid;
             padding-right: 10px;
             display: flex;
