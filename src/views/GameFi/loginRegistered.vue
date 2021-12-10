@@ -54,8 +54,9 @@
           <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
             <input type="text" :placeholder="$t('message.gameFi.text17')" v-model="registerForm.verifyCode" />
             <div class="verification ban_select fontsize14" @click="getCode">
-              <span v-if="getCodeEndTime">{{ minutes + " : " + seconds }}</span>
-              <span v-else>{{ $t("message.gameFi.text18") }}</span>
+              <span>{{ $t("message.gameFi.text18") }}</span>
+              <!-- <span v-if="!getCodeEndTime">{{ $t("message.gameFi.text18") }}</span> -->
+              <!-- <span>{{ minutes + " : " + seconds }}</span> -->
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
             </div>
           </div>
@@ -284,38 +285,27 @@ export default {
     // },
     /**获取验证码 */
     getCode() {
-      if (this.codebtnloading || this.getCodeEndTime) return;
+      if (this.codebtnloading) return;
       if (this.registerForm.mailAccount) {
         if (mailReg.test(this.registerForm.mailAccount)) {
           this.registerForm.prompt1 = "";
-          if (localStorage.getItem("hashlandGameFiGetCodeEndTime")) {
-            const start = new Date().getTime();
-            const end = JSON.parse(localStorage.getItem("hashlandGameFiGetCodeEndTime"));
-            localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
-            this.countdown(start, end);
-          } else {
-            this.codebtnloading = true;
-            const url = `mailAccount=${this.registerForm.mailAccount}`;
-            this.$api
-              .gameMailCode(url)
-              .then((res) => {
-                // console.log("获取验证码：", res.data);
-                this.codebtnloading = false;
-                if (res.data.result === "SUCCESS") {
-                  // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
-                  const start = new Date().getTime();
-                  const end = start + 10 * 60 * 1000;
-                  localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
-                  this.countdown(start, end);
-                } else if (res.data.result === "FAIL") {
-                  // res.data.msg; // "10分钟内只能发送一次确认码"
-                }
-                this.$common.selectLang(res.data.msg, res.data.msg, this);
-              })
-              .catch((err) => {
-                this.codebtnloading = false;
-              });
-          }
+          this.codebtnloading = true;
+          const url = `mailAccount=${this.registerForm.mailAccount}`;
+          this.$api
+            .gameMailCode(url)
+            .then((res) => {
+              // console.log("获取验证码：", res.data);
+              this.codebtnloading = false;
+              if (res.data.result === "SUCCESS") {
+                // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+              } else if (res.data.result === "FAIL") {
+                // res.data.msg; // "10分钟内只能发送一次确认码"
+              }
+              this.$common.selectLang(res.data.msg, res.data.msg, this);
+            })
+            .catch((err) => {
+              this.codebtnloading = false;
+            });
         } else {
           this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
         }
@@ -323,6 +313,46 @@ export default {
         this.registerForm.prompt1 = "Enter email"; // 填写邮箱
       }
     },
+    // getCode() {
+    //   if (this.codebtnloading || this.getCodeEndTime) return;
+    //   if (this.registerForm.mailAccount) {
+    //     if (mailReg.test(this.registerForm.mailAccount)) {
+    //       this.registerForm.prompt1 = "";
+    //       if (localStorage.getItem("hashlandGameFiGetCodeEndTime")) {
+    //         const start = new Date().getTime();
+    //         const end = JSON.parse(localStorage.getItem("hashlandGameFiGetCodeEndTime"));
+    //         localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
+    //         this.countdown(start, end);
+    //       } else {
+    //         this.codebtnloading = true;
+    //         const url = `mailAccount=${this.registerForm.mailAccount}`;
+    //         this.$api
+    //           .gameMailCode(url)
+    //           .then((res) => {
+    //             // console.log("获取验证码：", res.data);
+    //             this.codebtnloading = false;
+    //             if (res.data.result === "SUCCESS") {
+    //               // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+    //               const start = new Date().getTime();
+    //               const end = start + 10 * 60 * 1000;
+    //               localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
+    //               this.countdown(start, end);
+    //             } else if (res.data.result === "FAIL") {
+    //               // res.data.msg; // "10分钟内只能发送一次确认码"
+    //             }
+    //             this.$common.selectLang(res.data.msg, res.data.msg, this);
+    //           })
+    //           .catch((err) => {
+    //             this.codebtnloading = false;
+    //           });
+    //       }
+    //     } else {
+    //       this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
+    //     }
+    //   } else {
+    //     this.registerForm.prompt1 = "Enter email"; // 填写邮箱
+    //   }
+    // },
     /**阅读条约 */
     readTheTreaty() {
       this.isRead = !this.isRead;
@@ -344,44 +374,44 @@ export default {
     /**关闭本弹窗 */
     closeLoginRegistered() {
       this.$parent.showLoginRegistered = false;
-      this.getCodeEndTime = false;
-      clearInterval(this.getCodeTimer);
-      this.getCodeTimer = null;
+      // this.getCodeEndTime = false;
+      // clearInterval(this.getCodeTimer);
+      // this.getCodeTimer = null;
     },
 
     /**验证码十分钟倒计时 */
     countdown(start, end) {
-      // this.getCodeEndTime = true;
-      // console.log("🐏 ~ this.getCodeEndTime", this.getCodeEndTime);
-      // const startTime = new Date(start);
-      // const endTime = new Date(end);
-      // let min = 0;
-      // let sec = 0;
-      // min = endTime.getMinutes() - startTime.getMinutes();
-      // console.log("🐏 ~ min", min);
-      // sec = endTime.getSeconds() - startTime.getSeconds();
-      // console.log("🐏 ~ sec", sec);
-      // if (min <= 0 && sec <= 0) {
-      //   localStorage.removeItem("hashlandGameFiGetCodeEndTime");
-      //   this.getCodeEndTime = false;
-      // } else {
-      //   this.getCodeTimer = setInterval(() => {
-      //     this.minutes = min < 10 ? `0${min}` : min.toString();
-      //     this.seconds = sec < 10 ? `0${sec}` : sec.toString();
-      //     if (sec > 0) {
-      //       sec--;
-      //     } else {
-      //       if (min > 0) {
-      //         sec = 59;
-      //         min--;
-      //       } else {
-      //         this.getCodeEndTime = false;
-      //         clearInterval(this.getCodeTimer);
-      //         this.getCodeTimer = null;
-      //       }
-      //     }
-      //   }, 1000);
-      // }
+      this.getCodeEndTime = true;
+      console.log("🐏 ~ this.getCodeEndTime", this.getCodeEndTime);
+      const startTime = new Date(start);
+      const endTime = new Date(end);
+      let min = 0;
+      let sec = 0;
+      min = endTime.getMinutes() - startTime.getMinutes();
+      console.log("🐏 ~ min", min);
+      sec = endTime.getSeconds() - startTime.getSeconds();
+      console.log("🐏 ~ sec", sec);
+      if (min <= 0 && sec <= 0) {
+        localStorage.removeItem("hashlandGameFiGetCodeEndTime");
+        this.getCodeEndTime = false;
+      } else {
+        this.getCodeTimer = setInterval(() => {
+          this.minutes = min < 10 ? `0${min}` : min.toString();
+          this.seconds = sec < 10 ? `0${sec}` : sec.toString();
+          if (sec > 0) {
+            sec--;
+          } else {
+            if (min > 0) {
+              sec = 59;
+              min--;
+            } else {
+              this.getCodeEndTime = false;
+              clearInterval(this.getCodeTimer);
+              this.getCodeTimer = null;
+            }
+          }
+        }, 1000);
+      }
     },
     /**公用提示框（关闭方法）*/
     CloseFun() {
