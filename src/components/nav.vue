@@ -201,15 +201,17 @@ export default {
     },
     // 菜单栏切换状态
     menuClick(index) {
-      this.$store.commit("menuBG", "yes");
-      sessionStorage.setItem("menuBG", "yes");
-      this.$store.commit("HashMenu", index);
-      sessionStorage.setItem("HashMenu", index);
+      console.log('index: ', index);
       if (index == 0) {
         this.mobile_menuDis = !this.mobile_menuDis;
         this.InitialStatus = false;
         return;
       }
+      this.$store.commit("menuBG", "yes");
+      sessionStorage.setItem("menuBG", "yes");
+      this.$store.commit("HashMenu", index);
+      sessionStorage.setItem("HashMenu", index);
+
       this.InitialStatus = true;
       this.mobilemenu = false;
       switch (index) {
@@ -220,18 +222,18 @@ export default {
           sessionStorage.setItem("menuBG", "no");
           this.$router.push("/home");
           break;
-        case 0:
-          this.$router.push("/buy/0/1");
-          break;
+        // case 0:
+        //   this.$router.push("/buy/0/1");
+        //   break;
         case 1:
           this.$router.push("/gameFi");
           break;
         case 2:
           this.$router.push("/hclp");
           break;
-        case 3:
-          this.$router.push("/market");
-          break;
+        // case 3:
+        //   this.$router.push("/market");
+        //   break;
         case 4:
           window.location.href = "https://land-hash.gitbook.io/official/dao/about-dao";
           break;
@@ -356,7 +358,7 @@ export default {
         .nft_hover {
           display: none;
           position: absolute;
-          top: 0;
+          top: 24px;
           left: -29px;
           z-index: 99999999;
           .box_nft {
@@ -368,7 +370,7 @@ export default {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             padding: 20px 10px;
-            margin-top: 30px;
+            margin-top: 25px;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
             .span1 {
               width: 100%;

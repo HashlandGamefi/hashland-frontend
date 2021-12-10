@@ -101,7 +101,7 @@ export default {
             return;
           }
           // console.log("前端签名：", signature);
-          const url = `mailAccount=${gameFiInfo.mailAccount}&walletAddress=${this.getAccount}&signature=${signature}`;
+          const url = `mailAccount=${gameFiInfo.mailAccount}&walletAddress=${this.getAccount.toLowerCase()}&signature=${signature}`;
           this.$api
             .gameBindWallet(url)
             .then((res) => {
