@@ -71,7 +71,17 @@
             </div>
           </div>
           <div class="line_outbox">
-            <span class="span1 fontsize18">{{fee}}%{{$t("message.market.txt31")}}:</span>
+            <div class="hoverboxs">
+              <span class="span1 fontsize18">{{fee}}%{{$t("message.market.txt31")}}:</span>
+              <div class="img_boxs">
+                <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick" />
+                <div class="img_box_hover" :class="{show_box_hover:ishover}">
+                  <div class="content_box fontsize12_400">
+                    {{$t("message.market.txt33")}}
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{HandlingFee}}</span>
               <span class="fee_span2 fontsize18">BUSD</span>
@@ -92,6 +102,7 @@
         <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="isdanger = false"/>
       </div>
     </div>
+    <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -102,6 +113,7 @@ import { contract,hnMarket,getSigner,hnPool,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      ishover:false,// hover 手续费弹窗
       fee:0,// 手续费率
       HandlingFee:0,//手续费
       actualMoney:0,// 实际收益
@@ -185,6 +197,9 @@ export default {
     }
   },
   methods: {
+    imgclick(){
+      this.ishover = true
+    },
     inputchangeFun(){
       console.log('this.fee',this.fee)
       this.HandlingFee = Number(this.dangerTxtModel) * (Number(this.fee / 100))
@@ -710,10 +725,56 @@ export default {
           .span1{
             color: #ffffff;
           }
+          .hoverboxs{
+            display: flex;
+            align-items: center;
+            .span1{
+              color: #ffffff;
+            }
+            .img_boxs{
+              position: relative;
+              display: flex;
+              margin-left: 2px;
+              cursor: pointer;
+              .imgs{
+                width: 14px;
+                object-fit: contain;
+              }
+              .img_box_hover{
+                display: none;
+                position: absolute;
+                top: 24px;
+                left: 0;
+                z-index: 2;
+                width: 308px;
+                height: 153px;
+                box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+                padding: 1px;
+                border-radius: 14px;
+                background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+                .content_box{
+                  width: 100%;
+                  height: 100%;
+                  padding: 20px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: space-between;
+                  border-radius: 14px;
+                  background: #011730;
+                  color: #ffffff;
+                }
+              }
+              .show_box_hover{
+                display: flex;
+              }
+            }
+          }
           .inputbox{
             position: relative;
-            width: 411px;
+            width: 400px;
             height: 37px;
+            display: flex;
             padding: 1px;
             border-radius: 18px;
             background:linear-gradient(180deg, #8BE6FE 0%, #8BE6FE 100%);
@@ -735,7 +796,7 @@ export default {
             }
           }
           .Handling_fee{
-            width: 411px;
+            width: 400px;
             border-bottom: 1px solid;
             padding-right: 10px;
             display: flex;
@@ -784,6 +845,14 @@ export default {
       }
     }
   }
+}
+.positon_img_fixedbox{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999999;
 }
 @media screen and (min-width: 1280px) {
   .order_page{
@@ -1021,9 +1090,9 @@ export default {
       left: 0;
       height: 100%;
       background: rgba(0, 0, 0, 0.4);
-      z-index: 99999999;
+      z-index: 99;
       backdrop-filter: blur(6px);
-      padding: 0 0.38rem;
+      padding: 0 0.2rem;
       .outbox_danger{
         width: 100%;
         height: 4.5rem;
@@ -1034,7 +1103,7 @@ export default {
         .danger_wallet_box {
           width: 100%;
           height: 100%;
-          padding: 0.2rem;
+          padding: 0.15rem;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -1044,15 +1113,59 @@ export default {
           .txt1 {
             width: 100%;
             font-style: normal;
-            font-size: 0.32rem;
+            font-size: 0.26rem;
             color: #ffffff;
           }
           .line_outbox {
+            .hoverboxs{
+              display: flex;
+              align-items: center;
+              .span1{
+                color: #ffffff;
+              }
+              .img_boxs{
+                display: flex;
+                margin-left: 0.08rem;
+                cursor: pointer;
+                .imgs{
+                  width: 0.18rem;
+                  object-fit: contain;
+                }
+                .img_box_hover{
+                  display: none;
+                  position: absolute;
+                  top: 0.26rem;
+                  left: 0;
+                  z-index: 2;
+                  width: 2rem;
+                  height: auto;
+                  box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+                  padding: 1px;
+                  border-radius: 0.14rem;
+                  background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+                  .content_box{
+                    width: 100%;
+                    height: 100%;
+                    padding: 0.2rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    border-radius: 0.14rem;
+                    background: #011730;
+                  }
+                }
+                .show_box_hover{
+                  display: flex;
+                }
+              }
+            }
             .inputbox{
               position: relative;
-              width: 100%;
+              width: 60%;
               height: 0.37rem;
               padding: 1px;
+              display: flex;
               border-radius: 0.18rem;
               background:linear-gradient(180deg, #8BE6FE 0%, #8BE6FE 100%);
               .input_{
@@ -1073,7 +1186,7 @@ export default {
               }
             }
             .Handling_fee{
-              width: 100%;
+              width: 60%;
               border-bottom: 1px solid;
               padding-right: 0.1rem;
               display: flex;

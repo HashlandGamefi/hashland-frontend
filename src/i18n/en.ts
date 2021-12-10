@@ -216,6 +216,7 @@ export const message = {
     txt30:'挂单金额',
     txt31:'手续费',
     txt32:'Once NFT are reactivated, the original game data will be cleared.',
+    txt33:'80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

@@ -35,7 +35,7 @@
             </div>
           </div>
         </div>
-        <div class="add_leftbox">
+        <div class="add_leftbox pc_add_leftbox">
           <!-- 筛选-->
           <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
             <span class="span1 fontsize16">{{ $t(item.name) }}</span>
@@ -49,6 +49,29 @@
         </div>
       </div>
       <!-- 去挂单 -->
+      <div class="right_content">
+        <img
+          :src="`${$store.state.imgUrl}record.png`"
+          class="record_img"
+          @click="recordClick"
+        />
+        <div class="synthesis_btn fontsize16" @click="goOrder">
+          {{ $t("message.market.txt4") }}
+        </div>
+      </div>
+    </div>
+    <!-- 移动端筛选 -->
+    <div class="mobile_add_leftbox">
+      <!-- 筛选-->
+      <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
+        <span class="span1 fontsize16">{{ $t(item.name) }}</span>
+        <div class="span2"></div>
+        <div class="left_content_hover">
+          <span class="span1 fontsize16" v-for="(ele,index1) in item.arr" :key="index1" @click="sortPriceClik(item,ele)">
+            {{ $t(ele.name) }}
+          </span>
+        </div>
+      </div>
       <div class="right_content">
         <img
           :src="`${$store.state.imgUrl}record.png`"
@@ -577,9 +600,13 @@ export default {
       box-shadow: 0px 2px 13px 0px rgba(2, 18, 35, 0.68);
       border-radius: 4px;
       padding: 28px 0 25px;
+      cursor: pointer;
       .p1 {
         color: #ffffff;
       }
+    }
+    .onebox:hover{
+      box-shadow: 10px 5px 10px 5px rgba(2, 18, 35, 0.68);
     }
   }
   .title1_txt {
@@ -728,6 +755,9 @@ export default {
       }
     }
   }
+  .mobile_add_leftbox{
+    display: none;
+  }
   .show_gameArr {
     margin-top: 40px;
     width: 100%;
@@ -850,88 +880,166 @@ export default {
       align-items: center;
       margin-top: 0.23rem;
       .leftboxs {
+        width: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        .left_content {
-          position: relative;
-          width: 0.96rem;
-          height: 0.27rem;
-          background: #031224;
-          box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
-            -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
-          border-radius: 0.06rem;
-          padding: 0 0.05rem;
+        .add_leftbox{
+          width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          cursor: pointer;
-          .span1 {
-            color: #ffffff;
-            margin-right: 0.1rem;
-          }
-          .span2 {
-            border-width: 0.07rem;
-            border-color: #00e7f0;
-            border-bottom-width: 0;
-            border-style: dashed;
-            border-top-style: solid;
-            border-left-color: transparent;
-            border-right-color: transparent;
-          }
-          .left_content_hover {
-            position: absolute;
-            top: -3px;
-            left: 0;
-            z-index: 9;
-            width: 222px;
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.9);
-            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-            filter: blur(0px);
-            border-radius: 4px;
-            padding: 10px 19px;
-            margin-top: 47px;
-            line-height: 39px;
-            .span1 {
-              color: #e2dada;
-              cursor: pointer;
-            }
-          }
-        }
-        .left_content_price {
-          margin-left: 71px;
-        }
-        .left_content:hover {
-          .left_content_hover {
+          .left_content {
+            position: relative;
+            width: 1.62rem;
+            height: 0.27rem;
+            background: #031224;
+            box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
+              -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+            border-radius: 0.06rem;
+            padding: 0 0.05rem;
             display: flex;
-            .span1:hover {
-              color: #00e7f0;
+            align-items: center;
+            justify-content: space-between;
+            margin-right: 0;
+            .span1 {
+              color: #ffffff;
+              margin-right: 0.1rem;
+              font-size: 0.12rem;
+            }
+            .span2 {
+              border-width: 0.07rem;
+              border-color: #00e7f0;
+              border-bottom-width: 0;
+              border-style: dashed;
+              border-top-style: solid;
+              border-left-color: transparent;
+              border-right-color: transparent;
+            }
+            .left_content_hover {
+              position: absolute;
+              top: -0.03rem;
+              left: 0;
+              z-index: 9;
+              width: 1.62rem;
+              display: none;
+              flex-direction: column;
+              justify-content: space-between;
+              background: rgba(0, 0, 0, 0.9);
+              box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+              filter: blur(0px);
+              border-radius: 0.04rem;
+              padding: 0.1rem;
+              margin-top: 0.2rem;
+              line-height: 0.3rem;
+              .span1 {
+                color: #e2dada;
+                cursor: pointer;
+                font-size: 0.12rem;
+              }
             }
           }
+          .left_content_price {
+            display: none;
+          }
+          .left_content:hover {
+            .left_content_hover {
+              display: flex;
+              .span1:hover {
+                color: #00e7f0;
+              }
+            }
+          }
+        }
+        .pc_add_leftbox{
+          display: none;
         }
       }
       .right_content {
+        display: none;
+      }
+    }
+    .mobile_add_leftbox{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .left_content_price:hover {
+        .left_content_hover {
+          display: flex;
+          .span1:hover {
+            color: #00e7f0;
+          }
+        }
+      }
+      .left_content_price {
+        margin-top: 0.1rem;
+        width:1.62rem;
+        position: relative;
+        height: 0.27rem;
+        background: #031224;
+        box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18),
+          -2px 1px 8px 0px rgba(194, 190, 190, 0.52) inset;
+        border-radius: 0.09rem;
+        padding: 0 0.05rem;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         cursor: pointer;
+        .span1 {
+          color: #ffffff;
+          margin-right: 0;
+          font-size: 0.12rem;
+        }
+        .span2 {
+          border-width: 0.07rem;
+          border-color: #00e7f0;
+          border-bottom-width: 0;
+          border-style: dashed;
+          border-top-style: solid;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+        .left_content_hover {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 9;
+          width:1.62rem;
+          display: none;
+          flex-direction: column;
+          justify-content: space-between;
+          background: rgba(0, 0, 0, 0.9);
+          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+          filter: blur(0px);
+          border-radius: 0.04rem;
+          padding: 0.1rem 0.01rem;
+          margin-top: 0.3rem;
+          line-height: 0.39rem;
+          .span1 {
+            color: #e2dada;
+            cursor: pointer;
+            font-size: 0.12rem;
+          }
+        }
+      }
+      .right_content{
+        display: flex;
+        align-items: center;
         .synthesis_btn {
-          width: 144px;
-          height: 49px;
-          line-height: 49px;
+          width: 1.2rem;
+          height: 0.3rem;
+          line-height: 0.3rem;
           background-image: url(//cdn.hashland.com/images/nft_btn1.png);
           background-size: 100% 100%;
           background-repeat: no-repeat;
           text-align: center;
           color: #ffffff;
           cursor: pointer;
+          font-size: 0.12rem;
         }
         .record_img {
-          width: 40px;
+          width: 0.3rem;
           object-fit: contain;
-          margin-right: 20px;
+          margin-right: 0.1rem;
         }
       }
     }
