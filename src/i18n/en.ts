@@ -286,9 +286,9 @@ export const message = {
     text39:"GVG",
     text40:"Join guilds and fight with teammates",
     text41:"Main Wallet",
-    text42:"1. $ HC rewards in the game will be airdropped to the main wallet at the end of the season.",
-    text43:"2. The account can connect only three wallet addresses，and the system will  read all NFTs in slots automatically.",
-    text44:"3. Once NFTs are reactivated by other accounts, the original game data will be cleared, such as skills.",
+    text42:"1. $HC rewards in the game will be airdropped to the main wallet at the end of the season.",
+    text43:"2. The account can connect only three wallet addresses, and the system will  read all NFTs in slots automatically.",
+    text44:"3. Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.",
   }
 
 };
