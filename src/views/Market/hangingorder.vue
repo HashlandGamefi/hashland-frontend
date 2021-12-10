@@ -806,6 +806,7 @@ export default {
             }
           }
           .Handling_fee{
+            position: relative;
             width: 411px;
             border-bottom: 1px solid;
             padding-right: 10px;
@@ -813,12 +814,16 @@ export default {
             align-items: center;
             justify-content: space-between;
             border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), #2bd9e5, rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
-            .fee_span1,.fee_span2{
-              color: #ffffff;
-            }
             .fee_span1{
               width: 100%;
               text-align: center;
+              color: #ffffff;
+            }
+            .fee_span2{
+              position: absolute;
+              right: 10px;
+              top: 5px;
+              color: #ffffff;
             }
           }
         }
