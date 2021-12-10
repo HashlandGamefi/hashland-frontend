@@ -796,6 +796,7 @@ export default {
               color: #ffffff;
               background:#011A31;
               border-radius: 18px;
+              text-align: center;
             }
             .input_txt{
               position: absolute;
@@ -814,6 +815,10 @@ export default {
             border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), #2bd9e5, rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
             .fee_span1,.fee_span2{
               color: #ffffff;
+            }
+            .fee_span1{
+              width: 100%;
+              text-align: center;
             }
           }
         }
