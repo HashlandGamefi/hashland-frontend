@@ -17,7 +17,10 @@
       </div>
     </div>
     <div class="add_title fontsize18" v-if="tabIndex == 0">{{$t("message.market.txt26")}}</div>
-    <div class="add_title fontsize18" v-if="tabIndex == 1">{{$t("message.market.txt27")}}</div>
+    <div class="add_title" v-if="tabIndex == 1">
+      <span class="fontsize18">{{$t("message.market.txt27")}}</span>
+      <span class="fontsize18">{{$t("message.market.txt27_1")}}</span>
+    </div>
     <div class="content" :class="{content_end:tabIndex == 1}">
       <!-- 几阶对应数量 -->
       <div class="left_content" v-if="tabIndex == 0">
@@ -540,7 +543,10 @@ export default {
   }
   .add_title{
     width: 100%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // text-align: center;
     color: #ffffff;
     margin-top: 30px;
   }
