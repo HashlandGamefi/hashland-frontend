@@ -201,15 +201,17 @@ export default {
     },
     // 菜单栏切换状态
     menuClick(index) {
-      this.$store.commit("menuBG", "yes");
-      sessionStorage.setItem("menuBG", "yes");
-      this.$store.commit("HashMenu", index);
-      sessionStorage.setItem("HashMenu", index);
+      console.log('index: ', index);
       if (index == 0) {
         this.mobile_menuDis = !this.mobile_menuDis;
         this.InitialStatus = false;
         return;
       }
+      this.$store.commit("menuBG", "yes");
+      sessionStorage.setItem("menuBG", "yes");
+      this.$store.commit("HashMenu", index);
+      sessionStorage.setItem("HashMenu", index);
+
       this.InitialStatus = true;
       this.mobilemenu = false;
       switch (index) {
@@ -220,9 +222,9 @@ export default {
           sessionStorage.setItem("menuBG", "no");
           this.$router.push("/home");
           break;
-        case 0:
-          this.$router.push("/buy/0/1");
-          break;
+        // case 0:
+        //   this.$router.push("/buy/0/1");
+        //   break;
         case 1:
           this.$router.push("/gameFi");
           break;
