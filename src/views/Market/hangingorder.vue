@@ -17,7 +17,10 @@
       </div>
     </div>
     <div class="add_title fontsize18" v-if="tabIndex == 0">{{$t("message.market.txt26")}}</div>
-    <div class="add_title fontsize18" v-if="tabIndex == 1">{{$t("message.market.txt27")}}</div>
+    <div class="add_title" v-if="tabIndex == 1">
+      <span class="fontsize18">{{$t("message.market.txt27")}}</span>
+      <span class="fontsize18">{{$t("message.market.txt27_1")}}</span>
+    </div>
     <div class="content" :class="{content_end:tabIndex == 1}">
       <!-- 几阶对应数量 -->
       <div class="left_content" v-if="tabIndex == 0">
@@ -44,7 +47,7 @@
       <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
       </div>
-      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <!-- <div class="input_border">
@@ -66,21 +69,21 @@
           <div class="line_outbox">
             <span class="span1 fontsize18">{{$t("message.market.txt30")}}:</span>
             <div class="inputbox">
-              <input class="input_" type="text" oninput="value=value.replace(/[^\d]/g, '')" @input="inputchangeFun" v-model="dangerTxtModel" placeholder="请输入挂单金额">
+              <input class="input_" type="text" oninput="value=value.replace(/[^\d]/g, '')" @input="inputchangeFun" v-model="dangerTxtModel" :placeholder='$t("message.market.txt22")'>
               <span class="input_txt fontsize18">BUSD</span>
             </div>
           </div>
           <div class="line_outbox">
             <div class="hoverboxs">
-              <span class="span1 fontsize18">{{fee}}%{{$t("message.market.txt31")}}:</span>
-              <div class="img_boxs">
+              <span class="span1 fontsize18">{{fee}}% {{$t("message.market.txt31")}}:</span>
+              <!-- <div class="img_boxs">
                 <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick" />
                 <div class="img_box_hover" :class="{show_box_hover:ishover}">
                   <div class="content_box fontsize12_400">
                     {{$t("message.market.txt33")}}
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{HandlingFee}}</span>
@@ -88,7 +91,7 @@
             </div>
           </div>
           <div class="line_outbox">
-            <span class="span1 fontsize18">实际收益:</span>
+            <span class="span1 fontsize18">{{$t("message.market.txt35")}}:</span>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{actualMoney}}</span>
               <span class="fee_span2 fontsize18">BUSD</span>
@@ -102,7 +105,7 @@
         <img :src="`${$store.state.imgUrl}proupclose.png`" class="danger_close" @click.stop="isdanger = false"/>
       </div>
     </div>
-    <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div>
+    <!-- <div class="positon_img_fixedbox" v-if="ishover" @click="ishover = false"></div> -->
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -300,7 +303,7 @@ export default {
     // 新增弹窗确认挂单
     orderClick(){
       if(!this.dangerTxtModel){
-        this.$common.selectLang('请输入售卖价格','请输入售卖价格',this)
+        this.$common.selectLang('请输入售卖价格','Please enter price',this)
         return
       }
       this.synthesisDis = true
@@ -332,7 +335,7 @@ export default {
               this.synthesisDis = false
               this.getUserAllCard(this.rank) // 重新获取最新用户信息
               this.$common.selectLang('出售成功','Success',this)
-              this.dangerTxtModel = ''
+              this.isdanger = false
             })
           }else{
             this.synthesisDis = false
@@ -540,7 +543,10 @@ export default {
   }
   .add_title{
     width: 100%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // text-align: center;
     color: #ffffff;
     margin-top: 30px;
   }
@@ -775,7 +781,7 @@ export default {
           }
           .inputbox{
             position: relative;
-            width: 400px;
+            width: 411px;
             height: 37px;
             display: flex;
             padding: 1px;
@@ -790,6 +796,7 @@ export default {
               color: #ffffff;
               background:#011A31;
               border-radius: 18px;
+              text-align: center;
             }
             .input_txt{
               position: absolute;
@@ -799,14 +806,23 @@ export default {
             }
           }
           .Handling_fee{
-            width: 400px;
+            position: relative;
+            width: 411px;
             border-bottom: 1px solid;
             padding-right: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), #2bd9e5, rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
-            .fee_span1,.fee_span2{
+            .fee_span1{
+              width: 100%;
+              text-align: center;
+              color: #ffffff;
+            }
+            .fee_span2{
+              position: absolute;
+              right: 10px;
+              top: 5px;
               color: #ffffff;
             }
           }

@@ -112,7 +112,7 @@
       >
         Loading...
       </div>
-      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
       <div class="bottom_loading" v-if="pageshowarr.length > 1">
         <span class="fontsize16" v-if="!nodata && pulldown">上拉加载更多</span>
         <span class="fontsize16" v-else-if="!nodata && !pulldown">加载中...</span>
@@ -277,7 +277,7 @@ export default {
       let issell = await hnMarket().getSellerHnIdExistence(item.seller,item.hnId)
       console.log('判断当前卡是否正在出售issell: ', issell);
       if(!issell){
-        this.$common.selectLang('当前卡牌已售出', '当前卡牌已售出', this)
+        this.$common.selectLang('当前卡牌已售出', 'The NFT has been sold. Choose another.', this)
         return
       } // 判断当前卡是否正在出售
       if (Number(this.user_busd_balance) >= Number(item.price)) {
@@ -306,7 +306,7 @@ export default {
                 this.pageshowarr = data.arr
                 this.nodata = false
                 this.pulldown = true
-                this.$common.selectLang('购买成功', '购买成功,数据延迟,耐心等待', this)
+                this.$common.selectLang('购买成功', 'Purchase successfully. Check the NFTs on NFT Card later', this)
                 this.getSDKInfo()
                 this.connectInfo()
                 item.isstatus = false
@@ -916,7 +916,7 @@ export default {
             }
             .left_content_hover {
               position: absolute;
-              top: -0.03rem;
+              top: 0;
               left: 0;
               z-index: 9;
               width: 1.62rem;
@@ -928,7 +928,7 @@ export default {
               filter: blur(0px);
               border-radius: 0.04rem;
               padding: 0.1rem;
-              margin-top: 0.2rem;
+              margin-top: 0.28rem;
               line-height: 0.3rem;
               .span1 {
                 color: #e2dada;
