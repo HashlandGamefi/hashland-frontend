@@ -3,12 +3,18 @@
     <div class="defaultClass">
       <img :src="`${$store.state.imgUrl}defaultGraph.png`" />
       <span class="txt fontsize16">{{ $t("message.nothing") }}</span>
-      <div class="connect_box fontsize18" @click.stop="nothingfun">{{$t("message.button2")}}</div>
+      <div class="connect_box fontsize18" @click.stop="nothingfun" v-if="isshow">{{$t("message.button2")}}</div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props:{
+    isshow:{
+      type: Boolean,
+      default: true
+    }
+  },
   methods:{
     nothingfun () {
       this.$router.push('/buy/0/1')

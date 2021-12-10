@@ -47,7 +47,7 @@
       <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
       </div>
-      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <!-- <div class="input_border">

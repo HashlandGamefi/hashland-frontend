@@ -36,7 +36,7 @@
       <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
       </div>
-      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
