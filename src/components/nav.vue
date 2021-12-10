@@ -356,7 +356,7 @@ export default {
         .nft_hover {
           display: none;
           position: absolute;
-          top: 0;
+          top: 24px;
           left: -29px;
           z-index: 99999999;
           .box_nft {
@@ -368,7 +368,7 @@ export default {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             padding: 20px 10px;
-            margin-top: 30px;
+            margin-top: 25px;
             box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
             .span1 {
               width: 100%;
