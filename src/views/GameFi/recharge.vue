@@ -183,7 +183,7 @@ export default {
     closeCurrentPage() {
       this.$parent.showRecharge = false;
     },
-    /**公用提示框（关闭方法） closePopupPrompts */
+    /**公用提示框（关闭方法）*/
     CloseFun() {
       this.proupDis = false;
     },

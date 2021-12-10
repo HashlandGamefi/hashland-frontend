@@ -10,8 +10,9 @@
         </li>
         <template v-if="walletAddresses.length > 0">
           <li v-for="(item, index) in walletAddresses" :key="item">
-            <span>{{ $t("message.gameFi.text29") }} {{ index + 1 }}: </span>
-            <span>{{ item }}</span>
+            <span v-if="index == 0">{{ $t("message.gameFi.text41") }}: </span>
+            <span v-else>{{ $t("message.gameFi.text29") }} {{ index + 1 }}: </span>
+            <span>{{ item | ellipsis }}</span>
           </li>
         </template>
       </ul>
@@ -19,7 +20,12 @@
         <span>{{ $t("message.gameFi.text30") }}</span>
         <BtnLoading :isloading="bindingloading"></BtnLoading>
       </div>
-      <div v-else class="prompt fontsize12">{{ $t("message.gameFi.text31") }}</div>
+      <div class="prompt_list fontsize12">
+        <p>{{ $t("message.gameFi.text31") }}:</p>
+        <p>{{ $t("message.gameFi.text42") }}</p>
+        <p>{{ $t("message.gameFi.text43") }}</p>
+        <p>{{ $t("message.gameFi.text44") }}</p>
+      </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
@@ -120,9 +126,16 @@ export default {
       // this.$router.push("/gameFi");
       history.back();
     },
-    /**公用提示框（关闭方法） closePopupPrompts */
+    /**公用提示框（关闭方法）*/
     CloseFun() {
       this.proupDis = false;
+    },
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      const index = value.length;
+      return value.slice(0, 6) + "..." + value.slice(index - 4, index);
     },
   },
 };
@@ -130,7 +143,10 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  padding: 130px 10vw 0 10vw;
+  padding-top: 130px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   color: #fff;
   font-size: 0;
   .return_img {
@@ -138,21 +154,12 @@ export default {
     width: 100px;
     height: auto;
   }
-  .main {
-    width: 100%;
-    max-width: 700px;
-  }
-  > div,
-  ul {
-    margin: 0 auto;
-  }
   .main_tiile {
     text-align: center;
     margin: 20px 0;
   }
-  .prompt {
+  .prompt_list {
     margin: 30px 0;
-    text-align: center;
   }
   ul {
     li {
@@ -174,10 +181,10 @@ export default {
       span {
         text-align: center;
         &:nth-child(1) {
-          width: 20%;
+          width: 35%;
         }
         &:nth-child(2) {
-          width: 80%;
+          width: 65%;
         }
       }
     }
@@ -205,9 +212,8 @@ export default {
       text-align: center;
       margin: 2vw 0;
     }
-    .prompt {
+    .prompt_list {
       margin: 3vw 0;
-      text-align: center;
     }
     ul {
       font-size: 12px;
