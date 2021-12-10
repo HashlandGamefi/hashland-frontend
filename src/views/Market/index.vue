@@ -277,7 +277,7 @@ export default {
       let issell = await hnMarket().getSellerHnIdExistence(item.seller,item.hnId)
       console.log('判断当前卡是否正在出售issell: ', issell);
       if(!issell){
-        this.$common.selectLang('当前卡牌已售出', 'NFT has been sold.', this)
+        this.$common.selectLang('当前卡牌已售出', 'The NFT has been sold. Choose another.', this)
         return
       } // 判断当前卡是否正在出售
       if (Number(this.user_busd_balance) >= Number(item.price)) {
