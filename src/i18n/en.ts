@@ -58,7 +58,7 @@ export const message = {
     txt3: "Blind-Box Card",
     txt4: "Priority Card",
     txt5: "Draw of Luck",
-    txt6: "Basic Cards are the basic units of HashLand Metauniverse.",
+    txt6: "Basic Cards are the basic units of HashLand Metaverse.",
     txt6_1: "Contains cards of any level and any character.",
     txt6_2: "One of the Limited Cards in Hashland, contains enormous hashrate.",
     txt7: "No",

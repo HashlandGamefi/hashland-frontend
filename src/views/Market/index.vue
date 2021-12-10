@@ -916,7 +916,7 @@ export default {
             }
             .left_content_hover {
               position: absolute;
-              top: -0.03rem;
+              top: 0;
               left: 0;
               z-index: 9;
               width: 1.62rem;
@@ -928,7 +928,7 @@ export default {
               filter: blur(0px);
               border-radius: 0.04rem;
               padding: 0.1rem;
-              margin-top: 0.2rem;
+              margin-top: 0.28rem;
               line-height: 0.3rem;
               .span1 {
                 color: #e2dada;
