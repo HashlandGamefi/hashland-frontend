@@ -110,7 +110,7 @@
 <script>
 // const mailReg = /^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$/; // 后台邮箱校验
 const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱输入校验
-const pwReg = /^[a-zA-Z0-9]{6,16}$/; //校验密码： 6-16位字符,可包含数字，字母(区分大小写)
+const pwReg = /^[a-zA-Z0-9]{6,16}$/; // 6-16位数字英文组合
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -188,13 +188,13 @@ export default {
                       this.registerForm.prompt3 = this.registerForm.prompt4 = "Password verification failed"; // 密码校验不通过
                     }
                   } else {
-                    this.registerForm.prompt4 = "Invalid password"; // 密码不合法
+                    this.registerForm.prompt4 = "6-16 letters and numbers"; // 6-16位数字英文组合
                   }
                 } else {
                   this.registerForm.prompt4 = "Repeat password"; // 再次填写密码
                 }
               } else {
-                this.registerForm.prompt3 = "Invalid password"; // 密码不合法
+                this.registerForm.prompt3 = "6-16 letters and numbers"; // 6-16位数字英文组合
               }
             } else {
               this.registerForm.prompt3 = "Enter password"; // 填写密码
@@ -253,7 +253,7 @@ export default {
                   this.loginbtnloading = false;
                 });
             } else {
-              this.loginForm.prompt2 = "Invalid password"; // 密码不合法
+              this.loginForm.prompt2 = "6-16 letters and numbers"; // 6-16位数字英文组合
             }
           } else {
             this.loginForm.prompt2 = "Enter password"; // 填写密码
@@ -321,7 +321,7 @@ export default {
       this.$parent.showLoginRegistered = false;
       this.$parent.mailAccount = mailAccount;
     },
-    /**公用提示框（关闭方法） closePopupPrompts */
+    /**公用提示框（关闭方法）*/
     CloseFun() {
       this.proupDis = false;
     },
