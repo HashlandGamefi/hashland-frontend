@@ -460,9 +460,17 @@ export default {
       })
       // 获取总成交额，除1e18
       hnMarket().totalSellAmount().then(res => {
+        let amount = this.$common.convertBigNumberToNormal(res.toString(), 2)
+        console.log('amount: ', amount);
+        hnMarket().totalFeeAmount().then(data => {
+          console.log('手续费金额data: ', data);
+          let fee = this.$common.convertBigNumberToNormal(data.toString(), 2)
+          console.log('fee: ', fee);
+          this.infoArr[1].num = Number(amount) + Number(fee)
+          this.infoArr[1].loading = false
+        })
         // console.log('获取总成交额，除1e18: ', res)
-        this.infoArr[1].num = this.$common.convertBigNumberToNormal(res.toString(), 2)
-        this.infoArr[1].loading = false
+
       }).catch(err => {
         console.log('获取总成交额，除1e18err: ', err);
       })
