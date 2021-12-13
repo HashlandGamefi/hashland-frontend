@@ -229,7 +229,21 @@ export default {
       if(index == 0){
         this.pageshowarr = this.waletArr//钱包数据
       }else{
-        this.pageshowarr = this.cardslotArr
+        this.pageshowLoading = true
+        this.pageshowarr = []
+        // this.pageshowarr = this.cardslotArr
+        this.getUserPledgeInfo().then(res => {
+          console.log('重新获取用户卡槽中的卡res: ', res);
+          if(res.istrue){
+            this.pageshowarr = this.cardslotArr
+            this.pageshowLoading = false
+          }else{
+            this.isdanger = false
+            this.pageshowLoading = false
+          }
+        }).catch(() => {
+          this.pageshowLoading = false
+        })
       }
     },
     sonapprove(){
@@ -403,6 +417,9 @@ export default {
     //选择当前卡牌
     cardClick(data,index){
       console.log('选择当前卡牌: ', data,index);
+      if(this.tabIndex == 1){
+        if(data.issell)return
+      }
       if(this.selectedNUM >= 10){
         if(data.status){
           data.status = false
