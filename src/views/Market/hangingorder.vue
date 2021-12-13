@@ -170,6 +170,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
+          this.tabIndex = 0
           this.getConnectInfo()
           this.getUserAllCard(1)
           this.getUserPledgeInfo()
@@ -239,9 +240,11 @@ export default {
             this.pageshowLoading = false
           }else{
             this.isdanger = false
+            this.pageshowarr = []
             this.pageshowLoading = false
           }
         }).catch(() => {
+          this.pageshowarr = []
           this.pageshowLoading = false
         })
       }
