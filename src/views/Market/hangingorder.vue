@@ -363,12 +363,15 @@ export default {
                   this.isdanger = false
                   this.synthesisDis = false
                   this.pageshowarr = this.cardslotArr = res.arr
+                  this.selectimgArr = []
                 }else{
                   this.isdanger = false
                   this.synthesisDis = false
+                  this.selectimgArr = []
                 }
               }).catch(() => {
                 this.synthesisDis = false
+                this.selectimgArr = []
               })
             }
           }else{
