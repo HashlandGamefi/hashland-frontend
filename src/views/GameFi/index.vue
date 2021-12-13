@@ -64,7 +64,7 @@
           </ul>
         </div>
       </div>
-      <div class="ranking_box">
+      <!-- <div class="ranking_box">
         <div class="fontsize26">个人当前赛季奖励/排行</div>
         <div class="ranking_content">
           <div class="col">
@@ -73,7 +73,6 @@
               <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
             </div>
             <div class="">
-
             </div>
           </div>
           <div class="col">
@@ -89,7 +88,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>
