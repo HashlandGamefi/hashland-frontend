@@ -2,7 +2,7 @@
   <div class="game_page">
     <div class="game_main">
       <div class="game_banner">
-        <div class="info_tool" v-if="loginRegisteredStatus">
+        <div class="info_tool" v-if="loginRegisterStatus">
           <div class="information_box">
             <img class="personal_center" :src="`${$store.state.imgUrl}personalCenter.png`" />
             <div class="mailAccount fontsize18">
@@ -22,8 +22,9 @@
           </div>
         </div>
         <div class="btn_group fontsize18">
-          <div @click="openLoginOrRegistered" v-if="!loginRegisteredStatus">
-            {{ $t("message.gameFi.text13") + " / " + $t("message.gameFi.text22") }}
+          <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
+            {{ $t("message.gameFi.text13") }} 
+            <!-- / {{ $t("message.gameFi.text22") }} -->
           </div>
           <!-- <div @click="openRecharge">Recharge</div> -->
           <!-- <div @click="downloadGame">Play</div> -->
@@ -65,7 +66,7 @@
       </div>
     </div>
     <transition name="fade">
-      <LoginRegistered v-if="showLoginRegistered"></LoginRegistered>
+      <LoginRegister v-if="showLoginRegister"></LoginRegister>
       <Recharge v-if="showRecharge"></Recharge>
     </transition>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
@@ -74,18 +75,18 @@
 
 <script>
 import { mapGetters } from "vuex";
-import LoginRegistered from "./loginRegistered.vue";
+import LoginRegister from "./loginRegister.vue";
 import Recharge from "./recharge.vue";
 export default {
-  components: { LoginRegistered, Recharge },
+  components: { LoginRegister, Recharge },
   data() {
     return {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      showLoginRegistered: false,
+      showLoginRegister: false,
       showRecharge: false,
-      loginRegisteredStatus: false,
+      loginRegisterStatus: false,
       mailAccount: "",
     };
   },
@@ -95,21 +96,21 @@ export default {
   created() {
     if (localStorage.getItem("hashlandGameFiInfo")) {
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
-      this.loginRegisteredStatus = true; // 已登录
+      this.loginRegisterStatus = true; // 已登录
       this.mailAccount = gameFiInfo.mailAccount;
     } else {
-      this.loginRegisteredStatus = false;
+      this.loginRegisterStatus = false;
     }
   },
   methods: {
     /**打开登录与注册 */
     openLoginOrRegistered() {
-      this.showLoginRegistered = true;
+      this.showLoginRegister = true;
     },
     /**关闭登录与注册 */
-    closeLoginRegistered() {
-      this.showLoginRegistered = false;
-    },
+    // closeLoginRegister() {
+    //   this.showLoginRegister = false;
+    // },
     /**个人中心 */
     toPersonalCenter() {
       this.$router.push("/personalCenter");
@@ -117,21 +118,36 @@ export default {
     /**退出登录 */
     toLogOut() {
       localStorage.removeItem("hashlandGameFiInfo");
-      this.loginRegisteredStatus = false; // 未登录
+      this.loginRegisterStatus = false; // 未登录
     },
     /**打开充值 */
     openRecharge() {
+
       if (!localStorage.getItem("hashlandGameFiInfo"))
-        return this.$common.selectLang("请先登录！", "Please log in first!", this);
+        return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       if (!this.getAccount) return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
-      // if()
-      // 判断链接钱包
-      // 请切换至本账号绑定的钱包，否则充值无法到账
+
+      const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
+      const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === this.getAccount); //不存在：-1
+      // console.log("当前钱包：", this.getAccount);
+      // console.log("本账号绑定的钱包", gameFiInfo.walletAddresses);
+      // console.log("-1为没有", hasThisAccount);
+
+      if (hasThisAccount == -1)
+        return this.$common.selectLang(
+          "请切换至本游戏账号绑定的钱包，否则充值无法到账！",
+          "Please switch wallet address to other under this account!",
+          this
+        );
       this.showRecharge = true;
     },
     /**游戏下载 */
     downloadGame() {
-      // 游戏下载
+      // window.open("//cdn.hashland.com/singlehtml/gameFi-register-treaty.html", "_blank");
+      // const href = this.$router.resolve({
+      //   path: "gameFI-download",
+      // });
+      // window.open(href, "_blank");
     },
     /**公用提示框（关闭方法）  */
     CloseFun() {

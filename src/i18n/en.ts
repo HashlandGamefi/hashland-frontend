@@ -292,6 +292,7 @@ export const message = {
     text42:"1. $HC rewards in the game will be airdropped to the main wallet at the end of the season.",
     text43:"2. The account can connect only three wallet addresses, and the system will  read all NFTs in slots automatically.",
     text44:"3. Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.",
+    text45:"Pre-registration has been closed, and will reopen when the game is officially launched"
   }
 
 };

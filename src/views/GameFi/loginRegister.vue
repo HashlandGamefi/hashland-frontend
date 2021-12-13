@@ -1,7 +1,7 @@
 <template>
   <div class="login_registered">
     <div class="outside_box">
-      <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeLoginRegistered" />
+      <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeLoginRegister" />
       <ul class="in_box" v-if="showLogin">
         <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text13") }}</li>
         <li class="logo_img"></li>
@@ -31,11 +31,14 @@
           <span>{{ $t("message.gameFi.text13") }}</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
-        <li class="login_footer ban_select">
+        <!-- <li class="login_footer">
           <span class="fontsize16" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
             <span> {{ $t("message.gameFi.text7") }}</span>
           </span>
+        </li> -->
+        <li>
+          <span class="fontsize16">{{ $t("message.gameFi.text45") }} </span>
         </li>
       </ul>
       <ul class="in_box" v-if="!showLogin">
@@ -156,63 +159,40 @@ export default {
     /**注册账号 */
     toRegistered() {
       if (this.registerbtnloading) return;
-      if (this.registerForm.mailAccount) {
-        if (mailReg.test(this.registerForm.mailAccount)) {
-          this.registerForm.prompt1 = "";
-          if (this.registerForm.verifyCode) {
-            this.registerForm.prompt2 = "";
-            if (this.registerForm.password) {
-              if (pwReg.test(this.registerForm.password)) {
-                this.registerForm.prompt3 = "";
-                if (this.registerForm.password2) {
-                  if (pwReg.test(this.registerForm.password2)) {
-                    if (this.registerForm.password2 == this.registerForm.password) {
-                      this.registerForm.prompt3 = "";
-                      this.registerForm.prompt4 = "";
-                      if (this.isRead) {
-                        this.registerbtnloading = true;
-                        const url = `mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
-                        this.$api
-                          .gameMailRegister(url)
-                          .then((res) => {
-                            // console.log("注册账号：", res.data);
-                            this.registerbtnloading = false;
-                            if (res.data.result === "SUCCESS") {
-                              this.firstAutoLogin(res.data.mailAccount, res.data.token);
-                            } else if (res.data.result === "FAIL") {
-                              this.$common.selectLang(res.data.msg, res.data.msg, this);
-                            }
-                          })
-                          .catch((err) => {
-                            this.registerbtnloading = false;
-                          });
-                      } else {
-                        this.$common.selectLang("请先确认条款！", "Please confirm terms first", this);
-                      }
-                    } else {
-                      this.registerForm.prompt3 = this.registerForm.prompt4 = "Password verification failed"; // 密码校验不通过
-                    }
-                  } else {
-                    this.registerForm.prompt4 = "6-16 letters and numbers"; // 6-16位数字英文组合
-                  }
-                } else {
-                  this.registerForm.prompt4 = "Repeat password"; // 再次填写密码
-                }
-              } else {
-                this.registerForm.prompt3 = "6-16 letters and numbers"; // 6-16位数字英文组合
-              }
-            } else {
-              this.registerForm.prompt3 = "Enter password"; // 填写密码
-            }
-          } else {
-            this.registerForm.prompt2 = "Enter verification code"; // 填写验证码
+      if (!this.registerForm.mailAccount) return (this.registerForm.prompt1 = "Enter email"); // 填写邮箱
+      if (!mailReg.test(this.registerForm.mailAccount)) return (this.registerForm.prompt1 = "Invalid email"); // 邮箱不合法
+      this.registerForm.prompt1 = "";
+      if (!this.registerForm.verifyCode) return (this.registerForm.prompt2 = "Enter verification code"); // 填写验证码
+      this.registerForm.prompt2 = "";
+      if (!this.registerForm.password) return (this.registerForm.prompt3 = "Enter password"); // 填写密码
+      if (!pwReg.test(this.registerForm.password)) return (this.registerForm.prompt3 = "6-16 letters and numbers"); // 6-16位数字英文组合
+      this.registerForm.prompt3 = "";
+      if (!this.registerForm.password2) return (this.registerForm.prompt4 = "Repeat password"); // 再次填写密码
+      if (!pwReg.test(this.registerForm.password2)) return (this.registerForm.prompt4 = "6-16 letters and numbers"); // 6-16位数字英文组合
+      if (this.registerForm.password2 !== this.registerForm.password)
+        return (this.registerForm.prompt3 = this.registerForm.prompt4 = "Password verification failed"); // 密码校验不通过
+      this.registerForm.prompt3 = "";
+      this.registerForm.prompt4 = "";
+      if (!this.isRead) return this.$common.selectLang("请先确认条款！", "Please confirm terms first", this);
+
+      this.registerbtnloading = true;
+      const url = `mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
+      this.$api
+        .gameMailRegister(url)
+        .then((res) => {
+          // console.log("注册账号：", res.data);
+          this.registerbtnloading = false;
+          this.showCountdown = false; // console.log("倒计时结束");
+          localStorage.removeItem("hashlandGameFiGetCodeEndTime");
+          if (res.data.result === "SUCCESS") {
+            this.firstAutoLogin(res.data.mailAccount, res.data.token);
+          } else if (res.data.result === "FAIL") {
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
           }
-        } else {
-          this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
-        }
-      } else {
-        this.registerForm.prompt1 = "Enter email"; // 填写邮箱
-      }
+        })
+        .catch((err) => {
+          this.registerbtnloading = false;
+        });
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
     firstAutoLogin(mailAccount, token) {
@@ -223,7 +203,7 @@ export default {
           // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
           if (res.data.result === "SUCCESS") {
             localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
-            this.loginRegisteredSucc(res.data.mailAccount);
+            this.loginRegisterSucc(res.data.mailAccount);
             this.$router.push("/personalCenter");
           } else if (res.data.result === "FAIL") {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
@@ -234,42 +214,30 @@ export default {
     /**手动登录，使用账号和密码 */
     manuallyLogin() {
       if (this.loginbtnloading) return;
-      if (this.loginForm.mailAccount) {
-        if (mailReg.test(this.loginForm.mailAccount)) {
-          this.loginForm.prompt1 = "";
-          if (this.loginForm.password) {
-            if (pwReg.test(this.loginForm.password)) {
-              this.loginForm.prompt2 = "";
-              this.loginbtnloading = true;
-              const url = `mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
-              this.$api
-                .gameMailLogin(url)
-                .then((res) => {
-                  // console.log("手动登录，使用账号和密码：", res.data);
-                  this.loginbtnloading = false;
-                  if (res.data.result === "SUCCESS") {
-                    localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
-                    this.loginRegisteredSucc(res.data.mailAccount);
-                    // this.$router.push("/personalCenter");
-                  } else if (res.data.result === "FAIL") {
-                    this.$common.selectLang(res.data.msg, res.data.msg, this);
-                  }
-                })
-                .catch((err) => {
-                  this.loginbtnloading = false;
-                });
-            } else {
-              this.loginForm.prompt2 = "6-16 letters and numbers"; // 6-16位数字英文组合
-            }
-          } else {
-            this.loginForm.prompt2 = "Enter password"; // 填写密码
+      if (!this.loginForm.mailAccount) return (this.loginForm.prompt1 = "Enter email"); // 填写邮箱
+      if (!mailReg.test(this.loginForm.mailAccount)) return (this.loginForm.prompt1 = "Invalid email"); // 邮箱不合法
+      this.loginForm.prompt1 = "";
+      if (!this.loginForm.password) return (this.loginForm.prompt2 = "Enter password"); // 填写密码
+      if (!pwReg.test(this.loginForm.password)) return (this.loginForm.prompt2 = "6-16 letters and numbers"); // 6-16位数字英文组合
+      this.loginForm.prompt2 = "";
+      this.loginbtnloading = true;
+      const url = `mailAccount=${this.loginForm.mailAccount}&password=${this.loginForm.password}`;
+      this.$api
+        .gameMailLogin(url)
+        .then((res) => {
+          // console.log("手动登录，使用账号和密码：", res.data);
+          this.loginbtnloading = false;
+          if (res.data.result === "SUCCESS") {
+            localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
+            this.loginRegisterSucc(res.data.mailAccount);
+            // this.$router.push("/personalCenter");
+          } else if (res.data.result === "FAIL") {
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
           }
-        } else {
-          this.loginForm.prompt1 = "Invalid email"; // 邮箱不合法
-        }
-      } else {
-        this.loginForm.prompt1 = "Enter email"; // 填写邮箱
-      }
+        })
+        .catch((err) => {
+          this.loginbtnloading = false;
+        });
     },
     /**没有账号？立即注册 */
     registerNow() {
@@ -282,41 +250,35 @@ export default {
     /**获取验证码 */
     getCode() {
       if (this.codebtnloading || this.showCountdown) return;
-      if (this.registerForm.mailAccount) {
-        if (mailReg.test(this.registerForm.mailAccount)) {
-          this.registerForm.prompt1 = "";
-          if (localStorage.getItem("hashlandGameFiGetCodeEndTime")) {
-            this.showCountdown = true;
-            const end = JSON.parse(localStorage.getItem("hashlandGameFiGetCodeEndTime"));
-            this.countdown(end);
-          } else {
-            this.codebtnloading = true;
-            const url = `mailAccount=${this.registerForm.mailAccount}`;
-            this.$api
-              .gameMailCode(url)
-              .then((res) => {
-                // console.log("获取验证码：", res.data);
-                this.codebtnloading = false;
-                if (res.data.result === "SUCCESS") {
-                  // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
-                  this.showCountdown = true;
-                  const end = Date.parse(new Date()) + 10 * 60 * 1000;
-                  localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
-                  this.countdown(end);
-                } else if (res.data.result === "FAIL") {
-                  // res.data.msg; // "10分钟内只能发送一次确认码"
-                }
-                this.$common.selectLang(res.data.msg, res.data.msg, this);
-              })
-              .catch((err) => {
-                this.codebtnloading = false;
-              });
-          }
-        } else {
-          this.registerForm.prompt1 = "Invalid email"; // 邮箱不合法
-        }
+      if (!this.registerForm.mailAccount) return (this.registerForm.prompt1 = "Enter email"); // 填写邮箱
+      if (!mailReg.test(this.registerForm.mailAccount)) return (this.registerForm.prompt1 = "Invalid email"); // 邮箱不合法
+      this.registerForm.prompt1 = "";
+      if (localStorage.getItem("hashlandGameFiGetCodeEndTime")) {
+        this.showCountdown = true;
+        const end = JSON.parse(localStorage.getItem("hashlandGameFiGetCodeEndTime"));
+        this.countdown(end);
       } else {
-        this.registerForm.prompt1 = "Enter email"; // 填写邮箱
+        this.codebtnloading = true;
+        const url = `mailAccount=${this.registerForm.mailAccount}`;
+        this.$api
+          .gameMailCode(url)
+          .then((res) => {
+            // console.log("获取验证码：", res.data);
+            this.codebtnloading = false;
+            if (res.data.result === "SUCCESS") {
+              // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
+              this.showCountdown = true;
+              const end = Date.parse(new Date()) + 10 * 60 * 1000;
+              localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
+              this.countdown(end);
+            } else if (res.data.result === "FAIL") {
+              // res.data.msg; // "10分钟内只能发送一次确认码"
+            }
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
+          })
+          .catch((err) => {
+            this.codebtnloading = false;
+          });
       }
     },
 
@@ -333,14 +295,14 @@ export default {
       this.isShowPassword = !this.isShowPassword;
     },
     /**登录成功*/
-    loginRegisteredSucc(mailAccount) {
-      this.$parent.loginRegisteredStatus = true;
+    loginRegisterSucc(mailAccount) {
+      this.$parent.loginRegisterStatus = true;
       this.$parent.mailAccount = mailAccount;
-      this.closeLoginRegistered();
+      this.closeLoginRegister();
     },
     /**关闭本弹窗 */
-    closeLoginRegistered() {
-      this.$parent.showLoginRegistered = false;
+    closeLoginRegister() {
+      this.$parent.showLoginRegister = false;
       this.showCountdown = false;
     },
     //倒计时
@@ -443,7 +405,6 @@ input:-moz-placeholder {
     background-size: contain;
     background-repeat: no-repeat;
     margin: 0 auto;
-    margin-bottom: 10px;
   }
   .prompt {
     margin: 0 auto;
@@ -589,12 +550,12 @@ input:-moz-placeholder {
     .in_box {
       padding: 0.1rem 0.3rem;
       .prompt {
-        margin-bottom: 0.18rem;
+        margin-bottom: 0.1rem;
       }
       .input_box {
         padding-bottom: 0.2rem;
         .input_title {
-          margin-bottom: 0.1rem;
+          margin-bottom: 0.05rem;
         }
       }
       .logo_img {
@@ -619,23 +580,24 @@ input:-moz-placeholder {
         width: 1.7rem;
         height: 0.4rem;
         line-height: 0.4rem;
+        margin: 0.1rem auto;
       }
-    }
-  }
-}
-.checkoutside_box {
-  margin: 0.2rem auto;
-  > div {
-    cursor: pointer;
-    &:nth-child(1) {
-      min-width: 0.25rem;
-      min-height: 0.25rem;
-      width: 0.25rem;
-      height: 0.25rem;
-      padding: 0.05rem;
-    }
-    &:nth-child(2) {
-      margin-left: 0.05rem;
+      .checkoutside_box {
+        margin: 0.1rem auto;
+        > div {
+          cursor: pointer;
+          &:nth-child(1) {
+            min-width: 0.25rem;
+            min-height: 0.25rem;
+            width: 0.25rem;
+            height: 0.25rem;
+            padding: 0.05rem;
+          }
+          &:nth-child(2) {
+            margin-left: 0.05rem;
+          }
+        }
+      }
     }
   }
 }
