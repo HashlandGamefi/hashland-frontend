@@ -181,7 +181,7 @@ export default {
       nodata:false,// 没有数据展示字段
       isPull:false,// 是否可以再次上拉字段
       sortObj:{
-        first: 15,  //查询结果数量，比如填10，就展示前10个结果
+        first: 40,  //查询结果数量，比如填10，就展示前10个结果
         skip: 0,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
         orderBy: 'sellTime',  // 排序字段，填字段名，所有字段见下文查询结果
         orderDirection: 'desc',  // 降序or升序，填desc或asc
@@ -774,9 +774,9 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
-    max-height: 425px;
+    // max-height: 425px;
     // max-height: 370px;
-    // max-height: 720px;
+    max-height: 850px;
     .onebox {
       width: 228px;
       display: flex;
