@@ -197,7 +197,7 @@ export default {
   watch: {
     getIstrue: {
       handler (newValue, oldValue) {
-        console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
+        // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
         // 链接成功
         if (newValue) {
           this.getUserAllCard()
@@ -305,7 +305,7 @@ export default {
     /**初始化swiper */
     initSwiper (index) {
       setTimeout(() => {
-        console.log("移动", index)
+        // console.log("移动", index)
         if (index == 1) {
           this.swiper1.slideTo(0, 100, false);
         } else if (index == 2) {

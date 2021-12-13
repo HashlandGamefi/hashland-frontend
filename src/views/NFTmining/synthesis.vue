@@ -35,21 +35,6 @@
     <div class="cardarr_class cardarr_class_selected" v-if="selectedArr.length > 0">
       <div class="onebox selected_onebox" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
-        <!-- <div class="bottom selected_bottom" :class="{scalebottom:index % 4 !== 0}">
-          <div class="five_pointed_star">
-            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
-          </div>
-          <div class="hc_btc_box">
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.hc}}</span>
-            </div>
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.btc}}</span>
-            </div>
-          </div>
-        </div> -->
         <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
         <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" v-if="index % 4 == 0" />
       </div>
@@ -58,21 +43,6 @@
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <!-- <div class="bottom">
-          <div class="five_pointed_star">
-            <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in rank" :key="item1" class="start_img" />
-          </div>
-          <div class="hc_btc_box">
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.hc}}</span>
-            </div>
-            <div class="hc_coefficient">
-              <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-              <span class="span1 fontsize12_400">{{item.btc}}</span>
-            </div>
-          </div>
-        </div> -->
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
       </div>
       <NoData v-if="pageshowarr.length == 0 && selectedArr.length == 0 && isshowArr"></NoData>
@@ -547,50 +517,14 @@ export default {
       align-items: center;
       margin-bottom: 20px;
       margin-right: 46px;
+      cursor: pointer;
       .card_picture{
         width: 100%;
         object-fit: contain;
       }
-      .scaleimg{
-        transform: scale(1.3);
-      }
-      .bottom{
-        position: absolute;
-        top: 0;
-        display: flex;
-        align-items: center;
-        padding:10px 8px;
-        transform: scale(0.5);
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_btc_box{
-          display: flex;
-          align-items: center;
-          .hc_coefficient{
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            margin-right: 5px;
-            background: rgba(5, 24, 44, 0.88);
-            box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-            border-radius: 11px;
-            opacity: 0.56;
-            .imgcard{
-              width: 43px;
-              object-fit: contain;
-            }
-            .span1{
-              color: #FFFFFF;
-            }
-          }
-        }
-      }
+      // .scaleimg{
+      //   transform: scale(1.3);
+      // }
       .select_img{
         position: absolute;
         top: 0;
@@ -600,16 +534,16 @@ export default {
       }
       .selected_img{
         position: absolute;
-        top: -42px;
-        right: -45px;
-        width: 43px;
+        top: 8px;
+        right: 10px;
+        width: 30px;
+        -o-object-fit: contain;
         object-fit: contain;
-        transform: scale(1.2);
       }
       .master_img{
         position: absolute;
-        bottom: -35px;
-        right: -14px;
+        bottom: 0;
+        right: 0;
         width: 78px;
         object-fit: contain;
       }
@@ -623,19 +557,19 @@ export default {
     }
   }
   .cardarr_class_selected{
-    margin-top: 80px;
+    // margin-top: 80px;
     .onebox{
-      margin-bottom: 100px;
-      .selected_bottom{
-        position: absolute;
-        top: -37px;
-        transform: scale(0.7);
-      }
-      .scalebottom{
-        position: absolute;
-        top: 8px;
-        transform: scale(0.5);
-      }
+      // margin-bottom: 50px;
+      // .selected_bottom{
+      //   position: absolute;
+      //   top: -37px;
+      //   transform: scale(0.7);
+      // }
+      // .scalebottom{
+      //   position: absolute;
+      //   top: 8px;
+      //   transform: scale(0.5);
+      // }
     }
   }
   .Suspension_btnbox{
@@ -822,46 +756,9 @@ export default {
           width: 100%;
           object-fit: contain;
         }
-        .scaleimg{
-          transform: scale(1);
-        }
-        .bottom{
-          position: absolute;
-          top: 0.22rem;
-          display: flex;
-          align-items: center;
-          padding:0.1rem 0.08rem;
-          transform:translate(0,-50%) scale(0.4);
-          .five_pointed_star{
-            display: flex;
-            align-items: center;
-            .start_img{
-              width: 0.18rem;
-              object-fit: contain;
-            }
-          }
-          .hc_btc_box{
-            display: flex;
-            align-items: center;
-            .hc_coefficient{
-              display: flex;
-              align-items: center;
-              border-radius: 4px;
-              margin-right: 5px;
-              background: rgba(5, 24, 44, 0.88);
-              box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-              border-radius: 11px;
-              opacity: 0.56;
-              .imgcard{
-                width: 0.21rem;
-                object-fit: contain;
-              }
-              .span1{
-                color: #FFFFFF;
-              }
-            }
-          }
-        }
+        // .scaleimg{
+        //   transform: scale(1);
+        // }
         .select_img{
           position: absolute;
           top: 0;
@@ -898,16 +795,16 @@ export default {
       margin-bottom: 0;
       .onebox{
         margin-bottom: 0.2rem;
-        .selected_bottom{
-          position: absolute;
-          top: 0;
-          transform: scale(0.5);
-        }
-        .scalebottom{
-          position: absolute;
-          top: 0;
-          transform: scale(0.5);
-        }
+        // .selected_bottom{
+        //   position: absolute;
+        //   top: 0;
+        //   transform: scale(0.5);
+        // }
+        // .scalebottom{
+        //   position: absolute;
+        //   top: 0;
+        //   transform: scale(0.5);
+        // }
       }
     }
     .Suspension_btnbox{
