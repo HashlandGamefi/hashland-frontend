@@ -218,7 +218,7 @@ export const message = {
     txt31:'fee',
     txt32:'Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.',
     txt33:'80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.',
-    txt34:'Withdraw',
+    txt34:'Cancle',
     txt35:'Income'
   },
   buy1: "Purchase History",

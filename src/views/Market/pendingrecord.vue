@@ -98,7 +98,7 @@ export default {
         console.log('卖家批量取消出售卡牌res: ', res);
         const etReceipt = await res.wait();
           if(etReceipt.status == 1){
-            this.$common.selectLang('撤单成功','Withdraw Successfully',this)
+            this.$common.selectLang('撤单成功','Cancle Successfully',this)
             this.connectInfo()
             item.isloading = false
           }else{

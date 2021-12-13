@@ -21,9 +21,11 @@
       <span class="fontsize18">{{$t("message.market.txt27")}}</span>
       <span class="fontsize18">{{$t("message.market.txt27_1")}}</span>
     </div>
-    <div class="content" :class="{content_end:tabIndex == 1}">
+    <!-- :class="{content_end:tabIndex == 1}" -->
+    <div class="content" v-if="tabIndex == 0">
       <!-- 几阶对应数量 -->
-      <div class="left_content" v-if="tabIndex == 0">
+      <!-- v-if="tabIndex == 0" -->
+      <div class="left_content">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -41,7 +43,8 @@
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
+        <span class="pending fontsize14" v-if="item.issell">Pending</span>
+        <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-else-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
       <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
@@ -324,19 +327,36 @@ export default {
           console.log('卖家批量出售HN卡牌res: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
-            this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-              console.log('重新获取用户卡牌信息res1: ', res1);
-              sessionStorage.removeItem('count')
-              if(res1 > 1){
-                sessionStorage.setItem("count",res1)
-              }else{
-                sessionStorage.setItem("count",1)
-              }
-              this.synthesisDis = false
-              this.getUserAllCard(this.rank) // 重新获取最新用户信息
-              this.$common.selectLang('出售成功','Success',this)
-              this.isdanger = false
-            })
+            if(this.tabIndex == 0){
+              this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+                console.log('重新获取用户卡牌信息res1: ', res1);
+                sessionStorage.removeItem('count')
+                if(res1 > 1){
+                  sessionStorage.setItem("count",res1)
+                }else{
+                  sessionStorage.setItem("count",1)
+                }
+                this.synthesisDis = false
+                this.getUserAllCard(this.rank) // 重新获取最新用户信息
+                this.$common.selectLang('出售成功','Success',this)
+                this.isdanger = false
+              })
+            }else{
+              this.getUserPledgeInfo().then(res => {
+                console.log('重新获取用户卡槽中的卡res: ', res);
+                if(res.istrue){
+                  this.$common.selectLang('出售成功','Success',this)
+                  this.isdanger = false
+                  this.synthesisDis = false
+                  this.pageshowarr = this.cardslotArr = res.arr
+                }else{
+                  this.isdanger = false
+                  this.synthesisDis = false
+                }
+              }).catch(() => {
+                this.synthesisDis = false
+              })
+            }
           }else{
             this.synthesisDis = false
           }
@@ -460,29 +480,35 @@ export default {
     },
     // 获取用户在质押中的卡牌信息
     getUserPledgeInfo(){
-      hnPool().getUserHnIdsBySize(this.getAccount,0,1000).then(res => {
-        console.log('获取用户在质押中的卡牌信息res: ', res);
-        if(res[0].length == 0){
-          this.cardslotArr = []
-          return
-        }
-        let count = 1
-        let arr = []
-        res[0].map(async (item) => {
-          let obj = {
-            src: "",
-            cardID: "",
-            level: "",
-          };
-          obj.cardID = item.toString(); // 卡牌的id
-          obj.level = (await hn().level(item.toString())).toString(); // 等级
-          let race = await hn().getHashrates(item) // 算力数组
-          obj.src = getHnImg(Number(item),Number(obj.level),race)
-          arr.push(obj)
-          if (count == res[0].length) {
-            this.cardslotArr = arr
+      return new Promise((resolve) => {
+        hnPool().getUserHnIdsBySize(this.getAccount,0,1000).then(res => {
+          console.log('获取用户在质押中的卡牌信息res: ', res);
+          if(res[0].length == 0){
+            this.cardslotArr = []
+            return
           }
-          count++;
+          let count = 1
+          let arr = []
+          res[0].map(async (item) => {
+            let obj = {
+              src: "",
+              cardID: "",
+              level: "",
+              issell:false, // 是否在售卖
+              status:false
+            };
+            obj.cardID = item.toString(); // 卡牌的id
+            obj.level = (await hn().level(item.toString())).toString(); // 等级
+            let race = await hn().getHashrates(item) // 算力数组
+            obj.src = getHnImg(Number(item),Number(obj.level),race)
+            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount,obj.cardID)
+            arr.push(obj)
+            if (count == res[0].length) {
+              this.cardslotArr = arr
+              resolve({'istrue':true,'arr':arr})
+            }
+            count++;
+          })
         })
       })
     },
@@ -659,6 +685,15 @@ export default {
         right: 0;
         width: 31px;
         object-fit: contain;
+      }
+      .pending{
+        position: absolute;
+        bottom: 10px;
+        right: 18px;
+        padding: 10px;
+        color: #ffffff;
+        border-radius: 20px;
+        background: rgba(0,0,0,0.5);
       }
     }
     .loadingbox{
@@ -1015,43 +1050,6 @@ export default {
           width: 100%;
           object-fit: contain;
         }
-        .bottom{
-          position: absolute;
-          top: 0.22rem;
-          display: flex;
-          align-items: center;
-          padding:0.1rem 0.08rem;
-          transform:translate(0,-50%) scale(0.4);
-          .five_pointed_star{
-            display: flex;
-            align-items: center;
-            .start_img{
-              width: 0.18rem;
-              object-fit: contain;
-            }
-          }
-          .hc_btc_box{
-            display: flex;
-            align-items: center;
-            .hc_coefficient{
-              display: flex;
-              align-items: center;
-              border-radius: 4px;
-              margin-right: 5px;
-              background: rgba(5, 24, 44, 0.88);
-              box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-              border-radius: 11px;
-              opacity: 0.56;
-              .imgcard{
-                width: 0.21rem;
-                object-fit: contain;
-              }
-              .span1{
-                color: #FFFFFF;
-              }
-            }
-          }
-        }
         .select_img{
           position: absolute;
           top: 0;
@@ -1059,27 +1057,14 @@ export default {
           width: 0.24rem;
           object-fit: contain;
         }
-        .selected_img{
+        .pending{
           position: absolute;
-          top: 0;
-          right: 0.09rem;
-          width: 0.24rem;
-          object-fit: contain;
-          transform: scale(1.2);
-        }
-        .master_img{
-          position: absolute;
-          bottom: -0.02rem;
+          bottom: 0.08rem;
           right: 0.1rem;
-          width: 0.55rem;
-          object-fit: contain;
-        }
-        .orther_img{
-          position: absolute;
-          bottom: 0;
-          right: 0.09rem;
-          width: 0.24rem;
-          object-fit: contain;
+          padding: 0.05rem;
+          color: #ffffff;
+          border-radius: 0.2rem;
+          background: rgba(0,0,0,0.5);
         }
       }
     }
