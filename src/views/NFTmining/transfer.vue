@@ -52,6 +52,7 @@
           <span class="txt1">{{$t('message.msg')}}</span>
           <span class="txt_danger">!</span>
           <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{$t("message.transfer.txt8")}}</span></div>
+          <div class="txtbox_danger"><span class="txt2 fontsize16_400">{{$t("message.market.txt32")}}</span></div>
           <div class="inputbox">
             <Input v-model="dangerTxtModel" :placeholder="$t('message.transfer.danger_placeholder')" :inputvalue="dangerTxtModel"></Input>
           </div>
@@ -510,7 +511,7 @@ export default {
       .danger_wallet_box {
         width: 100%;
         height: 100%;
-        padding: 38px 110px 85px;
+        padding: 38px 110px 50px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -854,7 +855,7 @@ export default {
         .danger_wallet_box {
           width: 100%;
           height: 100%;
-          padding: 0.29rem 0.38rem 0.42rem;
+          padding: 0.2rem;
           display: flex;
           flex-direction: column;
           align-items: center;

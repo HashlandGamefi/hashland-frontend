@@ -129,9 +129,8 @@ export default {
         }
       })
     },
-    // 市场页面获取市场出售的所有卡牌
+    // 获取某卖家正在出售卡牌id数组
     getMarketCardInfo(){
-      // 获取市场正在出售的基于指针（从0开始）和数量的HN卡牌ID数组
       return new Promise((resolve) => {
         hnMarket().getSellerHnIdsBySize(this.getAccount,0,10000000).then(res => {
           console.log('获取某卖家正在出售卡牌id数组res: ', res);

@@ -485,6 +485,8 @@ export default {
         this.infoArr[3].loading = false
       }).catch(err => {
         console.log('最新成交价err: ', err);
+        this.infoArr[3].num = 0
+        this.infoArr[3].loading = false
       })
     },
     connectInfo () {

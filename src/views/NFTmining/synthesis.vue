@@ -89,7 +89,7 @@
         HC {{$t("message.approve")}}<BtnLoading :isloading="hcisloading"></BtnLoading>
       </div>
     </div>
-    <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
+    <Proup :btntxt="btntxt" :word="word" @besurefun="BesureFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
@@ -121,7 +121,8 @@ export default {
       hcnum:0, // 本次合成消耗多少hc
       synthesisDis:false,// 合成按钮loading
       timerll:null,
-      timerll_result:null
+      timerll_result:null,
+      infoArr:[] // 选中的卡牌过滤以后的数组信息
     }
   },
   computed: {
@@ -220,6 +221,21 @@ export default {
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
+      this.synthesisDis = false
+    },
+    BesureFun(){
+      if(!this.synthesisDis){
+        this.proupDis = false
+        return
+      }
+      this.proupDis = false
+      hnUpgrade().connect(getSigner()).upgrade(this.infoArr).then(res => {
+        console.log('合成res: ', res);
+        this.watchResult()
+      }).catch(err => {
+        console.log('合成err: ', err);
+        this.synthesisDis = false
+      })
     },
     // 合成结果
     watchResult(){
@@ -267,10 +283,10 @@ export default {
         this.$common.selectLang('至少选择4张卡牌','You need to select a minimal of 4 cards',this)
         return
       }
-      let arr = this.selectedArr.map(item => {
+      this.infoArr = this.selectedArr.map(item => {
         return item.cardID
       })
-      if(arr.length % 4 !== 0){
+      if(this.infoArr.length % 4 !== 0){
         this.$common.selectLang('选择的卡牌必须4的倍数哦','You must select',this)
         return
       }
@@ -278,22 +294,15 @@ export default {
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
       console.log('balance:%s', balance);
 
-      // this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
-      // console.log('合成金额money: ', this.hcnum);
-
       if(Number(this.hcnum) <= Number(balance)){
         this.synthesisDis = true
-        hnUpgrade().connect(getSigner()).upgrade(arr).then(res => {
-          console.log('合成res: ', res);
-          this.watchResult()
-        }).catch(err => {
-          console.log('合成err: ', err);
-          this.synthesisDis = false
-        })
+        this.proupDis = true
+        this.$common.selectLang('Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.','Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.',this)
       }else{
         this.$common.selectLang('余额不足','Insufficent Balance',this)
       }
     },
+
     // 选中的卡牌的点击事件
     selectedCardClick(data,index){
       this.selectedArr.splice(index,1) // 删除对应图片
