@@ -1,12 +1,12 @@
 <template>
   <div class="page">
-    <img class="return_img" @click="returnToPreviousPage" src="//cdn.hashland.com/images/back.png" alt="" />
     <div class="main">
+      <img class="return_img" :src="`${$store.state.imgUrl}proupclose.png`" @click="returnToPreviousPage" />
       <div class="main_tiile fontsize32">{{ $t("message.gameFi.text1") }}</div>
       <ul class="fontsize18">
         <li>
           <span>{{ $t("message.gameFi.text9") }}: </span>
-          <span>{{ mailAccount }}</span>
+          <span>{{ mailAccount | mailEllipsis }}</span>
         </li>
         <template v-if="walletAddresses.length > 0">
           <li v-for="(item, index) in walletAddresses" :key="item">
@@ -101,7 +101,9 @@ export default {
             return;
           }
           // console.log("前端签名：", signature);
-          const url = `mailAccount=${gameFiInfo.mailAccount}&walletAddress=${this.getAccount.toLowerCase()}&signature=${signature}`;
+          const url = `mailAccount=${
+            gameFiInfo.mailAccount
+          }&walletAddress=${this.getAccount.toLowerCase()}&signature=${signature}`;
           this.$api
             .gameBindWallet(url)
             .then((res) => {
@@ -137,6 +139,12 @@ export default {
       const index = value.length;
       return value.slice(0, 6) + "..." + value.slice(index - 4, index);
     },
+    mailEllipsis(value) {
+      if (!value) return "";
+      const index = value.length;
+      const index2 = value.indexOf("@");
+      return value.slice(0, 2) + "***" + value.slice(index2, index);
+    },
   },
 };
 </script>
@@ -149,14 +157,21 @@ export default {
   margin: 0 auto;
   color: #fff;
   font-size: 0;
-  .return_img {
-    cursor: pointer;
-    width: 100px;
-    height: auto;
+
+  .main {
+    position: relative;
+    .return_img {
+      cursor: pointer;
+      width: 50px;
+      height: auto;
+      position: absolute;
+      top: -25px;
+      right: -50px;
+    }
   }
   .main_tiile {
     text-align: center;
-    margin: 20px 0;
+    padding: 20px 0;
   }
   .prompt_list {
     margin: 30px 0;
@@ -205,12 +220,20 @@ export default {
 @media screen and (max-width: 980px) {
   .page {
     padding: 80px 5vw 0 5vw;
-    .return_img {
-      width: 0.5rem;
+    .main {
+      position: relative;
+      .return_img {
+        cursor: pointer;
+        width: 0.4rem;
+        height: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
     }
     .main_tiile {
       text-align: center;
-      margin: 2vw 0;
+      padding: 2vw 0;
     }
     .prompt_list {
       margin: 3vw 0;
