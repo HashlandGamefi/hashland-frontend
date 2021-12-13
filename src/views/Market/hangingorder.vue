@@ -508,6 +508,7 @@ export default {
           console.log('获取用户在质押中的卡牌信息res: ', res);
           if(res[0].length == 0){
             this.cardslotArr = []
+            resolve({'istrue':true,'arr':[]})
             return
           }
           let count = 1
