@@ -4,7 +4,7 @@
     <transition name="fade">
       <router-view v-if="isRouterAlive" />
     </transition>
-    <div class="top_btn fontsize16" @click="gotop">Top</div>
+    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop" @mouseover="mouseOver" @mouseleave="mouseLeave">Top</div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup
       :proupTitle="getrewardsInfo.proupTitle"
@@ -50,9 +50,42 @@ export default {
       isRouterAlive: true, //控制视图是否显示的变量
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
+      istopshow:false,//鼠标移入移除
+      timetop:null
     };
   },
   methods: {
+    mouseOver() {
+      // if(this.timetop){
+      //   clearTimeout(this.timetop)
+      // }
+      // this.timetop = setTimeout(() => {
+      //   this.istopshow = true
+      // },500)
+      if (this.timetop) {
+        clearTimeout(this.timetop)
+        this.timetop = setTimeout(() => {
+          this.istopshow = true
+        },500)
+      } else {
+        this.timetop = setTimeout(() => {
+          this.istopshow = true
+        },500)
+      }
+    },
+    // 移出
+    mouseLeave() {
+      if (this.timetop) {
+        clearTimeout(this.timetop)
+        this.timetop = setTimeout(() => {
+          this.istopshow = false
+        },500)
+      }else{
+        this.timetop = setTimeout(() => {
+          this.istopshow = false
+        },500)
+      }
+    },
     gotop() {
       window.scrollTo(0, 0);
       this.addDom(document);
@@ -151,7 +184,7 @@ export default {
   cursor: pointer;
   transition: all 0.5s;
 }
-.top_btn:hover {
+.istop{
   right: 10px;
   background: linear-gradient(90deg, #06366d 50%, #034088 100%);
 }
