@@ -170,6 +170,7 @@ export default {
         if(this.hc_isloading)return
         this.hc_isloading = true
         hnPool().connect(getSigner()).harvestTokens([0]).then(async res => {
+          const etReceipt = await res.wait();
           console.log('提取hcres: ', res);
           if(etReceipt.status == 1){
             this.$common.selectLang('提取成功','Claim Successful',this)

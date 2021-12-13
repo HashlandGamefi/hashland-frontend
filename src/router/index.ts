@@ -51,21 +51,21 @@ let routes: Array<RouteConfig> = [
     name: "Hclp",
     component: () => import("../views/HClp/index.vue")
   },
-  // {
-  //   path: "/market",
-  //   name: "Market",
-  //   component: () => import("../views/Market/index.vue"),
-  // },
-  // {
-  //   path: "/hangingorder",
-  //   name: "HangingOrder",
-  //   component: () => import("../views/Market/hangingorder.vue"),
-  // },
-  // {
-  //   path: "/pendingrecord",
-  //   name: "Pendingrecord",
-  //   component: () => import("../views/Market/pendingrecord.vue"),
-  // },
+  {
+    path: "/market",
+    name: "Market",
+    component: () => import("../views/Market/index.vue"),
+  },
+  {
+    path: "/hangingorder",
+    name: "HangingOrder",
+    component: () => import("../views/Market/hangingorder.vue"),
+  },
+  {
+    path: "/pendingrecord",
+    name: "Pendingrecord",
+    component: () => import("../views/Market/pendingrecord.vue"),
+  },
   {
     path: "/gameFi",
     name: "GameFi",
