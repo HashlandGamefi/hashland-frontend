@@ -1,35 +1,35 @@
 <template>
   <div class="game_page">
-    <div class="game_main">
-      <div class="game_banner">
-        <div class="info_tool" v-if="loginRegisterStatus">
-          <div class="information_box">
-            <img class="personal_center" :src="`${$store.state.imgUrl}personalCenter.png`" />
-            <div class="mailAccount fontsize18">
-              <span class="fontsize14">{{ mailAccount }}</span>
-              <img class="information_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+    <div class="game_banner">
+      <div class="info_tool" v-if="loginRegisterStatus">
+        <div class="information_box">
+          <img class="personal_center" :src="`${$store.state.imgUrl}personalCenter.png`" />
+          <div class="mailAccount fontsize18">
+            <span class="fontsize14">{{ mailAccount }}</span>
+            <img class="accrow information_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+          </div>
+          <div class="toolbox">
+            <div @click="toPersonalCenter">
+              <span class="fontsize14"> {{ $t("message.gameFi.text1") }} </span>
+              <img class="accrow toolbox_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
             </div>
-            <div class="toolbox">
-              <div @click="toPersonalCenter">
-                <span class="fontsize14"> {{ $t("message.gameFi.text1") }} </span>
-                <img class="toolbox_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-              </div>
-              <div @click="toLogOut">
-                <span class="fontsize14"> {{ $t("message.gameFi.text2") }} </span>
-                <img :src="`${$store.state.imgUrl}exit.png`" />
-              </div>
+            <div @click="toLogOut">
+              <span class="fontsize14"> {{ $t("message.gameFi.text2") }} </span>
+              <img :src="`${$store.state.imgUrl}exit.png`" />
             </div>
           </div>
-        </div>
-        <div class="btn_group fontsize18">
-          <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
-            {{ $t("message.gameFi.text13") }} 
-            <!-- / {{ $t("message.gameFi.text22") }} -->
-          </div>
-          <!-- <div @click="openRecharge">Recharge</div> -->
-          <!-- <div @click="downloadGame">Play</div> -->
         </div>
       </div>
+      <div class="btn_group fontsize18">
+        <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
+          {{ $t("message.gameFi.text13") }}
+          <!-- / {{ $t("message.gameFi.text22") }} -->
+        </div>
+        <!-- <div @click="openRecharge">Recharge</div> -->
+        <!-- <div @click="downloadGame">Play</div> -->
+      </div>
+    </div>
+    <div class="game_main">
       <div class="game_introduction">
         <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
         <div class="player_box1">
@@ -64,6 +64,32 @@
           </ul>
         </div>
       </div>
+      <div class="ranking_box">
+        <div class="fontsize26">个人当前赛季奖励/排行</div>
+        <div class="ranking_content">
+          <div class="col">
+            <div class="select">
+              <span class="fontsize18">第一期</span>
+              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+            </div>
+            <div class="">
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="select">
+              <span class="fontsize18">第一期</span>
+              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+            </div>
+          </div>
+          <div class="col">
+            <div class="select">
+              <span class="fontsize18">第一期</span>
+              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>
@@ -88,6 +114,7 @@ export default {
       showRecharge: false,
       loginRegisterStatus: false,
       mailAccount: "",
+      ranking1select: "",
     };
   },
   computed: {
@@ -122,7 +149,6 @@ export default {
     },
     /**打开充值 */
     openRecharge() {
-
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       if (!this.getAccount) return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
@@ -160,9 +186,12 @@ export default {
 <style lang="scss" scoped>
 .game_page {
   padding-top: 80px;
-  .game_main {
-    width: 100vw;
-  }
+}
+.accrow {
+  width: 15px;
+  height: auto;
+  margin-left: 5px;
+  transition: all 0.3s;
 }
 .game_banner {
   width: 100vw;
@@ -202,11 +231,7 @@ export default {
         box-shadow: -10px -10px 30px 30px rgba(28, 23, 24, 0.5) inset, 10px 10px 30px 30px rgba(28, 23, 24, 0.5) inset;
         border-radius: 10px;
         .information_accrow {
-          width: 15px;
-          height: auto;
-          margin-left: 5px;
           transform: rotate(-90deg);
-          transition: all 0.3s;
         }
       }
       .toolbox {
@@ -259,10 +284,14 @@ export default {
     }
   }
 }
-.game_introduction {
+.game_main {
   width: 80vw;
-  height: auto;
+  margin: 0 auto;
   color: #ffffff;
+}
+.game_introduction {
+  width: 100%;
+  height: auto;
   margin: 50px auto;
   .player_box1 {
     box-sizing: content-box;
@@ -301,6 +330,43 @@ export default {
       li {
         width: 20%;
         height: fit-content;
+      }
+    }
+  }
+}
+.ranking_box {
+  width: 100%;
+  height: auto;
+  background: linear-gradient(180deg, #010f20 0%, #021c3b 100%)
+    linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
+  box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+  border-radius: 6px;
+
+  .ranking_content {
+    width: 100%;
+    background: #01162d;
+    border-radius: 7px;
+    border: 1px solid;
+    border-image: linear-gradient(
+        360deg,
+        rgba(139, 230, 254, 0.42),
+        rgba(139, 230, 254, 0.78),
+        rgba(139, 230, 254, 0.42)
+      )
+      1 1;
+    display: flex;
+
+    .col {
+      &:nth-child(1) {
+        width: 20%;
+      }
+      &:nth-child(2) {
+        width: 40%;
+      }
+      &:nth-child(3) {
+        width: 40%;
+      }
+      .select {
       }
     }
   }
