@@ -267,7 +267,7 @@ export default {
       if(Number(this.hcnum) <= Number(balance)){
         this.synthesisDis = true
         this.proupDis = true
-        this.$common.selectLang('Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.','Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.',this)
+        this.$common.selectLang('Game data will be cleared beside the main NFT once NFTs are crafted.','Game data will be cleared beside the main NFT once NFTs are crafted.',this)
       }else{
         this.$common.selectLang('余额不足','Insufficent Balance',this)
       }

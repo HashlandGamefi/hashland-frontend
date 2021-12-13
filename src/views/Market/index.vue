@@ -114,9 +114,9 @@
       </div>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
       <div class="bottom_loading" v-if="pageshowarr.length > 1">
-        <span class="fontsize16" v-if="!nodata && pulldown">上拉加载更多</span>
-        <span class="fontsize16" v-else-if="!nodata && !pulldown">加载中...</span>
-        <span class="fontsize16" v-else-if="nodata">到底了</span>
+        <span class="fontsize16" v-if="!nodata && pulldown">Pull up to load more</span>
+        <span class="fontsize16" v-else-if="!nodata && !pulldown">Loading...</span>
+        <span class="fontsize16" v-else-if="nodata">End</span>
       </div>
     </div>
     <Proup
