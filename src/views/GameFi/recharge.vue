@@ -1,5 +1,5 @@
 <template>
-  <div class="mask_layer" @click.self="closeCurrentPage">
+  <div class="mask_layer">
     <div class="outline_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeCurrentPage" />
       <div class="inside_box">
@@ -20,7 +20,7 @@
             <div class="input_box_box">
               <input
                 type="text"
-                placeholder="Please fill in HC values"
+                placeholder="Enter HC"
                 v-model="HCValue"
                 @input="
                   HCValue = HCValue.replace(/[^\d.]/g, '')
@@ -32,6 +32,7 @@
                     .replace(/^\./g, '')
                 "
               />
+
               <div class="ban_select fontsize18 input_btn" @click="getMaxHC">
                 <span>MAX</span>
                 <BtnLoading :isloading="getmaxbtnloading"></BtnLoading>
@@ -49,7 +50,7 @@
           <li>
             <div class="enter_btn fontsize18">
               <Btn
-                ref="mychild"
+                ref="rechargeBtn"
                 :word="'Recharge'"
                 :isapprove="isapprove"
                 :approveloading="buy_isloading"
@@ -97,7 +98,7 @@ export default {
       handler: function (newValue) {
         if (newValue) {
           setTimeout(() => {
-            this.$refs.mychild.isApproveFun("hc", contract().HWDeposit).then((res) => {
+            this.$refs.rechargeBtn.isApproveFun("hc", contract().HWDeposit).then((res) => {
               this.isapprove = res;
             });
           }, 1000);
@@ -133,7 +134,7 @@ export default {
     toAuthorization() {
       if (this.buy_isloading) return;
       this.buy_isloading = true;
-      this.$refs.mychild
+      this.$refs.rechargeBtn
         .goApproveFun("hc", contract().HWDeposit)
         .then((res) => {
           this.buy_isloading = false;
@@ -148,7 +149,7 @@ export default {
     toRecharge() {
       if (this.buy_isloading) return;
       if (!this.HCValue)
-        return this.$common.selectLang("请输入您要充值的金额", "Please fill in the amount you want to top up", this);
+        return this.$common.selectLang("请输入您要充值的数量", "Please enter the amount you want to top up", this);
       this.buy_isloading = true;
       const amount = this.$common.convertNormalToBigNumber(this.HCValue, 18);
       hwDeposit()
@@ -159,7 +160,7 @@ export default {
           if (etReceipt.status == 1) {
             this.buy_isloading = false;
             this.$common.selectLang("充值成功", "Top up successfully", this);
-            // this.closeCurrentPage();
+            this.closeCurrentPage();
             this.HCValue = null;
           } else {
             this.buy_isloading = false;
@@ -285,7 +286,7 @@ export default {
               .input_btn {
                 cursor: pointer;
                 color: #ffffff;
-                width: 40%;
+                width: 35%;
                 height: calc(100% * 1.5);
                 display: flex;
                 align-items: center;
@@ -326,7 +327,6 @@ export default {
             }
           }
           &:nth-child(4) {
-            margin-top: 15px;
             .enter_btn {
               margin: 0 auto;
               cursor: pointer;
@@ -345,11 +345,11 @@ export default {
         }
       }
       .recharge_instructions {
-        margin-top: 20px;
+        margin-top: 10px;
         color: #fff;
         .instructions {
           display: flex;
-          align-items: center;
+          align-items: baseline;
           margin: 10px 0;
           span {
             &:nth-child(1) {
