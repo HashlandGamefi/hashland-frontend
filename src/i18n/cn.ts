@@ -302,7 +302,7 @@ export const message = {
     text56:"Mobile",
     text57:"Mobile users can also experience on NowGG.",
     text58:"Android(APK) coming soon",
-    text59:"iOS coming soon",
+    text59:"App Store coming soon",
     text60:"Google play coming soon",
     text61:"Desktop",
     text62:"Windows coming soon",
