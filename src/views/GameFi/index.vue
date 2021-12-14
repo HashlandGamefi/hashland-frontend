@@ -5,7 +5,7 @@
         <div class="information_box">
           <img class="personal_center" :src="`${$store.state.imgUrl}personalCenter.png`" />
           <div class="mailAccount fontsize18">
-            <span class="fontsize14">{{ mailAccount }}</span>
+            <span class="fontsize14">{{ mailAccount | mailEllipsis }}</span>
             <img class="accrow information_accrow" :src="`${$store.state.imgUrl}accrow.png`" />
           </div>
           <div class="toolbox">
@@ -173,6 +173,19 @@ export default {
     /**公用提示框（关闭方法）  */
     CloseFun() {
       this.proupDis = false;
+    },
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      const index = value.length;
+      return value.slice(0, 6) + "..." + value.slice(index - 4, index);
+    },
+    mailEllipsis(value) {
+      if (!value) return "";
+      const index = value.length;
+      const index2 = value.indexOf("@");
+      return value.slice(0, 2) + "***" + value.slice(index2, index);
     },
   },
 };
