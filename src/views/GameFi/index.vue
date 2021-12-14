@@ -23,7 +23,7 @@
       <div class="btn_group fontsize18">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           {{ $t("message.gameFi.text13") }}
-          / {{ $t("message.gameFi.text22") }}
+          <!-- / {{ $t("message.gameFi.text22") }} -->
         </div>
         <!-- <div @click="openRecharge">Recharge</div> -->
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
