@@ -259,7 +259,7 @@ export default {
           overflow: hidden;
           &:hover {
             cursor: pointer;
-            background: rgba(245, 176, 0, 0.99);
+            background: rgba(139, 230, 254, 0.7);
             box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18);
           }
           &.disable:hover {
