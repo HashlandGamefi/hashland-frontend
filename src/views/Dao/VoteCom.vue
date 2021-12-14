@@ -3,12 +3,20 @@
     <h1 class="h1 fontsize22">{{ $t("message.dao.txt6") }}</h1>
     <div class="info_box">
       <div class="onebox" v-for="(item, index) in infoArr" :key="index">
-        <p
-          class="fontsize16_400"
+        <div
+          class="add_imgbox fontsize16_400"
           :class="{btc_num_color: index == 0,hc_num_color: index == 1,busd_num_color: index == 2}"
         >
           {{ $t(item.title) }}
-        </p>
+          <div class="img_boxs">
+            <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick(item)" />
+            <div class="img_box_hover" :class="{show_box_hover:item.isshowimg}">
+              <div class="content_box fontsize12_400">
+                {{ $t(item.desc) }}
+              </div>
+            </div>
+          </div>
+        </div>
         <p class="fontsize22" v-if="item.loading">
           <NewLoading></NewLoading>
         </p>
@@ -96,6 +104,7 @@
         <NoData v-if="list.length == 0" :isshow="false"></NoData>
       </div>
     </div> -->
+    <div class="positon_img_fixedbox" v-if="ishover" @click="closeimg"></div>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
@@ -106,13 +115,14 @@ import { util,erc20,token } from 'hashland-sdk';
 export default {
   data () {
     return {
+      ishover:false,
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       infoArr: [
-        { title: "message.dao.txt9", num: 0, loading: true },
-        { title: "message.dao.txt10", num: 0, loading: true },
-        { title: "message.dao.txt15", num: 0, loading: true },
+        { desc:'message.dao.txt18',title: "message.dao.txt9", num: 0, loading: true,isshowimg:false},
+        { desc:'message.dao.txt19',title: "message.dao.txt10", num: 0, loading: true,isshowimg:false },
+        { desc:'message.dao.txt20',title: "message.dao.txt15", num: 0, loading: true,isshowimg:false },
         // { title: "message.dao.txt11", num: 0, loading: false }
       ],
       personalInfoArr: [
@@ -150,6 +160,16 @@ export default {
     },
   },
   methods: {
+    imgclick(item){
+      this.ishover = true
+      item.isshowimg = true
+    },
+    closeimg(){
+      this.ishover = false
+      this.infoArr.forEach(item => {
+        item.isshowimg = false
+      })
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
@@ -282,6 +302,49 @@ export default {
       border-radius: 4px;
       padding: 24px 0 25px;
       cursor: pointer;
+      .add_imgbox{
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .img_boxs{
+          display: flex;
+          margin-left: 8px;
+          cursor: pointer;
+          .imgs{
+            width: 18px;
+            object-fit: contain;
+          }
+          .img_box_hover{
+            display: none;
+            position: absolute;
+            top: 35px;
+            left: 0;
+            z-index: 2;
+            width: 200px;
+            // height: 70px;
+            box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+            padding: 1px;
+            border-radius: 14px;
+            background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+            .content_box{
+              width: 100%;
+              // height: 100%;
+              padding: 16px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              border-radius: 14px;
+              background: #011730;
+            }
+          }
+          .show_box_hover{
+            display: flex;
+          }
+        }
+      }
     }
     .onebox:hover {
       box-shadow: 10px 5px 10px 5px rgba(2, 18, 35, 0.68);
@@ -384,6 +447,13 @@ export default {
   //     }
   //   }
   // }
+  .positon_img_fixedbox{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 .btc_color {
   color: rgba(25, 124, 140, 0.9) !important;
@@ -500,6 +570,49 @@ export default {
         padding: 0.15rem 0 0.12rem;
         cursor: pointer;
         margin-bottom: 0.24rem;
+        .add_imgbox{
+          position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .img_boxs{
+            display: flex;
+            margin-left: 8px;
+            cursor: pointer;
+            .imgs{
+              width: 18px;
+              object-fit: contain;
+            }
+            .img_box_hover{
+              display: none;
+              position: absolute;
+              top: 35px;
+              left: 0;
+              z-index: 2;
+              width: 160px;
+              // height: 70px;
+              box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
+              padding: 1px;
+              border-radius: 14px;
+              background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
+              .content_box{
+                width: 100%;
+                // height: 100%;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: 14px;
+                background: #011730;
+              }
+            }
+            .show_box_hover{
+              display: flex;
+            }
+          }
+        }
       }
       // .onebox:hover {
       //   box-shadow: 10px 5px 10px 5px rgba(2, 18, 35, 0.68);

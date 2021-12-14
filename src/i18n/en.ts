@@ -222,8 +222,8 @@ export const message = {
     txt35:'Income'
   },
   dao:{
-    txt1:'Hashland Dao Governance',
-    txt2:'DAO is an important step towards Hashland decentralization.Come to give your suggesstions for ecological developent.',
+    txt1:'Hashland DAO Governance',
+    txt2:'DAO is an important step towards HashLand decentralization.Come to give your suggestions for ecological development.',
     txt3:'Reward',
     txt4:'Vote',
     txt5:'Community',
@@ -242,6 +242,9 @@ export const message = {
     txt15:'BUSD Vault',
     txt16:'BTC Reward',
     txt17:'HC Reward',
+    txt18:'20% of the BTC mining machine output',
+    txt19:'20% of the HC that players recharge in the game',
+    txt20:'For market promotion',
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
