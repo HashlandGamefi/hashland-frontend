@@ -235,7 +235,8 @@ export default {
           this.$router.push("/market");
           break;
         case 4:
-          window.location.href = "https://land-hash.gitbook.io/official/dao/about-dao";
+          this.$router.push("/dao");
+          // window.location.href = "https://land-hash.gitbook.io/official/dao/about-dao";
           break;
         case 5:
           window.location.href = "https://land-hash.gitbook.io/official/white-paper/abstract";

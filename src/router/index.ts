@@ -75,6 +75,11 @@ let routes: Array<RouteConfig> = [
     path: "/personalCenter",
     name: "PersonalCenter",
     component: () => import("../views/GameFi/personalCenter.vue")
+  },
+  {
+    path: "/dao",
+    name: "Dao",
+    component: () => import("../views/Dao/index.vue"),
   }
 ];
 
