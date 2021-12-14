@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <img class="return_img" :src="`${$store.state.imgUrl}proupclose.png`" @click="returnToPreviousPage" />
     <div class="banner">
       <img class="left_img" :src="`${$store.state.imgUrl}gamefi_downloadbg1.png`" alt="" />
       <ul class="banner_center">
@@ -22,19 +23,6 @@
     <div class="page_main">
       <div class="main_title">{{ $t("message.gameFi.text52") }}</div>
       <div class="box">
-        <!-- <div class="item" v-for="(item, index) in downloadData" :key="index">
-          <div class="item_title">{{ item.title }}</div>
-          <div class="list">
-            <div class="li" v-for="(ite, ind) in item.list" :key="ind" @click="openLink(ite.href)">
-              <img :src="ite.imgurl" alt="" />
-              <span>{{ ite.text }}</span>
-              <p v-if="ite.prompt">{{ ite.prompt }}</p>
-            </div>
-            <div class="prompt" v-if="item.prompt">{{ item.prompt }}</div>
-          </div>
-        </div> -->
-        <!--  -->
-
         <div class="item">
           <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
           <div class="list">
@@ -96,52 +84,7 @@
 <script>
 export default {
   data() {
-    return {
-      downloadData: [
-        {
-          title: `${this.$t("message.gameFi.text56")}`,
-          prompt: `* ${this.$t("message.gameFi.text57")}`,
-          list: [
-            {
-              imgurl: `${this.$store.state.imgUrl}android.png`,
-              text: `${this.$t("message.gameFi.text58")}`,
-              href: "#",
-            },
-            {
-              imgurl: `${this.$store.state.imgUrl}ios.png`,
-              text: `${this.$t("message.gameFi.text59")}`,
-              href: "",
-            },
-            {
-              imgurl: `${this.$store.state.imgUrl}googleplay.png`,
-              text: `${this.$t("message.gameFi.text60")}`,
-              href: "",
-            },
-          ],
-        },
-        {
-          title: `${this.$t("message.gameFi.text61")}`,
-          list: [
-            {
-              imgurl: `${this.$store.state.imgUrl}nowg.png`,
-              text: `${this.$t("message.gameFi.text64")}`,
-              href: "#",
-              prompt: `${this.$t("message.gameFi.text65")}`,
-            },
-            {
-              imgurl: `${this.$store.state.imgUrl}windows.png`,
-              text: `${this.$t("message.gameFi.text62")}`,
-              href: "",
-            },
-            {
-              imgurl: `${this.$store.state.imgUrl}macos.png`,
-              text: `${this.$t("message.gameFi.text63")}`,
-              href: "",
-            },
-          ],
-        },
-      ],
-    };
+    return {};
   },
   watch: {},
   computed: {},
@@ -162,6 +105,11 @@ export default {
           break;
       }
     },
+    /**返回上一页 */
+    returnToPreviousPage() {
+      console.log("返回上一页");
+      history.back();
+    },
   },
 };
 </script>
@@ -171,6 +119,16 @@ export default {
   padding: 80px 0;
   color: #fff;
   background: #00162e;
+  position: relative;
+  .return_img {
+    cursor: pointer;
+    width: 50px;
+    height: auto;
+    position: absolute;
+    top: 80px;
+    right: 80px;
+    z-index: 10;
+  }
 }
 .banner {
   width: 100vw;
@@ -193,7 +151,6 @@ export default {
     }
   }
   .banner_center {
-    // width: 60%;
     width: fit-content;
     height: fit-content;
     position: absolute;
@@ -343,6 +300,11 @@ export default {
 @media screen and (max-width: 980px) {
   .page {
     padding: 60px 0;
+    .return_img {
+      width: 0.4rem;
+      top: 60px;
+      right: 5px;
+    }
   }
   .banner {
     height: 2rem;

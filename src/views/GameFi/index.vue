@@ -213,6 +213,7 @@ export default {
     position: absolute;
     left: 130px;
     top: 100px;
+    white-space: nowrap;
     .information_box {
       padding-bottom: 10px;
       display: flex;
@@ -234,7 +235,7 @@ export default {
       }
       .mailAccount {
         line-height: 30px;
-        padding: 0 5px;
+        padding: 0 10px;
         background: rgba(28, 23, 24, 0.5);
         box-shadow: -10px -10px 30px 30px rgba(28, 23, 24, 0.5) inset, 10px 10px 30px 30px rgba(28, 23, 24, 0.5) inset;
         border-radius: 10px;
@@ -396,8 +397,7 @@ export default {
           height: auto;
         }
         .mailAccount {
-          line-height: 6vw;
-          padding: 0 1vw;
+          // padding: 0.01rem 0.02rem;
           .information_accrow {
             width: 3vw;
             height: auto;
