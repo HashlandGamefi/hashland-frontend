@@ -26,7 +26,7 @@
           / {{ $t("message.gameFi.text22") }}
         </div>
         <!-- <div @click="openRecharge">Recharge</div> -->
-        <!-- <div @click="downloadGame">Play</div> -->
+        <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
     <div class="game_main">
@@ -139,7 +139,7 @@ export default {
     // },
     /**个人中心 */
     toPersonalCenter() {
-      this.$router.push("/personalCenter");
+      this.$router.push("/gameFi-personalCenter");
     },
     /**退出登录 */
     toLogOut() {
@@ -167,12 +167,8 @@ export default {
       this.showRecharge = true;
     },
     /**游戏下载 */
-    downloadGame() {
-      // window.open("//cdn.hashland.com/singlehtml/gameFi-register-treaty.html", "_blank");
-      // const href = this.$router.resolve({
-      //   path: "gameFI-download",
-      // });
-      // window.open(href, "_blank");
+    openDownload() {
+      this.$router.push("/gameFi-download");
     },
     /**公用提示框（关闭方法）  */
     CloseFun() {

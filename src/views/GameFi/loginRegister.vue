@@ -204,7 +204,7 @@ export default {
           if (res.data.result === "SUCCESS") {
             localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
             this.loginRegisterSucc(res.data.mailAccount);
-            this.$router.push("/personalCenter");
+            this.$router.push("/gameFi-personalCenter");
           } else if (res.data.result === "FAIL") {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           }
@@ -230,7 +230,6 @@ export default {
           if (res.data.result === "SUCCESS") {
             localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
             this.loginRegisterSucc(res.data.mailAccount);
-            // this.$router.push("/personalCenter");
           } else if (res.data.result === "FAIL") {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           }

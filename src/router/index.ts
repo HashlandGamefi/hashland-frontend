@@ -9,47 +9,47 @@ VueRouter.prototype.push = function push(location: any) {
 let routes: Array<RouteConfig> = [
   {
     path: "/",
-    redirect: "/home"
+    redirect: "/home",
   },
   {
     path: "/home",
     name: "Home",
-    component: () => import("../views/Home/index.vue")
+    component: () => import("../views/Home/index.vue"),
   },
   {
     path: "/buy/:id/:type",
     name: "Buy",
-    component: () => import("../views/Buy/index.vue")
+    component: () => import("../views/Buy/index.vue"),
   },
   {
     path: "/nftmining",
     name: "NFTmining",
-    component: () => import("../views/NFTmining/index.vue")
+    component: () => import("../views/NFTmining/index.vue"),
   },
   {
     path: "/carddetails",
     name: "CardDetails",
-    component: () => import("../views/NFTmining/carddetails.vue")
+    component: () => import("../views/NFTmining/carddetails.vue"),
   },
   {
     path: "/insertcard",
     name: "InsertCard",
-    component: () => import("../views/NFTmining/insertcard.vue")
+    component: () => import("../views/NFTmining/insertcard.vue"),
   },
   {
     path: "/synthesis",
     name: "Synthesis",
-    component: () => import("../views/NFTmining/synthesis.vue")
+    component: () => import("../views/NFTmining/synthesis.vue"),
   },
   {
     path: "/transfer",
     name: "Transfer",
-    component: () => import("../views/NFTmining/transfer.vue")
+    component: () => import("../views/NFTmining/transfer.vue"),
   },
   {
     path: "/hclp",
     name: "Hclp",
-    component: () => import("../views/HClp/index.vue")
+    component: () => import("../views/HClp/index.vue"),
   },
   {
     path: "/market",
@@ -69,18 +69,22 @@ let routes: Array<RouteConfig> = [
   {
     path: "/gameFi",
     name: "GameFi",
-    component: () => import("../views/GameFi/index.vue")
+    component: () => import("../views/GameFi/index.vue"),
   },
   {
-    path: "/personalCenter",
+    path: "/gameFi-personalCenter",
     name: "PersonalCenter",
-    component: () => import("../views/GameFi/personalCenter.vue")
-  }
+    component: () => import("../views/GameFi/personalCenter.vue"),
+  },
+  {
+    path: "/gameFi-download",
+    name: "Download",
+    component: () => import("../views/GameFi/download.vue"),
+  },
 ];
 
-
 const router = new VueRouter({
-  routes
+  routes,
 });
 
 export default router;

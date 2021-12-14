@@ -292,7 +292,27 @@ export const message = {
     text42:"1. $HC rewards in the game will be airdropped to the main wallet at the end of the season.",
     text43:"2. The account can connect only three wallet addresses, and the system will  read all NFTs in slots automatically.",
     text44:"3. Once NFTs are reactivated by other accounts, the game cultivation data will be cleared, such as skills.",
-    text45:"Pre-registration has been closed, and will reopen when the game is officially launched"
+    text45:"Pre-registration has been closed, and will reopen when the game is officially launched",
+    text46:"Download",
+    text47:"Download Hashwarfare&Play",
+    text48:"0 Threshold",
+    text49:"Higher Earning",
+    text50:"Session System",
+    text51:"Play to earn anytime and anywhere",
+    text52:"Experience Hashwarfare on any device",
+    text53:"Game mechanics",
+    text54:"Participate in PVE,PVP,GVE and GVG to win $HC token every session. More",
+    text55:"click here",
+    text56:"Mobile",
+    text57:"Mobile users can also experience on NowGG.",
+    text58:"Android(APK)",
+    text59:"iOS coming soon",
+    text60:"Google play",
+    text61:"Desktop",
+    text62:"Windows",
+    text63:"MacOS",
+    text64:"NowGG",
+    text65:"For mobile game developers and gamers",
   }
 
 };
