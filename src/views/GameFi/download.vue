@@ -27,7 +27,7 @@
           <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
           <div class="list">
             <div class="li_box">
-              <div class="li" @click="openLink(1)">
+              <div class="li disable" @click="openLink(1)">
                 <img :src="`${$store.state.imgUrl}android.png`" alt="" />
                 <span>{{ $t("message.gameFi.text58") }}</span>
               </div>
@@ -51,7 +51,7 @@
           <div class="item_title">{{ $t("message.gameFi.text61") }}</div>
           <div class="list">
             <div class="li_box">
-              <div class="li" @click="openLink(4)">
+              <div class="li disable" @click="openLink(4)">
                 <img :src="`${$store.state.imgUrl}nowg.png`" alt="" />
                 <span>{{ $t("message.gameFi.text64") }}</span>
                 <p>{{ $t("message.gameFi.text65") }}</p>
@@ -91,6 +91,7 @@ export default {
   created() {},
   methods: {
     openLink(index) {
+      return;
       switch (index) {
         case 1:
           // console.log("android");

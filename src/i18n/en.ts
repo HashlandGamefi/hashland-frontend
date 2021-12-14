@@ -330,13 +330,13 @@ export const message = {
     text55:"click here",
     text56:"Mobile",
     text57:"Mobile users can also experience on NowGG.",
-    text58:"Android(APK)",
-    text59:"iOS coming soon",
+    text58:"Android(APK) coming soon",
+    text59:"App Store coming soon",
     text60:"Google play coming soon",
     text61:"Desktop",
-    text62:"Windows",
-    text63:"MacOS",
-    text64:"NowGG",
+    text62:"Windows coming soon",
+    text63:"MacOS coming soon",
+    text64:"NowGG coming soon",
     text65:"For mobile game developers and gamers",
   }
 
