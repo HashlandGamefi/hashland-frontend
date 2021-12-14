@@ -125,7 +125,7 @@ export default {
     width: 50px;
     height: auto;
     position: absolute;
-    top: 80px;
+    top: 90px;
     right: 80px;
     z-index: 10;
   }
@@ -301,9 +301,9 @@ export default {
   .page {
     padding: 60px 0;
     .return_img {
-      width: 0.4rem;
-      top: 60px;
-      right: 5px;
+      width: 0.3rem;
+      top: 70px;
+      right: 10px;
     }
   }
   .banner {
