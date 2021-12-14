@@ -81,6 +81,11 @@ let routes: Array<RouteConfig> = [
     name: "Download",
     component: () => import("../views/GameFi/download.vue"),
   },
+  {
+    path: "/dao",
+    name: "Dao",
+    component: () => import("../views/Dao/index.vue"),
+  }
 ];
 
 const router = new VueRouter({

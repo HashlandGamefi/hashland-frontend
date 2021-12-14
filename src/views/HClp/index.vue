@@ -17,9 +17,10 @@
             <span class="left fontsize16">{{ $t("message.hclp.txt4") }}</span>
             <span class="right fontsize16">$ {{mobility}}</span>
           </div>
-          <div class="oneline">
+          <div class="oneline" @click="getLocked">
             <span class="left fontsize16">{{ $t("message.hclp.txt5") }}</span>
-            <span class="right fontsize16">HC</span>
+            <span class="right fontsize16">$ {{locked}}</span>
+            <img :src="`${$store.state.imgUrl}buy_hclp.png`" class="getlp_img">
           </div>
         </div>
         <div class="bottom_box">
@@ -123,6 +124,7 @@ import { hclpPool, erc20, token, getSigner, contract, info } from 'hashland-sdk'
 export default {
   data () {
     return {
+      locked:0,//lp锁仓余额
       tiptxt:'',// 提示语句
       extactNUm:0,//可提取
       hcStarValue:0,// hc 可提取初始值
@@ -165,6 +167,9 @@ export default {
     }
   },
   methods:{
+    getLocked(){
+      window.location.href = 'https://www.team.finance/view-coin/0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0?name=Hashland%20Coin&symbol=HC'
+    },
     // 重置数据
     resetData(){
       clearInterval(this.hc_timernull)
@@ -382,32 +387,48 @@ export default {
         this.synthesisDis = false
       })
     },
+    // 获取信息
+    async getInfo(){
+      info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
+        // console.log('apr---res: ', res);
+        if(isNaN(res)){
+          this.apr = 0
+        }else{
+          this.$common.checkNumber(res.toString(), res1 => {
+            this.apr = res1
+          },2)
+        }
+      }).catch(err => {
+        console.log('apr-----err: ', err);
+        this.apr = 0
+      })
+      let hclp_balance = await erc20(token().HCLP).balanceOf('0x0C89C0407775dd89b12918B9c0aa42Bf96518820')
+      console.log('hclp_balance: ', hclp_balance);
+      let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
+      console.log('hclp_totalSupply: ', hclp_totalSupply);
+
+      erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
+        this.$common.checkNumber(((res / 1e18) * 2).toString(), res1 => {
+          this.mobility = res1
+        },4)
+        let last_num = (hclp_balance / hclp_totalSupply) * ((res / 1e18) * 2)
+        console.log('last_num: ', last_num);
+        this.$common.checkNumber(last_num.toString(), res1 => {
+          this.locked = res1
+        },4)
+      }).catch(err => {
+        console.log('流通量err: ', err);
+        this.mobility = 0
+      })
+
+
+    }
   },
   beforeDestroy(){
     clearInterval(this.timernull)
   },
   mounted(){
-    info.getHCLPPoolApr(this.getCoinPrice.hc).then(res => {
-      // console.log('apr---res: ', res);
-      if(isNaN(res)){
-        this.apr = 0
-      }else{
-        this.$common.checkNumber(res.toString(), res1 => {
-          this.apr = res1
-        },2)
-      }
-    }).catch(err => {
-      console.log('apr-----err: ', err);
-      this.apr = 0
-    })
-    erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
-      this.$common.checkNumber(((res / 1e18) * 2).toString(), res1 => {
-        this.mobility = res1
-      },4)
-    }).catch(err => {
-      console.log('流通量err: ', err);
-      this.mobility = 0
-    })
+    this.getInfo()
   }
 }
 </script>
@@ -459,16 +480,25 @@ export default {
           }
         }
         .oneline{
+          position: relative;
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 35px;
+          cursor: pointer;
           .left{
             color: #ffffff;
           }
           .right{
             color: #ffffff;
+          }
+          .getlp_img{
+            position: absolute;
+            top: 0;
+            left: 60px;
+            width: 10px;
+            object-fit: contain;
           }
         }
       }
