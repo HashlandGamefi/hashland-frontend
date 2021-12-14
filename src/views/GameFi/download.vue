@@ -22,7 +22,7 @@
     <div class="page_main">
       <div class="main_title">{{ $t("message.gameFi.text52") }}</div>
       <div class="box">
-        <div class="item" v-for="(item, index) in downloadData" :key="index">
+        <!-- <div class="item" v-for="(item, index) in downloadData" :key="index">
           <div class="item_title">{{ item.title }}</div>
           <div class="list">
             <div class="li" v-for="(ite, ind) in item.list" :key="ind" @click="openLink(ite.href)">
@@ -31,6 +31,56 @@
               <p v-if="ite.prompt">{{ ite.prompt }}</p>
             </div>
             <div class="prompt" v-if="item.prompt">{{ item.prompt }}</div>
+          </div>
+        </div> -->
+        <!--  -->
+
+        <div class="item">
+          <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
+          <div class="list">
+            <div class="li_box">
+              <div class="li" @click="openLink(1)">
+                <img :src="`${$store.state.imgUrl}android.png`" alt="" />
+                <span>{{ $t("message.gameFi.text58") }}</span>
+              </div>
+            </div>
+            <div class="li_box" @click="openLink(2)">
+              <div class="li disable">
+                <img :src="`${$store.state.imgUrl}ios.png`" alt="" />
+                <span>{{ $t("message.gameFi.text59") }}</span>
+              </div>
+            </div>
+            <div class="li_box">
+              <div class="li disable" @click="openLink(3)">
+                <img :src="`${$store.state.imgUrl}googleplay.png`" alt="" />
+                <span>{{ $t("message.gameFi.text60") }}</span>
+              </div>
+            </div>
+            <div class="prompt">{{ "* " + $t("message.gameFi.text57") }}</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item_title">{{ $t("message.gameFi.text61") }}</div>
+          <div class="list">
+            <div class="li_box">
+              <div class="li" @click="openLink(4)">
+                <img :src="`${$store.state.imgUrl}nowg.png`" alt="" />
+                <span>{{ $t("message.gameFi.text64") }}</span>
+                <p>{{ $t("message.gameFi.text65") }}</p>
+              </div>
+            </div>
+            <div class="li_box">
+              <!-- <div class="li" @click="openLink(5)">
+                <img :src="`${$store.state.imgUrl}windows.png`" alt="" />
+                <span>{{ $t("message.gameFi.text62") }}</span>
+              </div> -->
+            </div>
+            <div class="li_box">
+              <!-- <div class="li" @click="openLink(6)">
+                <img :src="`${$store.state.imgUrl}macos.png`" alt="" />
+                <span>{{ $t("message.gameFi.text63") }}</span>
+              </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -55,17 +105,17 @@ export default {
             {
               imgurl: `${this.$store.state.imgUrl}android.png`,
               text: `${this.$t("message.gameFi.text58")}`,
-              href: "https://www.baidu.com",
+              href: "#",
             },
             {
               imgurl: `${this.$store.state.imgUrl}ios.png`,
               text: `${this.$t("message.gameFi.text59")}`,
-              href: "https://www.baidu.com",
+              href: "",
             },
             {
               imgurl: `${this.$store.state.imgUrl}googleplay.png`,
               text: `${this.$t("message.gameFi.text60")}`,
-              href: "https://www.baidu.com",
+              href: "",
             },
           ],
         },
@@ -73,20 +123,20 @@ export default {
           title: `${this.$t("message.gameFi.text61")}`,
           list: [
             {
+              imgurl: `${this.$store.state.imgUrl}nowg.png`,
+              text: `${this.$t("message.gameFi.text64")}`,
+              href: "#",
+              prompt: `${this.$t("message.gameFi.text65")}`,
+            },
+            {
               imgurl: `${this.$store.state.imgUrl}windows.png`,
               text: `${this.$t("message.gameFi.text62")}`,
-              href: "https://www.baidu.com",
+              href: "",
             },
             {
               imgurl: `${this.$store.state.imgUrl}macos.png`,
               text: `${this.$t("message.gameFi.text63")}`,
-              href: "https://www.baidu.com",
-            },
-            {
-              imgurl: `${this.$store.state.imgUrl}nowg.png`,
-              text: `${this.$t("message.gameFi.text64")}`,
-              href: "https://www.baidu.com",
-              prompt: `${this.$t("message.gameFi.text65")}`,
+              href: "",
             },
           ],
         },
@@ -97,9 +147,20 @@ export default {
   computed: {},
   created() {},
   methods: {
-    openLink(href) {
-      console.log(href);
-      window.location.href = href;
+    openLink(index) {
+      switch (index) {
+        case 1:
+          // console.log("android");
+          window.location.href = "#";
+          break;
+        case 4:
+          // console.log("nowgg");
+          window.location.href = "#";
+          break;
+        default:
+          // console.log("disable");
+          break;
+      }
     },
   },
 };
@@ -219,29 +280,36 @@ export default {
         padding: 20px;
         margin-top: 10px;
         position: relative;
-        cursor: pointer;
         background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
         box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
           -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         border-radius: 6px;
-        .li {
+        .li_box {
           height: 85px;
+          margin: 20px;
+        }
+        .li {
+          height: 100%;
+          padding: 0 20px;
           background: rgba(11, 22, 43, 0.99);
           box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
           border-radius: 5px;
-          margin: 20px;
-          padding: 0 20px;
           position: relative;
           display: flex;
           align-items: center;
           font-size: 18px;
           font-weight: 600;
           overflow: hidden;
-          &:hover,
-          &.selected {
+          &:hover {
+            cursor: pointer;
             background: rgba(245, 176, 0, 0.99);
             box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18);
-            border-radius: 5px;
+          }
+          &.disable:hover {
+            // cursor: not-allowed;
+            cursor: no-drop;
+            background: rgba(11, 22, 43, 0.99);
+            box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
           }
           img {
             width: 40px;
@@ -343,9 +411,11 @@ export default {
           width: 100%;
           padding: 0.2rem;
           margin-top: 0.1rem;
-          .li {
+          .li_box {
             height: 0.85rem;
             margin: 0.2rem;
+          }
+          .li {
             padding: 0 0.2rem;
             font-size: 14px;
             img {
