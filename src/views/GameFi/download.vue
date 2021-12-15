@@ -104,7 +104,8 @@ export default {
   created() {
     // 2021-12-16 04:00:00     1639598400000
     // 2021-12-15 22:20:00     1639578000000
-    this.countdown(1639598400000);
+    // this.countdown(1639598400000);
+    this.countdown(1639579860000);
   },
   methods: {
     //倒计时
