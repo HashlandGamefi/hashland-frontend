@@ -152,7 +152,9 @@ export default {
             obj.cardID = item.toString() // 卡牌的id
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
             obj.level = (await hn().level(item)).toString() // 等级
-            obj.price = (await hnMarket().hnPrice(item) / 1e18).toString()
+            let card_price = (await hnMarket().hnPrice(item)).toString()
+            console.log('card_price: ', card_price);
+            obj.price = this.$common.convertBigNumberToNormal(card_price,0)
             let race = await hn().getHashrates(item) // 算力数组
             // @ts-ignore
             obj.src = getHnImg(Number(item), obj.level, race);

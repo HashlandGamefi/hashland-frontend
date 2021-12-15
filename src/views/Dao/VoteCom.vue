@@ -1,6 +1,9 @@
 <template>
   <div class="vote_page">
-    <h1 class="h1 fontsize22">{{ $t("message.dao.txt6") }}</h1>
+    <div class="add_title_link" @click="btcClick">
+      <h1 class="h1 fontsize22">{{ $t("message.dao.txt6") }}</h1>
+      <img :src="`${$store.state.imgUrl}buy_hclp.png`" class="getlp_img">
+    </div>
     <div class="info_box">
       <div class="onebox" v-for="(item, index) in infoArr" :key="index">
         <div
@@ -121,7 +124,8 @@ export default {
       proupDis:false,// 弹窗展示消失变量
       infoArr: [
         { desc:'message.dao.txt18',title: "message.dao.txt9", num: 0, loading: true,isshowimg:false},
-        { desc:'message.dao.txt19',title: "message.dao.txt10", num: 0, loading: true,isshowimg:false },
+        { desc:'message.dao.txt18_1',title: "message.dao.txt9_2", num: 0, loading: true,isshowimg:false},
+        // { desc:'message.dao.txt19',title: "message.dao.txt10", num: 0, loading: true,isshowimg:false },
         { desc:'message.dao.txt20',title: "message.dao.txt15", num: 0, loading: true,isshowimg:false },
         // { title: "message.dao.txt11", num: 0, loading: false }
       ],
@@ -160,6 +164,9 @@ export default {
     },
   },
   methods: {
+    btcClick(){
+      window.location.href = 'https://bscscan.com/address/0x5461348662229e316fCa1880890946338100731B'
+    },
     imgclick(item){
       this.ishover = true
       item.isshowimg = true
@@ -183,7 +190,7 @@ export default {
       }
       item.loading = true
     },
-    connectGetInfo(){
+    async connectGetInfo(){
       // 0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c
       erc20(token().BTC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
         // console.log('btc的余额res: ', res,util.formatEther(res));
@@ -195,15 +202,15 @@ export default {
         this.infoArr[0].loading = false
       })
 
-      erc20(token().HC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
-        console.log('hc的余额res: ', res);
-        let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2)
-        console.log('hc_balance: ', hc_balance);
-        this.infoArr[1].num = this.$common.numFormat(hc_balance)
-        this.infoArr[1].loading = false
-      }).catch(() => {
-        this.infoArr[1].loading = false
-      })
+      // erc20(token().HC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
+      //   console.log('hc的余额res: ', res);
+      //   let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2)
+      //   console.log('hc_balance: ', hc_balance);
+      //   this.infoArr[1].num = this.$common.numFormat(hc_balance)
+      //   this.infoArr[1].loading = false
+      // }).catch(() => {
+      //   this.infoArr[1].loading = false
+      // })
 
       erc20(token().BUSD).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
         console.log('busd的余额res: ', res);
@@ -211,6 +218,18 @@ export default {
         this.infoArr[2].loading = false
       }).catch(() => {
         this.infoArr[2].loading = false
+      })
+
+      let hclp_balance = await erc20(token().HCLP).balanceOf('0x0C89C0407775dd89b12918B9c0aa42Bf96518820')
+      let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
+      erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
+        let last_num = (hclp_balance / hclp_totalSupply) * ((res / 1e18) * 2)
+        this.$common.checkNumber(last_num.toString(), res1 => {
+          this.infoArr[1].num = res1
+          this.infoArr[1].loading = false
+        },4)
+      }).catch(err => {
+        this.infoArr[1].loading = false
       })
     }
   },
@@ -226,6 +245,19 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 45px;
+  .add_title_link{
+    position: relative;
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    .getlp_img{
+      position: absolute;
+      top: 5px;
+      left: 154px;
+      width: 10px;
+      object-fit: contain;
+    }
+  }
   .h1 {
     color: #fff;
   }
@@ -315,7 +347,7 @@ export default {
           margin-left: 8px;
           cursor: pointer;
           .imgs{
-            width: 18px;
+            width: 14px;
             object-fit: contain;
           }
           .img_box_hover{
@@ -494,6 +526,15 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: 0.4rem;
+    .add_title_link{
+      .getlp_img{
+        position: absolute;
+        top: 0.05rem;
+        left: 1.3rem;
+        width: 0.1rem;
+        object-fit: contain;
+      }
+    }
     .h1 {
       color: #fff;
     }

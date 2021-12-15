@@ -135,20 +135,6 @@ import { hnMarketInfo, hnMarket, getHnImg, erc20, token, contract, getSigner, ut
 export default {
   data () {
     return {
-      orderArr:[
-        {name:'message.market.txt20',
-          arr:[
-            {name:'message.market.txt17',describe:'btc_desc'},
-            {name:'message.market.txt17_1',describe:'btc_asc'},
-            {name:'message.market.txt18',describe:'hc_desc'},
-            {name:'message.market.txt18_1',describe:'hc_asc'},
-            {name:'message.market.txt19',describe:'price_desc'},
-            {name:'message.market.txt19_1',describe:'price_asc'},
-            {name:'message.market.txt20',describe:'time_desc'},
-            {name:'message.market.txt20_1',describe:'time_asc'}
-          ]
-        }
-      ],
       occupationTxt:'message.market.txt9',//职业排序
       occupationArr:[
         {name:'message.market.txt9',describe:0},
@@ -192,7 +178,38 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount", 'getCoinPrice'])
+    ...mapGetters(["getIstrue", "getAccount", 'getCoinPrice']),
+    orderArr(){
+      if(this.rank == 1){
+          return [
+          {name:'message.market.txt20',
+            arr:[
+              {name:'message.market.txt17',describe:'btc_desc'},
+              {name:'message.market.txt17_1',describe:'btc_asc'},
+              {name:'message.market.txt19',describe:'price_desc'},
+              {name:'message.market.txt19_1',describe:'price_asc'},
+              {name:'message.market.txt20',describe:'time_desc'},
+              {name:'message.market.txt20_1',describe:'time_asc'}
+            ]
+          }
+        ]
+      }else{
+        return [
+          {name:'message.market.txt20',
+            arr:[
+              {name:'message.market.txt17',describe:'btc_desc'},
+              {name:'message.market.txt17_1',describe:'btc_asc'},
+              {name:'message.market.txt18',describe:'hc_desc'},
+              {name:'message.market.txt18_1',describe:'hc_asc'},
+              {name:'message.market.txt19',describe:'price_desc'},
+              {name:'message.market.txt19_1',describe:'price_asc'},
+              {name:'message.market.txt20',describe:'time_desc'},
+              {name:'message.market.txt20_1',describe:'time_asc'}
+            ]
+          }
+        ]
+      }
+    }
   },
   watch: {
     'getIstrue': {
