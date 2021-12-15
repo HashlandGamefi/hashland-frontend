@@ -103,7 +103,7 @@ export default {
 
   created() {
     // 2021-12-16 07:30:00      1639611000000
-    this.countdown(1639611000000);
+    // this.countdown(1639611000000);
   },
   methods: {
     //倒计时
@@ -120,9 +120,10 @@ export default {
         case 1:
           if (this.openDownload1) {
             window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
-          } else {
-            console.log("Android(APK) coming soon");
           }
+          // else {
+          //   console.log("Android(APK) coming soon");
+          // }
           break;
         case 2:
           // console.log("App Store");
