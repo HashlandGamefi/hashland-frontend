@@ -25,7 +25,7 @@
           {{ $t("message.gameFi.text13") }}
           / {{ $t("message.gameFi.text22") }}
         </div>
-        <div @click="openRecharge">Recharge</div>
+        <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
