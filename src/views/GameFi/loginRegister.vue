@@ -31,15 +31,15 @@
           <span>{{ $t("message.gameFi.text13") }}</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
-        <!-- <li class="login_footer">
+        <li class="login_footer">
           <span class="fontsize16" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
             <span> {{ $t("message.gameFi.text7") }}</span>
           </span>
-        </li> -->
-        <li>
-          <span class="fontsize16">{{ $t("message.gameFi.text45") }} </span>
         </li>
+        <!-- <li>
+          <span class="fontsize16">{{ $t("message.gameFi.text45") }} </span>
+        </li> -->
       </ul>
       <ul class="in_box" v-if="!showLogin">
         <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text15") }}</li>
