@@ -78,7 +78,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     background-image: url("//cdn.hashland.com/images/proupbg.png");
-    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     .txt1 {
       width: 100%;
@@ -129,8 +129,8 @@ export default {
     }
     .close{
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 15px;
+      top: 15px;
       width: 44px;
       object-fit: contain;
       cursor: pointer;
@@ -159,7 +159,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       background-image: url("//cdn.hashland.com/images/proupbg.png");
-      background-size: cover;
+      background-size: 100% 100%;
       background-repeat: no-repeat;
       .txt1 {
         font-style: normal;
@@ -201,8 +201,8 @@ export default {
       }
       .close{
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 0.16rem;
+        top: 0.16rem;
         width: 0.44rem;
         object-fit: contain;
       }
