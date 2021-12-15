@@ -224,7 +224,7 @@ export default {
         this.infoArr[2].loading = false
       })
 
-      let hclp_balance = await erc20(token().HCLP).balanceOf('0x0C89C0407775dd89b12918B9c0aa42Bf96518820')
+      let hclp_balance = await erc20(token().HCLP).balanceOf('0x5461348662229e316fCa1880890946338100731B')
       let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
       erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
         let last_num = (hclp_balance / hclp_totalSupply) * ((res / 1e18) * 2)
