@@ -32,13 +32,13 @@
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer fontsize16">
+          <!-- 关闭注册入口 -->
+          <span v-if="isProd">{{ $t("message.gameFi.text45") }} </span>
           <!-- 注册入口 -->
-          <span class="register_entrance" @click="registerNow">
+          <span v-else class="register_entrance" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
             <span> {{ $t("message.gameFi.text7") }}</span>
           </span>
-          <!-- 关闭注册入口 -->
-          <!-- <span>{{ $t("message.gameFi.text45") }} </span> -->
         </li>
       </ul>
       <ul class="in_box" v-if="!showLogin">
@@ -115,6 +115,7 @@
 </template>
 
 <script>
+let isProd = false;
 const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱输入校验
 const pwReg = /^[a-zA-Z0-9]{6,16}$/; // 6-16位数字英文组合
 import { mapGetters } from "vuex";
@@ -150,10 +151,14 @@ export default {
       showCountdown: false,
       minutes: 0,
       seconds: 0,
+      isProd: false,
     };
   },
   computed: {
     ...mapGetters(["getAccount"]),
+  },
+  created() {
+    this.isProd = process.env.NODE_ENV === "production" ? true : false;
   },
   methods: {
     /**注册账号 */

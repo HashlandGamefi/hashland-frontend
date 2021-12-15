@@ -330,7 +330,7 @@ export const message = {
     text47: "Download Hash Warfare & Play",
     text48: "0 Threshold",
     text49: "Higher Earning",
-    text50: "Session System",
+    text50: "Season System",
     text51: "Play to earn anytime and anywhere",
     text52: "Experience Hash Warfare on any device",
     text53: "Game mechanics",

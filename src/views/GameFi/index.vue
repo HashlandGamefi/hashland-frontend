@@ -23,10 +23,10 @@
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
-          {{ $t("message.gameFi.text13") }}
-          / {{ $t("message.gameFi.text22") }}
+          <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span>
+          <span v-else> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
-        <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
+        <div v-if="!isProd" @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
@@ -65,7 +65,7 @@
           </ul>
         </div>
       </div>
-      <!-- <RewardRanking></RewardRanking> -->
+      <RewardRanking v-if="!isProd"></RewardRanking>
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>
@@ -92,12 +92,16 @@ export default {
       loginRegisterStatus: false,
       mailAccount: "",
       ranking1select: "",
+      isProd: false,
     };
   },
   computed: {
     ...mapGetters(["getAccount"]),
   },
   created() {
+    this.isProd = process.env.NODE_ENV === "production" ? true : false;
+    console.log(process.env.NODE_ENV, this.isProd ? "正式环境" : "开发环境");
+
     if (localStorage.getItem("hashlandGameFiInfo")) {
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       this.loginRegisterStatus = true; // 已登录
@@ -129,7 +133,7 @@ export default {
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       if (!this.getAccount || this.getAccount == "no")
-        return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
+        return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
 
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === this.getAccount); //不存在：-1
@@ -281,7 +285,8 @@ export default {
 .game_introduction {
   width: 100%;
   height: auto;
-  margin: 50px auto;
+  // margin: 50px auto;
+  margin-top: 50px;
   .player_box1 {
     box-sizing: content-box;
     width: 60vw;
@@ -307,7 +312,8 @@ export default {
       linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
     box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
     border-radius: 6px;
-    margin: 30px auto;
+    // margin: 30px auto;
+    margin-top: 50px;
     padding: 20px;
     > div {
       margin-bottom: 20px;
