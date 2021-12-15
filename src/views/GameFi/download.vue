@@ -111,10 +111,10 @@ export default {
     countdown(end) {
       const now = Date.parse(new Date());
       if (now > end) {
-        console.log("时间过了");
+        // console.log("时间过了");
         this.openDownload1 = true;
       } else {
-        console.log("还没到时间");
+        // console.log("还没到时间");
         this.openDownload1 = false;
       }
     },
