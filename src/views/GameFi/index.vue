@@ -22,10 +22,11 @@
       </div>
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
+          <!-- Sign In / Register -->
           {{ $t("message.gameFi.text13") }}
-          / {{ $t("message.gameFi.text22") }}
+          <!-- / {{ $t("message.gameFi.text22") }} -->
         </div>
-        <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
+        <!-- <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div> -->
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
@@ -64,31 +65,7 @@
           </ul>
         </div>
       </div>
-      <!-- <div class="ranking_box">
-        <div class="fontsize26">个人当前赛季奖励/排行</div>
-        <div class="ranking_content">
-          <div class="col">
-            <div class="select">
-              <span class="fontsize18">第一期</span>
-              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-            </div>
-            <div class="">
-            </div>
-          </div>
-          <div class="col">
-            <div class="select">
-              <span class="fontsize18">第一期</span>
-              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-            </div>
-          </div>
-          <div class="col">
-            <div class="select">
-              <span class="fontsize18">第一期</span>
-              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-            </div>
-          </div>
-        </div>
-      </div> -->
+      <!-- <RewardRanking></RewardRanking> -->
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>
@@ -102,8 +79,9 @@
 import { mapGetters } from "vuex";
 import LoginRegister from "./loginRegister.vue";
 import Recharge from "./recharge.vue";
+import RewardRanking from "./components/rewardRanking.vue";
 export default {
-  components: { LoginRegister, Recharge },
+  components: { LoginRegister, Recharge, RewardRanking },
   data() {
     return {
       btntxt: "", // 弹窗页面的确认按钮
@@ -193,7 +171,8 @@ export default {
 
 <style lang="scss" scoped>
 .game_page {
-  padding-top: 80px;
+  padding: 80px 0;
+  // font-size: 0;
 }
 .accrow {
   width: 15px;
@@ -336,6 +315,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-size: 0;
       li {
         width: 20%;
         height: fit-content;
@@ -343,47 +323,10 @@ export default {
     }
   }
 }
-.ranking_box {
-  width: 100%;
-  height: auto;
-  background: linear-gradient(180deg, #010f20 0%, #021c3b 100%)
-    linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
-  box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
-  border-radius: 6px;
 
-  .ranking_content {
-    width: 100%;
-    background: #01162d;
-    border-radius: 7px;
-    border: 1px solid;
-    border-image: linear-gradient(
-        360deg,
-        rgba(139, 230, 254, 0.42),
-        rgba(139, 230, 254, 0.78),
-        rgba(139, 230, 254, 0.42)
-      )
-      1 1;
-    display: flex;
-
-    .col {
-      &:nth-child(1) {
-        width: 20%;
-      }
-      &:nth-child(2) {
-        width: 40%;
-      }
-      &:nth-child(3) {
-        width: 40%;
-      }
-      .select {
-      }
-    }
-  }
-}
 @media screen and (max-width: 980px) {
   .game_page {
-    padding-top: 60px;
-    font-size: 0;
+    padding: 60px 0;
   }
   .game_banner {
     .info_tool {
@@ -397,7 +340,6 @@ export default {
           height: auto;
         }
         .mailAccount {
-          // padding: 0.01rem 0.02rem;
           .information_accrow {
             width: 3vw;
             height: auto;

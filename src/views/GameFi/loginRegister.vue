@@ -31,15 +31,15 @@
           <span>{{ $t("message.gameFi.text13") }}</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
-        <li class="login_footer">
-          <span class="fontsize16" @click="registerNow">
+        <li class="login_footer fontsize16">
+          <!-- 注册入口 -->
+          <!-- <span class="register_entrance" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
             <span> {{ $t("message.gameFi.text7") }}</span>
-          </span>
+          </span> -->
+          <!-- 关闭注册入口 -->
+          <span>{{ $t("message.gameFi.text45") }} </span>
         </li>
-        <!-- <li>
-          <span class="fontsize16">{{ $t("message.gameFi.text45") }} </span>
-        </li> -->
       </ul>
       <ul class="in_box" v-if="!showLogin">
         <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text15") }}</li>
@@ -507,10 +507,6 @@ input:-moz-placeholder {
       color: #00e7f0;
       text-decoration: underline;
     }
-    // span {
-    //   color: #818386;
-    //   text-decoration: underline;
-    // }
   }
   .btn {
     cursor: pointer;
@@ -530,7 +526,7 @@ input:-moz-placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    span {
+    .register_entrance {
       cursor: pointer;
       span {
         &:nth-child(2) {
