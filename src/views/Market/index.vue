@@ -93,7 +93,7 @@
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
             <span class="span1 fontsize16">{{ item.price }} BUSD</span>
           </div>
-          <div class="btn fontsize12">
+          <div class="btn fontsize12" :class="{authorize_class:!isapprove && item.isstatus}">
             <Btn
               :isapprove="isapprove"
               :approveloading="item.isstatus"
@@ -113,7 +113,7 @@
         Loading...
       </div>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
-      <div class="bottom_loading" v-if="pageshowarr.length > 1">
+      <div class="bottom_loading" v-if="pageshowarr.length > 10">
         <span class="fontsize16" v-if="!nodata && pulldown">Pull up to load more</span>
         <span class="fontsize16" v-else-if="!nodata && !pulldown">Loading...</span>
         <span class="fontsize16" v-else-if="nodata">End</span>
@@ -1080,7 +1080,7 @@ export default {
           align-items: center;
           justify-content: space-between;
           box-shadow: -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-          padding: 0.02rem 0.04rem;
+          padding: 0.1rem 0.04rem;
           .left_price{
             display: flex;
             align-items: center;
@@ -1091,6 +1091,7 @@ export default {
             }
             .span1{
               color: #ffffff;
+              font-size: 0.12rem;
             }
           }
           .btn{
@@ -1104,6 +1105,9 @@ export default {
             background:#DD9005;
             color: #ffffff;
             cursor: pointer;
+          }
+          .authorize_class{
+            min-width: 0.9rem;
           }
         }
       }

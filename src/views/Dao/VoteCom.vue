@@ -186,9 +186,10 @@ export default {
     connectGetInfo(){
       // 0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c
       erc20(token().BTC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
-        console.log('btc的余额res: ', res);
-        let btc_balance = this.$common.numFormat(this.$common.getBit(util.formatEther(res), 2))
-        this.infoArr[0].num = btc_balance * this.getCoinPrice.btc
+        // console.log('btc的余额res: ', res,util.formatEther(res));
+        let btc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.btc, 2)
+        console.log('btc_balance: ', btc_balance);
+        this.infoArr[0].num = this.$common.numFormat(btc_balance)
         this.infoArr[0].loading = false
       }).catch(() => {
         this.infoArr[0].loading = false
@@ -196,8 +197,9 @@ export default {
 
       erc20(token().HC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
         console.log('hc的余额res: ', res);
-        let hc_balance = this.$common.numFormat(this.$common.getBit(util.formatEther(res), 2))
-        this.infoArr[0].num = hc_balance * this.getCoinPrice.hc
+        let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2)
+        console.log('hc_balance: ', hc_balance);
+        this.infoArr[1].num = this.$common.numFormat(hc_balance)
         this.infoArr[1].loading = false
       }).catch(() => {
         this.infoArr[1].loading = false
