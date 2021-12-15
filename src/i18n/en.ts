@@ -224,7 +224,7 @@ export const message = {
   },
   dao:{
     txt1:'Hashland DAO Governance',
-    txt2:'DAO is an important step towards HashLand decentralization.Come to give your suggestions for ecological development.',
+    txt2:'DAO is an important step towards HashLand decentralization. Come to give your suggestions for ecological development.',
     txt3:'Reward',
     txt4:'Vote',
     txt5:'Community',
