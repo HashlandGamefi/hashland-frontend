@@ -168,7 +168,7 @@ export default {
   },
   methods:{
     getLocked(){
-      window.location.href = 'https://www.team.finance/view-coin/0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0?name=Hashland%20Coin&symbol=HC'
+      window.location.href = 'https://bscscan.com/address/0x5461348662229e316fCa1880890946338100731B'
     },
     // 重置数据
     resetData(){
@@ -402,7 +402,7 @@ export default {
         console.log('apr-----err: ', err);
         this.apr = 0
       })
-      let hclp_balance = await erc20(token().HCLP).balanceOf('0x0C89C0407775dd89b12918B9c0aa42Bf96518820')
+      let hclp_balance = await erc20(token().HCLP).balanceOf('0x5461348662229e316fCa1880890946338100731B')
       console.log('hclp_balance: ', hclp_balance);
       let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
       console.log('hclp_totalSupply: ', hclp_totalSupply);

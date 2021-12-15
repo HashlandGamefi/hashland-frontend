@@ -98,7 +98,7 @@ export const message = {
   },
   nftMining: {
     // nft 挖矿
-    txt1: "NFT Card benefits",
+    txt1: "NFT Card Benefits",
     txt2: "Stake your NFT Cards to Mine",
     txt3: "My Wallet Cards",
     txt4: "No yield unless you insert cards into slots",
@@ -224,7 +224,7 @@ export const message = {
   },
   dao:{
     txt1:'Hashland DAO Governance',
-    txt2:'DAO is an important step towards HashLand decentralization.Come to give your suggestions for ecological development.',
+    txt2:'DAO is an important step towards HashLand decentralization. Come to give your suggestions for ecological development.',
     txt3:'Reward',
     txt4:'Vote',
     txt5:'Community',
@@ -276,6 +276,7 @@ export const message = {
   nothing: "No Data",
   button2: "To Buy",
   consumption: "Craft needs to consume ", // 合成消耗hc数量
+  text79:'Connect Wallet',
   gameFi: {
     text1: "Personal Center",
     text2: "Sign Out",

@@ -7,54 +7,46 @@
     <!-- <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span> -->
     <span class="title1_txt title2_txt fontsize12_400">{{ $t("message.insert.txt3") }}</span>
     <div class="content_box">
-      <div class="stratbox" v-for="(ele,index1) in 5" :key="index1">
-        <div class="top_line">
-          <span class="span1 fontsize22">{{ $t("message.synthesis.txt4")}} {{ ele }} ({{ $t("message.synthesis.txt8")}} {{
-              starArr.filter((data) => {
-                return data.level == ele;
-              }).length
-            }})</span
-          >
-          <span class="span2 fontsize12_400">{{ $t("message.nftMining.txt8") }}</span>
-        </div>
-        <!-- 卡牌轮播 -->
-        <div class="swiper-container">
-          <div class="swiper-wrapper" >
-            <div
-              class="swiper-slide"
-              v-for="(item, index) in starArr.filter((data) => {
-                return data.level == ele;
-              })"
-              :key="index"
+      <div v-if="starArr.length > 0">
+        <div class="stratbox" v-for="(ele,index1) in 5" :key="index1" >
+          <div class="top_line" v-if="starArr.filter((data) => {
+                  return data.level == ele;
+                }).length > 0">
+            <span class="span1 fontsize22">{{ $t("message.synthesis.txt4")}} {{ ele  }} ({{ $t("message.synthesis.txt8")}} {{
+                starArr.filter((data) => {
+                  return data.level == ele;
+                }).length
+              }})</span
             >
+            <span class="span2 fontsize12_400">{{ $t("message.nftMining.txt8") }}</span>
+          </div>
+          <!-- 卡牌轮播 -->
+          <div class="swiper-container" v-if="starArr.filter((data) => {
+                  return data.level == ele;
+                }).length > 0">
+            <div class="swiper-wrapper" >
               <div
-                class="swiper_content_box"
-                @click="cardClick(item, index, index1)"
+                class="swiper-slide"
+                v-for="(item, index) in starArr.filter((data) => {
+                  return data.level == ele;
+                })"
+                :key="index"
               >
-                <img :src="item.src" class="swiper_img" />
-                <!-- <div class="bottom">
-                  <div class="five_pointed_star">
-                    <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in ele" :key="item1" class="start_img" />
-                  </div>
-                  <div class="hc_btc_box">
-                    <div class="hc_coefficient">
-                      <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-                      <span class="span1 fontsize12_400">{{item.hc}}</span>
-                    </div>
-                    <div class="hc_coefficient">
-                      <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-                      <span class="span1 fontsize12_400">{{item.btc}}</span>
-                    </div>
-                  </div>
-                </div> -->
-                <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
+                <div
+                  class="swiper_content_box"
+                  @click="cardClick(item, index, index1)"
+                >
+                  <img :src="item.src" class="swiper_img" />
+                  <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <NoData v-if="starArr.length == 0"></NoData>
     </div>
-    <div class="btn_box fontsize18" @click="insertFun">
+    <div class="btn_box fontsize18" v-if="starArr.length > 0" @click="insertFun">
       <span v-if="!getIstrue">Connect</span>
       <span v-else-if="!isbtnstatus">{{ $t("message.approve") }}</span>
       <span v-else>{{ $t("message.nftMining.txt15") }}</span>
@@ -136,6 +128,7 @@ export default {
             return Number(a.type) > Number(b.type) ? 1 : -1;
           })
           this.starArr = arr
+          console.log('this.starArr: ', this.starArr);
           this.initSwiper()
         }
         console.log("获取用户信息")
@@ -280,13 +273,14 @@ export default {
     max-height: 800px;
     overflow: auto;
     padding: 50px 100px;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
     .stratbox {
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-bottom: 50px;
+      margin-bottom: 10px;
       .top_line {
         width: 100%;
         display: flex;
@@ -313,7 +307,7 @@ export default {
               display: flex;
               flex-direction: column;
               align-items: center;
-              margin-top: 40px;
+              margin-top: 20px;
               .swiper_img {
                 width: 237px;
                 object-fit: contain;
