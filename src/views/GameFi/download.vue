@@ -103,20 +103,16 @@ export default {
 
   created() {
     // 2021-12-16 04:00:00     1639598400000
-    // 2021-12-15 22:20:00     1639578000000
-    // this.countdown(1639598400000);
-    this.countdown(1639579860000);
+    this.countdown(1639598400000);
   },
   methods: {
     //倒计时
     countdown(end) {
       const now = Date.parse(new Date());
       if (now > end) {
-        // console.log("时间过了");
-        this.openDownload1 = true;
+        this.openDownload1 = true; //时间过了
       } else {
-        // console.log("还没到时间");
-        this.openDownload1 = false;
+        this.openDownload1 = false; //还没到时间
       }
     },
     openLink(index) {
