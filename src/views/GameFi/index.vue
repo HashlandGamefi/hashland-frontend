@@ -24,9 +24,9 @@
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
           {{ $t("message.gameFi.text13") }}
-          <!-- / {{ $t("message.gameFi.text22") }} -->
+          / {{ $t("message.gameFi.text22") }}
         </div>
-        <!-- <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div> -->
+        <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
@@ -128,7 +128,8 @@ export default {
     openRecharge() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
-      if (!this.getAccount) return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
+      if (!this.getAccount || this.getAccount == "no")
+        return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
 
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === this.getAccount); //不存在：-1

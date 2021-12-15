@@ -33,12 +33,12 @@
         </li>
         <li class="login_footer fontsize16">
           <!-- 注册入口 -->
-          <!-- <span class="register_entrance" @click="registerNow">
+          <span class="register_entrance" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
             <span> {{ $t("message.gameFi.text7") }}</span>
-          </span> -->
+          </span>
           <!-- 关闭注册入口 -->
-          <span>{{ $t("message.gameFi.text45") }} </span>
+          <!-- <span>{{ $t("message.gameFi.text45") }} </span> -->
         </li>
       </ul>
       <ul class="in_box" v-if="!showLogin">
