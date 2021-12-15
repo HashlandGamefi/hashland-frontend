@@ -27,21 +27,30 @@
           <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
           <div class="list">
             <div class="li_box">
-              <div class="li disable" @click="openLink(1)">
+              <div class="li" @click="openLink(1)" :class="{ disable: !openDownload1 }">
                 <img :src="`${$store.state.imgUrl}android.png`" alt="" />
-                <span>{{ $t("message.gameFi.text58") }}</span>
+                <div>
+                  <div>{{ $t("message.gameFi.text58") }}</div>
+                  <div v-if="!openDownload1">{{ $t("message.gameFi.text79") }}</div>
+                </div>
               </div>
             </div>
             <div class="li_box" @click="openLink(2)">
               <div class="li disable">
                 <img :src="`${$store.state.imgUrl}ios.png`" alt="" />
-                <span>{{ $t("message.gameFi.text59") }}</span>
+                <div>
+                  <div>{{ $t("message.gameFi.text59") }}</div>
+                  <div>{{ $t("message.gameFi.text79") }}</div>
+                </div>
               </div>
             </div>
             <div class="li_box">
               <div class="li disable" @click="openLink(3)">
                 <img :src="`${$store.state.imgUrl}googleplay.png`" alt="" />
-                <span>{{ $t("message.gameFi.text60") }}</span>
+                <div>
+                  <div>{{ $t("message.gameFi.text60") }}</div>
+                  <div>{{ $t("message.gameFi.text79") }}</div>
+                </div>
               </div>
             </div>
             <div class="prompt">{{ "* " + $t("message.gameFi.text57") }}</div>
@@ -53,7 +62,10 @@
             <div class="li_box">
               <div class="li disable" @click="openLink(4)">
                 <img :src="`${$store.state.imgUrl}nowg.png`" alt="" />
-                <span>{{ $t("message.gameFi.text64") }}</span>
+                <div>
+                  <div>{{ $t("message.gameFi.text64") }}</div>
+                  <div>{{ $t("message.gameFi.text79") }}</div>
+                </div>
                 <p>{{ $t("message.gameFi.text65") }}</p>
               </div>
             </div>
@@ -84,31 +96,59 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      openDownload1: false,
+    };
   },
-  watch: {},
-  computed: {},
-  created() {},
+
+  created() {
+    // 2021-12-16 04:00:00     1639598400000
+    // 2021-12-15 22:20:00     1639578000000
+    this.countdown(1639598400000);
+  },
   methods: {
+    //倒计时
+    countdown(end) {
+      const now = Date.parse(new Date());
+      if (now > end) {
+        console.log("时间过了");
+        this.openDownload1 = true;
+      } else {
+        console.log("还没到时间");
+        this.openDownload1 = false;
+      }
+    },
     openLink(index) {
-      return;
       switch (index) {
         case 1:
-          // console.log("android");
-          window.location.href = "#";
+          if (this.openDownload1) {
+            window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
+          } else {
+            console.log("Android(APK) coming soon");
+          }
+          break;
+        case 2:
+          // console.log("App Store");
+          break;
+        case 3:
+          // console.log("Google play");
           break;
         case 4:
-          // console.log("nowgg");
-          window.location.href = "#";
+          // console.log("NowGG");
+          // window.location.href = "#";
+          break;
+        case 5:
+          // console.log("Windows");
+          break;
+        case 6:
+          // console.log("MacOS");
           break;
         default:
-          // console.log("disable");
           break;
       }
     },
     /**返回上一页 */
     returnToPreviousPage() {
-      console.log("返回上一页");
       history.back();
     },
   },
@@ -264,7 +304,6 @@ export default {
             box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18);
           }
           &.disable:hover {
-            // cursor: not-allowed;
             cursor: no-drop;
             background: rgba(11, 22, 43, 0.99);
             box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
@@ -274,6 +313,12 @@ export default {
             min-width: 40px;
             height: auto;
             margin-right: 1em;
+          }
+          > div {
+            display: flex;
+            > div:nth-child(1) {
+              margin-right: 1em;
+            }
           }
           p {
             font-size: 8px;
@@ -376,7 +421,7 @@ export default {
           margin-top: 0.1rem;
           .li_box {
             height: 0.85rem;
-            margin: 0.2rem;
+            margin: 0.2rem 0.1rem;
           }
           .li {
             padding: 0 0.2rem;
@@ -384,6 +429,12 @@ export default {
             img {
               width: 0.4rem;
               min-width: 0.4rem;
+            }
+            > div {
+              display: block;
+              > div:nth-child(1) {
+                margin-right: 0;
+              }
             }
             p {
               font-size: 8px;
