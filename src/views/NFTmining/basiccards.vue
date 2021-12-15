@@ -81,7 +81,7 @@
             <div
               class="btnbox remove_btnbox fontsize16"
               v-if="item.btnstatus == 1"
-              @click="insertClick(item)"
+              @click="insertClick"
             >
               {{ $t("message.nftMining.txt15") }}
             </div>
@@ -327,7 +327,11 @@ export default {
       this.PickUpFoxFun();
     },
     // 插入卡槽
-    insertClick (item) {
+    insertClick () {
+      if(!this.getIstrue){
+        this.$common.selectLang("请先连接钱包", "Please connect the wallet", this);
+        return
+      }
       this.$router.push({
         path: "/insertcard",
         query: { nums: this.emptyCardSlot },

@@ -1,6 +1,6 @@
 <template>
   <div class="record_page" v-if="walletdis">
-    <div class="title fontsize26">Connect to wallet</div>
+    <div class="title fontsize26">{{ $t("message.text79") }}</div>
     <img
       :src="`${$store.state.imgUrl}proupclose.png`"
       class="close_img"
