@@ -102,9 +102,8 @@ export default {
   },
 
   created() {
-    // 2021-12-16 04:00:00     1639598400000
-    // 2021-12-16 08:00:00     1639612800000
-    this.countdown(1639612800000);
+    // 2021-12-16 07:30:00      1639611000000
+    this.countdown(1639611000000);
   },
   methods: {
     //倒计时
@@ -277,8 +276,7 @@ export default {
         margin-top: 10px;
         position: relative;
         background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
-        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
-          -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         border-radius: 6px;
         .li_box {
           height: 85px;
