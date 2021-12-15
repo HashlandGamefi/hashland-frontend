@@ -100,7 +100,7 @@ export default {
   },
   created() {
     this.isProd = process.env.NODE_ENV === "production" ? true : false;
-    console.log(process.env.NODE_ENV, this.isProd ? "正式环境" : "开发环境");
+    // console.log(process.env.NODE_ENV, this.isProd ? "正式环境" : "开发环境");
 
     if (localStorage.getItem("hashlandGameFiInfo")) {
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
