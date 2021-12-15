@@ -3,7 +3,7 @@
     <div class="outline_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeCurrentPage" />
       <div class="inside_box">
-        <div class="inside_box_title fontsize30">Recharge</div>
+        <div class="inside_box_title fontsize30">{{ $t("message.gameFi.text66") }}</div>
         <ul>
           <li>
             <div>
@@ -11,16 +11,16 @@
               <span class="fontsize12"> {{ mailAccount }} </span>
             </div>
             <div @click="getHC">
-              <span class="fontsize12">Get HC</span>
+              <span class="fontsize12">{{ $t("message.gameFi.text67") }}</span>
               <img :src="`${$store.state.imgUrl}buy_hclp.png`" />
             </div>
           </li>
           <li>
-            <div class="fontsize18 li_title">Recharge amount:</div>
+            <div class="fontsize18 li_title">{{ $t("message.gameFi.text68") }}:</div>
             <div class="input_box_box">
               <input
                 type="text"
-                placeholder="Enter HC"
+                :placeholder="$t('message.gameFi.text69')"
                 v-model="HCValue"
                 @input="
                   HCValue = HCValue.replace(/[^\d.]/g, '')
@@ -34,16 +34,16 @@
               />
 
               <div class="ban_select fontsize18 input_btn" @click="getMaxHC">
-                <span>MAX</span>
+                <span>{{ $t("message.gameFi.text78") }}</span>
                 <BtnLoading :isloading="getmaxbtnloading"></BtnLoading>
               </div>
             </div>
           </li>
           <li>
-            <div class="fontsize18 li_title">Fill in quickly:</div>
+            <div class="fontsize18 li_title">{{ $t("message.gameFi.text70") }}:</div>
             <div class="quick_input">
               <div class="fontsize14" v-for="item in quickInput" :key="item" @click="quickInputHC(item)">
-                {{ item }}HC
+                {{ item }}{{ $t("message.gameFi.text71") }}
               </div>
             </div>
           </li>
@@ -51,7 +51,7 @@
             <div class="enter_btn fontsize18">
               <Btn
                 ref="rechargeBtn"
-                :word="'Recharge'"
+                :word="$t('message.gameFi.text66')"
                 :isapprove="isapprove"
                 :approveloading="buy_isloading"
                 :isloading="buy_isloading"
@@ -62,12 +62,16 @@
           </li>
         </ul>
         <div class="recharge_instructions">
-          <div class="fontsize16">Recharge instructions:</div>
-          <div class="instructions fontsize12"><span></span><span>1HC=10000 diamonds</span></div>
-          <div class="instructions fontsize12"><span></span><span>Once recharged, it cannot be cancelled</span></div>
+          <div class="fontsize16">{{ $t("message.gameFi.text72") }}:</div>
           <div class="instructions fontsize12">
-            <span></span
-            ><span>The recharge is complete, it will take some time to sync to the game, please wait patiently</span>
+            <span></span><span>{{ $t("message.gameFi.text73") }}</span>
+          </div>
+          <div class="instructions fontsize12">
+            <span></span><span>{{ $t("message.gameFi.text74") }}</span>
+          </div>
+          <div class="instructions fontsize12">
+            <span></span>
+            <span>{{ $t("message.gameFi.text75") }}</span>
           </div>
         </div>
       </div>
@@ -149,7 +153,11 @@ export default {
     toRecharge() {
       if (this.buy_isloading) return;
       if (!this.HCValue)
-        return this.$common.selectLang("请输入您要充值的数量", "Please enter the amount you want to top up", this);
+        return this.$common.selectLang(
+          `${this.$t("message.gameFi.text76")}`,
+          `${this.$t("message.gameFi.text76")}`,
+          this
+        );
       this.buy_isloading = true;
       const amount = this.$common.convertNormalToBigNumber(this.HCValue, 18);
       hwDeposit()
@@ -159,7 +167,7 @@ export default {
           const etReceipt = await res.wait();
           if (etReceipt.status == 1) {
             this.buy_isloading = false;
-            this.$common.selectLang("充值成功", "Top up successfully", this);
+            this.$common.selectLang(`${this.$t("message.gameFi.text77")}`, `${this.$t("message.gameFi.text77")}`, this);
             this.closeCurrentPage();
             this.HCValue = null;
           } else {
