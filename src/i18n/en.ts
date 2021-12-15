@@ -228,7 +228,7 @@ export const message = {
     txt3:'Reward',
     txt4:'Vote',
     txt5:'Community',
-    txt6:'Total Reward',
+    txt6:'DAO Vault',
     txt7:'Personal Reward',
     txt8:'DAO Reward',
     txt9:'BTC Vault',
@@ -248,6 +248,7 @@ export const message = {
     txt18_1:'Locked',
     txt19:'20% of the HC that players recharge in the game',
     txt20:'For market promotion',
+    txt21:'DAO Vault Contract:'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

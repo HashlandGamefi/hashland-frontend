@@ -1,8 +1,12 @@
 <template>
   <div class="vote_page">
-    <div class="add_title_link" @click="btcClick">
+    <div class="add_title_link">
       <h1 class="h1 fontsize22">{{ $t("message.dao.txt6") }}</h1>
-      <img :src="`${$store.state.imgUrl}buy_hclp.png`" class="getlp_img">
+      <div class="add_contract_address" @click="btcClick">
+        <span>{{ $t("message.dao.txt21") }}&nbsp;</span>
+        <span class="span_hover">0x5461348662229e316fCa1880890946338100731B</span>
+      </div>
+      <!-- <img :src="`${$store.state.imgUrl}buy_hclp.png`" class="getlp_img"> -->
     </div>
     <div class="info_box">
       <div class="onebox" v-for="(item, index) in infoArr" :key="index">
@@ -244,18 +248,24 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 45px;
+  margin-top: 33px;
   .add_title_link{
     position: relative;
     width: 100%;
     display: flex;
-    cursor: pointer;
-    .getlp_img{
-      position: absolute;
-      top: 5px;
-      left: 154px;
-      width: 10px;
-      object-fit: contain;
+    flex-direction: column;
+    .add_contract_address{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 8px;
+      .span_hover{
+        color: #00E7F0;
+        text-decoration: underline;
+      }
     }
   }
   .h1 {
@@ -527,12 +537,16 @@ export default {
     flex-direction: column;
     margin-top: 0.4rem;
     .add_title_link{
-      .getlp_img{
-        position: absolute;
-        top: 0.05rem;
-        left: 1.3rem;
-        width: 0.1rem;
-        object-fit: contain;
+      .add_contract_address{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        align-items: flex-start;
+        color: #fff;
+        cursor: pointer;
+        font-size: 0.12rem;
+        margin-top: 0.1rem;
       }
     }
     .h1 {
