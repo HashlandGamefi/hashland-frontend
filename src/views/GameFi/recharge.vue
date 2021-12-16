@@ -70,8 +70,10 @@
             <span></span><span>{{ $t("message.gameFi.text74") }}</span>
           </div>
           <div class="instructions fontsize12">
-            <span></span>
-            <span>{{ $t("message.gameFi.text75") }}</span>
+            <span></span><span>{{ $t("message.gameFi.text80") }}</span>
+          </div>
+          <div class="instructions fontsize12">
+            <span></span><span>{{ $t("message.gameFi.text75") }}</span>
           </div>
         </div>
       </div>

@@ -33,6 +33,20 @@
     <div class="game_main">
       <div class="game_introduction">
         <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
+        <div class="game_tab">
+          <div>
+            <div>赛季制</div>
+            <div>Clear cultivation data every season. Join at any time.</div>
+          </div>
+          <div>
+            <div>高收益</div>
+            <div>Pass chapters to gain $HC token. Sale props to earn diamonds.</div>
+          </div>
+          <div>
+            <div>0门槛</div>
+            <div>Play for free. Sign in the game to get two free heroes</div>
+          </div>
+        </div>
         <div class="player_box1">
           <iframe
             class="player"
@@ -285,11 +299,33 @@ export default {
 .game_introduction {
   width: 100%;
   height: auto;
-  // margin: 50px auto;
   margin-top: 50px;
+  .game_tab {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    > div {
+      width: 25%;
+      max-width: 300px;
+      box-shadow: 0px 10px 39px 0px rgba(163, 252, 241, 0.54) inset, 0px -6px 26px 0px rgba(145, 147, 221, 0.6) inset;
+      border-radius: 9px;
+      padding: 10px 20px;
+      div {
+        &:nth-child(1) {
+          font-size: 16px;
+          line-height: 40px;
+        }
+        &:nth-child(2) {
+          font-size: 12px;
+        }
+      }
+    }
+  }
   .player_box1 {
     box-sizing: content-box;
-    width: 60vw;
+    width: 70vw;
     height: 40vw;
     background-image: url("//cdn.hashland.com/images/gamevideoborder.png");
     background-size: 100% 100%;
@@ -298,7 +334,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 30px auto;
+    margin: 50px auto;
     padding: 1.5vw 1vw;
     .player {
       width: 100%;
@@ -308,11 +344,9 @@ export default {
   .game_model {
     width: 100%;
     height: auto;
-    background: linear-gradient(180deg, #010f20 0%, #021c3b 100%)
-      linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
+    background: #021c3b;
     box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
     border-radius: 6px;
-    // margin: 30px auto;
     margin-top: 50px;
     padding: 20px;
     > div {
@@ -337,59 +371,76 @@ export default {
   }
   .game_banner {
     .info_tool {
-      left: 5vw;
-      top: 8vw;
+      top: 0.3rem;
+      left: 0.2rem;
       .information_box {
-        padding-bottom: 1vw;
+        padding-bottom: 0.05rem;
         .personal_center {
-          margin-right: 0.5vw;
-          width: 6vw;
+          margin-right: 0.05rem;
+          width: 0.3rem;
           height: auto;
         }
         .mailAccount {
           .information_accrow {
-            width: 3vw;
+            width: 0.15rem;
             height: auto;
-            margin-left: 1vw;
+            margin-left: 0.05rem;
           }
         }
         .toolbox {
           div {
-            padding: 1vw 2vw;
+            padding: 0.02rem 0.08rem;
           }
           img {
-            width: 3vw;
+            width: 0.12rem;
             height: auto;
           }
         }
       }
     }
     .btn_group {
-      bottom: 2vw;
+      bottom: 0.05rem;
       div {
-        margin: 0 1vw;
-        padding: 1vw 3vw;
+        margin: 0 0.05rem;
+        padding: 0.05rem 0.1rem;
       }
     }
   }
   .game_introduction {
-    margin: 4vw auto;
+    margin-top: 0.2rem;
+    .game_tab {
+      margin-top: 0.2rem;
+      display: block;
+      > div {
+        width: 100%;
+        padding: 0.05rem 0.1rem;
+        margin-bottom: 0.1rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        div {
+          &:nth-child(1) {
+            line-height: 0.2rem;
+          }
+        }
+      }
+    }
     .player_box1 {
-      margin: 2vw auto;
+      margin: 0.2rem auto;
       padding: 2vw 1.5vw;
     }
     .game_model {
-      margin: 2vw auto;
-      padding: 2vw;
+      margin-top: 0.2rem;
+      padding: 0.2rem;
       > div {
-        margin-bottom: 2vw;
+        margin-bottom: 0.1rem;
       }
       ul {
         display: block;
         li {
           width: 100%;
           height: fit-content;
-          padding: 1vw 0;
+          padding: 0.05rem 0;
         }
       }
     }

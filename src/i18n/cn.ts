@@ -344,5 +344,6 @@ export const message = {
     text77: "充值成功",
     text78: "MAX",
     text79: "coming soon",
+    text80: "70% $HC recharged to be burnt, 20% for DAO, 10% for developer",
   },
 };
