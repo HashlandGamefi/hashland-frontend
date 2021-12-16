@@ -333,8 +333,7 @@ export default {
         return
       }
       this.$router.push({
-        path: "/insertcard",
-        query: { nums: this.emptyCardSlot },
+        path: "/insertcard"
       });
     },
     // 解除卡槽

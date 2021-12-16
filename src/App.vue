@@ -4,7 +4,7 @@
     <transition name="fade">
       <router-view v-if="isRouterAlive" />
     </transition>
-    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop" @mouseover="mouseOver" @mouseleave="mouseLeave">Top</div>
+    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop">Top</div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup
       :proupTitle="getrewardsInfo.proupTitle"
@@ -29,6 +29,7 @@ export default {
   watch: {
     $route(to, from) {
       window.scrollTo(0, 0);
+      this.istopshow = false
       if (to.path == "/synthesis" || to.path == "/transfer") {
         this.isshowFooter = false;
       } else {
@@ -55,43 +56,13 @@ export default {
     };
   },
   methods: {
-    mouseOver() {
-      // if(this.timetop){
-      //   clearTimeout(this.timetop)
-      // }
-      // this.timetop = setTimeout(() => {
-      //   this.istopshow = true
-      // },500)
-      if (this.timetop) {
-        clearTimeout(this.timetop)
-        this.timetop = setTimeout(() => {
-          this.istopshow = true
-        },500)
-      } else {
-        this.timetop = setTimeout(() => {
-          this.istopshow = true
-        },500)
-      }
-    },
-    // 移出
-    mouseLeave() {
-      if (this.timetop) {
-        clearTimeout(this.timetop)
-        this.timetop = setTimeout(() => {
-          this.istopshow = false
-        },500)
-      }else{
-        this.timetop = setTimeout(() => {
-          this.istopshow = false
-        },500)
-      }
-    },
     gotop() {
       window.scrollTo(0, 0);
       this.addDom(document);
       this.temArr.forEach((element) => {
         element.scrollTop = 0;
       });
+      this.istopshow = false
     },
     addDom(dom) {
       [...dom.children].forEach((v) => {
@@ -159,11 +130,32 @@ export default {
       //   console.log('获取各种币的价格err:',err)
       // })
     },
+    handleScroll (e) {
+      // console.log('e: ', e);
+      const direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
+      if (direction == 'down' && e.deltaY >= 120) { //125为用户一次滚动鼠标的wheelDelta的值
+        setTimeout(() => {
+          if(!this.istopshow){
+            this.istopshow = true
+          }
+        },500)
+        console.log("向下")
+      }
+      if (direction == 'up' && e.deltaY <= -120) {
+        setTimeout(() => {
+          if(this.istopshow){
+            this.istopshow = false
+          }
+        console.log("向上")
+        },500)
+      }
+    }
   },
   created() {
     this.getCurrenciesPrices();
   },
   mounted() {
+    window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);
   },
@@ -178,7 +170,7 @@ export default {
   height: 60px;
   text-align: center;
   line-height: 60px;
-  background: #ccc;
+  background: #0072BD;
   color: #ffffff;
   border-radius: 50%;
   cursor: pointer;
@@ -186,7 +178,7 @@ export default {
 }
 .istop{
   right: 10px;
-  background: linear-gradient(90deg, #06366d 50%, #034088 100%);
+  background: linear-gradient(60deg, #0873ec 40%, #3a96ff 60%);
 }
 @media screen and (min-width: 981px) {
   #app {
