@@ -23,7 +23,23 @@
     <div class="page_main">
       <div class="main_title">{{ $t("message.gameFi.text52") }}</div>
       <div class="box">
-        <div class="item">
+        <div class="item" v-for="(item, index) in downloadData" :key="index">
+          <div class="item_title">{{ item.mobileDesktop }}</div>
+          <div class="list">
+            <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
+              <div class="li" v-if="it.isShow" @click="openLink2(it)" :class="{ disable: !it.isOpen }">
+                <img :src="it.imgUri" alt="" />
+                <div>
+                  <div>{{ it.application }}</div>
+                  <div v-if="!it.isOpen">{{ $t("message.gameFi.text79") }}</div>
+                </div>
+                <p v-if="it.prompt">{{ it.prompt }}</p>
+              </div>
+            </div>
+            <div class="prompt" v-if="item.prompt">{{ item.prompt }}</div>
+          </div>
+        </div>
+        <!-- <div class="item">
           <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
           <div class="list">
             <div class="li_box">
@@ -55,8 +71,8 @@
             </div>
             <div class="prompt">{{ "* " + $t("message.gameFi.text57") }}</div>
           </div>
-        </div>
-        <div class="item">
+        </div> -->
+        <!-- <div class="item">
           <div class="item_title">{{ $t("message.gameFi.text61") }}</div>
           <div class="list">
             <div class="li_box">
@@ -70,19 +86,25 @@
               </div>
             </div>
             <div class="li_box">
-              <!-- <div class="li" @click="openLink(5)">
+              <div class="li" @click="openLink(5)">
                 <img :src="`${$store.state.imgUrl}windows.png`" alt="" />
-                <span>{{ $t("message.gameFi.text62") }}</span>
-              </div> -->
+                <div>
+                  <div>{{ $t("message.gameFi.text62") }}</div>
+                  <div>{{ $t("message.gameFi.text79") }}</div>
+                </div>
+              </div>
             </div>
             <div class="li_box">
-              <!-- <div class="li" @click="openLink(6)">
+              <div class="li" @click="openLink(6)">
                 <img :src="`${$store.state.imgUrl}macos.png`" alt="" />
-                <span>{{ $t("message.gameFi.text63") }}</span>
-              </div> -->
+                <div>
+                  <div>{{ $t("message.gameFi.text63") }}</div>
+                  <div>{{ $t("message.gameFi.text79") }}</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="main_title">{{ $t("message.gameFi.text53") }}</div>
       <div class="main_title2">
@@ -98,14 +120,118 @@ export default {
   data() {
     return {
       openDownload1: false,
+      downloadData: [
+        {
+          mobileDesktop: `${this.$t("message.gameFi.text56")}`,
+          list: [
+            {
+              id: 1,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}android.png`,
+              application: `${this.$t("message.gameFi.text58")}`,
+              isOpen: false,
+              // openTime: 1639598400000, // 2021-12-16 04:00:00
+              openTime: 1639580400000, // 2021-12-15 23:00:00      1639580400000
+            },
+            {
+              id: 2,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}ios.png`,
+              application: `${this.$t("message.gameFi.text59")}`,
+              isOpen: false,
+              openTime: null,
+            },
+            {
+              id: 3,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}googleplay.png`,
+              application: `${this.$t("message.gameFi.text60")}`,
+              isOpen: false,
+              openTime: null,
+            },
+          ],
+          prompt: `* ${this.$t("message.gameFi.text57")}`,
+        },
+        {
+          mobileDesktop: `${this.$t("message.gameFi.text61")}`,
+          list: [
+            {
+              id: 4,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}nowg.png`,
+              application: `${this.$t("message.gameFi.text64")}`,
+              isOpen: false,
+              openTime: null,
+              prompt: `${this.$t("message.gameFi.text65")}`,
+            },
+            {
+              id: 5,
+              isShow: false,
+              imgUri: `${this.$store.state.imgUrl}windows.png`,
+              application: `${this.$t("message.gameFi.text62")}`,
+              isOpen: false,
+              openTime: null,
+            },
+            {
+              id: 6,
+              isShow: false,
+              imgUri: `${this.$store.state.imgUrl}macos.png`,
+              application: `${this.$t("message.gameFi.text63")}`,
+              isOpen: false,
+              openTime: null,
+            },
+          ],
+        },
+      ],
     };
   },
 
   created() {
     // 2021-12-16 04:00:00     1639598400000
-    this.countdown(1639598400000);
+    // this.countdown(1639598400000);
+    this.downloadData.forEach((element) => {
+      element.list.forEach((item) => {
+        if (item.openTime) {
+          const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
+          item.isOpen = this.countdown2(item.openTime);
+          console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
+        }
+      });
+    });
   },
   methods: {
+    /**开放下载倒计时，传入时间戳，返回是否开放 */
+    countdown2(end) {
+      const now = Date.parse(new Date());
+      return now > end ? true : false;
+    },
+    openLink2(item) {
+      // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
+      // console.log(message);
+      if (!item.isOpen) return;
+      switch (item.id) {
+        case 1:
+          window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
+          break;
+        case 2:
+          // console.log("App Store");
+          break;
+        case 3:
+          // console.log("Google play");
+          break;
+        case 4:
+          // console.log("NowGG");
+          break;
+        case 5:
+          // console.log("Windows");
+          break;
+        case 6:
+          // console.log("MacOS");
+          break;
+        default:
+          break;
+      }
+    },
     //倒计时
     countdown(end) {
       const now = Date.parse(new Date());
