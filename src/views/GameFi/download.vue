@@ -27,7 +27,7 @@
           <div class="item_title">{{ item.mobileDesktop }}</div>
           <div class="list">
             <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
-              <div class="li" v-if="it.isShow" @click="openLink2(it)" :class="{ disable: !it.isOpen }">
+              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.isOpen }">
                 <img :src="it.imgUri" alt="" />
                 <div>
                   <div>{{ it.application }}</div>
@@ -39,72 +39,6 @@
             <div class="prompt" v-if="item.prompt">{{ item.prompt }}</div>
           </div>
         </div>
-        <!-- <div class="item">
-          <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
-          <div class="list">
-            <div class="li_box">
-              <div class="li" @click="openLink(1)" :class="{ disable: !openDownload1 }">
-                <img :src="`${$store.state.imgUrl}android.png`" alt="" />
-                <div>
-                  <div>{{ $t("message.gameFi.text58") }}</div>
-                  <div v-if="!openDownload1">{{ $t("message.gameFi.text79") }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="li_box" @click="openLink(2)">
-              <div class="li disable">
-                <img :src="`${$store.state.imgUrl}ios.png`" alt="" />
-                <div>
-                  <div>{{ $t("message.gameFi.text59") }}</div>
-                  <div>{{ $t("message.gameFi.text79") }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="li_box">
-              <div class="li disable" @click="openLink(3)">
-                <img :src="`${$store.state.imgUrl}googleplay.png`" alt="" />
-                <div>
-                  <div>{{ $t("message.gameFi.text60") }}</div>
-                  <div>{{ $t("message.gameFi.text79") }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="prompt">{{ "* " + $t("message.gameFi.text57") }}</div>
-          </div>
-        </div> -->
-        <!-- <div class="item">
-          <div class="item_title">{{ $t("message.gameFi.text61") }}</div>
-          <div class="list">
-            <div class="li_box">
-              <div class="li disable" @click="openLink(4)">
-                <img :src="`${$store.state.imgUrl}nowg.png`" alt="" />
-                <div>
-                  <div>{{ $t("message.gameFi.text64") }}</div>
-                  <div>{{ $t("message.gameFi.text79") }}</div>
-                </div>
-                <p>{{ $t("message.gameFi.text65") }}</p>
-              </div>
-            </div>
-            <div class="li_box">
-              <div class="li" @click="openLink(5)">
-                <img :src="`${$store.state.imgUrl}windows.png`" alt="" />
-                <div>
-                  <div>{{ $t("message.gameFi.text62") }}</div>
-                  <div>{{ $t("message.gameFi.text79") }}</div>
-                </div>
-              </div>
-            </div>
-            <div class="li_box">
-              <div class="li" @click="openLink(6)">
-                <img :src="`${$store.state.imgUrl}macos.png`" alt="" />
-                <div>
-                  <div>{{ $t("message.gameFi.text63") }}</div>
-                  <div>{{ $t("message.gameFi.text79") }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div class="main_title">{{ $t("message.gameFi.text53") }}</div>
       <div class="main_title2">
@@ -119,7 +53,6 @@
 export default {
   data() {
     return {
-      openDownload1: false,
       downloadData: [
         {
           mobileDesktop: `${this.$t("message.gameFi.text56")}`,
@@ -130,8 +63,8 @@ export default {
               imgUri: `${this.$store.state.imgUrl}android.png`,
               application: `${this.$t("message.gameFi.text58")}`,
               isOpen: false,
+              openTime: null,
               // openTime: 1639598400000, // 2021-12-16 04:00:00
-              openTime: 1639580400000, // 2021-12-15 23:00:00      1639580400000
             },
             {
               id: 2,
@@ -187,15 +120,11 @@ export default {
   },
 
   created() {
-    // 2021-12-16 04:00:00     1639598400000
-    // 2021-12-16 07:30:00      1639611000000
-    // this.countdown(1639611000000);
-    // this.countdown(1639598400000);
     this.downloadData.forEach((element) => {
       element.list.forEach((item) => {
         if (item.openTime) {
           const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
-          item.isOpen = this.countdown2(item.openTime);
+          item.isOpen = this.countdown(item.openTime);
           console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
         }
       });
@@ -203,11 +132,10 @@ export default {
   },
   methods: {
     /**开放下载倒计时，传入时间戳，返回是否开放 */
-    countdown2(end) {
-      const now = Date.parse(new Date());
-      return now > end ? true : false;
+    countdown(end) {
+      return Date.parse(new Date()) > end ? true : false;
     },
-    openLink2(item) {
+    openLink(item) {
       // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
       // console.log(message);
       if (!item.isOpen) return;
@@ -234,45 +162,7 @@ export default {
           break;
       }
     },
-    //倒计时
-    countdown(end) {
-      const now = Date.parse(new Date());
-      if (now > end) {
-        this.openDownload1 = true; //时间过了
-      } else {
-        this.openDownload1 = false; //还没到时间
-      }
-    },
-    openLink(index) {
-      switch (index) {
-        case 1:
-          if (this.openDownload1) {
-            window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
-          }
-          // else {
-          //   console.log("Android(APK) coming soon");
-          // }
-          break;
-        case 2:
-          // console.log("App Store");
-          break;
-        case 3:
-          // console.log("Google play");
-          break;
-        case 4:
-          // console.log("NowGG");
-          // window.location.href = "#";
-          break;
-        case 5:
-          // console.log("Windows");
-          break;
-        case 6:
-          // console.log("MacOS");
-          break;
-        default:
-          break;
-      }
-    },
+
     /**返回上一页 */
     returnToPreviousPage() {
       history.back();
