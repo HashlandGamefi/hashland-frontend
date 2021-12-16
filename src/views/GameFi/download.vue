@@ -23,52 +23,20 @@
     <div class="page_main">
       <div class="main_title">{{ $t("message.gameFi.text52") }}</div>
       <div class="box">
-        <div class="item">
-          <div class="item_title">{{ $t("message.gameFi.text56") }}</div>
+        <div class="item" v-for="(item, index) in downloadData" :key="index">
+          <div class="item_title">{{ item.mobileDesktop }}</div>
           <div class="list">
-            <div class="li_box">
-              <div class="li disable" @click="openLink(1)">
-                <img :src="`${$store.state.imgUrl}android.png`" alt="" />
-                <span>{{ $t("message.gameFi.text58") }}</span>
+            <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
+              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.isOpen }">
+                <img :src="it.imgUri" alt="" />
+                <div>
+                  <div>{{ it.application }}</div>
+                  <div v-if="!it.isOpen">{{ $t("message.gameFi.text79") }}</div>
+                </div>
+                <p v-if="it.prompt">{{ it.prompt }}</p>
               </div>
             </div>
-            <div class="li_box" @click="openLink(2)">
-              <div class="li disable">
-                <img :src="`${$store.state.imgUrl}ios.png`" alt="" />
-                <span>{{ $t("message.gameFi.text59") }}</span>
-              </div>
-            </div>
-            <div class="li_box">
-              <div class="li disable" @click="openLink(3)">
-                <img :src="`${$store.state.imgUrl}googleplay.png`" alt="" />
-                <span>{{ $t("message.gameFi.text60") }}</span>
-              </div>
-            </div>
-            <div class="prompt">{{ "* " + $t("message.gameFi.text57") }}</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="item_title">{{ $t("message.gameFi.text61") }}</div>
-          <div class="list">
-            <div class="li_box">
-              <div class="li disable" @click="openLink(4)">
-                <img :src="`${$store.state.imgUrl}nowg.png`" alt="" />
-                <span>{{ $t("message.gameFi.text64") }}</span>
-                <p>{{ $t("message.gameFi.text65") }}</p>
-              </div>
-            </div>
-            <div class="li_box">
-              <!-- <div class="li" @click="openLink(5)">
-                <img :src="`${$store.state.imgUrl}windows.png`" alt="" />
-                <span>{{ $t("message.gameFi.text62") }}</span>
-              </div> -->
-            </div>
-            <div class="li_box">
-              <!-- <div class="li" @click="openLink(6)">
-                <img :src="`${$store.state.imgUrl}macos.png`" alt="" />
-                <span>{{ $t("message.gameFi.text63") }}</span>
-              </div> -->
-            </div>
+            <div class="prompt" v-if="item.prompt">{{ item.prompt }}</div>
           </div>
         </div>
       </div>
@@ -84,31 +52,119 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      downloadData: [
+        {
+          mobileDesktop: `${this.$t("message.gameFi.text56")}`,
+          list: [
+            {
+              id: 1,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}android.png`,
+              application: `${this.$t("message.gameFi.text58")}`,
+              isOpen: false,
+              openTime: null,
+              // openTime: 1639598400000, // 2021-12-16 04:00:00
+            },
+            {
+              id: 2,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}ios.png`,
+              application: `${this.$t("message.gameFi.text59")}`,
+              isOpen: false,
+              openTime: null,
+            },
+            {
+              id: 3,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}googleplay.png`,
+              application: `${this.$t("message.gameFi.text60")}`,
+              isOpen: false,
+              openTime: null,
+            },
+          ],
+          prompt: `* ${this.$t("message.gameFi.text57")}`,
+        },
+        {
+          mobileDesktop: `${this.$t("message.gameFi.text61")}`,
+          list: [
+            {
+              id: 4,
+              isShow: true,
+              imgUri: `${this.$store.state.imgUrl}nowg.png`,
+              application: `${this.$t("message.gameFi.text64")}`,
+              isOpen: false,
+              openTime: null,
+              prompt: `${this.$t("message.gameFi.text65")}`,
+            },
+            {
+              id: 5,
+              isShow: false,
+              imgUri: `${this.$store.state.imgUrl}windows.png`,
+              application: `${this.$t("message.gameFi.text62")}`,
+              isOpen: false,
+              openTime: null,
+            },
+            {
+              id: 6,
+              isShow: false,
+              imgUri: `${this.$store.state.imgUrl}macos.png`,
+              application: `${this.$t("message.gameFi.text63")}`,
+              isOpen: false,
+              openTime: null,
+            },
+          ],
+        },
+      ],
+    };
   },
-  watch: {},
-  computed: {},
-  created() {},
+
+  created() {
+    this.downloadData.forEach((element) => {
+      element.list.forEach((item) => {
+        if (item.openTime) {
+          const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
+          item.isOpen = this.countdown(item.openTime);
+          console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
+        }
+      });
+    });
+  },
   methods: {
-    openLink(index) {
-      return;
-      switch (index) {
+    /**开放下载倒计时，传入时间戳，返回是否开放 */
+    countdown(end) {
+      return Date.parse(new Date()) > end ? true : false;
+    },
+    openLink(item) {
+      // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
+      // console.log(message);
+      if (!item.isOpen) return;
+      switch (item.id) {
         case 1:
-          // console.log("android");
-          window.location.href = "#";
+          window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
+          break;
+        case 2:
+          // console.log("App Store");
+          break;
+        case 3:
+          // console.log("Google play");
           break;
         case 4:
-          // console.log("nowgg");
-          window.location.href = "#";
+          // console.log("NowGG");
+          break;
+        case 5:
+          // console.log("Windows");
+          break;
+        case 6:
+          // console.log("MacOS");
           break;
         default:
-          // console.log("disable");
           break;
       }
     },
+
     /**返回上一页 */
     returnToPreviousPage() {
-      console.log("返回上一页");
       history.back();
     },
   },
@@ -264,7 +320,6 @@ export default {
             box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18);
           }
           &.disable:hover {
-            // cursor: not-allowed;
             cursor: no-drop;
             background: rgba(11, 22, 43, 0.99);
             box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
@@ -274,6 +329,12 @@ export default {
             min-width: 40px;
             height: auto;
             margin-right: 1em;
+          }
+          > div {
+            display: flex;
+            > div:nth-child(1) {
+              margin-right: 1em;
+            }
           }
           p {
             font-size: 8px;
@@ -376,7 +437,7 @@ export default {
           margin-top: 0.1rem;
           .li_box {
             height: 0.85rem;
-            margin: 0.2rem;
+            margin: 0.2rem 0.1rem;
           }
           .li {
             padding: 0 0.2rem;
@@ -384,6 +445,12 @@ export default {
             img {
               width: 0.4rem;
               min-width: 0.4rem;
+            }
+            > div {
+              display: block;
+              > div:nth-child(1) {
+                margin-right: 0;
+              }
             }
             p {
               font-size: 8px;

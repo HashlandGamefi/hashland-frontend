@@ -1,24 +1,25 @@
 # hashland
 
-## Project setup
-```
-npm install
-```
+# 更新 sdk
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+    rm -rf package-lock.json
+    npm i
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# 发布测试包
 
-### Lints and fixes files
-```
-npm run lint
-```
+    test-hashland
+    dev     分支
+    git pull
+    npm run build:dev
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 发布正式包
+
+    hashland-frontend
+    main    分支
+    git pull
+    tar zcvf prod.时间戳.tar.gz prod
+    npm run publish
+
+# 悔棋
+
+    rm -rf prod

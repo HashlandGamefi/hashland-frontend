@@ -312,7 +312,6 @@ export default {
     //倒计时
     countdown(end) {
       const msec = end - Date.parse(new Date());
-      console.log(msec);
       if (msec < 0) return;
       // let day = parseInt(msec / 1000 / 60 / 60 / 24);
       // let hr = parseInt((msec / 1000 / 60 / 60) % 24);
