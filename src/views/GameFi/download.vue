@@ -62,9 +62,9 @@ export default {
               isShow: true,
               imgUri: `${this.$store.state.imgUrl}android.png`,
               application: `${this.$t("message.gameFi.text58")}`,
-              isOpen: false,
-              openTime: null,
-              // openTime: 1639598400000, // 2021-12-16 04:00:00
+              isOpen: true,
+              // openTime: null,
+              openTime: 1639657800000, // 2021-12-16 20:30:00
             },
             {
               id: 2,
@@ -120,15 +120,15 @@ export default {
   },
 
   created() {
-    this.downloadData.forEach((element) => {
-      element.list.forEach((item) => {
-        if (item.openTime) {
-          const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
-          item.isOpen = this.countdown(item.openTime);
-          console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
-        }
-      });
-    });
+    // this.downloadData.forEach((element) => {
+    //   element.list.forEach((item) => {
+    //     if (item.openTime) {
+    //       const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
+    //       item.isOpen = this.countdown(item.openTime);
+    //       console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
+    //     }
+    //   });
+    // });
   },
   methods: {
     /**开放下载倒计时，传入时间戳，返回是否开放 */
@@ -141,7 +141,7 @@ export default {
       if (!item.isOpen) return;
       switch (item.id) {
         case 1:
-          window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
+          window.location.href = "https://cdn.hashland.com/apk/HashWarfare_main_1.1.6.apk";
           break;
         case 2:
           // console.log("App Store");

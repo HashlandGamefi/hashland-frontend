@@ -33,7 +33,7 @@
     <div class="game_main">
       <div class="game_introduction">
         <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
-        <div class="game_tab">
+        <div class="game_tab" v-if="!isProd">
           <div>
             <div>赛季制</div>
             <div>Clear cultivation data every season. Join at any time.</div>
