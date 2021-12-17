@@ -5,7 +5,7 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="col1col1">
+            <div class="col1">
               <div class="select_list flex_center_center">
                 <span>第1赛季</span>
                 <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
@@ -16,32 +16,27 @@
                 </ul>
               </div>
             </div>
-            <div class="col2col2">
-              <div class="col2col2_row">
-                <div class="flex_center_center">PVE</div>
-                <div class="flex_center_center">PVE</div>
-                <div class="flex_center_center">PVE</div>
-                <div class="flex_center_center">PVE</div>
-                <div class="flex_center_center">PVE</div>
-                <div class="col2col2_bottom">
+            <div class="col2">
+              <div class="col2_row">
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
                   <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
                 </div>
-                <div class="col2col2_bottom">
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
                   <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
                 </div>
-                <div class="col2col2_bottom">
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
                   <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
                 </div>
-                <div class="col2col2_bottom">
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
                   <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
                 </div>
-                <div class="col2col2_bottom">
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
                   <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
                 </div>
               </div>
             </div>
@@ -54,7 +49,7 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="col1col1">
+            <div class="col1">
               <div class="select_list flex_center_center">
                 <span>第1赛季</span>
                 <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
@@ -68,33 +63,43 @@
                 <span>请绑定账户</span>
               </div>
             </div>
-            <div class="col2col2">
-              <div class="col2col2_title flex_center_center">$HCRaward</div>
-              <div class="col2col2_row">
-                <div class="col2col2_top flex_center_center">PVE</div>
-                <div class="col2col2_top flex_center_center">PVE</div>
-                <div class="col2col2_top flex_center_center">PVE</div>
-                <div class="col2col2_top flex_center_center">PVE</div>
-                <div class="col2col2_top flex_center_center">PVE</div>
-                <div class="col2col2_bottom">
-                  <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
+            <div class="col2">
+              <div class="col2_title flex_center_center">$HCRaward</div>
+              <div class="col2_row">
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
+                  <div class="flex_center_around">
+                    <span>2121212</span>
+                    <span class="btn">领取奖励</span>
+                  </div>
                 </div>
-                <div class="col2col2_bottom">
-                  <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
+                  <div class="flex_center_around">
+                    <span>2121212</span>
+                    <span class="btn">领取奖励</span>
+                  </div>
                 </div>
-                <div class="col2col2_bottom">
-                  <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
+                  <div class="flex_center_around">
+                    <span>2121212</span>
+                    <span class="btn">领取奖励</span>
+                  </div>
                 </div>
-                <div class="col2col2_bottom">
-                  <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
+                  <div class="flex_center_around">
+                    <span>2121212</span>
+                    <span class="btn">领取奖励</span>
+                  </div>
                 </div>
-                <div class="col2col2_bottom">
-                  <div class="flex_center_center">1111111111</div>
-                  <div class="flex_center_center"><span>领取奖励</span></div>
+                <div class="col2_col flex_center_center">
+                  <div class="flex_center_center">PVE</div>
+                  <div class="flex_center_around">
+                    <span>2121212</span>
+                    <span class="btn">领取奖励</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -103,12 +108,41 @@
       </div>
     </div>
 
-    <div class="ranking_box">
+    <div class="ranking_box ranking_box3">
       <span class="ranking_title">当前赛季奖励/排行</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="col3">
+              <div class="col3_top flex_center_center">
+                <div class="col3_left select_list flex_center_center">
+                  <span>第1赛季</span>
+                  <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                  <ul class="list">
+                    <li>第1赛季</li>
+                    <li>第2赛季</li>
+                    <li>第3赛季</li>
+                  </ul>
+                </div>
+                <div class="col3_right flex_center_center">
+                  <span>Rank</span>
+                  <span>Address</span>
+                  <span>$HC Raward</span>
+                </div>
+              </div>
+              <div class="col3_bottom flex_center_center">
+                <div class="col3_left flex_center_center">第1赛季</div>
+                <div class="col3_right">
+                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ranking_content_mobile">
+            <div class="col1">
               <div class="select_list flex_center_center">
                 <span>第1赛季</span>
                 <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
@@ -118,48 +152,34 @@
                   <li>第3赛季</li>
                 </ul>
               </div>
-              <div class="col3_bottom flex_center_center">PVE</div>
-              <div class="col3_bottom flex_center_center">PVP</div>
             </div>
-            <div class="col4">
-              <div class="col4_top flex_center_around">
+            <div class="col5">
+              <div class="col5_title">PVE</div>
+              <div class="col5_top flex_center_center">
                 <span>Rank</span>
                 <span>Address</span>
                 <span>$HC Raward</span>
               </div>
-              <div class="col4_bottom">
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
+              <div class="col5_bottom">
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
               </div>
-              <div class="col4_bottom">
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
-                <div class="flex_center"><span>Rank</span> <span>Address</span> <span>$HC Raward</span></div>
+            </div>
+            <div class="col5">
+              <div class="col5_title">PVE</div>
+              <div class="col5_top flex_center_center">
+                <span>Rank</span>
+                <span>Address</span>
+                <span>$HC Raward</span>
+              </div>
+              <div class="col5_bottom">
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
+                <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
               </div>
             </div>
           </div>
@@ -174,17 +194,26 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.ranking_box {
-  width: 100%;
-  background: #021c3b;
-  box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
-  border-radius: 6px;
-  padding: 20px;
-  margin-top: 50px;
-  font-size: 0;
-  .ranking_title {
-    font-size: 26px;
-  }
+$singleSmallCellHeight: 30px;
+$singleMediumCellHeight: 60px;
+$singleOversizedCellHeight: 235px;
+
+$mobileSingleSmallCellHeight: 0.3rem;
+$mobileSingleMediumCellHeight: 0.4rem;
+$mobileSingleOversizedCellHeight: 2rem;
+.flex_center {
+  display: flex;
+  align-items: center;
+}
+.flex_center_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex_center_around {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .outside_box {
   margin-top: 20px;
@@ -201,14 +230,29 @@ export default {};
     font-size: 16px;
   }
 }
-.ranking_content {
+.ranking_box {
   width: 100%;
-  display: flex;
-  text-align: center;
+  background: #021c3b;
+  box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+  border-radius: 6px;
+  padding: 20px;
+  margin-top: 50px;
+  font-size: 0;
+  .ranking_title {
+    font-size: 26px;
+  }
+  .ranking_content {
+    width: 100%;
+    display: flex;
+    text-align: center;
+  }
 }
 .select_list {
-  position: relative;
   cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .accrow {
     margin-left: 10px;
     width: 15px;
@@ -231,15 +275,15 @@ export default {};
     transform-origin: top center;
     li {
       font-size: 16px;
-      height: 50px;
-      line-height: 50px;
+      height: $singleMediumCellHeight;
+      line-height: $singleMediumCellHeight;
       &:hover {
         background: #00e7f0;
       }
     }
   }
   &:hover {
-    .select_list .accrow {
+    .accrow {
       transform: rotate(0);
     }
     ul {
@@ -247,101 +291,118 @@ export default {};
     }
   }
 }
-
-.col1col1 {
-  width: 15%;
-  margin-right: 5px;
-  div {
-    width: 100%;
-    height: 135px;
-    background: #082545;
-    border-radius: 6px;
+.btn {
+  cursor: pointer;
+  background: #29cdda;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 12px;
+  &:hover {
+    background: #c111c6;
   }
 }
-.col2col2 {
+.col1 {
+  width: 15%;
+  margin-right: 5px;
+  font-size: 16px;
+  div {
+    background: #082545;
+    border-radius: 6px;
+    width: 100%;
+    height: $singleMediumCellHeight * 2 + 15px;
+  }
+}
+.col2 {
   width: 85%;
   padding: 5px;
   background: #082545;
   border-radius: 6px;
-  .col2col2_row {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: repeat(5, 1fr);
-    div {
-      height: 60px;
-      background: #103763;
-      border-radius: 4px;
-    }
-    .col2col2_bottom {
-      font-size: 12px;
+  font-size: 12px;
+  .col2_row {
+    display: flex;
+    .col2_col {
+      width: 20%;
+      flex-wrap: wrap;
+      margin-right: 5px;
+      &:last-child {
+        margin-right: 0;
+      }
       div {
-        height: 50%;
-        &:nth-child(2) {
-          span {
-            cursor: pointer;
-            padding: 0 10px;
-            background: #29cdda;
-            border-radius: 7px;
-            &:hover {
-              background: #c111c6;
-            }
-          }
+        width: 100%;
+        height: $singleMediumCellHeight;
+        background: #103763;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        &:last-child {
+          margin-bottom: 0;
         }
       }
     }
   }
 }
-.ranking_box2 .col1col1 {
-  div {
-    width: 100%;
-    height: 65px;
-    background: #082545;
-    border-radius: 6px;
-    &:nth-child(2) {
-      margin-top: 5px;
-      background: #3d4f64;
-    }
-  }
-}
-.ranking_box2 .col2col2 {
-  .col2col2_title {
-    height: 30px;
-  }
-  .col2col2_row {
-    .col2col2_top {
-      height: 30px;
-    }
-  }
-}
-
 .col3 {
-  width: 20%;
-  height: 100%;
-  font-size: 16px;
-  div {
-    background: #082545;
-    border-radius: 6px;
-    &:nth-child(1) {
-      width: 100%;
-      height: 65px;
+  width: 100%;
+  .col3_top,
+  .col3_bottom {
+    width: 100%;
+    > div {
+      height: $singleMediumCellHeight;
+      background: #082545;
+      border-radius: 6px;
     }
-    &:nth-child(2),
-    &:nth-child(3) {
-      width: 100%;
-      height: 200px;
+  }
+  .col3_left {
+    width: 15%;
+    margin-right: 5px;
+  }
+  .col3_right {
+    width: 85%;
+    > span,
+    > div span {
+      &:nth-child(1) {
+        width: 30%;
+      }
+      &:nth-child(2) {
+        width: 40%;
+      }
+      &:nth-child(3) {
+        width: 30%;
+      }
+    }
+  }
+  .col3_bottom {
+    margin-top: 5px;
+    > div {
+      min-height: $singleMediumCellHeight;
+      height: $singleOversizedCellHeight;
+      background: #082545;
+      border-radius: 6px;
       margin-top: 5px;
+      padding: 5px;
+      overflow-y: auto;
+      // 重置滚动条样式
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #68b0c8;
+        border-radius: 5px;
+      }
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
     }
   }
 }
-
 .col4 {
-  width: 80%;
+  width: 85%;
   height: 100%;
   margin-left: 10px;
   font-size: 16px;
   .col4_top {
     width: 100%;
-    height: 65px;
+    height: $singleMediumCellHeight;
     background: #082545;
     border-radius: 6px;
     padding-right: 10px; // 去掉滚动条的位置
@@ -359,15 +420,27 @@ export default {};
   }
   .col4_bottom {
     width: 100%;
-    height: 200px;
+    height: $singleOversizedCellHeight;
     background: #082545;
     border-radius: 6px;
     margin-top: 5px;
     padding: 5px;
     overflow-y: auto;
+    // 重置滚动条样式
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #68b0c8;
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
     div {
       width: 100%;
-      height: 30px;
+      height: $singleSmallCellHeight;
       font-size: 12px;
       span {
         &:nth-child(1) {
@@ -381,38 +454,196 @@ export default {};
         }
       }
     }
-    // 重置滚动条样式
-    &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
+  }
+}
+.ranking_box2 {
+  .col1 {
+    div {
+      width: 100%;
+      height: $singleMediumCellHeight + 5px;
+      &:nth-child(2) {
+        background: #3d4f64;
+        margin-top: 5px;
+      }
     }
-    &::-webkit-scrollbar-thumb {
-      background: #68b0c8;
-      border-radius: 5px;
+  }
+  .col2 {
+    width: 100%;
+    .col2_title {
+      width: 100%;
+      height: $singleSmallCellHeight;
     }
-    &::-webkit-scrollbar-track {
-      background: transparent;
+    .col2_row {
+      .col2_col {
+        width: 100%;
+        div {
+          width: 100%;
+          height: $singleMediumCellHeight;
+          &:nth-child(1) {
+            height: $singleSmallCellHeight;
+          }
+        }
+      }
     }
   }
 }
-
-.flex_center {
-  display: flex;
-  align-items: center;
+.ranking_box3 {
+  .ranking_content {
+    display: flex;
+    .col1 {
+      div {
+        width: 100%;
+        height: $singleMediumCellHeight;
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 100%;
+          height: $singleOversizedCellHeight;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  .ranking_content_mobile {
+    display: none;
+  }
 }
-.flex_center_between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.flex_center_around {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.flex_center_center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media screen and (max-width: 980px) {
+  .ranking_box {
+    padding: 0.2rem;
+    margin-top: 0.5rem;
+    .ranking_title {
+      font-size: 18px;
+    }
+    .ranking_content {
+      display: block;
+    }
+  }
+  .select_list {
+    ul {
+      li {
+        height: $singleSmallCellHeight;
+        line-height: $singleSmallCellHeight;
+      }
+    }
+  }
+  .btn {
+    padding: 0 5px;
+  }
+  .col1 {
+    width: 100%;
+    div {
+      width: 100%;
+      height: $mobileSingleMediumCellHeight;
+      margin-bottom: 5px;
+    }
+  }
+  .col2 {
+    width: 100%;
+    .col2_row {
+      display: block;
+      .col2_col {
+        width: 100%;
+        flex-wrap: nowrap;
+        margin-bottom: 5px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        div {
+          width: 100%;
+          height: $mobileSingleSmallCellHeight;
+          background: #103763;
+          border-radius: 4px;
+          margin-bottom: 0;
+          &:nth-child(1) {
+            width: 30%;
+            margin-right: 5px;
+          }
+          &:nth-child(2) {
+            width: 70%;
+          }
+        }
+      }
+    }
+  }
+  .ranking_box2 {
+    .col1 {
+      div {
+        height: $mobileSingleMediumCellHeight;
+      }
+    }
+    .col2 {
+      .col2_title {
+        width: 100%;
+        height: $mobileSingleSmallCellHeight;
+      }
+      .col2_row {
+        .col2_col {
+          div {
+            height: $mobileSingleSmallCellHeight;
+            &:nth-child(1) {
+              height: $mobileSingleSmallCellHeight;
+            }
+          }
+        }
+      }
+    }
+  }
+  .ranking_box3 {
+    .ranking_content {
+      display: none;
+    }
+    .ranking_content_mobile {
+      display: block;
+      .col5 {
+        width: 100%;
+        padding: 5px;
+        background: #082545;
+        border-radius: 6px;
+        margin-bottom: 5px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        > div {
+          width: 100%;
+        }
+        .col5_title {
+          font-size: 16px;
+          text-indent: 0.5em;
+        }
+        .col5_top span,
+        .col5_bottom div span {
+          font-size: 12px;
+          text-align: center;
+          &:nth-child(1) {
+            width: 20%;
+          }
+          &:nth-child(2) {
+            width: 40%;
+          }
+          &:nth-child(3) {
+            width: 40%;
+          }
+        }
+        .col5_bottom {
+          font-weight: lighter;
+          min-height: $mobileSingleMediumCellHeight;
+          max-height: $mobileSingleOversizedCellHeight;
+          overflow-y: auto;
+          // 重置滚动条样式
+          &::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: #68b0c8;
+            border-radius: 2px;
+          }
+          &::-webkit-scrollbar-track {
+            background: transparent;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

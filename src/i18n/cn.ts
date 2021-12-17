@@ -261,7 +261,7 @@ export const message = {
   approve: "授权",
   button1: "确认",
   nothing: "暂无数据",
-  text79:'连接钱包',
+  text79: "连接钱包",
   gameFi: {
     text1: "个人中心",
     text2: "退出登录",
@@ -345,5 +345,8 @@ export const message = {
     text78: "MAX",
     text79: "coming soon",
     text80: "70% $HC recharged to be burnt, 20% for DAO, 10% for developer",
+    text81: "Clear cultivation data every season. Join at any time.",
+    text82: "Pass chapters to gain $HC token. Sale props to earn diamonds.",
+    text83: "Play for free. Sign in the game to get two free heroes",
   },
 };

@@ -27,11 +27,11 @@
           <div class="item_title">{{ item.mobileDesktop }}</div>
           <div class="list">
             <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
-              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.isOpen }">
+              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.href }">
                 <img :src="it.imgUri" alt="" />
                 <div>
                   <div>{{ it.application }}</div>
-                  <div v-if="!it.isOpen">{{ $t("message.gameFi.text79") }}</div>
+                  <div v-if="!it.href">{{ $t("message.gameFi.text79") }}</div>
                 </div>
                 <p v-if="it.prompt">{{ it.prompt }}</p>
               </div>
@@ -45,6 +45,32 @@
         {{ $t("message.gameFi.text54") }}
         <a href="https://land-hash.gitbook.io/hashland/gamefi/hash-warfare">{{ $t("message.gameFi.text55") }}</a>
       </div>
+      <div class="main_title" v-if="!isProd">版本更新</div>
+      <div class="box2" v-if="!isProd">
+        <div class="item">
+          <div>版本号</div>
+          <div class="select_list">
+            <span>1.12</span>
+            <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+            <ul class="list">
+              <li>1.12</li>
+              <li>1.13</li>
+              <li>1.14</li>
+            </ul>
+          </div>
+        </div>
+        <div class="item">
+          <div>更新时间</div>
+          <div>2021.12.15</div>
+        </div>
+        <div class="item">
+          <div>更新内容</div>
+          <div>
+            笔记分享功能升级: 笔记的长图分享功能支持自定义二维码和自定义笔记落款,让你分享的笔记与众不同。 性能优化:
+            优化App启动性能; -增强App功能稳定性。
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +79,7 @@
 export default {
   data() {
     return {
+      isProd: false,
       downloadData: [
         {
           mobileDesktop: `${this.$t("message.gameFi.text56")}`,
@@ -63,8 +90,8 @@ export default {
               imgUri: `${this.$store.state.imgUrl}android.png`,
               application: `${this.$t("message.gameFi.text58")}`,
               isOpen: true,
-              // openTime: null,
               openTime: 1639657800000, // 2021-12-16 20:30:00
+              href: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.6.apk",
             },
             {
               id: 2,
@@ -120,6 +147,7 @@ export default {
   },
 
   created() {
+    this.isProd = process.env.NODE_ENV === "production" ? true : false;
     // this.downloadData.forEach((element) => {
     //   element.list.forEach((item) => {
     //     if (item.openTime) {
@@ -131,39 +159,15 @@ export default {
     // });
   },
   methods: {
-    /**开放下载倒计时，传入时间戳，返回是否开放 */
     countdown(end) {
       return Date.parse(new Date()) > end ? true : false;
     },
     openLink(item) {
       // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
       // console.log(message);
-      if (!item.isOpen) return;
-      switch (item.id) {
-        case 1:
-          window.location.href = "https://cdn.hashland.com/apk/HashWarfare_main_1.1.6.apk";
-          break;
-        case 2:
-          // console.log("App Store");
-          break;
-        case 3:
-          // console.log("Google play");
-          break;
-        case 4:
-          // console.log("NowGG");
-          break;
-        case 5:
-          // console.log("Windows");
-          break;
-        case 6:
-          // console.log("MacOS");
-          break;
-        default:
-          break;
-      }
+      // if (!item.isOpen) return;
+      if (item.href) window.location.href = item.href;
     },
-
-    /**返回上一页 */
     returnToPreviousPage() {
       history.back();
     },
@@ -175,7 +179,7 @@ export default {
 .page {
   padding: 80px 0;
   color: #fff;
-  background: #00162e;
+  // background: #00162e;
   position: relative;
   .return_img {
     cursor: pointer;
@@ -275,7 +279,6 @@ export default {
   }
   .box {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     .item {
       margin-top: 40px;
@@ -298,12 +301,9 @@ export default {
         box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
           -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         border-radius: 6px;
-        .li_box {
-          height: 85px;
-          margin: 20px;
-        }
         .li {
-          height: 100%;
+          margin: 20px;
+          height: 85px;
           padding: 0 20px;
           background: rgba(11, 22, 43, 0.99);
           box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
@@ -354,6 +354,90 @@ export default {
           position: absolute;
           right: 20px;
           bottom: 10px;
+        }
+      }
+    }
+  }
+  .box2 {
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-around;
+    .item {
+      &:nth-child(1) {
+        width: 20%;
+      }
+      &:nth-child(2) {
+        width: 20%;
+      }
+      &:nth-child(3) {
+        width: 30%;
+        div {
+          &:nth-child(2) {
+            font-size: 12px;
+          }
+        }
+      }
+      > div {
+        background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
+          -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        border-radius: 4px;
+        font-size: 16px;
+        &:nth-child(1) {
+          text-align: center;
+          margin-bottom: 20px;
+          padding: 10px 0;
+        }
+        &:nth-child(2) {
+          padding: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    .select_list {
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      .accrow {
+        margin-left: 1em;
+        width: 15px;
+        height: auto;
+        transform: rotate(-90deg);
+        transition: all 0.3s;
+      }
+      ul {
+        width: 100%;
+        height: auto;
+        background: #082545;
+        box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+        border-radius: 0 0 6px 6px;
+        overflow: hidden;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        transform: scaleY(0);
+        transition: transform 0.2s;
+        transform-origin: top center;
+        li {
+          font-size: 16px;
+          height: 40px;
+          line-height: 40px;
+          &:hover {
+            background: #00e7f0;
+          }
+        }
+      }
+      &:hover {
+        .accrow {
+          transform: rotate(0);
+        }
+        ul {
+          transform: scaleY(1);
         }
       }
     }
@@ -435,11 +519,9 @@ export default {
           width: 100%;
           padding: 0.2rem;
           margin-top: 0.1rem;
-          .li_box {
+          .li {
             height: 0.85rem;
             margin: 0.2rem 0.1rem;
-          }
-          .li {
             padding: 0 0.2rem;
             font-size: 14px;
             img {
@@ -468,6 +550,31 @@ export default {
             right: 0.2rem;
             bottom: 0.1rem;
             font-size: 10px;
+          }
+        }
+      }
+    }
+    .box2 {
+      flex-wrap: wrap;
+      .item {
+        &:nth-child(1),
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 100%;
+        }
+        > div {
+          &:nth-child(1) {
+            margin-bottom: 0.1rem;
+          }
+          &:nth-child(2) {
+            margin-bottom: 0.3rem;
+          }
+        }
+        &:last-child {
+          > div {
+            &:nth-child(2) {
+              margin-bottom: 0;
+            }
           }
         }
       }

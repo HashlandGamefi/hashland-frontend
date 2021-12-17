@@ -35,16 +35,16 @@
         <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
         <div class="game_tab" v-if="!isProd">
           <div>
-            <div>赛季制</div>
-            <div>Clear cultivation data every season. Join at any time.</div>
+            <div>{{ $t("message.gameFi.text50") }}</div>
+            <div>{{ $t("message.gameFi.text81") }}</div>
           </div>
           <div>
-            <div>高收益</div>
-            <div>Pass chapters to gain $HC token. Sale props to earn diamonds.</div>
+            <div>{{ $t("message.gameFi.text49") }}</div>
+            <div>{{ $t("message.gameFi.text82") }}</div>
           </div>
           <div>
-            <div>0门槛</div>
-            <div>Play for free. Sign in the game to get two free heroes</div>
+            <div>{{ $t("message.gameFi.text48") }}</div>
+            <div>{{ $t("message.gameFi.text83") }}</div>
           </div>
         </div>
         <div class="player_box1">
