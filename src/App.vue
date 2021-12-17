@@ -4,7 +4,7 @@
     <transition name="fade">
       <router-view v-if="isRouterAlive" />
     </transition>
-    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop" @mouseover="mouseOver" @mouseleave="mouseLeave">Top</div>
+    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop">Top</div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup
       :proupTitle="getrewardsInfo.proupTitle"
@@ -29,6 +29,7 @@ export default {
   watch: {
     $route(to, from) {
       window.scrollTo(0, 0);
+      this.istopshow = false
       if (to.path == "/synthesis" || to.path == "/transfer") {
         this.isshowFooter = false;
       } else {
@@ -51,47 +52,17 @@ export default {
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
       istopshow:false,//鼠标移入移除
-      timetop:null
+      scrollTimeer:null
     };
   },
   methods: {
-    mouseOver() {
-      // if(this.timetop){
-      //   clearTimeout(this.timetop)
-      // }
-      // this.timetop = setTimeout(() => {
-      //   this.istopshow = true
-      // },500)
-      if (this.timetop) {
-        clearTimeout(this.timetop)
-        this.timetop = setTimeout(() => {
-          this.istopshow = true
-        },500)
-      } else {
-        this.timetop = setTimeout(() => {
-          this.istopshow = true
-        },500)
-      }
-    },
-    // 移出
-    mouseLeave() {
-      if (this.timetop) {
-        clearTimeout(this.timetop)
-        this.timetop = setTimeout(() => {
-          this.istopshow = false
-        },500)
-      }else{
-        this.timetop = setTimeout(() => {
-          this.istopshow = false
-        },500)
-      }
-    },
     gotop() {
       window.scrollTo(0, 0);
       this.addDom(document);
       this.temArr.forEach((element) => {
         element.scrollTop = 0;
       });
+      this.istopshow = false
     },
     addDom(dom) {
       [...dom.children].forEach((v) => {
@@ -159,11 +130,44 @@ export default {
       //   console.log('获取各种币的价格err:',err)
       // })
     },
+    handleScroll (e) {
+      let direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
+      if(this.scrollTimeer){
+        clearTimeout(this.scrollTimeer)
+        this.scrollTimeer = setTimeout(() => {
+          this.isshowTop(direction)
+        },500)
+      }else{
+        this.scrollTimeer = setTimeout(() => {
+          this.isshowTop(direction)
+        },500)
+      }
+    },
+    // 是否展示top按钮
+    isshowTop(direction){
+      let heigth_ = document.body.offsetHeight
+      let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
+      // console.log('scroll_top: ', scroll_top);
+      // console.log('heigth_: ', heigth_);
+      if (direction == 'down' && scroll_top >= heigth_ / 2) { //125为用户一次滚动鼠标的wheelDelta的值
+        if(!this.istopshow){
+          this.istopshow = true
+        }
+        console.log("向下")
+      }
+      if (direction == 'up' && scroll_top <= heigth_ / 4) {
+        if(this.istopshow){
+          this.istopshow = false
+        }
+        console.log("向上")
+      }
+    }
   },
   created() {
     this.getCurrenciesPrices();
   },
   mounted() {
+    window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);
   },
@@ -178,7 +182,7 @@ export default {
   height: 60px;
   text-align: center;
   line-height: 60px;
-  background: #ccc;
+  background: #0072BD;
   color: #ffffff;
   border-radius: 50%;
   cursor: pointer;
@@ -186,7 +190,7 @@ export default {
 }
 .istop{
   right: 10px;
-  background: linear-gradient(90deg, #06366d 50%, #034088 100%);
+  background: linear-gradient(60deg, #0873ec 40%, #3a96ff 60%);
 }
 @media screen and (min-width: 981px) {
   #app {

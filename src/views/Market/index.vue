@@ -19,7 +19,7 @@
       <div class="leftboxs">
         <div class="add_leftbox">
           <!-- 等级排序 -->
-          <div class="left_content">
+          <div class="left_content" :class="[disablehover?'clear_hover':'']">
             <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{$t("message.synthesis.txt8")}} {{ amount }})</span>
             <div class="span2"></div>
             <div class="left_content_hover">
@@ -27,7 +27,7 @@
             </div>
           </div>
           <!-- 职业排序 -->
-          <div class="left_content">
+          <div class="left_content" :class="[disablehover?'clear_hover':'']">
             <span class="span1 fontsize16">{{$t(occupationTxt)}}</span>
             <div class="span2"></div>
             <div class="left_content_hover">
@@ -37,7 +37,7 @@
         </div>
         <div class="add_leftbox pc_add_leftbox">
           <!-- 筛选-->
-          <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
+          <div class="left_content_price" :class="[disablehover?'clear_hover':'']" v-for="(item,index) in orderArr" :key="index">
             <span class="span1 fontsize16">{{ $t(item.name) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover">
@@ -63,7 +63,7 @@
     <!-- 移动端筛选 -->
     <div class="mobile_add_leftbox">
       <!-- 筛选-->
-      <div class="left_content_price" v-for="(item,index) in orderArr" :key="index">
+      <div class="left_content_price" :class="[disablehover?'clear_hover':'']" v-for="(item,index) in orderArr" :key="index">
         <span class="span1 fontsize16">{{ $t(item.name) }}</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -135,6 +135,7 @@ import { hnMarketInfo, hnMarket, getHnImg, erc20, token, contract, getSigner, ut
 export default {
   data () {
     return {
+      disablehover:false,
       occupationTxt:'message.market.txt9',//职业排序
       occupationArr:[
         {name:'message.market.txt9',describe:0},
@@ -346,19 +347,26 @@ export default {
     // 选择阶数
     selectRankClik (ele, index) {
       if (this.pageshowLoading) return
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       this.rank = index + 1 // 当前几阶
       this.amount = ele
-      this.pageshowarr = []
       this.pulldown = true// 上拉加载变量
       this.pageshowLoading = true// 数据秘没有加载玩之前显示loading
+      this.pageshowarr = []
       this.nodata = false
-      this.occupationIstrue = true // 职业排序此字段的true与false决定排序数组是否有值
       this.sortObj.level = this.rank // 选择当前等级
       this.sortObj.skip = 0 // 当前页数重置为0
       this.encapsulationFun('ccupation')
     },
     // 职业排序
     occupationFun(ele){
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       console.log('ele: ', ele);
       this.occupationTxt = ele.name
       if(ele.describe == 0){
@@ -366,13 +374,16 @@ export default {
       }else{
         this.sortObj.hnClass = ele.describe
       }
-
       this.sortObj.skip = 0
       this.pageshowLoading = true
-      this.encapsulationFun('ccupation')
+      this.encapsulationFun()
     },
     // 筛选
     sortPriceClik (item,data) {
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       console.log('data: ',item, data);
       item.name = data.name
       this.sortObj.skip = 0
@@ -423,11 +434,15 @@ export default {
       }
     },
     // 排序--筛选--封装函数
-    encapsulationFun(type = ''){
+    encapsulationFun(){
+      this.pageshowarr = []
+      this.pageshowLoading = true
+      console.log('this.sortObj: ', this.sortObj);
       this.getDatabaseaFun(this.sortObj).then(res => { // 页面加载的时候  查询第一页(0)的数据--每页展示1条数据(测试)
-        if(type == 'ccupation'){
+
+        // if(type == 'ccupation'){
           this.sortObj.skip += this.sortObj.first
-        }
+        // }
         if (res.status == 0) {
           this.pageshowarr = res.arr
           this.pageshowLoading = false
@@ -828,7 +843,6 @@ export default {
         }
         .btn {
           min-width: 56px;
-          padding: 10px 5px;
           height: 22px;
           border-radius: 15px;
           display: flex;
@@ -857,6 +871,9 @@ export default {
       margin-top: 60px;
     }
   }
+}
+.clear_hover:hover {
+  display: none !important;
 }
 @media screen and (min-width: 1280px) {
   .gamefi_page {
@@ -1113,7 +1130,6 @@ export default {
           }
           .btn{
             min-width: 0.56rem;
-            padding: 0.05rem;
             height: 0.22rem;
             border-radius: 0.15rem;
             display: flex;
