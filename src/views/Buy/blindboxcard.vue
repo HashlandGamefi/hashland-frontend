@@ -142,6 +142,8 @@ export default {
               type = 'BUSD'
             }else if(this.tokenID == 4){
               type = 'HT'
+            }else{
+              type = 'BUSD'
             }
             this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
               console.log('当前页面的币种: ', type);
@@ -197,6 +199,8 @@ export default {
         type = 'BUSD'
       }else if(this.tokenID == 4){
         type = 'HT'
+      }else{
+        type = 'BUSD'
       }
       this.$refs.mychild.goApproveFun(type,contract().HNBlindBox).then(res => {
         console.log('去授权res: ', res);
@@ -259,6 +263,9 @@ export default {
       }
       this.buy_isloading = true
       // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
+      if(Number(this.tokenID) >= 5){
+        this.tokenID = 3
+      }
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
@@ -298,6 +305,7 @@ export default {
           this.getuserBalance('HT')
           break;
         default:
+          this.getuserBalance('BUSD')
           break;
       }
     },
@@ -323,7 +331,7 @@ export default {
         this.maxbuy = 0
       })
       hnBlindBox().getTokenInfo(tokenID).then(res => {
-        // console.log('获取某代币信息res: ', res);
+        console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
