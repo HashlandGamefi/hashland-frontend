@@ -23,8 +23,8 @@
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
-          <!-- <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span> -->
-          <span> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
+          <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span>
+          <span v-else> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
         <div v-if="!isProd" @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>

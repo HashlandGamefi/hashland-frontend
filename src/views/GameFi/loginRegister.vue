@@ -33,9 +33,9 @@
         </li>
         <li class="login_footer fontsize16">
           <!-- 关闭注册入口 -->
-          <!-- <span v-if="isProd">{{ $t("message.gameFi.text45") }} </span> -->
+          <span v-if="isProd">{{ $t("message.gameFi.text45") }} </span>
           <!-- 注册入口 -->
-          <span class="register_entrance" @click="registerNow">
+          <span v-else class="register_entrance" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
             <span> {{ $t("message.gameFi.text7") }}</span>
           </span>
