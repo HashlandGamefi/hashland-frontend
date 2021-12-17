@@ -322,7 +322,7 @@ export default {
       // 1小时之内某用户的剩余购买量
       console.log('tokenIDtokenIDtokenID:', tokenID)
       let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
-      this.maxbuy = maxnum
+      this.maxbuy = maxnum.toString()
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
