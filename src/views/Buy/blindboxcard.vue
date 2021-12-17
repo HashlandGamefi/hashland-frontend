@@ -158,7 +158,11 @@ export default {
       immediate: true
     },
     $route(to){
-      this.tokenID = to.params.type
+      if(Number(this.$route.params.type) >= 5){
+        this.tokenID = 3
+      }else{
+        this.tokenID = to.params.type
+      }
       this.connectGetInfo(to.params.type)
       this.getTokenInfoFun(to.params.type)
     }
@@ -337,9 +341,14 @@ export default {
     }
   },
   mounted(){
-    this.getTokenInfoFun(this.$route.params.type)
-    this.tokenID = this.$route.params.type
-    // console.log('this.$route: ', this.$route.params.type);
+    console.log('this.$route.params.type',this.$route.params.type);
+    if(Number(this.$route.params.type) >= 5){
+      this.getTokenInfoFun(3)
+      this.tokenID = 3
+    }else{
+      this.getTokenInfoFun(this.$route.params.type)
+      this.tokenID = this.$route.params.type
+    }
   }
 }
 </script>
