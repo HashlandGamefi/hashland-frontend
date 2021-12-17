@@ -119,7 +119,7 @@ export default {
       cardNumber:'0',//卡牌的编号
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       isapprove:false,//是否授权
-      tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
+      tokenID:3, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
       maxbuy:0, // 最大购买数量
       disable:true,//购买按钮是否禁用(是否在白名单)
     }
@@ -310,25 +310,20 @@ export default {
       this.proupDis = false
     },
     // 获取某代币信息
-    getTokenInfoFun(tokenID){
-      console.log('fdfdsfsd ',tokenID)
+    async getTokenInfoFun(tokenID){
+      // console.log('fdfdsfsd ',tokenID)
       hnBlindBox().getBoxesLeftSupply(tokenID).then(res => {
-        console.log("忙和剩余数量",res)
+        // console.log("忙和剩余数量",res)
         this.surplusNums = res
       })
       hn().totalSupply().then(data => {
         this.cardNumber = data.toString()
       })
       // 1小时之内某用户的剩余购买量
-      hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then(res => {
-        console.log('1小时之内某用户的剩余购买量res: ', res)
-        this.maxbuy = res.toString()
-      }).catch(err => {
-        // console.log('1小时之内某用户的剩余购买量err: ', err)
-        this.maxbuy = 0
-      })
+      console.log('tokenIDtokenIDtokenID:', tokenID)
+      this.maxbuy = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
       hnBlindBox().getTokenInfo(tokenID).then(res => {
-        console.log('获取某代币信息res: ', res);
+        // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
         this.getuserBalance(res[1])
         if(res[4]){
