@@ -4,11 +4,12 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <div class="title_title fontsize32">{{ $t("message.insert.txt1") }}</div>
-    <!-- <span class="title1_txt fontsize12_400">{{ $t("message.insert.txt2") }}</span> -->
     <span class="title1_txt title2_txt fontsize12_400">{{ $t("message.insert.txt3") }}</span>
-    <div class="content_box">
+    <div class="content_box" v-if="starArr.length > 0">
       <div class="stratbox" v-for="(ele,index1) in 5" :key="index1">
-        <div class="top_line">
+        <div class="top_line" v-if="starArr.filter((data) => {
+                return data.level == ele;
+              }).length > 0">
           <span class="span1 fontsize22">{{ $t("message.synthesis.txt4")}} {{ ele }} ({{ $t("message.synthesis.txt8")}} {{
               starArr.filter((data) => {
                 return data.level == ele;
@@ -18,7 +19,9 @@
           <span class="span2 fontsize12_400">{{ $t("message.nftMining.txt8") }}</span>
         </div>
         <!-- 卡牌轮播 -->
-        <div class="swiper-container">
+        <div class="swiper-container" v-if="starArr.filter((data) => {
+                return data.level == ele;
+              }).length > 0">
           <div class="swiper-wrapper" >
             <div
               class="swiper-slide"
@@ -51,10 +54,19 @@
               </div>
             </div>
           </div>
+          <!-- 如果需要导航按钮 -->
+          <!-- <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-next"></div> -->
         </div>
       </div>
     </div>
-    <div class="btn_box fontsize18" @click="insertFun">
+    <div class="loadingbox fontsize16" v-else-if="starArr.length == 0 && pageshowLoading">
+      Loading...
+    </div>
+    <div class="content_box" v-else>
+      <NoData></NoData>
+    </div>
+    <div class="btn_box fontsize18" v-if="starArr.length > 0" @click="insertFun">
       <span v-if="!getIstrue">Connect</span>
       <span v-else-if="!isbtnstatus">{{ $t("message.approve") }}</span>
       <span v-else>{{ $t("message.nftMining.txt15") }}</span>
@@ -77,6 +89,7 @@ import { contract, hnPool, getSigner } from 'hashland-sdk'
 export default {
   data () {
     return {
+      pageshowLoading:true,
       btntxt: '',// 弹窗页面的确认按钮
       word: '',//弹窗提示文字
       proupDis: false,// 弹窗展示消失变量
@@ -90,24 +103,14 @@ export default {
   computed: {
     ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"])
   },
-  mounted () {
-    this.$nextTick(() => {
-      this.swiper1 = new Swiper('.swiper-container', {
-        slidesPerView: 'auto',
-        observer: true,
-        observeParents: true,
-        initialSlide:0
-      })
-    });
-  },
   watch: {
     'getIstrue':{
-      handler: function (newValue, oldValue) {
-        console.log('插入页面的连接:', newValue,oldValue);
+      handler: function (newValue) {
+        // console.log('插入页面的连接:', newValue,oldValue);
         if(newValue){
+          this.starArr = []
+          this.pageshowLoading = true
           this.getconnetFun()
-          // setTimeout(() => {
-          // },1500)
           this.getUserAllCard()
         }else{
           this.proupDis = false// 弹窗展示消失变量
@@ -126,28 +129,28 @@ export default {
   methods: {
     // 用户总卡牌数据获取
     getUserAllCard(){
+      console.log("用户总卡牌数获取")
       clearInterval(this.timerll)
       this.timerll = setInterval(() => {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
+          this.pageshowLoading = true
           let arr = JSON.parse(this.getUserCardInfo)
           arr.sort((a, b) => {
             return Number(a.type) > Number(b.type) ? 1 : -1;
           })
           this.starArr = arr
-          this.initSwiper()
+          this.pageshowLoading = false
+          this.$nextTick(() => {
+            this.swiper1 = new Swiper('.swiper-container', {
+              slidesPerView: 'auto',
+              observer: true,
+              observeParents: true,
+              initialSlide:0
+            })
+          });
         }
-        console.log("获取用户信息")
       }, 1000);
-    },
-    /**初始化swiper */
-    initSwiper () {
-      setTimeout(() => {
-        console.log("插入卡牌swiper", this.swiper1)
-        this.swiper1.forEach(item => {
-          item.slideTo(0, 100, false);
-        })
-      }, 2500);
     },
     // 取消按钮(关闭弹窗)
     CloseFun () {
@@ -231,7 +234,7 @@ export default {
     // 页面加载需要获取的信息
     getconnetFun () {
       this.$common.isApproveFun(1, this.getAccount, contract().HNPool).then(res => {
-        console.log('是否授权res: ', res);
+        // console.log('是否授权res: ', res);
         if (res) {
           this.isbtnstatus = true
         } else {
@@ -275,16 +278,17 @@ export default {
   }
   .content_box {
     width: 100%;
-    max-height: 800px;
+    max-height: 1093px;
     overflow: auto;
     padding: 50px 100px;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
     .stratbox {
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-bottom: 50px;
+      margin-bottom: 20px;
       .top_line {
         width: 100%;
         display: flex;
@@ -367,8 +371,28 @@ export default {
           //   margin: 0 30px;
           // }
         }
+        .swiper-button-prev {
+          width: 70px;
+          height: 67px;
+          background: url("//cdn.hashland.com/images/swiper_pre.png") no-repeat;
+          background-size: 100% 100%;
+        }
+        .swiper-button-next {
+          width: 70px;
+          height: 67px;
+          background: url("//cdn.hashland.com/images/swiper_next.png") no-repeat;
+          background-size: 100% 100%;
+        }
       }
     }
+  }
+  .loadingbox {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
   }
   .btn_box {
     width: 274px;

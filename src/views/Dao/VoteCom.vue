@@ -231,8 +231,8 @@ export default {
         this.$common.checkNumber(last_num.toString(), res1 => {
           this.infoArr[1].num = res1
           this.infoArr[1].loading = false
-        },4)
-      }).catch(err => {
+        },2)
+      }).catch(() => {
         this.infoArr[1].loading = false
       })
     }

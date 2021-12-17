@@ -98,9 +98,18 @@
               v-if="item.btnstatus == 3"
               @click="Unlock(item)"
             >
-              <span v-if="ISpprove">{{ $t("message.nftMining.txt10") }}</span>
+              <Btn
+                :isapprove="isapprove"
+                :approveloading="item.isloading"
+                :isloading="item.isloading"
+                :word="$t('message.nftMining.txt10')"
+                ref="mychild"
+                @sonapprove="sonapprove(item)"
+                @dosomething="buyCard(item)"
+              />
+              <!-- <span v-if="ISpprove">{{ $t("message.nftMining.txt10") }}</span>
               <span v-else>{{ $t("message.approve") }}</span>
-              <BtnLoading :isloading="item.isloading"></BtnLoading>
+              <BtnLoading :isloading="item.isloading"></BtnLoading> -->
             </div>
           </div>
         </div>
@@ -126,6 +135,7 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      isapprove: false,// 是否授权busd
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
@@ -172,6 +182,7 @@ export default {
       swiper1: null,
       swiper2: null,
       timerll:null, // 定时器对象  获取用户总卡牌数
+      time_btn:null
     };
   },
   mounted () {
@@ -205,6 +216,23 @@ export default {
             this.cardsoltArr = [];
             this.getCardSlotInfo();
           }, 1500);
+          clearInterval(this.time_btn)
+          this.time_btn = setInterval(() => {
+            if (this.cardsoltArr.length > 0) {
+              clearInterval(this.time_btn)
+              for (let index = 0; index < this.$refs.mychild.length; index++) {
+                this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
+                  // console.log("shishou:",res)
+                  if (res) {
+                    this.isapprove = true
+                  } else {
+                    this.isapprove = false
+                  }
+                });
+              }
+            }
+            // console.log("链接状态为true时判断是否授权")
+          }, 1000)
         } else {
           this.slotArr.forEach(item => {
             item.num = 0
@@ -249,6 +277,37 @@ export default {
     ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
   },
   methods: {
+    sonapprove (item) {
+      if (item.isloading) return
+      item.isloading = true
+      console.log('父组件页面调用子组件的授权方法,授权busd', item)
+      for (let index = 0; index < this.cardsoltArr.length; index++) {
+        const element = this.cardsoltArr[index];
+        element.isloading = true
+      }
+      this.$refs.mychild[0].goApproveFun('hc', contract().HNPool).then(res => {
+        if (res) {
+          for (let index = 0; index < this.cardsoltArr.length; index++) {
+            const element = this.cardsoltArr[index];
+            element.isloading = false
+          }
+          this.isapprove = true
+        } else {
+          for (let index = 0; index < this.cardsoltArr.length; index++) {
+            const element = this.cardsoltArr[index];
+            element.isloading = false
+          }
+          this.isapprove = false
+        }
+      }).catch(err => {
+        for (let index = 0; index < this.cardsoltArr.length; index++) {
+          const element = this.cardsoltArr[index];
+          element.isloading = false
+        }
+        this.isapprove = false
+      })
+      // this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
+    },
     // 用户总卡牌数据获取
     getUserAllCard(){
       clearInterval(this.timerll)
@@ -333,8 +392,7 @@ export default {
         return
       }
       this.$router.push({
-        path: "/insertcard",
-        query: { nums: this.emptyCardSlot },
+        path: "/insertcard"
       });
     },
     // 解除卡槽
@@ -506,23 +564,24 @@ export default {
       });
       this.initSwiper(2);
       // 授权
-      this.$common
-        .isApproveFun(2, this.getAccount, contract().HNPool)
-        .then((res) => {
-          // console.log('解锁是否授权res: ', res);
-          if (res.toString() > 0) {
-            this.ISpprove = true;
-            // console.log('解锁是否授权1');
-          } else {
-            this.ISpprove = false;
-            // console.log('解锁是否授权2');
-          }
-        })
-        .catch((err) => {
-          // console.log("解锁是否授权err: ", err);
-          this.ISpprove = false;
-        });
+      // this.$common
+      //   .isApproveFun(2, this.getAccount, contract().HNPool)
+      //   .then((res) => {
+      //     // console.log('解锁是否授权res: ', res);
+      //     if (res.toString() > 0) {
+      //       this.ISpprove = true;
+      //       // console.log('解锁是否授权1');
+      //     } else {
+      //       this.ISpprove = false;
+      //       // console.log('解锁是否授权2');
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     // console.log("解锁是否授权err: ", err);
+      //     this.ISpprove = false;
+      //   });
     },
+
   },
   beforeDestroy(){
     clearInterval(this.timerll)

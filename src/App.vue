@@ -4,7 +4,7 @@
     <transition name="fade">
       <router-view v-if="isRouterAlive" />
     </transition>
-    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop" @mouseover="mouseOver" @mouseleave="mouseLeave">Top</div>
+    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop">Top</div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup
       :proupTitle="getrewardsInfo.proupTitle"
@@ -13,6 +13,10 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
+    <WalletComponents
+      @closewalletpage="walletClose"
+      @walletClick="walletClick"
+    ></WalletComponents>
   </div>
 </template>
 <script>
@@ -29,6 +33,7 @@ export default {
   watch: {
     $route(to, from) {
       window.scrollTo(0, 0);
+      this.istopshow = false
       if (to.path == "/synthesis" || to.path == "/transfer") {
         this.isshowFooter = false;
       } else {
@@ -55,35 +60,25 @@ export default {
     };
   },
   methods: {
-    mouseOver() {
-      // if(this.timetop){
-      //   clearTimeout(this.timetop)
-      // }
-      // this.timetop = setTimeout(() => {
-      //   this.istopshow = true
-      // },500)
-      if (this.timetop) {
-        clearTimeout(this.timetop)
-        this.timetop = setTimeout(() => {
-          this.istopshow = true
-        },500)
-      } else {
-        this.timetop = setTimeout(() => {
-          this.istopshow = true
-        },500)
-      }
+    walletClose() {
+      this.$store.commit("setwalletstatus", false);
     },
-    // 移出
-    mouseLeave() {
-      if (this.timetop) {
-        clearTimeout(this.timetop)
-        this.timetop = setTimeout(() => {
-          this.istopshow = false
-        },500)
-      }else{
-        this.timetop = setTimeout(() => {
-          this.istopshow = false
-        },500)
+    async walletClick(item) {
+      if (
+        item.name.toLowerCase() == "coin98" ||
+        item.name.toLowerCase() == "onto" ||
+        item.name.toLowerCase() == "bitkeep"
+      ) {
+        console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
+        this.$common.connectWallet("metamask").then(res => {
+          console.log('方法返回res: ', res);
+          this.$store.commit("setwalletstatus", false);
+        })
+      } else {
+        this.$common.connectWallet(item.name.toLowerCase()).then(res => {
+          console.log('方法返回res: ', res);
+          this.$store.commit("setwalletstatus", false);
+        })
       }
     },
     gotop() {
@@ -92,6 +87,7 @@ export default {
       this.temArr.forEach((element) => {
         element.scrollTop = 0;
       });
+      this.istopshow = false
     },
     addDom(dom) {
       [...dom.children].forEach((v) => {
@@ -159,11 +155,37 @@ export default {
       //   console.log('获取各种币的价格err:',err)
       // })
     },
+    handleScroll (e) {
+      // console.log('e: ', e);
+      const direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
+      if (direction == 'down' && e.deltaY >= 120) { //125为用户一次滚动鼠标的wheelDelta的值
+        setTimeout(() => {
+          if(!this.istopshow){
+            this.istopshow = true
+          }
+        },500)
+        console.log("向下")
+      }
+      if (direction == 'up' && e.deltaY <= -120) {
+        setTimeout(() => {
+          if(this.istopshow){
+            this.istopshow = false
+          }
+        console.log("向上")
+        },500)
+      }
+    }
   },
   created() {
     this.getCurrenciesPrices();
   },
   mounted() {
+    if(localStorage.getItem('walletType')){
+      this.$common.connectWallet(localStorage.getItem('walletType')).then(res => {
+        console.log('方法返回res: ', res);
+      })
+    }
+    window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);
   },
@@ -178,7 +200,7 @@ export default {
   height: 60px;
   text-align: center;
   line-height: 60px;
-  background: #ccc;
+  background: #0072BD;
   color: #ffffff;
   border-radius: 50%;
   cursor: pointer;
@@ -186,7 +208,7 @@ export default {
 }
 .istop{
   right: 10px;
-  background: linear-gradient(90deg, #06366d 50%, #034088 100%);
+  background: linear-gradient(60deg, #0873ec 40%, #3a96ff 60%);
 }
 @media screen and (min-width: 981px) {
   #app {

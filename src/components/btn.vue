@@ -1,6 +1,6 @@
 <template>
   <div class="btn_page">
-    <div class="connect_box" v-if="!getIstrue">Connect</div>
+    <div class="connect_box" v-if="!getIstrue" @click="connectFun">Connect</div>
     <div class="connect_box" v-else-if="!isapprove" @click="sonapprove">{{$t("message.approve")}}<BtnLoading :isloading="approveloading"></BtnLoading></div>
     <div class="connect_box" v-else @click="dosomething">{{word}}<BtnLoading :isloading="isloading"></BtnLoading></div>
   </div>
@@ -31,6 +31,9 @@ export default {
     ...mapGetters(["getIstrue","getAccount"])
   },
   methods:{
+    connectFun(){
+      this.$store.commit("setwalletstatus", true);
+    },
     // 判断是否授权
     isApproveFun(type, contractAdrdess) {
       // console.log('当前币种%s是否授权: ', type);

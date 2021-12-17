@@ -72,7 +72,7 @@
         <span class="composite_span3 fontsize12">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
       </div>
     </div>
-    <div class="connect_box fontsize18" v-if="!getIstrue">Connect</div>
+    <div class="connect_box fontsize18" v-if="!getIstrue" @click="connectFun">Connect</div>
     <div class="connect_box fontsize18" v-else-if="!isapprove" @click="goApproveClick">{{$t("message.approve")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="connect_box fontsize18" v-else @click="buyBox">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
     <div class="right_box">
@@ -126,6 +126,9 @@ export default {
     },
   },
   methods: {
+    connectFun(){
+      this.$store.commit("setwalletstatus", true);
+    },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false

@@ -1,5 +1,5 @@
 <template>
-  <div class="record_page" v-if="walletdis">
+  <div class="record_page" v-if="getwalletstatus">
     <div class="title fontsize26">{{ $t("message.text79") }}</div>
     <img
       :src="`${$store.state.imgUrl}proupclose.png`"
@@ -16,12 +16,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  props: {
-    walletdis: {
-      type: Boolean,
-      default: false
-    },
+  computed: {
+    ...mapGetters(["getwalletstatus"]),
   },
   data(){
     return {
