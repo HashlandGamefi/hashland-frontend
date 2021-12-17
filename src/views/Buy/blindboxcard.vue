@@ -262,10 +262,6 @@ export default {
         return
       }
       this.buy_isloading = true
-      // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
-      if(Number(this.tokenID) >= 5){
-        this.tokenID = 3
-      }
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
@@ -325,7 +321,7 @@ export default {
       })
       // 1小时之内某用户的剩余购买量
       hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then(res => {
-        // console.log('1小时之内某用户的剩余购买量res: ', res)
+        console.log('1小时之内某用户的剩余购买量res: ', res)
         this.maxbuy = res.toString()
       }).catch(err => {
         // console.log('1小时之内某用户的剩余购买量err: ', err)
