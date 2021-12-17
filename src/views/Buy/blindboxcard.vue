@@ -165,7 +165,7 @@ export default {
     },
     $route(to){
       this.tokenID = to.params.type
-      this.connectGetInfo(to.params.type)
+      // this.connectGetInfo(to.params.type)
       this.getTokenInfoFun(to.params.type)
     }
   },
