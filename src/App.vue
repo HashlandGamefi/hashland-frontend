@@ -52,7 +52,7 @@ export default {
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
       istopshow:false,//鼠标移入移除
-      timetop:null
+      scrollTimeer:null
     };
   },
   methods: {
@@ -131,23 +131,35 @@ export default {
       // })
     },
     handleScroll (e) {
-      // console.log('e: ', e);
-      const direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
-      if (direction == 'down' && e.deltaY >= 120) { //125为用户一次滚动鼠标的wheelDelta的值
-        setTimeout(() => {
-          if(!this.istopshow){
-            this.istopshow = true
-          }
+      let direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
+      if(this.scrollTimeer){
+        clearTimeout(this.scrollTimeer)
+        this.scrollTimeer = setTimeout(() => {
+          this.isshowTop(direction)
         },500)
+      }else{
+        this.scrollTimeer = setTimeout(() => {
+          this.isshowTop(direction)
+        },500)
+      }
+    },
+    // 是否展示top按钮
+    isshowTop(direction){
+      let heigth_ = document.body.offsetHeight
+      let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
+      // console.log('scroll_top: ', scroll_top);
+      // console.log('heigth_: ', heigth_);
+      if (direction == 'down' && scroll_top >= heigth_ / 2) { //125为用户一次滚动鼠标的wheelDelta的值
+        if(!this.istopshow){
+          this.istopshow = true
+        }
         console.log("向下")
       }
-      if (direction == 'up' && e.deltaY <= -120) {
-        setTimeout(() => {
-          if(this.istopshow){
-            this.istopshow = false
-          }
+      if (direction == 'up' && scroll_top <= heigth_ / 4) {
+        if(this.istopshow){
+          this.istopshow = false
+        }
         console.log("向上")
-        },500)
       }
     }
   },
