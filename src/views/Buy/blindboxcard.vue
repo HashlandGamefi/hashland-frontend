@@ -299,16 +299,15 @@ export default {
       console.log('tokenID:', tokenID)
       console.log("🐏 ~ this.getAccount", this.getAccount)
       console.log("🐏 ~ ,Date.parse(new Date()) / 1000", Date.parse(new Date()) / 1000)
-      let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
+
       // let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then((res)=>{
       //   console.log("🐏 ~ res", res)
       //   return res
       // }).catch((err)=>{
       //   console.log("🐏 ~ err", err)
       // })
-      console.log("🐏 ~ maxnum", maxnum)
+      // console.log("🐏 ~ maxnum", maxnum)
 
-      this.maxbuy = maxnum.toString()
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
@@ -326,6 +325,8 @@ export default {
           this.disable = false
         }
       })
+      let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
+      this.maxbuy = maxnum.toString()
     }
   },
   created(){
