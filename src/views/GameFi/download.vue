@@ -27,11 +27,11 @@
           <div class="item_title">{{ item.mobileDesktop }}</div>
           <div class="list">
             <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
-              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.href }">
+              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.downloadLink }">
                 <img :src="it.imgUri" alt="" />
                 <div>
                   <div>{{ it.application }}</div>
-                  <div v-if="!it.href">{{ $t("message.gameFi.text79") }}</div>
+                  <div v-if="!it.downloadLink">{{ $t("message.gameFi.text79") }}</div>
                 </div>
                 <p v-if="it.prompt">{{ it.prompt }}</p>
               </div>
@@ -45,14 +45,14 @@
         {{ $t("message.gameFi.text54") }}
         <a href="https://land-hash.gitbook.io/hashland/gamefi/hash-warfare">{{ $t("message.gameFi.text55") }}</a>
       </div>
-      <div class="main_title" v-if="!isProd">{{ $t("message.gameFi.text84") }}</div>
-      <div class="box2" v-if="!isProd">
+      <div class="main_title">{{ $t("message.gameFi.text84") }}</div>
+      <div class="box2">
         <div class="item">
           <div>{{ $t("message.gameFi.text85") }}</div>
           <div class="select_list" v-if="versionData.version">
             <span>{{ versionData.version }}</span>
             <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-            <ul class="list">
+            <ul id="versionlist" class="list">
               <li v-for="(item, index) in versionlist" :key="index" @click="selectVersion(item)">{{ item }}</li>
             </ul>
           </div>
@@ -77,7 +77,7 @@ import GameFiVersionUpdateLog from "@/configs/gameFi-version-update-log";
 export default {
   data() {
     return {
-      isProd: false,
+      // isProd: false,
       downloadData: [
         {
           mobileDesktop: `${this.$t("message.gameFi.text56")}`,
@@ -89,7 +89,7 @@ export default {
               application: `${this.$t("message.gameFi.text58")}`,
               isOpen: true,
               openTime: null, // 2021-12-16 20:30:00
-              href: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.7.apk",
+              downloadLink: GameFiVersionUpdateLog[0].downloadLink,
             },
             {
               id: 2,
@@ -152,12 +152,12 @@ export default {
   },
 
   created() {
-    this.isProd = process.env.NODE_ENV === "production" ? true : false;
+    // this.isProd = process.env.NODE_ENV === "production" ? true : false;
     if (GameFiVersionUpdateLog.length > 0) this.versionData = GameFiVersionUpdateLog[0];
-
     GameFiVersionUpdateLog.forEach((element) => {
       this.versionlist.push(element.version);
     });
+    // console.log(this.downloadData[0].list[0].href);
     // this.downloadData.forEach((element) => {
     //   element.list.forEach((item) => {
     //     if (item.openTime) {
@@ -183,7 +183,7 @@ export default {
       // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
       // console.log(message);
       // if (!item.isOpen) return;
-      if (item.href) window.location.href = item.href;
+      if (item.downloadLink) window.location.href = item.downloadLink;
     },
     returnToPreviousPage() {
       history.back();
@@ -378,6 +378,7 @@ export default {
   .box2 {
     padding-top: 30px;
     display: flex;
+    align-items: center;
     justify-content: space-around;
     .item {
       &:nth-child(1) {
