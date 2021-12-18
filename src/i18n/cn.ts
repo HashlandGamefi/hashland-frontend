@@ -317,7 +317,7 @@ export const message = {
     text52: "Experience Hash Warfare on any device",
     text53: "Game mechanics",
     text54:
-      "Participate in PVE,PVP,GVE and GVG to win $HC token every session. More",
+      "Participate in PVE,PVP,GVE and GVG to win $HC token every season. More",
     text55: "click here",
     text56: "Mobile",
     text57: "Mobile users can also experience on NowGG.",
