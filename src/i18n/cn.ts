@@ -348,5 +348,9 @@ export const message = {
     text81: "Clear cultivation data every season. Join at any time.",
     text82: "Pass chapters to gain $HC token. Sale props to earn diamonds.",
     text83: "Play for free. Sign in the game to get two free heroes",
+    text84: "版本更新",
+    text85: "版本号",
+    text86: "更新时间",
+    text87: "更新内容",
   },
 };

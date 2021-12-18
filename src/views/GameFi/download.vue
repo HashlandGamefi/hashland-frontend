@@ -45,29 +45,26 @@
         {{ $t("message.gameFi.text54") }}
         <a href="https://land-hash.gitbook.io/hashland/gamefi/hash-warfare">{{ $t("message.gameFi.text55") }}</a>
       </div>
-      <div class="main_title" v-if="!isProd">版本更新</div>
+      <div class="main_title" v-if="!isProd">{{ $t("message.gameFi.text84") }}</div>
       <div class="box2" v-if="!isProd">
         <div class="item">
-          <div>版本号</div>
-          <div class="select_list">
-            <span>1.12</span>
+          <div>{{ $t("message.gameFi.text85") }}</div>
+          <div class="select_list" v-if="versionData.version">
+            <span>{{ versionData.version }}</span>
             <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
             <ul class="list">
-              <li>1.12</li>
-              <li>1.13</li>
-              <li>1.14</li>
+              <li v-for="(item, index) in versionlist" :key="index" @click="selectVersion(item)">{{ item }}</li>
             </ul>
           </div>
         </div>
         <div class="item">
-          <div>更新时间</div>
-          <div>2021.12.15</div>
+          <div>{{ $t("message.gameFi.text86") }}</div>
+          <div v-if="versionData.update">{{ versionData.update }}</div>
         </div>
         <div class="item">
-          <div>更新内容</div>
-          <div>
-            笔记分享功能升级: 笔记的长图分享功能支持自定义二维码和自定义笔记落款,让你分享的笔记与众不同。 性能优化:
-            优化App启动性能; -增强App功能稳定性。
+          <div>{{ $t("message.gameFi.text87") }}</div>
+          <div v-if="versionData.log">
+            {{ versionData.log }}
           </div>
         </div>
       </div>
@@ -76,6 +73,7 @@
 </template>
 
 <script>
+import GameFiVersionUpdateLog from "@/configs/gameFi-version-update-log";
 export default {
   data() {
     return {
@@ -90,8 +88,8 @@ export default {
               imgUri: `${this.$store.state.imgUrl}android.png`,
               application: `${this.$t("message.gameFi.text58")}`,
               isOpen: true,
-              openTime: 1639657800000, // 2021-12-16 20:30:00
-              href: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.6.apk",
+              openTime: null, // 2021-12-16 20:30:00
+              href: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.7.apk",
             },
             {
               id: 2,
@@ -143,11 +141,23 @@ export default {
           ],
         },
       ],
+      versionlist: [],
+      versionData: {
+        version: "",
+        update: "",
+        log: "",
+        downloadLink: "",
+      },
     };
   },
 
   created() {
     this.isProd = process.env.NODE_ENV === "production" ? true : false;
+    if (GameFiVersionUpdateLog.length > 0) this.versionData = GameFiVersionUpdateLog[0];
+
+    GameFiVersionUpdateLog.forEach((element) => {
+      this.versionlist.push(element.version);
+    });
     // this.downloadData.forEach((element) => {
     //   element.list.forEach((item) => {
     //     if (item.openTime) {
@@ -159,6 +169,13 @@ export default {
     // });
   },
   methods: {
+    selectVersion(item) {
+      GameFiVersionUpdateLog.forEach((element) => {
+        if (item == element.version) {
+          this.versionData = element;
+        }
+      });
+    },
     countdown(end) {
       return Date.parse(new Date()) > end ? true : false;
     },
