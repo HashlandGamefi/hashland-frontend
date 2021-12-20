@@ -43,11 +43,11 @@
     </div>
     <div class="add_title">
       <h1 class="h1 fontsize22">{{ $t("message.dao.txt7") }}</h1>
-      <div class="left_content">
+      <div class="left_content" :class="[disablehover?'clear_hover':'']">
         <span class="span1 fontsize22">{{ $t("message.dao.txt12") }}</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1 fontsize16" v-for="ele in seasonArr" :key="ele">{{$t("message.dao.txt12_1")}} {{ele}}</span>
+          <span class="span1 fontsize16" v-for="ele in seasonArr" :key="ele" @click="selectSeason(ele)">{{$t("message.dao.txt12_1")}} {{ele}}</span>
         </div>
       </div>
     </div>
@@ -122,6 +122,7 @@ import { util,erc20,token } from 'hashland-sdk';
 export default {
   data () {
     return {
+      disablehover:false,
       ishover:false,
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
@@ -168,6 +169,13 @@ export default {
     },
   },
   methods: {
+    selectSeason(item){
+      console.log('选择当前赛季item: ', item)
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
+    },
     btcClick(){
       window.location.href = 'https://bscscan.com/address/0x5461348662229e316fCa1880890946338100731B'
     },
@@ -288,6 +296,7 @@ export default {
         cursor: pointer;
       }
       .span2{
+        transition: all 0.3s;
         border-width: 7px;
         border-color: #fff;
         border-bottom-width: 0;
@@ -318,6 +327,9 @@ export default {
       }
     }
     .left_content:hover{
+      .span2{
+        transform: rotate(-180deg)
+      }
       .left_content_hover{
         display: flex;
         .span1:hover{
