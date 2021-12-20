@@ -12,7 +12,7 @@
           @click="menuClick(index)"
         >
           {{ $t(item) }}
-          <div class="nft_hover" v-show="index == 0">
+          <div class="nft_hover" v-show="index == 0" :class="[disablehover?'clear_hover':'']">
             <div class="box_nft">
               <div class="span1" @click.stop="nftFun('card')">
                 {{ $t("message.nav.txt7") }} <span class="icon-v-right"></span>
@@ -121,6 +121,7 @@ export default {
   inject: ["reload"],
   data() {
     return {
+      disablehover:false,
       walletdis: false, //选择钱包
       InitialStatus: true, // 移动端菜单栏按钮转换变量
       btntxt: "", // 弹窗页面的确认按钮
@@ -176,6 +177,10 @@ export default {
       this.InitialStatus = true;
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       if (data == "card") {
         this.$router.push("/buy/0/1");
       } else if (data == "mining") {

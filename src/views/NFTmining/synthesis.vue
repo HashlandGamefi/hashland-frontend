@@ -6,7 +6,7 @@
     <div class="title_title fontsize32">{{$t("message.synthesis.txt1")}}</div>
     <div class="title_son1 fontsize12_400">{{$t("message.synthesis.txt3")}}</div>
     <div class="content">
-      <div class="left_content">
+      <div class="left_content" :class="[disablehover?'clear_hover':'']">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -69,6 +69,7 @@ import { getSigner, hnUpgrade, util, hc, hn, contract, getHnImg } from 'hashland
 export default {
   data () {
     return {
+      disablehover:false,
       isshowArr:false,// 页面暂时不显示nodata
       hnisloading:false,// hn 授权loading
       hcisloading:false,// hc 授权loading
@@ -295,6 +296,10 @@ export default {
     },
     // 选择阶数
     selectRankClik(data,type = 1){
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       this.hcnum = 0 // 合成卡牌所需的hc金额
       this.selectedNUM = 0 // 选中的卡牌数量
       this.compose = 0 // 选中的卡牌可以合成多少张更高以及的卡牌
@@ -427,6 +432,7 @@ export default {
         cursor: pointer;
       }
       .span2{
+        transition: all 0.3s;
         border-width: 7px;
         border-color: #00E7F0;
         border-bottom-width: 0;
@@ -459,6 +465,9 @@ export default {
       }
     }
     .left_content:hover{
+      .span2{
+        transform: rotate(-180deg)
+      }
       .left_content_hover{
         display: flex;
         .span1:hover{

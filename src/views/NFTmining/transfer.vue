@@ -7,7 +7,7 @@
     <div class="title_son1 fontsize12_400">{{$t("message.transfer.txt2")}}</div>
     <div class="content">
       <!-- 几阶对应数量 -->
-      <div class="left_content">
+      <div class="left_content" :class="[disablehover?'clear_hover':'']">
         <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
         <div class="span2"></div>
         <div class="left_content_hover">
@@ -73,6 +73,7 @@ import { getSigner, hn } from 'hashland-sdk';
 export default {
   data () {
     return {
+      disablehover:false,
       dangerTxtModel:'',
       isdanger:false,//转账提示框
       isshowArr:false,// 页面暂时不显示nodata
@@ -288,6 +289,10 @@ export default {
     },
     // 选择阶数
     selectRankClik(data){
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       this.selectALLBtn = false
       this.selectedNUM = 0 // 选中的卡牌数量
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
@@ -353,6 +358,7 @@ export default {
         cursor: pointer;
       }
       .span2{
+        transition: all 0.3s;
         border-width: 7px;
         border-color: #00E7F0;
         border-bottom-width: 0;
@@ -385,6 +391,9 @@ export default {
       }
     }
     .left_content:hover{
+      .span2{
+        transform: rotate(-180deg)
+      }
       .left_content_hover{
         display: flex;
         .span1:hover{

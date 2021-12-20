@@ -686,6 +686,7 @@ export default {
             margin-right: 10px;
           }
           .span2 {
+            transition: all 0.3s;
             border-width: 7px;
             border-color: #00e7f0;
             border-bottom-width: 0;
@@ -717,6 +718,9 @@ export default {
           }
         }
         .left_content:hover,.left_content_price:hover {
+          .span2{
+            transform: rotate(-180deg)
+          }
           .left_content_hover {
             display: flex;
             .span1:hover {
@@ -743,6 +747,7 @@ export default {
             margin-right: 10px;
           }
           .span2 {
+            transition: all 0.3s;
             border-width: 7px;
             border-color: #00e7f0;
             border-bottom-width: 0;

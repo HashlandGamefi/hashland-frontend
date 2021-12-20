@@ -56,8 +56,8 @@
         <span class="composite_span3 fontsize12">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
       </div>
     </div>
-    <div class="connect_box" v-if="getIstrue">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
-    <div class="connect_box" v-else>Connect</div>
+    <div class="connect_box fontsize18" v-if="getIstrue">{{$t("message.nftCard.txt13")}}<BtnLoading :isloading="buy_isloading"></BtnLoading></div>
+    <div class="connect_box fontsize18" v-else>Connect</div>
     <div class="right_box">
       <div class="btn fontsize16">{{$t("message.nftCard.txt14")}}</div>
       <div class="right_span1 fontsize12_400"><span class="radious"></span>{{$t("message.nftCard.txt23")}}</div>
