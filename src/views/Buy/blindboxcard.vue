@@ -15,6 +15,7 @@
       <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
       <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
       <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
+      <span class="composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
       <span class="composite_line_color"></span>
       <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
@@ -29,6 +30,7 @@
         <span class="span2 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
         <span class="span2 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
         <span class="span2 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="span2 fontsize12" v-if="tokenID >= 5">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
       </div>
     </div>
     <div class="mobile_top">
@@ -63,6 +65,7 @@
         <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
         <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
         <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
+        <span class="composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
       </div>
       <span class="composite_line_color"></span>
       <div class="mobile_line">
@@ -80,6 +83,7 @@
         <span class="composite_span3 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
         <span class="composite_span3 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
         <span class="composite_span3 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="composite_span3 fontsize12" v-if="tokenID >= 5">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
       </div>
     </div>
     <div class="connect_box fontsize18" :class="{disable_bnb:disable}">
@@ -128,9 +132,9 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.watchResult()
-          this.getTokenInfoFun(this.tokenID)
           setTimeout(() => {
-            this.connectGetInfo(this.tokenID)
+            this.getTokenInfoFun(this.tokenID)
+            // this.connectGetInfo(this.tokenID)
             let type = ''
             if(this.tokenID == 0){
               type = 'BNB'
@@ -142,6 +146,8 @@ export default {
               type = 'BUSD'
             }else if(this.tokenID == 4){
               type = 'HT'
+            }else{
+              type = 'BUSD'
             }
             this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
               console.log('当前页面的币种: ', type);
@@ -159,7 +165,7 @@ export default {
     },
     $route(to){
       this.tokenID = to.params.type
-      this.connectGetInfo(to.params.type)
+      // this.connectGetInfo(to.params.type)
       this.getTokenInfoFun(to.params.type)
     }
   },
@@ -193,6 +199,8 @@ export default {
         type = 'BUSD'
       }else if(this.tokenID == 4){
         type = 'HT'
+      }else{
+        type = 'BUSD'
       }
       this.$refs.mychild.goApproveFun(type,contract().HNBlindBox).then(res => {
         console.log('去授权res: ', res);
@@ -254,7 +262,6 @@ export default {
         return
       }
       this.buy_isloading = true
-      // console.log("购买:",this.boxnums,this.originalPrice.mul(this.boxnums))
       hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
         console.log('购买盒子res: ', res);
         this.buy_isloading = false
@@ -267,60 +274,44 @@ export default {
       })
     },
     getuserBalance(type){
-      erc20(token()[type]).balanceOf(this.getAccount).then(res => {
+      erc20(type).balanceOf(this.getAccount).then(res => {
         this.balance = util.formatEther(res)
-        console.log('%s钱包余额res: ', type,this.balance);
+        console.log('钱包余额res: ',this.balance);
       }).catch(err => {
         console.log('%s钱包余额err: ', err);
       })
-    },
-    connectGetInfo(tokenID){
-      console.log('tokenID: ', tokenID);
-      // tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
-      switch(tokenID){
-        case '0':
-          this.getuserBalance('BNB')
-          break;
-        case '1':
-          this.getuserBalance('HC')
-          break;
-        case '2':
-          this.getuserBalance('HCLP')
-          break;
-        case '3':
-          this.getuserBalance('BUSD')
-          break;
-        case '4':
-          this.getuserBalance('HT')
-          break;
-        default:
-          break;
-      }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
     },
     // 获取某代币信息
-    getTokenInfoFun(tokenID){
-      // console.log('获取某代币信息',tokenID)
+    async getTokenInfoFun(tokenID){
+      // console.log('fdfdsfsd ',tokenID)
       hnBlindBox().getBoxesLeftSupply(tokenID).then(res => {
+        // console.log("忙和剩余数量",res)
         this.surplusNums = res
       })
       hn().totalSupply().then(data => {
         this.cardNumber = data.toString()
       })
       // 1小时之内某用户的剩余购买量
-      hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then(res => {
-        // console.log('1小时之内某用户的剩余购买量res: ', res)
-        this.maxbuy = res.toString()
-      }).catch(err => {
-        // console.log('1小时之内某用户的剩余购买量err: ', err)
-        this.maxbuy = 0
-      })
+      console.log('tokenID:', tokenID)
+      console.log("🐏 ~ this.getAccount", this.getAccount)
+      console.log("🐏 ~ ,Date.parse(new Date()) / 1000", Date.parse(new Date()) / 1000)
+
+      // let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then((res)=>{
+      //   console.log("🐏 ~ res", res)
+      //   return res
+      // }).catch((err)=>{
+      //   console.log("🐏 ~ err", err)
+      // })
+      // console.log("🐏 ~ maxnum", maxnum)
+
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
+        this.getuserBalance(res[1])
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
             // console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
@@ -334,12 +325,13 @@ export default {
           this.disable = false
         }
       })
+      let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
+      this.maxbuy = maxnum.toString()
     }
   },
-  mounted(){
+  created(){
     this.getTokenInfoFun(this.$route.params.type)
     this.tokenID = this.$route.params.type
-    // console.log('this.$route: ', this.$route.params.type);
   }
 }
 </script>

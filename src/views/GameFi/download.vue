@@ -27,11 +27,11 @@
           <div class="item_title">{{ item.mobileDesktop }}</div>
           <div class="list">
             <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
-              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.isOpen }">
+              <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.downloadLink }">
                 <img :src="it.imgUri" alt="" />
                 <div>
                   <div>{{ it.application }}</div>
-                  <div v-if="!it.isOpen">{{ $t("message.gameFi.text79") }}</div>
+                  <div v-if="!it.downloadLink">{{ $t("message.gameFi.text79") }}</div>
                 </div>
                 <p v-if="it.prompt">{{ it.prompt }}</p>
               </div>
@@ -45,14 +45,39 @@
         {{ $t("message.gameFi.text54") }}
         <a href="https://land-hash.gitbook.io/hashland/gamefi/hash-warfare">{{ $t("message.gameFi.text55") }}</a>
       </div>
+      <div class="main_title">{{ $t("message.gameFi.text84") }}</div>
+      <div class="box2">
+        <div class="item">
+          <div>{{ $t("message.gameFi.text85") }}</div>
+          <div class="select_list" v-if="versionData.version">
+            <span>{{ versionData.version }}</span>
+            <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+            <ul id="versionlist" class="list">
+              <li v-for="(item, index) in versionlist" :key="index" @click="selectVersion(item)">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="item">
+          <div>{{ $t("message.gameFi.text86") }}</div>
+          <div v-if="versionData.update">{{ versionData.update }}</div>
+        </div>
+        <div class="item">
+          <div>{{ $t("message.gameFi.text87") }}</div>
+          <div v-if="versionData.log">
+            {{ versionData.log }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import GameFiVersionUpdateLog from "@/configs/gameFi-version-update-log";
 export default {
   data() {
     return {
+      // isProd: false,
       downloadData: [
         {
           mobileDesktop: `${this.$t("message.gameFi.text56")}`,
@@ -62,9 +87,9 @@ export default {
               isShow: true,
               imgUri: `${this.$store.state.imgUrl}android.png`,
               application: `${this.$t("message.gameFi.text58")}`,
-              isOpen: false,
-              openTime: null,
-              // openTime: 1639598400000, // 2021-12-16 04:00:00
+              isOpen: true,
+              openTime: null, // 2021-12-16 20:30:00
+              downloadLink: GameFiVersionUpdateLog[0].downloadLink,
             },
             {
               id: 2,
@@ -116,54 +141,50 @@ export default {
           ],
         },
       ],
+      versionlist: [],
+      versionData: {
+        version: "",
+        update: "",
+        log: "",
+        downloadLink: "",
+      },
     };
   },
 
   created() {
-    this.downloadData.forEach((element) => {
-      element.list.forEach((item) => {
-        if (item.openTime) {
-          const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
-          item.isOpen = this.countdown(item.openTime);
-          console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
-        }
-      });
+    // this.isProd = process.env.NODE_ENV === "production" ? true : false;
+    if (GameFiVersionUpdateLog.length > 0) this.versionData = GameFiVersionUpdateLog[0];
+    GameFiVersionUpdateLog.forEach((element) => {
+      this.versionlist.push(element.version);
     });
+    // console.log(this.downloadData[0].list[0].href);
+    // this.downloadData.forEach((element) => {
+    //   element.list.forEach((item) => {
+    //     if (item.openTime) {
+    //       const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
+    //       item.isOpen = this.countdown(item.openTime);
+    //       console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
+    //     }
+    //   });
+    // });
   },
   methods: {
-    /**开放下载倒计时，传入时间戳，返回是否开放 */
+    selectVersion(item) {
+      GameFiVersionUpdateLog.forEach((element) => {
+        if (item == element.version) {
+          this.versionData = element;
+        }
+      });
+    },
     countdown(end) {
       return Date.parse(new Date()) > end ? true : false;
     },
     openLink(item) {
       // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
       // console.log(message);
-      if (!item.isOpen) return;
-      switch (item.id) {
-        case 1:
-          window.location.href = "https://cdn.hashland.com/apk/HashWarfare_Beta_1.1.3.apk";
-          break;
-        case 2:
-          // console.log("App Store");
-          break;
-        case 3:
-          // console.log("Google play");
-          break;
-        case 4:
-          // console.log("NowGG");
-          break;
-        case 5:
-          // console.log("Windows");
-          break;
-        case 6:
-          // console.log("MacOS");
-          break;
-        default:
-          break;
-      }
+      // if (!item.isOpen) return;
+      if (item.downloadLink) window.location.href = item.downloadLink;
     },
-
-    /**返回上一页 */
     returnToPreviousPage() {
       history.back();
     },
@@ -175,7 +196,7 @@ export default {
 .page {
   padding: 80px 0;
   color: #fff;
-  background: #00162e;
+  // background: #00162e;
   position: relative;
   .return_img {
     cursor: pointer;
@@ -275,7 +296,6 @@ export default {
   }
   .box {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     .item {
       margin-top: 40px;
@@ -298,12 +318,9 @@ export default {
         box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
           -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         border-radius: 6px;
-        .li_box {
-          height: 85px;
-          margin: 20px;
-        }
         .li {
-          height: 100%;
+          margin: 20px;
+          height: 85px;
           padding: 0 20px;
           background: rgba(11, 22, 43, 0.99);
           box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
@@ -354,6 +371,91 @@ export default {
           position: absolute;
           right: 20px;
           bottom: 10px;
+        }
+      }
+    }
+  }
+  .box2 {
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .item {
+      &:nth-child(1) {
+        width: 20%;
+      }
+      &:nth-child(2) {
+        width: 20%;
+      }
+      &:nth-child(3) {
+        width: 30%;
+        div {
+          &:nth-child(2) {
+            font-size: 12px;
+          }
+        }
+      }
+      > div {
+        background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
+          -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        border-radius: 4px;
+        font-size: 16px;
+        &:nth-child(1) {
+          text-align: center;
+          margin-bottom: 20px;
+          padding: 10px 0;
+        }
+        &:nth-child(2) {
+          padding: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    .select_list {
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      .accrow {
+        margin-left: 1em;
+        width: 15px;
+        height: auto;
+        transform: rotate(-90deg);
+        transition: all 0.3s;
+      }
+      ul {
+        width: 100%;
+        height: auto;
+        background: #082545;
+        box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+        border-radius: 0 0 6px 6px;
+        overflow: hidden;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        transform: scaleY(0);
+        transition: transform 0.2s;
+        transform-origin: top center;
+        li {
+          font-size: 16px;
+          height: 40px;
+          line-height: 40px;
+          &:hover {
+            background: #00e7f0;
+          }
+        }
+      }
+      &:hover {
+        .accrow {
+          transform: rotate(0);
+        }
+        ul {
+          transform: scaleY(1);
         }
       }
     }
@@ -435,11 +537,9 @@ export default {
           width: 100%;
           padding: 0.2rem;
           margin-top: 0.1rem;
-          .li_box {
+          .li {
             height: 0.85rem;
             margin: 0.2rem 0.1rem;
-          }
-          .li {
             padding: 0 0.2rem;
             font-size: 14px;
             img {
@@ -468,6 +568,31 @@ export default {
             right: 0.2rem;
             bottom: 0.1rem;
             font-size: 10px;
+          }
+        }
+      }
+    }
+    .box2 {
+      flex-wrap: wrap;
+      .item {
+        &:nth-child(1),
+        &:nth-child(2),
+        &:nth-child(3) {
+          width: 100%;
+        }
+        > div {
+          &:nth-child(1) {
+            margin-bottom: 0.1rem;
+          }
+          &:nth-child(2) {
+            margin-bottom: 0.3rem;
+          }
+        }
+        &:last-child {
+          > div {
+            &:nth-child(2) {
+              margin-bottom: 0;
+            }
           }
         }
       }
