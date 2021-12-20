@@ -40,9 +40,24 @@ export default {
         this.isshowFooter = true;
       }
     },
+    'getIstrue':{
+      handler: function (newValue) {
+        if(newValue){
+          this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
+            if (res1 > 1) {
+              sessionStorage.setItem("count", res1);
+            } else {
+              sessionStorage.setItem("count", 1);
+            }
+          });
+        }
+      },
+      deep: true,
+      immediate: true
+    },
   },
   computed: {
-    ...mapGetters(["getrewardsInfo", "getAccount"]),
+    ...mapGetters(["getrewardsInfo", "getAccount", "getIstrue"]),
   },
   provide() {
     //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
