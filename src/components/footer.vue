@@ -71,7 +71,7 @@ export default {
     footerClick (data) {
       switch (data) {
         case 'Power':
-          window.location.href = 'https://www.kucoin.center/mining-pool/observer?sign=408e8edb25c140ab9a74655ae393e1c5'
+          window.location.href = 'https://www.kucoin.cloud/mining-pool/observer?sign=408e8edb25c140ab9a74655ae393e1c5'
           break;
         case 'Certik':
           window.location.href = 'https://www.certik.org/projects/hashland'
