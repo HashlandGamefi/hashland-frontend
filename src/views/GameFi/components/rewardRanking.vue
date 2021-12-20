@@ -18,25 +18,9 @@
             </div>
             <div class="col2">
               <div class="col2_row">
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_center">1111111111</div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_center">1111111111</div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_center">1111111111</div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_center">1111111111</div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_center">1111111111</div>
+                <div class="col2_col flex_center_center" v-for="(item,index) in RewardPool" :key="index">
+                  <div class="flex_center_center">{{item.title}}</div>
+                  <div class="flex_center_center">{{item.num}}</div>
                 </div>
               </div>
             </div>
@@ -190,7 +174,34 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return {
+      RewardPool:[
+        {title:'PVE',num:0},
+        {title:'PVP',num:0},
+        {title:'GVE',num:0},
+        {title:'GVG',num:0},
+        {title:'BOSS',num:0}
+      ]
+    }
+  },
+  methods:{
+    getPVEInfoFun(){
+      let data = `issue=1&pageIndex=1&pageSize=10000`
+      this.$api.getPVEinfo(data).then((res) => {
+        console.log('获取pve章节hc发放详情res: ', res);
+
+      })
+      .catch((err) => {
+        console.log('获取pve章节hc发放详情err: ', err);
+      });
+    }
+  },
+  mounted(){
+    this.getPVEInfoFun()
+  }
+};
 </script>
 
 <style lang="scss" scoped>
