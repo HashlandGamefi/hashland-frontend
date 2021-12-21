@@ -205,7 +205,7 @@ export default {
         console.log('获取pve章节hc发放详情  支持分页查询:err ', err);
       });
 
-      let data2 = `queryType=pve_account&queryAccount='hashlandces1@outlook.com'&issue=1&pageIndex=1&pageSize=10000`
+      let data2 = `queryType=pve_account&queryAccount=hashlandces1@outlook.com&issue=1&pageIndex=1&pageSize=10000`
       this.$api.getPVEandPVPinfo(data2).then((res) => {
         console.log('查询某玩家pve章节发放记录详情', res);
       })
@@ -213,7 +213,7 @@ export default {
         console.log('查询某玩家pve章节发放记录详情: err', err);
       });
 
-      let data3 = `queryType=pvp_list&queryAccount='hashlandces1@outlook.com'&issue=1&pageIndex=1&pageSize=10000`
+      let data3 = `queryType=pvp_list&queryAccount=hashlandces1@outlook.com&issue=1&pageIndex=1&pageSize=10000`
       this.$api.getPVEandPVPinfo(data3).then((res) => {
         console.log('获取玩家pvp 排行榜hc发放详情: ', res);
         // let num = 0
