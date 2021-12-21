@@ -231,7 +231,7 @@ export default {
     getWalletInfo(){
       // 获取某钱包地址当前可提取HC奖励金额
         console.log('this.getAccount: ', this.getAccount);
-      hwPvPPool().userStoredToken('0x3c997f1cd138a43093da842ca95df1ebe9e6c6ce').then(res => {
+      hwPvPPool().userStoredToken(this.getAccount).then(res => {
         console.log('获取某钱包地址当前可提取HC奖励金额res: ', res)
       }).catch(err => {
         console.log('获取某钱包地址当前可提取HC奖励金额err: ', err)
