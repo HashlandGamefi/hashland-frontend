@@ -183,7 +183,7 @@ export default {
         console.log('newValue: ', newValue);
         if (newValue) {
           // setTimeout(() => {
-            this.getWalletInfo()
+            // this.getWalletInfo()
           // },2000)
         }
       },
@@ -197,9 +197,25 @@ export default {
       this.proupDis = false
     },
     getPVPInfoFun(){
-      let data = `queryType=pvp_reward_snapshot&issue=1&pageIndex=1&pageSize=10000`
-      this.$api.getPVEandPVPinfo(data).then((res) => {
-        console.log('获取pvp hc发放快照: ', res);
+      let data1 = `queryType=pve_list&issue=1&pageIndex=1&pageSize=10000`
+      this.$api.getPVEandPVPinfo(data1).then((res) => {
+        console.log('获取pve章节hc发放详情  支持分页查询', res);
+      })
+      .catch((err) => {
+        console.log('获取pve章节hc发放详情  支持分页查询:err ', err);
+      });
+
+      let data2 = `queryType=pve_account&queryAccount=hashlandces1@outlook.com&issue=1&pageIndex=1&pageSize=10000`
+      this.$api.getPVEandPVPinfo(data2).then((res) => {
+        console.log('查询某玩家pve章节发放记录详情', res);
+      })
+      .catch((err) => {
+        console.log('查询某玩家pve章节发放记录详情: err', err);
+      });
+
+      let data3 = `queryType=pvp_list&queryAccount=hashlandces1@outlook.com&issue=1&pageIndex=1&pageSize=10000`
+      this.$api.getPVEandPVPinfo(data3).then((res) => {
+        console.log('获取玩家pvp 排行榜hc发放详情: ', res);
         // let num = 0
         // for (let index = 0; index < res.data.data.length; index++) {
         //   const element = res.data.data[index];
@@ -208,14 +224,14 @@ export default {
         // console.log('num: ', num);
       })
       .catch((err) => {
-        console.log('获取pvp hc发放快照: ', err);
+        console.log('获取玩家pvp 排行榜hc发放详情:err ', err);
       });
     },
     // 链接钱包才能拿到的信息
     getWalletInfo(){
       // 获取某钱包地址当前可提取HC奖励金额
         console.log('this.getAccount: ', this.getAccount);
-      hwPvPPool().userStoredToken('0x3c997f1cd138a43093da842ca95df1ebe9e6c6ce').then(res => {
+      hwPvPPool().userStoredToken(this.getAccount).then(res => {
         console.log('获取某钱包地址当前可提取HC奖励金额res: ', res)
       }).catch(err => {
         console.log('获取某钱包地址当前可提取HC奖励金额err: ', err)
