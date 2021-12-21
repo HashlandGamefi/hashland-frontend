@@ -164,9 +164,9 @@ export default {
       immediate: true
     },
     $route(to){
-      this.tokenID = to.params.type
-      // this.connectGetInfo(to.params.type)
-      this.getTokenInfoFun(to.params.type)
+      localStorage.setItem('routerIndex',to.params.type)
+      this.tokenID = localStorage.getItem('routerIndex')
+      this.getTokenInfoFun(this.tokenID)
     }
   },
   methods: {
@@ -296,18 +296,6 @@ export default {
         this.cardNumber = data.toString()
       })
       // 1小时之内某用户的剩余购买量
-      console.log('tokenID:', tokenID)
-      console.log("🐏 ~ this.getAccount", this.getAccount)
-      console.log("🐏 ~ ,Date.parse(new Date()) / 1000", Date.parse(new Date()) / 1000)
-
-      // let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000).then((res)=>{
-      //   console.log("🐏 ~ res", res)
-      //   return res
-      // }).catch((err)=>{
-      //   console.log("🐏 ~ err", err)
-      // })
-      // console.log("🐏 ~ maxnum", maxnum)
-
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
@@ -330,8 +318,10 @@ export default {
     }
   },
   created(){
-    this.getTokenInfoFun(this.$route.params.type)
-    this.tokenID = this.$route.params.type
+    localStorage.setItem('routerIndex',this.$route.params.type)
+    this.tokenID = localStorage.getItem('routerIndex')
+    this.getTokenInfoFun(this.tokenID)
+
   }
 }
 </script>
