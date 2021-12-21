@@ -274,6 +274,7 @@ export default {
       })
     },
     getuserBalance(type){
+      console.log('获取余额传进来的type: ', type);
       erc20(type).balanceOf(this.getAccount).then(res => {
         this.balance = util.formatEther(res)
         console.log('钱包余额res: ',this.balance);
@@ -297,7 +298,7 @@ export default {
       })
       // 1小时之内某用户的剩余购买量
       hnBlindBox().getTokenInfo(tokenID).then(res => {
-        // console.log('获取某代币信息res: ', res);
+        console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
         this.getuserBalance(res[1])
         if(res[4]){
