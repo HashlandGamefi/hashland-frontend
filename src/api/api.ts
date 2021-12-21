@@ -32,7 +32,7 @@ export default {
   /**获取pve章节hc发放详情
    * http://hw-api-test.hashland.com/va_cent/hc_info?queryType=pve_list&issue=1
    * */
-  getPVEinfo(data: any){
-    return axios.get(`${GAME_API}/va_cent/hc_info?queryType=pve_list&${data}`);
+  getPVEandPVPinfo(data: any){
+    return axios.get(`${GAME_API}/va_cent/hc_info?${data}`);
   }
 };

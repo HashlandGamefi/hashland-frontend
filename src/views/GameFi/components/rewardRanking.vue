@@ -20,7 +20,7 @@
               <div class="col2_row">
                 <div class="col2_col flex_center_center" v-for="(item,index) in RewardPool" :key="index">
                   <div class="flex_center_center">{{item.title}}</div>
-                  <div class="flex_center_center">{{item.num}}</div>
+                  <div class="flex_center_center">$ {{item.num}}</div>
                 </div>
               </div>
             </div>
@@ -44,45 +44,20 @@
                 </ul>
               </div>
               <div class="flex_center_center">
+                <span>ranking</span>
+              </div>
+              <div class="flex_center_center">
                 <span>请绑定账户</span>
               </div>
             </div>
             <div class="col2">
-              <div class="col2_title flex_center_center">$HCRaward</div>
               <div class="col2_row">
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
+                <div class="col2_col flex_center_center" v-for="(item,index) in personalReward" :key="index">
+                  <div class="flex_center_center">{{item.title}}</div>
+                  <div class="flex_center_center">{{item.ranking}}</div>
                   <div class="flex_center_around">
-                    <span>2121212</span>
-                    <span class="btn">领取奖励</span>
-                  </div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_around">
-                    <span>2121212</span>
-                    <span class="btn">领取奖励</span>
-                  </div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_around">
-                    <span>2121212</span>
-                    <span class="btn">领取奖励</span>
-                  </div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_around">
-                    <span>2121212</span>
-                    <span class="btn">领取奖励</span>
-                  </div>
-                </div>
-                <div class="col2_col flex_center_center">
-                  <div class="flex_center_center">PVE</div>
-                  <div class="flex_center_around">
-                    <span>2121212</span>
-                    <span class="btn">领取奖励</span>
+                    <span>$ {{item.num}}</span>
+                    <span class="btn" @click="extractableClick(item)">领取奖励<BtnLoading :isloading="item.loading"></BtnLoading></span>
                   </div>
                 </div>
               </div>
@@ -93,7 +68,7 @@
     </div>
 
     <div class="ranking_box ranking_box3">
-      <span class="ranking_title">当前赛季奖励/排行</span>
+      <span class="ranking_title">当前赛季PVP奖励/排行</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -111,7 +86,7 @@
                 <div class="col3_right flex_center_center">
                   <span>Rank</span>
                   <span>Address</span>
-                  <span>$HC Raward</span>
+                  <span>HC Raward</span>
                 </div>
               </div>
               <div class="col3_bottom flex_center_center">
@@ -170,36 +145,132 @@
         </div>
       </div>
     </div>
+    <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { hwPvPPool,hwPvEPool } from 'hashland-sdk'
 export default {
   data(){
     return {
+      btntxt:'',// 弹窗页面的确认按钮
+      word:'',//弹窗提示文字
+      proupDis:false,// 弹窗展示消失变量
       RewardPool:[
-        {title:'PVE',num:0},
-        {title:'PVP',num:0},
-        {title:'GVE',num:0},
-        {title:'GVG',num:0},
+        {title:'PVE',num:20000},
+        {title:'PVP',num:20000},
+        // {title:'GVE',num:0},
+        // {title:'GVG',num:0},
         {title:'BOSS',num:0}
+      ],
+      personalReward:[
+        {title:'PVE',num:20000,ranking:1,loading:false},
+        {title:'PVP',num:20000,ranking:2,loading:false},
+        {title:'GVE',num:0,ranking:3,loading:false},
+        {title:'GVG',num:0,ranking:4,loading:false},
+        {title:'BOSS',num:0,ranking:5,loading:false}
       ]
     }
   },
+  computed: {
+    ...mapGetters(["getIstrue", "getAccount"]),
+  },
+  watch: {
+    'getIstrue': {
+      handler: function (newValue) {
+        console.log('newValue: ', newValue);
+        if (newValue) {
+          // setTimeout(() => {
+            this.getWalletInfo()
+          // },2000)
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+  },
   methods:{
-    getPVEInfoFun(){
-      let data = `issue=1&pageIndex=1&pageSize=10000`
-      this.$api.getPVEinfo(data).then((res) => {
-        console.log('获取pve章节hc发放详情res: ', res);
-
+    // 取消按钮(关闭弹窗)
+    CloseFun(){
+      this.proupDis = false
+    },
+    getPVPInfoFun(){
+      let data = `queryType=pvp_reward_snapshot&issue=1&pageIndex=1&pageSize=10000`
+      this.$api.getPVEandPVPinfo(data).then((res) => {
+        console.log('获取pvp hc发放快照: ', res);
+        // let num = 0
+        // for (let index = 0; index < res.data.data.length; index++) {
+        //   const element = res.data.data[index];
+        //   num = num + Number(element.rewardHcNum)
+        // }
+        // console.log('num: ', num);
       })
       .catch((err) => {
-        console.log('获取pve章节hc发放详情err: ', err);
+        console.log('获取pvp hc发放快照: ', err);
       });
+    },
+    // 链接钱包才能拿到的信息
+    getWalletInfo(){
+      // 获取某钱包地址当前可提取HC奖励金额
+        console.log('this.getAccount: ', this.getAccount);
+      hwPvPPool().userStoredToken('0x3c997f1cd138a43093da842ca95df1ebe9e6c6ce').then(res => {
+        console.log('获取某钱包地址当前可提取HC奖励金额res: ', res)
+      }).catch(err => {
+        console.log('获取某钱包地址当前可提取HC奖励金额err: ', err)
+      })
+      // hwPvEPool().userStoredToken('0x3c997f1cd138a43093da842ca95df1ebe9e6c6ce').then(res => {
+      //   console.log('hwPvEPool: ', res)
+      // }).catch(err => {
+      //   console.log('hwPvEPool: ', err)
+      // })
+      // hwPvEPool().harvestedToken().then(res => {
+      //   console.log('harvestedToken: ', res)
+      // }).catch(err => {
+      //   console.log('harvestedToken: ', err)
+      // })
+    },
+    // 提取hc
+    extractableClick(item){
+      console.log('item: ', item);
+      if(item.num == 0){
+        this.$common.selectLang('没有可提取余额','No Remaining Balance to Claim',this)
+        return
+      }
+      if(item.title == 'PVE'){
+        if(item.loading)return
+        item.loading = true
+        hwPvEPool().connect(getSigner()).harvestToken().then(async res => {
+          const etReceipt = await res.wait();
+          if(etReceipt.status == 1){
+            this.$common.selectLang('提取成功','Claim Successful',this)
+            item.loading = false
+          }else{
+            item.loading = false
+          }
+        }).catch(() => {
+          item.loading = false
+        })
+      }else{
+        if(item.loading)return
+        item.loading = true
+        hwPvPPool().connect(getSigner()).harvestToken().then(async res => {
+          const etReceipt = await res.wait();
+          if(etReceipt.status == 1){
+            this.$common.selectLang('提取成功','Claim Successful',this)
+            item.loading = false
+          }else{
+            item.loading = false
+          }
+        }).catch(() => {
+          item.loading = false
+        })
+      }
     }
   },
   mounted(){
-    this.getPVEInfoFun()
+    this.getPVPInfoFun()
   }
 };
 </script>
@@ -308,6 +379,9 @@ $mobileSingleOversizedCellHeight: 2rem;
   border-radius: 7px;
   padding: 5px 10px;
   font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:hover {
     background: #c111c6;
   }
