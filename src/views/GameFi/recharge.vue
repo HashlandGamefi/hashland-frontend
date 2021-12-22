@@ -3,9 +3,9 @@
     <div class="outline_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeCurrentPage" />
       <div class="inside_box">
-        <div class="inside_box_title fontsize30">{{ $t("message.gameFi.text66") }}</div>
-        <ul>
-          <li>
+        <div class="inside_box_title fontsize26">{{ $t("message.gameFi.text66") }}</div>
+        <ul class="fontsize18">
+          <li class="li1">
             <div>
               <img :src="`${$store.state.imgUrl}personalCenter2.png`" />
               <span class="fontsize12"> {{ mailAccount }} </span>
@@ -15,7 +15,38 @@
               <img :src="`${$store.state.imgUrl}buy_hclp.png`" />
             </div>
           </li>
+          <li class="li2">
+            <div>{{ $t("message.gameFi.text68") }}:</div>
+            <div>{{ HCBalance }} HC</div>
+          </li>
           <li>
+            <div>{{ $t("message.gameFi.text70") }}:</div>
+            <div class="quick_input">
+              <div
+                class="fontsize14"
+                v-for="(item, index) in quickInput"
+                :key="index"
+                @click="quickInputHC(item, index)"
+                :class="{ active: HCValue == item }"
+              >
+                {{ item }}{{ $t("message.gameFi.text71") }}
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="enter_btn">
+              <Btn
+                ref="rechargeBtn"
+                :word="$t('message.gameFi.text66')"
+                :isapprove="isapprove"
+                :approveloading="buy_isloading"
+                :isloading="buy_isloading"
+                @sonapprove="toAuthorization"
+                @dosomething="toRecharge"
+              />
+            </div>
+          </li>
+          <!-- <li>
             <div class="fontsize18 li_title">{{ $t("message.gameFi.text68") }}:</div>
             <div class="input_box_box">
               <input
@@ -32,34 +63,12 @@
                     .replace(/^\./g, '')
                 "
               />
-
               <div class="ban_select fontsize18 input_btn" @click="getMaxHC">
                 <span>{{ $t("message.gameFi.text78") }}</span>
                 <BtnLoading :isloading="getmaxbtnloading"></BtnLoading>
               </div>
             </div>
-          </li>
-          <li>
-            <div class="fontsize18 li_title">{{ $t("message.gameFi.text70") }}:</div>
-            <div class="quick_input">
-              <div class="fontsize14" v-for="item in quickInput" :key="item" @click="quickInputHC(item)">
-                {{ item }}{{ $t("message.gameFi.text71") }}
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="enter_btn fontsize18">
-              <Btn
-                ref="rechargeBtn"
-                :word="$t('message.gameFi.text66')"
-                :isapprove="isapprove"
-                :approveloading="buy_isloading"
-                :isloading="buy_isloading"
-                @sonapprove="toAuthorization"
-                @dosomething="toRecharge"
-              />
-            </div>
-          </li>
+          </li> -->
         </ul>
         <div class="recharge_instructions">
           <div class="fontsize16">{{ $t("message.gameFi.text72") }}:</div>
@@ -91,9 +100,10 @@ export default {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      quickInput: [4, 16, 32, 64],
+      quickInput: [64, 32, 19, 9, 6, 3, 1],
       mailAccount: "",
-      HCValue: null,
+      HCBalance: 0,
+      HCValue: 0,
       getmaxbtnloading: false,
       isapprove: false, //是否授权
       buy_isloading: false, // 按钮loading
@@ -120,6 +130,7 @@ export default {
   created() {
     const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
     this.mailAccount = gameFiInfo.mailAccount;
+    this.getMaxHC();
   },
   methods: {
     /**获取钱包内最大HC */
@@ -129,7 +140,7 @@ export default {
         .balanceOf(this.getAccount)
         .then((res) => {
           const num = util.formatEther(res);
-          this.HCValue = this.keep4DecimalPlaces(num);
+          this.HCBalance = this.keep4DecimalPlaces(num);
           this.getmaxbtnloading = false;
         })
         .catch((err) => {
@@ -170,8 +181,8 @@ export default {
           if (etReceipt.status == 1) {
             this.buy_isloading = false;
             this.$common.selectLang(`${this.$t("message.gameFi.text77")}`, `${this.$t("message.gameFi.text77")}`, this);
-            this.closeCurrentPage();
-            this.HCValue = null;
+            this.getMaxHC();
+            this.HCValue = 0;
           } else {
             this.buy_isloading = false;
           }
@@ -181,17 +192,21 @@ export default {
         });
     },
     getHC() {
+      if (this.buy_isloading) return;
       window.location.href = `https://pancakeswap.finance/add/${token().HC}/${token().BUSD}`;
     },
     /**快捷输入 */
-    quickInputHC(num) {
-      this.HCValue = this.keep4DecimalPlaces(num);
+    quickInputHC(item, index) {
+      if (this.buy_isloading) return;
+      this.HCValue = item;
+      // this.HCValue = this.keep4DecimalPlaces(item);
     },
     keep4DecimalPlaces(num) {
       return Number(String(num).replace(/^(.*\..{4}).*$/, "$1"));
     },
     /**关闭当前弹窗 */
     closeCurrentPage() {
+      if (this.buy_isloading) return;
       this.$parent.showRecharge = false;
     },
     /**公用提示框（关闭方法）*/
@@ -241,116 +256,113 @@ export default {
       }
       ul {
         li {
-          padding: 10px 0;
-          &:nth-child(1) {
+          color: #fff;
+          > div {
+            margin: 10px 0;
+          }
+        }
+        .li1 {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          div {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            div {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              &:nth-child(1) {
-                color: #fff;
-                img {
-                  width: 25px;
-                  height: 25px;
-                  margin-right: 10px;
-                }
-              }
-              &:nth-child(2) {
-                cursor: pointer;
-                color: #d79c00;
-                img {
-                  width: 10px;
-                  height: 10px;
-                  margin-left: 10px;
-                }
+            &:nth-child(1) {
+              img {
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
               }
             }
-          }
-          &:nth-child(2) {
-            color: #fff;
-            .li_title {
-              margin-bottom: 10px;
-            }
-            .input_box_box {
-              width: 100%;
-              height: 38px;
-              background: rgba(11, 22, 43, 0.99);
-              box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
-              border-radius: 18px;
-              overflow: hidden;
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              input {
-                width: 100%;
-                height: 100%;
-                text-indent: 1em;
-                border: none;
-                outline: none;
-                background: transparent;
-                color: #fff;
-              }
-              .input_btn {
-                cursor: pointer;
-                color: #ffffff;
-                width: 35%;
-                height: calc(100% * 1.5);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-image: url("//cdn.hashland.com/images/SpeciaBtn1.png");
-                background-size: 100% 100%;
-                background-repeat: no-repeat;
-                text-shadow: 0px 2px 4px #a16c28;
-              }
-              input:-ms-input-placeholder,
-              input::-webkit-input-placeholder,
-              input::-moz-placeholder,
-              input:-moz-placeholder {
-                color: #71787f;
-              }
-            }
-          }
-          &:nth-child(3) {
-            color: #fff;
-            .li_title {
-              margin-bottom: 10px;
-            }
-            .quick_input {
-              width: 100%;
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              div {
-                padding: 5px 30px;
-                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, 0px 0px 9px 0px rgba(194, 190, 190, 0.52) inset;
-                border-radius: 4px;
-                cursor: pointer;
-                &:hover {
-                  background: #d8a43a;
-                  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
-                }
-              }
-            }
-          }
-          &:nth-child(4) {
-            .enter_btn {
-              margin: 0 auto;
+            &:nth-child(2) {
               cursor: pointer;
-              color: #ffffff;
-              width: 50%;
-              line-height: calc(100% * 2.5);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-              background-size: 100% 100%;
-              background-repeat: no-repeat;
-              text-shadow: 0px 2px 4px #a16c28;
+              color: #d79c00;
+              img {
+                width: 10px;
+                height: 10px;
+                margin-left: 10px;
+              }
             }
+          }
+        }
+        .li2 {
+          display: flex;
+          div {
+            &:nth-child(1) {
+              margin-right: 1em;
+            }
+          }
+        }
+        .quick_input {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          div {
+            width: 80px;
+            padding: 5px 0;
+            margin-right: 10px;
+            margin: 0 10px 10px 0;
+            text-align: center;
+            box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5) inset, 0px 0px 9px 0px rgba(194, 190, 190, 0.52) inset;
+            border-radius: 4px;
+            cursor: pointer;
+            &:hover,
+            &.active {
+              background: #d8a43a;
+              box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
+            }
+          }
+        }
+        .enter_btn {
+          margin: 0 auto;
+          cursor: pointer;
+          width: 40%;
+          line-height: calc(100% * 2.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          text-shadow: 0px 2px 4px #a16c28;
+        }
+        .input_box_box {
+          width: 100%;
+          height: 38px;
+          background: rgba(11, 22, 43, 0.99);
+          box-shadow: 5px 30px 31px 0px rgba(0, 0, 0, 0.18), 0px 1px 1px 0px #8be6fe, 0px -1px 0px 0px #8be6fe;
+          border-radius: 18px;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          input {
+            width: 100%;
+            height: 100%;
+            text-indent: 1em;
+            border: none;
+            outline: none;
+            background: transparent;
+          }
+          .input_btn {
+            cursor: pointer;
+            width: 35%;
+            height: calc(100% * 1.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("//cdn.hashland.com/images/SpeciaBtn1.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            text-shadow: 0px 2px 4px #a16c28;
+          }
+          input:-ms-input-placeholder,
+          input::-webkit-input-placeholder,
+          input::-moz-placeholder,
+          input:-moz-placeholder {
+            color: #71787f;
           }
         }
       }
@@ -388,14 +400,21 @@ export default {
         width: 0.3rem;
       }
       .inside_box ul {
-        li:nth-child(2) .input_box_box .input_btn {
+        .input_box_box .input_btn {
           width: 50%;
           height: calc(100% * 1.3);
         }
-        li:nth-child(3) .quick_input div {
-          padding: 5px 10px;
+        .li2 {
+          display: block;
         }
-        li:nth-child(4) .enter_btn {
+        .quick_input {
+          flex-wrap: wrap;
+          div {
+            width: 0.5rem;
+            padding: 0.05rem 0;
+          }
+        }
+        .enter_btn {
           width: 50%;
           line-height: calc(100% * 2);
         }
