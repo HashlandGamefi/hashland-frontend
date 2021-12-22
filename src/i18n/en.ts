@@ -149,6 +149,7 @@ export const message = {
     txt11: "Ranking",
     txt12: "Address",
     txt13: "Territory proportion",
+    txt14: "请输入邀请人地址",
   },
   transfer: {
     txt1: "Gift",

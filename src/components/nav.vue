@@ -140,6 +140,7 @@ export default {
         "message.nav.txt6",
         "message.nav.txt4",
         "message.nav.txt5",
+        "message.nav.txt9",
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
@@ -241,9 +242,9 @@ export default {
         case 5:
           window.location.href = "https://land-hash.gitbook.io/official/white-paper/abstract";
           break;
-        // case 6:
-        //   this.$router.push('/invite')
-        //   break;
+        case 6:
+          this.$router.push('/invite')
+          break;
         default:
           this.$common.selectLang("敬请期待", "Coming soon", this);
           break;

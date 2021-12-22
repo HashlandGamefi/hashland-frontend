@@ -57,6 +57,11 @@ let routes: Array<RouteConfig> = [
     component: () => import("../views/Market/index.vue"),
   },
   {
+    path: "/invite",
+    name: "Invite",
+    component: () => import("../views/Invite/index.vue"),
+  },
+  {
     path: "/hangingorder",
     name: "HangingOrder",
     component: () => import("../views/Market/hangingorder.vue"),

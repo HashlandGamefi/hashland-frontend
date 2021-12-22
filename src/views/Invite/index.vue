@@ -10,6 +10,7 @@
           :readonly="redonlyDis"
           v-model="peopleAddress"
           class="input fontsize16"
+          :placeholder="$t('message.invite.txt14')"
         />
         <div v-if="!dis" class="btn fontsize16" @click="besure">
           {{ $t("message.invite.txt7") }}
@@ -22,37 +23,71 @@
         <div class="box">
           <img :src="`${$store.state.imgUrl}inviteimg1.png`" class="center_img" />
           <div class="positionbox">
-            <span class="span1 fontsize32">11.5</span>
-            <span class="span2 fontsize12">{{ $t("message.invite.txt4") }}</span>
+            <div class="top_box">
+              <span class="span1 fontsize32">1</span>
+              <span class="span2 fontsize12">Ranking</span>
+            </div>
+            <div class="bottom_box">
+              <div class="one_line">
+                <span class="span1 fontsize32">11.5</span>
+                <span class="span2 fontsize12">战力</span>
+              </div>
+              <div class="one_line">
+                <span class="span1 fontsize32">100</span>
+                <!-- <span class="span2 fontsize12">Territory proportion</span> -->
+                <span class="span2 fontsize12">占比</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="reward_box">
-          <div class="leftbox">
-            <img :src="`${$store.state.imgUrl}hclogo.png`" class="hclogo_img" />
-            <span class="span1 fontsize22">HC reward</span>
-          </div>
-          <span class="span2 fontsize22">{{rewards}}</span>
-        </div>
-        <div class="btnbox fontsize16" @click="extractClick">
-          {{ $t("message.invite.txt8") }}
-          <BtnLoading :isloading="extract_btnloading"></BtnLoading>
         </div>
       </div>
-      <span class="Ranking fontsize22">{{ $t("message.invite.txt9") }}</span>
-      <span class="Ranking_txt fontsize12_400">{{ $t("message.invite.txt10") }}</span>
+      <div class="page_bottom">
+        <div class="embedded_box">
+          <div class="leftbox">
+            <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
+            <span class="span1 fontsize22">HC reward</span>
+          </div>
+          <div class="boxs_reward">
+            <div class="onebox">
+              <span class="span1 fontsize16">累积奖励</span>
+              <span class="span1 fontsize16">{{add_rewards}}</span>
+            </div>
+            <div class="onebox">
+              <span class="span1 fontsize16">可提取奖励</span>
+              <div class="btn_box">
+                <span class="span1 fontsize16"  v-if="rewards == 0">{{rewards}}</span>
+                <span class="span1 fontsize16" v-else>
+                  <countTo
+                    :decimals="btcnumShow.length"
+                    :startVal="btcStarValue"
+                    :endVal="rewards"
+                    :duration="1500"
+                  ></countTo>
+                </span>
+                <span class="btn" @click="extractClick">提取<BtnLoading :isloading="extract_btnloading"></BtnLoading></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="Ranking fontsize22">战队排行</span>
+      <span class="Ranking_txt fontsize12_400">The future DAO representatives</span>
       <div class="listbox">
         <div class="topline">
-          <div class="onebox fontsize12">{{ $t("message.invite.txt11") }}</div>
+          <div class="title_onebox fontsize18">Ranking</div>
           <div class="onebox">
-            <div class="insertbox1 fontsize12">{{ $t("message.invite.txt12") }}</div>
+            <div class="insertbox2 fontsize18">战力</div>
           </div>
           <div class="onebox">
-            <div class="insertbox2 fontsize12">{{ $t("message.invite.txt13") }}</div>
+            <div class="insertbox1 fontsize18">Address</div>
+          </div>
+          <div class="onebox">
+            <div class="insertbox2 fontsize18">Territory proportion</div>
           </div>
         </div>
         <div class="bottomline">
           <div class="boxs" v-for="(item,index) in list" :key="index">
-            <div class="onebox">
+            <div class="title_onebox">
               <div class="champion_box" v-if="index == 0">
                 <img :src="`${$store.state.imgUrl}champion1.png`" class="sort1_img" />
               </div>
@@ -65,12 +100,16 @@
               <span class="pad_left fontsize16" v-else>{{index + 1}}</span>
             </div>
             <div class="onebox">
-              <div class="insertbox1 fontsize12">{{item}}</div>
+              <div class="insertbox2 fontsize16">{{item.hcnum}}</div>
             </div>
             <div class="onebox">
-              <div class="insertbox2 fontsize12">1</div>
+              <div class="insertbox1 fontsize16">{{item.address}}</div>
+            </div>
+            <div class="onebox">
+              <div class="insertbox2 fontsize16">{{item.btcnum}}</div>
             </div>
           </div>
+          <NoData v-if="list.length == 0" :isshow="false"></NoData>
         </div>
       </div>
     </div>
@@ -90,23 +129,29 @@ import { invitePool,getSigner } from "hashland-sdk";
 export default {
   data () {
     return {
+      btcStarValue:0,// btc 可提取初始值
+      timernull:null,//定时器对象
+      btcnumShow:'12345678', // 数字滚动插件默认显示小数位数8位
       extract_btnloading:false,//提取奖励按钮
       rewards:0,// 领主可提取奖励
+      add_rewards:0,// 累计奖励
       btnloading:false,// 按钮loading
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
       list:[
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123}
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
+        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10}
       ],
       peopleAddress: "",
       redonlyDis: false, //input输入框  是否只读
@@ -117,7 +162,15 @@ export default {
     getIstrue: {
       handler (newValue) {
         console.log('邀请页面newValue: ', newValue)
-        this.sdkInfo()
+        if(newValue){
+          this.sdkInfo()
+          clearInterval(this.timernull)
+          this.timernull = setInterval(() => {
+            this.getRewardsFun()
+          },5000)
+        }else{
+          clearInterval(this.timernull)
+        }
       },
       deep: true,
       immediate: true,
@@ -202,13 +255,22 @@ export default {
         }
       })
     },
-    // 可提取奖励
+    // 定时器刷新邀请奖励
     getRewardsFun(){
-      invitePool().getTokenRewards(this.getAccount).then(res => {
-        console.log('获取某领主可提取的HC数量res: ', this.$common.useBigNumberDiv(res.toString()));
-        this.rewards = this.$common.useBigNumberDiv(res.toString())
-      }).catch(err => {
-        console.log('获取某领主可提取的HC数量err: ', err);
+      // 累积奖励
+      invitePool().getTokenTotalRewards(this.getAccount).then(res => {
+        this.add_rewards = this.$common.useBigNumberDiv(res.toString())
+      })
+      // 可提取奖励
+      invitePool().getTokenRewards(this.getAccount).then(res => {;
+        if ((res.toString() / 1e18) < 1e-8) {
+          this.rewards = 0
+        }else{
+          let num = this.$common.useBigNumberDiv(res.toString())
+          this.btcnumShow = num.substring(num.indexOf('.') + 1,num.length)
+          this.btcStarValue = this.rewards
+          this.rewards = Number(num)
+        }
       })
     },
     // 获取列表
@@ -221,27 +283,19 @@ export default {
           }
         })
         console.log('是法人股东会官方',res[0]);
-        this.list = res[0]
+        // this.list = res[0]
       }).catch(err => {
         console.log('获取某领主的基于指针err: ', err);
       })
     }
-  },
-  mounted(){
-    // if(document.body.clientWidth <= 980){
-    //   this.list.forEach(item => {
-    //     item.address = this.$common.getSubStr(item.address,4)
-    //   })
-    // }else{
-    //   this.list.forEach(item => {
-    //     item.address = this.$common.getSubStr(item.address,10)
-    //   })
-    // }
   }
 }
 </script>
 
 <style lang='scss' scoped>
+@function px2rem($px) {
+  @return $px/3;
+}
 .invite_page {
   width: 100%;
   display: flex;
@@ -318,55 +372,110 @@ export default {
         .positionbox{
           position: absolute;
           left: 50%;
-          top: 44px;
+          top: 62px;
+          width: 300px;
           display: flex;
           flex-direction: column;
           align-items: center;
           transform: translateX(-50%);
-          .span1{
-            color: #DBAE29;
+          // border: 1px solid red;
+          .top_box{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            // border: 1px solid red;
+            .span1{
+              color: #DBAE29;
+            }
+            .span2{
+              color: #ffffff;
+              font-weight: bold;
+            }
           }
-          .span2{
-            color: #ffffff;
-            font-weight: bold;
+          .bottom_box{
+            width: 100%;
+            // border: 1px solid red;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            .one_line{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .span1{
+                color: #DBAE29;
+              }
+              .span2{
+                color: #ffffff;
+                font-weight: bold;
+              }
+            }
           }
         }
       }
-      .reward_box{
-        width: 618px;
-        padding: 0 76px;
-        margin-top: 30px;
+    }
+    .page_bottom {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(90deg, #021F3E 0%, #01142A 100%, #034088 100%);
+      box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+      margin-top: 73px;
+      border-radius: 6px;
+      .embedded_box {
+        width: 100%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .leftbox{
+        flex-direction: column;
+        .leftbox {
           display: flex;
           align-items: center;
-          .hclogo_img{
+          .img {
             width: 34px;
             object-fit: contain;
           }
-          .span1{
-            color: #ffffff;
-            margin-left: 7px;
+          .span1 {
+            color: #d8d8d8;
+            margin-left: 15px;
           }
         }
-        .span2{
-          color: #00F0FF;
+        .boxs_reward{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 23px;
+          .onebox{
+            width: 473px;
+            height: 78px;
+            background: #032C5B;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            .span1{
+              color: #00F0FF;
+            }
+            .btn_box{
+              display: flex;
+              align-items: center;
+              .btn{
+                width: 144px;
+                height: 49px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("//cdn.hashland.com/images/extract_btn.png");
+                background-size: 100% 100%;
+                color: #fff;
+                cursor: pointer;
+                margin-left: 14px;
+              }
+            }
+          }
         }
-      }
-      .btnbox{
-        width: 274px;
-        height: 59px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        color: #ffffff;
-        cursor: pointer;
-        margin-top: 37px;
       }
     }
     .Ranking{
@@ -391,7 +500,7 @@ export default {
         justify-content: space-between;
         margin-bottom: 30px;
         .onebox{
-          flex: 1;
+          width: px2rem(calc(100% - 70px));
           color: #ffffff;
           .insertbox1{
             width: 100%;
@@ -401,6 +510,11 @@ export default {
             width: 100%;
             text-align: right;
           }
+        }
+        .title_onebox{
+          min-width: 70px;
+          width: 70px;
+          color: #ffffff;
         }
       }
       .bottomline{
@@ -416,7 +530,7 @@ export default {
           justify-content: space-between;
           margin-bottom: 30px;
           .onebox{
-            flex: 1;
+            width: px2rem(calc(100% - 70px));
             color: #ffffff;
             .insertbox1{
               width: 100%;
@@ -426,12 +540,17 @@ export default {
               width: 100%;
               text-align: right;
             }
+            .pad_left{
+              padding-left: 10px;
+            }
+          }
+          .title_onebox{
+            min-width: 70px;
+            width: 70px;
+            color: #ffffff;
             .sort1_img{
               width: 27px;
               object-fit: contain;
-            }
-            .pad_left{
-              padding-left: 10px;
             }
           }
         }
@@ -529,42 +648,6 @@ export default {
             font-weight: bold;
           }
         }
-      }
-      .reward_box{
-        width: 100%;
-        padding:0;
-        margin-top: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .leftbox{
-          display: flex;
-          align-items: center;
-          .hclogo_img{
-            width: 0.18rem;
-            object-fit: contain;
-          }
-          .span1{
-            color: #ffffff;
-            margin-left: 0.07rem;
-          }
-        }
-        .span2{
-          color: #00F0FF;
-        }
-      }
-      .btnbox{
-        width: 1.94rem;
-        height: 0.38rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        color: #ffffff;
-        cursor: pointer;
-        margin-top: 0.35rem;
       }
     }
     .Ranking{
