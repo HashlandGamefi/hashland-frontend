@@ -261,158 +261,101 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="col1">
-              <div class="row">
-                <div><span>第1赛季</span></div>
-              </div>
-              <div class="row">
-                <div><span>PVP</span></div>
-              </div>
-            </div>
-            <div class="col2">
-              <div class="row">
+            <div class="row">
+              <div><span>第1赛季</span></div>
+              <div>
                 <div><span>Rank</span></div>
                 <div><span>Address</span></div>
                 <div><span>HC Raward</span></div>
               </div>
-              <div class="row">
+            </div>
+            <div class="row">
+              <div>PVP</div>
+              <div>
                 <ul>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                   <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
-                  </li>
-                  <li>
-                    <div>Rank</div>
-                    <div>Address</div>
-                    <div>Raward</div>
+                    <div><span>Rank</span></div>
+                    <div><span>Address</span></div>
+                    <div><span>HC Raward</span></div>
                   </li>
                 </ul>
               </div>
             </div>
-            <!-- <div class="col3">
-              <div class="col3_top flex_center_center">
-                <div class="col3_left select_list flex_center_center">
-                  <span>第1赛季</span>
-                  <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                  <ul class="list">
-                    <li>第1赛季</li>
-                    <li>第2赛季</li>
-                    <li>第3赛季</li>
-                  </ul>
-                </div>
-                <div class="col3_right flex_center_center">
-                  <span>Rank</span>
-                  <span>Address</span>
-                  <span>HC Raward</span>
-                </div>
-              </div>
-              <div class="col3_bottom flex_center_center">
-                <div class="col3_left flex_center_center">第1赛季</div>
-                <div class="col3_right">
-                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
-                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
-                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
-                  <div class="flex_center"><span>Rank</span><span>Address</span><span>Raward</span></div>
-                </div>
-              </div>
+            <!-- <div class="select_list">
+              <span>第1赛季</span>
+              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+              <ul class="list">
+                <li>第1赛季</li>
+                <li>第2赛季</li>
+                <li>第3赛季</li>
+              </ul>
             </div> -->
           </div>
         </div>
       </div>
     </div>
     <div class="ranking_box ranking_box_box1 mobile">
-      <span class="ranking_title">奖励池 mobile</span>
+      <span class="ranking_title">奖励池</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -458,7 +401,7 @@
       </div>
     </div>
     <div class="ranking_box ranking_box_box2 mobile">
-      <span class="ranking_title">PVE mobile</span>
+      <span class="ranking_title">PVE</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -545,7 +488,7 @@
     </div>
     <div class="ranking_box ranking_box_box3 mobile">
       <div class="ranking_title">
-        <div>PVE mobile</div>
+        <div>PVP</div>
         <div>
           <span>我的奖励：12345</span>
           <span>我的奖励排名：12345</span>
@@ -558,8 +501,78 @@
               <div><span>第1赛季</span></div>
             </div>
             <div class="row">
-              <div><span>第1赛季</span></div>
+              <div><span>PVP</span></div>
+              <div>
+                <div>Rank</div>
+                <div>Address</div>
+                <div>$HC Raward</div>
+              </div>
+              <ul>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+                <li>
+                  <div>Rank</div>
+                  <div>Address</div>
+                  <div>Raward</div>
+                </li>
+              </ul>
             </div>
+            <!-- <div class="row">
+             
+            </div> -->
           </div>
         </div>
       </div>
@@ -728,27 +741,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$singleSmallCellHeight: 30px;
-$singleMediumCellHeight: 60px;
-$singleOversizedCellHeight: 235px;
-
-$mobileSingleSmallCellHeight: 0.3rem;
-$mobileSingleMediumCellHeight: 0.4rem;
-$mobileSingleOversizedCellHeight: 2rem;
-.flex_center {
-  display: flex;
-  align-items: center;
-}
-.flex_center_center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.flex_center_around {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
 .pc {
   display: block;
 }
@@ -770,7 +762,6 @@ $mobileSingleOversizedCellHeight: 2rem;
     font-size: 16px;
   }
 }
-
 .ranking_box {
   width: 100%;
   background: #021c3b;
@@ -788,50 +779,7 @@ $mobileSingleOversizedCellHeight: 2rem;
     text-align: center;
   }
 }
-.select_list {
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .accrow {
-    margin-left: 10px;
-    width: 15px;
-    height: auto;
-    transform: rotate(-90deg);
-    transition: all 0.3s;
-  }
-  ul {
-    width: 100%;
-    height: auto;
-    background: #082545;
-    box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-    border-radius: 0 0 6px 6px;
-    overflow: hidden;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    transform: scaleY(0);
-    transition: transform 0.2s;
-    transform-origin: top center;
-    li {
-      font-size: 16px;
-      height: $singleMediumCellHeight;
-      line-height: $singleMediumCellHeight;
-      &:hover {
-        background: #00e7f0;
-      }
-    }
-  }
-  &:hover {
-    .accrow {
-      transform: rotate(0);
-    }
-    ul {
-      transform: scaleY(1);
-    }
-  }
-}
+
 .btn {
   width: 100%;
   display: flex;
@@ -986,76 +934,58 @@ $mobileSingleOversizedCellHeight: 2rem;
     }
   }
   .ranking_content {
-    display: flex;
-    align-items: center;
     font-size: 12px;
-    .col1 {
-      width: 20%;
-      margin-right: 5px;
-      font-size: 16px;
-      font-weight: bold;
-      .row {
-        width: 100%;
-        height: 100%;
-        background: #082545;
-        border-radius: 6px;
+    flex-wrap: wrap;
+    .row {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      &:nth-child(1) {
+        margin-bottom: 5px;
         > div {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        &:nth-child(1) {
-          width: 100%;
           height: 50px;
-          margin-bottom: 5px;
         }
-        &:nth-child(2) {
-          width: 100%;
+      }
+      &:nth-child(2) {
+        > div {
           height: 300px;
         }
       }
-    }
-    .col2 {
-      width: 80%;
-      .row {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
+      > div {
+        font-size: 16px;
+        font-weight: bold;
         background: #082545;
-        border-radius: 6px;
-        > div {
-          height: 100%;
+        &:nth-child(1) {
+          width: 20%;
           display: flex;
           align-items: center;
           justify-content: center;
-          &:nth-child(1),
-          &:nth-child(3) {
-            width: 30%;
-          }
-          &:nth-child(2) {
-            width: 40%;
-          }
-        }
-        &:nth-child(1) {
-          font-size: 16px;
-          font-weight: bold;
-          width: 100%;
-          height: 50px;
-          margin-bottom: 5px;
+          margin-right: 5px;
         }
         &:nth-child(2) {
-          width: 100%;
-          height: 300px;
+          width: 80%;
+          display: flex;
+          align-items: center;
+          div {
+            &:nth-child(1),
+            &:nth-child(3) {
+              width: 30%;
+            }
+            &:nth-child(2) {
+              width: 40%;
+            }
+          }
         }
       }
     }
+
     ul {
       width: 100%;
       height: 100%;
       overflow-y: auto;
+      font-size: 15px;
+      font-weight: 400;
       li {
         width: 100%;
         display: flex;
@@ -1091,6 +1021,50 @@ ul::-webkit-scrollbar-thumb {
 }
 ul::-webkit-scrollbar-track {
   background: transparent;
+}
+.select_list {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .accrow {
+    margin-left: 10px;
+    width: 15px;
+    height: auto;
+    transform: rotate(-90deg);
+    transition: all 0.3s;
+  }
+  ul {
+    width: 100%;
+    height: auto;
+    background: #082545;
+    box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    transform: scaleY(0);
+    transition: transform 0.2s;
+    transform-origin: top center;
+    li {
+      font-size: 16px;
+      // height: $singleMediumCellHeight;
+      // line-height: $singleMediumCellHeight;
+      &:hover {
+        background: #00e7f0;
+      }
+    }
+  }
+  &:hover {
+    .accrow {
+      transform: rotate(0);
+    }
+    ul {
+      transform: scaleY(1);
+    }
+  }
 }
 @media screen and (max-width: 980px) {
   .pc {
@@ -1234,33 +1208,45 @@ ul::-webkit-scrollbar-track {
       }
     }
     .ranking_content {
-      font-size: 12px;
       .row {
         width: 100%;
-        height: 100%;
+        margin-bottom: 0.05rem;
         background: #082545;
         border-radius: 6px;
+        font-size: 12px;
         > div {
           width: 100%;
-          height: 100%;
+          height: 0.3rem;
           display: flex;
           align-items: center;
           justify-content: center;
         }
-        &:nth-child(1) {
-          height: 0.3rem;
-          margin-bottom: 0.05rem;
-        }
-
         &:nth-child(2) {
-          width: 100%;
-          height: 300px;
+          > div {
+            &:nth-child(1) {
+              padding: 0 0.1rem;
+              justify-content: start;
+            }
+            &:nth-child(2) {
+              div {
+                &:nth-child(1),
+                &:nth-child(3) {
+                  width: 30%;
+                }
+                &:nth-child(2) {
+                  width: 40%;
+                }
+              }
+            }
+          }
         }
       }
+
       ul {
         width: 100%;
-        height: 100%;
+        max-height: 3rem;
         overflow-y: auto;
+        font-weight: 100;
         li {
           width: 100%;
           display: flex;
