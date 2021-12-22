@@ -198,29 +198,34 @@ export default {
       let query1 = `queryType=pve_charpter_pass_user_count&issue=1`
       this.$api.getPVEandPVPinfo(query1).then((res) => {
         let data = res.data.data
-        console.log('PVE各章节已通过玩家数:', data);
+        // console.log('PVE各章节已通过玩家数:', data);
       })
 
       // 当前/历史赛季 PVE某玩家最高通过章节数
       let query2 = `queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=hashlandces1@outlook.com`
       this.$api.getPVEandPVPinfo(query2).then((res) => {
         let data = res.data.data
-        console.log('PVE某玩家最高通过章节数data: ', data);
+        // console.log('PVE某玩家最高通过章节数data: ', data);
       })
 
       // 当前/历史赛季  PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）
       let query3 = `queryType=pve_charpter_reward_hc&issue=1&queryAccount=hashlandces1@outlook.com`
       this.$api.getPVEandPVPinfo(query3).then((res) => {
         let data = res.data.data
-        console.log('PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）: ', data);
+        // console.log('PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）: ', data);
       })
 
       // 当前/历史赛季  PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       let query4 = `queryType=pvp_reward_hc&issue=1&queryAccount=hashlandces1@outlook.com`
       this.$api.getPVEandPVPinfo(query4).then((res) => {
         let data = res.data.data
-        console.log('PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）:', data);
+        console.log('PVP当前玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）:', data);
+      })
 
+      let query5 = `queryType=pvp_reward_hc&issue=1`
+      this.$api.getPVEandPVPinfo(query5).then((res) => {
+        let data = res.data.data
+        console.log('PVP当前玩家已获得HC奖励，当前已获得HC奖励的排名:', data);
       })
       return
 
