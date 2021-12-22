@@ -180,11 +180,8 @@ export default {
   watch: {
     'getIstrue': {
       handler: function (newValue) {
-        console.log('newValue: ', newValue);
         if (newValue) {
-          // setTimeout(() => {
-            // this.getWalletInfo()
-          // },2000)
+          this.getWalletInfo()
         }
       },
       deep: true,
@@ -200,6 +197,15 @@ export default {
       let data1 = `queryType=pve_list&issue=1&pageIndex=1&pageSize=10000`
       this.$api.getPVEandPVPinfo(data1).then((res) => {
         console.log('获取pve章节hc发放详情  支持分页查询', res);
+        // let arr = []
+        // res.data.data.forEach(element => {
+        //   let obj = {}
+        //   obj.charpterId = element.charpterId
+        //   obj.rewardHcNum = element.rewardHcNum
+        //   obj.rewardNum = element.rewardNum
+        //   arr.push(obj)
+        // });
+        // console.log("arr:",arr)
       })
       .catch((err) => {
         console.log('获取pve章节hc发放详情  支持分页查询:err ', err);
@@ -229,23 +235,18 @@ export default {
     },
     // 链接钱包才能拿到的信息
     getWalletInfo(){
-      // 获取某钱包地址当前可提取HC奖励金额
-        console.log('this.getAccount: ', this.getAccount);
+      // 奖励池--->赛季个人奖励--->pvp
       hwPvPPool().userStoredToken(this.getAccount).then(res => {
-        console.log('获取某钱包地址当前可提取HC奖励金额res: ', res)
+        console.log('pvp----获取某钱包地址当前可提取HC奖励金额res: ', this.$common.convertBigNumberToNormal(res.toString(),2))
       }).catch(err => {
-        console.log('获取某钱包地址当前可提取HC奖励金额err: ', err)
+        console.log('pvp----: ', err)
       })
-      // hwPvEPool().userStoredToken('0x3c997f1cd138a43093da842ca95df1ebe9e6c6ce').then(res => {
-      //   console.log('hwPvEPool: ', res)
-      // }).catch(err => {
-      //   console.log('hwPvEPool: ', err)
-      // })
-      // hwPvEPool().harvestedToken().then(res => {
-      //   console.log('harvestedToken: ', res)
-      // }).catch(err => {
-      //   console.log('harvestedToken: ', err)
-      // })
+      // 奖励池--->赛季个人奖励--->pve
+      hwPvEPool().userStoredToken(this.getAccount).then(res => {
+        console.log('pve----获取某钱包地址当前可提取HC奖励金额res: ', this.$common.convertBigNumberToNormal(res.toString(),2))
+      }).catch(err => {
+        console.log('pve----: ', err)
+      })
     },
     // 提取hc
     extractableClick(item){
@@ -262,6 +263,7 @@ export default {
           if(etReceipt.status == 1){
             this.$common.selectLang('提取成功','Claim Successful',this)
             item.loading = false
+            this.getWalletInfo()
           }else{
             item.loading = false
           }
@@ -276,6 +278,7 @@ export default {
           if(etReceipt.status == 1){
             this.$common.selectLang('提取成功','Claim Successful',this)
             item.loading = false
+            this.getWalletInfo()
           }else{
             item.loading = false
           }
