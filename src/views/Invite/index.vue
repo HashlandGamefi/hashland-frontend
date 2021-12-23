@@ -4,9 +4,9 @@
     <div class="content">
       <span class="inviteme fontsize22">{{ $t("message.invite.txt1") }}</span>
       <div class="input_box">
+        <span class="add_txt fontsize16" v-if="dis">{{ $t("message.invite.txt28") }}</span>
         <input
           type="text"
-          :style="{ width: dis ? '100%' : '' }"
           :readonly="redonlyDis"
           v-model="peopleAddress"
           class="input fontsize16"
@@ -72,7 +72,7 @@
         </div>
       </div>
       <span class="Ranking fontsize22">{{ $t("message.invite.txt21") }}</span>
-      <span class="Ranking_txt fontsize12_400">{{ $t("message.invite.txt22") }}</span>
+      <!-- <span class="Ranking_txt fontsize12_400">{{ $t("message.invite.txt22") }}</span> -->
       <div class="listbox">
         <div class="topline">
           <div class="title_onebox fontsize18">{{ $t("message.invite.txt15") }}</div>
@@ -158,6 +158,7 @@ export default {
         '0xA30D18C731c9944F904fFB1011c17B75280d2A08',
         '0xf379d24dCE0Bb73d87d3499D4F1cC87F0Bd0091F',
         '0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
+        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c'
       ]
     }
   },
@@ -387,6 +388,10 @@ export default {
       border-radius: 35px;
       margin: 0 auto;
       margin-top: 44px;
+      .add_txt{
+        color: #fff;
+        margin-left: 15px;
+      }
       .input {
         background: transparent;
         height: 100%;
