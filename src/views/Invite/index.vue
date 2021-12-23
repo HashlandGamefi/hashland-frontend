@@ -152,7 +152,7 @@ export default {
       peopleAddress: "",
       redonlyDis: false, //input输入框  是否只读
       dis: false, // 确认按钮 是否禁用
-      userlist:[
+      start_userlist:[
         '0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',
         '0x1b8651a2D6Bd1BA4eE3E053930aeaE612f2489D3',
         '0xA30D18C731c9944F904fFB1011c17B75280d2A08',
@@ -168,6 +168,10 @@ export default {
         console.log('邀请页面newValue: ', newValue)
         if(newValue){
           this.sdkInfo()
+          this.getUserList()
+          this.isshowbox = this.userlist.some((item) => {
+            return item == this.getAccount.toLocaleLowerCase()
+          })
           clearInterval(this.timernull)
           this.timernull = setInterval(() => {
             this.getRewardsFun()
@@ -179,18 +183,14 @@ export default {
       },
       deep: true,
       immediate: true,
-    },
+    }
   },
   computed: {
     ...mapGetters(["getIstrue", "getAccount"]),
-    isshowbox(){
-      for (let index = 0; index < this.userlist.length; index++) {
-        if (this.getAccount.toLocaleLowerCase() === this.userlist[index].toLocaleLowerCase()) {
-          return true
-        }else{
-          return false
-        }
-      }
+    userlist(){
+      return this.start_userlist.map(item => {
+        return item.toLocaleLowerCase()
+      })
     }
   },
   methods:{
@@ -233,23 +233,35 @@ export default {
         return
       }
       if(this.userlist.indexOf(this.peopleAddress.toLocaleLowerCase()) == -1){
-        this.$common.selectLang("该战队暂未开放，请选择其他战队", "This team is not yet open, please choose another team", this)
+        this.$common.selectLang("该战队暂未开放,请选择其他战队", "This team is not yet open, please choose another team", this)
         this.peopleAddress = ''
         return
       }
       this.btnloading = true
-      invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
-        console.log('绑定地址res: ', res);
-        const etReceipt = await res.wait();
-        if (etReceipt.status == 1) {
-          this.$common.selectLang("绑定成功", "Success", this);
-          this.btnloading = false
-          this.sdkInfo()
+      invitePool().userInviter(this.peopleAddress).then(res => {
+        console.log('dfjskdres: ', res);
+        if(res == '0x0000000000000000000000000000000000000000'){
+          invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
+            console.log('绑定地址res: ', res);
+            const etReceipt = await res.wait();
+            if (etReceipt.status == 1) {
+              this.$common.selectLang("绑定成功", "Success", this);
+              this.btnloading = false
+              this.sdkInfo()
+            }else{
+              this.btnloading = false
+            }
+          }).catch(err => {
+            console.log('绑定地址:err ', err);
+            this.btnloading = false
+          })
         }else{
+          this.$common.selectLang("不能互相绑定", "Can't bind each other", this)
+          this.peopleAddress = ''
           this.btnloading = false
         }
-      }).catch(err => {
-        console.log('绑定地址:err ', err);
+      }).catch(() => {
+        this.peopleAddress = ''
         this.btnloading = false
       })
     },
@@ -257,12 +269,11 @@ export default {
     sdkInfo(){
       this.getUserAddress()
       this.getRewardsFun()
-      this.getUserList()
     },
     // 邀请地址获取
     getUserAddress(){
       invitePool().userInviter(this.getAccount).then(res => {
-        console.log('邀请地址res: ', res);
+        // console.log('邀请地址res: ', res);
         if(res == '0x0000000000000000000000000000000000000000'){
           this.peopleAddress = "";
           this.dis = false;
@@ -295,7 +306,7 @@ export default {
     // 获取列表
     getUserList(){
       this.getDataBaseInfo().then(res => {
-        console.log('封装返回的res: ', res);
+        // console.log('封装返回的res: ', res);
         if(res.arr.length == 0){
           this.list = []
           this.pageshowLoading = false
@@ -304,6 +315,7 @@ export default {
           this.list = res.arr.filter(item => {
             return item.status
           })
+          console.log("this.list",this.list)
           this.pageshowLoading = false
           for (let index = 0; index < this.list.length; index++) {
             const ele = this.list[index];
@@ -313,7 +325,8 @@ export default {
               this.ishowRankNum = RankNum + 1
               this.isNumber = true
               this.CENUM = this.$common.getBit(ele.stakedHC, 2) //战力
-              this.CENUM_ratio = this.$common.getBit((ele.stakedHC / res.data), 2)//战力比
+              let ratio_ = this.$common.getBit((ele.stakedHC / res.data), 4)//战力比
+              this.CENUM_ratio = ratio_ * 100
               return
             }else{
               console.log("else大明风华")
@@ -322,30 +335,33 @@ export default {
             }
           }
         }
+      }).catch(err => {
+        console.log('封装返回的err: ', err)
+        this.list = []
+        this.pageshowLoading = false
       })
     },
     getDataBaseInfo(){
-      let ConversionArr = this.userlist.map(item => {
-        return item.toLocaleLowerCase()
-      })
       this.pageshowLoading = true
       return new Promise((resolve,reject) => {
-        invitePoolInfo.getInviterInfo(10,0,'stakedHC','desc',this.getAccount).then(res => {
+        invitePoolInfo.getInviterInfo(10,0,'stakedHC','desc').then(res => {
           invitePool().stake().then(data => {
             if(res.data.inviterInfos.length == 0){
               resolve({'arr': [], 'msg':'Success','data':data.toNumber()});
             }else{
-              res.data.inviterInfos.forEach(element => {
-                if(ConversionArr.indexOf(element.inviter.toLocaleLowerCase()) != -1){
-                  element.status = true
-                }else{
-                  element.status = false
-                }
-                element.ratio = this.$common.getBit((element.stakedHC / data.toNumber()), 2)
+              console.log("合约返回的数据:",res)
+              let jsonres = JSON.parse(JSON.stringify(res.data.inviterInfos))
+              console.log('jsonres: ', jsonres);
+              jsonres.forEach(element => {
+                element.status = this.userlist.some((item) => {
+                  return item == element.inviter.toLocaleLowerCase()
+                })
+                let ratio_ = this.$common.getBit((element.stakedHC / data.toNumber()), 4)
+                element.ratio = ratio_ * 100
                 element.address = this.$common.getSubStr(element.inviter,5)
                 element.stakedHC = this.$common.getBit(element.stakedHC, 2)
               })
-              resolve({'arr': res.data.inviterInfos, 'msg':'Success','data':data.toNumber()});
+              resolve({'arr': jsonres, 'msg':'Success','data':data.toNumber()});
             }
           }).catch(() => {
             reject({'arr': [], 'msg':'Total contract power error'});
