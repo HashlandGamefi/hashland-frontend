@@ -3,7 +3,7 @@ export const message = {
     txt1: "purchase",
     txt2: "NFT Farm",
     txt3: "Mining",
-    txt4: "My Land",
+    txt4: "League",
     txt5: "Claim",
     txt6: "Released",
     txt7: "Remaining",

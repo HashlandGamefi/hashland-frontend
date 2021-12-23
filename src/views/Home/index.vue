@@ -419,7 +419,9 @@ export default {
           sessionStorage.setItem("HashMenu", 0);
           break;
         case 2:
-          this.$common.selectLang("敬请期待", "Coming soon", this);
+          this.$router.push("/invite");
+          this.$store.commit("HashMenu", 6);
+          sessionStorage.setItem("HashMenu", 6);
           break;
         default:
           break;
