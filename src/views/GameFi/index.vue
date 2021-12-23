@@ -23,8 +23,8 @@
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
-          <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span>
-          <span v-else> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
+          <!-- <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span> -->
+          <span> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
         <div v-if="!isProd" @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
@@ -292,7 +292,7 @@ export default {
   }
 }
 .game_main {
-  width: 80vw;
+  width: 90vw;
   margin: 0 auto;
   color: #ffffff;
 }
@@ -306,12 +306,14 @@ export default {
     align-items: center;
     justify-content: space-around;
     text-align: center;
+
     > div {
       width: 25%;
       max-width: 300px;
       box-shadow: 0px 10px 39px 0px rgba(163, 252, 241, 0.54) inset, 0px -6px 26px 0px rgba(145, 147, 221, 0.6) inset;
       border-radius: 9px;
       padding: 10px 20px;
+      margin: 0 auto;
       div {
         &:nth-child(1) {
           font-size: 16px;
