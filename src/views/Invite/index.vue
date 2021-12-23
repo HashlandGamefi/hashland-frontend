@@ -173,6 +173,7 @@ export default {
           },5000)
         }else{
           clearInterval(this.timernull)
+          this.pageshowLoading = false
         }
       },
       deep: true,
@@ -302,6 +303,7 @@ export default {
           this.list = res.arr.filter(item => {
             return item.status
           })
+          this.pageshowLoading = false
           for (let index = 0; index < this.list.length; index++) {
             const ele = this.list[index];
             if(this.getAccount.toLocaleLowerCase() == ele.inviter.toLocaleLowerCase()){
@@ -320,99 +322,17 @@ export default {
           }
         }
       })
-      return
-      invitePoolInfo.getInviterInfo(10,0,'stakedHC','desc',this.getAccount).then(response => {
-        console.log('response: ', response);
-
-        // console.log('获取某领主的基于指针(从0开始)和数量的被邀请人的地址数组和最后一个数据的指针: ',res);
-        let resres = JSON.parse(JSON.stringify(response))
-        // let res = JSON.parse(JSON.stringify(response))
-        let res = {
-          data:{
-            inviterInfos:[{
-              ratio:20.22,
-              address:'0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',
-              stakedHC:1200
-            },
-            {
-              ratio:12.12,
-              address:'0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
-              stakedHC:20000
-            },
-            {
-              ratio:50.2,
-              address:'0x16FEC748C51B702eCC4ACCe122EcF9059f7fBdvv',
-              stakedHC:400
-            }
-            ]
-          }
-        }
-        invitePool().stake().then(data => {
-          console.log('总战力data: ', data);
-          res.data.inviterInfos.forEach((element,i) => {
-            if(this.userlist.indexOf(element.address.toLocaleLowerCase()) != -1){
-              element.ratio = this.$common.getBit((element.stakedHC / data.toNumber()), 2)
-              console.log('element.stakedHC / data.toNumber(): ', element.stakedHC / data.toNumber())
-              element.address = this.$common.getSubStr(element.address,5)
-              element.stakedHC = this.$common.getBit(element.stakedHC, 2)
-            }else{
-              res.data.inviterInfos.splice(i,1)
-            }
-          });
-          this.list = res.data.inviterInfos
-          console.log('res.data.inviterInfos: ', res.data.inviterInfos);
-
-          for (let index = 0; index < resres.data.inviterInfos.length; index++) {
-            const ele = resres.data.inviterInfos[index];
-            if(this.getAccount.toLocaleLowerCase() == ele.address.toLocaleLowerCase()){
-              let RankNum = resres.data.inviterInfos.findIndex(item => this.getAccount.toLocaleLowerCase() == item.address.toLocaleLowerCase() );
-              this.ishowRankNum = RankNum + 1
-              this.isNumber = true
-              this.CENUM = this.$common.getBit(ele.stakedHC, 2) //战力
-              this.CENUM_ratio = this.$common.getBit((ele.stakedHC / data.toNumber()), 2)//战力比
-            }else{
-              this.ishowRankNum = 'message.invite.txt27'
-              this.isNumber = false
-            }
-          }
-        })
-      })
     },
     getDataBaseInfo(){
       let ConversionArr = this.userlist.map(item => {
         return item.toLocaleLowerCase()
       })
+      this.pageshowLoading = true
       return new Promise((resolve,reject) => {
         invitePoolInfo.getInviterInfo(10,0,'stakedHC','desc',this.getAccount).then(res => {
           invitePool().stake().then(data => {
             if(res.data.inviterInfos.length == 0){
-              let res = [{
-                    ratio:20.22,
-                    inviter:'0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',
-                    stakedHC:1200
-                  },
-                  {
-                    ratio:12.12,
-                    inviter:'0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
-                    stakedHC:20000
-                  },
-                  {
-                    ratio:50.2,
-                    inviter:'0x16FEC748C51B702eCC4ACCe122EcF9059f7fBdvv',
-                    stakedHC:400
-                  }
-                  ]
-              res.forEach(element => {
-                if(ConversionArr.indexOf(element.inviter.toLocaleLowerCase()) != -1){
-                  element.status = true
-                }else{
-                  element.status = false
-                }
-                element.ratio = this.$common.getBit((element.stakedHC / data.toNumber()), 2)
-                element.address = this.$common.getSubStr(element.inviter,5)
-                element.stakedHC = this.$common.getBit(element.stakedHC, 2)
-              })
-              resolve({'arr': res, 'msg':'Success','data':data.toNumber()});
+              resolve({'arr': [], 'msg':'Success','data':data.toNumber()});
             }else{
               res.data.inviterInfos.forEach(element => {
                 if(ConversionArr.indexOf(element.inviter.toLocaleLowerCase()) != -1){
