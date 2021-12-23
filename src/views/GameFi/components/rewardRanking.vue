@@ -24,11 +24,11 @@
                 </div>
               </div>
               <div class="row">
-                <div>{{ item.totalR }}</div>
+                <div>{{ item.totalR | numToFix }}</div>
               </div>
               <div class="row">
                 <div>
-                  {{ item.personalR }}
+                  {{ item.personalR | numToFix }}
                   <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
                     <span>{{ $t("message.gameFi.text98") }}</span>
                     <BtnLoading :isloading="item.loading"></BtnLoading>
@@ -93,12 +93,12 @@
                 </div>
                 <div>
                   <div>
-                    <span>{{ item.totalR }}</span>
+                    <span>{{ item.totalR | numToFix }}</span>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <span>{{ item.personalR }}</span>
+                    <span>{{ item.personalR | numToFix }}</span>
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@
       <div class="ranking_title">
         <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc }}</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFix }}</span>
           <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
@@ -146,7 +146,7 @@
                       <span>{{ item.walletAddress | ellipsis }}</span>
                     </div>
                     <div>
-                      <span>{{ item.totalHc }}</span>
+                      <span>{{ item.totalHc | numToFix }}</span>
                     </div>
                   </li>
                 </ul>
@@ -185,9 +185,9 @@
                     {{ item.title }} <br />
                     {{ item.totalR ? "" : $t("message.gameFi.text79") }}
                   </div>
-                  <div>{{ item.totalR }}</div>
+                  <div>{{ item.totalR | numToFix }}</div>
                   <div>
-                    {{ item.personalR }}
+                    {{ item.personalR | numToFix }}
                     <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
                       <span>{{ $t("message.gameFi.text98") }}</span>
                       <BtnLoading :isloading="item.loading"></BtnLoading>
@@ -221,8 +221,8 @@
                   <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
                   <div>{{ item.totalPassed }}</div>
                   <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
-                  <div>{{ item.totalR }}</div>
-                  <div>{{ item.personalR }}</div>
+                  <div>{{ item.totalR | numToFix }}</div>
+                  <div>{{ item.personalR | numToFix }}</div>
                 </li>
               </ul>
             </div>
@@ -234,7 +234,7 @@
       <div class="ranking_title">
         <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc }}</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFix }}</span>
           <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
@@ -259,7 +259,7 @@
                 <li v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
-                  <div>{{ item.totalHc }}</div>
+                  <div>{{ item.totalHc | numToFix }}</div>
                 </li>
               </ul>
             </div>
@@ -303,16 +303,28 @@ export default {
       // PVP
       PVPData1: { rank: 0, totalHc: 0 },
       PVPData2: [],
+      HCUnitPrice: 0,
     };
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount"]),
+    ...mapGetters(["getIstrue", "getAccount", "getCoinPrice"]),
   },
   watch: {
     getIstrue: {
       handler: function (newValue) {
         if (newValue) {
           this.getWalletInfo();
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+    // HC的单价
+    getCoinPrice: {
+      handler: function (newValue) {
+        if (newValue) {
+          this.HCUnitPrice = Number(newValue.hc);
+          // console.log("🐏 ~ HC的单价", this.HCUnitPrice, typeof this.HCUnitPrice);
         }
       },
       deep: true,
@@ -495,6 +507,10 @@ export default {
       const index2 = value.indexOf("@");
       return value.slice(0, 2) + "***" + value.slice(index2, index);
     },
+    numToFix(value) {
+      if (!value) return 0;
+      return value.toFixed(4);
+    },
   },
 };
 </script>
@@ -544,7 +560,7 @@ export default {
   border-radius: 7px;
   padding: 5px;
   font-size: 12px;
-  margin-left: 5px;
+  margin-left: 1em;
   display: flex;
   align-items: center;
   .donut {
@@ -677,7 +693,8 @@ export default {
       }
       &:nth-child(2) {
         > div {
-          height: 300px;
+          min-height: 100px;
+          max-height: 300px;
         }
       }
       > div {
@@ -972,6 +989,7 @@ ul::-webkit-scrollbar-track {
       }
       ul {
         width: 100%;
+        min-height: 0.5rem;
         max-height: 3rem;
         overflow-y: auto;
         font-weight: 100;
