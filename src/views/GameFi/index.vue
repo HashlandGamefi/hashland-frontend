@@ -76,6 +76,10 @@
               <span class="fontsize16"> {{ $t("message.gameFi.text39") }} </span>
               <div class="fontsize12">{{ $t("message.gameFi.text40") }}</div>
             </li>
+            <li>
+              <span class="fontsize16">{{ $t("message.gameFi.text88") }}</span>
+              <div class="fontsize12">{{ $t("message.gameFi.text89") }}</div>
+            </li>
           </ul>
         </div>
       </div>
@@ -146,8 +150,7 @@ export default {
     openRecharge() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
-      if (!this.getAccount || this.getAccount == "no")
-        return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
+      if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
 
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === this.getAccount); //不存在：-1
@@ -356,7 +359,7 @@ export default {
     }
     ul {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       font-size: 0;
       li {
