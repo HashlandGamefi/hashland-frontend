@@ -1,61 +1,38 @@
 <template>
   <div class="page">
     <div class="ranking_box ranking_box_box1 pc">
-      <span class="ranking_title">奖励池</span>
+      <span class="ranking_title">{{ $t("message.gameFi.text90") }}</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
               <div class="row">
-                <div>
-                  <div><span>第1赛季</span></div>
-                </div>
-                <div>
-                  <div><span>PVE</span></div>
-                </div>
-                <div>
-                  <div><span>PVP</span></div>
-                </div>
-                <!-- <div><div><span>GVE</span></div></div>
-                <div><div><span>GVG</span></div></div> -->
+                <div>{{ $t("message.gameFi.text91") }}</div>
               </div>
               <div class="row">
-                <div>
-                  <div><span>赛季总奖励</span></div>
-                </div>
-                <div>
-                  <div><span>PVE</span></div>
-                </div>
-                <div>
-                  <div><span>PVP</span></div>
-                </div>
-                <!-- <div><div><span>GVE</span></div></div>
-                <div><div><span>GVG</span></div></div> -->
+                <div>{{ $t("message.gameFi.text92") }}</div>
               </div>
               <div class="row">
-                <div>
-                  <div><span>赛季个人奖励</span></div>
-                </div>
-                <div>
-                  <div class="btn"><span>PVE</span> <span>领取奖励</span></div>
-                </div>
-                <div>
-                  <div class="btn"><span>PVP</span> <span>领取奖励</span></div>
-                </div>
-                <!-- <div><div class="btn"><span>GVE</span> <span>领取奖励</span></div></div>
-                <div><div class="btn"><span>GVG</span> <span>领取奖励</span></div></div> -->
+                <div>{{ $t("message.gameFi.text93") }}</div>
               </div>
             </div>
-            <div class="col2">
+            <div class="col1" v-for="(item, index) in RewardPoolData" :key="index">
               <div class="row">
                 <div>
-                  <div><span>BOSS</span></div>
+                  {{ item.title }} <br />
+                  {{ item.totalR ? "" : $t("message.gameFi.text79") }}
                 </div>
+              </div>
+              <div class="row">
+                <div>{{ item.totalR }}</div>
+              </div>
+              <div class="row">
                 <div>
-                  <div><span>BOSS</span></div>
-                </div>
-                <div>
-                  <div class="btn"><span>BOSS</span> <span>领取奖励</span></div>
+                  {{ item.personalR }}
+                  <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
+                    <span>{{ $t("message.gameFi.text98") }}</span>
+                    <BtnLoading :isloading="item.loading"></BtnLoading>
+                  </div>
                 </div>
               </div>
             </div>
@@ -64,173 +41,65 @@
       </div>
     </div>
     <div class="ranking_box ranking_box_box2 pc">
-      <span class="ranking_title">PVE</span>
+      <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
               <div class="row">
                 <div>
-                  <div><span>第1赛季</span></div>
+                  <div>
+                    <span> {{ $t("message.gameFi.text91") }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>Total Passed</span></div>
+                  <div>
+                    <span>{{ $t("message.gameFi.text99") }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>Passed or Not</span></div>
+                  <div>
+                    <span>{{ $t("message.gameFi.text100") }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>赛季章节总奖励</span></div>
+                  <div>
+                    <span>{{ $t("message.gameFi.text94") }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>赛季每章个人奖励</span></div>
+                  <div>
+                    <span>{{ $t("message.gameFi.text95") }}</span>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col2">
-              <div class="row">
+              <div class="row" v-for="(item, index) in PVEData" :key="index">
                 <div>
-                  <div><span>Chapter 1</span></div>
+                  <div>
+                    <span>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>Chapter 2</span></div>
+                  <div>
+                    <span>{{ item.totalPassed }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>Chapter 3</span></div>
+                  <div>
+                    <span>{{ item.passedOrNot ? "✓" : "x" }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>Chapter 4</span></div>
+                  <div>
+                    <span>{{ item.totalR }}</span>
+                  </div>
                 </div>
                 <div>
-                  <div><span>Chapter 5</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 6</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 7</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 8</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 9</span></div>
-                </div>
-              </div>
-              <div class="row">
-                <div>
-                  <div><span>Chapter 1</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 2</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 3</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 4</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 5</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 6</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 7</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 8</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 9</span></div>
-                </div>
-              </div>
-              <div class="row">
-                <div>
-                  <div><span>Chapter 1</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 2</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 3</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 4</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 5</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 6</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 7</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 8</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 9</span></div>
-                </div>
-              </div>
-              <div class="row">
-                <div>
-                  <div><span>Chapter 1</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 2</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 3</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 4</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 5</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 6</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 7</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 8</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 9</span></div>
-                </div>
-              </div>
-              <div class="row">
-                <div>
-                  <div><span>Chapter 1</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 2</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 3</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 4</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 5</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 6</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 7</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 8</span></div>
-                </div>
-                <div>
-                  <div><span>Chapter 9</span></div>
+                  <div>
+                    <span>{{ item.personalR }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -240,91 +109,45 @@
     </div>
     <div class="ranking_box ranking_box_box3 pc">
       <div class="ranking_title">
-        <div>PVP</div>
+        <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>我的奖励：12345</span>
-          <span>我的奖励排名：12345</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc }}</span>
+          <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="row">
-              <div><span>第1赛季</span></div>
               <div>
-                <div><span>Rank</span></div>
-                <div><span>Address</span></div>
-                <div><span>HC Raward</span></div>
+                <span> {{ $t("message.gameFi.text91") }}</span>
+              </div>
+              <div>
+                <div>
+                  <span>{{ $t("message.gameFi.text102") }}</span>
+                </div>
+                <div>
+                  <span>{{ $t("message.gameFi.text103") }}</span>
+                </div>
+                <div>
+                  <span>{{ $t("message.gameFi.text104") }}</span>
+                </div>
               </div>
             </div>
             <div class="row">
-              <div>PVP</div>
+              <div>{{ $t("message.gameFi.text35") }}</div>
               <div>
                 <ul>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
-                  </li>
-                  <li>
-                    <div><span>Rank</span></div>
-                    <div><span>Address</span></div>
-                    <div><span>HC Raward</span></div>
+                  <li v-for="(item, index) in PVPData2" :key="index">
+                    <div>
+                      <span>{{ item.rank }}</span>
+                    </div>
+                    <div>
+                      <span>{{ item.walletAddress | ellipsis }}</span>
+                    </div>
+                    <div>
+                      <span>{{ item.totalHc }}</span>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -343,44 +166,33 @@
       </div>
     </div>
     <div class="ranking_box ranking_box_box1 mobile">
-      <span class="ranking_title">奖励池</span>
+      <span class="ranking_title">{{ $t("message.gameFi.text91") }}</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="row">
-              <div>第一赛季</div>
+              <div>{{ $t("message.gameFi.text91") }}</div>
             </div>
             <div class="row">
               <ul>
                 <li>
                   <div></div>
-                  <div>赛季总奖励</div>
-                  <div>赛季个人奖励</div>
+                  <div>{{ $t("message.gameFi.text92") }}</div>
+                  <div>{{ $t("message.gameFi.text93") }}</div>
                 </li>
-                <li>
-                  <div>PVE</div>
-                  <div>赛季总奖励</div>
-                  <div class="btn"><span>赛季个人奖励</span> <span>领取奖励</span></div>
-                </li>
-                <li>
-                  <div>PVP</div>
-                  <div>赛季总奖励</div>
-                  <div class="btn"><span>赛季个人奖励</span> <span>领取奖励</span></div>
-                </li>
-                <!-- <li>
-                  <div>GVE</div>
-                  <div>赛季总奖励</div>
-                  <div class="btn"><span>赛季个人奖励</span> <span>领取奖励</span></div>
-                </li>
-                <li>
-                  <div>GVG</div>
-                  <div>赛季总奖励</div>
-                  <div class="btn"><span>赛季个人奖励</span> <span>领取奖励</span></div>
-                </li> -->
-                <li>
-                  <div>BOSS</div>
-                  <div>赛季总奖励</div>
-                  <div class="btn"><span>赛季个人奖励</span> <span>领取奖励</span></div>
+                <li v-for="(item, index) in RewardPoolData" :key="index">
+                  <div>
+                    {{ item.title }} <br />
+                    {{ item.totalR ? "" : $t("message.gameFi.text79") }}
+                  </div>
+                  <div>{{ item.totalR }}</div>
+                  <div>
+                    {{ item.personalR }}
+                    <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
+                      <span>{{ $t("message.gameFi.text98") }}</span>
+                      <BtnLoading :isloading="item.loading"></BtnLoading>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -389,84 +201,28 @@
       </div>
     </div>
     <div class="ranking_box ranking_box_box2 mobile">
-      <span class="ranking_title">PVE</span>
+      <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="row">
-              <div>第一赛季</div>
+              <div>{{ $t("message.gameFi.text91") }}</div>
             </div>
             <div class="row">
               <ul>
                 <li>
                   <div></div>
-                  <div>Total Passed</div>
-                  <div>Passed or Not</div>
-                  <div>赛季章节总奖励</div>
-                  <div>赛季每章个人奖励</div>
+                  <div>{{ $t("message.gameFi.text99") }}</div>
+                  <div>{{ $t("message.gameFi.text100") }}</div>
+                  <div>{{ $t("message.gameFi.text94") }}</div>
+                  <div>{{ $t("message.gameFi.text95") }}</div>
                 </li>
-                <li>
-                  <div>Chapter 1</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 2</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 3</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 4</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 5</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 6</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 7</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 8</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </li>
-                <li>
-                  <div>Chapter 9</div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                <li v-for="(item, index) in PVEData" :key="index">
+                  <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
+                  <div>{{ item.totalPassed }}</div>
+                  <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
+                  <div>{{ item.totalR }}</div>
+                  <div>{{ item.personalR }}</div>
                 </li>
               </ul>
             </div>
@@ -476,85 +232,34 @@
     </div>
     <div class="ranking_box ranking_box_box3 mobile">
       <div class="ranking_title">
-        <div>PVP</div>
+        <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>我的奖励：12345</span>
-          <span>我的奖励排名：12345</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc }}</span>
+          <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
             <div class="row">
-              <div><span>第1赛季</span></div>
+              <div>
+                <span>{{ $t("message.gameFi.text91") }}</span>
+              </div>
             </div>
             <div class="row">
-              <div><span>PVP</span></div>
               <div>
-                <div>Rank</div>
-                <div>Address</div>
-                <div>$HC Raward</div>
+                <span>{{ $t("message.gameFi.text35") }}</span>
+              </div>
+              <div>
+                <div>{{ $t("message.gameFi.text102") }}</div>
+                <div>{{ $t("message.gameFi.text103") }}</div>
+                <div>{{ $t("message.gameFi.text104") }}</div>
               </div>
               <ul>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
-                </li>
-                <li>
-                  <div>Rank</div>
-                  <div>Address</div>
-                  <div>Raward</div>
+                <li v-for="(item, index) in PVPData2" :key="index">
+                  <div>{{ item.rank }}</div>
+                  <div>{{ item.walletAddress | ellipsis }}</div>
+                  <div>{{ item.totalHc }}</div>
                 </li>
               </ul>
             </div>
@@ -568,28 +273,36 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hwPvPPool, hwPvEPool } from "hashland-sdk";
+import { hwPvPPool, hwPvEPool, getSigner } from "hashland-sdk";
 export default {
   data() {
     return {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      // 赛季总奖励
-      RewardPool: [
-        { title: "PVE", num: 20000 },
-        { title: "PVP", num: 20000 },
-        // {title:'GVE',num:0},
-        // {title:'GVG',num:0},
-        { title: "BOSS", num: 0 },
+      // 奖励池
+      RewardPoolData: [
+        { title: "PVE", totalR: 20000, personalR: 0, loading: false },
+        { title: "PVP", totalR: 20000, personalR: 0, loading: false },
+        { title: "GVE", totalR: 0, personalR: 0, loading: false },
+        { title: "GVG", totalR: 0, personalR: 0, loading: false },
+        { title: "BOSS", totalR: 0, personalR: 0, loading: false },
       ],
-      personalReward: [
-        { title: "PVE", num: 20000, ranking: 1, loading: false },
-        { title: "PVP", num: 20000, ranking: 2, loading: false },
-        { title: "GVE", num: 0, ranking: 3, loading: false },
-        { title: "GVG", num: 0, ranking: 4, loading: false },
-        { title: "BOSS", num: 0, ranking: 5, loading: false },
+      // PVE
+      PVEData: [
+        { charpterId: 1, totalPassed: 0, passedOrNot: false, totalR: 10.8, personalR: 0 },
+        { charpterId: 2, totalPassed: 0, passedOrNot: false, totalR: 21.6, personalR: 0 },
+        { charpterId: 3, totalPassed: 0, passedOrNot: false, totalR: 54, personalR: 0 },
+        { charpterId: 4, totalPassed: 0, passedOrNot: false, totalR: 108, personalR: 0 },
+        { charpterId: 5, totalPassed: 0, passedOrNot: false, totalR: 108, personalR: 0 },
+        { charpterId: 6, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
+        { charpterId: 7, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
+        { charpterId: 8, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
+        { charpterId: 9, totalPassed: 0, passedOrNot: false, totalR: 129.6, personalR: 0 },
       ],
+      // PVP
+      PVPData1: { rank: 0, totalHc: 0 },
+      PVPData2: [],
     };
   },
   computed: {
@@ -606,102 +319,132 @@ export default {
       immediate: true,
     },
   },
-  mounted() {
-    this.getPVPInfoFun();
+  created() {
+    this.queryPVEData();
+    this.queryPVPData();
   },
   methods: {
-    getPVPInfoFun() {
-      // 当前/历史赛季 PVE各章节已通过玩家数  Total Passed
-      let query1 = `queryType=pve_charpter_pass_user_count&issue=1`;
-      this.$api.getPVEandPVPinfo(query1).then((res) => {
-        let data = res.data.data;
-        // console.log("PVE各章节已通过玩家数:", data);
-      });
+    queryPVEData() {
+      // Total Passed PVE各章节已通过玩家数
+      this.$api
+        .getPVEandPVPinfo(`queryType=pve_charpter_pass_user_count&issue=1`)
+        .then((res) => {
+          if (res.data.result == "SUCCESS") {
+            res.data.data.forEach((element1) => {
+              this.PVEData.forEach((element2) => {
+                // {passCount: 0, charpterId: 9}
+                if (element2.charpterId == element1.charpterId) element2.totalPassed = element1.passCount;
+              });
+            });
+          }
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+      // Passed or Not PVE某玩家最高通过章节数
+      this.$api
+        .getPVEandPVPinfo(`queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=hashlandces1@outlook.com`)
+        .then((res) => {
+          if (res.data.result == "SUCCESS") {
+            res.data.data.forEach((element1) => {
+              this.PVEData.forEach((element2) => {
+                // {isPass: true, charpterId: 1}
+                if (element2.charpterId == element1.charpterId) element2.passedOrNot = element1.isPass;
+              });
+            });
+          }
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
 
-      // 当前/历史赛季 PVE某玩家最高通过章节数  Passed or Not
-      let query2 = `queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=hashlandces1@outlook.com`;
-      this.$api.getPVEandPVPinfo(query2).then((res) => {
-        let data = res.data.data;
-        // console.log("PVE某玩家最高通过章节数data: ", data);
-      });
+      // 赛季每章总奖励  每期数据都写死
 
-      // 当前/历史赛季  PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）   赛季每 章个人奖励
-      let query3 = `queryType=pve_charpter_reward_hc&issue=1&queryAccount=hashlandces1@outlook.com`;
-      this.$api.getPVEandPVPinfo(query3).then((res) => {
-        let data = res.data.data;
-        // console.log("PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）: ", data);
-      });
-      // 赛季章节总奖励------------------
-      // let data1 = `queryType=pve_list&issue=1&pageIndex=1&pageSize=10000`;
-      // this.$api
-      //   .getPVEandPVPinfo(data1)
-      //   .then((res) => {
-      //     console.log("获取pve章节hc发放详情  支持分页查询", res);
-      //     // let arr = []
-      //     // res.data.data.forEach(element => {
-      //     //   let obj = {}
-      //     //   obj.charpterId = element.charpterId
-      //     //   obj.rewardHcNum = element.rewardHcNum
-      //     //   obj.rewardNum = element.rewardNum
-      //     //   arr.push(obj)
-      //     // });
-      //     // console.log("arr:",arr)
-      //   })
-      //   .catch((err) => {
-      //     console.log("获取pve章节hc发放详情  支持分页查询:err ", err);
-      //   });
-
-      //   9、当前/历史赛季 PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
-      //  当前/历史赛季 PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
-      // 请求参数：queryType传入pvp_reward_hc
-      // 		  issue传入当前查询的期数(如果期数不传 则查询当前期数)
-      // 		  queryAccount传入查询的玩家帐号 不传值表示请求所有玩家数据
-      // 返回参数：如果是请求所有玩家的数据  data(里面为JSON数组内容包括：rank排名   uid玩家ID   totalHc累计获得的HC  walletAddress玩家钱包地址 mailAccount玩家帐号)
-      // 		  如果是请求某个玩家的数据  则直接返回(rank排名   uid玩家ID   totalHc累计获得的HC  walletAddress玩家钱包地址 mailAccount玩家帐号)
-      // 		  queryType请求时传入的
-      let query4 = `queryType=pvp_reward_hc&issue=1&queryAccount=ice_month@sina.com`;
-      this.$api.getPVEandPVPinfo(query4).then((res) => {
-        let data = res.data.data;
-        console.log("PVP当前玩家:", data);
-      });
-
-      let query5 = `queryType=pvp_reward_hc&issue=1`; // PVP
-      this.$api.getPVEandPVPinfo(query5).then((res) => {
-        let data = res.data.data;
-        console.log("PVP所有     玩家:", data);
-      });
+      // 赛季每章个人奖励  PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）
+      this.$api
+        .getPVEandPVPinfo(`queryType=pve_charpter_reward_hc&issue=1&queryAccount=hashlandces1@outlook.com`)
+        .then((res) => {
+          if (res.data.result == "SUCCESS") {
+            res.data.data.forEach((element1) => {
+              this.PVEData.forEach((element2) => {
+                // {totalHc: 6, charpterId: 1}
+                if (element2.charpterId == element1.charpterId) element2.personalR = element1.totalHc;
+              });
+            });
+          }
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
     },
-    // 链接钱包才能拿到的信息
+    queryPVPData() {
+      // PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
+      this.$api
+        .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1`)
+        .then((res) => {
+          if (res.data.result == "SUCCESS") {
+            // console.log("PVP所有玩家", res.data.data);
+            this.PVPData2 = res.data.data;
+          }
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+
+      // PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
+      if (!localStorage.getItem("hashlandGameFiInfo")) return;
+      // return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
+      const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
+      this.$api
+        .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
+        .then((res) => {
+          if (res.data.result == "SUCCESS") {
+            // console.log("PVP某玩家", res.data.data);
+            this.PVPData1.rank = res.data.data.rank ? res.data.data.rank : 0;
+            this.PVPData1.totalHc = res.data.data.totalHc ? res.data.data.totalHc : 0;
+          }
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+    },
+
+    // 奖励池  赛季个人奖励  PVP  PVE
     getWalletInfo() {
-      // 奖励池--->赛季个人奖励--->pvp
+      if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
       hwPvPPool()
         .userStoredToken(this.getAccount)
         .then((res) => {
-          console.log("pvp----获取某钱包地址当前可提取HC奖励金额res: ", this.$common.convertBigNumberToNormal(res.toString(), 2));
+          this.RewardPoolData.forEach((element) => {
+            if (element.title == "PVP") {
+              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              // console.log("PVP当前可提取HC: ", element.personalR);
+            }
+          });
         })
         .catch((err) => {
-          console.log("pvp----: ", err);
+          console.log("hwPvPPool", err);
         });
-      // 奖励池--->赛季个人奖励--->pve
       hwPvEPool()
         .userStoredToken(this.getAccount)
         .then((res) => {
-          console.log("pve----获取某钱包地址当前可提取HC奖励金额res: ", this.$common.convertBigNumberToNormal(res.toString(), 2));
+          this.RewardPoolData.forEach((element) => {
+            if (element.title == "PVE") {
+              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              // console.log("PVE当前可提取HC: ", element.personalR);
+            }
+          });
         })
         .catch((err) => {
-          console.log("pve----: ", err);
+          console.log("hwPvEPool", err);
         });
     },
-    // 提取hc
+    // HC提取
     extractableClick(item) {
-      console.log("item: ", item);
-      if (item.num == 0) {
-        this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
-        return;
-      }
+      // if (!item.personalR) return this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
+      if (item.loading) return;
+      item.loading = true;
       if (item.title == "PVE") {
-        if (item.loading) return;
-        item.loading = true;
         hwPvEPool()
           .connect(getSigner())
           .harvestToken()
@@ -709,18 +452,15 @@ export default {
             const etReceipt = await res.wait();
             if (etReceipt.status == 1) {
               this.$common.selectLang("提取成功", "Claim Successful", this);
-              item.loading = false;
               this.getWalletInfo();
-            } else {
-              item.loading = false;
             }
+            item.loading = false;
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log("hwPvEPool", err);
             item.loading = false;
           });
-      } else {
-        if (item.loading) return;
-        item.loading = true;
+      } else if (item.title == "PVP") {
         hwPvPPool()
           .connect(getSigner())
           .harvestToken()
@@ -728,13 +468,12 @@ export default {
             const etReceipt = await res.wait();
             if (etReceipt.status == 1) {
               this.$common.selectLang("提取成功", "Claim Successful", this);
-              item.loading = false;
               this.getWalletInfo();
-            } else {
-              item.loading = false;
             }
+            item.loading = false;
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log("hwPvPPool", err);
             item.loading = false;
           });
       }
@@ -742,6 +481,19 @@ export default {
     // 取消按钮(关闭弹窗)
     CloseFun() {
       this.proupDis = false;
+    },
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      const index = value.length;
+      return value.slice(0, 6) + "..." + value.slice(index - 4, index);
+    },
+    mailEllipsis(value) {
+      if (!value) return "";
+      const index = value.length;
+      const index2 = value.indexOf("@");
+      return value.slice(0, 2) + "***" + value.slice(index2, index);
     },
   },
 };
@@ -786,80 +538,54 @@ export default {
     text-align: center;
   }
 }
-
-.btn {
-  width: 100%;
+.claim_btn {
+  cursor: pointer;
+  background: #29cdda;
+  border-radius: 7px;
+  padding: 5px;
+  font-size: 12px;
+  margin-left: 5px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  span {
-    &:nth-child(2) {
-      cursor: pointer;
-      background: #29cdda;
-      border-radius: 7px;
-      padding: 5px;
-      font-size: 12px;
-      margin-left: 5px;
-    }
+  .donut {
+    width: 15px;
+    height: 15px;
   }
 }
+
 .ranking_box_box1.pc {
   .ranking_content {
     display: flex;
     text-align: center;
     font-size: 12px;
     .col1 {
-      width: calc(100% / 6 * 3);
+      width: calc(100% / 6);
       background: #082545;
       border-radius: 6px;
       padding: 5px;
       margin-right: 5px;
       .row {
+        width: 100%;
+        height: 50px;
+        padding: 5px;
         display: flex;
         align-items: center;
         > div {
-          width: calc(100% / 3);
-          height: 50px;
-          padding: 5px;
-          > div {
-            width: 100%;
-            height: 100%;
-            background: #103763;
-            border-radius: 4px;
-            padding: 5px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          &:nth-child(1) div {
-            background: #3d4f64;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-          }
+          width: 100%;
+          height: 100%;
+          background: #103763;
+          border-radius: 4px;
+          padding: 5px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
-    }
-    .col2 {
-      width: calc(100% / 6);
-      background: #082545;
-      border-radius: 6px;
-      padding: 5px;
-      .row {
-        > div {
-          height: 50px;
-          padding: 5px;
-          > div {
-            width: 100%;
-            height: 100%;
-            background: #103763;
-            border-radius: 4px;
-            padding: 5px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-        }
+      &:nth-child(1) .row > div {
+        background: #3d4f64;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
       }
     }
   }
@@ -875,6 +601,8 @@ export default {
       border-radius: 6px;
       padding: 5px;
       margin-right: 5px;
+      font-size: 16px;
+      font-weight: bold;
       .row {
         > div {
           width: 100%;
@@ -885,8 +613,7 @@ export default {
             height: 100%;
             background: #3d4f64;
             border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
+
             display: flex;
             align-items: center;
             justify-content: center;
@@ -899,23 +626,17 @@ export default {
       background: #082545;
       border-radius: 6px;
       padding: 5px;
+      display: flex;
       .row {
-        display: flex;
-        align-items: center;
+        width: calc(100% / 9);
         > div {
-          width: calc(100% / 9);
           height: 50px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 5px 0;
-          margin-right: 5px;
+          padding: 5px;
           > div {
             width: 100%;
             height: 100%;
             background: #103763;
             border-radius: 4px;
-            padding: 5px 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1090,15 +811,16 @@ ul::-webkit-scrollbar-track {
       display: block;
     }
   }
-  .btn {
-    span {
-      &:nth-child(2) {
-        cursor: pointer;
-        background: #29cdda;
-        border-radius: 0.07rem;
-        padding: 0.02rem 0.05rem;
-        font-size: 0.12rem;
-      }
+
+  .claim_btn {
+    cursor: pointer;
+    background: #29cdda;
+    border-radius: 0.07rem;
+    padding: 0.02rem 0.05rem;
+    font-size: 0.12rem;
+    .donut {
+      width: 0.1rem;
+      height: 0.1rem;
     }
   }
   .ranking_box_box1.mobile {
@@ -1137,15 +859,14 @@ ul::-webkit-scrollbar-track {
             align-items: center;
             justify-content: center;
             &:nth-child(1) {
-              width: 20%;
+              width: 25%;
             }
             &:nth-child(2) {
               width: 30%;
             }
             &:last-child {
-              width: 50%;
+              width: 45%;
               margin-right: 0;
-              flex-wrap: wrap;
             }
           }
         }
@@ -1189,7 +910,7 @@ ul::-webkit-scrollbar-track {
             align-items: center;
             justify-content: center;
             &:first-child {
-              width: 25%;
+              width: 30%;
             }
             &:last-child {
               margin-right: 0;
@@ -1234,21 +955,21 @@ ul::-webkit-scrollbar-track {
               padding: 0 0.1rem;
               justify-content: start;
             }
-            &:nth-child(2) {
-              div {
-                &:nth-child(1),
-                &:nth-child(3) {
-                  width: 30%;
-                }
-                &:nth-child(2) {
-                  width: 40%;
-                }
-              }
-            }
           }
         }
       }
-
+      .row:nth-child(2) > div:nth-child(2) div,
+      ul li > div {
+        &:nth-child(1) {
+          width: 20%;
+        }
+        &:nth-child(2) {
+          width: 50%;
+        }
+        &:nth-child(3) {
+          width: 30%;
+        }
+      }
       ul {
         width: 100%;
         max-height: 3rem;
@@ -1265,13 +986,6 @@ ul::-webkit-scrollbar-track {
             display: flex;
             align-items: center;
             justify-content: center;
-            &:nth-child(1),
-            &:nth-child(3) {
-              width: 30%;
-            }
-            &:nth-child(2) {
-              width: 40%;
-            }
           }
         }
       }

@@ -16,11 +16,7 @@
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text11") }}</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt2 }">
-            <input
-              :type="isShowPassword ? 'text' : 'password'"
-              :placeholder="$t('message.gameFi.text12')"
-              v-model="loginForm.password"
-            />
+            <input :type="isShowPassword ? 'text' : 'password'" :placeholder="$t('message.gameFi.text12')" v-model="loginForm.password" />
             <div class="eye">
               <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
@@ -67,11 +63,7 @@
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text11") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt3 }">
-            <input
-              :type="isShowPassword ? 'text' : 'password'"
-              :placeholder="$t('message.gameFi.text12')"
-              v-model="registerForm.password"
-            />
+            <input :type="isShowPassword ? 'text' : 'password'" :placeholder="$t('message.gameFi.text12')" v-model="registerForm.password" />
             <div class="eye">
               <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
@@ -81,11 +73,7 @@
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text19") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt4 }">
-            <input
-              :type="isShowPassword2 ? 'text' : 'password'"
-              :placeholder="$t('message.gameFi.text12')"
-              v-model="registerForm.password2"
-            />
+            <input :type="isShowPassword2 ? 'text' : 'password'" :placeholder="$t('message.gameFi.text12')" v-model="registerForm.password2" />
             <div class="eye">
               <div @click="isShowPassword2 = !isShowPassword2" :class="{ active: isShowPassword2 }"></div>
             </div>
@@ -303,6 +291,7 @@ export default {
       this.$parent.loginRegisterStatus = true;
       this.$parent.mailAccount = mailAccount;
       this.closeLoginRegister();
+      location.reload();
     },
     /**关闭本弹窗 */
     closeLoginRegister() {
