@@ -17,9 +17,9 @@
           <BtnLoading :isloading="btnloading"></BtnLoading>
         </div>
       </div>
-      <span class="meinvite fontsize22">{{ $t("message.invite.txt2") }}</span>
-      <span class="meinvite_txt fontsize12_400">{{ $t("message.invite.txt3") }}</span>
-      <div class="center_box">
+      <span class="meinvite fontsize22" v-if="isshowbox">{{ $t("message.invite.txt2") }}</span>
+      <span class="meinvite_txt fontsize12_400" v-if="isshowbox">{{ $t("message.invite.txt3") }}</span>
+      <div class="center_box" v-if="isshowbox">
         <div class="box">
           <img :src="`${$store.state.imgUrl}inviteimg1.png`" class="center_img" />
           <div class="positionbox">
@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="page_bottom">
+      <div class="page_bottom" v-if="isshowbox">
         <div class="embedded_box">
           <div class="leftbox">
             <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
@@ -76,7 +76,7 @@
         <div class="topline">
           <div class="title_onebox fontsize18">Ranking</div>
           <div class="onebox">
-            <div class="insertbox2 fontsize18">战力</div>
+            <div class="insertbox1 fontsize18">战力</div>
           </div>
           <div class="onebox">
             <div class="insertbox1 fontsize18">Address</div>
@@ -100,7 +100,7 @@
               <span class="pad_left fontsize16" v-else>{{index + 1}}</span>
             </div>
             <div class="onebox">
-              <div class="insertbox2 fontsize16">{{item.hcnum}}</div>
+              <div class="insertbox1 fontsize16">{{item.hcnum}}</div>
             </div>
             <div class="onebox">
               <div class="insertbox1 fontsize16">{{item.address}}</div>
@@ -125,7 +125,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { invitePool,getSigner } from "hashland-sdk";
+import { invitePool,getSigner,invitePoolInfo } from "hashland-sdk";
 export default {
   data () {
     return {
@@ -149,13 +149,14 @@ export default {
         {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
         {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
         {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
-        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
-        {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
         {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10}
       ],
       peopleAddress: "",
       redonlyDis: false, //input输入框  是否只读
       dis: false, // 确认按钮 是否禁用
+      userlist:[
+        '0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C'
+      ]
     }
   },
   watch: {
@@ -178,6 +179,15 @@ export default {
   },
   computed: {
     ...mapGetters(["getIstrue", "getAccount"]),
+    isshowbox(){
+      for (let index = 0; index < this.userlist.length; index++) {
+        if (this.getAccount.toLocaleLowerCase() === this.userlist[index].toLocaleLowerCase()) {
+          return true
+        }else{
+          return false
+        }
+      }
+    }
   },
   methods:{
     // 取消按钮(关闭弹窗)
@@ -275,6 +285,7 @@ export default {
     },
     // 获取列表
     getUserList(){
+      // invitePoolInfo.getInviterInfo()
       invitePool().getInviterUsersBySize(this.getAccount,0,21).then(res => {
         console.log('获取某领主的基于指针(从0开始)和数量的被邀请人的地址数组和最后一个数据的指针: ',res);
         res[0].map(item => {
@@ -282,20 +293,16 @@ export default {
             item:this.$common.getSubStr(item,5)
           }
         })
-        console.log('是法人股东会官方',res[0]);
         // this.list = res[0]
       }).catch(err => {
         console.log('获取某领主的基于指针err: ', err);
       })
     }
-  }
+  },
 }
 </script>
 
 <style lang='scss' scoped>
-@function px2rem($px) {
-  @return $px/3;
-}
 .invite_page {
   width: 100%;
   display: flex;
@@ -344,6 +351,11 @@ export default {
         background-size: 100% 100%;
         color: #fff;
       }
+    }
+    .select_address_box{
+      width: 100%;
+      height: 2px;
+      border: 1px solid red;
     }
     .meinvite{
       width: 100%;
@@ -500,7 +512,7 @@ export default {
         justify-content: space-between;
         margin-bottom: 30px;
         .onebox{
-          width: px2rem(calc(100% - 70px));
+          flex: 1;
           color: #ffffff;
           .insertbox1{
             width: 100%;
@@ -512,8 +524,7 @@ export default {
           }
         }
         .title_onebox{
-          min-width: 70px;
-          width: 70px;
+          min-width: 80px;
           color: #ffffff;
         }
       }
@@ -521,8 +532,8 @@ export default {
         width: 100%;
         display: flex;
         flex-direction: column;
-        max-height: 500px;
-        overflow-y: auto;
+        // max-height: 540px;
+        // overflow-y: auto;
         .boxs{
           width: 100%;
           display: flex;
@@ -530,7 +541,7 @@ export default {
           justify-content: space-between;
           margin-bottom: 30px;
           .onebox{
-            width: px2rem(calc(100% - 70px));
+            flex: 1;
             color: #ffffff;
             .insertbox1{
               width: 100%;
@@ -540,17 +551,16 @@ export default {
               width: 100%;
               text-align: right;
             }
-            .pad_left{
-              padding-left: 10px;
-            }
           }
           .title_onebox{
-            min-width: 70px;
-            width: 70px;
+            min-width: 80px;
             color: #ffffff;
             .sort1_img{
               width: 27px;
               object-fit: contain;
+            }
+            .pad_left{
+              padding-left: 10px;
             }
           }
         }
