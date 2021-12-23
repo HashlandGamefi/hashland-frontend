@@ -233,23 +233,35 @@ export default {
         return
       }
       if(this.userlist.indexOf(this.peopleAddress.toLocaleLowerCase()) == -1){
-        this.$common.selectLang("该战队暂未开放，请选择其他战队", "This team is not yet open, please choose another team", this)
+        this.$common.selectLang("该战队暂未开放,请选择其他战队", "This team is not yet open, please choose another team", this)
         this.peopleAddress = ''
         return
       }
       this.btnloading = true
-      invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
-        console.log('绑定地址res: ', res);
-        const etReceipt = await res.wait();
-        if (etReceipt.status == 1) {
-          this.$common.selectLang("绑定成功", "Success", this);
-          this.btnloading = false
-          this.sdkInfo()
+      invitePool().userInviter(this.peopleAddress).then(res => {
+        console.log('dfjskdres: ', res);
+        if(res == '0x0000000000000000000000000000000000000000'){
+          invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
+            console.log('绑定地址res: ', res);
+            const etReceipt = await res.wait();
+            if (etReceipt.status == 1) {
+              this.$common.selectLang("绑定成功", "Success", this);
+              this.btnloading = false
+              this.sdkInfo()
+            }else{
+              this.btnloading = false
+            }
+          }).catch(err => {
+            console.log('绑定地址:err ', err);
+            this.btnloading = false
+          })
         }else{
+          this.$common.selectLang("不能互相绑定", "Can't bind each other", this)
+          this.peopleAddress = ''
           this.btnloading = false
         }
-      }).catch(err => {
-        console.log('绑定地址:err ', err);
+      }).catch(() => {
+        this.peopleAddress = ''
         this.btnloading = false
       })
     },
