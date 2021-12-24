@@ -30,7 +30,12 @@
               <div class="row">
                 <div>
                   {{ item.personalR | numToFixed }}
-                  <div class="claim_btn" @click="extractableClick(item)" :class="{ disable: !item.personalR }">
+                  <div
+                    class="claim_btn"
+                    @click="extractableClick(item)"
+                    v-if="item.pool == 1 || item.pool == 2"
+                    :class="{ disable: !item.personalR }"
+                  >
                     <span>{{ $t("message.gameFi.text98") }}</span>
                     <BtnLoading :isloading="item.loading"></BtnLoading>
                   </div>
@@ -194,7 +199,12 @@
                   <div>{{ item.totalR | numToFixed }}</div>
                   <div>
                     {{ item.personalR | numToFixed }}
-                    <div class="claim_btn" @click="extractableClick(item)" :class="{ disable: !item.personalR }">
+                    <div
+                      class="claim_btn"
+                      @click="extractableClick(item)"
+                      v-if="item.pool == 1 || item.pool == 2"
+                      :class="{ disable: !item.personalR }"
+                    >
                       <span>{{ $t("message.gameFi.text98") }}</span>
                       <BtnLoading :isloading="item.loading"></BtnLoading>
                     </div>
@@ -258,12 +268,17 @@
               <div>
                 <span>{{ $t("message.gameFi.text35") }}</span>
               </div>
-              <div>
+              <!-- <div>
                 <div>{{ $t("message.gameFi.text102") }}</div>
                 <div>{{ $t("message.gameFi.text103") }}</div>
                 <div>{{ $t("message.gameFi.text104") }}</div>
-              </div>
+              </div> -->
               <ul>
+                <li>
+                  <div>{{ $t("message.gameFi.text102") }}</div>
+                  <div>{{ $t("message.gameFi.text103") }}</div>
+                  <div>{{ $t("message.gameFi.text104") }}</div>
+                </li>
                 <li v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
@@ -290,11 +305,11 @@ export default {
       proupDis: false, // 弹窗展示消失变量
       // 奖励池
       RewardPoolData: [
-        { title: "PVE", totalR: 20000, personalR: 0, loading: false },
-        { title: "PVP", totalR: 20000, personalR: 0, loading: false },
-        { title: "GVE", totalR: 0, personalR: 0, loading: false },
-        { title: "GVG", totalR: 0, personalR: 0, loading: false },
-        { title: "BOSS", totalR: 0, personalR: 0, loading: false },
+        { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 20000, personalR: 0, loading: false }, // PVE
+        { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 20000, personalR: 0, loading: false }, // PVP
+        { title: `${this.$t("message.gameFi.text37")}`, pool: 3, totalR: 0, personalR: 0, loading: false }, // GVE
+        { title: `${this.$t("message.gameFi.text39")}`, pool: 4, totalR: 0, personalR: 0, loading: false }, // GVG
+        { title: `${this.$t("message.gameFi.text88")}`, pool: 5, totalR: 0, personalR: 0, loading: false }, // World BOSS
       ],
       // PVE
       PVEData: [
@@ -423,7 +438,7 @@ export default {
         .balanceOf(contract().HWWEPool)
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
-            if (element.title == "BOSS") {
+            if (element.pool == 5) {
               element.totalR = Number(util.formatEther(res));
             }
           });
@@ -445,7 +460,7 @@ export default {
         .userStoredToken(this.getAccount)
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
-            if (element.title == "PVE") {
+            if (element.pool == 1) {
               element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
             }
           });
@@ -460,7 +475,7 @@ export default {
         .userStoredToken(this.getAccount)
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
-            if (element.title == "PVP") {
+            if (element.pool == 2) {
               element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
             }
           });
@@ -475,7 +490,7 @@ export default {
         .userStoredToken(this.getAccount)
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
-            if (element.title == "BOSS") {
+            if (element.pool == 5) {
               element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
             }
           });
@@ -490,8 +505,8 @@ export default {
       // this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
       if (item.loading) return;
       item.loading = true;
-      switch (item.title) {
-        case "PVE":
+      switch (item.pool) {
+        case 1:
           hwPvEPool()
             .connect(getSigner())
             .harvestToken()
@@ -508,7 +523,7 @@ export default {
               console.warn("PVE提取失败", err);
             });
           break;
-        case "PVP":
+        case 2:
           hwPvPPool()
             .connect(getSigner())
             .harvestToken()
@@ -525,7 +540,11 @@ export default {
               console.warn("PVP提取失败", err);
             });
           break;
-        case "BOSS":
+        case 3:
+          break;
+        case 4:
+          break;
+        case 5:
           hwWEPool()
             .connect(getSigner())
             .harvestToken()
@@ -635,7 +654,7 @@ export default {
   border-radius: 7px;
   padding: 5px;
   font-size: 12px;
-  margin-left: 1em;
+  margin-left: 2em;
   display: flex;
   align-items: center;
   &.disable {
@@ -1067,20 +1086,18 @@ export default {
       }
       .row:nth-child(2) > div:nth-child(2) div,
       ul li > div {
-        &:nth-child(1) {
-          width: 20%;
-        }
-        &:nth-child(2) {
-          width: 50%;
-        }
+        width: 100%;
+        &:nth-child(1),
+        &:nth-child(2),
         &:nth-child(3) {
-          width: 30%;
+          min-width: 0.5rem;
         }
       }
       ul {
         width: 100%;
         min-height: 0.5rem;
         max-height: 3rem;
+        overflow-x: auto;
         overflow-y: auto;
         font-weight: 100;
         li {
