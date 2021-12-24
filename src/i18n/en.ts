@@ -138,7 +138,7 @@ export const message = {
   },
   invite: {
     txt1: "Join League",
-    txt2: "My team",
+    txt2: "My League",
     txt3: "The Power is determined by the NFTs inserted into the card slot of the team. The more NFTs inserted into the card slot and the higher the level, then the more rewards will be gained .",
     txt7: "Binding",
     txt8: "Claim",
@@ -161,7 +161,7 @@ export const message = {
     txt25: "Proportion",
     txt26: "Cannot bind yourself",
     txt27:'Not yet on the list',
-    txt28:'Joined League'
+    txt28:'Joined'
   },
   transfer: {
     txt1: "Gift",
@@ -399,7 +399,7 @@ export const message = {
     text99: "Total Passed",
     text100: "Passed or Not",
     text101: "Chapter",
-    text102: "Ranking",
+    text102: "HC Raward Ranking",
     text103: "Address",
     text104: "HC Raward",
   },

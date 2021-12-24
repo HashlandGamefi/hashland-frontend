@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 pc">
       <span class="ranking_title">{{ $t("message.gameFi.text90") }}</span>
       <div class="outside_box">
@@ -24,12 +25,17 @@
                 </div>
               </div>
               <div class="row">
-                <div>{{ item.totalR | numToFix }}</div>
+                <div>{{ item.totalR | numToFixed }}</div>
               </div>
               <div class="row">
                 <div>
-                  {{ item.personalR | numToFix }}
-                  <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
+                  {{ item.personalR | numToFixed }}
+                  <div
+                    class="claim_btn"
+                    @click="extractableClick(item)"
+                    v-if="item.pool == 1 || item.pool == 2"
+                    :class="{ disable: !item.personalR }"
+                  >
                     <span>{{ $t("message.gameFi.text98") }}</span>
                     <BtnLoading :isloading="item.loading"></BtnLoading>
                   </div>
@@ -40,6 +46,7 @@
         </div>
       </div>
     </div>
+    <!-- PVE -->
     <div class="ranking_box ranking_box_box2 pc">
       <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
       <div class="outside_box">
@@ -93,12 +100,12 @@
                 </div>
                 <div>
                   <div>
-                    <span>{{ item.totalR | numToFix }}</span>
+                    <span>{{ (item.totalR * 15) | numToFixed }}</span>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <span>{{ item.personalR | numToFix }}</span>
+                    <span>{{ item.personalR | numToFixed }}</span>
                   </div>
                 </div>
               </div>
@@ -107,22 +114,28 @@
         </div>
       </div>
     </div>
+    <!-- PVP -->
     <div class="ranking_box ranking_box_box3 pc">
       <div class="ranking_title">
         <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFix }}</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
           <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row">
+            <div class="col1">
               <div>
                 <span> {{ $t("message.gameFi.text91") }}</span>
               </div>
               <div>
+                <span> {{ $t("message.gameFi.text35") }}</span>
+              </div>
+            </div>
+            <div class="col2">
+              <div class="row">
                 <div>
                   <span>{{ $t("message.gameFi.text102") }}</span>
                 </div>
@@ -133,10 +146,7 @@
                   <span>{{ $t("message.gameFi.text104") }}</span>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div>{{ $t("message.gameFi.text35") }}</div>
-              <div>
+              <div class="row">
                 <ul>
                   <li v-for="(item, index) in PVPData2" :key="index">
                     <div>
@@ -146,7 +156,7 @@
                       <span>{{ item.walletAddress | ellipsis }}</span>
                     </div>
                     <div>
-                      <span>{{ item.totalHc | numToFix }}</span>
+                      <span>{{ item.totalHc | numToFixed }}</span>
                     </div>
                   </li>
                 </ul>
@@ -165,6 +175,7 @@
         </div>
       </div>
     </div>
+    <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 mobile">
       <span class="ranking_title">{{ $t("message.gameFi.text91") }}</span>
       <div class="outside_box">
@@ -185,10 +196,15 @@
                     {{ item.title }} <br />
                     {{ item.totalR ? "" : $t("message.gameFi.text79") }}
                   </div>
-                  <div>{{ item.totalR | numToFix }}</div>
+                  <div>{{ item.totalR | numToFixed }}</div>
                   <div>
-                    {{ item.personalR | numToFix }}
-                    <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
+                    {{ item.personalR | numToFixed }}
+                    <div
+                      class="claim_btn"
+                      @click="extractableClick(item)"
+                      v-if="item.pool == 1 || item.pool == 2"
+                      :class="{ disable: !item.personalR }"
+                    >
                       <span>{{ $t("message.gameFi.text98") }}</span>
                       <BtnLoading :isloading="item.loading"></BtnLoading>
                     </div>
@@ -200,6 +216,7 @@
         </div>
       </div>
     </div>
+    <!-- PVE -->
     <div class="ranking_box ranking_box_box2 mobile">
       <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
       <div class="outside_box">
@@ -221,8 +238,8 @@
                   <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
                   <div>{{ item.totalPassed }}</div>
                   <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
-                  <div>{{ item.totalR | numToFix }}</div>
-                  <div>{{ item.personalR | numToFix }}</div>
+                  <div>{{ (item.totalR * 15) | numToFixed }}</div>
+                  <div>{{ item.personalR | numToFixed }}</div>
                 </li>
               </ul>
             </div>
@@ -230,11 +247,12 @@
         </div>
       </div>
     </div>
+    <!-- PVP -->
     <div class="ranking_box ranking_box_box3 mobile">
       <div class="ranking_title">
         <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFix }}</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
           <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
@@ -250,16 +268,21 @@
               <div>
                 <span>{{ $t("message.gameFi.text35") }}</span>
               </div>
-              <div>
+              <!-- <div>
                 <div>{{ $t("message.gameFi.text102") }}</div>
                 <div>{{ $t("message.gameFi.text103") }}</div>
                 <div>{{ $t("message.gameFi.text104") }}</div>
-              </div>
+              </div> -->
               <ul>
+                <li>
+                  <div>{{ $t("message.gameFi.text102") }}</div>
+                  <div>{{ $t("message.gameFi.text103") }}</div>
+                  <div>{{ $t("message.gameFi.text104") }}</div>
+                </li>
                 <li v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
-                  <div>{{ item.totalHc | numToFix }}</div>
+                  <div>{{ item.totalHc | numToFixed }}</div>
                 </li>
               </ul>
             </div>
@@ -273,7 +296,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hwPvPPool, hwPvEPool, getSigner } from "hashland-sdk";
+import { hwPvPPool, hwPvEPool, hwWEPool, getSigner, hc, contract, util } from "hashland-sdk";
 export default {
   data() {
     return {
@@ -282,11 +305,11 @@ export default {
       proupDis: false, // 弹窗展示消失变量
       // 奖励池
       RewardPoolData: [
-        { title: "PVE", totalR: 20000, personalR: 0, loading: false },
-        { title: "PVP", totalR: 20000, personalR: 0, loading: false },
-        { title: "GVE", totalR: 0, personalR: 0, loading: false },
-        { title: "GVG", totalR: 0, personalR: 0, loading: false },
-        { title: "BOSS", totalR: 0, personalR: 0, loading: false },
+        { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 20000, personalR: 0, loading: false }, // PVE
+        { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 20000, personalR: 0, loading: false }, // PVP
+        { title: `${this.$t("message.gameFi.text37")}`, pool: 3, totalR: 0, personalR: 0, loading: false }, // GVE
+        { title: `${this.$t("message.gameFi.text39")}`, pool: 4, totalR: 0, personalR: 0, loading: false }, // GVG
+        { title: `${this.$t("message.gameFi.text88")}`, pool: 5, totalR: 0, personalR: 0, loading: false }, // World BOSS
       ],
       // PVE
       PVEData: [
@@ -313,18 +336,16 @@ export default {
     getIstrue: {
       handler: function (newValue) {
         if (newValue) {
-          this.getWalletInfo();
+          this.queryPersonalRewards();
         }
       },
       deep: true,
       immediate: true,
     },
-    // HC的单价
     getCoinPrice: {
       handler: function (newValue) {
         if (newValue) {
-          this.HCUnitPrice = Number(newValue.hc);
-          // console.log("🐏 ~ HC的单价", this.HCUnitPrice, typeof this.HCUnitPrice);
+          this.HCUnitPrice = Number(newValue.hc); // HC的单价
         }
       },
       deep: true,
@@ -332,162 +353,216 @@ export default {
     },
   },
   created() {
+    this.queryHWWEPool();
     this.queryPVEData();
     this.queryPVPData();
   },
   methods: {
+    /**PVE各章节 */
     queryPVEData() {
-      // Total Passed PVE各章节已通过玩家数
       this.$api
         .getPVEandPVPinfo(`queryType=pve_charpter_pass_user_count&issue=1`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             res.data.data.forEach((element1) => {
               this.PVEData.forEach((element2) => {
-                // {passCount: 0, charpterId: 9}
-                if (element2.charpterId == element1.charpterId) element2.totalPassed = element1.passCount;
+                if (element2.charpterId == element1.charpterId) element2.totalPassed = element1.passCount; // {passCount: 0, charpterId: 9}
               });
             });
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("Total Passed", err); // PVE各章节已通过玩家数  Total Passed
         });
-      // Passed or Not PVE某玩家最高通过章节数
+      if (!localStorage.getItem("hashlandGameFiInfo")) return;
+      const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       this.$api
-        .getPVEandPVPinfo(`queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=hashlandces1@outlook.com`)
+        .getPVEandPVPinfo(`queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             res.data.data.forEach((element1) => {
               this.PVEData.forEach((element2) => {
-                // {isPass: true, charpterId: 1}
-                if (element2.charpterId == element1.charpterId) element2.passedOrNot = element1.isPass;
+                if (element2.charpterId == element1.charpterId) element2.passedOrNot = element1.isPass; // {isPass: true, charpterId: 1}
               });
             });
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("Passed or Not", err); // PVE某玩家最高通过章节数  Passed or Not
         });
-
-      // 赛季每章总奖励  每期数据都写死
-
-      // 赛季每章个人奖励  PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）
+      // Chapter rewards  每期数据都写死（* 15）
       this.$api
-        .getPVEandPVPinfo(`queryType=pve_charpter_reward_hc&issue=1&queryAccount=hashlandces1@outlook.com`)
+        .getPVEandPVPinfo(`queryType=pve_charpter_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             res.data.data.forEach((element1) => {
               this.PVEData.forEach((element2) => {
-                // {totalHc: 6, charpterId: 1}
-                if (element2.charpterId == element1.charpterId) element2.personalR = element1.totalHc;
+                if (element2.charpterId == element1.charpterId) element2.personalR = element1.totalHc; // {totalHc: 6, charpterId: 1}
               });
             });
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("Gain sharing", err); // PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）  Gain sharing
         });
     },
+    /**PVP所有玩家  PVP某玩家 */
     queryPVPData() {
-      // PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       this.$api
         .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
-            // console.log("PVP所有玩家", res.data.data);
             this.PVPData2 = res.data.data;
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("PVP所有玩家", err); // PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
         });
-
-      // PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       if (!localStorage.getItem("hashlandGameFiInfo")) return;
-      // return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       this.$api
         .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
-            // console.log("PVP某玩家", res.data.data);
             this.PVPData1.rank = res.data.data.rank ? res.data.data.rank : 0;
             this.PVPData1.totalHc = res.data.data.totalHc ? res.data.data.totalHc : 0;
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("PVP某玩家", err); // PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
         });
     },
-
-    // 奖励池  赛季个人奖励  PVP  PVE
-    getWalletInfo() {
-      if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
-      hwPvPPool()
-        .userStoredToken(this.getAccount)
+    /**查询世界池余额 */
+    queryHWWEPool() {
+      hc()
+        .balanceOf(contract().HWWEPool)
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
-            if (element.title == "PVP") {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
-              // console.log("PVP当前可提取HC: ", element.personalR);
+            if (element.pool == 5) {
+              element.totalR = Number(util.formatEther(res));
             }
           });
         })
         .catch((err) => {
-          console.log("hwPvPPool", err);
+          console.warn("HWWEPool", err);
         });
+    },
+    /**奖励池  赛季个人奖励  PVP  PVE  BOSS */
+    queryPersonalRewards() {
+      if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
+      this.queryhwPvEPool();
+      this.queryhwPvPPool();
+      this.queryhwWEPool();
+    },
+    /**查询PVE奖励池 */
+    queryhwPvEPool() {
       hwPvEPool()
         .userStoredToken(this.getAccount)
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
-            if (element.title == "PVE") {
+            if (element.pool == 1) {
               element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
-              // console.log("PVE当前可提取HC: ", element.personalR);
             }
           });
         })
         .catch((err) => {
-          console.log("hwPvEPool", err);
+          console.warn("PVE奖励池", err);
         });
     },
-    // HC提取
+    /**查询PVP奖励池 */
+    queryhwPvPPool() {
+      hwPvPPool()
+        .userStoredToken(this.getAccount)
+        .then((res) => {
+          this.RewardPoolData.forEach((element) => {
+            if (element.pool == 2) {
+              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn("PVP奖励池", err);
+        });
+    },
+    /**查询BOSS奖励池 */
+    queryhwWEPool() {
+      hwWEPool()
+        .userStoredToken(this.getAccount)
+        .then((res) => {
+          this.RewardPoolData.forEach((element) => {
+            if (element.pool == 5) {
+              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn("BOSS奖励池", err);
+        });
+    },
+    /**提取个人HC奖励 */
     extractableClick(item) {
-      // if (!item.personalR) return this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
+      if (!item.personalR) return;
+      // this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
       if (item.loading) return;
       item.loading = true;
-      if (item.title == "PVE") {
-        hwPvEPool()
-          .connect(getSigner())
-          .harvestToken()
-          .then(async (res) => {
-            const etReceipt = await res.wait();
-            if (etReceipt.status == 1) {
-              this.$common.selectLang("提取成功", "Claim Successful", this);
-              this.getWalletInfo();
-            }
-            item.loading = false;
-          })
-          .catch((err) => {
-            console.log("hwPvEPool", err);
-            item.loading = false;
-          });
-      } else if (item.title == "PVP") {
-        hwPvPPool()
-          .connect(getSigner())
-          .harvestToken()
-          .then(async (res) => {
-            const etReceipt = await res.wait();
-            if (etReceipt.status == 1) {
-              this.$common.selectLang("提取成功", "Claim Successful", this);
-              this.getWalletInfo();
-            }
-            item.loading = false;
-          })
-          .catch((err) => {
-            console.log("hwPvPPool", err);
-            item.loading = false;
-          });
+      switch (item.pool) {
+        case 1:
+          hwPvEPool()
+            .connect(getSigner())
+            .harvestToken()
+            .then(async (res) => {
+              const etReceipt = await res.wait();
+              if (etReceipt.status == 1) {
+                this.$common.selectLang("提取成功", "Claim Successful", this);
+                this.queryhwPvEPool();
+              }
+              item.loading = false;
+            })
+            .catch((err) => {
+              item.loading = false;
+              console.warn("PVE提取失败", err);
+            });
+          break;
+        case 2:
+          hwPvPPool()
+            .connect(getSigner())
+            .harvestToken()
+            .then(async (res) => {
+              const etReceipt = await res.wait();
+              if (etReceipt.status == 1) {
+                this.$common.selectLang("提取成功", "Claim Successful", this);
+                this.queryhwPvPPool();
+              }
+              item.loading = false;
+            })
+            .catch((err) => {
+              item.loading = false;
+              console.warn("PVP提取失败", err);
+            });
+          break;
+        case 3:
+          break;
+        case 4:
+          break;
+        case 5:
+          hwWEPool()
+            .connect(getSigner())
+            .harvestToken()
+            .then(async (res) => {
+              const etReceipt = await res.wait();
+              if (etReceipt.status == 1) {
+                this.$common.selectLang("提取成功", "Claim Successful", this);
+                this.queryhwWEPool();
+              }
+              item.loading = false;
+            })
+            .catch((err) => {
+              item.loading = false;
+              console.warn("BOSS提取失败", err);
+            });
+          break;
+        default:
+          break;
       }
     },
     // 取消按钮(关闭弹窗)
@@ -507,15 +582,34 @@ export default {
       const index2 = value.indexOf("@");
       return value.slice(0, 2) + "***" + value.slice(index2, index);
     },
-    numToFix(value) {
-      if (!value) return 0;
-      return value.toFixed(4);
+    numToFixed(value) {
+      if (!value) return "0";
+      let val = value.toFixed(4).toString();
+      const valEnd = val.substring(val.lastIndexOf("."), val.length);
+      valEnd.split("").forEach((element) => {
+        if (val.charAt(val.length - 1) == "0" || val.charAt(val.length - 1) == ".") {
+          val = val.slice(0, val.length - 1);
+        }
+      });
+      return val;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// 重置滚动条样式
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #68b0c8;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 .pc {
   display: block;
 }
@@ -560,9 +654,15 @@ export default {
   border-radius: 7px;
   padding: 5px;
   font-size: 12px;
-  margin-left: 1em;
+  margin-left: 2em;
   display: flex;
   align-items: center;
+  &.disable {
+    background: #ccc;
+    &:hover {
+      cursor: no-drop;
+    }
+  }
   .donut {
     width: 15px;
     height: 15px;
@@ -643,7 +743,9 @@ export default {
       border-radius: 6px;
       padding: 5px;
       display: flex;
+      overflow-x: scroll;
       .row {
+        min-width: 120px;
         width: calc(100% / 9);
         > div {
           height: 50px;
@@ -679,75 +781,85 @@ export default {
   }
   .ranking_content {
     font-size: 12px;
-    flex-wrap: wrap;
-    .row {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      &:nth-child(1) {
-        margin-bottom: 5px;
-        > div {
-          height: 50px;
-        }
-      }
-      &:nth-child(2) {
-        > div {
-          min-height: 100px;
-          max-height: 300px;
-        }
-      }
-      > div {
-        font-size: 16px;
-        font-weight: bold;
+    .col1 {
+      width: calc(100% / 6);
+      margin-right: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      div {
         background: #082545;
-        &:nth-child(1) {
-          width: 20%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 5px;
-        }
-        &:nth-child(2) {
-          width: 80%;
-          display: flex;
-          align-items: center;
-          div {
-            &:nth-child(1),
-            &:nth-child(3) {
-              width: 30%;
-            }
-            &:nth-child(2) {
-              width: 40%;
-            }
-          }
-        }
-      }
-    }
-
-    ul {
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      font-size: 15px;
-      font-weight: 400;
-      li {
-        width: 100%;
+        border-radius: 6px;
+        padding: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
-        > div {
-          height: 100%;
-          padding: 5px 0;
+        &:nth-child(1) {
+          height: 50px;
+          margin-bottom: 5px;
+        }
+        &:nth-child(2) {
+          min-height: 100px;
+          height: 200px;
+        }
+      }
+    }
+    .col2 {
+      width: calc(100% / 6 * 5);
+      // overflow-x: scroll;
+      .row {
+        width: 100%;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        &:nth-child(1) {
+          width: 100%;
+          height: 50px;
+          margin-bottom: 5px;
           display: flex;
           align-items: center;
-          justify-content: center;
-          &:nth-child(1),
-          &:nth-child(3) {
-            width: 30%;
+          > div {
+            // min-width: 400px;
+            height: 100%;
+            background: #082545;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3) {
+              width: 50%;
+            }
           }
-          &:nth-child(2) {
-            width: 40%;
+        }
+        &:nth-child(2) {
+          min-height: 100px;
+          height: 200px;
+          ul {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background: #082545;
+            font-size: 15px;
+            font-weight: 400;
+            li {
+              width: 100%;
+              display: flex;
+              align-items: center;
+              > div {
+                // min-width: 400px;
+                height: 100%;
+                padding: 5px 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:nth-child(1),
+                &:nth-child(2),
+                &:nth-child(3) {
+                  width: 50%;
+                }
+              }
+            }
           }
         }
       }
@@ -755,18 +867,6 @@ export default {
   }
 }
 
-// 重置滚动条样式
-ul::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-ul::-webkit-scrollbar-thumb {
-  background: #68b0c8;
-  border-radius: 5px;
-}
-ul::-webkit-scrollbar-track {
-  background: transparent;
-}
 .select_list {
   cursor: pointer;
   position: relative;
@@ -812,6 +912,18 @@ ul::-webkit-scrollbar-track {
   }
 }
 @media screen and (max-width: 980px) {
+  // 重置滚动条样式
+  ::-webkit-scrollbar {
+    width: 0.01rem;
+    height: 0.01rem;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #68b0c8;
+    border-radius: 0.01rem;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
   .pc {
     display: none;
   }
@@ -897,6 +1009,7 @@ ul::-webkit-scrollbar-track {
         width: 100%;
         background: #082545;
         border-radius: 6px;
+        padding: 0.05rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -906,10 +1019,8 @@ ul::-webkit-scrollbar-track {
         }
       }
       ul {
-        width: 100%;
-        padding: 0.05rem;
+        overflow-x: auto;
         li {
-          width: 100%;
           display: flex;
           align-items: center;
           &:nth-child(1) div {
@@ -918,6 +1029,7 @@ ul::-webkit-scrollbar-track {
             border-radius: 0;
           }
           div {
+            min-width: 1rem;
             width: 20%;
             height: 0.3rem;
             margin: 0 0.05rem 0.05rem 0;
@@ -928,9 +1040,6 @@ ul::-webkit-scrollbar-track {
             justify-content: center;
             &:first-child {
               width: 30%;
-            }
-            &:last-child {
-              margin-right: 0;
             }
           }
         }
@@ -977,20 +1086,18 @@ ul::-webkit-scrollbar-track {
       }
       .row:nth-child(2) > div:nth-child(2) div,
       ul li > div {
-        &:nth-child(1) {
-          width: 20%;
-        }
-        &:nth-child(2) {
-          width: 50%;
-        }
+        width: 100%;
+        &:nth-child(1),
+        &:nth-child(2),
         &:nth-child(3) {
-          width: 30%;
+          min-width: 0.5rem;
         }
       }
       ul {
         width: 100%;
         min-height: 0.5rem;
         max-height: 3rem;
+        overflow-x: auto;
         overflow-y: auto;
         font-weight: 100;
         li {

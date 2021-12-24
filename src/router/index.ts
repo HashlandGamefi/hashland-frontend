@@ -113,8 +113,8 @@ router.beforeEach((to: any, from: any, next: any) => {
     case 'Invite':
       store.commit("menuBG", "yes");
       sessionStorage.setItem("menuBG", "yes");
-      store.commit("HashMenu", '4');
-      sessionStorage.setItem("HashMenu", '4');
+      store.commit("HashMenu", '-1');
+      sessionStorage.setItem("HashMenu", '-1');
       break;
   }
   next();

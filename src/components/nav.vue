@@ -132,7 +132,6 @@ export default {
         "message.nav.txt2",
         "message.nav.txt3",
         "message.nav.txt6",
-        "message.nav.txt9",
         "message.nav.txt4",
         "message.nav.txt5",
       ],
@@ -224,15 +223,12 @@ export default {
         case 3:
           this.$router.push("/market");
           break;
-        case 5:
+        case 4:
           this.$router.push("/dao");
           // window.location.href = "https://land-hash.gitbook.io/official/dao/about-dao";
           break;
-        case 6:
+        case 5:
           window.location.href = "https://land-hash.gitbook.io/official/white-paper/abstract";
-          break;
-        case 4:
-          this.$router.push('/invite')
           break;
         default:
           this.$common.selectLang("敬请期待", "Coming soon", this);

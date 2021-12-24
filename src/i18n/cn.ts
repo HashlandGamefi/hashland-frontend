@@ -152,7 +152,7 @@ export const message = {
     txt24: "地址",
     txt25: "获得hc",
     txt26: "不能绑定自己",
-    txt27:'暂未上榜'
+    txt27: "暂未上榜",
   },
   transfer: {
     txt1: "转账",
@@ -379,7 +379,7 @@ export const message = {
     text99: "Total Passed",
     text100: "Passed or Not",
     text101: "Chapter",
-    text102: "Rank",
+    text102: "HC Raward Ranking",
     text103: "Address",
     text104: "HC Raward",
   },
