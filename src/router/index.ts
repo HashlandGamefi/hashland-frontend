@@ -97,24 +97,42 @@ const router = new VueRouter({
   routes,
 });
 router.beforeEach((to: any, from: any, next: any) => {
+  store.commit("menuBG", "yes");
+  sessionStorage.setItem("menuBG", "yes");
   switch(to.name){
+    case 'Home':
+      store.commit("menuBG", "no");
+      sessionStorage.setItem("menuBG", "no");
+      store.commit("HashMenu", '-1');
+      sessionStorage.setItem("HashMenu", '-1');
+      break;
     case 'Buy':
-      store.commit("menuBG", "yes");
-      sessionStorage.setItem("menuBG", "yes");
       store.commit("HashMenu", '0');
       sessionStorage.setItem("HashMenu", '0');
       break;
     case 'NFTmining':
-      store.commit("menuBG", "yes");
-      sessionStorage.setItem("menuBG", "yes");
       store.commit("HashMenu", '0');
       sessionStorage.setItem("HashMenu", '0');
       break;
     case 'Invite':
-      store.commit("menuBG", "yes");
-      sessionStorage.setItem("menuBG", "yes");
       store.commit("HashMenu", '-1');
       sessionStorage.setItem("HashMenu", '-1');
+      break;
+    case 'GameFi':
+      store.commit("HashMenu", '1');
+      sessionStorage.setItem("HashMenu", '1');
+      break;
+    case 'Hclp':
+      store.commit("HashMenu", '2');
+      sessionStorage.setItem("HashMenu", '2');
+      break;
+    case 'Market':
+      store.commit("HashMenu", '3');
+      sessionStorage.setItem("HashMenu", '3');
+      break;
+    case 'Dao':
+      store.commit("HashMenu", '4');
+      sessionStorage.setItem("HashMenu", '4');
       break;
   }
   next();
