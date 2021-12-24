@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 pc">
       <span class="ranking_title">{{ $t("message.gameFi.text90") }}</span>
       <div class="outside_box">
@@ -24,12 +25,12 @@
                 </div>
               </div>
               <div class="row">
-                <div>{{ item.totalR | numToFix }}</div>
+                <div>{{ item.totalR | numToFixed }}</div>
               </div>
               <div class="row">
                 <div>
-                  {{ item.personalR | numToFix }}
-                  <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
+                  {{ item.personalR | numToFixed }}
+                  <div class="claim_btn" v-if="item.personalR" @click="extractableClick(item)">
                     <span>{{ $t("message.gameFi.text98") }}</span>
                     <BtnLoading :isloading="item.loading"></BtnLoading>
                   </div>
@@ -40,6 +41,7 @@
         </div>
       </div>
     </div>
+    <!-- PVE -->
     <div class="ranking_box ranking_box_box2 pc">
       <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
       <div class="outside_box">
@@ -93,12 +95,12 @@
                 </div>
                 <div>
                   <div>
-                    <span>{{ item.totalR | numToFix }}</span>
+                    <span>{{ (item.totalR * 15) | numToFixed }}</span>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <span>{{ item.personalR | numToFix }}</span>
+                    <span>{{ item.personalR | numToFixed }}</span>
                   </div>
                 </div>
               </div>
@@ -107,11 +109,12 @@
         </div>
       </div>
     </div>
+    <!-- PVP -->
     <div class="ranking_box ranking_box_box3 pc">
       <div class="ranking_title">
         <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFix }}</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
           <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
@@ -148,13 +151,12 @@
                       <span>{{ item.walletAddress | ellipsis }}</span>
                     </div>
                     <div>
-                      <span>{{ item.totalHc | numToFix }}</span>
+                      <span>{{ item.totalHc | numToFixed }}</span>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
-
             <!-- <div class="select_list">
               <span>第1赛季</span>
               <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
@@ -168,6 +170,7 @@
         </div>
       </div>
     </div>
+    <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 mobile">
       <span class="ranking_title">{{ $t("message.gameFi.text91") }}</span>
       <div class="outside_box">
@@ -188,10 +191,10 @@
                     {{ item.title }} <br />
                     {{ item.totalR ? "" : $t("message.gameFi.text79") }}
                   </div>
-                  <div>{{ item.totalR | numToFix }}</div>
+                  <div>{{ item.totalR | numToFixed }}</div>
                   <div>
-                    {{ item.personalR | numToFix }}
-                    <div class="claim_btn" v-if="item.totalR" @click="extractableClick(item)">
+                    {{ item.personalR | numToFixed }}
+                    <div class="claim_btn" v-if="item.personalR" @click="extractableClick(item)">
                       <span>{{ $t("message.gameFi.text98") }}</span>
                       <BtnLoading :isloading="item.loading"></BtnLoading>
                     </div>
@@ -203,6 +206,7 @@
         </div>
       </div>
     </div>
+    <!-- PVE -->
     <div class="ranking_box ranking_box_box2 mobile">
       <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
       <div class="outside_box">
@@ -224,8 +228,8 @@
                   <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
                   <div>{{ item.totalPassed }}</div>
                   <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
-                  <div>{{ item.totalR | numToFix }}</div>
-                  <div>{{ item.personalR | numToFix }}</div>
+                  <div>{{ (item.totalR * 15) | numToFixed }}</div>
+                  <div>{{ item.personalR | numToFixed }}</div>
                 </li>
               </ul>
             </div>
@@ -233,11 +237,12 @@
         </div>
       </div>
     </div>
+    <!-- PVP -->
     <div class="ranking_box ranking_box_box3 mobile">
       <div class="ranking_title">
         <div>{{ $t("message.gameFi.text35") }}</div>
         <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFix }}</span>
+          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
           <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
         </div>
       </div>
@@ -262,7 +267,7 @@
                 <li v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
-                  <div>{{ item.totalHc | numToFix }}</div>
+                  <div>{{ item.totalHc | numToFixed }}</div>
                 </li>
               </ul>
             </div>
@@ -276,7 +281,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hwPvPPool, hwPvEPool, getSigner } from "hashland-sdk";
+import { hwPvPPool, hwPvEPool, hwWEPool, getSigner, hc, contract, util } from "hashland-sdk";
 export default {
   data() {
     return {
@@ -316,18 +321,16 @@ export default {
     getIstrue: {
       handler: function (newValue) {
         if (newValue) {
-          this.getWalletInfo();
+          this.queryPersonalRewards();
         }
       },
       deep: true,
       immediate: true,
     },
-    // HC的单价
     getCoinPrice: {
       handler: function (newValue) {
         if (newValue) {
-          this.HCUnitPrice = Number(newValue.hc);
-          // console.log("🐏 ~ HC的单价", this.HCUnitPrice, typeof this.HCUnitPrice);
+          this.HCUnitPrice = Number(newValue.hc); // HC的单价
         }
       },
       deep: true,
@@ -335,10 +338,28 @@ export default {
     },
   },
   created() {
+    this.queryHWWEPool();
     this.queryPVEData();
     this.queryPVPData();
   },
   methods: {
+    /**查询世界池余额 */
+    queryHWWEPool() {
+      hc()
+        .balanceOf(contract().HWWEPool)
+        .then((res) => {
+          this.RewardPoolData.forEach((element) => {
+            if (element.title == "BOSS") {
+              element.totalR = Number(util.formatEther(res));
+              // console.log("HWWEPool: ", element.totalR);
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn("HWWEPool", err);
+        });
+    },
+    /**PVE各章节 */
     queryPVEData() {
       // Total Passed PVE各章节已通过玩家数
       this.$api
@@ -392,20 +413,19 @@ export default {
           console.warn(err);
         });
     },
+    /**PVP所有玩家  PVP某玩家 */
     queryPVPData() {
       // PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       this.$api
         .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
-            // console.log("PVP所有玩家", res.data.data);
             this.PVPData2 = res.data.data;
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("PVP所有玩家", err);
         });
-
       // PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       if (!localStorage.getItem("hashlandGameFiInfo")) return;
       // return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
@@ -414,18 +434,16 @@ export default {
         .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
-            // console.log("PVP某玩家", res.data.data);
             this.PVPData1.rank = res.data.data.rank ? res.data.data.rank : 0;
             this.PVPData1.totalHc = res.data.data.totalHc ? res.data.data.totalHc : 0;
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("PVP某玩家", err);
         });
     },
-
-    // 奖励池  赛季个人奖励  PVP  PVE
-    getWalletInfo() {
+    /**奖励池  赛季个人奖励  PVP  PVE  BOSS */
+    queryPersonalRewards() {
       if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
       hwPvPPool()
         .userStoredToken(this.getAccount)
@@ -433,12 +451,11 @@ export default {
           this.RewardPoolData.forEach((element) => {
             if (element.title == "PVP") {
               element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
-              // console.log("PVP当前可提取HC: ", element.personalR);
             }
           });
         })
         .catch((err) => {
-          console.log("hwPvPPool", err);
+          console.warn("PVP奖励池", err);
         });
       hwPvEPool()
         .userStoredToken(this.getAccount)
@@ -446,51 +463,103 @@ export default {
           this.RewardPoolData.forEach((element) => {
             if (element.title == "PVE") {
               element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
-              // console.log("PVE当前可提取HC: ", element.personalR);
             }
           });
         })
         .catch((err) => {
-          console.log("hwPvEPool", err);
+          console.warn("PVE奖励池", err);
+        });
+      hwWEPool()
+        .userStoredToken(this.getAccount)
+        .then((res) => {
+          this.RewardPoolData.forEach((element) => {
+            if (element.title == "BOSS") {
+              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn("BOSS奖励池", err);
         });
     },
-    // HC提取
+    // queryhwPvPPool() {
+    //   if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
+    //   hwPvPPool()
+    //     .userStoredToken(this.getAccount)
+    //     .then((res) => {
+    //       this.RewardPoolData.forEach((element) => {
+    //         if (element.title == "PVP") {
+    //           element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+    //         }
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       console.warn("PVP奖励池", err);
+    //     });
+    // },
+    /**提取个人HC奖励 */
     extractableClick(item) {
       // if (!item.personalR) return this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
       if (item.loading) return;
       item.loading = true;
-      if (item.title == "PVE") {
-        hwPvEPool()
-          .connect(getSigner())
-          .harvestToken()
-          .then(async (res) => {
-            const etReceipt = await res.wait();
-            if (etReceipt.status == 1) {
-              this.$common.selectLang("提取成功", "Claim Successful", this);
-              this.getWalletInfo();
-            }
-            item.loading = false;
-          })
-          .catch((err) => {
-            console.log("hwPvEPool", err);
-            item.loading = false;
-          });
-      } else if (item.title == "PVP") {
-        hwPvPPool()
-          .connect(getSigner())
-          .harvestToken()
-          .then(async (res) => {
-            const etReceipt = await res.wait();
-            if (etReceipt.status == 1) {
-              this.$common.selectLang("提取成功", "Claim Successful", this);
-              this.getWalletInfo();
-            }
-            item.loading = false;
-          })
-          .catch((err) => {
-            console.log("hwPvPPool", err);
-            item.loading = false;
-          });
+      switch (item.title) {
+        case "PVE":
+          hwPvEPool()
+            .connect(getSigner())
+            .harvestToken()
+            .then(async (res) => {
+              const etReceipt = await res.wait();
+              if (etReceipt.status == 1) {
+                this.$common.selectLang("提取成功", "Claim Successful", this);
+                this.queryPersonalRewards();
+              }
+              item.loading = false;
+            })
+            .catch((err) => {
+              console.warn("PVE提取失败", err);
+              item.loading = false;
+            });
+          break;
+        case "PVP":
+          hwPvPPool()
+            .connect(getSigner())
+            .harvestToken()
+            .then(async (res) => {
+              const etReceipt = await res.wait();
+              if (etReceipt.status == 1) {
+                this.$common.selectLang("提取成功", "Claim Successful", this);
+                this.queryPersonalRewards();
+              }
+              item.loading = false;
+            })
+            .catch((err) => {
+              console.warn("PVP提取失败", err);
+              item.loading = false;
+            });
+          break;
+        case "PVE":
+          break;
+        case "PVE":
+          break;
+        case "BOSS":
+          hwWEPool()
+            .connect(getSigner())
+            .harvestToken()
+            .then(async (res) => {
+              const etReceipt = await res.wait();
+              if (etReceipt.status == 1) {
+                this.$common.selectLang("提取成功", "Claim Successful", this);
+                this.queryPersonalRewards();
+              }
+              item.loading = false;
+            })
+            .catch((err) => {
+              console.warn("BOSS提取失败", err);
+              item.loading = false;
+            });
+          break;
+        default:
+          break;
       }
     },
     // 取消按钮(关闭弹窗)
@@ -510,7 +579,7 @@ export default {
       const index2 = value.indexOf("@");
       return value.slice(0, 2) + "***" + value.slice(index2, index);
     },
-    numToFix(value) {
+    numToFixed(value) {
       if (!value) return "0";
       let val = value.toFixed(4).toString();
       const valEnd = val.substring(val.lastIndexOf("."), val.length);
