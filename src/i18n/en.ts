@@ -399,7 +399,7 @@ export const message = {
     text99: "Total Passed",
     text100: "Passed or Not",
     text101: "Chapter",
-    text102: "Ranking",
+    text102: "HC Raward Ranking",
     text103: "Address",
     text104: "HC Raward",
   },

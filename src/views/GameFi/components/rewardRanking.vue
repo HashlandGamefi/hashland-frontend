@@ -30,7 +30,7 @@
               <div class="row">
                 <div>
                   {{ item.personalR | numToFixed }}
-                  <div class="claim_btn" v-if="item.personalR" @click="extractableClick(item)">
+                  <div class="claim_btn" @click="extractableClick(item)" :class="{ disable: !item.personalR }">
                     <span>{{ $t("message.gameFi.text98") }}</span>
                     <BtnLoading :isloading="item.loading"></BtnLoading>
                   </div>
@@ -194,7 +194,7 @@
                   <div>{{ item.totalR | numToFixed }}</div>
                   <div>
                     {{ item.personalR | numToFixed }}
-                    <div class="claim_btn" v-if="item.personalR" @click="extractableClick(item)">
+                    <div class="claim_btn" @click="extractableClick(item)" :class="{ disable: !item.personalR }">
                       <span>{{ $t("message.gameFi.text98") }}</span>
                       <BtnLoading :isloading="item.loading"></BtnLoading>
                     </div>
@@ -486,7 +486,8 @@ export default {
     },
     /**提取个人HC奖励 */
     extractableClick(item) {
-      // if (!item.personalR) return this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
+      if (!item.personalR) return;
+      // this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
       if (item.loading) return;
       item.loading = true;
       switch (item.title) {
@@ -637,6 +638,12 @@ export default {
   margin-left: 1em;
   display: flex;
   align-items: center;
+  &.disable {
+    background: #ccc;
+    &:hover {
+      cursor: no-drop;
+    }
+  }
   .donut {
     width: 15px;
     height: 15px;
