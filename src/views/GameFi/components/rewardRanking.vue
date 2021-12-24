@@ -537,10 +537,6 @@ export default {
               item.loading = false;
             });
           break;
-        case "PVE":
-          break;
-        case "PVE":
-          break;
         case "BOSS":
           hwWEPool()
             .connect(getSigner())
