@@ -133,6 +133,7 @@ import { invitePool,getSigner,invitePoolInfo } from "hashland-sdk";
 export default {
   data () {
     return {
+      isshowbox:false,
       pageshowLoading: true,// 数据没有加载完之前显示loading
       isNumber:false,
       ishowRankNum:'message.invite.txt27',//我的战队排名
@@ -167,7 +168,6 @@ export default {
         console.log('邀请页面newValue: ', newValue)
         if(newValue){
           this.sdkInfo()
-          this.getUserList()
           this.isshowbox = this.userlist.some((item) => {
             return item == this.getAccount.toLocaleLowerCase()
           })
@@ -366,6 +366,9 @@ export default {
       })
     }
   },
+  mounted(){
+    this.getUserList()
+  }
 }
 </script>
 
