@@ -343,25 +343,8 @@ export default {
     this.queryPVPData();
   },
   methods: {
-    /**查询世界池余额 */
-    queryHWWEPool() {
-      hc()
-        .balanceOf(contract().HWWEPool)
-        .then((res) => {
-          this.RewardPoolData.forEach((element) => {
-            if (element.title == "BOSS") {
-              element.totalR = Number(util.formatEther(res));
-              // console.log("HWWEPool: ", element.totalR);
-            }
-          });
-        })
-        .catch((err) => {
-          console.warn("HWWEPool", err);
-        });
-    },
     /**PVE各章节 */
     queryPVEData() {
-      // Total Passed PVE各章节已通过玩家数
       this.$api
         .getPVEandPVPinfo(`queryType=pve_charpter_pass_user_count&issue=1`)
         .then((res) => {
@@ -374,12 +357,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("Total Passed", err); // PVE各章节已通过玩家数  Total Passed
         });
       if (!localStorage.getItem("hashlandGameFiInfo")) return;
-      // return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
-      // Passed or Not PVE某玩家最高通过章节数
       this.$api
         .getPVEandPVPinfo(`queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
@@ -392,12 +373,9 @@ export default {
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("Passed or Not", err); // PVE某玩家最高通过章节数  Passed or Not
         });
-
-      // 赛季每章总奖励  每期数据都写死
-
-      // 赛季每章个人奖励  PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）
+      // Chapter rewards  每期数据都写死（* 15）
       this.$api
         .getPVEandPVPinfo(`queryType=pve_charpter_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
@@ -410,12 +388,11 @@ export default {
           }
         })
         .catch((err) => {
-          console.warn(err);
+          console.warn("Gain sharing", err); // PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）  Gain sharing
         });
     },
     /**PVP所有玩家  PVP某玩家 */
     queryPVPData() {
-      // PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       this.$api
         .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1`)
         .then((res) => {
@@ -424,11 +401,9 @@ export default {
           }
         })
         .catch((err) => {
-          console.warn("PVP所有玩家", err);
+          console.warn("PVP所有玩家", err); // PVP所有玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
         });
-      // PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
       if (!localStorage.getItem("hashlandGameFiInfo")) return;
-      // return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       this.$api
         .getPVEandPVPinfo(`queryType=pvp_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
@@ -439,24 +414,33 @@ export default {
           }
         })
         .catch((err) => {
-          console.warn("PVP某玩家", err);
+          console.warn("PVP某玩家", err); // PVP某玩家已获得HC奖励，当前已获得HC奖励的排名（当前数据会每12个小时更新）
+        });
+    },
+    /**查询世界池余额 */
+    queryHWWEPool() {
+      hc()
+        .balanceOf(contract().HWWEPool)
+        .then((res) => {
+          this.RewardPoolData.forEach((element) => {
+            if (element.title == "BOSS") {
+              element.totalR = Number(util.formatEther(res));
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn("HWWEPool", err);
         });
     },
     /**奖励池  赛季个人奖励  PVP  PVE  BOSS */
     queryPersonalRewards() {
       if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
-      hwPvPPool()
-        .userStoredToken(this.getAccount)
-        .then((res) => {
-          this.RewardPoolData.forEach((element) => {
-            if (element.title == "PVP") {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
-            }
-          });
-        })
-        .catch((err) => {
-          console.warn("PVP奖励池", err);
-        });
+      this.queryhwPvEPool();
+      this.queryhwPvPPool();
+      this.queryhwWEPool();
+    },
+    /**查询PVE奖励池 */
+    queryhwPvEPool() {
       hwPvEPool()
         .userStoredToken(this.getAccount)
         .then((res) => {
@@ -469,6 +453,24 @@ export default {
         .catch((err) => {
           console.warn("PVE奖励池", err);
         });
+    },
+    /**查询PVP奖励池 */
+    queryhwPvPPool() {
+      hwPvPPool()
+        .userStoredToken(this.getAccount)
+        .then((res) => {
+          this.RewardPoolData.forEach((element) => {
+            if (element.title == "PVP") {
+              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+            }
+          });
+        })
+        .catch((err) => {
+          console.warn("PVP奖励池", err);
+        });
+    },
+    /**查询BOSS奖励池 */
+    queryhwWEPool() {
       hwWEPool()
         .userStoredToken(this.getAccount)
         .then((res) => {
@@ -482,21 +484,6 @@ export default {
           console.warn("BOSS奖励池", err);
         });
     },
-    // queryhwPvPPool() {
-    //   if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
-    //   hwPvPPool()
-    //     .userStoredToken(this.getAccount)
-    //     .then((res) => {
-    //       this.RewardPoolData.forEach((element) => {
-    //         if (element.title == "PVP") {
-    //           element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
-    //         }
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.warn("PVP奖励池", err);
-    //     });
-    // },
     /**提取个人HC奖励 */
     extractableClick(item) {
       // if (!item.personalR) return this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
@@ -511,13 +498,13 @@ export default {
               const etReceipt = await res.wait();
               if (etReceipt.status == 1) {
                 this.$common.selectLang("提取成功", "Claim Successful", this);
-                this.queryPersonalRewards();
+                this.queryhwPvEPool();
               }
               item.loading = false;
             })
             .catch((err) => {
-              console.warn("PVE提取失败", err);
               item.loading = false;
+              console.warn("PVE提取失败", err);
             });
           break;
         case "PVP":
@@ -528,13 +515,13 @@ export default {
               const etReceipt = await res.wait();
               if (etReceipt.status == 1) {
                 this.$common.selectLang("提取成功", "Claim Successful", this);
-                this.queryPersonalRewards();
+                this.queryhwPvPPool();
               }
               item.loading = false;
             })
             .catch((err) => {
-              console.warn("PVP提取失败", err);
               item.loading = false;
+              console.warn("PVP提取失败", err);
             });
           break;
         case "BOSS":
@@ -545,13 +532,13 @@ export default {
               const etReceipt = await res.wait();
               if (etReceipt.status == 1) {
                 this.$common.selectLang("提取成功", "Claim Successful", this);
-                this.queryPersonalRewards();
+                this.queryhwWEPool();
               }
               item.loading = false;
             })
             .catch((err) => {
-              console.warn("BOSS提取失败", err);
               item.loading = false;
+              console.warn("BOSS提取失败", err);
             });
           break;
         default:
