@@ -420,8 +420,8 @@ export default {
           break;
         case 2:
           this.$router.push("/invite");
-          this.$store.commit("HashMenu", 6);
-          sessionStorage.setItem("HashMenu", 6);
+          this.$store.commit("HashMenu", 4);
+          sessionStorage.setItem("HashMenu", 4);
           break;
         default:
           break;
