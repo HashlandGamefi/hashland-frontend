@@ -153,12 +153,11 @@ export default {
       redonlyDis: false, //input输入框  是否只读
       dis: false, // 确认按钮 是否禁用
       start_userlist:[
-        '0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',
         '0x1b8651a2D6Bd1BA4eE3E053930aeaE612f2489D3',
         '0xA30D18C731c9944F904fFB1011c17B75280d2A08',
         '0xf379d24dCE0Bb73d87d3499D4F1cC87F0Bd0091F',
         '0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
-        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c',
+        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c'
       ]
     }
   },
@@ -241,26 +240,26 @@ export default {
       this.btnloading = true
       invitePool().userInviter(this.peopleAddress).then(res => {
         console.log('fsdfsdfsdfres: ', res);
-        if(res == '0x0000000000000000000000000000000000000000'){
-          invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
-            console.log('绑定地址res: ', res);
-            const etReceipt = await res.wait();
-            if (etReceipt.status == 1) {
-              this.$common.selectLang("绑定成功", "Success", this);
-              this.btnloading = false
-              this.sdkInfo()
-            }else{
-              this.btnloading = false
-            }
-          }).catch(err => {
-            console.log('绑定地址:err ', err);
-            this.btnloading = false
-          })
-        }else{
+        if(res == this.getAccount.toLocaleLowerCase()){
           this.$common.selectLang("不能互相绑定", "Can't bind each other", this)
           this.peopleAddress = ''
           this.btnloading = false
+          return
         }
+        invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
+          console.log('绑定地址res: ', res);
+          const etReceipt = await res.wait();
+          if (etReceipt.status == 1) {
+            this.$common.selectLang("绑定成功", "Success", this);
+            this.btnloading = false
+            this.sdkInfo()
+          }else{
+            this.btnloading = false
+          }
+        }).catch(err => {
+          console.log('绑定地址:err ', err);
+          this.btnloading = false
+        })
       }).catch(() => {
         this.peopleAddress = ''
         this.btnloading = false
