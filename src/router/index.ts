@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-
+import store from '@/store'
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location: any) {
@@ -96,5 +96,27 @@ let routes: Array<RouteConfig> = [
 const router = new VueRouter({
   routes,
 });
-
+router.beforeEach((to: any, from: any, next: any) => {
+  switch(to.name){
+    case 'Buy':
+      store.commit("menuBG", "yes");
+      sessionStorage.setItem("menuBG", "yes");
+      store.commit("HashMenu", '0');
+      sessionStorage.setItem("HashMenu", '0');
+      break;
+    case 'NFTmining':
+      store.commit("menuBG", "yes");
+      sessionStorage.setItem("menuBG", "yes");
+      store.commit("HashMenu", '0');
+      sessionStorage.setItem("HashMenu", '0');
+      break;
+    case 'Invite':
+      store.commit("menuBG", "yes");
+      sessionStorage.setItem("menuBG", "yes");
+      store.commit("HashMenu", '4');
+      sessionStorage.setItem("HashMenu", '4');
+      break;
+  }
+  next();
+})
 export default router;
