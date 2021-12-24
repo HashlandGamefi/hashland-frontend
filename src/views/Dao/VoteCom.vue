@@ -11,8 +11,7 @@
     <div class="info_box">
       <div class="onebox" v-for="(item, index) in infoArr" :key="index">
         <div
-          class="add_imgbox fontsize16_400"
-          :class="{btc_num_color: index == 0,hc_num_color: index == 1,busd_num_color: index == 2}"
+          class="add_imgbox fontsize16_400 btc_num_color"
         >
           {{ $t(item.title) }}
           <div class="img_boxs">
@@ -129,8 +128,8 @@ export default {
       infoArr: [
         { desc:'message.dao.txt18',title: "message.dao.txt9", num: 0, loading: true,isshowimg:false},
         { desc:'message.dao.txt18_1',title: "message.dao.txt9_2", num: 0, loading: true,isshowimg:false},
-        // { desc:'message.dao.txt19',title: "message.dao.txt10", num: 0, loading: true,isshowimg:false },
         { desc:'message.dao.txt20',title: "message.dao.txt15", num: 0, loading: true,isshowimg:false },
+        { desc:'message.dao.txt19',title: "message.dao.txt10", num: 0, loading: true,isshowimg:false },
         // { title: "message.dao.txt11", num: 0, loading: false }
       ],
       personalInfoArr: [
@@ -206,15 +205,15 @@ export default {
         this.infoArr[0].loading = false
       })
 
-      // erc20(token().HC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
-      //   console.log('hc的余额res: ', res);
-      //   let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2)
-      //   console.log('hc_balance: ', hc_balance);
-      //   this.infoArr[1].num = this.$common.numFormat(hc_balance)
-      //   this.infoArr[1].loading = false
-      // }).catch(() => {
-      //   this.infoArr[1].loading = false
-      // })
+      erc20(token().HC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
+        console.log('hc的余额res: ', res);
+        let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2)
+        console.log('hc_balance: ', hc_balance);
+        this.infoArr[3].num = this.$common.numFormat(hc_balance)
+        this.infoArr[3].loading = false
+      }).catch(() => {
+        this.infoArr[3].loading = false
+      })
 
       erc20(token().BUSD).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
         console.log('busd的余额res: ', res);
@@ -328,7 +327,7 @@ export default {
   }
   .info_box {
     width: 100%;
-    padding: 0 143px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     margin-top: 36px;
