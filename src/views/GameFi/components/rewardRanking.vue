@@ -744,7 +744,7 @@ export default {
       display: flex;
       overflow-x: scroll;
       .row {
-        min-width: 100px;
+        min-width: 90px;
         width: calc(100% / 9);
         > div {
           height: 50px;
@@ -913,12 +913,12 @@ export default {
 @media screen and (max-width: 980px) {
   // 重置滚动条样式
   ::-webkit-scrollbar {
-    width: 0.01rem;
-    height: 0.01rem;
+    width: 0.05rem;
+    height: 0.05rem;
   }
   ::-webkit-scrollbar-thumb {
     background: #68b0c8;
-    border-radius: 0.01rem;
+    border-radius: 0.05rem;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
