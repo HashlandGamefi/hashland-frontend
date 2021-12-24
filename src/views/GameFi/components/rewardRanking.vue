@@ -461,7 +461,7 @@ export default {
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
             if (element.pool == 1) {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              element.personalR = Number(this.$common.convertBigNumberToNormal(res.toString(), 5));
             }
           });
         })
@@ -476,7 +476,7 @@ export default {
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
             if (element.pool == 2) {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              element.personalR = Number(this.$common.convertBigNumberToNormal(res.toString(), 5));
             }
           });
         })
@@ -491,7 +491,7 @@ export default {
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
             if (element.pool == 5) {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              element.personalR = Number(this.$common.convertBigNumberToNormal(res.toString(), 5));
             }
           });
         })
