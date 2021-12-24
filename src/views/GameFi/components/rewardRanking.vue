@@ -100,7 +100,7 @@
                 </div>
                 <div>
                   <div>
-                    <span>{{ (item.totalR * 15) | numToFixed }}</span>
+                    <span>{{ item.totalR | numToFixed }}</span>
                   </div>
                 </div>
                 <div>
@@ -238,7 +238,7 @@
                   <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
                   <div>{{ item.totalPassed }}</div>
                   <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
-                  <div>{{ (item.totalR * 15) | numToFixed }}</div>
+                  <div>{{ item.totalR | numToFixed }}</div>
                   <div>{{ item.personalR | numToFixed }}</div>
                 </li>
               </ul>
@@ -305,23 +305,23 @@ export default {
       proupDis: false, // 弹窗展示消失变量
       // 奖励池
       RewardPoolData: [
-        { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 20000, personalR: 0, loading: false }, // PVE
-        { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 20000, personalR: 0, loading: false }, // PVP
+        { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 1080 * 15, personalR: 0, loading: false }, // PVE
+        { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 720 * 15, personalR: 0, loading: false }, // PVP
         { title: `${this.$t("message.gameFi.text37")}`, pool: 3, totalR: 0, personalR: 0, loading: false }, // GVE
         { title: `${this.$t("message.gameFi.text39")}`, pool: 4, totalR: 0, personalR: 0, loading: false }, // GVG
         { title: `${this.$t("message.gameFi.text88")}`, pool: 5, totalR: 0, personalR: 0, loading: false }, // World BOSS
       ],
       // PVE
       PVEData: [
-        { charpterId: 1, totalPassed: 0, passedOrNot: false, totalR: 10.8, personalR: 0 },
-        { charpterId: 2, totalPassed: 0, passedOrNot: false, totalR: 21.6, personalR: 0 },
-        { charpterId: 3, totalPassed: 0, passedOrNot: false, totalR: 54, personalR: 0 },
-        { charpterId: 4, totalPassed: 0, passedOrNot: false, totalR: 108, personalR: 0 },
-        { charpterId: 5, totalPassed: 0, passedOrNot: false, totalR: 108, personalR: 0 },
-        { charpterId: 6, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
-        { charpterId: 7, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
-        { charpterId: 8, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
-        { charpterId: 9, totalPassed: 0, passedOrNot: false, totalR: 129.6, personalR: 0 },
+        { charpterId: 1, totalPassed: 0, passedOrNot: false, totalR: 10.8 * 15, personalR: 0 },
+        { charpterId: 2, totalPassed: 0, passedOrNot: false, totalR: 21.6 * 15, personalR: 0 },
+        { charpterId: 3, totalPassed: 0, passedOrNot: false, totalR: 54 * 15, personalR: 0 },
+        { charpterId: 4, totalPassed: 0, passedOrNot: false, totalR: 108 * 15, personalR: 0 },
+        { charpterId: 5, totalPassed: 0, passedOrNot: false, totalR: 108 * 15, personalR: 0 },
+        { charpterId: 6, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
+        { charpterId: 7, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
+        { charpterId: 8, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
+        { charpterId: 9, totalPassed: 0, passedOrNot: false, totalR: 129.6 * 15, personalR: 0 },
       ],
       // PVP
       PVPData1: { rank: 0, totalHc: 0 },
@@ -729,7 +729,6 @@ export default {
             height: 100%;
             background: #3d4f64;
             border-radius: 6px;
-
             display: flex;
             align-items: center;
             justify-content: center;
@@ -745,7 +744,7 @@ export default {
       display: flex;
       overflow-x: scroll;
       .row {
-        min-width: 120px;
+        min-width: 100px;
         width: calc(100% / 9);
         > div {
           height: 50px;
@@ -1029,7 +1028,7 @@ export default {
             border-radius: 0;
           }
           div {
-            min-width: 1rem;
+            min-width: 0.8rem;
             width: 20%;
             height: 0.3rem;
             margin: 0 0.05rem 0.05rem 0;
