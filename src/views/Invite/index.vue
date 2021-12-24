@@ -396,7 +396,7 @@ export default {
     }
     .input_box {
       width: 640px;
-      height: 50px;
+      height: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -419,8 +419,9 @@ export default {
       }
       .btn {
         cursor: pointer;
-        width: 144px;
-        height: 50px;
+        // width: 144px;
+        padding: 0 15px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -669,7 +670,7 @@ export default {
     }
     .input_box {
       width: 100%;
-      height: 0.25rem;
+      height: 0.3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -686,9 +687,14 @@ export default {
         padding-left: 0.1rem;
         width: calc(100% - 0.71rem);
       }
+      .add_txt{
+        color: #fff;
+        margin-left: 0.1rem;
+      }
       .btn {
-        width: 0.71rem;
-        height: 0.24rem;
+        // width: 0.71rem;
+        padding: 0 0.1rem;
+        height: 0.3rem;
         background-image: url('//cdn.hashland.com/images/extract_btn.png');
         background-size: 100% 100%;
         color: #fff;

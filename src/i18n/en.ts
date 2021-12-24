@@ -161,7 +161,7 @@ export const message = {
     txt25: "Proportion",
     txt26: "Cannot bind yourself",
     txt27:'Not yet on the list',
-    txt28:'Joined League'
+    txt28:'Joined'
   },
   transfer: {
     txt1: "Gift",
