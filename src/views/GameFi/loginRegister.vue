@@ -291,12 +291,13 @@ export default {
       this.$parent.loginRegisterStatus = true;
       this.$parent.mailAccount = mailAccount;
       this.closeLoginRegister();
+      document.querySelector("#gamefi_top").scrollIntoView(true);
       location.reload();
     },
     /**关闭本弹窗 */
     closeLoginRegister() {
-      this.$parent.showLoginRegister = false;
       this.showCountdown = false;
+      this.$parent.showLoginRegister = false;
     },
     //倒计时
     countdown(end) {

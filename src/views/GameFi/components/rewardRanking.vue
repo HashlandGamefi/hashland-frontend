@@ -118,11 +118,16 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row">
+            <div class="col1">
               <div>
                 <span> {{ $t("message.gameFi.text91") }}</span>
               </div>
               <div>
+                <span> {{ $t("message.gameFi.text35") }}</span>
+              </div>
+            </div>
+            <div class="col2">
+              <div class="row">
                 <div>
                   <span>{{ $t("message.gameFi.text102") }}</span>
                 </div>
@@ -133,10 +138,7 @@
                   <span>{{ $t("message.gameFi.text104") }}</span>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div>{{ $t("message.gameFi.text35") }}</div>
-              <div>
+              <div class="row">
                 <ul>
                   <li v-for="(item, index) in PVPData2" :key="index">
                     <div>
@@ -152,6 +154,7 @@
                 </ul>
               </div>
             </div>
+
             <!-- <div class="select_list">
               <span>第1赛季</span>
               <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
@@ -508,14 +511,33 @@ export default {
       return value.slice(0, 2) + "***" + value.slice(index2, index);
     },
     numToFix(value) {
-      if (!value) return 0;
-      return value.toFixed(4);
+      if (!value) return "0";
+      let val = value.toFixed(4).toString();
+      const valEnd = val.substring(val.lastIndexOf("."), val.length);
+      valEnd.split("").forEach((element) => {
+        if (val.charAt(val.length - 1) == "0" || val.charAt(val.length - 1) == ".") {
+          val = val.slice(0, val.length - 1);
+        }
+      });
+      return val;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// 重置滚动条样式
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #68b0c8;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 .pc {
   display: block;
 }
@@ -643,7 +665,9 @@ export default {
       border-radius: 6px;
       padding: 5px;
       display: flex;
+      overflow-x: scroll;
       .row {
+        min-width: 120px;
         width: calc(100% / 9);
         > div {
           height: 50px;
@@ -679,75 +703,85 @@ export default {
   }
   .ranking_content {
     font-size: 12px;
-    flex-wrap: wrap;
-    .row {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      &:nth-child(1) {
-        margin-bottom: 5px;
-        > div {
-          height: 50px;
-        }
-      }
-      &:nth-child(2) {
-        > div {
-          min-height: 100px;
-          max-height: 300px;
-        }
-      }
-      > div {
-        font-size: 16px;
-        font-weight: bold;
+    .col1 {
+      width: calc(100% / 6);
+      margin-right: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      div {
         background: #082545;
-        &:nth-child(1) {
-          width: 20%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 5px;
-        }
-        &:nth-child(2) {
-          width: 80%;
-          display: flex;
-          align-items: center;
-          div {
-            &:nth-child(1),
-            &:nth-child(3) {
-              width: 30%;
-            }
-            &:nth-child(2) {
-              width: 40%;
-            }
-          }
-        }
-      }
-    }
-
-    ul {
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      font-size: 15px;
-      font-weight: 400;
-      li {
-        width: 100%;
+        border-radius: 6px;
+        padding: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
-        > div {
-          height: 100%;
-          padding: 5px 0;
+        &:nth-child(1) {
+          height: 50px;
+          margin-bottom: 5px;
+        }
+        &:nth-child(2) {
+          min-height: 100px;
+          height: 200px;
+        }
+      }
+    }
+    .col2 {
+      width: calc(100% / 6 * 5);
+      // overflow-x: scroll;
+      .row {
+        width: 100%;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        &:nth-child(1) {
+          width: 100%;
+          height: 50px;
+          margin-bottom: 5px;
           display: flex;
           align-items: center;
-          justify-content: center;
-          &:nth-child(1),
-          &:nth-child(3) {
-            width: 30%;
+          > div {
+            // min-width: 400px;
+            height: 100%;
+            background: #082545;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3) {
+              width: 50%;
+            }
           }
-          &:nth-child(2) {
-            width: 40%;
+        }
+        &:nth-child(2) {
+          min-height: 100px;
+          height: 200px;
+          ul {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background: #082545;
+            font-size: 15px;
+            font-weight: 400;
+            li {
+              width: 100%;
+              display: flex;
+              align-items: center;
+              > div {
+                // min-width: 400px;
+                height: 100%;
+                padding: 5px 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:nth-child(1),
+                &:nth-child(2),
+                &:nth-child(3) {
+                  width: 50%;
+                }
+              }
+            }
           }
         }
       }
@@ -755,18 +789,6 @@ export default {
   }
 }
 
-// 重置滚动条样式
-ul::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-ul::-webkit-scrollbar-thumb {
-  background: #68b0c8;
-  border-radius: 5px;
-}
-ul::-webkit-scrollbar-track {
-  background: transparent;
-}
 .select_list {
   cursor: pointer;
   position: relative;
@@ -812,6 +834,18 @@ ul::-webkit-scrollbar-track {
   }
 }
 @media screen and (max-width: 980px) {
+  // 重置滚动条样式
+  ::-webkit-scrollbar {
+    width: 0.01rem;
+    height: 0.01rem;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #68b0c8;
+    border-radius: 0.01rem;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
   .pc {
     display: none;
   }
@@ -897,6 +931,7 @@ ul::-webkit-scrollbar-track {
         width: 100%;
         background: #082545;
         border-radius: 6px;
+        padding: 0.05rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -906,10 +941,8 @@ ul::-webkit-scrollbar-track {
         }
       }
       ul {
-        width: 100%;
-        padding: 0.05rem;
+        overflow-x: auto;
         li {
-          width: 100%;
           display: flex;
           align-items: center;
           &:nth-child(1) div {
@@ -918,6 +951,7 @@ ul::-webkit-scrollbar-track {
             border-radius: 0;
           }
           div {
+            min-width: 1rem;
             width: 20%;
             height: 0.3rem;
             margin: 0 0.05rem 0.05rem 0;
@@ -928,9 +962,6 @@ ul::-webkit-scrollbar-track {
             justify-content: center;
             &:first-child {
               width: 30%;
-            }
-            &:last-child {
-              margin-right: 0;
             }
           }
         }

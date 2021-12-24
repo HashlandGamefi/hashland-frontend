@@ -1,5 +1,5 @@
 <template>
-  <div class="game_page">
+  <div class="game_page" id="gamefi_top">
     <div class="game_banner">
       <div class="info_tool" v-if="loginRegisterStatus">
         <div class="information_box">
