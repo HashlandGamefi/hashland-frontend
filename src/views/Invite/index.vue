@@ -4,55 +4,91 @@
     <div class="content">
       <span class="inviteme fontsize22">{{ $t("message.invite.txt1") }}</span>
       <div class="input_box">
+        <span class="add_txt fontsize16" v-if="dis">{{ $t("message.invite.txt28") }}</span>
         <input
           type="text"
-          :style="{ width: dis ? '100%' : '' }"
           :readonly="redonlyDis"
           v-model="peopleAddress"
           class="input fontsize16"
+          :placeholder="$t('message.invite.txt14')"
         />
         <div v-if="!dis" class="btn fontsize16" @click="besure">
           {{ $t("message.invite.txt7") }}
           <BtnLoading :isloading="btnloading"></BtnLoading>
         </div>
       </div>
-      <span class="meinvite fontsize22">{{ $t("message.invite.txt2") }}</span>
-      <span class="meinvite_txt fontsize12_400">{{ $t("message.invite.txt3") }}</span>
-      <div class="center_box">
+      <span class="meinvite fontsize22" v-if="isshowbox">{{ $t("message.invite.txt2") }}</span>
+      <span class="meinvite_txt fontsize12_400" v-if="isshowbox">{{ $t("message.invite.txt3") }}</span>
+      <div class="center_box" v-if="isshowbox">
         <div class="box">
           <img :src="`${$store.state.imgUrl}inviteimg1.png`" class="center_img" />
           <div class="positionbox">
-            <span class="span1 fontsize32">11.5</span>
-            <span class="span2 fontsize12">{{ $t("message.invite.txt4") }}</span>
+            <div class="top_box">
+              <span class="span1 fontsize22" v-if="!isNumber">{{$t(ishowRankNum)}}</span>
+              <span class="span1 fontsize22" v-else>{{ishowRankNum}}</span>
+              <span class="span2 fontsize12">{{ $t("message.invite.txt15") }}</span>
+            </div>
+            <div class="bottom_box">
+              <div class="one_line">
+                <span class="span1 fontsize22">{{CENUM}}</span>
+                <span class="span2 fontsize12">{{ $t("message.invite.txt16") }}</span>
+              </div>
+              <div class="one_line">
+                <span class="span1 fontsize22">{{CENUM_ratio}}%</span>
+                <!-- <span class="span2 fontsize12">Territory proportion</span> -->
+                <span class="span2 fontsize12">{{ $t("message.invite.txt17") }}</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="reward_box">
-          <div class="leftbox">
-            <img :src="`${$store.state.imgUrl}hclogo.png`" class="hclogo_img" />
-            <span class="span1 fontsize22">HC reward</span>
-          </div>
-          <span class="span2 fontsize22">{{rewards}}</span>
-        </div>
-        <div class="btnbox fontsize16" @click="extractClick">
-          {{ $t("message.invite.txt8") }}
-          <BtnLoading :isloading="extract_btnloading"></BtnLoading>
         </div>
       </div>
-      <span class="Ranking fontsize22">{{ $t("message.invite.txt9") }}</span>
-      <span class="Ranking_txt fontsize12_400">{{ $t("message.invite.txt10") }}</span>
+      <div class="page_bottom" v-if="isshowbox">
+        <div class="embedded_box">
+          <div class="leftbox">
+            <img :src="`${$store.state.imgUrl}hclogo.png`" class="img" />
+            <span class="span1 fontsize22">HC reward</span>
+          </div>
+          <div class="boxs_reward">
+            <div class="onebox">
+              <span class="span1 fontsize16">{{ $t("message.invite.txt18") }}</span>
+              <span class="span1 fontsize16">{{add_rewards}}</span>
+            </div>
+            <div class="onebox">
+              <span class="span1 fontsize16">{{ $t("message.invite.txt19") }}</span>
+              <div class="btn_box">
+                <span class="span1 fontsize16"  v-if="rewards == 0">{{rewards}}</span>
+                <span class="span1 fontsize16" v-else>
+                  <countTo
+                    :decimals="btcnumShow.length"
+                    :startVal="btcStarValue"
+                    :endVal="rewards"
+                    :duration="1500"
+                  ></countTo>
+                </span>
+                <span class="btn fontsize16" @click="extractClick">{{ $t("message.invite.txt20") }}<BtnLoading :isloading="extract_btnloading"></BtnLoading></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="Ranking fontsize22">{{ $t("message.invite.txt21") }}</span>
+      <!-- <span class="Ranking_txt fontsize12_400">{{ $t("message.invite.txt22") }}</span> -->
       <div class="listbox">
         <div class="topline">
-          <div class="onebox fontsize12">{{ $t("message.invite.txt11") }}</div>
+          <div class="title_onebox fontsize18">{{ $t("message.invite.txt15") }}</div>
           <div class="onebox">
-            <div class="insertbox1 fontsize12">{{ $t("message.invite.txt12") }}</div>
+            <div class="insertbox1 fontsize18">{{ $t("message.invite.txt23") }}</div>
           </div>
           <div class="onebox">
-            <div class="insertbox2 fontsize12">{{ $t("message.invite.txt13") }}</div>
+            <div class="insertbox1 fontsize18">{{ $t("message.invite.txt24") }}</div>
+          </div>
+          <div class="onebox">
+            <div class="insertbox2 fontsize18">{{ $t("message.invite.txt25") }}</div>
           </div>
         </div>
         <div class="bottomline">
           <div class="boxs" v-for="(item,index) in list" :key="index">
-            <div class="onebox">
+            <div class="title_onebox">
               <div class="champion_box" v-if="index == 0">
                 <img :src="`${$store.state.imgUrl}champion1.png`" class="sort1_img" />
               </div>
@@ -65,12 +101,19 @@
               <span class="pad_left fontsize16" v-else>{{index + 1}}</span>
             </div>
             <div class="onebox">
-              <div class="insertbox1 fontsize12">{{item}}</div>
+              <div class="insertbox1 fontsize16">{{item.stakedHC}}</div>
             </div>
             <div class="onebox">
-              <div class="insertbox2 fontsize12">1</div>
+              <div class="insertbox1 fontsize16">{{item.address}}</div>
+            </div>
+            <div class="onebox">
+              <div class="insertbox2 fontsize16">{{item.ratio}}%</div>
             </div>
           </div>
+          <div class="loadingbox fontsize16" v-if="list.length == 0 && pageshowLoading" >
+            Loading...
+          </div>
+          <NoData v-else-if="list.length == 0 && !pageshowLoading" :isshow="false"></NoData>
         </div>
       </div>
     </div>
@@ -86,45 +129,69 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { invitePool,getSigner } from "hashland-sdk";
+import { invitePool,getSigner,invitePoolInfo } from "hashland-sdk";
 export default {
   data () {
     return {
+      pageshowLoading: true,// 数据没有加载完之前显示loading
+      isNumber:false,
+      ishowRankNum:'message.invite.txt27',//我的战队排名
+      CENUM:0,//战力
+      CENUM_ratio:0,//战力比
+      btcStarValue:0,// btc 可提取初始值
+      timernull:null,//定时器对象
+      btcnumShow:'12345678', // 数字滚动插件默认显示小数位数8位
       extract_btnloading:false,//提取奖励按钮
       rewards:0,// 领主可提取奖励
+      add_rewards:0,// 累计奖励
       btnloading:false,// 按钮loading
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      list:[
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123},
-        // {address:'0X020X020X02…0X020X020X02',num:123}
-      ],
+      list:[],
       peopleAddress: "",
       redonlyDis: false, //input输入框  是否只读
       dis: false, // 确认按钮 是否禁用
+      start_userlist:[
+        '0x16FEC748C51B702eCC4ACCe122EcF9059f7fBd1C',
+        '0x1b8651a2D6Bd1BA4eE3E053930aeaE612f2489D3',
+        '0xA30D18C731c9944F904fFB1011c17B75280d2A08',
+        '0xf379d24dCE0Bb73d87d3499D4F1cC87F0Bd0091F',
+        '0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
+        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c',
+      ]
     }
   },
   watch: {
     getIstrue: {
       handler (newValue) {
         console.log('邀请页面newValue: ', newValue)
-        this.sdkInfo()
+        if(newValue){
+          this.sdkInfo()
+          this.getUserList()
+          this.isshowbox = this.userlist.some((item) => {
+            return item == this.getAccount.toLocaleLowerCase()
+          })
+          clearInterval(this.timernull)
+          this.timernull = setInterval(() => {
+            this.getRewardsFun()
+          },5000)
+        }else{
+          clearInterval(this.timernull)
+          this.pageshowLoading = false
+        }
       },
       deep: true,
       immediate: true,
-    },
+    }
   },
   computed: {
     ...mapGetters(["getIstrue", "getAccount"]),
+    userlist(){
+      return this.start_userlist.map(item => {
+        return item.toLocaleLowerCase()
+      })
+    }
   },
   methods:{
     // 取消按钮(关闭弹窗)
@@ -153,31 +220,47 @@ export default {
       if(this.btnloading)return
       // 判断用户输入的地址不能为空
       if (this.peopleAddress === "") {
-        this.$common.selectLang("请输入以太坊地址", "Please enter Ethereum address", this)
+        this.$common.selectLang("请输入bsc地址", "Please enter BSC address", this)
         return;
       }
       if(this.peopleAddress.length !== 42){
-        this.$common.selectLang("以太坊地址不正确", "Wrong Ethereum address", this)
+        this.$common.selectLang("bsc地址不正确", "Wrong BSC address", this)
         return
       }
       if(this.peopleAddress.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
-        this.$common.selectLang("不能绑定自己", "NO", this)
+        this.$common.selectLang("不能绑定自己", "Cannot bind yourself", this)
+        this.peopleAddress = ''
+        return
+      }
+      if(this.userlist.indexOf(this.peopleAddress.toLocaleLowerCase()) == -1){
+        this.$common.selectLang("该战队暂未开放,请选择其他战队", "This league doesn't open, please choose other leagues.", this)
         this.peopleAddress = ''
         return
       }
       this.btnloading = true
-      invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
-        console.log('绑定地址res: ', res);
-        const etReceipt = await res.wait();
-        if (etReceipt.status == 1) {
-          this.$common.selectLang("绑定成功", "Success", this);
-          this.btnloading = false
-          this.sdkInfo()
+      invitePool().userInviter(this.peopleAddress).then(res => {
+        if(res == '0x0000000000000000000000000000000000000000'){
+          invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
+            console.log('绑定地址res: ', res);
+            const etReceipt = await res.wait();
+            if (etReceipt.status == 1) {
+              this.$common.selectLang("绑定成功", "Success", this);
+              this.btnloading = false
+              this.sdkInfo()
+            }else{
+              this.btnloading = false
+            }
+          }).catch(err => {
+            console.log('绑定地址:err ', err);
+            this.btnloading = false
+          })
         }else{
+          this.$common.selectLang("不能互相绑定", "Can't bind each other", this)
+          this.peopleAddress = ''
           this.btnloading = false
         }
-      }).catch(err => {
-        console.log('绑定地址:err ', err);
+      }).catch(() => {
+        this.peopleAddress = ''
         this.btnloading = false
       })
     },
@@ -185,12 +268,11 @@ export default {
     sdkInfo(){
       this.getUserAddress()
       this.getRewardsFun()
-      this.getUserList()
     },
     // 邀请地址获取
     getUserAddress(){
       invitePool().userInviter(this.getAccount).then(res => {
-        console.log('邀请地址res: ', res);
+        // console.log('邀请地址res: ', res);
         if(res == '0x0000000000000000000000000000000000000000'){
           this.peopleAddress = "";
           this.dis = false;
@@ -202,42 +284,87 @@ export default {
         }
       })
     },
-    // 可提取奖励
+    // 定时器刷新邀请奖励
     getRewardsFun(){
-      invitePool().getTokenRewards(this.getAccount).then(res => {
-        console.log('获取某领主可提取的HC数量res: ', this.$common.useBigNumberDiv(res.toString()));
-        this.rewards = this.$common.useBigNumberDiv(res.toString())
-      }).catch(err => {
-        console.log('获取某领主可提取的HC数量err: ', err);
+      // 累积奖励
+      invitePool().getTokenTotalRewards(this.getAccount).then(res => {
+        this.add_rewards = this.$common.useBigNumberDiv(res.toString())
+      })
+      // 可提取奖励
+      invitePool().getTokenRewards(this.getAccount).then(res => {;
+        if ((res.toString() / 1e18) < 1e-8) {
+          this.rewards = 0
+        }else{
+          let num = this.$common.useBigNumberDiv(res.toString())
+          this.btcnumShow = num.substring(num.indexOf('.') + 1,num.length)
+          this.btcStarValue = this.rewards
+          this.rewards = Number(num)
+        }
       })
     },
     // 获取列表
     getUserList(){
-      invitePool().getInviterUsersBySize(this.getAccount,0,21).then(res => {
-        console.log('获取某领主的基于指针(从0开始)和数量的被邀请人的地址数组和最后一个数据的指针: ',res);
-        res[0].map(item => {
-          return {
-            item:this.$common.getSubStr(item,5)
+      this.getDataBaseInfo().then(res => {
+        if(res.arr.length == 0){
+          this.list = []
+          this.pageshowLoading = false
+        }else{
+          console.log("进入else",res)
+          this.list = res.arr.filter(item => {
+            return item.status
+          })
+          this.pageshowLoading = false
+          for (let index = 0; index < this.list.length; index++) {
+            const ele = this.list[index];
+            if(this.getAccount.toLocaleLowerCase() == ele.inviter.toLocaleLowerCase()){
+              let RankNum = this.list.findIndex(item => this.getAccount.toLocaleLowerCase() == item.inviter.toLocaleLowerCase() );
+              this.ishowRankNum = RankNum + 1
+              this.isNumber = true
+              this.CENUM = this.$common.getBit(ele.stakedHC, 2) //战力
+              let ratio_ = this.$common.getBit((ele.stakedHC / res.data), 4)//战力比
+              this.CENUM_ratio = ratio_ * 100
+              return
+            }else{
+              this.ishowRankNum = 'message.invite.txt27'
+              this.isNumber = false
+            }
           }
-        })
-        console.log('是法人股东会官方',res[0]);
-        this.list = res[0]
+        }
       }).catch(err => {
-        console.log('获取某领主的基于指针err: ', err);
+        console.log('封装返回的err: ', err)
+        this.list = []
+        this.pageshowLoading = false
+      })
+    },
+    getDataBaseInfo(){
+      this.pageshowLoading = true
+      return new Promise((resolve,reject) => {
+        invitePoolInfo.getInviterInfo(10,0,'stakedHC','desc').then(res => {
+          invitePool().stake().then(data => {
+            if(res.data.inviterInfos.length == 0){
+              resolve({'arr': [], 'msg':'Success','data':data.toNumber()});
+            }else{
+              let jsonres = JSON.parse(JSON.stringify(res.data.inviterInfos))
+              jsonres.forEach(element => {
+                element.status = this.userlist.some((item) => {
+                  return item == element.inviter.toLocaleLowerCase()
+                })
+                let ratio_ = this.$common.getBit((element.stakedHC / data.toNumber()), 4)
+                element.ratio = ratio_ * 100
+                element.address = this.$common.getSubStr(element.inviter,5)
+                element.stakedHC = this.$common.getBit(element.stakedHC, 2)
+              })
+              resolve({'arr': jsonres, 'msg':'Success','data':data.toNumber()});
+            }
+          }).catch(() => {
+            reject({'arr': [], 'msg':'Total contract power error'});
+          })
+        }).catch(() => {
+          reject({'arr': [], 'msg':'Database error'});
+        })
       })
     }
   },
-  mounted(){
-    // if(document.body.clientWidth <= 980){
-    //   this.list.forEach(item => {
-    //     item.address = this.$common.getSubStr(item.address,4)
-    //   })
-    // }else{
-    //   this.list.forEach(item => {
-    //     item.address = this.$common.getSubStr(item.address,10)
-    //   })
-    // }
-  }
 }
 </script>
 
@@ -270,6 +397,10 @@ export default {
       border-radius: 35px;
       margin: 0 auto;
       margin-top: 44px;
+      .add_txt{
+        color: #fff;
+        margin-left: 15px;
+      }
       .input {
         background: transparent;
         height: 100%;
@@ -318,55 +449,109 @@ export default {
         .positionbox{
           position: absolute;
           left: 50%;
-          top: 44px;
+          top: 30px;
+          width: 300px;
           display: flex;
           flex-direction: column;
           align-items: center;
           transform: translateX(-50%);
-          .span1{
-            color: #DBAE29;
+          .top_box{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            // border: 1px solid red;
+            .span1{
+              color: #DBAE29;
+            }
+            .span2{
+              color: #ffffff;
+              font-weight: bold;
+            }
           }
-          .span2{
-            color: #ffffff;
-            font-weight: bold;
+          .bottom_box{
+            width: 100%;
+            // border: 1px solid red;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            .one_line{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .span1{
+                color: #DBAE29;
+              }
+              .span2{
+                color: #ffffff;
+                font-weight: bold;
+              }
+            }
           }
         }
       }
-      .reward_box{
-        width: 618px;
-        padding: 0 76px;
-        margin-top: 30px;
+    }
+    .page_bottom {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(90deg, #021F3E 0%, #01142A 100%, #034088 100%);
+      box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+      margin-top: 73px;
+      border-radius: 6px;
+      .embedded_box {
+        width: 100%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .leftbox{
+        flex-direction: column;
+        .leftbox {
           display: flex;
           align-items: center;
-          .hclogo_img{
+          .img {
             width: 34px;
             object-fit: contain;
           }
-          .span1{
-            color: #ffffff;
-            margin-left: 7px;
+          .span1 {
+            color: #d8d8d8;
+            margin-left: 15px;
           }
         }
-        .span2{
-          color: #00F0FF;
+        .boxs_reward{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 23px;
+          .onebox{
+            width: 473px;
+            height: 78px;
+            background: #032C5B;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            .span1{
+              color: #00F0FF;
+            }
+            .btn_box{
+              display: flex;
+              align-items: center;
+              .btn{
+                width: 144px;
+                height: 49px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("//cdn.hashland.com/images/extract_btn.png");
+                background-size: 100% 100%;
+                color: #fff;
+                cursor: pointer;
+                margin-left: 14px;
+              }
+            }
+          }
         }
-      }
-      .btnbox{
-        width: 274px;
-        height: 59px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        color: #ffffff;
-        cursor: pointer;
-        margin-top: 37px;
       }
     }
     .Ranking{
@@ -402,13 +587,15 @@ export default {
             text-align: right;
           }
         }
+        .title_onebox{
+          min-width: 80px;
+          color: #ffffff;
+        }
       }
       .bottomline{
         width: 100%;
         display: flex;
         flex-direction: column;
-        max-height: 500px;
-        overflow-y: auto;
         .boxs{
           width: 100%;
           display: flex;
@@ -426,6 +613,10 @@ export default {
               width: 100%;
               text-align: right;
             }
+          }
+          .title_onebox{
+            min-width: 80px;
+            color: #ffffff;
             .sort1_img{
               width: 27px;
               object-fit: contain;
@@ -434,6 +625,14 @@ export default {
               padding-left: 10px;
             }
           }
+        }
+        .loadingbox {
+          width: 100%;
+          height: 300px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #ffffff;
         }
       }
     }
@@ -517,54 +716,109 @@ export default {
           position: absolute;
           left: 50%;
           top: 0.2rem;
+          width: 3rem;
           display: flex;
           flex-direction: column;
           align-items: center;
           transform: translateX(-50%);
-          .span1{
-            color: #DBAE29;
+          .top_box{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .span1{
+              color: #DBAE29;
+            }
+            .span2{
+              color: #ffffff;
+              font-weight: bold;
+            }
           }
-          .span2{
-            color: #ffffff;
-            font-weight: bold;
+          .bottom_box{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.1rem;
+            padding: 0 0.4rem;
+            .one_line{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .span1{
+                color: #DBAE29;
+              }
+              .span2{
+                color: #ffffff;
+                font-weight: bold;
+              }
+            }
           }
         }
       }
-      .reward_box{
+    }
+    .page_bottom {
+      width: 100%;
+      padding: 0.1rem;
+      background: linear-gradient(90deg, #021F3E 0%, #01142A 100%, #034088 100%);
+      box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+      margin-top: 0.3rem;
+      border-radius: 0.06rem;
+      .embedded_box {
         width: 100%;
-        padding:0;
-        margin-top: 0;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .leftbox{
+        flex-direction: column;
+        .leftbox {
           display: flex;
           align-items: center;
-          .hclogo_img{
-            width: 0.18rem;
+          .img {
+            width: 0.2rem;
             object-fit: contain;
           }
-          .span1{
-            color: #ffffff;
-            margin-left: 0.07rem;
+          .span1 {
+            color: #d8d8d8;
+            margin-left: 0.15rem;
           }
         }
-        .span2{
-          color: #00F0FF;
+        .boxs_reward{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 0.2rem;
+          .onebox{
+            width: 100%;
+            height: 0.39rem;
+            background: #032C5B;
+            border-radius: 0.06rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0.2rem;
+            .span1{
+              color: #00F0FF;
+            }
+            .btn_box{
+              display: flex;
+              align-items: center;
+              .btn{
+                width: auto;
+                padding: 0 0.1rem;
+                height: 0.25rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("//cdn.hashland.com/images/extract_btn.png");
+                background-size: 100% 100%;
+                color: #fff;
+                cursor: pointer;
+                margin-left: 0.1rem;
+              }
+            }
+          }
         }
-      }
-      .btnbox{
-        width: 1.94rem;
-        height: 0.38rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        color: #ffffff;
-        cursor: pointer;
-        margin-top: 0.35rem;
       }
     }
     .Ranking{
@@ -600,13 +854,16 @@ export default {
             text-align: right;
           }
         }
+        .title_onebox{
+          min-width: 0.4rem;
+          color: #ffffff;
+        }
       }
       .bottomline{
         width: 100%;
         display: flex;
         flex-direction: column;
-        max-height: 5rem;
-        overflow-y: auto;
+        margin-top: 0.2rem;
         .boxs{
           width: 100%;
           display: flex;
@@ -624,16 +881,19 @@ export default {
               width: 100%;
               text-align: right;
             }
+          }
+          .title_onebox{
+            min-width: 0.5rem;
+            color: #ffffff;
             .champion_box{
               display: flex;
               .sort1_img{
-                width: 0.17rem;
+                width: 0.2rem;
                 object-fit: contain;
               }
-            }
-            .pad_left{
-              display: flex;
-              padding-left: 0.03rem;
+              .pad_left{
+                padding-left: 0.03rem;
+              }
             }
           }
         }

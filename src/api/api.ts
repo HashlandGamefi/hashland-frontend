@@ -28,5 +28,11 @@ export default {
   /**4、绑定钱包接口 */
   gameBindWallet: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/bind_wallet?${data}`);
+  },
+  /**获取pve章节hc发放详情
+   * http://hw-api-test.hashland.com/va_cent/hc_info?queryType=pve_list&issue=1
+   * */
+  getPVEandPVPinfo(data: any){
+    return axios.get(`${GAME_API}/va_cent/hc_info?${data}`);
   }
 };

@@ -23,8 +23,8 @@
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
-          <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span>
-          <span v-else> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
+          <!-- <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span> -->
+          <span> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
         <div v-if="!isProd" @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
@@ -75,6 +75,10 @@
             <li>
               <span class="fontsize16"> {{ $t("message.gameFi.text39") }} </span>
               <div class="fontsize12">{{ $t("message.gameFi.text40") }}</div>
+            </li>
+            <li>
+              <span class="fontsize16">{{ $t("message.gameFi.text88") }}</span>
+              <div class="fontsize12">{{ $t("message.gameFi.text89") }}</div>
             </li>
           </ul>
         </div>
@@ -146,8 +150,7 @@ export default {
     openRecharge() {
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
-      if (!this.getAccount || this.getAccount == "no")
-        return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
+      if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
 
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === this.getAccount); //不存在：-1
@@ -292,7 +295,7 @@ export default {
   }
 }
 .game_main {
-  width: 80vw;
+  width: 90vw;
   margin: 0 auto;
   color: #ffffff;
 }
@@ -306,12 +309,14 @@ export default {
     align-items: center;
     justify-content: space-around;
     text-align: center;
+
     > div {
       width: 25%;
       max-width: 300px;
       box-shadow: 0px 10px 39px 0px rgba(163, 252, 241, 0.54) inset, 0px -6px 26px 0px rgba(145, 147, 221, 0.6) inset;
       border-radius: 9px;
       padding: 10px 20px;
+      margin: 0 auto;
       div {
         &:nth-child(1) {
           font-size: 16px;
@@ -354,7 +359,7 @@ export default {
     }
     ul {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       font-size: 0;
       li {

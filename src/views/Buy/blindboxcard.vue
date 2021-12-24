@@ -322,7 +322,6 @@ export default {
     localStorage.setItem('routerIndex',this.$route.params.type)
     this.tokenID = localStorage.getItem('routerIndex')
     this.getTokenInfoFun(this.tokenID)
-
   }
 }
 </script>
@@ -392,7 +391,6 @@ export default {
         height: 28px;
         border: none;
         outline: none;
-
         font-style: normal;
         color: #ffffff;
         background: transparent;

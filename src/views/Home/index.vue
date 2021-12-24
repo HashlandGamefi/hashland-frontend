@@ -123,60 +123,32 @@
           {{ $t("message.home.txt27") }}
         </div>
         <div class="partner_box">
-          <div class="partner_class">
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner1.png`" class="partnerimg1 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner2.png`" class="partnerimg2 partnerimg" />
-            </div>
-            <div class="imgbox img_center">
-              <img :src="`${$store.state.imgUrl}partner17.png`" class="partnerimg3 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner4.png`" class="partnerimg4 partnerimg" />
-            </div>
-          </div>
-          <div class="partner_class">
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner5.png`" class="partnerimg5 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner6.png`" class="partnerimg6 partnerimg" />
-            </div>
-            <div class="imgbox img_center">
-              <img :src="`${$store.state.imgUrl}partner7.png`" class="partnerimg7 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner8.png`" class="partnerimg8 partnerimg" />
-            </div>
-          </div>
-          <div class="partner_class">
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner9.png`" class="partnerimg9 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner10.png`" class="partnerimg10 partnerimg" />
-            </div>
-            <div class="imgbox img_center">
-              <img :src="`${$store.state.imgUrl}partner11.png`" class="partnerimg11 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner12.png`" class="partnerimg12 partnerimg" />
-            </div>
-          </div>
-          <div class="partner_class">
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner13.png`" class="partnerimg13 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner14.png`" class="partnerimg14 partnerimg" />
-            </div>
-            <div class="imgbox img_center">
-              <img :src="`${$store.state.imgUrl}partner15.png`" class="partnerimg15 partnerimg" />
-            </div>
-            <div class="imgbox">
-              <img :src="`${$store.state.imgUrl}partner3.png`" class="partnerimg16 partnerimg" />
+          <div class="partner_class" v-for="(ele,index) in partnerArr" :key="index">
+            <div class="imgbox"
+              :class="{
+                img_center:index1 == 2,
+              }"
+              v-for="(item,index1) in ele" :key="index1" @click="linkClick(item.link)">
+              <img :src="item.src" class="partnerimg"
+                :class="{
+                  partnerimg1:item.class == 1,
+                  partnerimg2:item.class == 2,
+                  partnerimg3:item.class == 3,
+                  partnerimg4:item.class == 4,
+                  partnerimg5:item.class == 5,
+                  partnerimg6:item.class == 6,
+                  partnerimg7:item.class == 7,
+                  partnerimg8:item.class == 8,
+                  partnerimg9:item.class == 9,
+                  partnerimg10:item.class == 10,
+                  partnerimg11:item.class == 11,
+                  partnerimg12:item.class == 12,
+                  partnerimg13:item.class == 13,
+                  partnerimg14:item.class == 14,
+                  partnerimg15:item.class == 15,
+                  partnerimg16:item.class == 16
+                }"
+              />
             </div>
           </div>
         </div>
@@ -269,23 +241,31 @@ export default {
           txt2: "message.home.txt25",
         },
       ],
-      partnerArr: [
-        { src: `${this.$store.state.imgUrl}partner1.png` },
-        { src: `${this.$store.state.imgUrl}partner2.png` },
-        { src: `${this.$store.state.imgUrl}partner3.png` },
-        { src: `${this.$store.state.imgUrl}partner4.png` },
-        { src: `${this.$store.state.imgUrl}partner5.png` },
-        { src: `${this.$store.state.imgUrl}partner6.png` },
-        { src: `${this.$store.state.imgUrl}partner7.png` },
-        { src: `${this.$store.state.imgUrl}partner8.png` },
-        { src: `${this.$store.state.imgUrl}partner9.png` },
-        { src: `${this.$store.state.imgUrl}partner10.png` },
-        { src: `${this.$store.state.imgUrl}partner11.png` },
-        { src: `${this.$store.state.imgUrl}partner12.png` },
-        { src: `${this.$store.state.imgUrl}partner13.png` },
-        { src: `${this.$store.state.imgUrl}partner14.png` },
-        { src: `${this.$store.state.imgUrl}partner15.png` },
-        { src: `${this.$store.state.imgUrl}partner16.png` },
+      partnerArr:[
+        [
+          { src: `${this.$store.state.imgUrl}partner1.png`,class:1,link:'https://www.binance.com/en/nft/collection/Hash-Land?orderBy=list_time&orderType=-1&isBack=1&id=510323573252395009&order=list_time%40-1' },
+          { src: `${this.$store.state.imgUrl}partner2.png`,class:2,link:'https://coinmarketcap.com/currencies/hashland/' },
+          { src: `${this.$store.state.imgUrl}partner17.png`,class:3,link:'https://bscscan.com/token/0xa6e78ad3c9b4a79a01366d01ec4016eb3075d7a0' },
+          { src: `${this.$store.state.imgUrl}partner4.png`,class:4,link:'https://pancakeswap.finance/' },
+        ],
+        [
+          { src: `${this.$store.state.imgUrl}partner5.png`,class:5,link:'https://coin98.com/wallet' },
+          { src: `${this.$store.state.imgUrl}partner6.png`,class:6,link:'https://bitkeep.com/' },
+          { src: `${this.$store.state.imgUrl}partner7.png`,class:7,link:'https://mathwallet.org' },
+          { src: `${this.$store.state.imgUrl}partner8.png`,class:8,link:'https://dappradar.com/binance-smart-chain/games/hashland' },
+        ],
+        [
+          { src: `${this.$store.state.imgUrl}partner9.png`,class:9,link:'https://www.coingecko.com/en/coins/hashland-coin' },
+          { src: `${this.$store.state.imgUrl}partner10.png`,class:10,link:'https://www.plutocapital.io/' },
+          { src: `${this.$store.state.imgUrl}partner11.png`,class:11,link:'https://gmc.capital/' },
+          { src: `${this.$store.state.imgUrl}partner12.png`,class:12,link:'https://www.youbicapital.com/' },
+        ],
+        [
+          { src: `${this.$store.state.imgUrl}partner13.png`,class:13,link:'https://www.foresightventures.com/' },
+          { src: `${this.$store.state.imgUrl}partner14.png`,class:14,link:'https://hotlabs.pro/' },
+          { src: `${this.$store.state.imgUrl}partner15.png`,class:15,link:'http://waterdrip.io/' },
+          { src: `${this.$store.state.imgUrl}partner3.png`,class:16,link:'https://www.certik.com/projects/hashland' },
+        ]
       ],
     };
   },
@@ -293,6 +273,9 @@ export default {
     ...mapGetters(["getCoinPrice"]),
   },
   methods: {
+    linkClick(item){
+      window.location.href = item;
+    },
     /**
      * https://www.coingecko.com/zh/api/documentation
      * https://api.coingecko.com/api/v3/coins/hashland-coin/market_chart?vs_currency=usd&days=max&interval=daily  每日数据
@@ -436,7 +419,9 @@ export default {
           sessionStorage.setItem("HashMenu", 0);
           break;
         case 2:
-          this.$common.selectLang("敬请期待", "Coming soon", this);
+          this.$router.push("/invite");
+          this.$store.commit("HashMenu", 6);
+          sessionStorage.setItem("HashMenu", 6);
           break;
         default:
           break;
@@ -675,6 +660,7 @@ export default {
             .partnerimg {
               object-fit: contain;
               margin-bottom: 70px;
+              cursor: pointer;
             }
             .partnerimg1 {
               width: 235px;
