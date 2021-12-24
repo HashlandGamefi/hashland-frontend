@@ -138,9 +138,9 @@ export default {
         "message.nav.txt2",
         "message.nav.txt3",
         "message.nav.txt6",
+        "message.nav.txt9",
         "message.nav.txt4",
         "message.nav.txt5",
-        "message.nav.txt9",
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
@@ -235,14 +235,14 @@ export default {
         case 3:
           this.$router.push("/market");
           break;
-        case 4:
+        case 5:
           this.$router.push("/dao");
           // window.location.href = "https://land-hash.gitbook.io/official/dao/about-dao";
           break;
-        case 5:
+        case 6:
           window.location.href = "https://land-hash.gitbook.io/official/white-paper/abstract";
           break;
-        case 6:
+        case 4:
           this.$router.push('/invite')
           break;
         default:

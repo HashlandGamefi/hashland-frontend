@@ -158,7 +158,7 @@ export default {
         '0xA30D18C731c9944F904fFB1011c17B75280d2A08',
         '0xf379d24dCE0Bb73d87d3499D4F1cC87F0Bd0091F',
         '0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
-        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c'
+        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c',
       ]
     }
   },
@@ -220,11 +220,11 @@ export default {
       if(this.btnloading)return
       // 判断用户输入的地址不能为空
       if (this.peopleAddress === "") {
-        this.$common.selectLang("请输入以太坊地址", "Please enter Ethereum address", this)
+        this.$common.selectLang("请输入bsc地址", "Please enter BSC address", this)
         return;
       }
       if(this.peopleAddress.length !== 42){
-        this.$common.selectLang("以太坊地址不正确", "Wrong Ethereum address", this)
+        this.$common.selectLang("bsc地址不正确", "Wrong BSC address", this)
         return
       }
       if(this.peopleAddress.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
@@ -233,13 +233,12 @@ export default {
         return
       }
       if(this.userlist.indexOf(this.peopleAddress.toLocaleLowerCase()) == -1){
-        this.$common.selectLang("该战队暂未开放,请选择其他战队", "This team is not yet open, please choose another team", this)
+        this.$common.selectLang("该战队暂未开放,请选择其他战队", "This league doesn't open, please choose other leagues.", this)
         this.peopleAddress = ''
         return
       }
       this.btnloading = true
       invitePool().userInviter(this.peopleAddress).then(res => {
-        console.log('dfjskdres: ', res);
         if(res == '0x0000000000000000000000000000000000000000'){
           invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
             console.log('绑定地址res: ', res);
@@ -306,7 +305,6 @@ export default {
     // 获取列表
     getUserList(){
       this.getDataBaseInfo().then(res => {
-        // console.log('封装返回的res: ', res);
         if(res.arr.length == 0){
           this.list = []
           this.pageshowLoading = false
@@ -315,12 +313,10 @@ export default {
           this.list = res.arr.filter(item => {
             return item.status
           })
-          console.log("this.list",this.list)
           this.pageshowLoading = false
           for (let index = 0; index < this.list.length; index++) {
             const ele = this.list[index];
             if(this.getAccount.toLocaleLowerCase() == ele.inviter.toLocaleLowerCase()){
-              console.log("返回数据多会放")
               let RankNum = this.list.findIndex(item => this.getAccount.toLocaleLowerCase() == item.inviter.toLocaleLowerCase() );
               this.ishowRankNum = RankNum + 1
               this.isNumber = true
@@ -329,7 +325,6 @@ export default {
               this.CENUM_ratio = ratio_ * 100
               return
             }else{
-              console.log("else大明风华")
               this.ishowRankNum = 'message.invite.txt27'
               this.isNumber = false
             }
@@ -349,9 +344,7 @@ export default {
             if(res.data.inviterInfos.length == 0){
               resolve({'arr': [], 'msg':'Success','data':data.toNumber()});
             }else{
-              console.log("合约返回的数据:",res)
               let jsonres = JSON.parse(JSON.stringify(res.data.inviterInfos))
-              console.log('jsonres: ', jsonres);
               jsonres.forEach(element => {
                 element.status = this.userlist.some((item) => {
                   return item == element.inviter.toLocaleLowerCase()
