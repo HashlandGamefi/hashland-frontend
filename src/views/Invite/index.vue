@@ -154,12 +154,9 @@ export default {
       redonlyDis: false, //input输入框  是否只读
       dis: false, // 确认按钮 是否禁用
       start_userlist:[
-        '0x1b8651a2D6Bd1BA4eE3E053930aeaE612f2489D3',
-        '0xA30D18C731c9944F904fFB1011c17B75280d2A08',
-        '0xf379d24dCE0Bb73d87d3499D4F1cC87F0Bd0091F',
-        '0xEeF038C88884fFb8A22Afd516c91690d1666ED18',
-        '0x916577E2eFa42d84343a845C5AEA1D3D91F4BF8c',
-        '0x85FbA5f9Bd8BeF7713EA59aeb5D36c1C936305a4'
+        '0x9CFCb45df3759503863bca02DCEF403699A7e508',
+        '0x5c15d8bE6A1dcb715d998d60ed06732f71DCf432',
+        '0x3de61E554dbF4372c2fF013eF59712C190cC9A60'
       ]
     }
   },
@@ -328,7 +325,8 @@ export default {
               this.isNumber = true
               this.CENUM = this.$common.getBit(ele.stakedHC, 2) //战力
               let ratio_ = this.$common.getBit((ele.stakedHC / res.data), 4)//战力比
-              this.CENUM_ratio = ratio_ * 100
+              console.log('ratio_: ', ratio_);
+              this.CENUM_ratio = this.$common.getBit(ratio_ * 100)
               return
             }else{
               this.ishowRankNum = 'message.invite.txt27'
@@ -356,7 +354,7 @@ export default {
                   return item == element.inviter.toLocaleLowerCase()
                 })
                 let ratio_ = this.$common.getBit((element.stakedHC / data.toNumber()), 4)
-                element.ratio = ratio_ * 100
+                element.ratio = this.$common.getBit(ratio_ * 100)
                 element.address = this.$common.getSubStr(element.inviter,5)
                 element.stakedHC = this.$common.getBit(element.stakedHC, 2)
               })
@@ -845,6 +843,7 @@ export default {
       display: flex;
       flex-direction: column;
       margin-top: 0.15rem;
+      min-height: 3rem;
       .topline{
         width: 100%;
         display: flex;
