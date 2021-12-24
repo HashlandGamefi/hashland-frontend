@@ -138,7 +138,7 @@ export const message = {
   },
   invite: {
     txt1: "Join League",
-    txt2: "My team",
+    txt2: "My League",
     txt3: "The Power is determined by the NFTs inserted into the card slot of the team. The more NFTs inserted into the card slot and the higher the level, then the more rewards will be gained .",
     txt7: "Binding",
     txt8: "Claim",

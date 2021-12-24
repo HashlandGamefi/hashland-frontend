@@ -224,9 +224,10 @@ export default {
         return;
       }
       if(this.peopleAddress.length !== 42){
-        this.$common.selectLang("bsc地址不正确", "Wrong BSC address", this)
+        this.$common.selectLang("bsc地址不正确", "Wrong address! Recheck it!", this)
         return
       }
+      console.log("this.getAccount",this.getAccount)
       if(this.peopleAddress.toLocaleLowerCase() == this.getAccount.toLocaleLowerCase()){
         this.$common.selectLang("不能绑定自己", "Cannot bind yourself", this)
         this.peopleAddress = ''
@@ -239,6 +240,7 @@ export default {
       }
       this.btnloading = true
       invitePool().userInviter(this.peopleAddress).then(res => {
+        console.log('fsdfsdfsdfres: ', res);
         if(res == '0x0000000000000000000000000000000000000000'){
           invitePool().connect(getSigner()).bindInviter(this.peopleAddress).then(async res => {
             console.log('绑定地址res: ', res);
