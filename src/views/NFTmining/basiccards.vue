@@ -574,6 +574,9 @@ export default {
             obj.src = getHnImg(Number(item),Number(obj.level),race)
             infoarr.push(obj)
             if (count == res[0].length) {
+              infoarr.sort((a, b) => {
+                return Number(a.level) > Number(b.level) ? -1 : 1;
+              })
               resolve({'arr': infoarr, 'msg':'Success'});
             }
             count++;
