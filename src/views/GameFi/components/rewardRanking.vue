@@ -347,8 +347,7 @@ export default {
           if (res.data.result == "SUCCESS") {
             res.data.data.forEach((element1) => {
               this.PVEData.forEach((element2) => {
-                // {passCount: 0, charpterId: 9}
-                if (element2.charpterId == element1.charpterId) element2.totalPassed = element1.passCount;
+                if (element2.charpterId == element1.charpterId) element2.totalPassed = element1.passCount; // {passCount: 0, charpterId: 9}
               });
             });
           }
@@ -356,15 +355,17 @@ export default {
         .catch((err) => {
           console.warn(err);
         });
+      if (!localStorage.getItem("hashlandGameFiInfo")) return;
+      // return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
+      const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       // Passed or Not PVE某玩家最高通过章节数
       this.$api
-        .getPVEandPVPinfo(`queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=hashlandces1@outlook.com`)
+        .getPVEandPVPinfo(`queryType=pve_charpter_pass_charpter_count&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             res.data.data.forEach((element1) => {
               this.PVEData.forEach((element2) => {
-                // {isPass: true, charpterId: 1}
-                if (element2.charpterId == element1.charpterId) element2.passedOrNot = element1.isPass;
+                if (element2.charpterId == element1.charpterId) element2.passedOrNot = element1.isPass; // {isPass: true, charpterId: 1}
               });
             });
           }
@@ -377,13 +378,12 @@ export default {
 
       // 赛季每章个人奖励  PVE各章节某玩家已获得HC奖励（当前数据会每12个小时更新）
       this.$api
-        .getPVEandPVPinfo(`queryType=pve_charpter_reward_hc&issue=1&queryAccount=hashlandces1@outlook.com`)
+        .getPVEandPVPinfo(`queryType=pve_charpter_reward_hc&issue=1&queryAccount=${gameFiInfo.mailAccount}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             res.data.data.forEach((element1) => {
               this.PVEData.forEach((element2) => {
-                // {totalHc: 6, charpterId: 1}
-                if (element2.charpterId == element1.charpterId) element2.personalR = element1.totalHc;
+                if (element2.charpterId == element1.charpterId) element2.personalR = element1.totalHc; // {totalHc: 6, charpterId: 1}
               });
             });
           }
