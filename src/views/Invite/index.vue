@@ -217,6 +217,10 @@ export default {
     },
     async besure() {
       if(this.btnloading)return
+      if(!this.getIstrue){
+        this.$common.selectLang("请先链接钱包", "Please connect the wallet!", this)
+        return;
+      }
       // 判断用户输入的地址不能为空
       if (this.peopleAddress === "") {
         this.$common.selectLang("请输入bsc地址", "Please enter BSC address", this)
