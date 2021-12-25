@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import GameFiVersionUpdateLog from "@/configs/gameFi-version-update-log";
+import GameUpdateLog from "@/configs/game-update-log";
 export default {
   data() {
     return {
@@ -88,7 +88,7 @@ export default {
               application: `${this.$t("message.gameFi.text58")}`,
               isOpen: true,
               openTime: null, // 2021-12-16 20:30:00
-              downloadLink: GameFiVersionUpdateLog[0].downloadLink,
+              downloadLink: GameUpdateLog[0].downloadLink,
             },
             {
               id: 2,
@@ -151,8 +151,8 @@ export default {
   },
 
   created() {
-    if (GameFiVersionUpdateLog.length > 0) this.versionData = GameFiVersionUpdateLog[0];
-    GameFiVersionUpdateLog.forEach((element) => {
+    if (GameUpdateLog.length > 0) this.versionData = GameUpdateLog[0];
+    GameUpdateLog.forEach((element) => {
       this.versionlist.push(element.version);
     });
     // console.log(this.downloadData[0].list[0].href);
@@ -168,7 +168,7 @@ export default {
   },
   methods: {
     selectVersion(item) {
-      GameFiVersionUpdateLog.forEach((element) => {
+      GameUpdateLog.forEach((element) => {
         if (item == element.version) {
           this.versionData = element;
         }
