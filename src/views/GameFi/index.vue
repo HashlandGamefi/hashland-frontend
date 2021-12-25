@@ -95,8 +95,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import LoginRegister from "./loginRegister.vue";
-import Recharge from "./recharge.vue";
+import LoginRegister from "./components/loginRegister.vue";
+import Recharge from "./components/recharge.vue";
 import RewardRanking from "./components/rewardRanking.vue";
 export default {
   components: { LoginRegister, Recharge, RewardRanking },
