@@ -10,13 +10,11 @@
     </div>
     <div class="info_box">
       <div class="onebox" v-for="(item, index) in infoArr" :key="index">
-        <div
-          class="add_imgbox fontsize16_400 btc_num_color"
-        >
+        <div class="add_imgbox fontsize16_400 btc_num_color">
           {{ $t(item.title) }}
           <div class="img_boxs">
             <img :src="`${$store.state.imgUrl}question.png`" class="imgs" @click="imgclick(item)" />
-            <div class="img_box_hover" :class="{show_box_hover:item.isshowimg}">
+            <div class="img_box_hover" :class="{ show_box_hover: item.isshowimg }">
               <div class="content_box fontsize12_400">
                 {{ $t(item.desc) }}
               </div>
@@ -26,18 +24,13 @@
         <p class="fontsize22" v-if="item.loading">
           <NewLoading></NewLoading>
         </p>
-        <p
-          class="fontsize22"
-          :class="{
+        <!-- :class="{
             btc_num_color: index == 0,
             hc_num_color: index == 1,
-            busd_num_color:index == 2,
-            personal_num_color: index == 3
-          }"
-          v-else
-        >
-          $ {{ item.num }}
-        </p>
+            busd_num_color: index == 2,
+            personal_num_color: index == 3,
+          }" -->
+        <p class="fontsize22 total_num_color" v-else>$ {{ item.num }}</p>
       </div>
     </div>
     <div class="add_title">
@@ -46,16 +39,20 @@
         <span class="span1 fontsize22">{{ $t("message.dao.txt12") }}</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1 fontsize16" v-for="ele in seasonArr" :key="ele">{{$t("message.dao.txt12_1")}} {{ele}}</span>
+          <span class="span1 fontsize16" v-for="ele in seasonArr" :key="ele">{{ $t("message.dao.txt12_1") }} {{ ele }}</span>
         </div>
       </div>
     </div>
     <div class="personal_infobox">
-      <div class="onebox" :class="{sum_box:index == 2}" v-for="(item, index) in personalInfoArr" :key="index">
-        <p class="fontsize16_400" :class="{btc_num_color: index == 0,hc_num_color: index == 1,personal_num_color: index == 2}">{{ $t(item.title) }}</p>
+      <div class="onebox" :class="{ sum_box: index == 2 }" v-for="(item, index) in personalInfoArr" :key="index">
+        <p class="fontsize16_400" :class="{ btc_num_color: index == 0, hc_num_color: index == 1, personal_num_color: index == 2 }">
+          {{ $t(item.title) }}
+        </p>
         <p class="fontsize22" v-if="item.loading"><NewLoading></NewLoading></p>
-        <p class="fontsize22" :class="{btc_num_color: index == 0,hc_num_color: index == 1,personal_num_color: index == 2}" v-else>$ {{ item.num }}</p>
-        <button @click="personalClick(item)" class="btn fontsize20" :class="{btc_bgcolor: index == 0,hc_bgcolor: index == 1}" v-if="index != 2">
+        <p class="fontsize22" :class="{ btc_num_color: index == 0, hc_num_color: index == 1, personal_num_color: index == 2 }" v-else>
+          $ {{ item.num }}
+        </p>
+        <button @click="personalClick(item)" class="btn fontsize20" :class="{ btc_bgcolor: index == 0, hc_bgcolor: index == 1 }" v-if="index != 2">
           {{ $t("message.dao.txt13") }}<BtnLoading :isloading="item.loading"></BtnLoading>
         </button>
       </div>
@@ -117,28 +114,28 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { util,erc20,token } from 'hashland-sdk';
+import { util, erc20, token } from "hashland-sdk";
 export default {
-  data () {
+  data() {
     return {
-      ishover:false,
-      btntxt:'',// 弹窗页面的确认按钮
-      word:'',//弹窗提示文字
-      proupDis:false,// 弹窗展示消失变量
+      ishover: false,
+      btntxt: "", // 弹窗页面的确认按钮
+      word: "", //弹窗提示文字
+      proupDis: false, // 弹窗展示消失变量
       infoArr: [
-        { desc:'message.dao.txt18',title: "message.dao.txt9", num: 0, loading: true,isshowimg:false},
-        { desc:'message.dao.txt18_1',title: "message.dao.txt9_2", num: 0, loading: true,isshowimg:false},
-        { desc:'message.dao.txt20',title: "message.dao.txt15", num: 0, loading: true,isshowimg:false },
-        { desc:'message.dao.txt19',title: "message.dao.txt10", num: 0, loading: true,isshowimg:false },
-        // { title: "message.dao.txt11", num: 0, loading: false }
+        { desc: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100", title: "Total Power Value", num: "20,000,000", loading: false, isshowimg: false },
+        { desc: "message.dao.txt18", title: "message.dao.txt9", num: 0, loading: true, isshowimg: false },
+        { desc: "message.dao.txt18_1", title: "message.dao.txt9_2", num: 0, loading: true, isshowimg: false },
+        { desc: "message.dao.txt20", title: "message.dao.txt15", num: 0, loading: true, isshowimg: false },
+        { desc: "message.dao.txt19", title: "message.dao.txt10", num: 0, loading: true, isshowimg: false },
       ],
       personalInfoArr: [
         { title: "message.dao.txt9_1", num: 0, loading: false },
         { title: "message.dao.txt10_1", num: 0, loading: false },
         { title: "message.dao.txt14", num: 0, loading: false },
       ],
-      seasonArr:[1,2,3,4],
-      list:[
+      seasonArr: [1, 2, 3, 4],
+      list: [
         // {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
         // {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
         // {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
@@ -152,94 +149,108 @@ export default {
         // {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10},
         // {address:'0X020X020X02…0X020X020X02',btcnum:123,hcnum:10}
       ],
-    }
+    };
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount","getCoinPrice"])
+    ...mapGetters(["getIstrue", "getAccount", "getCoinPrice"]),
   },
   watch: {
-    'getIstrue': {
-      handler: function (newValue, oldValue) {
-
-      },
+    getIstrue: {
+      handler: function (newValue, oldValue) {},
       deep: true,
-      immediate: true
+      immediate: true,
     },
   },
   methods: {
-    btcClick(){
-      window.location.href = 'https://bscscan.com/address/0x5461348662229e316fCa1880890946338100731B'
+    btcClick() {
+      window.location.href = "https://bscscan.com/address/0x5461348662229e316fCa1880890946338100731B";
     },
-    imgclick(item){
-      this.ishover = true
-      item.isshowimg = true
+    imgclick(item) {
+      this.ishover = true;
+      item.isshowimg = true;
     },
-    closeimg(){
-      this.ishover = false
-      this.infoArr.forEach(item => {
-        item.isshowimg = false
-      })
+    closeimg() {
+      this.ishover = false;
+      this.infoArr.forEach((item) => {
+        item.isshowimg = false;
+      });
     },
     // 取消按钮(关闭弹窗)
-    CloseFun(){
-      this.proupDis = false
+    CloseFun() {
+      this.proupDis = false;
     },
-    personalClick(item){
-      console.log('item: ', item);
-      if(item.loading)return
-      if(item.num == 0){
-        this.$common.selectLang('没有可提取余额','No Remaining Balance to Claim',this)
-        return
+    personalClick(item) {
+      console.log("item: ", item);
+      if (item.loading) return;
+      if (item.num == 0) {
+        this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
+        return;
       }
-      item.loading = true
+      item.loading = true;
     },
-    async connectGetInfo(){
+    async connectGetInfo() {
       // 0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c
-      erc20(token().BTC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
-        // console.log('btc的余额res: ', res,util.formatEther(res));
-        let btc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.btc, 2)
-        console.log('btc_balance: ', btc_balance);
-        this.infoArr[0].num = this.$common.numFormat(btc_balance)
-        this.infoArr[0].loading = false
-      }).catch(() => {
-        this.infoArr[0].loading = false
-      })
+      erc20(token().BTC)
+        .balanceOf("0x5461348662229e316fCa1880890946338100731B")
+        .then((res) => {
+          // console.log('btc的余额res: ', res,util.formatEther(res));
+          let btc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.btc, 2);
+          console.log("btc_balance: ", btc_balance);
+          this.infoArr[1].num = this.$common.numFormat(btc_balance);
+          this.infoArr[1].loading = false;
+        })
+        .catch(() => {
+          this.infoArr[1].loading = false;
+        });
 
-      erc20(token().HC).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
-        console.log('hc的余额res: ', res);
-        let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2)
-        console.log('hc_balance: ', hc_balance);
-        this.infoArr[3].num = this.$common.numFormat(hc_balance)
-        this.infoArr[3].loading = false
-      }).catch(() => {
-        this.infoArr[3].loading = false
-      })
+      erc20(token().HC)
+        .balanceOf("0x5461348662229e316fCa1880890946338100731B")
+        .then((res) => {
+          console.log("hc的余额res: ", res);
+          let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2);
+          console.log("hc_balance: ", hc_balance);
+          this.infoArr[4].num = this.$common.numFormat(hc_balance);
+          this.infoArr[4].loading = false;
+        })
+        .catch(() => {
+          this.infoArr[4].loading = false;
+        });
 
-      erc20(token().BUSD).balanceOf('0x5461348662229e316fCa1880890946338100731B').then(res => {
-        console.log('busd的余额res: ', res);
-        this.infoArr[2].num = this.$common.numFormat(this.$common.getBit(util.formatEther(res), 2))
-        this.infoArr[2].loading = false
-      }).catch(() => {
-        this.infoArr[2].loading = false
-      })
+      erc20(token().BUSD)
+        .balanceOf("0x5461348662229e316fCa1880890946338100731B")
+        .then((res) => {
+          console.log("busd的余额res: ", res);
+          this.infoArr[3].num = this.$common.numFormat(this.$common.getBit(util.formatEther(res), 2));
+          this.infoArr[3].loading = false;
+        })
+        .catch(() => {
+          this.infoArr[3].loading = false;
+        });
 
-      let hclp_balance = await erc20(token().HCLP).balanceOf('0x5461348662229e316fCa1880890946338100731B')
-      let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
-      erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
-        let last_num = (hclp_balance / hclp_totalSupply) * ((res / 1e18) * 2)
-        this.$common.checkNumber(last_num.toString(), res1 => {
-          this.infoArr[1].num = res1
-          this.infoArr[1].loading = false
-        },2)
-      }).catch(() => {
-        this.infoArr[1].loading = false
-      })
-    }
+      let hclp_balance = await erc20(token().HCLP).balanceOf("0x5461348662229e316fCa1880890946338100731B");
+      let hclp_totalSupply = await erc20(token().HCLP).totalSupply();
+      erc20(token().BUSD)
+        .balanceOf(token().HCLP)
+        .then((res) => {
+          let last_num = (hclp_balance / hclp_totalSupply) * ((res / 1e18) * 2);
+          this.$common.checkNumber(
+            last_num.toString(),
+            (res1) => {
+              this.infoArr[2].num = res1;
+              this.infoArr[2].loading = false;
+            },
+            2
+          );
+        })
+        .catch(() => {
+          this.infoArr[2].loading = false;
+        });
+    },
   },
-  mounted(){
-    this.connectGetInfo()
-  }
-}
+  mounted() {
+    this.connectGetInfo();
+  },
+};
 </script>
 
 <style lang='scss' scoped>
@@ -248,12 +259,12 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 33px;
-  .add_title_link{
+  .add_title_link {
     position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
-    .add_contract_address{
+    .add_contract_address {
       width: 100%;
       display: flex;
       align-items: center;
@@ -261,8 +272,8 @@ export default {
       cursor: pointer;
       font-size: 16px;
       margin-top: 8px;
-      .span_hover{
-        color: #00E7F0;
+      .span_hover {
+        color: #00e7f0;
         text-decoration: underline;
       }
     }
@@ -270,10 +281,10 @@ export default {
   .h1 {
     color: #fff;
   }
-  .add_title{
+  .add_title {
     width: 100%;
     display: flex;
-    .left_content{
+    .left_content {
       position: relative;
       padding: 0 10px;
       border-radius: 15px;
@@ -281,12 +292,12 @@ export default {
       align-items: center;
       justify-content: center;
       margin-left: 40px;
-      .span1{
-        color: #FFFFFF;
+      .span1 {
+        color: #ffffff;
         margin-right: 10px;
         cursor: pointer;
       }
-      .span2{
+      .span2 {
         border-width: 7px;
         border-color: #fff;
         border-bottom-width: 0;
@@ -295,7 +306,7 @@ export default {
         border-left-color: transparent;
         border-right-color: transparent;
       }
-      .left_content_hover{
+      .left_content_hover {
         position: absolute;
         top: 0;
         left: 0;
@@ -308,19 +319,19 @@ export default {
         box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
         border-radius: 4px;
         padding: 10px 13px;
-        margin-top:32px;
+        margin-top: 32px;
         line-height: 39px;
-        .span1{
-          color: #E2DADA;
+        .span1 {
+          color: #e2dada;
           cursor: pointer;
         }
       }
     }
-    .left_content:hover{
-      .left_content_hover{
+    .left_content:hover {
+      .left_content_hover {
         display: flex;
-        .span1:hover{
-          color: #00E7F0;
+        .span1:hover {
+          color: #00e7f0;
         }
       }
     }
@@ -334,7 +345,7 @@ export default {
     justify-content: space-between;
     margin-bottom: 64px;
     .onebox {
-      width: 234px;
+      width: 200px;
       height: 115px;
       display: flex;
       flex-direction: column;
@@ -345,21 +356,21 @@ export default {
       border-radius: 4px;
       padding: 24px 0 25px;
       cursor: pointer;
-      .add_imgbox{
+      .add_imgbox {
         position: relative;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        .img_boxs{
+        .img_boxs {
           display: flex;
           margin-left: 8px;
           cursor: pointer;
-          .imgs{
+          .imgs {
             width: 14px;
             object-fit: contain;
           }
-          .img_box_hover{
+          .img_box_hover {
             display: none;
             position: absolute;
             top: 35px;
@@ -370,8 +381,8 @@ export default {
             box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
             padding: 1px;
             border-radius: 14px;
-            background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
-            .content_box{
+            background: linear-gradient(180deg, #8be6fe 0%, rgba(139, 230, 254, 0) 100%);
+            .content_box {
               width: 100%;
               // height: 100%;
               padding: 16px;
@@ -383,7 +394,7 @@ export default {
               background: #011730;
             }
           }
-          .show_box_hover{
+          .show_box_hover {
             display: flex;
           }
         }
@@ -393,7 +404,7 @@ export default {
       box-shadow: 10px 5px 10px 5px rgba(2, 18, 35, 0.68);
     }
   }
-  .personal_infobox{
+  .personal_infobox {
     width: 100%;
     display: flex;
     align-items: center;
@@ -402,7 +413,7 @@ export default {
     padding: 0 143px;
     margin-bottom: 64px;
     .onebox {
-      width: 234px;
+      width: 200px;
       background: #021e3e;
       box-shadow: 0px 2px 13px 0px rgba(2, 18, 35, 0.68);
       border-radius: 4px;
@@ -413,7 +424,7 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      .btn{
+      .btn {
         padding: 10px 15px;
         height: 27px;
         border-radius: 7px;
@@ -425,7 +436,7 @@ export default {
         justify-content: center;
       }
     }
-    .sum_box{
+    .sum_box {
       padding: 37px 0;
     }
     .onebox:hover {
@@ -490,7 +501,7 @@ export default {
   //     }
   //   }
   // }
-  .positon_img_fixedbox{
+  .positon_img_fixedbox {
     position: fixed;
     top: 0;
     left: 0;
@@ -504,7 +515,7 @@ export default {
 .hc_color {
   color: rgba(124, 22, 125, 0.9) !important;
 }
-.busd_color{
+.busd_color {
   color: rgba(180, 130, 25, 0.9) !important;
 }
 .personal_color {
@@ -522,21 +533,24 @@ export default {
 .personal_num_color {
   color: #29cdda !important;
 }
+.total_num_color {
+  color: #29cdda !important;
+}
 .btc_bgcolor {
   background: #29cdda !important;
 }
 .hc_bgcolor {
   background: #29cdda !important;
 }
-@media screen and (max-width: 980px){
+@media screen and (max-width: 980px) {
   .vote_page {
     width: 100%;
     padding: 0 0.2rem;
     display: flex;
     flex-direction: column;
     margin-top: 0.4rem;
-    .add_title_link{
-      .add_contract_address{
+    .add_title_link {
+      .add_contract_address {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -551,31 +565,31 @@ export default {
     .h1 {
       color: #fff;
     }
-    .add_title{
+    .add_title {
       width: 100%;
       display: flex;
-      .left_content{
+      .left_content {
         position: relative;
         padding: 0 0.1rem;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-left: 0.1rem;
-        .span1{
-          color: #FFFFFF;
+        .span1 {
+          color: #ffffff;
           margin-right: 0.1rem;
           cursor: pointer;
         }
-        .span2{
+        .span2 {
           border-width: 0.06rem;
-          border-color: #00E7F0;
+          border-color: #00e7f0;
           border-bottom-width: 0;
           border-style: dashed;
           border-top-style: solid;
           border-left-color: transparent;
           border-right-color: transparent;
         }
-        .left_content_hover{
+        .left_content_hover {
           position: absolute;
           top: 0;
           left: 0;
@@ -591,15 +605,15 @@ export default {
           border-radius: 0.04rem;
           padding: 0.05rem 0 0.05rem 0.2rem;
           margin-top: 0.35rem;
-          .span1{
-            color: #E2DADA;
+          .span1 {
+            color: #e2dada;
             cursor: pointer;
             margin-right: 0;
           }
         }
       }
-      .left_content:hover{
-        .left_content_hover{
+      .left_content:hover {
+        .left_content_hover {
           display: flex;
         }
       }
@@ -626,21 +640,21 @@ export default {
         padding: 0.15rem 0 0.12rem;
         cursor: pointer;
         margin-bottom: 0.24rem;
-        .add_imgbox{
+        .add_imgbox {
           position: relative;
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
-          .img_boxs{
+          .img_boxs {
             display: flex;
             margin-left: 8px;
             cursor: pointer;
-            .imgs{
+            .imgs {
               width: 18px;
               object-fit: contain;
             }
-            .img_box_hover{
+            .img_box_hover {
               display: none;
               position: absolute;
               top: 35px;
@@ -651,8 +665,8 @@ export default {
               box-shadow: -1px 11px 10px 2px rgba(0, 0, 1, 0.38), -2px 1px 34px 0px rgba(255, 255, 255, 0.22) inset;
               padding: 1px;
               border-radius: 14px;
-              background:linear-gradient(180deg, #8BE6FE 0%, rgba(139, 230, 254, 0) 100%);
-              .content_box{
+              background: linear-gradient(180deg, #8be6fe 0%, rgba(139, 230, 254, 0) 100%);
+              .content_box {
                 width: 100%;
                 // height: 100%;
                 padding: 16px;
@@ -664,7 +678,7 @@ export default {
                 background: #011730;
               }
             }
-            .show_box_hover{
+            .show_box_hover {
               display: flex;
             }
           }
@@ -674,7 +688,7 @@ export default {
       //   box-shadow: 10px 5px 10px 5px rgba(2, 18, 35, 0.68);
       // }
     }
-    .personal_infobox{
+    .personal_infobox {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
@@ -696,8 +710,8 @@ export default {
         align-items: center;
         justify-content: space-between;
         margin-bottom: 0.24rem;
-        .btn{
-          padding:0.1rem;
+        .btn {
+          padding: 0.1rem;
           height: 0.27rem;
           border-radius: 0.07rem;
           border: none;
@@ -708,7 +722,7 @@ export default {
           justify-content: center;
         }
       }
-      .sum_box{
+      .sum_box {
         padding: 0.24rem 0;
       }
       // .onebox:hover {

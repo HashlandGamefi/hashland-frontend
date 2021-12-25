@@ -28,8 +28,6 @@
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
         <li class="login_footer fontsize16">
-          <!-- 关闭注册入口 -->
-          <!-- <span v-if="isProd">{{ $t("message.gameFi.text45") }} </span> -->
           <!-- 注册入口 -->
           <span class="register_entrance" @click="registerNow">
             <span>{{ $t("message.gameFi.text14") }} </span>
@@ -138,14 +136,10 @@ export default {
       showCountdown: false,
       minutes: 0,
       seconds: 0,
-      isProd: false,
     };
   },
   computed: {
     ...mapGetters(["getAccount"]),
-  },
-  created() {
-    this.isProd = process.env.NODE_ENV === "production" ? true : false;
   },
   methods: {
     /**注册账号 */

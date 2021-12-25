@@ -23,7 +23,6 @@
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
-          <!-- <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span> -->
           <span> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
         <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
@@ -110,16 +109,12 @@ export default {
       loginRegisterStatus: false,
       mailAccount: "",
       ranking1select: "",
-      isProd: false,
     };
   },
   computed: {
     ...mapGetters(["getAccount"]),
   },
   created() {
-    this.isProd = process.env.NODE_ENV === "production" ? true : false;
-    // console.log(process.env.NODE_ENV, this.isProd ? "正式环境" : "开发环境");
-
     if (localStorage.getItem("hashlandGameFiInfo")) {
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       this.loginRegisterStatus = true; // 已登录

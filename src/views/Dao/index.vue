@@ -94,7 +94,7 @@ export default {
 }
 @media screen and (min-width: 1280px) {
   .dao_page {
-    max-width: 1162px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 }

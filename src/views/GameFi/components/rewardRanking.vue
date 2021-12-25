@@ -256,7 +256,7 @@
       <div class="ranking_title">
         <span>{{ $t("message.gameFi.text35") }} </span>
         <span>
-          {{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}&nbsp;&nbsp; {{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}
+          {{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }} &nbsp;&nbsp; {{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}
         </span>
       </div>
       <div class="outside_box">
