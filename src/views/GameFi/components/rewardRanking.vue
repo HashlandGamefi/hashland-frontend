@@ -3,7 +3,8 @@
     <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 pc">
       <div class="ranking_title">
-        <span>{{ $t("message.gameFi.text90") }} </span><span>Rewards distributes every half season</span>
+        <span>{{ $t("message.gameFi.text90") }} </span>
+        <span>{{ $t("message.gameFi.text105") }} </span>
       </div>
       <div class="outside_box">
         <div class="in_box">
@@ -48,11 +49,57 @@
         </div>
       </div>
     </div>
+    <!-- Reward Vault -->
+    <div class="ranking_box ranking_box_box1 mobile">
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text90") }}</span>
+        <span>{{ $t("message.gameFi.text105") }} </span>
+      </div>
+      <div class="outside_box">
+        <div class="in_box">
+          <div class="ranking_content">
+            <div class="row">
+              <div>{{ $t("message.gameFi.text91") }}</div>
+            </div>
+            <div class="row">
+              <ul>
+                <li>
+                  <div></div>
+                  <div>{{ $t("message.gameFi.text92") }}</div>
+                  <div>{{ $t("message.gameFi.text93") }}</div>
+                </li>
+                <li v-for="(item, index) in RewardPoolData" :key="index">
+                  <div>
+                    {{ item.title }} <br />
+                    {{ item.totalR ? "" : $t("message.gameFi.text79") }}
+                  </div>
+                  <div>{{ item.totalR | numToFixed }}</div>
+                  <div>
+                    {{ item.personalR | numToFixed }}
+                    <div
+                      class="claim_btn"
+                      @click="extractableClick(item)"
+                      v-if="item.pool == 1 || item.pool == 2"
+                      :class="{ disable: !item.personalR }"
+                    >
+                      <span>{{ $t("message.gameFi.text98") }}</span>
+                      <BtnLoading :isloading="item.loading"></BtnLoading>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="update_title">
+      <span>{{ $t("message.gameFi.text106") }} {{ updateTime }} &nbsp;&nbsp; {{ $t("message.gameFi.text107") }}</span>
+    </div>
     <!-- PVE -->
     <div class="ranking_box ranking_box_box2 pc">
       <div class="ranking_title">
         <span>{{ $t("message.gameFi.text33") }} </span>
-        <span>Last Update Time: {{ updateTime }}（UTC）&nbsp;&nbsp; HC reward updates every 12 hrs</span>
       </div>
       <div class="outside_box">
         <div class="in_box">
@@ -119,6 +166,39 @@
         </div>
       </div>
     </div>
+    <!-- PVE -->
+    <div class="ranking_box ranking_box_box2 mobile">
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text33") }} </span>
+      </div>
+      <div class="outside_box">
+        <div class="in_box">
+          <div class="ranking_content">
+            <div class="row">
+              <div>{{ $t("message.gameFi.text91") }}</div>
+            </div>
+            <div class="row">
+              <ul>
+                <li>
+                  <div></div>
+                  <div>{{ $t("message.gameFi.text99") }}</div>
+                  <div>{{ $t("message.gameFi.text100") }}</div>
+                  <div>{{ $t("message.gameFi.text94") }}</div>
+                  <div>{{ $t("message.gameFi.text95") }}</div>
+                </li>
+                <li v-for="(item, index) in PVEData" :key="index">
+                  <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
+                  <div>{{ item.totalPassed }}</div>
+                  <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
+                  <div>{{ item.totalR | numToFixed }}</div>
+                  <div>{{ item.personalR | numToFixed }}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- PVP -->
     <div class="ranking_box ranking_box_box3 pc">
       <div class="ranking_title">
@@ -167,93 +247,6 @@
                 </ul>
               </div>
             </div>
-            <!-- <div class="select_list">
-              <span>第1赛季</span>
-              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-              <ul class="list">
-                <li>第1赛季</li>
-                <li>第2赛季</li>
-                <li>第3赛季</li>
-              </ul>
-            </div> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Reward Vault -->
-    <div class="ranking_box ranking_box_box1 mobile">
-      <div class="ranking_title">
-        <span>{{ $t("message.gameFi.text90") }}</span
-        ><span>Rewards distributes every half season</span>
-      </div>
-      <div class="outside_box">
-        <div class="in_box">
-          <div class="ranking_content">
-            <div class="row">
-              <div>{{ $t("message.gameFi.text91") }}</div>
-            </div>
-            <div class="row">
-              <ul>
-                <li>
-                  <div></div>
-                  <div>{{ $t("message.gameFi.text92") }}</div>
-                  <div>{{ $t("message.gameFi.text93") }}</div>
-                </li>
-                <li v-for="(item, index) in RewardPoolData" :key="index">
-                  <div>
-                    {{ item.title }} <br />
-                    {{ item.totalR ? "" : $t("message.gameFi.text79") }}
-                  </div>
-                  <div>{{ item.totalR | numToFixed }}</div>
-                  <div>
-                    {{ item.personalR | numToFixed }}
-                    <div
-                      class="claim_btn"
-                      @click="extractableClick(item)"
-                      v-if="item.pool == 1 || item.pool == 2"
-                      :class="{ disable: !item.personalR }"
-                    >
-                      <span>{{ $t("message.gameFi.text98") }}</span>
-                      <BtnLoading :isloading="item.loading"></BtnLoading>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- PVE -->
-    <div class="ranking_box ranking_box_box2 mobile">
-      <div class="ranking_title">
-        <span>{{ $t("message.gameFi.text33") }} </span>
-        <span>Last Update Time: {{ updateTime }}（UTC）&nbsp;&nbsp; HC reward updates every 12 hrs</span>
-      </div>
-      <div class="outside_box">
-        <div class="in_box">
-          <div class="ranking_content">
-            <div class="row">
-              <div>{{ $t("message.gameFi.text91") }}</div>
-            </div>
-            <div class="row">
-              <ul>
-                <li>
-                  <div></div>
-                  <div>{{ $t("message.gameFi.text99") }}</div>
-                  <div>{{ $t("message.gameFi.text100") }}</div>
-                  <div>{{ $t("message.gameFi.text94") }}</div>
-                  <div>{{ $t("message.gameFi.text95") }}</div>
-                </li>
-                <li v-for="(item, index) in PVEData" :key="index">
-                  <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
-                  <div>{{ item.totalPassed }}</div>
-                  <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
-                  <div>{{ item.totalR | numToFixed }}</div>
-                  <div>{{ item.personalR | numToFixed }}</div>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -278,11 +271,6 @@
               <div>
                 <span>{{ $t("message.gameFi.text35") }}</span>
               </div>
-              <!-- <div>
-                <div>{{ $t("message.gameFi.text102") }}</div>
-                <div>{{ $t("message.gameFi.text103") }}</div>
-                <div>{{ $t("message.gameFi.text104") }}</div>
-              </div> -->
               <ul>
                 <li>
                   <div>{{ $t("message.gameFi.text102") }}</div>
@@ -650,7 +638,7 @@ export default {
   box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
   border-radius: 6px;
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 30px;
   font-size: 0;
   .ranking_title {
     display: flex;
@@ -691,7 +679,10 @@ export default {
     height: 15px;
   }
 }
-
+.update_title {
+  font-size: 20px;
+  margin-top: 50px;
+}
 .ranking_box_box1.pc {
   .ranking_content {
     display: flex;
@@ -875,50 +866,6 @@ export default {
   }
 }
 
-.select_list {
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .accrow {
-    margin-left: 10px;
-    width: 15px;
-    height: auto;
-    transform: rotate(-90deg);
-    transition: all 0.3s;
-  }
-  ul {
-    width: 100%;
-    height: auto;
-    background: #082545;
-    box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-    border-radius: 0 0 6px 6px;
-    overflow: hidden;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    transform: scaleY(0);
-    transition: transform 0.2s;
-    transform-origin: top center;
-    li {
-      font-size: 16px;
-      // height: $singleMediumCellHeight;
-      // line-height: $singleMediumCellHeight;
-      &:hover {
-        background: #00e7f0;
-      }
-    }
-  }
-  &:hover {
-    .accrow {
-      transform: rotate(0);
-    }
-    ul {
-      transform: scaleY(1);
-    }
-  }
-}
 @media screen and (max-width: 980px) {
   // 重置滚动条样式
   ::-webkit-scrollbar {
@@ -940,7 +887,7 @@ export default {
   }
   .ranking_box {
     padding: 0.1rem;
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
     .ranking_title {
       flex-wrap: wrap;
       > span {
@@ -958,7 +905,10 @@ export default {
       display: block;
     }
   }
-
+  .update_title {
+    font-size: 0.15rem;
+    margin-top: 0.5rem;
+  }
   .claim_btn {
     cursor: pointer;
     background: #29cdda;

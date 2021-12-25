@@ -382,5 +382,8 @@ export const message = {
     text102: "HC Reward Ranking",
     text103: "Address",
     text104: "HC Reward",
+    text105: "Rewards distributes every half season",
+    text106: "Last Update Time: ",
+    text107: "HC reward updates every 12 hours",
   },
 };
