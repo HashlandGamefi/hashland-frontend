@@ -123,6 +123,21 @@ export default {
       deep: true,
       immediate: true,
     },
+    getAccount: {
+      handler: function (newValue) {
+        if (newValue) {
+          const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
+          const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === newValue); //不存在：-1
+          if (hasThisAccount == -1) {
+            this.$parent.showRecharge = false;
+          } else {
+            this.getMaxHC();
+          }
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   computed: {
     ...mapGetters(["getAccount", "getIstrue"]),
