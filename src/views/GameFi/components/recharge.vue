@@ -131,6 +131,7 @@ export default {
           if (hasThisAccount == -1) {
             this.$parent.showRecharge = false;
           } else {
+            this.HCBalance = 0;
             this.getMaxHC();
           }
         }
