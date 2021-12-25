@@ -2,7 +2,9 @@
   <div class="page">
     <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 pc">
-      <span class="ranking_title">{{ $t("message.gameFi.text90") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text90") }} </span><span>Rewards distributes every half season</span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -48,7 +50,10 @@
     </div>
     <!-- PVE -->
     <div class="ranking_box ranking_box_box2 pc">
-      <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text33") }} </span>
+        <span>Last Update Time: {{ updateTime }}（UTC）&nbsp;&nbsp; HC reward updates every 12 hrs</span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -117,11 +122,11 @@
     <!-- PVP -->
     <div class="ranking_box ranking_box_box3 pc">
       <div class="ranking_title">
-        <div>{{ $t("message.gameFi.text35") }}</div>
-        <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
-          <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
-        </div>
+        <span>{{ $t("message.gameFi.text35") }}</span>
+        <span>
+          {{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }} &nbsp;&nbsp;&nbsp;&nbsp; {{ $t("message.gameFi.text97") }}:
+          {{ PVPData1.rank }}
+        </span>
       </div>
       <div class="outside_box">
         <div class="in_box">
@@ -177,7 +182,10 @@
     </div>
     <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 mobile">
-      <span class="ranking_title">{{ $t("message.gameFi.text91") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text90") }}</span
+        ><span>Rewards distributes every half season</span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -218,7 +226,10 @@
     </div>
     <!-- PVE -->
     <div class="ranking_box ranking_box_box2 mobile">
-      <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text33") }} </span>
+        <span>Last Update Time: {{ updateTime }}（UTC）&nbsp;&nbsp; HC reward updates every 12 hrs</span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -250,11 +261,10 @@
     <!-- PVP -->
     <div class="ranking_box ranking_box_box3 mobile">
       <div class="ranking_title">
-        <div>{{ $t("message.gameFi.text35") }}</div>
-        <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
-          <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
-        </div>
+        <span>{{ $t("message.gameFi.text35") }} </span>
+        <span>
+          {{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}&nbsp;&nbsp; {{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}
+        </span>
       </div>
       <div class="outside_box">
         <div class="in_box">
@@ -327,6 +337,7 @@ export default {
       PVPData1: { rank: 0, totalHc: 0 },
       PVPData2: [],
       HCUnitPrice: 0,
+      updateTime: "",
     };
   },
   computed: {
@@ -353,6 +364,8 @@ export default {
     },
   },
   created() {
+    // 只显示UTC 0点12点整点时间
+    this.updateTime = new Date(Math.floor(new Date().getTime() / 43200000) * 43200000).toLocaleString("en");
     this.queryHWWEPool();
     this.queryPVEData();
     this.queryPVPData();
@@ -640,7 +653,17 @@ export default {
   margin-top: 50px;
   font-size: 0;
   .ranking_title {
-    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > span {
+      &:nth-child(1) {
+        font-size: 26px;
+      }
+      &:nth-child(2) {
+        font-size: 18px;
+      }
+    }
   }
   .ranking_content {
     width: 100%;
@@ -764,20 +787,6 @@ export default {
   }
 }
 .ranking_box_box3.pc {
-  .ranking_title {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    div {
-      &:nth-child(2) {
-        font-size: 20px;
-        span {
-          margin-left: 50px;
-        }
-      }
-    }
-  }
   .ranking_content {
     font-size: 12px;
     .col1 {
@@ -933,7 +942,17 @@ export default {
     padding: 0.1rem;
     margin-top: 0.5rem;
     .ranking_title {
-      font-size: 18px;
+      flex-wrap: wrap;
+      > span {
+        &:nth-child(1) {
+          width: 100%;
+          font-size: 0.2rem;
+        }
+        &:nth-child(2) {
+          font-size: 0.12rem;
+          font-weight: 100;
+        }
+      }
     }
     .ranking_content {
       display: block;
@@ -946,6 +965,7 @@ export default {
     border-radius: 0.07rem;
     padding: 0.02rem 0.05rem;
     font-size: 0.12rem;
+    margin-left: 1em;
     .donut {
       width: 0.1rem;
       height: 0.1rem;
@@ -1048,18 +1068,6 @@ export default {
 
   .ranking_box_box3.mobile {
     font-size: 12px;
-    .ranking_title {
-      flex-wrap: wrap;
-      div {
-        &:nth-child(2) {
-          font-size: 12px;
-          text-align: right;
-          span {
-            margin-left: 0.2rem;
-          }
-        }
-      }
-    }
     .ranking_content {
       .row {
         width: 100%;
