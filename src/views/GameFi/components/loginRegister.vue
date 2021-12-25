@@ -103,7 +103,6 @@
 </template>
 
 <script>
-let isProd = false;
 const mailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; // 邮箱输入校验
 const pwReg = /^[a-zA-Z0-9]{6,16}$/; // 6-16位数字英文组合
 import { mapGetters } from "vuex";

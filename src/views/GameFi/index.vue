@@ -26,14 +26,14 @@
           <!-- <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span> -->
           <span> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
-        <div v-if="!isProd" @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
+        <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
     <div class="game_main">
       <div class="game_introduction">
         <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
-        <div class="game_tab" v-if="!isProd">
+        <div class="game_tab">
           <div>
             <div>{{ $t("message.gameFi.text50") }}</div>
             <div>{{ $t("message.gameFi.text81") }}</div>
@@ -83,7 +83,7 @@
           </ul>
         </div>
       </div>
-      <RewardRanking v-if="!isProd"></RewardRanking>
+      <RewardRanking></RewardRanking>
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>

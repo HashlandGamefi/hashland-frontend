@@ -77,7 +77,6 @@ import GameFiVersionUpdateLog from "@/configs/gameFi-version-update-log";
 export default {
   data() {
     return {
-      // isProd: false,
       downloadData: [
         {
           mobileDesktop: `${this.$t("message.gameFi.text56")}`,
@@ -152,7 +151,6 @@ export default {
   },
 
   created() {
-    // this.isProd = process.env.NODE_ENV === "production" ? true : false;
     if (GameFiVersionUpdateLog.length > 0) this.versionData = GameFiVersionUpdateLog[0];
     GameFiVersionUpdateLog.forEach((element) => {
       this.versionlist.push(element.version);
@@ -315,8 +313,7 @@ export default {
         margin-top: 10px;
         position: relative;
         background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
-        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
-          -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         border-radius: 6px;
         .li {
           margin: 20px;
@@ -397,8 +394,7 @@ export default {
       }
       > div {
         background: linear-gradient(90deg, #021f3e 0%, #01142a 100%, #034088 100%);
-        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69),
-          -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -13px 16px 19px -2px rgba(2, 12, 23, 0.69), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
         border-radius: 4px;
         font-size: 16px;
         &:nth-child(1) {
