@@ -1,4 +1,4 @@
-const GameFiVersionUpdateLog = [
+const GameUpdateLog = [
   {
     version: "1.1.7",
     update: "18-12-2021",
@@ -13,4 +13,4 @@ const GameFiVersionUpdateLog = [
   },
 ];
 
-export default GameFiVersionUpdateLog;
+export default GameUpdateLog;
