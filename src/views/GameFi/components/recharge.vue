@@ -165,12 +165,8 @@ export default {
     /**确认充值 */
     toRecharge() {
       if (this.buy_isloading) return;
-      if (!this.HCValue)
-        return this.$common.selectLang(
-          `${this.$t("message.gameFi.text76")}`,
-          `${this.$t("message.gameFi.text76")}`,
-          this
-        );
+      if (!this.HCValue) return this.$common.selectLang(`${this.$t("message.gameFi.text76")}`, `${this.$t("message.gameFi.text76")}`, this);
+      if (this.HCBalance < this.HCValue) return this.$common.selectLang("余额不足", "Insufficent Balance", this);
       this.buy_isloading = true;
       const amount = this.$common.convertNormalToBigNumber(this.HCValue, 18);
       hwDeposit()
