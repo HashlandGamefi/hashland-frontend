@@ -131,7 +131,6 @@ export default {
           if (hasThisAccount == -1) {
             this.$parent.showRecharge = false;
           } else {
-            this.HCBalance = 0;
             this.getMaxHC();
           }
         }
@@ -152,6 +151,7 @@ export default {
     /**获取钱包内最大HC */
     getMaxHC() {
       this.getmaxbtnloading = true;
+      this.HCBalance = 0;
       erc20(token().HC)
         .balanceOf(this.getAccount)
         .then((res) => {
