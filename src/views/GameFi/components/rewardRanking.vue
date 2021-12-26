@@ -220,7 +220,7 @@
               </div>
             </div>
             <div class="col2">
-              <div class="row">
+              <div class="row row_col">
                 <div>
                   <span>{{ $t("message.gameFi.text102") }}</span>
                 </div>
@@ -233,7 +233,7 @@
               </div>
               <div class="row">
                 <ul>
-                  <li v-for="(item, index) in PVPData2" :key="index">
+                  <li class="row_col" v-for="(item, index) in PVPData2" :key="index">
                     <div>
                       <span>{{ item.rank }}</span>
                     </div>
@@ -271,13 +271,13 @@
               <div>
                 <span>{{ $t("message.gameFi.text35") }}</span>
               </div>
+              <div class="row_col">
+                <div>{{ $t("message.gameFi.text102") }}</div>
+                <div>{{ $t("message.gameFi.text103") }}</div>
+                <div>{{ $t("message.gameFi.text104") }}</div>
+              </div>
               <ul>
-                <li>
-                  <div>{{ $t("message.gameFi.text102") }}</div>
-                  <div>{{ $t("message.gameFi.text103") }}</div>
-                  <div>{{ $t("message.gameFi.text104") }}</div>
-                </li>
-                <li v-for="(item, index) in PVPData2" :key="index">
+                <li class="row_col" v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
                   <div>{{ item.totalHc | numToFixed }}</div>
@@ -804,7 +804,7 @@ export default {
     }
     .col2 {
       width: calc(100% / 6 * 5);
-      // overflow-x: scroll;
+
       .row {
         width: 100%;
         border-radius: 6px;
@@ -817,20 +817,12 @@ export default {
           display: flex;
           align-items: center;
           > div {
-            // min-width: 400px;
             height: 100%;
             background: #082545;
             padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            &:nth-child(1),
-            &:nth-child(2),
-            &:nth-child(3) {
-              width: 50%;
-            }
           }
         }
+
         &:nth-child(2) {
           min-height: 100px;
           height: 200px;
@@ -846,19 +838,30 @@ export default {
               display: flex;
               align-items: center;
               > div {
-                // min-width: 400px;
                 height: 100%;
                 padding: 5px 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                &:nth-child(1),
-                &:nth-child(2),
-                &:nth-child(3) {
-                  width: 50%;
-                }
               }
             }
+          }
+        }
+      }
+      .row_col {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &:nth-child(1) {
+            width: 30%;
+          }
+          &:nth-child(2) {
+            width: 40%;
+          }
+          &:nth-child(3) {
+            width: 30%;
           }
         }
       }
@@ -1031,6 +1034,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          // justify-content: start;
         }
         &:nth-child(2) {
           > div {
@@ -1041,27 +1045,32 @@ export default {
           }
         }
       }
-      .row:nth-child(2) > div:nth-child(2) div,
-      ul li > div {
+
+      .row_col {
         width: 100%;
-        &:nth-child(1),
-        &:nth-child(2),
-        &:nth-child(3) {
-          min-width: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > div {
+          &:nth-child(1) {
+            width: 30%;
+          }
+          &:nth-child(2) {
+            width: 40%;
+          }
+          &:nth-child(3) {
+            width: 30%;
+          }
         }
       }
       ul {
         width: 100%;
-        min-height: 0.5rem;
-        max-height: 3rem;
-        overflow-x: auto;
+        // height: 0.5rem;
+        min-height: 1rem;
+        max-height: 4rem;
         overflow-y: auto;
         font-weight: 100;
         li {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           > div {
             height: 100%;
             padding: 5px 0;
