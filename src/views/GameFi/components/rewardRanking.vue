@@ -2,7 +2,10 @@
   <div class="page">
     <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 pc">
-      <span class="ranking_title">{{ $t("message.gameFi.text90") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text90") }} </span>
+        <span>{{ $t("message.gameFi.text105") }} </span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -46,9 +49,58 @@
         </div>
       </div>
     </div>
+    <!-- Reward Vault -->
+    <div class="ranking_box ranking_box_box1 mobile">
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text90") }}</span>
+        <span>{{ $t("message.gameFi.text105") }} </span>
+      </div>
+      <div class="outside_box">
+        <div class="in_box">
+          <div class="ranking_content">
+            <div class="row">
+              <div>{{ $t("message.gameFi.text91") }}</div>
+            </div>
+            <div class="row">
+              <ul>
+                <li>
+                  <div></div>
+                  <div>{{ $t("message.gameFi.text92") }}</div>
+                  <div>{{ $t("message.gameFi.text93") }}</div>
+                </li>
+                <li v-for="(item, index) in RewardPoolData" :key="index">
+                  <div>
+                    {{ item.title }} <br />
+                    {{ item.totalR ? "" : $t("message.gameFi.text79") }}
+                  </div>
+                  <div>{{ item.totalR | numToFixed }}</div>
+                  <div>
+                    {{ item.personalR | numToFixed }}
+                    <div
+                      class="claim_btn"
+                      @click="extractableClick(item)"
+                      v-if="item.pool == 1 || item.pool == 2"
+                      :class="{ disable: !item.personalR }"
+                    >
+                      <span>{{ $t("message.gameFi.text98") }}</span>
+                      <BtnLoading :isloading="item.loading"></BtnLoading>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="update_title">
+      <span>{{ $t("message.gameFi.text106") }} {{ updateTime }} &nbsp;&nbsp; {{ $t("message.gameFi.text107") }}</span>
+    </div>
     <!-- PVE -->
     <div class="ranking_box ranking_box_box2 pc">
-      <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text33") }} </span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -100,7 +152,7 @@
                 </div>
                 <div>
                   <div>
-                    <span>{{ (item.totalR * 15) | numToFixed }}</span>
+                    <span>{{ item.totalR | numToFixed }}</span>
                   </div>
                 </div>
                 <div>
@@ -114,111 +166,11 @@
         </div>
       </div>
     </div>
-    <!-- PVP -->
-    <div class="ranking_box ranking_box_box3 pc">
-      <div class="ranking_title">
-        <div>{{ $t("message.gameFi.text35") }}</div>
-        <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
-          <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
-        </div>
-      </div>
-      <div class="outside_box">
-        <div class="in_box">
-          <div class="ranking_content">
-            <div class="col1">
-              <div>
-                <span> {{ $t("message.gameFi.text91") }}</span>
-              </div>
-              <div>
-                <span> {{ $t("message.gameFi.text35") }}</span>
-              </div>
-            </div>
-            <div class="col2">
-              <div class="row">
-                <div>
-                  <span>{{ $t("message.gameFi.text102") }}</span>
-                </div>
-                <div>
-                  <span>{{ $t("message.gameFi.text103") }}</span>
-                </div>
-                <div>
-                  <span>{{ $t("message.gameFi.text104") }}</span>
-                </div>
-              </div>
-              <div class="row">
-                <ul>
-                  <li v-for="(item, index) in PVPData2" :key="index">
-                    <div>
-                      <span>{{ item.rank }}</span>
-                    </div>
-                    <div>
-                      <span>{{ item.walletAddress | ellipsis }}</span>
-                    </div>
-                    <div>
-                      <span>{{ item.totalHc | numToFixed }}</span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- <div class="select_list">
-              <span>第1赛季</span>
-              <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-              <ul class="list">
-                <li>第1赛季</li>
-                <li>第2赛季</li>
-                <li>第3赛季</li>
-              </ul>
-            </div> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Reward Vault -->
-    <div class="ranking_box ranking_box_box1 mobile">
-      <span class="ranking_title">{{ $t("message.gameFi.text91") }}</span>
-      <div class="outside_box">
-        <div class="in_box">
-          <div class="ranking_content">
-            <div class="row">
-              <div>{{ $t("message.gameFi.text91") }}</div>
-            </div>
-            <div class="row">
-              <ul>
-                <li>
-                  <div></div>
-                  <div>{{ $t("message.gameFi.text92") }}</div>
-                  <div>{{ $t("message.gameFi.text93") }}</div>
-                </li>
-                <li v-for="(item, index) in RewardPoolData" :key="index">
-                  <div>
-                    {{ item.title }} <br />
-                    {{ item.totalR ? "" : $t("message.gameFi.text79") }}
-                  </div>
-                  <div>{{ item.totalR | numToFixed }}</div>
-                  <div>
-                    {{ item.personalR | numToFixed }}
-                    <div
-                      class="claim_btn"
-                      @click="extractableClick(item)"
-                      v-if="item.pool == 1 || item.pool == 2"
-                      :class="{ disable: !item.personalR }"
-                    >
-                      <span>{{ $t("message.gameFi.text98") }}</span>
-                      <BtnLoading :isloading="item.loading"></BtnLoading>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- PVE -->
     <div class="ranking_box ranking_box_box2 mobile">
-      <span class="ranking_title">{{ $t("message.gameFi.text33") }}</span>
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text33") }} </span>
+      </div>
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
@@ -238,7 +190,7 @@
                   <div>{{ $t("message.gameFi.text101") }} {{ index + 1 }}</div>
                   <div>{{ item.totalPassed }}</div>
                   <div>{{ item.passedOrNot ? "✓" : "x" }}</div>
-                  <div>{{ (item.totalR * 15) | numToFixed }}</div>
+                  <div>{{ item.totalR | numToFixed }}</div>
                   <div>{{ item.personalR | numToFixed }}</div>
                 </li>
               </ul>
@@ -248,13 +200,64 @@
       </div>
     </div>
     <!-- PVP -->
+    <div class="ranking_box ranking_box_box3 pc">
+      <div class="ranking_title">
+        <span>{{ $t("message.gameFi.text35") }}</span>
+        <span>
+          {{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }} &nbsp;&nbsp;&nbsp;&nbsp; {{ $t("message.gameFi.text97") }}:
+          {{ PVPData1.rank }}
+        </span>
+      </div>
+      <div class="outside_box">
+        <div class="in_box">
+          <div class="ranking_content">
+            <div class="col1">
+              <div>
+                <span> {{ $t("message.gameFi.text91") }}</span>
+              </div>
+              <div>
+                <span> {{ $t("message.gameFi.text35") }}</span>
+              </div>
+            </div>
+            <div class="col2">
+              <div class="row row_col">
+                <div>
+                  <span>{{ $t("message.gameFi.text102") }}</span>
+                </div>
+                <div>
+                  <span>{{ $t("message.gameFi.text103") }}</span>
+                </div>
+                <div>
+                  <span>{{ $t("message.gameFi.text104") }}</span>
+                </div>
+              </div>
+              <div class="row">
+                <ul>
+                  <li class="row_col" v-for="(item, index) in PVPData2" :key="index">
+                    <div>
+                      <span>{{ item.rank }}</span>
+                    </div>
+                    <div>
+                      <span>{{ item.walletAddress | ellipsis }}</span>
+                    </div>
+                    <div>
+                      <span>{{ item.totalHc | numToFixed }}</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- PVP -->
     <div class="ranking_box ranking_box_box3 mobile">
       <div class="ranking_title">
-        <div>{{ $t("message.gameFi.text35") }}</div>
-        <div>
-          <span>{{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }}</span>
-          <span>{{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}</span>
-        </div>
+        <span>{{ $t("message.gameFi.text35") }} </span>
+        <span>
+          {{ $t("message.gameFi.text96") }}: {{ PVPData1.totalHc | numToFixed }} &nbsp;&nbsp; {{ $t("message.gameFi.text97") }}: {{ PVPData1.rank }}
+        </span>
       </div>
       <div class="outside_box">
         <div class="in_box">
@@ -268,18 +271,13 @@
               <div>
                 <span>{{ $t("message.gameFi.text35") }}</span>
               </div>
-              <!-- <div>
+              <div class="row_col">
                 <div>{{ $t("message.gameFi.text102") }}</div>
                 <div>{{ $t("message.gameFi.text103") }}</div>
                 <div>{{ $t("message.gameFi.text104") }}</div>
-              </div> -->
+              </div>
               <ul>
-                <li>
-                  <div>{{ $t("message.gameFi.text102") }}</div>
-                  <div>{{ $t("message.gameFi.text103") }}</div>
-                  <div>{{ $t("message.gameFi.text104") }}</div>
-                </li>
-                <li v-for="(item, index) in PVPData2" :key="index">
+                <li class="row_col" v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
                   <div>{{ item.totalHc | numToFixed }}</div>
@@ -305,28 +303,29 @@ export default {
       proupDis: false, // 弹窗展示消失变量
       // 奖励池
       RewardPoolData: [
-        { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 20000, personalR: 0, loading: false }, // PVE
-        { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 20000, personalR: 0, loading: false }, // PVP
+        { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 1080 * 15, personalR: 0, loading: false }, // PVE
+        { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 720 * 15, personalR: 0, loading: false }, // PVP
         { title: `${this.$t("message.gameFi.text37")}`, pool: 3, totalR: 0, personalR: 0, loading: false }, // GVE
         { title: `${this.$t("message.gameFi.text39")}`, pool: 4, totalR: 0, personalR: 0, loading: false }, // GVG
         { title: `${this.$t("message.gameFi.text88")}`, pool: 5, totalR: 0, personalR: 0, loading: false }, // World BOSS
       ],
       // PVE
       PVEData: [
-        { charpterId: 1, totalPassed: 0, passedOrNot: false, totalR: 10.8, personalR: 0 },
-        { charpterId: 2, totalPassed: 0, passedOrNot: false, totalR: 21.6, personalR: 0 },
-        { charpterId: 3, totalPassed: 0, passedOrNot: false, totalR: 54, personalR: 0 },
-        { charpterId: 4, totalPassed: 0, passedOrNot: false, totalR: 108, personalR: 0 },
-        { charpterId: 5, totalPassed: 0, passedOrNot: false, totalR: 108, personalR: 0 },
-        { charpterId: 6, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
-        { charpterId: 7, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
-        { charpterId: 8, totalPassed: 0, passedOrNot: false, totalR: 216, personalR: 0 },
-        { charpterId: 9, totalPassed: 0, passedOrNot: false, totalR: 129.6, personalR: 0 },
+        { charpterId: 1, totalPassed: 0, passedOrNot: false, totalR: 10.8 * 15, personalR: 0 },
+        { charpterId: 2, totalPassed: 0, passedOrNot: false, totalR: 21.6 * 15, personalR: 0 },
+        { charpterId: 3, totalPassed: 0, passedOrNot: false, totalR: 54 * 15, personalR: 0 },
+        { charpterId: 4, totalPassed: 0, passedOrNot: false, totalR: 108 * 15, personalR: 0 },
+        { charpterId: 5, totalPassed: 0, passedOrNot: false, totalR: 108 * 15, personalR: 0 },
+        { charpterId: 6, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
+        { charpterId: 7, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
+        { charpterId: 8, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
+        { charpterId: 9, totalPassed: 0, passedOrNot: false, totalR: 129.6 * 15, personalR: 0 },
       ],
       // PVP
       PVPData1: { rank: 0, totalHc: 0 },
       PVPData2: [],
       HCUnitPrice: 0,
+      updateTime: "",
     };
   },
   computed: {
@@ -353,6 +352,8 @@ export default {
     },
   },
   created() {
+    // 只显示UTC 0点12点整点时间
+    this.updateTime = new Date(Math.floor(new Date().getTime() / 43200000) * 43200000).toLocaleString("en");
     this.queryHWWEPool();
     this.queryPVEData();
     this.queryPVPData();
@@ -461,7 +462,7 @@ export default {
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
             if (element.pool == 1) {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              element.personalR = Number(this.$common.convertBigNumberToNormal(res.toString(), 5));
             }
           });
         })
@@ -476,7 +477,7 @@ export default {
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
             if (element.pool == 2) {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              element.personalR = Number(this.$common.convertBigNumberToNormal(res.toString(), 5));
             }
           });
         })
@@ -491,7 +492,7 @@ export default {
         .then((res) => {
           this.RewardPoolData.forEach((element) => {
             if (element.pool == 5) {
-              element.personalR = this.$common.convertBigNumberToNormal(res.toString(), 2);
+              element.personalR = Number(this.$common.convertBigNumberToNormal(res.toString(), 5));
             }
           });
         })
@@ -637,10 +638,20 @@ export default {
   box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
   border-radius: 6px;
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 30px;
   font-size: 0;
   .ranking_title {
-    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > span {
+      &:nth-child(1) {
+        font-size: 26px;
+      }
+      &:nth-child(2) {
+        font-size: 18px;
+      }
+    }
   }
   .ranking_content {
     width: 100%;
@@ -668,7 +679,10 @@ export default {
     height: 15px;
   }
 }
-
+.update_title {
+  font-size: 20px;
+  margin-top: 50px;
+}
 .ranking_box_box1.pc {
   .ranking_content {
     display: flex;
@@ -729,7 +743,6 @@ export default {
             height: 100%;
             background: #3d4f64;
             border-radius: 6px;
-
             display: flex;
             align-items: center;
             justify-content: center;
@@ -745,7 +758,7 @@ export default {
       display: flex;
       overflow-x: scroll;
       .row {
-        min-width: 120px;
+        min-width: 90px;
         width: calc(100% / 9);
         > div {
           height: 50px;
@@ -765,20 +778,6 @@ export default {
   }
 }
 .ranking_box_box3.pc {
-  .ranking_title {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    div {
-      &:nth-child(2) {
-        font-size: 20px;
-        span {
-          margin-left: 50px;
-        }
-      }
-    }
-  }
   .ranking_content {
     font-size: 12px;
     .col1 {
@@ -805,7 +804,7 @@ export default {
     }
     .col2 {
       width: calc(100% / 6 * 5);
-      // overflow-x: scroll;
+
       .row {
         width: 100%;
         border-radius: 6px;
@@ -818,20 +817,12 @@ export default {
           display: flex;
           align-items: center;
           > div {
-            // min-width: 400px;
             height: 100%;
             background: #082545;
             padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            &:nth-child(1),
-            &:nth-child(2),
-            &:nth-child(3) {
-              width: 50%;
-            }
           }
         }
+
         &:nth-child(2) {
           min-height: 100px;
           height: 200px;
@@ -847,19 +838,30 @@ export default {
               display: flex;
               align-items: center;
               > div {
-                // min-width: 400px;
                 height: 100%;
                 padding: 5px 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                &:nth-child(1),
-                &:nth-child(2),
-                &:nth-child(3) {
-                  width: 50%;
-                }
               }
             }
+          }
+        }
+      }
+      .row_col {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &:nth-child(1) {
+            width: 30%;
+          }
+          &:nth-child(2) {
+            width: 40%;
+          }
+          &:nth-child(3) {
+            width: 30%;
           }
         }
       }
@@ -867,59 +869,15 @@ export default {
   }
 }
 
-.select_list {
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .accrow {
-    margin-left: 10px;
-    width: 15px;
-    height: auto;
-    transform: rotate(-90deg);
-    transition: all 0.3s;
-  }
-  ul {
-    width: 100%;
-    height: auto;
-    background: #082545;
-    box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-    border-radius: 0 0 6px 6px;
-    overflow: hidden;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    transform: scaleY(0);
-    transition: transform 0.2s;
-    transform-origin: top center;
-    li {
-      font-size: 16px;
-      // height: $singleMediumCellHeight;
-      // line-height: $singleMediumCellHeight;
-      &:hover {
-        background: #00e7f0;
-      }
-    }
-  }
-  &:hover {
-    .accrow {
-      transform: rotate(0);
-    }
-    ul {
-      transform: scaleY(1);
-    }
-  }
-}
 @media screen and (max-width: 980px) {
   // 重置滚动条样式
   ::-webkit-scrollbar {
-    width: 0.01rem;
-    height: 0.01rem;
+    width: 0.05rem;
+    height: 0.05rem;
   }
   ::-webkit-scrollbar-thumb {
     background: #68b0c8;
-    border-radius: 0.01rem;
+    border-radius: 0.05rem;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
@@ -932,21 +890,35 @@ export default {
   }
   .ranking_box {
     padding: 0.1rem;
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
     .ranking_title {
-      font-size: 18px;
+      flex-wrap: wrap;
+      > span {
+        &:nth-child(1) {
+          width: 100%;
+          font-size: 0.2rem;
+        }
+        &:nth-child(2) {
+          font-size: 0.12rem;
+          font-weight: 100;
+        }
+      }
     }
     .ranking_content {
       display: block;
     }
   }
-
+  .update_title {
+    font-size: 0.15rem;
+    margin-top: 0.5rem;
+  }
   .claim_btn {
     cursor: pointer;
     background: #29cdda;
     border-radius: 0.07rem;
     padding: 0.02rem 0.05rem;
     font-size: 0.12rem;
+    margin-left: 1em;
     .donut {
       width: 0.1rem;
       height: 0.1rem;
@@ -1029,7 +1001,7 @@ export default {
             border-radius: 0;
           }
           div {
-            min-width: 1rem;
+            min-width: 0.8rem;
             width: 20%;
             height: 0.3rem;
             margin: 0 0.05rem 0.05rem 0;
@@ -1049,18 +1021,6 @@ export default {
 
   .ranking_box_box3.mobile {
     font-size: 12px;
-    .ranking_title {
-      flex-wrap: wrap;
-      div {
-        &:nth-child(2) {
-          font-size: 12px;
-          text-align: right;
-          span {
-            margin-left: 0.2rem;
-          }
-        }
-      }
-    }
     .ranking_content {
       .row {
         width: 100%;
@@ -1074,6 +1034,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          // justify-content: start;
         }
         &:nth-child(2) {
           > div {
@@ -1084,27 +1045,32 @@ export default {
           }
         }
       }
-      .row:nth-child(2) > div:nth-child(2) div,
-      ul li > div {
+
+      .row_col {
         width: 100%;
-        &:nth-child(1),
-        &:nth-child(2),
-        &:nth-child(3) {
-          min-width: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > div {
+          &:nth-child(1) {
+            width: 30%;
+          }
+          &:nth-child(2) {
+            width: 40%;
+          }
+          &:nth-child(3) {
+            width: 30%;
+          }
         }
       }
       ul {
         width: 100%;
-        min-height: 0.5rem;
-        max-height: 3rem;
-        overflow-x: auto;
+        // height: 0.5rem;
+        min-height: 1rem;
+        max-height: 4rem;
         overflow-y: auto;
         font-weight: 100;
         li {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           > div {
             height: 100%;
             padding: 5px 0;

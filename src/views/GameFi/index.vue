@@ -23,17 +23,16 @@
       <div class="btn_group fontsize14">
         <div @click="openLoginOrRegistered" v-if="!loginRegisterStatus">
           <!-- Sign In / Register -->
-          <!-- <span v-if="isProd"> {{ $t("message.gameFi.text13") }}</span> -->
           <span> {{ $t("message.gameFi.text13") }} / {{ $t("message.gameFi.text22") }}</span>
         </div>
-        <div v-if="!isProd" @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
+        <div @click="openRecharge">{{ $t("message.gameFi.text66") }}</div>
         <div @click="openDownload">{{ $t("message.gameFi.text46") }}</div>
       </div>
     </div>
     <div class="game_main">
       <div class="game_introduction">
         <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
-        <div class="game_tab" v-if="!isProd">
+        <div class="game_tab">
           <div>
             <div>{{ $t("message.gameFi.text50") }}</div>
             <div>{{ $t("message.gameFi.text81") }}</div>
@@ -83,7 +82,7 @@
           </ul>
         </div>
       </div>
-      <RewardRanking v-if="!isProd"></RewardRanking>
+      <RewardRanking></RewardRanking>
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>
@@ -95,8 +94,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import LoginRegister from "./loginRegister.vue";
-import Recharge from "./recharge.vue";
+import LoginRegister from "./components/loginRegister.vue";
+import Recharge from "./components/recharge.vue";
 import RewardRanking from "./components/rewardRanking.vue";
 export default {
   components: { LoginRegister, Recharge, RewardRanking },
@@ -110,16 +109,12 @@ export default {
       loginRegisterStatus: false,
       mailAccount: "",
       ranking1select: "",
-      isProd: false,
     };
   },
   computed: {
     ...mapGetters(["getAccount"]),
   },
   created() {
-    this.isProd = process.env.NODE_ENV === "production" ? true : false;
-    // console.log(process.env.NODE_ENV, this.isProd ? "正式环境" : "开发环境");
-
     if (localStorage.getItem("hashlandGameFiInfo")) {
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       this.loginRegisterStatus = true; // 已登录
