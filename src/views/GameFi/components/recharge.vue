@@ -134,6 +134,7 @@ export default {
     getMaxHC() {
       this.HCBalance = 0;
       this.getmaxbtnloading = true;
+      this.HCBalance = 0;
       erc20(token().HC)
         .balanceOf(this.getAccount)
         .then((res) => {
