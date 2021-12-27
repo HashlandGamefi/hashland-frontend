@@ -45,7 +45,6 @@ export default {
       this.proupDis = false
     },
     tabClick(index){
-      console.log('index: ', index);
       if(index != 0){
         this.$common.selectLang("敬请期待", "Coming soon", this);
         return

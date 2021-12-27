@@ -201,7 +201,7 @@ export default {
     },
     // 菜单栏切换状态
     menuClick(index) {
-      console.log('index: ', index);
+
       if (index == 0) {
         this.mobile_menuDis = !this.mobile_menuDis;
         this.InitialStatus = false;

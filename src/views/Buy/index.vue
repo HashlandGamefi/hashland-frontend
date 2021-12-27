@@ -56,7 +56,6 @@ export default {
   },
   methods:{
     tabClick(index){
-      console.log('index: ', index);
       if(localStorage.getItem('routerIndex')){
         this.$router.push(`/buy/${index}/${localStorage.getItem('routerIndex')}`)
       }else{

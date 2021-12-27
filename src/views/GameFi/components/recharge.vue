@@ -113,6 +113,7 @@ export default {
               this
             );
           } else {
+            if (this.proupDis) this.proupDis = false;
             this.getMaxHC();
           }
         }
