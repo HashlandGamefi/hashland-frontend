@@ -262,6 +262,8 @@ export const message = {
     txt19: "20% of the HC that players recharge in the game",
     txt20: "For market promotion",
     txt21: "DAO Vault Contract:",
+    txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
+    txt23: "Total Power Value"
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
