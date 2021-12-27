@@ -248,6 +248,8 @@ export const message = {
     txt18: "20% of the BTC mining machine output",
     txt19: "20% of the HC that the player recharges in the game",
     txt20: "For market promotion",
+    txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
+    txt23: "Total Power Value"
   },
   buy1: "购买记录",
   buy2: "购买NFT卡牌",

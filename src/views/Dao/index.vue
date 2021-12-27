@@ -21,18 +21,28 @@
         {{ $t("message.dao.txt5") }}
       </div>
     </div>
+    <Lottie :options="defaultOptions" :width="400" :height="400" v-on:animCreated="handleAnimation"/>
     <VoteCom v-if="tabIndex == 0"></VoteCom>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 <script>
+import Lottie from '@/components/lottie.vue'
+import animationData from '@/assets/common/data1.json' // 引入json文件
 import VoteCom from './VoteCom.vue'
 export default {
   components: {
-    VoteCom
+    VoteCom,
+    Lottie
   },
   data () {
     return {
+      defaultOptions: {
+        animationData: animationData,
+        autoplay: false,
+        loop: true
+      },
+      // anim:{},
       tabIndex: 0,//tab索引
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
@@ -45,14 +55,18 @@ export default {
       this.proupDis = false
     },
     tabClick(index){
-      console.log('index: ', index);
       if(index != 0){
         this.$common.selectLang("敬请期待", "Coming soon", this);
         return
       }
       this.tabIndex = index
     },
-  },
+    handleAnimation(anim) {
+		  this.anim = anim;
+			console.log('anim',anim); //这里可以看到 lottie 对象的全部属性
+			this.anim.play();
+		},
+  }
 }
 </script>
 <style lang='scss' scoped>

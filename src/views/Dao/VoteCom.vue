@@ -123,7 +123,7 @@ export default {
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
       infoArr: [
-        { desc: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100", title: "Total Power Value", num: "20,000,000", loading: false, isshowimg: false },
+        { desc: "message.dao.txt22", title: "message.dao.txt23", num: "20,000,000", loading: false, isshowimg: false },
         { desc: "message.dao.txt18", title: "message.dao.txt9", num: 0, loading: true, isshowimg: false },
         { desc: "message.dao.txt18_1", title: "message.dao.txt9_2", num: 0, loading: true, isshowimg: false },
         { desc: "message.dao.txt20", title: "message.dao.txt15", num: 0, loading: true, isshowimg: false },
@@ -195,7 +195,7 @@ export default {
         .then((res) => {
           // console.log('btc的余额res: ', res,util.formatEther(res));
           let btc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.btc, 2);
-          console.log("btc_balance: ", btc_balance);
+          // console.log("btc_balance: ", btc_balance);
           this.infoArr[1].num = this.$common.numFormat(btc_balance);
           this.infoArr[1].loading = false;
         })
@@ -206,9 +206,9 @@ export default {
       erc20(token().HC)
         .balanceOf("0x5461348662229e316fCa1880890946338100731B")
         .then((res) => {
-          console.log("hc的余额res: ", res);
+          // console.log("hc的余额res: ", res);
           let hc_balance = this.$common.getBit(util.formatEther(res) * this.getCoinPrice.hc, 2);
-          console.log("hc_balance: ", hc_balance);
+          // console.log("hc_balance: ", hc_balance);
           this.infoArr[4].num = this.$common.numFormat(hc_balance);
           this.infoArr[4].loading = false;
         })
@@ -219,7 +219,7 @@ export default {
       erc20(token().BUSD)
         .balanceOf("0x5461348662229e316fCa1880890946338100731B")
         .then((res) => {
-          console.log("busd的余额res: ", res);
+          // console.log("busd的余额res: ", res);
           this.infoArr[3].num = this.$common.numFormat(this.$common.getBit(util.formatEther(res), 2));
           this.infoArr[3].loading = false;
         })
