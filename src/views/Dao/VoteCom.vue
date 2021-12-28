@@ -122,7 +122,8 @@ export default {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      infoArr: [{ desc: "message.dao.txt22", title: "message.dao.txt23", num: "20,000,000", loading: false, isshowimg: false },
+      infoArr: [
+        { desc: "message.dao.txt22", title: "message.dao.txt23", num: "20,000,000", loading: false, isshowimg: false },
         { desc: "message.dao.txt18", title: "message.dao.txt9", num: 0, loading: true, isshowimg: false },
         { desc: "message.dao.txt18_1", title: "message.dao.txt9_2", num: 0, loading: true, isshowimg: false },
         { desc: "message.dao.txt20", title: "message.dao.txt15", num: 0, loading: true, isshowimg: false },
