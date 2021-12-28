@@ -145,7 +145,10 @@ export default {
       extractDis:false,// 提取按钮loading
       synthesisDis:false,//质押弹窗loading
       hclpApprove:false,// hclp是否授权
-      hc_timernull:null
+      hc_timernull:null,
+      timer_object:null ,//按钮可以点倒计时对象
+      startime:1640685600,// 按钮可以点时间
+      disable_btn:false,//按钮默认不能点
     }
   },
   computed: {
@@ -257,7 +260,7 @@ export default {
     },
     // 质押
     pledgeClick(){
-      if(process.env.NODE_ENV == 'production'){
+      if(!this.disable_btn){
         this.$common.selectLang('敬请期待','Coming soon',this)
         return
       }
@@ -283,7 +286,7 @@ export default {
     },
     // 解除
     removeClick(){
-      if(process.env.NODE_ENV == 'production'){
+      if(!this.disable_btn){
         this.$common.selectLang('敬请期待','Coming soon',this)
         return
       }
@@ -296,7 +299,7 @@ export default {
     },
     // 提取
     extractClick(){
-      if(process.env.NODE_ENV == 'production'){
+      if(!this.disable_btn){
         this.$common.selectLang('敬请期待','Coming soon',this)
         return
       }
@@ -426,9 +429,19 @@ export default {
   },
   beforeDestroy(){
     clearInterval(this.timernull)
+    clearInterval(this.timer_object)
   },
   mounted(){
     this.getInfo()
+    this.$common.customTime(this.startime,res => {
+      console.log('倒计时res: ', res);
+      if(res == 1){
+        this.disable_btn = true
+      }else{
+        this.timer_object = res
+        this.disable_btn = false
+      }
+    })
   }
 }
 </script>
