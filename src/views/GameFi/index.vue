@@ -325,8 +325,8 @@ export default {
   }
   .player_box1 {
     box-sizing: content-box;
-    width: 70vw;
-    height: 40vw;
+    width: 50vw;
+    height: 30vw;
     background-image: url("//cdn.hashland.com/images/gamevideoborder.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
