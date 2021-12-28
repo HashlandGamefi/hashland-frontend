@@ -147,7 +147,7 @@ export default {
       hclpApprove:false,// hclp是否授权
       hc_timernull:null,
       timer_object:null ,//按钮可以点倒计时对象
-      startime:1640685600,// 按钮可以点时间
+      startime:1640683920,// 按钮可以点时间
       disable_btn:false,//按钮默认不能点
     }
   },
