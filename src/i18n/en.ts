@@ -390,7 +390,7 @@ export const message = {
     text88: "World Boss",
     text89: "Once users recharge up to the goal",
     text90: "Reward Vault",
-    text91: "Season 1",
+    text91: "12/25/2021 - 1/8/2022",
     text92: "Season reward",
     text93: "Individual rewards",
     text94: "Chapter rewards",

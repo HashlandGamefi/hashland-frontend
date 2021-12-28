@@ -147,7 +147,7 @@ export default {
       hclpApprove:false,// hclp是否授权
       hc_timernull:null,
       timer_object:null ,//按钮可以点倒计时对象
-      startime:1640684100,// 按钮可以点时间
+      startime:1640692800,// 按钮可以点时间----2021-12-28
       disable_btn:false,//按钮默认不能点
     }
   },
@@ -215,7 +215,6 @@ export default {
         this.synthesisDis = true
         console.log('用户质押的数额', this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
         hclpPool().connect(getSigner()).deposit(this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(async res => {
-
           console.log('用户质押HCLP---res: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
@@ -356,7 +355,6 @@ export default {
             this.hcnumShow = num.substring(num.indexOf('.') + 1,num.length)
             this.hcStarValue = this.extactNUm
             this.extactNUm = Number(num)
-
             // this.extactNUm = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
           }
         })
@@ -409,7 +407,6 @@ export default {
       console.log('hclp_balance: ', hclp_balance);
       let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
       console.log('hclp_totalSupply: ', hclp_totalSupply);
-
       erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
         this.$common.checkNumber(((res / 1e18) * 2).toString(), res1 => {
           this.mobility = res1
@@ -423,8 +420,6 @@ export default {
         console.log('流通量err: ', err);
         this.mobility = 0
       })
-
-
     }
   },
   beforeDestroy(){
