@@ -7,33 +7,29 @@
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <!-- <div class="bottom">
-          <div class="five_pointed_star">
-            <img :src="`${$store.state.imgUrl}start.png`"  v-for="(item1,index1) in Number(item.level)" :key="index1" class="start_img" />
-          </div>
-          <div class="hc_coefficient">
-            <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-            <span class="span1 fontsize12_400">{{item.hc}}</span>
-          </div>
-          <div class="hc_coefficient">
-            <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-            <span class="span1 fontsize12_400">{{item.btc}}</span>
-          </div>
-        </div> -->
+        <Lottie :options="defaultOptions" :width="256" v-on:animCreated="handleAnimation" class="positon_absoult"/>
       </div>
       <NoData v-if="$route.query.num == 0"></NoData>
     </div>
-    <!-- <span class="bottom_title fontsize12" v-if="boxarr.length > 0">{{$t("message.details1")}}</span>
-    <div class="connect_box fontsize18" v-if="boxarr.length > 0">{{$t("message.button1")}}</div> -->
   </div>
 </template>
 
 <script>
+import Lottie from '@/components/lottie.vue'
+import animationData from '@/assets/common/data1.json' // 引入json文件
 import { mapGetters } from "vuex";
 export default {
+  components: {
+    Lottie
+  },
   data () {
     return {
-      boxarr:[]
+      boxarr:[],
+      defaultOptions: {
+        animationData: animationData,
+        autoplay: false,
+        loop: true
+      },
     }
   },
   computed: {
@@ -77,7 +73,12 @@ export default {
     },
     back(){
       this.$router.go(-1)
-    }
+    },
+    handleAnimation(anim) {
+		  this.anim = anim;
+			console.log('anim',anim); //这里可以看到 lottie 对象的全部属性
+			this.anim.play();
+		},
   }
 }
 </script>
@@ -125,37 +126,10 @@ export default {
         width: 100%;
         object-fit: contain;
       }
-      .bottom{
+      .positon_absoult{
         position: absolute;
         top: 0;
-        display: flex;
-        align-items: center;
-        padding:10px 8px;
-        transform: scale(0.5);
-        border-radius: 15px;
-        .five_pointed_star{
-          display: flex;
-          align-items: center;
-          .start_img{
-            width: 26px;
-            object-fit: contain;
-          }
-        }
-        .hc_coefficient{
-          display: flex;
-          align-items: center;
-          background: #302F2E;
-          box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-          border-radius: 4px;
-          margin-right: 5px;
-          .imgcard{
-            width: 43px;
-            object-fit: contain;
-          }
-          .span1{
-            color: #FFFFFF;
-          }
-        }
+        left: 0;
       }
     }
   }
@@ -224,38 +198,6 @@ export default {
         .imgcard{
           width: 100%;
           object-fit: contain;
-        }
-        .bottom{
-          position: absolute;
-          top: 0.2rem;
-          display: flex;
-          align-items: center;
-          padding:0.1rem 0.08rem;
-          transform:translate(0,-50%) scale(0.4);
-          .five_pointed_star{
-            display: flex;
-            align-items: center;
-            .start_img{
-              width: 0.18rem;
-              object-fit: contain;
-            }
-          }
-          .hc_coefficient{
-            display: flex;
-            align-items: center;
-            background: #302F2E;
-            box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.78);
-            margin-right: 0;
-            border-radius: 0.25rem;
-            .imgcard{
-              width: 0.23rem;
-              object-fit: contain;
-            }
-            .span1{
-              color: #FFFFFF;
-              margin:0 0.05rem;
-            }
-          }
         }
       }
     }
