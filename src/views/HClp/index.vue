@@ -267,7 +267,7 @@ export default {
       this.tiptxt = ''
       erc20(token().HCLP).balanceOf(this.getAccount).then(res => {
         console.log('用户hclp余额res: ', res.toString());
-        let nums = this.$common.useBigNumberDiv(res.toString())
+        let nums = this.$common.convertBigNumberToNormal(res.toString(),8)
         console.log('nums: ', nums);
         if (res / 1e18 < 1e-8) {
           this.userbalance = 0
