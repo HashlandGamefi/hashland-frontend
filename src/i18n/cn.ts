@@ -368,7 +368,7 @@ export const message = {
     text88: "World Boss",
     text89: "Once users recharge up to the goal",
     text90: "奖励池",
-    text91: "12/25/2021 - 1/8/2022",
+    text91: "第1赛季",
     text92: "赛季总奖励",
     text93: "赛季个人奖励",
     text94: "赛季每章总奖励",
