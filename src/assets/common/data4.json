@@ -1,1 +1,524 @@
-{"v":"5.8.1","fr":30,"ip":0,"op":34,"w":1024,"h":1024,"nm":"蝴蝶1","ddd":0,"assets":[{"id":"image_0","w":1024,"h":1024,"u":"images/","p":"img_0.png","e":0},{"id":"video_0","w":1920,"h":1080,"u":"images/","p":"vid_0.mov","e":0}],"layers":[{"ddd":0,"ind":2,"ty":9,"nm":"4级特效.mov","cl":"mov","refId":"video_0","sr":1,"ks":{"o":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"t":4,"s":[61]},{"t":13,"s":[0]}],"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[512,512,0],"ix":2,"l":2},"a":{"a":0,"k":[960,540,0],"ix":1,"l":2},"s":{"a":0,"k":[82.917,91.852,100],"ix":6,"l":2}},"ao":0,"ef":[{"ty":5,"nm":"转换通道","np":6,"mn":"ADBE Shift Channels","ix":1,"en":1,"ef":[{"ty":7,"nm":"从 获取 Alpha","mn":"ADBE Shift Channels-0001","ix":1,"v":{"a":0,"k":5,"ix":1}},{"ty":7,"nm":"从 获取红色","mn":"ADBE Shift Channels-0002","ix":2,"v":{"a":0,"k":2,"ix":2}},{"ty":7,"nm":"从 获取绿色","mn":"ADBE Shift Channels-0003","ix":3,"v":{"a":0,"k":3,"ix":3}},{"ty":7,"nm":"从 获取蓝色","mn":"ADBE Shift Channels-0004","ix":4,"v":{"a":0,"k":4,"ix":4}}]},{"ty":5,"nm":"移除颜色遮罩","np":4,"mn":"ADBE Remove Color Matting","ix":2,"en":1,"ef":[{"ty":2,"nm":"背景颜色","mn":"ADBE Remove Color Matting-0001","ix":1,"v":{"a":0,"k":[0,0,0,0],"ix":1}},{"ty":7,"nm":"剪切","mn":"ADBE Remove Color Matting-0002","ix":2,"v":{"a":0,"k":1,"ix":2}}]},{"ty":5,"nm":"色相/饱和度","np":11,"mn":"ADBE HUE SATURATION","ix":3,"en":1,"ef":[{"ty":7,"nm":"通道控制","mn":"ADBE HUE SATURATION-0002","ix":1,"v":{"a":0,"k":1,"ix":1}},{},{"ty":0,"nm":"主色相","mn":"ADBE HUE SATURATION-0004","ix":3,"v":{"a":0,"k":-131,"ix":3}},{"ty":0,"nm":"主饱和度","mn":"ADBE HUE SATURATION-0005","ix":4,"v":{"a":0,"k":0,"ix":4}},{"ty":0,"nm":"主亮度","mn":"ADBE HUE SATURATION-0006","ix":5,"v":{"a":0,"k":0,"ix":5}},{"ty":7,"nm":"彩色化","mn":"ADBE HUE SATURATION-0007","ix":6,"v":{"a":0,"k":0,"ix":6}},{"ty":0,"nm":"着色色相","mn":"ADBE HUE SATURATION-0008","ix":7,"v":{"a":0,"k":0,"ix":7}},{"ty":0,"nm":"着色饱和度","mn":"ADBE HUE SATURATION-0009","ix":8,"v":{"a":0,"k":25,"ix":8}},{"ty":0,"nm":"着色亮度","mn":"ADBE HUE SATURATION-0010","ix":9,"v":{"a":0,"k":0,"ix":9}}]}],"ip":-59,"op":14,"st":-79,"bm":0},{"ddd":0,"ind":3,"ty":9,"nm":"4级特效.mov","cl":"mov","refId":"video_0","sr":1,"ks":{"o":{"a":0,"k":55,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[512,512,0],"ix":2,"l":2},"a":{"a":0,"k":[960,540,0],"ix":1,"l":2},"s":{"a":0,"k":[82.917,91.852,100],"ix":6,"l":2}},"ao":0,"ef":[{"ty":5,"nm":"转换通道","np":6,"mn":"ADBE Shift Channels","ix":1,"en":1,"ef":[{"ty":7,"nm":"从 获取 Alpha","mn":"ADBE Shift Channels-0001","ix":1,"v":{"a":0,"k":5,"ix":1}},{"ty":7,"nm":"从 获取红色","mn":"ADBE Shift Channels-0002","ix":2,"v":{"a":0,"k":2,"ix":2}},{"ty":7,"nm":"从 获取绿色","mn":"ADBE Shift Channels-0003","ix":3,"v":{"a":0,"k":3,"ix":3}},{"ty":7,"nm":"从 获取蓝色","mn":"ADBE Shift Channels-0004","ix":4,"v":{"a":0,"k":4,"ix":4}}]},{"ty":5,"nm":"移除颜色遮罩","np":4,"mn":"ADBE Remove Color Matting","ix":2,"en":1,"ef":[{"ty":2,"nm":"背景颜色","mn":"ADBE Remove Color Matting-0001","ix":1,"v":{"a":0,"k":[0,0,0,0],"ix":1}},{"ty":7,"nm":"剪切","mn":"ADBE Remove Color Matting-0002","ix":2,"v":{"a":0,"k":1,"ix":2}}]},{"ty":5,"nm":"色相/饱和度","np":11,"mn":"ADBE HUE SATURATION","ix":3,"en":1,"ef":[{"ty":7,"nm":"通道控制","mn":"ADBE HUE SATURATION-0002","ix":1,"v":{"a":0,"k":1,"ix":1}},{},{"ty":0,"nm":"主色相","mn":"ADBE HUE SATURATION-0004","ix":3,"v":{"a":0,"k":-126,"ix":3}},{"ty":0,"nm":"主饱和度","mn":"ADBE HUE SATURATION-0005","ix":4,"v":{"a":0,"k":11,"ix":4}},{"ty":0,"nm":"主亮度","mn":"ADBE HUE SATURATION-0006","ix":5,"v":{"a":0,"k":0,"ix":5}},{"ty":7,"nm":"彩色化","mn":"ADBE HUE SATURATION-0007","ix":6,"v":{"a":0,"k":0,"ix":6}},{"ty":0,"nm":"着色色相","mn":"ADBE HUE SATURATION-0008","ix":7,"v":{"a":0,"k":0,"ix":7}},{"ty":0,"nm":"着色饱和度","mn":"ADBE HUE SATURATION-0009","ix":8,"v":{"a":0,"k":25,"ix":8}},{"ty":0,"nm":"着色亮度","mn":"ADBE HUE SATURATION-0010","ix":9,"v":{"a":0,"k":0,"ix":9}}]}],"ip":3,"op":83,"st":-10,"bm":0},{"ddd":0,"ind":4,"ty":2,"nm":"4级前景4.png","cl":"png","refId":"image_0","sr":1,"ks":{"o":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"t":0,"s":[100]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"t":20,"s":[20]},{"t":33,"s":[100]}],"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[512,512,0],"ix":2,"l":2},"a":{"a":0,"k":[512,512,0],"ix":1,"l":2},"s":{"a":0,"k":[100,100,100],"ix":6,"l":2}},"ao":0,"ip":-1,"op":34,"st":12,"bm":0}],"markers":[]}
+{
+  "v": "5.8.1",
+  "fr": 30,
+  "ip": 0,
+  "op": 34,
+  "w": 1024,
+  "h": 1024,
+  "nm": "蝴蝶1",
+  "ddd": 0,
+  "assets": [{
+    "id": "image_0",
+    "w": 1024,
+    "h": 1024,
+    
+    "p": "https://cdn.hashland.com/testimgs/lv4_img_0.png",
+    "e": 0
+  }, {
+    "id": "video_0",
+    "w": 1920,
+    "h": 1080,
+    "p": "https://cdn.hashland.com/testimgs/lv4_vid_0.mov",
+    "e": 0
+  }],
+  "layers": [{
+    "ddd": 0,
+    "ind": 2,
+    "ty": 9,
+    "nm": "4级特效.mov",
+    "cl": "mov",
+    "refId": "video_0",
+    "sr": 1,
+    "ks": {
+      "o": {
+        "a": 1,
+        "k": [{
+          "i": {
+            "x": [0.833],
+            "y": [0.833]
+          },
+          "o": {
+            "x": [0.167],
+            "y": [0.167]
+          },
+          "t": 4,
+          "s": [61]
+        }, {
+          "t": 13,
+          "s": [0]
+        }],
+        "ix": 11
+      },
+      "r": {
+        "a": 0,
+        "k": 0,
+        "ix": 10
+      },
+      "p": {
+        "a": 0,
+        "k": [512, 512, 0],
+        "ix": 2,
+        "l": 2
+      },
+      "a": {
+        "a": 0,
+        "k": [960, 540, 0],
+        "ix": 1,
+        "l": 2
+      },
+      "s": {
+        "a": 0,
+        "k": [82.917, 91.852, 100],
+        "ix": 6,
+        "l": 2
+      }
+    },
+    "ao": 0,
+    "ef": [{
+      "ty": 5,
+      "nm": "转换通道",
+      "np": 6,
+      "mn": "ADBE Shift Channels",
+      "ix": 1,
+      "en": 1,
+      "ef": [{
+        "ty": 7,
+        "nm": "从 获取 Alpha",
+        "mn": "ADBE Shift Channels-0001",
+        "ix": 1,
+        "v": {
+          "a": 0,
+          "k": 5,
+          "ix": 1
+        }
+      }, {
+        "ty": 7,
+        "nm": "从 获取红色",
+        "mn": "ADBE Shift Channels-0002",
+        "ix": 2,
+        "v": {
+          "a": 0,
+          "k": 2,
+          "ix": 2
+        }
+      }, {
+        "ty": 7,
+        "nm": "从 获取绿色",
+        "mn": "ADBE Shift Channels-0003",
+        "ix": 3,
+        "v": {
+          "a": 0,
+          "k": 3,
+          "ix": 3
+        }
+      }, {
+        "ty": 7,
+        "nm": "从 获取蓝色",
+        "mn": "ADBE Shift Channels-0004",
+        "ix": 4,
+        "v": {
+          "a": 0,
+          "k": 4,
+          "ix": 4
+        }
+      }]
+    }, {
+      "ty": 5,
+      "nm": "移除颜色遮罩",
+      "np": 4,
+      "mn": "ADBE Remove Color Matting",
+      "ix": 2,
+      "en": 1,
+      "ef": [{
+        "ty": 2,
+        "nm": "背景颜色",
+        "mn": "ADBE Remove Color Matting-0001",
+        "ix": 1,
+        "v": {
+          "a": 0,
+          "k": [0, 0, 0, 0],
+          "ix": 1
+        }
+      }, {
+        "ty": 7,
+        "nm": "剪切",
+        "mn": "ADBE Remove Color Matting-0002",
+        "ix": 2,
+        "v": {
+          "a": 0,
+          "k": 1,
+          "ix": 2
+        }
+      }]
+    }, {
+      "ty": 5,
+      "nm": "色相/饱和度",
+      "np": 11,
+      "mn": "ADBE HUE SATURATION",
+      "ix": 3,
+      "en": 1,
+      "ef": [{
+        "ty": 7,
+        "nm": "通道控制",
+        "mn": "ADBE HUE SATURATION-0002",
+        "ix": 1,
+        "v": {
+          "a": 0,
+          "k": 1,
+          "ix": 1
+        }
+      }, {}, {
+        "ty": 0,
+        "nm": "主色相",
+        "mn": "ADBE HUE SATURATION-0004",
+        "ix": 3,
+        "v": {
+          "a": 0,
+          "k": -131,
+          "ix": 3
+        }
+      }, {
+        "ty": 0,
+        "nm": "主饱和度",
+        "mn": "ADBE HUE SATURATION-0005",
+        "ix": 4,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 4
+        }
+      }, {
+        "ty": 0,
+        "nm": "主亮度",
+        "mn": "ADBE HUE SATURATION-0006",
+        "ix": 5,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 5
+        }
+      }, {
+        "ty": 7,
+        "nm": "彩色化",
+        "mn": "ADBE HUE SATURATION-0007",
+        "ix": 6,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 6
+        }
+      }, {
+        "ty": 0,
+        "nm": "着色色相",
+        "mn": "ADBE HUE SATURATION-0008",
+        "ix": 7,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 7
+        }
+      }, {
+        "ty": 0,
+        "nm": "着色饱和度",
+        "mn": "ADBE HUE SATURATION-0009",
+        "ix": 8,
+        "v": {
+          "a": 0,
+          "k": 25,
+          "ix": 8
+        }
+      }, {
+        "ty": 0,
+        "nm": "着色亮度",
+        "mn": "ADBE HUE SATURATION-0010",
+        "ix": 9,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 9
+        }
+      }]
+    }],
+    "ip": -59,
+    "op": 14,
+    "st": -79,
+    "bm": 0
+  }, {
+    "ddd": 0,
+    "ind": 3,
+    "ty": 9,
+    "nm": "4级特效.mov",
+    "cl": "mov",
+    "refId": "video_0",
+    "sr": 1,
+    "ks": {
+      "o": {
+        "a": 0,
+        "k": 55,
+        "ix": 11
+      },
+      "r": {
+        "a": 0,
+        "k": 0,
+        "ix": 10
+      },
+      "p": {
+        "a": 0,
+        "k": [512, 512, 0],
+        "ix": 2,
+        "l": 2
+      },
+      "a": {
+        "a": 0,
+        "k": [960, 540, 0],
+        "ix": 1,
+        "l": 2
+      },
+      "s": {
+        "a": 0,
+        "k": [82.917, 91.852, 100],
+        "ix": 6,
+        "l": 2
+      }
+    },
+    "ao": 0,
+    "ef": [{
+      "ty": 5,
+      "nm": "转换通道",
+      "np": 6,
+      "mn": "ADBE Shift Channels",
+      "ix": 1,
+      "en": 1,
+      "ef": [{
+        "ty": 7,
+        "nm": "从 获取 Alpha",
+        "mn": "ADBE Shift Channels-0001",
+        "ix": 1,
+        "v": {
+          "a": 0,
+          "k": 5,
+          "ix": 1
+        }
+      }, {
+        "ty": 7,
+        "nm": "从 获取红色",
+        "mn": "ADBE Shift Channels-0002",
+        "ix": 2,
+        "v": {
+          "a": 0,
+          "k": 2,
+          "ix": 2
+        }
+      }, {
+        "ty": 7,
+        "nm": "从 获取绿色",
+        "mn": "ADBE Shift Channels-0003",
+        "ix": 3,
+        "v": {
+          "a": 0,
+          "k": 3,
+          "ix": 3
+        }
+      }, {
+        "ty": 7,
+        "nm": "从 获取蓝色",
+        "mn": "ADBE Shift Channels-0004",
+        "ix": 4,
+        "v": {
+          "a": 0,
+          "k": 4,
+          "ix": 4
+        }
+      }]
+    }, {
+      "ty": 5,
+      "nm": "移除颜色遮罩",
+      "np": 4,
+      "mn": "ADBE Remove Color Matting",
+      "ix": 2,
+      "en": 1,
+      "ef": [{
+        "ty": 2,
+        "nm": "背景颜色",
+        "mn": "ADBE Remove Color Matting-0001",
+        "ix": 1,
+        "v": {
+          "a": 0,
+          "k": [0, 0, 0, 0],
+          "ix": 1
+        }
+      }, {
+        "ty": 7,
+        "nm": "剪切",
+        "mn": "ADBE Remove Color Matting-0002",
+        "ix": 2,
+        "v": {
+          "a": 0,
+          "k": 1,
+          "ix": 2
+        }
+      }]
+    }, {
+      "ty": 5,
+      "nm": "色相/饱和度",
+      "np": 11,
+      "mn": "ADBE HUE SATURATION",
+      "ix": 3,
+      "en": 1,
+      "ef": [{
+        "ty": 7,
+        "nm": "通道控制",
+        "mn": "ADBE HUE SATURATION-0002",
+        "ix": 1,
+        "v": {
+          "a": 0,
+          "k": 1,
+          "ix": 1
+        }
+      }, {}, {
+        "ty": 0,
+        "nm": "主色相",
+        "mn": "ADBE HUE SATURATION-0004",
+        "ix": 3,
+        "v": {
+          "a": 0,
+          "k": -126,
+          "ix": 3
+        }
+      }, {
+        "ty": 0,
+        "nm": "主饱和度",
+        "mn": "ADBE HUE SATURATION-0005",
+        "ix": 4,
+        "v": {
+          "a": 0,
+          "k": 11,
+          "ix": 4
+        }
+      }, {
+        "ty": 0,
+        "nm": "主亮度",
+        "mn": "ADBE HUE SATURATION-0006",
+        "ix": 5,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 5
+        }
+      }, {
+        "ty": 7,
+        "nm": "彩色化",
+        "mn": "ADBE HUE SATURATION-0007",
+        "ix": 6,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 6
+        }
+      }, {
+        "ty": 0,
+        "nm": "着色色相",
+        "mn": "ADBE HUE SATURATION-0008",
+        "ix": 7,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 7
+        }
+      }, {
+        "ty": 0,
+        "nm": "着色饱和度",
+        "mn": "ADBE HUE SATURATION-0009",
+        "ix": 8,
+        "v": {
+          "a": 0,
+          "k": 25,
+          "ix": 8
+        }
+      }, {
+        "ty": 0,
+        "nm": "着色亮度",
+        "mn": "ADBE HUE SATURATION-0010",
+        "ix": 9,
+        "v": {
+          "a": 0,
+          "k": 0,
+          "ix": 9
+        }
+      }]
+    }],
+    "ip": 3,
+    "op": 83,
+    "st": -10,
+    "bm": 0
+  }, {
+    "ddd": 0,
+    "ind": 4,
+    "ty": 2,
+    "nm": "4级前景4.png",
+    "cl": "png",
+    "refId": "image_0",
+    "sr": 1,
+    "ks": {
+      "o": {
+        "a": 1,
+        "k": [{
+          "i": {
+            "x": [0.833],
+            "y": [0.833]
+          },
+          "o": {
+            "x": [0.167],
+            "y": [0.167]
+          },
+          "t": 0,
+          "s": [100]
+        }, {
+          "i": {
+            "x": [0.833],
+            "y": [0.833]
+          },
+          "o": {
+            "x": [0.167],
+            "y": [0.167]
+          },
+          "t": 20,
+          "s": [20]
+        }, {
+          "t": 33,
+          "s": [100]
+        }],
+        "ix": 11
+      },
+      "r": {
+        "a": 0,
+        "k": 0,
+        "ix": 10
+      },
+      "p": {
+        "a": 0,
+        "k": [512, 512, 0],
+        "ix": 2,
+        "l": 2
+      },
+      "a": {
+        "a": 0,
+        "k": [512, 512, 0],
+        "ix": 1,
+        "l": 2
+      },
+      "s": {
+        "a": 0,
+        "k": [100, 100, 100],
+        "ix": 6,
+        "l": 2
+      }
+    },
+    "ao": 0,
+    "ip": -1,
+    "op": 34,
+    "st": 12,
+    "bm": 0
+  }],
+  "markers": []
+}

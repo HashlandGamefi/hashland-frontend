@@ -8,6 +8,8 @@
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
         <Lottie :options="lv3_defaultOptions" v-if="item.level == 3" :width="256" class="positon_absoult"/>
+        <Lottie :options="lv4_defaultOptions" v-if="item.level == 4" :width="256" class="positon_absoult"/>
+        <Lottie :options="lv5_defaultOptions" v-if="item.level == 5" :width="256" class="positon_absoult"/>
       </div>
       <NoData v-if="$route.query.num == 0"></NoData>
     </div>
@@ -16,7 +18,9 @@
 
 <script>
 import Lottie from '@/components/lottie.vue'
-import animationData from '@/assets/common/data3.json' // 引入json文件
+import lv3_animationData from '@/assets/common/data3.json' // 引入json文件
+import lv4_animationData from '@/assets/common/data4.json' // 引入json文件
+import lv5_animationData from '@/assets/common/data5.json' // 引入json文件
 import { mapGetters } from "vuex";
 export default {
   components: {
@@ -26,7 +30,13 @@ export default {
     return {
       boxarr:[],
       lv3_defaultOptions: {
-        animationData: animationData
+        animationData: lv3_animationData
+      },
+      lv4_defaultOptions: {
+        animationData: lv4_animationData
+      },
+      lv5_defaultOptions: {
+        animationData: lv5_animationData
       },
     }
   },
