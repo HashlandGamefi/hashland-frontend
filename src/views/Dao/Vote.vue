@@ -3,8 +3,8 @@
     <div class="content">
       <div class="out_box">
         <div class="box">
-          <p class="fontsize16 txt">Hashland's official voting page is coming soon</p>
-          <p class="fontsize16 txt marg_top">Please go to <span @click="snapshotClick">Snapshot</span> to start voting.</p>
+          <p class="fontsize16 txt">{{ $t("message.dao.txt24") }}</p>
+          <p class="fontsize16 txt marg_top">{{ $t("message.dao.txt25") }}<span @click="snapshotClick">{{ $t("message.dao.txt26") }}</span>{{ $t("message.dao.txt27") }}</p>
         </div>
         <img :src="`${$store.state.imgUrl}vote1.png`" class="game1_img" />
         <img :src="`${$store.state.imgUrl}vote2.png`" class="game2_img" />
@@ -17,7 +17,7 @@
 export default {
   methods: {
     snapshotClick(){
-      window.location.href = 'https://www.kucoin.cloud/mining-pool/observer?sign=408e8edb25c140ab9a74655ae393e1c5'
+      window.location.href = 'https://snapshot.org/#/hashland.eth'
     }
   },
 };
@@ -45,7 +45,6 @@ export default {
       .box{
         width: 100%;
         height: 100%;
-        padding: 0 60px;
         border-radius: 14px;
         background:#011A31;
         display: flex;
