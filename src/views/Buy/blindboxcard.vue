@@ -138,7 +138,7 @@ export default {
             this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
               console.log('当前页面的币种合约: ', this.currencyAddress);
               if(res){
-                this.isapprove = t2rue
+                this.isapprove = true
               }else{
                 this.isapprove = false
               }
