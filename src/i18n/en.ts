@@ -264,7 +264,7 @@ export const message = {
     txt21: "DAO Vault Contract:",
     txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
     txt23: "Total Power Value",
-    txt24:"Hashland's official voting page is coming soon",
+    txt24:"Hashland's official voting page is coming soon.",
     txt25:'Please go to ',
     txt26:'Snapshot',
     txt27:' to start voting.'
