@@ -1,5 +1,5 @@
 <template>
-  <div class="vote_page">
+  <div class="reward_page">
     <div class="add_title_link">
       <h1 class="h1 fontsize22">{{ $t("message.dao.txt6") }}</h1>
       <div class="add_contract_address" @click="btcClick">
@@ -254,7 +254,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.vote_page {
+.reward_page {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -543,7 +543,7 @@ export default {
   background: #29cdda !important;
 }
 @media screen and (max-width: 980px) {
-  .vote_page {
+  .reward_page {
     width: 100%;
     padding: 0 0.2rem;
     display: flex;

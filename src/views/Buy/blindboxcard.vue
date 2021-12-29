@@ -103,7 +103,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBlindBox,hn,erc20,contract,token,util,getSigner,getHnImg } from 'hashland-sdk';
+import { hnBlindBox,hn,erc20,contract,util,getSigner,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -138,7 +138,7 @@ export default {
             this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
               console.log('当前页面的币种合约: ', this.currencyAddress);
               if(res){
-                this.isapprove = true
+                this.isapprove = t2rue
               }else{
                 this.isapprove = false
               }
