@@ -103,10 +103,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBlindBox,hn,erc20,contract,token,util,getSigner,getHnImg } from 'hashland-sdk';
+import { hnBlindBox,hn,erc20,contract,util,getSigner,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      currencyAddress:'',//sdk返回合约地址
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
@@ -134,30 +135,15 @@ export default {
           this.watchResult()
           setTimeout(() => {
             this.getTokenInfoFun(this.tokenID)
-            // this.connectGetInfo(this.tokenID)
-            let type = ''
-            if(this.tokenID == 0){
-              type = 'BNB'
-            }else if(this.tokenID == 1){
-              type = 'HC'
-            }else if(this.tokenID == 2){
-              type = 'HCLP'
-            }else if(this.tokenID == 3){
-              type = 'BUSD'
-            }else if(this.tokenID == 4){
-              type = 'HT'
-            }else{
-              type = 'BUSD'
-            }
-            this.$refs.mychild.isApproveFun(type,contract().HNBlindBox).then(res => {
-              console.log('当前页面的币种: ', type);
+            this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
+              console.log('当前页面的币种合约: ', this.currencyAddress);
               if(res){
-                this.isapprove = true
+                this.isapprove = t2rue
               }else{
                 this.isapprove = false
               }
             })
-          },1000)
+          },1500)
         }
       },
       deep: true,
@@ -188,25 +174,12 @@ export default {
       if(this.disable)return
       if(this.buy_isloading)return
       this.buy_isloading = true
-      let type = ''
-      if(this.tokenID == 0){
-        type = 'BNB'
-      }else if(this.tokenID == 1){
-        type = 'HC'
-      }else if(this.tokenID == 2){
-        type = 'HCLP'
-      }else if(this.tokenID == 3){
-        type = 'BUSD'
-      }else if(this.tokenID == 4){
-        type = 'HT'
-      }else{
-        type = 'BUSD'
-      }
-      this.$refs.mychild.goApproveFun(type,contract().HNBlindBox).then(res => {
+      this.$refs.mychild.goApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
         console.log('去授权res: ', res);
         this.buy_isloading = false
         this.isapprove = true
       }).catch(() => {
+        console.log("授权错误")
         this.isapprove = false
         this.buy_isloading = false
       })
@@ -296,10 +269,10 @@ export default {
       hn().totalSupply().then(data => {
         this.cardNumber = data.toString()
       })
-      // 1小时之内某用户的剩余购买量
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
+        this.currencyAddress = res[1]
         this.getuserBalance(res[1])
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
@@ -314,6 +287,7 @@ export default {
           this.disable = false
         }
       })
+      // 1小时之内某用户的剩余购买量
       let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
       this.maxbuy = maxnum.toString()
     }

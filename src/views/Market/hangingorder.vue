@@ -215,7 +215,6 @@ export default {
     tabFun(index){
       if(this.pageshowLoading)return
       this.tabIndex = index
-      console.log('index: ', index);
       this.selectALLBtn = false
       this.selectedNUM = 0 // 选中的卡牌数量
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息

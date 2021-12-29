@@ -143,6 +143,12 @@ export default {
     },
     /**打开充值 */
     openRecharge() {
+      if (typeof window.ethereum === "undefined")
+        return this.$common.selectLang(
+          "Please install the wallet plug-in first, or use the DAPP browser!",
+          "Please install the wallet plug-in first, or use the DAPP browser!",
+          this
+        );
       if (!localStorage.getItem("hashlandGameFiInfo"))
         return this.$common.selectLang("请先登录游戏账号！", "Please sign in the game account first!", this);
       if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
@@ -325,8 +331,8 @@ export default {
   }
   .player_box1 {
     box-sizing: content-box;
-    width: 70vw;
-    height: 40vw;
+    width: 50vw;
+    height: 30vw;
     background-image: url("//cdn.hashland.com/images/gamevideoborder.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
