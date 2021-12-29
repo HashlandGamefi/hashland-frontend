@@ -7,7 +7,7 @@
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <Lottie :options="defaultOptions" :width="256" v-on:animCreated="handleAnimation" class="positon_absoult"/>
+        <Lottie :options="lv3_defaultOptions" v-if="item.level == 3" :width="256" class="positon_absoult"/>
       </div>
       <NoData v-if="$route.query.num == 0"></NoData>
     </div>
@@ -16,7 +16,7 @@
 
 <script>
 import Lottie from '@/components/lottie.vue'
-import animationData from '@/assets/common/data1.json' // 引入json文件
+import animationData from '@/assets/common/data3.json' // 引入json文件
 import { mapGetters } from "vuex";
 export default {
   components: {
@@ -25,10 +25,8 @@ export default {
   data () {
     return {
       boxarr:[],
-      defaultOptions: {
-        animationData: animationData,
-        autoplay: false,
-        loop: true
+      lv3_defaultOptions: {
+        animationData: animationData
       },
     }
   },
@@ -38,15 +36,7 @@ export default {
   watch:{
     'getIstrue':{
       handler: function (newValue, oldValue) {
-        // console.log('卡牌详情页面钱包是否链接:', newValue,oldValue);
         if(newValue){
-          // setTimeout(() => {
-          //   let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
-          //   arr.sort((a, b) => {
-          //     return Number(a.type) > Number(b.type) ? 1 : -1;
-          //   })
-          //   this.boxarr = arr
-          // },1500)
           this.getUserAllCard()
         }
       },
@@ -73,12 +63,7 @@ export default {
     },
     back(){
       this.$router.go(-1)
-    },
-    handleAnimation(anim) {
-		  this.anim = anim;
-			console.log('anim',anim); //这里可以看到 lottie 对象的全部属性
-			this.anim.play();
-		},
+    }
   }
 }
 </script>
