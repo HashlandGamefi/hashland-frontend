@@ -13,10 +13,12 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
+    <Banner :bannershow="bannershow" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Banner from './components/banner.vue'
 import Nav from "./components/nav.vue";
 import Footer from "./components/footer.vue";
 import WinningPopup from "./components/winningpopup.vue";
@@ -25,6 +27,7 @@ export default {
     Nav,
     Footer,
     WinningPopup,
+    Banner
   },
   watch: {
     $route(to, from) {
@@ -36,6 +39,17 @@ export default {
         this.isshowFooter = true;
       }
     },
+    // 'bannershow':{
+    //   handler: function (newValue) {
+    //     if(newValue == 'istrue'){
+    //       document.body.style.overflow = 'hidden';
+    //     }else{
+    //       document.body.style.overflow = '';
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // }
   },
   computed: {
     ...mapGetters(["getrewardsInfo", "getAccount"]),
@@ -52,7 +66,8 @@ export default {
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
       istopshow:false,//鼠标移入移除
-      scrollTimeer:null
+      scrollTimeer:null,
+      bannershow:'', // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
@@ -145,28 +160,35 @@ export default {
     },
     // 是否展示top按钮
     isshowTop(direction){
-      let heigth_ = document.body.offsetHeight
       let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
-      // console.log('scroll_top: ', scroll_top);
-      // console.log('heigth_: ', heigth_);
-      if (direction == 'down' && scroll_top >= heigth_ / 2) { //125为用户一次滚动鼠标的wheelDelta的值
+      if (direction == 'down') { //125为用户一次滚动鼠标的wheelDelta的值
         if(!this.istopshow){
           this.istopshow = true
         }
         console.log("向下")
       }
-      if (direction == 'up' && scroll_top <= heigth_ / 4) {
+      if (direction == 'up' && scroll_top == 0) {
         if(this.istopshow){
           this.istopshow = false
         }
         console.log("向上")
       }
+    },
+    // 首页弹窗banner  ---  关闭方法
+    bannerClick(){
+      this.bannershow = 'isfalse'
+      // 传1代表1小时后过期,传24代表1天后过期
+      this.$common.setCookie('showbanner','isfalse',0.1)
+    },
+    besureClick(){
+      console.log('弹窗落地页')
     }
   },
   created() {
     this.getCurrenciesPrices();
   },
   mounted() {
+    this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
     window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);
