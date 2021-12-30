@@ -135,15 +135,20 @@ export default {
           this.watchResult()
           setTimeout(() => {
             this.getTokenInfoFun(this.tokenID)
-            this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
-              console.log('当前页面的币种合约: ', this.currencyAddress);
-              if(res){
-                this.isapprove = true
-              }else{
-                this.isapprove = false
-              }
-            })
           },1500)
+          let setIntervalOBJ = setInterval(() => {
+            if(this.currencyAddress){
+              clearInterval(setIntervalOBJ)
+              this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
+                console.log('当前页面的币种合约: ', this.currencyAddress);
+                if(res){
+                  this.isapprove = true
+                }else{
+                  this.isapprove = false
+                }
+              })
+            }
+          }, 1000);
         }
       },
       deep: true,
