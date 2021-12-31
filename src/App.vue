@@ -149,13 +149,13 @@ export default {
       let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
       // console.log('scroll_top: ', scroll_top);
       // console.log('heigth_: ', heigth_);
-      if (direction == 'down' && scroll_top >= heigth_ / 2) { //125为用户一次滚动鼠标的wheelDelta的值
+      if (direction == 'down') { //125为用户一次滚动鼠标的wheelDelta的值
         if(!this.istopshow){
           this.istopshow = true
         }
         console.log("向下")
       }
-      if (direction == 'up' && scroll_top <= heigth_ / 4) {
+      if (direction == 'up' && scroll_top == 0) {
         if(this.istopshow){
           this.istopshow = false
         }
