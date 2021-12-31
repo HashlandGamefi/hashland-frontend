@@ -177,13 +177,17 @@ export default {
       }
     },
     // 首页弹窗banner  ---  关闭方法
-    bannerClick(){
+    bannerClick(data){
+      clearInterval(data)
       this.bannershow = 'isfalse'
       // 传1代表1小时后过期,传24代表1天后过期
-      this.$common.setCookie('showbanner','isfalse',0.1)
+      // this.$common.setCookie('showbanner','isfalse',0.1)
     },
-    besureClick(){
+    besureClick(data){
+      clearInterval(data)
       console.log('弹窗落地页')
+      this.bannerClick()
+      this.$router.push(`/buy/1/1`)
     }
   },
   created() {

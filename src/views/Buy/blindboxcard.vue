@@ -772,7 +772,7 @@ export default {
             line-height: 40px;
           }
           .nft_hover {
-            min-width: 0.8rem;
+            min-width: 0.9rem;
             display: none;
             position: absolute;
             top: 0.18rem;

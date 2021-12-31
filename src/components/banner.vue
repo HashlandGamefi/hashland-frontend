@@ -1,7 +1,27 @@
 <template>
-  <div class="banner_page" v-if="bannershow == 'istrue' && isbackstage">
+  <div class="banner_page" v-if="bannershow == 'istrue'">
     <div class="banner_box">
-      <img src="https://cdn.hashland.com/images/compositecard.png" class="bannerimg" @click="BesureClick"/>
+      <div class="content">
+        <div class="top_title fontsize26">{{$t("message.banner.txt1")}}</div>
+        <!-- <img :src="`${$store.state.imgUrl}bindboximg.png`" class="bindbox_img"> -->
+        <div class="level_box">
+          <div class="onebox" v-for="(item,index) in list" :key="index">
+            <span class="span1 fontsize14">$ {{item.num}}</span>
+            <span class="span1 fontsize12">Level {{index + 1}} ({{item.Probability}}%)</span>
+          </div>
+        </div>
+        <div class="instruction fontsize18">{{$t("message.banner.txt2")}}</div>
+        <div class="time_finsh">
+          <span class="span1_radious">{{ timeData.h }}</span>
+          <span class="span_txt">:</span>
+          <span class="span1_radious">{{ timeData.m }}</span>
+          <span class="span_txt">:</span>
+          <span class="span1_radious">{{ timeData.s }}</span>
+        </div>
+        <div class="btn_box fontsize16" @click="ConfirClick">
+          {{$t("message.banner.txt3")}}
+        </div>
+      </div>
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="closeimg" @click="closeBannerClick" />
     </div>
   </div>
@@ -15,18 +35,48 @@ export default {
     }
   },
   data(){
-    return{
-      src:'',
-      isbackstage:false,//此变量用来判断后台是否返回banner图,返回则蒙层显示,没有则不显示
+    return {
+      timeer:null,
+      starttime:1641117600,//开始时间
+      timeData:{'h':'00','m':'00','s':'00'},
+      list:[
+        {num:70,Probability:20},
+        {num:640,Probability:62.2},
+        {num:'4,000',Probability:16},
+        {num:'21,760',Probability:1.5},
+        {num:'100,000',Probability:0.3}
+      ]
     }
   },
   methods: {
     closeBannerClick() {
-      this.$emit("closebanner");
+      this.$emit("closebanner",this.timeer);
     },
-    BesureClick(){
-      this.$emit("besureclcik");
-    }
+    ConfirClick(){
+      this.$emit("besureclcik",this.timeer);
+    },
+    settimeoutFun(){
+      clearInterval(this.timeer)
+      let time = Date.parse(new Date()) / 1000
+      let owtime = this.starttime - time
+      console.log('现在的时间:%s,相差的时间%s: ', time,owtime);
+      this.timeer = setInterval(() => {
+        if(owtime <= 0){
+          console.log("倒计时结束")
+          clearInterval(this.timeer)
+          this.timeData = { h: "00", m: "00", s: "00" }
+          return
+        }
+        this.$common.afferentTime(owtime,res => {
+          console.log('定时器res: ', res);
+          this.timeData = res
+        })
+        owtime -= 1
+      },1000)
+    },
+  },
+  mounted(){
+    this.settimeoutFun()
   }
 };
 </script>
@@ -43,20 +93,95 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 846px;
-    height: 475px;
-    border-radius: 32px;
-    .bannerimg {
+    width: 773px;
+    height: 585px;
+    background-image: url("//cdn.hashland.com/testimgs/banner_proup1.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    .content{
       width: 100%;
-      border-radius: 32px;
-      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 0 64px;
+      .top_title{
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        margin-bottom: 218px;
+      }
+      .level_box{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 78px;
+        .onebox{
+          width: 106px;
+          height: 45px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          background: #022C51;
+          box-shadow: inset 0px 5px 16px 0px rgba(163, 252, 241, 0.54), inset 0px -2px 7px 0px rgba(145, 147, 221, 0.6);
+          border-radius: 9px;
+          padding: 6px 0;
+          .span1{
+            color: #fff;
+          }
+        }
+      }
+      .instruction{
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        margin-top: 20px;
+      }
+      .time_finsh {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+        .span1_radious {
+          width: 40px;
+          height: 40px;
+          background: #061B2F;
+          border-radius: 10px;
+          color: #f5d719;
+          text-align: center;
+          line-height: 40px;
+          margin-right: 5px;
+          font-size: 20px;
+          font-family: Impact;
+        }
+        .span_txt {
+          font-size: 20px;
+          color: #727272;
+          line-height: 14px;
+          margin-right: 5px;
+        }
+      }
+      .btn_box {
+        width: 274px;
+        height: 59px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        color: #ffffff;
+        cursor: pointer;
+      }
     }
     .closeimg{
       position: absolute;
-      right: 32px;
-      top: 32px;
+      right: 60px;
+      top: 40px;
       width: 44px;
-      height: 44px;
+      object-fit: contain;
+      cursor: pointer;
     }
   }
 }
@@ -68,24 +193,101 @@ export default {
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
     .banner_box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 3.43rem;
-      height: 1.92rem;
-      border-radius: 0.32rem;
-      .bannerimg {
+      width: 3.2rem;
+      // height: 4.85rem;
+      height: auto;
+      background-image: url("//cdn.hashland.com/testimgs/mobile_banner_proup1.png");
+      background-size: 100% 100%;
+      // background-size: initial;
+      background-repeat: no-repeat;
+      .content{
         width: 100%;
-        border-radius: 0.16rem;
-        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.3rem 0;
+        .top_title{
+          width: 100%;
+          text-align: center;
+          color: #fff;
+          font-size: 0.2rem;
+        }
+        .level_box{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          padding: 0 0.3rem;
+          margin-top: -0.2rem;
+          .onebox{
+            width: 1.2rem;
+            height: auto;
+            margin-bottom: 0.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background: #022C51;
+            box-shadow: inset 0px 5px 16px 0px rgba(163, 252, 241, 0.54), inset 0px -2px 7px 0px rgba(145, 147, 221, 0.6);
+            border-radius: 0.09rem;
+            padding: 0.03rem 0;
+            .span1{
+              color: #fff;
+              // transform: scale(0.8);
+            }
+          }
+        }
+        .instruction{
+          width: 100%;
+          text-align: center;
+          color: #fff;
+          margin-top: 0;
+          font-size: 0.16rem;
+        }
+        .time_finsh {
+          display: flex;
+          align-items: center;
+          margin: 0.15rem 0;
+          .span1_radious {
+            width: 0.4rem;
+            height: 0.4rem;
+            background: #061B2F;
+            border-radius: 0.06rem;
+            color: #f5d719;
+            text-align: center;
+            line-height: 0.4rem;
+            margin-right: 0.05rem;
+            font-size: 0.2rem;
+          }
+          .span_txt {
+            font-size: 0.2rem;
+            color: #727272;
+            line-height: 0.14rem;
+            margin-right: 0.05rem;
+          }
+        }
+        .btn_box {
+          width: 1.94rem;
+          height: 0.38rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-image: url("//cdn.hashland.com/images/SpeciaBtn2.png");
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          color: #ffffff;
+          cursor: pointer;
+          margin-bottom:0.2rem;
+        }
       }
       .closeimg{
         position: absolute;
-        right: 0.16rem;
-        top: 0.16rem;
-        width: 0.22rem;
-        height: 0.22rem;
+        right: -0.1rem;
+        top: -0.88rem;
+        width: 0.4rem;
+        object-fit: contain;
       }
     }
   }

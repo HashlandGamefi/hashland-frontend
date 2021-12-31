@@ -269,6 +269,11 @@ export const message = {
     txt26:'Snapshot',
     txt27:' to start voting.'
   },
+  banner:{
+    txt1:'Mystery Box Announce',
+    txt2:'6 HC/500BUSD draws 1500 NFT',
+    txt3:'Confirm'
+  },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
   details: "Detail",
