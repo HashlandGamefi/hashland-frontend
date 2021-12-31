@@ -39,11 +39,13 @@ export default {
       } else {
         this.isshowFooter = true;
       }
-      if(to.name == "Buy"){
-        this.bannershow = 'isfalse'
-      }else{
-        this.settimeoutFun()
-      }
+      setTimeout(() => {
+        if(to.name == "Buy"){
+          this.bannershow = 'isfalse'
+        }else{
+          this.settimeoutFun()
+        }
+      },500)
     },
     // 'bannershow':{
     //   handler: function (newValue) {
@@ -191,7 +193,7 @@ export default {
       this.bannershow = 'isfalse'
       clearInterval(this.timeer)
       // 传1代表1小时后过期,传24代表1天后过期
-      // this.$common.setCookie('showbanner','isfalse',0.1)
+      this.$common.setCookie('showbanner','isfalse',1)
     },
     besureClick(){
       console.log('弹窗落地页')
@@ -221,11 +223,13 @@ export default {
   },
   created() {
     this.getCurrenciesPrices();
-    if(this.$route.name == "Buy"){
-      this.bannershow = 'isfalse'
-    }else{
-      this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
-    }
+    setTimeout(() => {
+      if(this.$route.name == "Buy"){
+        this.bannershow = 'isfalse'
+      }else{
+        this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
+      }
+    },500)
   },
   mounted() {
     if(Date.parse(new Date()) / 1000 >= this.starttime){
