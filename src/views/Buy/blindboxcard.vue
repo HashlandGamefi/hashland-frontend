@@ -200,6 +200,7 @@ export default {
       if(this.boxnums == ''){
         this.total = 0
       }else if(this.vrfFlag && Number(this.boxnums) > 2){
+        this.boxnums = 2
         this.$common.selectLang(`最大购买数量2`,`You can purchase up to 2 mystery boxes at a time.`,this)
       }else if(Number(this.boxnums) > Number(this.maxbuy)){
         this.boxnums = this.maxbuy
