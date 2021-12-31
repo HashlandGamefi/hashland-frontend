@@ -191,6 +191,11 @@ export default {
     },
     inputchangeFun() {
       // console.log("输入框改变事件")
+      if(!this.getIstrue){
+        this.boxnums = ''
+        this.$common.selectLang("请先连接钱包", "Please connect the wallet", this);
+        return
+      }
       if(this.boxnums == ''){
         this.total = 0
       }else if(Number(this.boxnums) > Number(this.maxbuy)){

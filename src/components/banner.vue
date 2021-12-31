@@ -7,7 +7,7 @@
         <div class="level_box">
           <div class="onebox" v-for="(item,index) in list" :key="index">
             <span class="span1 fontsize14">$ {{item.num}}</span>
-            <span class="span1 fontsize12">Level {{index + 1}} ({{item.Probability}}%)</span>
+            <span class="span1 span2 fontsize12">Level {{index + 1}} ({{item.Probability}}%)</span>
           </div>
         </div>
         <div class="instruction fontsize18">{{$t("message.banner.txt2")}}</div>
@@ -119,7 +119,6 @@ export default {
         padding: 0 78px;
         .onebox{
           width: 106px;
-          height: 45px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -130,6 +129,9 @@ export default {
           padding: 6px 0;
           .span1{
             color: #fff;
+          }
+          .span2{
+            margin-top: 5px;
           }
         }
       }
@@ -223,7 +225,7 @@ export default {
           margin-top: -0.2rem;
           .onebox{
             width: 1.2rem;
-            height: auto;
+            // height: auto;
             margin-bottom: 0.1rem;
             display: flex;
             flex-direction: column;
@@ -232,10 +234,13 @@ export default {
             background: #022C51;
             box-shadow: inset 0px 5px 16px 0px rgba(163, 252, 241, 0.54), inset 0px -2px 7px 0px rgba(145, 147, 221, 0.6);
             border-radius: 0.09rem;
-            padding: 0.03rem 0;
+            padding: 0.1rem 0;
             .span1{
               color: #fff;
               // transform: scale(0.8);
+            }
+            .span2{
+              margin-top: 0.05rem;
             }
           }
         }
@@ -285,7 +290,7 @@ export default {
       .closeimg{
         position: absolute;
         right: -0.1rem;
-        top: -0.88rem;
+        top: -0.58rem;
         width: 0.4rem;
         object-fit: contain;
       }

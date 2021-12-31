@@ -270,8 +270,8 @@ export const message = {
     txt27:' to start voting.'
   },
   banner:{
-    txt1:'Mystery Box Announce',
-    txt2:'6 HC/500BUSD draws 1500 NFT',
+    txt1:'Mystery Box Announcement',
+    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC',
     txt3:'Confirm'
   },
   buy1: "Purchase History",
