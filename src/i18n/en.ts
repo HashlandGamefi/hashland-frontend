@@ -271,7 +271,7 @@ export const message = {
   },
   banner:{
     txt1:'Mystery Box Announcement',
-    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC',
+    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
     txt3:'Confirm'
   },
   buy1: "Purchase History",
