@@ -125,6 +125,7 @@ import { hnBlindBox,hn,erc20,contract,util,getSigner,getHnImg } from 'hashland-s
 export default {
   data () {
     return {
+      vrfFlag:false, // 是否使用随机数
       disablehover:false,
       hc_boxprice:0,//hc购买盲盒价格
       busd_boxprice:0,//busd买盲盒价格
@@ -198,6 +199,8 @@ export default {
       }
       if(this.boxnums == ''){
         this.total = 0
+      }else if(this.vrfFlag){
+        this.$common.selectLang(`最大购买数量2`,`Remaining purchaseable quantity per hour is 2`,this)
       }else if(Number(this.boxnums) > Number(this.maxbuy)){
         this.boxnums = this.maxbuy
         this.total = this.maxbuy * this.boxPrice
@@ -320,6 +323,7 @@ export default {
         this.boxPrice = res[0].toString() / 1e18
         this.currencyAddress = res[1]
         this.getuserBalance(res[1])
+        this.vrfFlag = res[5]
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
             // console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
