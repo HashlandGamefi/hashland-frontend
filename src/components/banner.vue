@@ -31,14 +31,20 @@ export default {
   props: {
     bannershow: {
       type: String,
-      default: '',
+      default: ''
+    },
+    starttime: {
+      type: String,
+      default: ''
+    },
+    timeData:{
+      typeof:Object,
+      default:{'h':'00','m':'00','s':'00'}
     }
   },
   data(){
     return {
       timeer:null,
-      starttime:1641117600,//开始时间
-      timeData:{'h':'00','m':'00','s':'00'},
       list:[
         {num:70,Probability:20},
         {num:640,Probability:62.2},
@@ -54,29 +60,7 @@ export default {
     },
     ConfirClick(){
       this.$emit("besureclcik",this.timeer);
-    },
-    settimeoutFun(){
-      clearInterval(this.timeer)
-      let time = Date.parse(new Date()) / 1000
-      let owtime = this.starttime - time
-      console.log('现在的时间:%s,相差的时间%s: ', time,owtime);
-      this.timeer = setInterval(() => {
-        if(owtime <= 0){
-          console.log("倒计时结束")
-          clearInterval(this.timeer)
-          this.timeData = { h: "00", m: "00", s: "00" }
-          return
-        }
-        this.$common.afferentTime(owtime,res => {
-          console.log('定时器res: ', res);
-          this.timeData = res
-        })
-        owtime -= 1
-      },1000)
-    },
-  },
-  mounted(){
-    this.settimeoutFun()
+    }
   }
 };
 </script>
