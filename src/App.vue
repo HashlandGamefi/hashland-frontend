@@ -39,7 +39,7 @@ export default {
       } else {
         this.isshowFooter = true;
       }
-      if(to.name == "Buy" || to.path == '/'){
+      if(to.name == "Buy"){
         this.bannershow = 'isfalse'
       }else{
         this.settimeoutFun()
@@ -221,7 +221,7 @@ export default {
   },
   created() {
     this.getCurrenciesPrices();
-    if(this.$route.name == "Buy" || this.$route.path == '/'){
+    if(this.$route.name == "Buy"){
       this.bannershow = 'isfalse'
     }else{
       this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
