@@ -67,7 +67,7 @@ export const message = {
     txt11: "Total",
     txt12: "Remaining",
     txt13: "Purchase",
-    txt14: "Purchase Describtion",
+    txt14: "Purchase Description",
 
     txt15:
       "Each card features an unique ERC721 token, and represents a character in GameFi",

@@ -161,6 +161,8 @@ export default {
     // 是否展示top按钮
     isshowTop(direction){
       let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
+      // console.log('scroll_top: ', scroll_top);
+      // console.log('heigth_: ', heigth_);
       if (direction == 'down') { //125为用户一次滚动鼠标的wheelDelta的值
         if(!this.istopshow){
           this.istopshow = true
