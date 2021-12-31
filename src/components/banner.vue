@@ -1,5 +1,5 @@
 <template>
-  <div class="banner_page" v-if="bannershow == 'istrue'">
+  <div class="banner_page">
     <div class="banner_box">
       <div class="content">
         <div class="top_title fontsize26">{{$t("message.banner.txt1")}}</div>
@@ -29,10 +29,6 @@
 <script>
 export default {
   props: {
-    bannershow: {
-      type: String,
-      default: ''
-    },
     starttime: {
       type: String,
       default: ''
@@ -44,7 +40,6 @@ export default {
   },
   data(){
     return {
-      timeer:null,
       list:[
         {num:70,Probability:20},
         {num:640,Probability:62.2},
@@ -56,10 +51,10 @@ export default {
   },
   methods: {
     closeBannerClick() {
-      this.$emit("closebanner",this.timeer);
+      this.$emit("closebanner");
     },
     ConfirClick(){
-      this.$emit("besureclcik",this.timeer);
+      this.$emit("besureclcik");
     }
   }
 };

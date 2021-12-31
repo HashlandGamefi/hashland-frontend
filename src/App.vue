@@ -13,7 +13,7 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
-    <Banner :timeData="timeData" :starttime="starttime" :bannershow="bannershow" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
+    <Banner :timeData="timeData" :starttime="starttime" v-if="bannershow == 'istrue'" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
   </div>
 </template>
 <script>
@@ -39,8 +39,10 @@ export default {
       } else {
         this.isshowFooter = true;
       }
-      if(to.name == "Buy"){
+      if(to.name == "Buy" || to.path == '/'){
         this.bannershow = 'isfalse'
+      }else{
+        this.settimeoutFun()
       }
     },
     // 'bannershow':{
@@ -66,14 +68,15 @@ export default {
   },
   data() {
     return {
+      timeer:null,
       timeData:{ h: "00", m: "00", s: "00" },
-      starttime:'1641031200',//开始时间  1641031200
+      starttime:'1641117600',//开始时间  1641031200
       isRouterAlive: true, //控制视图是否显示的变量
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
       istopshow:false,//鼠标移入移除
       scrollTimeer:null,
-      bannershow:'', // banner展示由此变量控制,默认为'istrue
+      bannershow:'isfalse', // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
@@ -183,14 +186,14 @@ export default {
       }
     },
     // 首页弹窗banner  ---  关闭方法
-    bannerClick(data){
-      clearInterval(data)
+    bannerClick(){
+      console.log("sdfhskldf ",this.bannershow)
       this.bannershow = 'isfalse'
+      clearInterval(this.timeer)
       // 传1代表1小时后过期,传24代表1天后过期
       // this.$common.setCookie('showbanner','isfalse',0.1)
     },
-    besureClick(data){
-      clearInterval(data)
+    besureClick(){
       console.log('弹窗落地页')
       this.bannerClick()
       this.$router.push(`/buy/1/1`)
@@ -218,13 +221,15 @@ export default {
   },
   created() {
     this.getCurrenciesPrices();
-  },
-  mounted() {
-    this.settimeoutFun()
-    if(Date.parse(new Date()) / 1000 >= this.starttime){
+    if(this.$route.name == "Buy" || this.$route.path == '/'){
       this.bannershow = 'isfalse'
     }else{
       this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
+    }
+  },
+  mounted() {
+    if(Date.parse(new Date()) / 1000 >= this.starttime){
+      this.bannershow = 'isfalse'
     }
     window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
