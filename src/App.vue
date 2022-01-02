@@ -209,7 +209,7 @@ export default {
         if(owtime <= 0){
           console.log("倒计时结束")
           clearInterval(this.timeer)
-          this.bannershow = 'isfalse'
+          // this.bannershow = 'isfalse'
           this.timeData = { h: "00", m: "00", s: "00" }
           return
         }
