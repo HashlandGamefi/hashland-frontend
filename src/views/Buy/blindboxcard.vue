@@ -184,6 +184,8 @@ export default {
   },
   methods: {
     BuyboxClick(data){
+      this.boxnums = ''
+      this.total = 0
       this.disablehover = true
       setTimeout(() => {
         this.disablehover = false
