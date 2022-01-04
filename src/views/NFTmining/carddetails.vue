@@ -6,15 +6,17 @@
     <span class="span_title fontsize32">{{$t("message.details")}}</span>
     <div class="boxarr">
       <div class="onebox" v-for="(item,index) in boxarr" :key="index">
-        <img :src="item.src" class="imgcard" />
+        <!-- <img :src="item.src" class="imgcard" /> -->
+        <div class="imgcard" style="height:300px"></div>
         <Lottie :options="lv3_defaultOptions" v-if="item.level == 3" :width="256" class="positon_absoult"/>
         <Lottie :options="lv4_defaultOptions" v-if="item.level == 4" :width="256" class="positon_absoult"/>
         <Lottie :options="lv5_defaultOptions" v-if="item.level == 5" :width="256" class="positon_absoult"/>
+        <Lottie :options="lv6_defaultOptions" v-if="item.level == 2" :width="256" class="positon_absoult"/>
       </div>
       <NoData v-if="$route.query.num == 0"></NoData>
     </div>
     <video id="video"  width="640" height="480" muted controls autoplay="autoplay" preload="auto" >
-      <source src="https://cdn.hashland.com/testimgs/lv4_vid_0.mov" />
+      <source src="https://cdn.hashland.com/testimgs/lv6_vid_0.mp4" />
       您的浏览器不支持 HTML5 video 标签。
     </video>
   </div>
@@ -25,6 +27,7 @@ import Lottie from '@/components/lottie.vue'
 import lv3_animationData from '@/assets/common/data3.json' // 引入json文件
 import lv4_animationData from '@/assets/common/data4.json' // 引入json文件
 import lv5_animationData from '@/assets/common/data5.json' // 引入json文件
+import lv6_animationData from '@/assets/common/data6.json' // 引入json文件
 import { mapGetters } from "vuex";
 export default {
   components: {
@@ -41,6 +44,9 @@ export default {
       },
       lv5_defaultOptions: {
         animationData: lv5_animationData
+      },
+      lv6_defaultOptions:{
+        animationData: lv6_animationData
       },
     }
   },
