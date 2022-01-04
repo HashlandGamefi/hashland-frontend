@@ -22,6 +22,10 @@ export default new Vuex.Store({
     HashMenuActive: sessionStorage.getItem('HashMenu') || -1, // 导航栏菜单索引
   },
   getters: {
+    // 是否是移动端
+    getIsMobile(){
+      return document.body.clientWidth > 980
+    },
     // 获取导航栏背景状态
     getMenuBG(state){
       return state.menuBG;

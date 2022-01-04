@@ -5,20 +5,23 @@
     </div>
     <span class="span_title fontsize32">{{$t("message.details")}}</span>
     <div class="boxarr">
-      <div class="onebox" v-for="(item,index) in boxarr" :key="index">
-        <!-- <img :src="item.src" class="imgcard" /> -->
-        <div class="imgcard" style="height:300px"></div>
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in boxarr" :key="index">
+        <img :src="item.src" class="imgcard" />
+        <!-- <div class="imgcard" style="height:300px"></div> -->
         <Lottie :options="lv3_defaultOptions" v-if="item.level == 3" :width="256" class="positon_absoult"/>
         <Lottie :options="lv4_defaultOptions" v-if="item.level == 4" :width="256" class="positon_absoult"/>
         <Lottie :options="lv5_defaultOptions" v-if="item.level == 5" :width="256" class="positon_absoult"/>
         <Lottie :options="lv6_defaultOptions" v-if="item.level == 2" :width="256" class="positon_absoult"/>
       </div>
-      <NoData v-if="$route.query.num == 0"></NoData>
+      <div class="loadingbox fontsize16" v-if="boxarr.length == 0 && pageshowLoading">
+        Loading...
+      </div>
+      <NoData v-else-if="boxarr.length == 0 && !pageshowLoading"></NoData>
     </div>
-    <video id="video"  width="640" height="480" muted controls autoplay="autoplay" preload="auto" >
+    <!-- <video id="video"  width="640" height="480" muted controls autoplay="autoplay" preload="auto" >
       <source src="https://cdn.hashland.com/testimgs/lv6_vid_0.mp4" />
       您的浏览器不支持 HTML5 video 标签。
-    </video>
+    </video> -->
   </div>
 </template>
 
@@ -35,6 +38,7 @@ export default {
   },
   data () {
     return {
+      pageshowLoading:true,
       boxarr:[],
       lv3_defaultOptions: {
         animationData: lv3_animationData
@@ -48,22 +52,26 @@ export default {
       lv6_defaultOptions:{
         animationData: lv6_animationData
       },
+      timerll:null
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"])
+    ...mapGetters(["getIstrue","getUserCardInfo","getIsMobile"])
   },
   watch:{
     'getIstrue':{
-      handler: function (newValue, oldValue) {
+      handler: function (newValue) {
         if(newValue){
+          this.pageshowLoading = true
           this.getUserAllCard()
+        }else{
+          this.pageshowLoading = false
+          this.boxarr = []
         }
       },
       deep: true,
-      immediate: true,
-      timerll:null
-    },
+      immediate: true
+    }
   },
   methods: {
     // 用户总卡牌数据获取
@@ -73,13 +81,12 @@ export default {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
           let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
-          arr.sort((a, b) => {
+          this.boxarr = arr.sort((a, b) => {
             return Number(a.type) > Number(b.type) ? 1 : -1;
           })
-          this.boxarr = arr
+          this.pageshowLoading = false
         }
-        console.log("获取用户信息")
-      }, 1000);
+      }, 500);
     },
     back(){
       this.$router.go(-1)
@@ -114,9 +121,9 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
+    // justify-content: space-between;
     flex-wrap: wrap;
     min-height: 500px;
-    // max-height: 738px;
     overflow-y: auto;
     margin-top: 18px;
     .onebox{
@@ -125,7 +132,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-right: 20px;
+      margin-right: 40px;
       margin-bottom: 61px;
       .imgcard{
         width: 100%;
@@ -136,6 +143,17 @@ export default {
         top: 0;
         left: 0;
       }
+    }
+    .margin0{
+      margin-right: 0;
+    }
+    .loadingbox {
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
     }
   }
   .bottom_title{
