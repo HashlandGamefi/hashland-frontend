@@ -67,7 +67,7 @@ export const message = {
     txt11: "Total",
     txt12: "Remaining",
     txt13: "Purchase",
-    txt14: "Purchase Describtion",
+    txt14: "Purchase Description",
 
     txt15:
       "Each card features an unique ERC721 token, and represents a character in GameFi",
@@ -268,6 +268,11 @@ export const message = {
     txt25:'Please go to ',
     txt26:'Snapshot',
     txt27:' to start voting.'
+  },
+  banner:{
+    txt1:'Mystery Box Announcement',
+    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
+    txt3:'Confirm'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",

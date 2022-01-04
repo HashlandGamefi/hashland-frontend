@@ -251,6 +251,11 @@ export const message = {
     txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
     txt23: "Total Power Value"
   },
+  banner:{
+    txt1:'Mystery Box Announce',
+    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
+    txt3:'Confirm'
+  },
   buy1: "购买记录",
   buy2: "购买NFT卡牌",
   details: "详情",

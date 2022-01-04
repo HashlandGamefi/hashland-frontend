@@ -10,12 +10,21 @@
         <span class="span2 fontsize16_400">{{cardNumber}}</span>
       </div>
       <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
-      <span class="composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
+      <div class="add_select_box" :class="[disablehover?'clear_hover':'']">
+        <span class="add_accrow" v-if="tokenID == 1 || tokenID == 3"></span>
+        <span class="add_composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
+        <span class="add_composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
+        <span class="add_composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
+        <span class="add_composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
+        <span class="add_composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
+        <span class="add_composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
+        <div class="nft_hover" v-if="tokenID == 1 || tokenID == 3">
+          <div class="box_nft">
+            <span class="add_span1 fontsize16" v-if="tokenID == 3" @click="BuyboxClick(1)">{{hc_boxprice}} HC</span>
+            <span class="add_span1 fontsize16" v-if="tokenID == 1" @click="BuyboxClick(3)">{{busd_boxprice}} BUSD</span>
+          </div>
+        </div>
+      </div>
       <span class="composite_line_color"></span>
       <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
       <div class="inputbox">
@@ -24,13 +33,13 @@
       </div>
       <span class="composite_line_color"></span>
       <div class="last">
-        <span class="span1 fontsize12">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
-        <span class="span2 fontsize12" v-if="tokenID == 0">{{$t("message.nftCard.txt11")}}: {{total}} BNB</span>
-        <span class="span2 fontsize12" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HC</span>
-        <span class="span2 fontsize12" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
-        <span class="span2 fontsize12" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
-        <span class="span2 fontsize12" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
-        <span class="span2 fontsize12" v-if="tokenID >= 5">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
+        <span class="span1 fontsize14">{{$t("message.nftCard.txt12")}}  {{surplusNums}}</span>
+        <span class="span2 fontsize14" v-if="tokenID == 0">{{$t("message.nftCard.txt11")}}: {{total}} BNB</span>
+        <span class="span2 fontsize14" v-if="tokenID == 1">{{$t("message.nftCard.txt11")}}: {{total}} HC</span>
+        <span class="span2 fontsize14" v-if="tokenID == 2">{{$t("message.nftCard.txt11")}}: {{total}} HCLP</span>
+        <span class="span2 fontsize14" v-if="tokenID == 3">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
+        <span class="span2 fontsize14" v-if="tokenID == 4">{{$t("message.nftCard.txt11")}}: {{total}} HT</span>
+        <span class="span2 fontsize14" v-if="tokenID >= 5">{{$t("message.nftCard.txt11")}}: {{total}} BUSD</span>
       </div>
     </div>
     <div class="mobile_top">
@@ -60,12 +69,21 @@
       </div>
       <div class="mobile_line">
         <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
-        <span class="composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
+        <div class="add_select_box" :class="[disablehover?'clear_hover':'']">
+          <span class="add_accrow" v-if="tokenID == 1 || tokenID == 3"></span>
+          <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
+          <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
+          <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
+          <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
+          <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
+          <span class="composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
+          <div class="nft_hover" v-if="tokenID == 1 || tokenID == 3">
+            <div class="box_nft">
+              <span class="add_span1 fontsize16" v-if="tokenID == 3" @click="BuyboxClick(1)">{{hc_boxprice}} HC</span>
+              <span class="add_span1 fontsize16" v-if="tokenID == 1" @click="BuyboxClick(3)">{{busd_boxprice}} BUSD</span>
+            </div>
+          </div>
+        </div>
       </div>
       <span class="composite_line_color"></span>
       <div class="mobile_line">
@@ -107,6 +125,10 @@ import { hnBlindBox,hn,erc20,contract,util,getSigner,getHnImg } from 'hashland-s
 export default {
   data () {
     return {
+      vrfFlag:false, // 是否使用随机数
+      disablehover:false,
+      hc_boxprice:0,//hc购买盲盒价格
+      busd_boxprice:0,//busd买盲盒价格
       currencyAddress:'',//sdk返回合约地址
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
@@ -135,15 +157,20 @@ export default {
           this.watchResult()
           setTimeout(() => {
             this.getTokenInfoFun(this.tokenID)
-            this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
-              console.log('当前页面的币种合约: ', this.currencyAddress);
-              if(res){
-                this.isapprove = true
-              }else{
-                this.isapprove = false
-              }
-            })
           },1500)
+          let setIntervalOBJ = setInterval(() => {
+            if(this.currencyAddress){
+              clearInterval(setIntervalOBJ)
+              this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
+                console.log('当前页面的币种合约: ', this.currencyAddress);
+                if(res){
+                  this.isapprove = true
+                }else{
+                  this.isapprove = false
+                }
+              })
+            }
+          }, 1000);
         }
       },
       deep: true,
@@ -156,10 +183,28 @@ export default {
     }
   },
   methods: {
+    BuyboxClick(data){
+      this.boxnums = ''
+      this.total = 0
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
+      this.$router.push(`/buy/1/${data}`)
+    },
     inputchangeFun() {
       // console.log("输入框改变事件")
+      if(!this.getIstrue){
+        this.boxnums = ''
+        this.$common.selectLang("请先连接钱包", "Please connect the wallet", this);
+        return
+      }
       if(this.boxnums == ''){
         this.total = 0
+      }else if(this.vrfFlag && Number(this.boxnums) > 2){
+        this.boxnums = 2
+        this.total = this.$common.useBignumberMultipliedBy(this.boxPrice,this.boxnums)
+        this.$common.selectLang(`最大购买数量2`,`You can purchase up to 2 mystery boxes at a time.`,this)
       }else if(Number(this.boxnums) > Number(this.maxbuy)){
         this.boxnums = this.maxbuy
         this.total = this.maxbuy * this.boxPrice
@@ -269,11 +314,20 @@ export default {
       hn().totalSupply().then(data => {
         this.cardNumber = data.toString()
       })
+      hnBlindBox().getTokenInfo(3).then(res => {
+        console.log('获取某代币信息res: ', res);
+        this.busd_boxprice = res[0].toString() / 1e18
+      })
+      hnBlindBox().getTokenInfo(1).then(res => {
+        console.log('获取某代币信息res: ', res);
+        this.hc_boxprice = res[0].toString() / 1e18
+      })
       hnBlindBox().getTokenInfo(tokenID).then(res => {
         console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
         this.currencyAddress = res[1]
         this.getuserBalance(res[1])
+        this.vrfFlag = res[5]
         if(res[4]){
           hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
             // console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
@@ -343,6 +397,57 @@ export default {
     }
     .amount_class{
       margin-top: 44px;
+    }
+    .add_select_box{
+      display: flex;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      .add_accrow{
+        border-right: 3px solid #ffffff;
+        border-top: 3px solid #ffffff;
+        padding:3px;
+        transform: rotate(135deg);
+        margin-right: 10px;
+        transition: all 0.3s;
+      }
+      .add_composite_span2 {
+        color: #29cdda;
+        line-height: 40px;
+      }
+      .nft_hover {
+        display: none;
+        position: absolute;
+        top: 18px;
+        left: 0;
+        z-index: 99999999;
+        .box_nft {
+          display: flex;
+          flex-direction: column;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 12px;
+          padding: 10px;
+          margin-top: 25px;
+          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 1) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.9) inset;
+          .add_span1{
+            color: #29cdda;
+            line-height: 25px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .add_select_box:hover{
+      .add_accrow{
+        border-right: 3px solid #ffffff;
+        border-top: 3px solid #ffffff;
+        padding:3px;
+        transform: rotate(-43deg);
+        margin-right: 10px;
+      }
+      .nft_hover{
+        display: flex;
+      }
     }
     .composite_span2 {
       color: #29cdda;
@@ -662,9 +767,62 @@ export default {
         justify-content: space-between;
         align-items: center;
         padding-left: 0.15rem;
+        .add_select_box{
+          display: flex;
+          align-items: center;
+          position: relative;
+          cursor: pointer;
+          .add_accrow{
+            border-right: 3px solid #ffffff;
+            border-top: 3px solid #ffffff;
+            padding:3px;
+            transform: rotate(135deg);
+            margin-right: 10px;
+            transition: all 0.3s;
+          }
+          .add_composite_span2 {
+            color: #29cdda;
+            line-height: 40px;
+          }
+          .nft_hover {
+            min-width: 0.9rem;
+            display: none;
+            position: absolute;
+            top: 0.18rem;
+            right: 0;
+            z-index: 99999999;
+            .box_nft {
+              display: flex;
+              flex-direction: column;
+              background: rgba(0, 0, 0, 0.2);
+              border-radius: 0.12rem;
+              padding: 0.1rem;
+              margin-top: 0.2rem;
+              box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 1) inset, -2px 1px 22px 0px rgba(194, 190, 190, 0.9) inset;
+              .add_span1{
+                color: #29cdda;
+                line-height: 0.2rem;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+        .add_select_box:hover{
+          .add_accrow{
+            border-right: 0.03rem solid #ffffff;
+            border-top: 0.03rem solid #ffffff;
+            padding:0.03rem;
+            transform: rotate(-43deg);
+            margin-right: 0.1rem;
+          }
+          .nft_hover{
+            display: flex;
+          }
+        }
         .composite_span1 {
           color: #ffffff;
           line-height: 0.2rem;
+          font-size: 0.16rem;
         }
         .composite_span2 {
           color: #29CDDA;
@@ -673,6 +831,7 @@ export default {
         }
         .composite_span3{
           color: #ffffff;
+          font-size: 0.16rem;
         }
         .inputbox {
           margin: 0;
