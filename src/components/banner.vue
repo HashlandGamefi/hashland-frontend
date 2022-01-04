@@ -174,12 +174,10 @@ export default {
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
     .banner_box {
-      width: 3.2rem;
-      // height: 4.85rem;
+      width: 3.6rem;
       height: auto;
       background-image: url("//cdn.hashland.com/testimgs/mobile_banner_proup1.png");
       background-size: 100% 100%;
-      // background-size: initial;
       background-repeat: no-repeat;
       .content{
         width: 100%;
@@ -268,9 +266,9 @@ export default {
       }
       .closeimg{
         position: absolute;
-        right: -0.1rem;
-        top: -0.58rem;
-        width: 0.4rem;
+        right:0.2rem;
+        top: 0.02rem;
+        width: 0.36rem;
         object-fit: contain;
       }
     }

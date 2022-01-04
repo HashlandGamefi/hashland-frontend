@@ -156,7 +156,9 @@ export default {
       start_userlist:[
         '0x9CFCb45df3759503863bca02DCEF403699A7e508',
         '0x5c15d8bE6A1dcb715d998d60ed06732f71DCf432',
-        '0x3de61E554dbF4372c2fF013eF59712C190cC9A60'
+        '0x3de61E554dbF4372c2fF013eF59712C190cC9A60',
+        '0x12B03eE4321f0ffe19A6448Fce744EC008527045',
+        '0x4f37da26433287DF61F4CE4367dBA0D8eCEfeAAE'
       ]
     }
   },
