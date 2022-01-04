@@ -13,6 +13,10 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
+    <WalletComponents
+      @closewalletpage="walletClose"
+      @walletClick="walletClick"
+    ></WalletComponents>
     <Banner :timeData="timeData" :starttime="starttime" v-if="bannershow == 'istrue'" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
   </div>
 </template>
@@ -46,6 +50,21 @@ export default {
           this.settimeoutFun()
         }
       },500)
+    },
+    'getIstrue':{
+      handler: function (newValue) {
+        if(newValue){
+          this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
+            if (res1 > 1) {
+              sessionStorage.setItem("count", res1);
+            } else {
+              sessionStorage.setItem("count", 1);
+            }
+          });
+        }
+      },
+      deep: true,
+      immediate: true
     },
     // 'bannershow':{
     //   handler: function (newValue) {
@@ -168,14 +187,7 @@ export default {
         })
         .catch((err) => {
           // console.log('获取各种币的价格err:',err)
-        });
-      // hc价格
-      // this.$api.getCurrencyFun('0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0').then(res => {
-      //   this.$store.commit("setCurrenciesPrice",{'hc':this.$common.getBit(res.price)})
-      //   sessionStorage.setItem('hcprice',this.$common.getBit(res.price))
-      // }).catch(err => {
-      //   console.log('获取各种币的价格err:',err)
-      // })
+        })
     },
     handleScroll (e) {
       let direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
@@ -253,6 +265,11 @@ export default {
     },500)
   },
   mounted() {
+    if(localStorage.getItem('walletType')){
+      this.$common.connectWallet(localStorage.getItem('walletType')).then(res => {
+        console.log('方法返回res: ', res);
+      })
+    }
     if(Date.parse(new Date()) / 1000 >= this.starttime){
       this.bannershow = 'isfalse'
     }
@@ -285,10 +302,6 @@ export default {
   #app {
     width: 100%;
     min-height: 100%;
-    // background: #011A31;
-    // background-image: url("//cdn.hashland.com/images/pagehome.png");
-    // background-size: 100% 100%;
-    // background-repeat: no-repeat;
     background: linear-gradient(180deg, #011020 0%, #022954 37%, #012958 56%, #00162e 100%);
   }
 }
