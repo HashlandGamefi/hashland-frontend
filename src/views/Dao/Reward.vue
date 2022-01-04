@@ -1,5 +1,5 @@
 <template>
-  <div class="vote_page">
+  <div class="reward_page">
     <div class="add_title_link">
       <h1 class="h1 fontsize22">{{ $t("message.dao.txt6") }}</h1>
       <div class="add_contract_address" @click="btcClick">
@@ -124,7 +124,7 @@ export default {
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       infoArr: [
-        { desc: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100", title: "Total Power Value", num: "20,000,000", loading: false, isshowimg: false },
+        { desc: "message.dao.txt22", title: "message.dao.txt23", num: "20,000,000", loading: false, isshowimg: false },
         { desc: "message.dao.txt18", title: "message.dao.txt9", num: 0, loading: true, isshowimg: false },
         { desc: "message.dao.txt18_1", title: "message.dao.txt9_2", num: 0, loading: true, isshowimg: false },
         { desc: "message.dao.txt20", title: "message.dao.txt15", num: 0, loading: true, isshowimg: false },
@@ -262,7 +262,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.vote_page {
+.reward_page {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -555,7 +555,7 @@ export default {
   background: #29cdda !important;
 }
 @media screen and (max-width: 980px) {
-  .vote_page {
+  .reward_page {
     width: 100%;
     padding: 0 0.2rem;
     display: flex;

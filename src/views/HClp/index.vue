@@ -145,7 +145,10 @@ export default {
       extractDis:false,// 提取按钮loading
       synthesisDis:false,//质押弹窗loading
       hclpApprove:false,// hclp是否授权
-      hc_timernull:null
+      hc_timernull:null,
+      timer_object:null ,//按钮可以点倒计时对象
+      startime:1640692800,// 按钮可以点时间----2021-12-28
+      disable_btn:false,//按钮默认不能点
     }
   },
   computed: {
@@ -212,7 +215,6 @@ export default {
         this.synthesisDis = true
         console.log('用户质押的数额', this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
         hclpPool().connect(getSigner()).deposit(this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(async res => {
-
           console.log('用户质押HCLP---res: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
@@ -257,7 +259,7 @@ export default {
     },
     // 质押
     pledgeClick(){
-      if(process.env.NODE_ENV == 'production'){
+      if(!this.disable_btn){
         this.$common.selectLang('敬请期待','Coming soon',this)
         return
       }
@@ -265,7 +267,7 @@ export default {
       this.tiptxt = ''
       erc20(token().HCLP).balanceOf(this.getAccount).then(res => {
         console.log('用户hclp余额res: ', res.toString());
-        let nums = this.$common.useBigNumberDiv(res.toString())
+        let nums = this.$common.convertBigNumberToNormal(res.toString(),8)
         console.log('nums: ', nums);
         if (res / 1e18 < 1e-8) {
           this.userbalance = 0
@@ -283,7 +285,7 @@ export default {
     },
     // 解除
     removeClick(){
-      if(process.env.NODE_ENV == 'production'){
+      if(!this.disable_btn){
         this.$common.selectLang('敬请期待','Coming soon',this)
         return
       }
@@ -296,7 +298,7 @@ export default {
     },
     // 提取
     extractClick(){
-      if(process.env.NODE_ENV == 'production'){
+      if(!this.disable_btn){
         this.$common.selectLang('敬请期待','Coming soon',this)
         return
       }
@@ -353,7 +355,6 @@ export default {
             this.hcnumShow = num.substring(num.indexOf('.') + 1,num.length)
             this.hcStarValue = this.extactNUm
             this.extactNUm = Number(num)
-
             // this.extactNUm = this.$common.getBit(this.$common.editE(res.toString() / 1e18),8)
           }
         })
@@ -406,7 +407,6 @@ export default {
       console.log('hclp_balance: ', hclp_balance);
       let hclp_totalSupply = await erc20(token().HCLP).totalSupply()
       console.log('hclp_totalSupply: ', hclp_totalSupply);
-
       erc20(token().BUSD).balanceOf(token().HCLP).then(res => {
         this.$common.checkNumber(((res / 1e18) * 2).toString(), res1 => {
           this.mobility = res1
@@ -420,15 +420,23 @@ export default {
         console.log('流通量err: ', err);
         this.mobility = 0
       })
-
-
     }
   },
   beforeDestroy(){
     clearInterval(this.timernull)
+    clearInterval(this.timer_object)
   },
   mounted(){
     this.getInfo()
+    this.$common.customTime(this.startime,res => {
+      console.log('倒计时res: ', res);
+      if(res == 1){
+        this.disable_btn = true
+      }else{
+        this.timer_object = res
+        this.disable_btn = false
+      }
+    })
   }
 }
 </script>

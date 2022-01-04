@@ -35,7 +35,7 @@ export default {
       this.$store.commit("setwalletstatus", true);
     },
     // 判断是否授权
-    isApproveFun(type, contractAdrdess, isAddres = false) {//isAddres?true:false  true:传进来的是合约地址  false:传进来的是币种
+    isApproveFun(type, contractAdrdess,orther = '') {
       // console.log('当前币种%s是否授权: ', type);
       if (type === 'hn') {
         return new Promise(resolve => {
@@ -55,6 +55,20 @@ export default {
         return new Promise(resolve => {
           hc().allowance(this.getAccount, contractAdrdess).then(res => {
             // console.log('子组件方法--hc是否授权res: ', res);
+            if (res.toString() > 0) {
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--hc是否授权err: ', err);
+            resolve(false)
+          })
+        })
+      }else if(orther == 'NoDescription'){
+        return new Promise(resolve => {
+          erc20(type).allowance(this.getAccount,contractAdrdess).then(res => {
+            // console.log('子组件方法--busd是否授权res: ', res);
             if (res.toString() > 0) {
               resolve(true)
             } else {
@@ -93,8 +107,8 @@ export default {
       }
     },
     // 去授权
-    goApproveFun(type, contractAdrdess, isAddres = false) {//isAddres?true:false  true:传进来的是合约地址  false:传进来的是币种
-      if (type === 'hn') {
+    goApproveFun(type, contractAdrdess,orther = '') {
+      if (type == 'hn') {
         return new Promise((resolve,reject) => {
           hn().connect(getSigner()).setApprovalForAll(contractAdrdess, true).then(async res => {
             console.log('子组件方法--hn去授权res: ', res);
@@ -114,6 +128,22 @@ export default {
         return new Promise((resolve,reject) => {
           hc().connect(getSigner()).approve(contractAdrdess, TOKEN_amount).then(async res => {
             console.log('子组件方法--hc去授权res: ', res);
+            const etReceipt = await res.wait();
+            if(etReceipt.status == 1){
+              resolve(true)
+            }else{
+              resolve(false)
+            }
+          }).catch(err => {
+            console.log('子组件方法--busd去授权err: ', err);
+            reject(false)
+          })
+        })
+      }else if(orther == 'NoDescription'){
+        const TOKEN_amount = '50000000000000000000000000000000000000000000000000000000000';
+        return new Promise((resolve,reject) => {
+          erc20(type).connect(getSigner()).approve(contractAdrdess,TOKEN_amount).then(async res => {
+            console.log('子组件方法--busd去授权res: ', res);
             const etReceipt = await res.wait();
             if(etReceipt.status == 1){
               resolve(true)

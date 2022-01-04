@@ -46,29 +46,6 @@
               />
             </div>
           </li>
-          <!-- <li>
-            <div class="fontsize18 li_title">{{ $t("message.gameFi.text68") }}:</div>
-            <div class="input_box_box">
-              <input
-                type="text"
-                :placeholder="$t('message.gameFi.text69')"
-                v-model="HCValue"
-                @input="
-                  HCValue = HCValue.replace(/[^\d.]/g, '')
-                    .replace(/\.{2,}/g, '.')
-                    .replace('.', '$#$')
-                    .replace(/\./g, '')
-                    .replace('$#$', '.')
-                    .replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/, '$1$2.$3')
-                    .replace(/^\./g, '')
-                "
-              />
-              <div class="ban_select fontsize18 input_btn" @click="getMaxHC">
-                <span>{{ $t("message.gameFi.text78") }}</span>
-                <BtnLoading :isloading="getmaxbtnloading"></BtnLoading>
-              </div>
-            </div>
-          </li> -->
         </ul>
         <div class="recharge_instructions">
           <div class="fontsize16">{{ $t("message.gameFi.text72") }}:</div>
@@ -107,6 +84,7 @@ export default {
       getmaxbtnloading: false,
       isapprove: false, //是否授权
       buy_isloading: false, // 按钮loading
+      hasThisAccount: -1,
     };
   },
   watch: {
@@ -127,10 +105,15 @@ export default {
       handler: function (newValue) {
         if (newValue) {
           const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
-          const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === newValue); //不存在：-1
-          if (hasThisAccount == -1) {
-            this.$parent.showRecharge = false;
+          this.hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === newValue); //不存在：-1
+          if (this.hasThisAccount == -1) {
+            this.$common.selectLang(
+              "请切换至本游戏账号绑定的钱包，否则充值无法到账！",
+              "Please switch wallet address to other under this account!",
+              this
+            );
           } else {
+            if (this.proupDis) this.proupDis = false;
             this.getMaxHC();
           }
         }
@@ -150,6 +133,7 @@ export default {
   methods: {
     /**获取钱包内最大HC */
     getMaxHC() {
+      this.HCBalance = 0;
       this.getmaxbtnloading = true;
       this.HCBalance = 0;
       erc20(token().HC)
@@ -224,6 +208,9 @@ export default {
     /**公用提示框（关闭方法）*/
     CloseFun() {
       this.proupDis = false;
+      if (this.hasThisAccount == -1) {
+        this.$parent.showRecharge = false;
+      }
     },
   },
 };

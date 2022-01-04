@@ -683,7 +683,6 @@ export default {
           margin-right: 15px;
           .span1 {
             color: #ffffff;
-            margin-right: 10px;
           }
           .span2 {
             transition: all 0.3s;

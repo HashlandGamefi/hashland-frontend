@@ -67,7 +67,7 @@ export const message = {
     txt11: "Total",
     txt12: "Remaining",
     txt13: "Purchase",
-    txt14: "Purchase Describtion",
+    txt14: "Purchase Description",
 
     txt15:
       "Each card features an unique ERC721 token, and represents a character in GameFi",
@@ -179,10 +179,10 @@ export const message = {
     txt3: "Annual percentage rate",
     txt4: "Liquidity",
     txt5: "Locked",
-    txt6: "My stake",
+    txt6: "Staked",
     txt7: "Stake",
     txt8: "Unstake",
-    txt9: "My Income",
+    txt9: "HC EARNED",
     txt10: "Total Income:",
     txt11: "Claim",
     txt12: "Account Balance",
@@ -262,6 +262,17 @@ export const message = {
     txt19: "20% of the HC that players recharge in the game",
     txt20: "For market promotion",
     txt21: "DAO Vault Contract:",
+    txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
+    txt23: "Total Power Value",
+    txt24:"Hashland's official voting page is coming soon.",
+    txt25:'Please go to ',
+    txt26:'Snapshot',
+    txt27:' to start voting.'
+  },
+  banner:{
+    txt1:'Mystery Box Announcement',
+    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
+    txt3:'Confirm'
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
@@ -388,7 +399,7 @@ export const message = {
     text88: "World Boss",
     text89: "Once users recharge up to the goal",
     text90: "Reward Vault",
-    text91: "Season 1",
+    text91: "Season 1", // 12/25/2021 - 1/8/2022
     text92: "Season reward",
     text93: "Individual rewards",
     text94: "Chapter rewards",

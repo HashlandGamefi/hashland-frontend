@@ -88,6 +88,10 @@ let routes: Array<RouteConfig> = [
   },
   {
     path: "/dao",
+    redirect: "/dao/0",
+  },
+  {
+    path: "/dao/:id",
     name: "Dao",
     component: () => import("../views/Dao/index.vue"),
   }

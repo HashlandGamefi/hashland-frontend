@@ -249,6 +249,11 @@ export const message = {
     txt19: "20% of the HC that the player recharges in the game",
     txt20: "For market promotion",
   },
+  banner:{
+    txt1:'Mystery Box Announce',
+    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
+    txt3:'Confirm'
+  },
   buy1: "购买记录",
   buy2: "购买NFT卡牌",
   details: "详情",

@@ -21,15 +21,18 @@
         {{ $t("message.dao.txt5") }}
       </div>
     </div>
-    <VoteCom v-if="tabIndex == 0"></VoteCom>
+    <Reward v-if="tabIndex == 0"></Reward>
+    <Vote v-if="tabIndex == 1"></Vote>
     <Proup :btntxt="btntxt" :word="word" :proupDis="proupDis" @besurefun="CloseFun" @closedis="CloseFun"></Proup>
   </div>
 </template>
 <script>
-import VoteCom from './VoteCom.vue'
+import Reward from './Reward.vue'
+import Vote from './Vote.vue'
 export default {
   components: {
-    VoteCom
+    Reward,
+    Vote
   },
   data () {
     return {
@@ -39,20 +42,31 @@ export default {
       proupDis:false,// 弹窗展示消失变量
     }
   },
+  watch:{
+    $route(to){
+      if(to.params.id == 0){
+        this.tabIndex = 0
+      }else if(to.params.id == 1){
+        this.tabIndex = 1
+      }
+    }
+  },
   methods:{
     // 取消按钮(关闭弹窗)
     CloseFun(){
       this.proupDis = false
     },
     tabClick(index){
-      console.log('index: ', index);
-      if(index != 0){
+      if(index == 2){
         this.$common.selectLang("敬请期待", "Coming soon", this);
         return
       }
-      this.tabIndex = index
+      this.$router.push(`/dao/${index}`)
     },
   },
+  mounted(){
+    this.tabIndex = this.$route.params.id
+  }
 }
 </script>
 <style lang='scss' scoped>

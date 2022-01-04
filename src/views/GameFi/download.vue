@@ -28,7 +28,7 @@
           <div class="list">
             <div class="li_box" v-for="(it, ind) in item.list" :key="ind">
               <div class="li" v-if="it.isShow" @click="openLink(it)" :class="{ disable: !it.downloadLink }">
-                <img :src="it.imgUri" alt="" />
+                <img :src="it.imgUrl" alt="" />
                 <div>
                   <div>{{ it.application }}</div>
                   <div v-if="!it.downloadLink">{{ $t("message.gameFi.text79") }}</div>
@@ -73,102 +73,96 @@
 </template>
 
 <script>
-import GameUpdateLog from "@/configs/game-update-log";
+import { GameDownloadData, GameUpdateLog } from "@/configs/game-update-log";
 export default {
   data() {
     return {
-      downloadData: [
-        {
-          mobileDesktop: `${this.$t("message.gameFi.text56")}`,
-          list: [
-            {
-              id: 1,
-              isShow: true,
-              imgUri: `${this.$store.state.imgUrl}android.png`,
-              application: `${this.$t("message.gameFi.text58")}`,
-              isOpen: true,
-              openTime: null, // 2021-12-16 20:30:00
-              downloadLink: GameUpdateLog[0].downloadLink,
-            },
-            {
-              id: 2,
-              isShow: true,
-              imgUri: `${this.$store.state.imgUrl}ios.png`,
-              application: `${this.$t("message.gameFi.text59")}`,
-              isOpen: false,
-              openTime: null,
-            },
-            {
-              id: 3,
-              isShow: true,
-              imgUri: `${this.$store.state.imgUrl}googleplay.png`,
-              application: `${this.$t("message.gameFi.text60")}`,
-              isOpen: false,
-              openTime: null,
-            },
-          ],
-          prompt: `* ${this.$t("message.gameFi.text57")}`,
-        },
-        {
-          mobileDesktop: `${this.$t("message.gameFi.text61")}`,
-          list: [
-            {
-              id: 4,
-              isShow: true,
-              imgUri: `${this.$store.state.imgUrl}nowg.png`,
-              application: `${this.$t("message.gameFi.text64")}`,
-              isOpen: false,
-              openTime: null,
-              prompt: `${this.$t("message.gameFi.text65")}`,
-            },
-            {
-              id: 5,
-              isShow: false,
-              imgUri: `${this.$store.state.imgUrl}windows.png`,
-              application: `${this.$t("message.gameFi.text62")}`,
-              isOpen: false,
-              openTime: null,
-            },
-            {
-              id: 6,
-              isShow: false,
-              imgUri: `${this.$store.state.imgUrl}macos.png`,
-              application: `${this.$t("message.gameFi.text63")}`,
-              isOpen: false,
-              openTime: null,
-            },
-          ],
-        },
-      ],
+      downloadData: [],
+      updateLog: [],
       versionlist: [],
       versionData: {
         version: "",
         update: "",
         log: "",
-        downloadLink: "",
       },
+      // downloadData: [
+      //   {
+      //     mobileDesktop: `${this.$t("message.gameFi.text56")}`,
+      //     list: [
+      //       {
+      //         id: 1,
+      //         isShow: true,
+      //         imgUri: `${this.$store.state.imgUrl}android.png`,
+      //         application: `${this.$t("message.gameFi.text58")}`,
+      //         isOpen: true,
+      //         openTime: null, // 2021-12-16 20:30:00
+      //         downloadLink: GameUpdateLog[0].downloadLink,
+      //       },
+      //       {
+      //         id: 2,
+      //         isShow: true,
+      //         imgUri: `${this.$store.state.imgUrl}ios.png`,
+      //         application: `${this.$t("message.gameFi.text59")}`,
+      //         isOpen: false,
+      //         openTime: null,
+      //       },
+      //       {
+      //         id: 3,
+      //         isShow: true,
+      //         imgUri: `${this.$store.state.imgUrl}googleplay.png`,
+      //         application: `${this.$t("message.gameFi.text60")}`,
+      //         isOpen: false,
+      //         openTime: null,
+      //       },
+      //     ],
+      //     prompt: `* ${this.$t("message.gameFi.text57")}`,
+      //   },
+      //   {
+      //     mobileDesktop: `${this.$t("message.gameFi.text61")}`,
+      //     list: [
+      //       {
+      //         id: 4,
+      //         isShow: true,
+      //         imgUri: `${this.$store.state.imgUrl}nowg.png`,
+      //         application: `${this.$t("message.gameFi.text64")}`,
+      //         isOpen: false,
+      //         openTime: null,
+      //         prompt: `${this.$t("message.gameFi.text65")}`,
+      //       },
+      //       {
+      //         id: 5,
+      //         isShow: false,
+      //         imgUri: `${this.$store.state.imgUrl}windows.png`,
+      //         application: `${this.$t("message.gameFi.text62")}`,
+      //         isOpen: false,
+      //         openTime: null,
+      //       },
+      //       {
+      //         id: 6,
+      //         isShow: false,
+      //         imgUri: `${this.$store.state.imgUrl}macos.png`,
+      //         application: `${this.$t("message.gameFi.text63")}`,
+      //         isOpen: false,
+      //         openTime: null,
+      //       },
+      //     ],
+      //   },
+      // ],
     };
   },
 
   created() {
-    if (GameUpdateLog.length > 0) this.versionData = GameUpdateLog[0];
-    GameUpdateLog.forEach((element) => {
+    this.downloadData = GameDownloadData;
+    this.updateLog = GameUpdateLog;
+    console.log(this.downloadData, this.updateLog);
+    if (this.updateLog.length > 0) this.versionData = this.updateLog[0];
+    this.updateLog.forEach((element) => {
       this.versionlist.push(element.version);
     });
-    // console.log(this.downloadData[0].list[0].href);
-    // this.downloadData.forEach((element) => {
-    //   element.list.forEach((item) => {
-    //     if (item.openTime) {
-    //       const openTime = this.$common.foreignTimeFormat(item.openTime, "yyyy-MM-dd HH-ss");
-    //       item.isOpen = this.countdown(item.openTime);
-    //       console.log(`${item.application}下载包，${openTime}，开放！${item.isOpen ? "现已开放" : "还未开放"}`);
-    //     }
-    //   });
-    // });
   },
   methods: {
     selectVersion(item) {
-      GameUpdateLog.forEach((element) => {
+      this.updateLog.forEach((element) => {
         if (item == element.version) {
           this.versionData = element;
         }
@@ -178,9 +172,6 @@ export default {
       return Date.parse(new Date()) > end ? true : false;
     },
     openLink(item) {
-      // const message = `${item.id},${item.application}下载包，${item.isOpen},${item.isOpen ? "现已开放" : "还未开放"}`;
-      // console.log(message);
-      // if (!item.isOpen) return;
       if (item.downloadLink) window.location.href = item.downloadLink;
     },
     returnToPreviousPage() {

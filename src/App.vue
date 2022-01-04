@@ -13,14 +13,12 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
-    <WalletComponents
-      @closewalletpage="walletClose"
-      @walletClick="walletClick"
-    ></WalletComponents>
+    <Banner :timeData="timeData" :starttime="starttime" v-if="bannershow == 'istrue'" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Banner from './components/banner.vue'
 import Nav from "./components/nav.vue";
 import Footer from "./components/footer.vue";
 import WinningPopup from "./components/winningpopup.vue";
@@ -29,9 +27,11 @@ export default {
     Nav,
     Footer,
     WinningPopup,
+    Banner
   },
   watch: {
     $route(to, from) {
+      console.log('to: ', to);
       window.scrollTo(0, 0);
       this.istopshow = false
       if (to.path == "/synthesis" || to.path == "/transfer") {
@@ -39,22 +39,25 @@ export default {
       } else {
         this.isshowFooter = true;
       }
-    },
-    'getIstrue':{
-      handler: function (newValue) {
-        if(newValue){
-          this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
-            if (res1 > 1) {
-              sessionStorage.setItem("count", res1);
-            } else {
-              sessionStorage.setItem("count", 1);
-            }
-          });
+      setTimeout(() => {
+        if(to.name == "Buy"){
+          this.bannershow = 'isfalse'
+        }else{
+          this.settimeoutFun()
         }
-      },
-      deep: true,
-      immediate: true
+      },500)
     },
+    // 'bannershow':{
+    //   handler: function (newValue) {
+    //     if(newValue == 'istrue'){
+    //       document.body.style.overflow = 'hidden';
+    //     }else{
+    //       document.body.style.overflow = '';
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // }
   },
   computed: {
     ...mapGetters(["getrewardsInfo", "getAccount", "getIstrue"]),
@@ -67,11 +70,15 @@ export default {
   },
   data() {
     return {
+      timeer:null,
+      timeData:{ h: "00", m: "00", s: "00" },
+      starttime:'1641117600',//开始时间  1641031200
       isRouterAlive: true, //控制视图是否显示的变量
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
       istopshow:false,//鼠标移入移除
-      scrollTimeer:null
+      scrollTimeer:null,
+      bannershow:'isfalse', // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
@@ -185,32 +192,69 @@ export default {
     },
     // 是否展示top按钮
     isshowTop(direction){
-      let heigth_ = document.body.offsetHeight
       let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
       // console.log('scroll_top: ', scroll_top);
       // console.log('heigth_: ', heigth_);
-      if (direction == 'down' && scroll_top >= heigth_ / 2) { //125为用户一次滚动鼠标的wheelDelta的值
+      if (direction == 'down') { //125为用户一次滚动鼠标的wheelDelta的值
         if(!this.istopshow){
           this.istopshow = true
         }
         console.log("向下")
       }
-      if (direction == 'up' && scroll_top <= heigth_ / 4) {
+      if (direction == 'up' && scroll_top == 0) {
         if(this.istopshow){
           this.istopshow = false
         }
         console.log("向上")
       }
-    }
+    },
+    // 首页弹窗banner  ---  关闭方法
+    bannerClick(){
+      console.log("sdfhskldf ",this.bannershow)
+      this.bannershow = 'isfalse'
+      clearInterval(this.timeer)
+      // 传1代表1小时后过期,传24代表1天后过期
+      this.$common.setCookie('showbanner','isfalse',1)
+    },
+    besureClick(){
+      console.log('弹窗落地页')
+      this.bannerClick()
+      this.$router.push(`/buy/1/1`)
+    },
+    settimeoutFun(){
+      clearInterval(this.timeer)
+      let time = Date.parse(new Date()) / 1000
+      let owtime = this.starttime - time
+      console.log('现在的时间:%s,相差的时间%s: ', time,owtime);
+      this.timeer = setInterval(() => {
+        if(owtime <= 0){
+          console.log("倒计时结束")
+          clearInterval(this.timeer)
+          // this.bannershow = 'isfalse'
+          this.timeData = { h: "00", m: "00", s: "00" }
+          return
+        }
+        this.$common.afferentTime(owtime,res => {
+          console.log('定时器res: ', res);
+          this.timeData = res
+        })
+        owtime -= 1
+      },1000)
+    },
   },
   created() {
     this.getCurrenciesPrices();
+    setTimeout(() => {
+      if(this.$route.name == "Buy"){
+        this.bannershow = 'isfalse'
+      }else{
+        this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
+      }
+    },500)
   },
   mounted() {
-    if(localStorage.getItem('walletType')){
-      this.$common.connectWallet(localStorage.getItem('walletType')).then(res => {
-        console.log('方法返回res: ', res);
-      })
+    if(Date.parse(new Date()) / 1000 >= this.starttime){
+      this.bannershow = 'isfalse'
     }
     window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);

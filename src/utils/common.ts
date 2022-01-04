@@ -268,7 +268,6 @@ export default {
   },
   /** 应用场景:返回秒数,展示对应时间;参数:传入秒数(返回的是秒数对应的时间)*/
   afferentTime(endtime: any, calback: any) {
-    // console.log('endtime: ', endtime);
     if (endtime == 0) {
       calback({ h: "00", m: "00", s: "00" });
       return;
@@ -279,10 +278,6 @@ export default {
     H = H > 9 ? H : "0" + H;
     M = M > 9 ? M : "0" + M;
     S = S > 9 ? S : "0" + S;
-    if (endtime == 0) {
-      calback({ h: "00", m: "00", s: "00" });
-      return;
-    }
     calback({ h: H, m: M, s: S });
     endtime = endtime - 1;
   },
