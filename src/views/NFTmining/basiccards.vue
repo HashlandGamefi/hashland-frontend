@@ -96,11 +96,16 @@
             <div
               class="btnbox lock_btnbox fontsize16"
               v-if="item.btnstatus == 3"
-              @click="Unlock(item)"
             >
-              <span v-if="ISpprove">{{ $t("message.nftMining.txt10") }}</span>
-              <span v-else>{{ $t("message.approve") }}</span>
-              <BtnLoading :isloading="item.isloading"></BtnLoading>
+              <Btn
+                :isapprove="isapprove"
+                :approveloading="item.isloading"
+                :isloading="item.isloading"
+                :word="$t('message.nftMining.txt10')"
+                ref="mychild"
+                @sonapprove="sonapprove(item)"
+                @dosomething="Unlock(item)"
+              />
             </div>
           </div>
         </div>
@@ -126,13 +131,13 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      isapprove: false,// 是否授权busd
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
       cardSlot: 0, //用户的卡槽数量
       emptyCardSlot: 0, //用户的空卡槽数量
       maxCardSlot: 0, //最大卡槽数量
-      ISpprove: false, //解锁卡槽时候的是否授权
       buyHCMoney: 0, //解锁所需hc金额
       proupBtnstatus: false, // 弹窗的确认按钮 是否可以关闭弹窗
       datainfo: {}, // 点击解锁按钮 存储的信息
@@ -172,6 +177,7 @@ export default {
       swiper1: null,
       swiper2: null,
       timerll:null, // 定时器对象  获取用户总卡牌数
+      time_btn:null
     };
   },
   mounted () {
@@ -201,10 +207,28 @@ export default {
         // 链接成功
         if (newValue) {
           this.getUserAllCard()
-          setTimeout(() => {
-            this.cardsoltArr = [];
-            this.getCardSlotInfo();
-          }, 1500);
+          // setTimeout(() => {
+          //   // this.cardsoltArr = [];
+          //   this.getCardSlotInfo();
+          // }, 1500);
+          this.getCardSlotInfo();
+          clearInterval(this.time_btn)
+          this.time_btn = setInterval(() => {
+            if (this.cardsoltArr.length > 0) {
+              clearInterval(this.time_btn)
+              for (let index = 0; index < this.$refs.mychild.length; index++) {
+                this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
+                  // console.log("shishou:",res)
+                  if (res) {
+                    this.isapprove = true
+                  } else {
+                    this.isapprove = false
+                  }
+                });
+              }
+            }
+            // console.log("链接状态为true时判断是否授权")
+          }, 1000)
         } else {
           this.slotArr.forEach(item => {
             item.num = 0
@@ -249,6 +273,37 @@ export default {
     ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
   },
   methods: {
+    sonapprove (item) {
+      if (item.isloading) return
+      item.isloading = true
+      console.log('父组件页面调用子组件的授权方法,授权busd', item)
+      for (let index = 0; index < this.cardsoltArr.length; index++) {
+        const element = this.cardsoltArr[index];
+        element.isloading = true
+      }
+      this.$refs.mychild[0].goApproveFun('hc', contract().HNPool).then(res => {
+        if (res) {
+          for (let index = 0; index < this.cardsoltArr.length; index++) {
+            const element = this.cardsoltArr[index];
+            element.isloading = false
+          }
+          this.isapprove = true
+        } else {
+          for (let index = 0; index < this.cardsoltArr.length; index++) {
+            const element = this.cardsoltArr[index];
+            element.isloading = false
+          }
+          this.isapprove = false
+        }
+      }).catch(err => {
+        for (let index = 0; index < this.cardsoltArr.length; index++) {
+          const element = this.cardsoltArr[index];
+          element.isloading = false
+        }
+        this.isapprove = false
+      })
+      // this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
+    },
     // 用户总卡牌数据获取
     getUserAllCard(){
       clearInterval(this.timerll)
@@ -311,7 +366,7 @@ export default {
         } else if (index == 2) {
           this.swiper2.slideTo(0, 100, false);
         }
-      }, 2500);
+      }, 1000);
     },
     // 取消按钮(关闭弹窗)
     closeFun () {
@@ -372,28 +427,6 @@ export default {
     async Unlock (item) {
       // console.log("item: ", item);
       this.datainfo = item;
-      if (!this.ISpprove) {
-        if (item.isloading) return;
-        item.isloading = true;
-        this.$common
-          .delegatingFun(2, contract().HNPool)
-          .then((res) => {
-            // console.log("授权res: ", res);
-            this.ISpprove = true;
-            this.$common.selectLang("授权成功", "Authorize Successful", this);
-            item.isloading = false;
-
-            this.proupBtnstatus = true
-          })
-          .catch(() => {
-            // console.log("授权err: ", err);
-            this.ISpprove = false;
-            item.isloading = false;
-            this.proupBtnstatus = true
-          });
-        return;
-      }
-
       // 获取某用户购买新卡槽的HC金额
       this.proupBtnstatus = false;
       this.buyHCMoney = (
@@ -447,81 +480,84 @@ export default {
       });
     },
     // 链接钱包才能拿到的数据获取方法
-    async getCardSlotInfo () {
-      this.cardsoltArr = [];
-      // 获取某用户的总卡槽数量cardSlot
-      this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString();
-      // 获取某用户的空卡槽数量
-      this.emptyCardSlot = (
-        await hnPool().getUserLeftSlots(this.getAccount)
-      ).toString();
-      // 获取最大卡槽数量
-      this.maxCardSlot = (await hnPool().maxSlots()).toString();
-      // 获取某用户在池子质押的基于指针（从0开始）和数量的HN卡牌ID数组和最后一个数据的指针
-      let obj1 = {
-        src: "",
-        btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-        isloading: false,
-      };
-      // 添加空卡槽
-      for (let index1 = 0; index1 < this.emptyCardSlot; index1++) {
-        this.cardsoltArr.push(obj1);
-      }
-      // 是否添加解锁卡槽
-      if (Number(this.cardSlot) < Number(this.maxCardSlot)) {
-        for (
-          let index = 0;
-          index < Number(this.maxCardSlot) - Number(this.cardSlot);
-          index++
-        ) {
-          let obj3 = {
-            src: `${this.$store.state.imgUrl}cardlock.png`,
-            btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-            isloading: false,
-          };
-          this.cardsoltArr.push(obj3);
-        }
-      }
-      let res = await hnPool().getUserHnIdsBySize(
-        this.getAccount,
-        0,
-        100000000
-      );
-      res[0].map(async (item) => {
-        let obj = {
+    getCardSlotInfo () {
+      // this.cardsoltArr = [];
+      this.promiseGetCardSlotIfo().then(async res => {
+        console.log('封装返回方法res: ', res);
+        this.cardsoltArr = res.arr
+        // 获取某用户的总卡槽数量cardSlot
+        this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString();
+        // 获取某用户的空卡槽数量(已经质押的卡槽位不算在其中)
+        this.emptyCardSlot = (
+          await hnPool().getUserLeftSlots(this.getAccount)
+        ).toString();
+        // 获取最大卡槽数量
+        this.maxCardSlot = (await hnPool().maxSlots()).toString();
+        let obj1 = {
           src: "",
-          cardID: "",
-          level: "",
-          hc: "",
-          btc: "",
-          btnstatus: 2, //设置一个状态供需要的地方使用
-          isloading: false, //按钮的loading
+          btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
         };
-        obj.cardID = item.toString(); // 卡牌的id
-        obj.level = (await hn().level(item.toString())).toString(); // 等级
-        let race = await hn().getHashrates(item) // 算力数组
-        obj.src = getHnImg(Number(item),Number(obj.level),race)
-        this.cardsoltArr.unshift(obj);
-      });
-      this.initSwiper(2);
-      // 授权
-      this.$common
-        .isApproveFun(2, this.getAccount, contract().HNPool)
-        .then((res) => {
-          // console.log('解锁是否授权res: ', res);
-          if (res.toString() > 0) {
-            this.ISpprove = true;
-            // console.log('解锁是否授权1');
-          } else {
-            this.ISpprove = false;
-            // console.log('解锁是否授权2');
+        // 添加空卡槽
+        for (let index1 = 0; index1 < this.emptyCardSlot; index1++) {
+          this.cardsoltArr.push(obj1);
+        }
+        // 是否添加解锁卡槽
+        if (Number(this.cardSlot) < Number(this.maxCardSlot)) {
+          for (
+            let index = 0;
+            index < Number(this.maxCardSlot) - Number(this.cardSlot);
+            index++
+          ) {
+            let obj3 = {
+              src: `${this.$store.state.imgUrl}cardlock.png`,
+              btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+              isloading: false,
+            };
+            this.cardsoltArr.push(obj3);
           }
-        })
-        .catch((err) => {
-          // console.log("解锁是否授权err: ", err);
-          this.ISpprove = false;
-        });
+        }
+        this.initSwiper(2);
+      })
     },
+    promiseGetCardSlotIfo(){
+      return new Promise((resolve,reject) => {
+        let count = 1;
+        hnPool().getUserHnIdsBySize(this.getAccount,0,100000000).then(res => {
+          console.log('直接返回res: ', res);
+          if(res[0].length == 0){
+            resolve({'arr': [], 'msg':'Success---No Data'});
+            return
+          }
+          let infoarr = []
+          res[0].map(async (item) => {
+            let obj = {
+              src: "",
+              cardID: "",
+              level: "",
+              hc: "",
+              btc: "",
+              btnstatus: 2, //设置一个状态供需要的地方使用
+              isloading: false, //按钮的loading
+            };
+            obj.cardID = item.toString(); // 卡牌的id
+            obj.level = (await hn().level(item.toString())).toString(); // 等级
+            let race = await hn().getHashrates(item) // 算力数组
+            obj.src = getHnImg(Number(item),Number(obj.level),race)
+            infoarr.push(obj)
+            if (count == res[0].length) {
+              infoarr.sort((a, b) => {
+                return Number(a.level) > Number(b.level) ? -1 : 1;
+              })
+              resolve({'arr': infoarr, 'msg':'Success'});
+            }
+            count++;
+          })
+        }).catch(() => {
+          reject({'arr': [], 'msg':'error'});
+        })
+      })
+    }
   },
   beforeDestroy(){
     clearInterval(this.timerll)
