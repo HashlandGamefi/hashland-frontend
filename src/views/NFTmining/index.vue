@@ -111,6 +111,7 @@ export default {
           this.getSDKInfo() // 个人apr
         }else{
           clearInterval(this.timernull)
+          this.personalApy = this.addBTC = this.addHC = this.btcnum = this.hcnum = 0//可提取hc
         }
       },
       deep: true,

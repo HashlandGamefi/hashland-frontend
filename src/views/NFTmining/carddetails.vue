@@ -13,6 +13,10 @@
       </div>
       <NoData v-if="$route.query.num == 0"></NoData>
     </div>
+    <video id="video"  width="640" height="480" muted controls autoplay="autoplay" preload="auto" >
+      <source src="https://cdn.hashland.com/testimgs/lv4_vid_0.mov" />
+      您的浏览器不支持 HTML5 video 标签。
+    </video>
   </div>
 </template>
 
