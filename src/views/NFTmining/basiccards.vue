@@ -96,7 +96,6 @@
             <div
               class="btnbox lock_btnbox fontsize16"
               v-if="item.btnstatus == 3"
-              @click="Unlock(item)"
             >
               <Btn
                 :isapprove="isapprove"
@@ -105,11 +104,8 @@
                 :word="$t('message.nftMining.txt10')"
                 ref="mychild"
                 @sonapprove="sonapprove(item)"
-                @dosomething="buyCard(item)"
+                @dosomething="Unlock(item)"
               />
-              <!-- <span v-if="ISpprove">{{ $t("message.nftMining.txt10") }}</span>
-              <span v-else>{{ $t("message.approve") }}</span>
-              <BtnLoading :isloading="item.isloading"></BtnLoading> -->
             </div>
           </div>
         </div>
@@ -142,7 +138,6 @@ export default {
       cardSlot: 0, //用户的卡槽数量
       emptyCardSlot: 0, //用户的空卡槽数量
       maxCardSlot: 0, //最大卡槽数量
-      ISpprove: false, //解锁卡槽时候的是否授权
       buyHCMoney: 0, //解锁所需hc金额
       proupBtnstatus: false, // 弹窗的确认按钮 是否可以关闭弹窗
       datainfo: {}, // 点击解锁按钮 存储的信息
@@ -212,10 +207,11 @@ export default {
         // 链接成功
         if (newValue) {
           this.getUserAllCard()
-          setTimeout(() => {
-            this.cardsoltArr = [];
-            this.getCardSlotInfo();
-          }, 1500);
+          // setTimeout(() => {
+          //   // this.cardsoltArr = [];
+          //   this.getCardSlotInfo();
+          // }, 1500);
+          this.getCardSlotInfo();
           clearInterval(this.time_btn)
           this.time_btn = setInterval(() => {
             if (this.cardsoltArr.length > 0) {
@@ -431,28 +427,6 @@ export default {
     async Unlock (item) {
       // console.log("item: ", item);
       this.datainfo = item;
-      if (!this.ISpprove) {
-        if (item.isloading) return;
-        item.isloading = true;
-        this.$common
-          .delegatingFun(2, contract().HNPool)
-          .then((res) => {
-            // console.log("授权res: ", res);
-            this.ISpprove = true;
-            this.$common.selectLang("授权成功", "Authorize Successful", this);
-            item.isloading = false;
-
-            this.proupBtnstatus = true
-          })
-          .catch(() => {
-            // console.log("授权err: ", err);
-            this.ISpprove = false;
-            item.isloading = false;
-            this.proupBtnstatus = true
-          });
-        return;
-      }
-
       // 获取某用户购买新卡槽的HC金额
       this.proupBtnstatus = false;
       this.buyHCMoney = (
@@ -507,19 +481,18 @@ export default {
     },
     // 链接钱包才能拿到的数据获取方法
     getCardSlotInfo () {
-      this.cardsoltArr = [];
+      // this.cardsoltArr = [];
       this.promiseGetCardSlotIfo().then(async res => {
         console.log('封装返回方法res: ', res);
         this.cardsoltArr = res.arr
         // 获取某用户的总卡槽数量cardSlot
         this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString();
-        // 获取某用户的空卡槽数量
+        // 获取某用户的空卡槽数量(已经质押的卡槽位不算在其中)
         this.emptyCardSlot = (
           await hnPool().getUserLeftSlots(this.getAccount)
         ).toString();
         // 获取最大卡槽数量
         this.maxCardSlot = (await hnPool().maxSlots()).toString();
-        // 获取某用户在池子质押的基于指针（从0开始）和数量的HN卡牌ID数组和最后一个数据的指针
         let obj1 = {
           src: "",
           btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
@@ -546,7 +519,6 @@ export default {
         }
         this.initSwiper(2);
       })
-
     },
     promiseGetCardSlotIfo(){
       return new Promise((resolve,reject) => {
