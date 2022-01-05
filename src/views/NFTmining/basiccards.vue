@@ -131,6 +131,7 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      changeAddress:true,//切换账号时此变量变换
       isapprove: false,// 是否授权busd
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
@@ -208,16 +209,23 @@ export default {
           this.getCardSlotInfo();
           clearInterval(this.time_btn)
           this.time_btn = setInterval(() => {
-            if (this.cardsoltArr.length > 0) {
-              clearInterval(this.time_btn)
-              for (let index = 0; index < this.$refs.mychild.length; index++) {
-                this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
-                  if (res) {
-                    this.isapprove = true
-                  } else {
-                    this.isapprove = false
-                  }
-                });
+            if (this.cardsoltArr.length > 0 && this.changeAddress) {
+              let istrue = this.cardsoltArr.some(item => {
+                return item.btnstatus == 3
+              })
+              if(istrue){
+                for (let index = 0; index < this.$refs.mychild.length; index++) {
+                  this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
+                    if (res) {
+                      this.isapprove = true
+                    } else {
+                      this.isapprove = false
+                    }
+                  })
+                }
+                clearInterval(this.time_btn)
+              }else{
+                clearInterval(this.time_btn)
               }
             }
           }, 1000)
@@ -268,7 +276,7 @@ export default {
     sonapprove (item) {
       if (item.isloading) return
       item.isloading = true
-      console.log('父组件页面调用子组件的授权方法,授权busd', item)
+      //console.log('父组件页面调用子组件的授权方法,授权busd', item)
       for (let index = 0; index < this.cardsoltArr.length; index++) {
         const element = this.cardsoltArr[index];
         if(element.btnstatus == 3){
@@ -348,7 +356,7 @@ export default {
           ]
           this.initSwiper(1);
         }
-        console.log("获取用户信息")
+        // console.log("获取用户信息")
       }, 1000);
     },
     /**初始化swiper */
@@ -475,9 +483,9 @@ export default {
     },
     // 链接钱包才能拿到的数据获取方法
     getCardSlotInfo () {
-      // this.cardsoltArr = [];
+      this.changeAddress = false
       this.promiseGetCardSlotIfo().then(async res => {
-        console.log('封装返回方法res: ', res);
+        // console.log('封装返回方法res: ', res);
         this.cardsoltArr = res.arr
         // 获取某用户的总卡槽数量cardSlot
         this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString();
@@ -511,6 +519,7 @@ export default {
             this.cardsoltArr.push(obj3);
           }
         }
+        this.changeAddress = true
         this.initSwiper(2);
       })
     },
@@ -518,7 +527,7 @@ export default {
       return new Promise((resolve,reject) => {
         let count = 1;
         hnPool().getUserHnIdsBySize(this.getAccount,0,100000000).then(res => {
-          console.log('直接返回res: ', res);
+          // console.log('直接返回res: ', res);
           if(res[0].length == 0){
             resolve({'arr': [], 'msg':'Success---No Data'});
             return

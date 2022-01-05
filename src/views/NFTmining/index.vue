@@ -157,7 +157,7 @@ export default {
         if(this.btc_isloading)return
         this.btc_isloading = true
         hnPool().connect(getSigner()).harvestTokens([1]).then(async res => {
-          console.log('提取btcres: ', res);
+          // console.log('提取btcres: ', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
             this.$common.selectLang('提取成功','Claim Successful',this)
@@ -172,7 +172,7 @@ export default {
         this.hc_isloading = true
         hnPool().connect(getSigner()).harvestTokens([0]).then(async res => {
           const etReceipt = await res.wait();
-          console.log('提取hcres: ', res);
+          // console.log('提取hcres: ', res);
           if(etReceipt.status == 1){
             this.$common.selectLang('提取成功','Claim Successful',this)
             this.hc_isloading = false
@@ -223,11 +223,11 @@ export default {
     },
     // sdk一系列信息
     async getSDKInfo(){
-      console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
+      // console.log("价格:",this.getCoinPrice.hc,this.getCoinPrice.btc)
       let personalapr = await info.getHNPoolRoi(this.getAccount, this.getCoinPrice.hc, this.getCoinPrice.btc).catch(err => {
         console.log('ROI错误: ', err);
       })
-      console.log('personalapr: ', personalapr);
+      // console.log('personalapr: ', personalapr);
       if(isNaN(personalapr)){
         this.personalApy = 0
       }else{
