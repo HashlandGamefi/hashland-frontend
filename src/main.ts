@@ -41,7 +41,7 @@ import countTo from "vue-count-to";
 Vue.component("countTo", countTo);
 
 Vue.config.productionTip = false;
-
+console.log = function() {}
 new Vue({
   router,
   store,
