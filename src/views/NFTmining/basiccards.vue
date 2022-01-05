@@ -175,6 +175,38 @@ export default {
         },
       ],
       cardsoltArr: [], // 卡牌组2
+      resetCardsoltArr:[
+        {
+          src: "",
+          btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
+        },
+        {
+          src: "",
+          btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
+        },
+        {
+          src: `${this.$store.state.imgUrl}cardlock.png`,
+          btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
+        },
+        {
+          src: `${this.$store.state.imgUrl}cardlock.png`,
+          btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
+        },
+        {
+          src: `${this.$store.state.imgUrl}cardlock.png`,
+          btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
+        },
+        {
+          src: `${this.$store.state.imgUrl}cardlock.png`,
+          btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
+          isloading: false,
+        }
+      ],// 质押卡槽数组初始数据
       swiper1: null,
       swiper2: null,
       timerll:null, // 定时器对象  获取用户总卡牌数
@@ -205,6 +237,9 @@ export default {
     getIstrue: {
       handler (newValue) {
         if (newValue) {
+          this.slotArr.forEach(item => {
+            item.status = true
+          })
           this.getUserAllCard()
           this.getCardSlotInfo();
           clearInterval(this.time_btn)
@@ -234,33 +269,7 @@ export default {
             item.num = 0
             item.status = false
           })
-          this.cardsoltArr = [
-            {
-              src: "",
-              btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-              isloading: false,
-            },
-            {
-              src: "",
-              btnstatus: 1, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-              isloading: false,
-            },
-            {
-              src: `${this.$store.state.imgUrl}cardlock.png`,
-              btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-              isloading: false,
-            },
-            {
-              src: `${this.$store.state.imgUrl}cardlock.png`,
-              btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-              isloading: false,
-            },
-            {
-              src: `${this.$store.state.imgUrl}cardlock.png`,
-              btnstatus: 3, //1---插入卡槽  2------已质押卡槽  3-----解锁卡槽
-              isloading: false,
-            },
-          ];
+          this.cardsoltArr = this.resetCardsoltArr
           this.initSwiper(1);
           this.initSwiper(2);
         }
