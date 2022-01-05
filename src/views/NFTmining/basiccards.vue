@@ -131,6 +131,7 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      changeAddress:true,//切换账号时此变量变换
       isapprove: false,// 是否授权busd
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
@@ -202,32 +203,31 @@ export default {
   },
   watch: {
     getIstrue: {
-      handler (newValue, oldValue) {
-        // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
-        // 链接成功
+      handler (newValue) {
         if (newValue) {
           this.getUserAllCard()
-          // setTimeout(() => {
-          //   // this.cardsoltArr = [];
-          //   this.getCardSlotInfo();
-          // }, 1500);
           this.getCardSlotInfo();
           clearInterval(this.time_btn)
           this.time_btn = setInterval(() => {
-            if (this.cardsoltArr.length > 0) {
-              clearInterval(this.time_btn)
-              for (let index = 0; index < this.$refs.mychild.length; index++) {
-                this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
-                  // console.log("shishou:",res)
-                  if (res) {
-                    this.isapprove = true
-                  } else {
-                    this.isapprove = false
-                  }
-                });
+            if (this.cardsoltArr.length > 0 && this.changeAddress) {
+              let istrue = this.cardsoltArr.some(item => {
+                return item.btnstatus == 3
+              })
+              if(istrue){
+                for (let index = 0; index < this.$refs.mychild.length; index++) {
+                  this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
+                    if (res) {
+                      this.isapprove = true
+                    } else {
+                      this.isapprove = false
+                    }
+                  })
+                }
+                clearInterval(this.time_btn)
+              }else{
+                clearInterval(this.time_btn)
               }
             }
-            // console.log("链接状态为true时判断是否授权")
           }, 1000)
         } else {
           this.slotArr.forEach(item => {
@@ -276,10 +276,12 @@ export default {
     sonapprove (item) {
       if (item.isloading) return
       item.isloading = true
-      console.log('父组件页面调用子组件的授权方法,授权busd', item)
+      //console.log('父组件页面调用子组件的授权方法,授权busd', item)
       for (let index = 0; index < this.cardsoltArr.length; index++) {
         const element = this.cardsoltArr[index];
-        element.isloading = true
+        if(element.btnstatus == 3){
+          element.isloading = true
+        }
       }
       this.$refs.mychild[0].goApproveFun('hc', contract().HNPool).then(res => {
         if (res) {
@@ -354,7 +356,7 @@ export default {
           ]
           this.initSwiper(1);
         }
-        console.log("获取用户信息")
+        // console.log("获取用户信息")
       }, 1000);
     },
     /**初始化swiper */
@@ -481,9 +483,9 @@ export default {
     },
     // 链接钱包才能拿到的数据获取方法
     getCardSlotInfo () {
-      // this.cardsoltArr = [];
+      this.changeAddress = false
       this.promiseGetCardSlotIfo().then(async res => {
-        console.log('封装返回方法res: ', res);
+        // console.log('封装返回方法res: ', res);
         this.cardsoltArr = res.arr
         // 获取某用户的总卡槽数量cardSlot
         this.cardSlot = (await hnPool().getUserSlots(this.getAccount)).toString();
@@ -517,6 +519,7 @@ export default {
             this.cardsoltArr.push(obj3);
           }
         }
+        this.changeAddress = true
         this.initSwiper(2);
       })
     },
@@ -524,7 +527,7 @@ export default {
       return new Promise((resolve,reject) => {
         let count = 1;
         hnPool().getUserHnIdsBySize(this.getAccount,0,100000000).then(res => {
-          console.log('直接返回res: ', res);
+          // console.log('直接返回res: ', res);
           if(res[0].length == 0){
             resolve({'arr': [], 'msg':'Success---No Data'});
             return
@@ -539,14 +542,19 @@ export default {
               btc: "",
               btnstatus: 2, //设置一个状态供需要的地方使用
               isloading: false, //按钮的loading
+              type:''
             };
             obj.cardID = item.toString(); // 卡牌的id
             obj.level = (await hn().level(item.toString())).toString(); // 等级
             let race = await hn().getHashrates(item) // 算力数组
             obj.src = getHnImg(Number(item),Number(obj.level),race)
+            obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString();
             infoarr.push(obj)
             if (count == res[0].length) {
               infoarr.sort((a, b) => {
+                if(a.level == b.level){
+                  return Number(a.type) > Number(b.type) ? 1 : -1;
+                }
                 return Number(a.level) > Number(b.level) ? -1 : 1;
               })
               resolve({'arr': infoarr, 'msg':'Success'});
