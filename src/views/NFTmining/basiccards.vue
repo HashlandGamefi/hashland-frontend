@@ -202,15 +202,9 @@ export default {
   },
   watch: {
     getIstrue: {
-      handler (newValue, oldValue) {
-        // console.log("基础卡牌页面钱包是否链接:", newValue, oldValue);
-        // 链接成功
+      handler (newValue) {
         if (newValue) {
           this.getUserAllCard()
-          // setTimeout(() => {
-          //   // this.cardsoltArr = [];
-          //   this.getCardSlotInfo();
-          // }, 1500);
           this.getCardSlotInfo();
           clearInterval(this.time_btn)
           this.time_btn = setInterval(() => {
@@ -218,7 +212,6 @@ export default {
               clearInterval(this.time_btn)
               for (let index = 0; index < this.$refs.mychild.length; index++) {
                 this.$refs.mychild[index].isApproveFun('hc', contract().HNPool).then(res => {
-                  // console.log("shishou:",res)
                   if (res) {
                     this.isapprove = true
                   } else {
@@ -227,7 +220,6 @@ export default {
                 });
               }
             }
-            // console.log("链接状态为true时判断是否授权")
           }, 1000)
         } else {
           this.slotArr.forEach(item => {
@@ -279,7 +271,9 @@ export default {
       console.log('父组件页面调用子组件的授权方法,授权busd', item)
       for (let index = 0; index < this.cardsoltArr.length; index++) {
         const element = this.cardsoltArr[index];
-        element.isloading = true
+        if(element.btnstatus == 3){
+          element.isloading = true
+        }
       }
       this.$refs.mychild[0].goApproveFun('hc', contract().HNPool).then(res => {
         if (res) {
@@ -539,14 +533,19 @@ export default {
               btc: "",
               btnstatus: 2, //设置一个状态供需要的地方使用
               isloading: false, //按钮的loading
+              type:''
             };
             obj.cardID = item.toString(); // 卡牌的id
             obj.level = (await hn().level(item.toString())).toString(); // 等级
             let race = await hn().getHashrates(item) // 算力数组
             obj.src = getHnImg(Number(item),Number(obj.level),race)
+            obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString();
             infoarr.push(obj)
             if (count == res[0].length) {
               infoarr.sort((a, b) => {
+                if(a.level == b.level){
+                  return Number(a.type) > Number(b.type) ? 1 : -1;
+                }
                 return Number(a.level) > Number(b.level) ? -1 : 1;
               })
               resolve({'arr': infoarr, 'msg':'Success'});
