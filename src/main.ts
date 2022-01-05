@@ -40,6 +40,9 @@ Vue.component("BtnLoading", BtnLoading);
 import countTo from "vue-count-to";
 Vue.component("countTo", countTo);
 
+import Lottie from '@/components/lottie.vue'
+Vue.component("Lottie", Lottie);
+
 Vue.config.productionTip = false;
 console.log = function() {}
 new Vue({
