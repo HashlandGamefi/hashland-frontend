@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import i18n from "../i18n/index";
 import { hn, getSigner, hc, getHnImg } from "hashland-sdk";
 import store from "@/store";
+import api from '@/api/api'
 export default {
   // 设置cookie过期时间
   setCookie(key: string, value: any, time: any) {
@@ -356,7 +357,6 @@ export default {
         .tokensOfOwnerBySize(account, 0, 100000000)
         .then(async (res) => {
           //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
-          // console.log('公共的获取到的用户的所有卡牌信息', res[0]);
           if (res[0].length == 0) {
             store.commit("setCardInfo", JSON.stringify([]));
             sessionStorage.setItem("setCardInfo", JSON.stringify([]));
@@ -374,25 +374,29 @@ export default {
               src: "",
               status: false, // 选中与未选中
               ismaster: false, //主牌设置
-            };
+              series:'',//获取某HN的系列
+              ultra:'' // 是否是特殊卡
+            }
+            obj.series = (await hn().series(item)).toString() // 系列
             obj.cardID = item.toString(); // 卡牌的id
-            obj.level = (await hn().level(item)).toString(); // 等级
+            obj.level = (await hn().level(item)).toString() // 等级
             obj.type = (
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
-            let race = await hn().getHashrates(item); // 算力数组
+            obj.ultra = (await hn().data(item, 'ultra')).toString()
+            let race = await hn().getHashrates(item) // 算力数组
             // @ts-ignore
-            obj.src = getHnImg(Number(item), obj.level, race);
-            infoArr.push(obj);
+            obj.src = getHnImg(Number(obj.cardID), obj.level, race,false)
+            infoArr.push(obj)
             if (count == res[0].length) {
-              store.commit("setCardInfo", JSON.stringify(infoArr));
-              sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
-              resolve(count);
+              store.commit("setCardInfo", JSON.stringify(infoArr))
+              sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr))
+              resolve(count)
             }
-            count++;
-          });
-        });
-    });
+            count++
+          })
+        })
+    })
   },
   // 一个数乘以1e18   eg:convertNormalToBigNumber('input num',18)
   convertNormalToBigNumber(num: any, decimals = 18, fix = 0) {
@@ -460,4 +464,20 @@ export default {
       );
     }
   },
+  getDatCardJson(type:number,level:number){
+    const CARD_API = process.env.VUE_APP_NEWCARD;
+    const arguments_card = '?image_process=resize,w_512/crop,mid,w_410,h_512'
+    return new Promise((resolve,reject) => {
+      api.getDataJson(`type${type}/${level}/data.json`).then(res => {
+        res.data.assets.forEach((element:any) => {
+          element.u = ''
+          element.p = `${CARD_API}type${type}/${level}/images/` + element.p + arguments_card
+        });
+        resolve({"status":true,'data':res.data})
+      }).catch(err => {
+        reject({"status":false,'data':{}})
+      })
+    })
+
+  }
 };

@@ -44,7 +44,7 @@ import Lottie from '@/components/lottie.vue'
 Vue.component("Lottie", Lottie);
 
 Vue.config.productionTip = false;
-console.log = function() {}
+// console.log = function() {}
 new Vue({
   router,
   store,

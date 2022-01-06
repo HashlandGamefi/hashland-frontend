@@ -30,8 +30,8 @@ export default {
     Banner
   },
   watch: {
-    $route(to, from) {
-      console.log('to: ', to);
+    $route(to) {
+      // console.log('to: ', to);
       window.scrollTo(0, 0);
       this.istopshow = false
       if (to.path == "/synthesis" || to.path == "/transfer") {
@@ -178,25 +178,25 @@ export default {
         if(!this.istopshow){
           this.istopshow = true
         }
-        console.log("向下")
+        // console.log("向下")
       }
       if (direction == 'up' && scroll_top == 0) {
         if(this.istopshow){
           this.istopshow = false
         }
-        console.log("向上")
+        // console.log("向上")
       }
     },
     // 首页弹窗banner  ---  关闭方法
     bannerClick(){
-      console.log("sdfhskldf ",this.bannershow)
+      // console.log("sdfhskldf ",this.bannershow)
       this.bannershow = 'isfalse'
       clearInterval(this.timeer)
       // 传1代表1小时后过期,传24代表1天后过期
       this.$common.setCookie('showbanner','isfalse',1)
     },
     besureClick(){
-      console.log('弹窗落地页')
+      // console.log('弹窗落地页')
       this.bannerClick()
       this.$router.push(`/buy/1/1`)
     },
@@ -204,17 +204,17 @@ export default {
       clearInterval(this.timeer)
       let time = Date.parse(new Date()) / 1000
       let owtime = this.starttime - time
-      console.log('现在的时间:%s,相差的时间%s: ', time,owtime);
+      // console.log('现在的时间:%s,相差的时间%s: ', time,owtime);
       this.timeer = setInterval(() => {
         if(owtime <= 0){
-          console.log("倒计时结束")
+          // console.log("倒计时结束")
           clearInterval(this.timeer)
           // this.bannershow = 'isfalse'
           this.timeData = { h: "00", m: "00", s: "00" }
           return
         }
         this.$common.afferentTime(owtime,res => {
-          console.log('定时器res: ', res);
+          // console.log('定时器res: ', res);
           this.timeData = res
         })
         owtime -= 1

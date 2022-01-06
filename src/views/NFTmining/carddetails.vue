@@ -7,11 +7,8 @@
     <div class="boxarr">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <Lottie :options="lv1_defaultOptions" v-if="item.level == 1" :width="256" class="positon_absoult"></Lottie>
-        <Lottie :options="lv2_defaultOptions" v-if="item.level == 2" :width="256" class="positon_absoult"></Lottie>
-        <Lottie :options="lv3_defaultOptions" v-if="item.level == 3" :width="256" class="positon_absoult"></Lottie>
-        <Lottie :options="lv4_defaultOptions" v-if="item.level == 4" :width="256" class="positon_absoult"></Lottie>
-        <Lottie :options="lv5_defaultOptions" v-if="item.level == 5" :width="256" class="positon_absoult"></Lottie>
+
+        <!-- <Lottie :options="type1_lv1_dataanimationData" v-if="item.level == 1 && item.type == 1" :width="getIsMobile?256:'50%'" class="positon_absoult"></Lottie> -->
       </div>
       <div class="loadingbox fontsize16" v-if="boxarr.length == 0 && pageshowLoading">
         Loading...
@@ -22,37 +19,19 @@
 </template>
 
 <script>
-import lv1_animationData from '@/assets/common/data1.json' // 引入json文件
-import lv2_animationData from '@/assets/common/data2.json' // 引入json文件
-import lv3_animationData from '@/assets/common/data3.json' // 引入json文件
-import lv4_animationData from '@/assets/common/data4.json' // 引入json文件
-import lv5_animationData from '@/assets/common/data5.json' // 引入json文件
 import { mapGetters } from "vuex";
 export default {
   data () {
     return {
+      type1_lv1_dataanimationData:{},
       pageshowLoading:true,
       boxarr:[],
-      lv1_defaultOptions: {
-        animationData: lv1_animationData
-      },
-      lv2_defaultOptions: {
-        animationData: lv2_animationData
-      },
-      lv3_defaultOptions: {
-        animationData: lv3_animationData
-      },
-      lv4_defaultOptions: {
-        animationData: lv4_animationData
-      },
-      lv5_defaultOptions: {
-        animationData: lv5_animationData
-      },
+      type4_lv2_dataanimationData: {},
       timerll:null
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getUserCardInfo","getIsMobile"])
+    ...mapGetters(["getIstrue","getUserCardInfo","getIsMobile","getIsMobile"])
   },
   watch:{
     'getIstrue':{
@@ -80,13 +59,25 @@ export default {
           this.boxarr = arr.sort((a, b) => {
             return Number(a.type) > Number(b.type) ? 1 : -1;
           })
+          console.log("卡牌详情页面展示的数组:",this.boxarr)
           this.pageshowLoading = false
         }
       }, 500);
     },
     back(){
       this.$router.go(-1)
+    },
+    getDatCardJson(){
+      this.$common.getDatCardJson(1,1).then(res => {//  1----卡牌人物类型 2---等级
+        console.log('封装api获取到的res: ', res);
+        this.type1_lv1_dataanimationData = res.data
+      }).catch(err => {
+        console.log('封装api获取到的--err: ', err);
+      })
     }
+  },
+  mounted(){
+    this.getDatCardJson()
   }
 }
 </script>

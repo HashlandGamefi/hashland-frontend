@@ -41,8 +41,8 @@
           renderer: 'svg',
           loop: true,
           autoplay: true,
-          animationData: this.options.animationData,
-          rendererSettings: this.options.rendererSettings
+          animationData: this.options,
+          // rendererSettings: this.options.rendererSettings
         }
       )
     }

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_API = process.env.VUE_APP_BASE_API;
 const GAME_API = process.env.VUE_APP_GAME_API;
+const CARD_API = process.env.VUE_APP_NEWCARD;
 // center服域名和端口号 GAME_API
 // 内网测试服 vov2021.mynatapp.cc
 // 外网测试服 https://hw-api-test.hashland.com
@@ -34,5 +35,8 @@ export default {
    * */
   getPVEandPVPinfo(data: any){
     return axios.get(`${GAME_API}/va_cent/hc_info?${data}`);
+  },
+  getDataJson(data:any){
+    return axios.get( `${CARD_API}${data}`);
   }
 };

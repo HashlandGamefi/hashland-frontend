@@ -121,7 +121,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnBlindBox,hn,erc20,contract,util,getSigner,getHnImg } from 'hashland-sdk';
+import { hnBlindBoxS2,hn,erc20,contract,util,getSigner,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -161,8 +161,8 @@ export default {
           let setIntervalOBJ = setInterval(() => {
             if(this.currencyAddress){
               clearInterval(setIntervalOBJ)
-              this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
-                console.log('当前页面的币种合约: ', this.currencyAddress);
+              this.$refs.mychild.isApproveFun(this.currencyAddress,contract().HNBlindBoxS2,'NoDescription').then(res => {
+                // console.log('当前页面的币种合约: ', this.currencyAddress);
                 if(res){
                   this.isapprove = true
                 }else{
@@ -219,20 +219,20 @@ export default {
       if(this.disable)return
       if(this.buy_isloading)return
       this.buy_isloading = true
-      this.$refs.mychild.goApproveFun(this.currencyAddress,contract().HNBlindBox,'NoDescription').then(res => {
-        console.log('去授权res: ', res);
+      this.$refs.mychild.goApproveFun(this.currencyAddress,contract().HNBlindBoxS2,'NoDescription').then(res => {
+        // console.log('去授权res: ', res);
         this.buy_isloading = false
         this.isapprove = true
       }).catch(() => {
-        console.log("授权错误")
+        // console.log("授权错误")
         this.isapprove = false
         this.buy_isloading = false
       })
     },
     // 监听盲盒开奖结果
     watchResult(){
-      let filter = hnBlindBox().filters.SpawnHns(this.getAccount)
-      hnBlindBox().on(filter, (user, boxslengths, boxarrID,events) => {
+      let filter = hnBlindBoxS2().filters.SpawnHns(this.getAccount)
+      hnBlindBoxS2().on(filter, (user, boxslengths, boxarrID,events) => {
         console.log('监听盲盒开奖结果: ', user, boxslengths, boxarrID,events);
         this.getTokenInfoFun(this.tokenID)
         let str = boxarrID.toString()
@@ -270,34 +270,34 @@ export default {
         return
       }
       if(Number(this.boxnums) > Number(this.surplusNums)){
-        console.log('可购买数量不足')
+        // console.log('可购买数量不足')
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }
-      console.log('购买前余额跟盒子总价比较: ', Number(this.total),Number(this.balance));
+      // console.log('购买前余额跟盒子总价比较: ', Number(this.total),Number(this.balance));
       if(Number(this.total) > Number(this.balance)){
         this.$common.selectLang('余额不足','Insufficent Balance',this)
         return
       }
       this.buy_isloading = true
-      hnBlindBox().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
-        console.log('购买盒子res: ', res);
+      hnBlindBoxS2().connect(getSigner()).buyBoxes(this.boxnums,this.tokenID).then(async res => {
+        // console.log('购买盒子res: ', res);
         this.buy_isloading = false
         this.$common.selectLang('购买成功',"The NFT cards will display in few seconds, and it doesn't affect any action.",this)
         this.boxnums = ''
         this.total = 0
       }).catch(err => {
-        console.log('购买盒子err: ', err);
+        // console.log('购买盒子err: ', err);
         this.buy_isloading = false
       })
     },
     getuserBalance(type){
-      console.log('获取余额传进来的type: ', type);
+      // console.log('获取余额传进来的type: ', type);
       erc20(type).balanceOf(this.getAccount).then(res => {
         this.balance = util.formatEther(res)
-        console.log('钱包余额res: ',this.balance);
+        // console.log('钱包余额res: ',this.balance);
       }).catch(err => {
-        console.log('%s钱包余额err: ', err);
+        // console.log('%s钱包余额err: ', err);
       })
     },
     // 取消按钮(关闭弹窗)
@@ -307,29 +307,29 @@ export default {
     // 获取某代币信息
     async getTokenInfoFun(tokenID){
       // console.log('fdfdsfsd ',tokenID)
-      hnBlindBox().getBoxesLeftSupply(tokenID).then(res => {
+      hnBlindBoxS2().getBoxesLeftSupply(tokenID).then(res => {
         // console.log("忙和剩余数量",res)
         this.surplusNums = res
       })
       hn().totalSupply().then(data => {
         this.cardNumber = data.toString()
       })
-      hnBlindBox().getTokenInfo(3).then(res => {
-        console.log('获取某代币信息res: ', res);
+      hnBlindBoxS2().getTokenInfo(3).then(res => {
+        // console.log('获取某代币信息res: ', res);
         this.busd_boxprice = res[0].toString() / 1e18
       })
-      hnBlindBox().getTokenInfo(1).then(res => {
-        console.log('获取某代币信息res: ', res);
+      hnBlindBoxS2().getTokenInfo(1).then(res => {
+        // console.log('获取某代币信息res: ', res);
         this.hc_boxprice = res[0].toString() / 1e18
       })
-      hnBlindBox().getTokenInfo(tokenID).then(res => {
-        console.log('获取某代币信息res: ', res);
+      hnBlindBoxS2().getTokenInfo(tokenID).then(res => {
+        // console.log('获取某代币信息res: ', res);
         this.boxPrice = res[0].toString() / 1e18
         this.currencyAddress = res[1]
         this.getuserBalance(res[1])
         this.vrfFlag = res[5]
         if(res[4]){
-          hnBlindBox().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
+          hnBlindBoxS2().getWhiteListExistence(tokenID,this.getAccount).then(istrue => {
             // console.log('判断某用户是否在某代币的白名单istrue: ', istrue);
             if(istrue){
               this.disable = false
@@ -342,7 +342,7 @@ export default {
         }
       })
       // 1小时之内某用户的剩余购买量
-      let maxnum = await hnBlindBox().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
+      let maxnum = await hnBlindBoxS2().getUserHourlyBoxesLeftSupply(tokenID,this.getAccount,Date.parse(new Date()) / 1000)
       this.maxbuy = maxnum.toString()
     }
   },
