@@ -355,7 +355,7 @@ export default {
       let count = 1;
       hn()
         .tokensOfOwnerBySize(account, 0, 100000000)
-        .then(async (res) => {
+        .then(async (res:any) => {
           //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
           if (res[0].length == 0) {
             store.commit("setCardInfo", JSON.stringify([]));
