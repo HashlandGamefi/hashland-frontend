@@ -383,7 +383,7 @@ export default {
             obj.type = (
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
-            obj.ultra = await hn().data(item, 'ultra') >= 1?true:false
+            obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
             console.log('obj.ultra: ', obj.ultra);
             let race = await hn().getHashrates(item) // 算力数组
             // @ts-ignore
