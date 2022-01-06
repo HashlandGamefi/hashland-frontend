@@ -375,7 +375,7 @@ export default {
               status: false, // 选中与未选中
               ismaster: false, //主牌设置
               series:'',//获取某HN的系列
-              ultra:'' // 是否是特殊卡
+              ultra:false // 是否是特殊卡
             }
             obj.series = (await hn().series(item)).toString() // 系列
             obj.cardID = item.toString(); // 卡牌的id
@@ -383,10 +383,11 @@ export default {
             obj.type = (
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
-            obj.ultra = (await hn().data(item, 'ultra')).toString()
+            obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+            console.log('obj.ultra: ', obj.ultra);
             let race = await hn().getHashrates(item) // 算力数组
             // @ts-ignore
-            obj.src = getHnImg(Number(obj.cardID), obj.level, race,false)
+            obj.src = getHnImg(Number(obj.cardID), obj.level, race,obj.ultra)
             infoArr.push(obj)
             if (count == res[0].length) {
               store.commit("setCardInfo", JSON.stringify(infoArr))
