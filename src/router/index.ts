@@ -78,12 +78,12 @@ let routes: Array<RouteConfig> = [
   },
   {
     path: "/gameFi-personalCenter",
-    name: "PersonalCenter",
+    name: "gameFiPersonalCenter",
     component: () => import("../views/GameFi/personalCenter.vue"),
   },
   {
     path: "/gameFi-download",
-    name: "Download",
+    name: "gameFiDownload",
     component: () => import("../views/GameFi/download.vue"),
   },
   {

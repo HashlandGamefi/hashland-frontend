@@ -40,8 +40,7 @@ export const message = {
     txt7: "NFT卡牌",
     txt8: "NFT挖矿",
     txt9: "邀请",
-    txt10: "登录",
-    txt11: "注册",
+    txt10: "Play",
   },
   footer: {
     // footer

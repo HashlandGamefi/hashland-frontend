@@ -29,7 +29,7 @@ export const GameDownloadData = [
       {
         isShow: true,
         imgUrl: "https://cdn.hashland.com/images/nowg.png",
-        application: "NowGG",
+        application: "NowGG Online",
         downloadLink: "https://now.gg/lp/xyz/5283/hash-warfare/player",
         prompt: "For mobile game developers and gamers",
       },

@@ -4,46 +4,35 @@
       <img :src="`${$store.state.imgUrl}logo.png`" class="imgs" />
     </div>
     <div class="menu_box">
-      <ul class="ul_">
-        <li
-          :class="[index == getMenuIndex ? 'activeClass' : '', 'fontsize18']"
-          v-for="(item, index) in navarr"
-          :key="index"
-          @click="menuClick(index)"
-        >
+      <ul class="ul_ fontsize18">
+        <li v-for="(item, index) in navarr" :key="index" :class="[index == menuIndex ? 'activeClass' : '']" @click="menuClick(index)">
           {{ $t(item) }}
           <div class="nft_hover" v-show="index == 0">
             <div class="box_nft">
-              <div class="span1" @click.stop="nftFun('card')">
-                {{ $t("message.nav.txt7") }} <span class="icon-v-right"></span>
-              </div>
-              <div class="span1" @click.stop="nftFun('mining')">
-                {{ $t("message.nav.txt8") }} <span class="icon-v-right"></span>
-              </div>
+              <div class="span1" @click.stop="nftFun('card')">{{ $t("message.nav.txt7") }} <span class="icon-v-right"></span></div>
+              <div class="span1" @click.stop="nftFun('mining')">{{ $t("message.nav.txt8") }} <span class="icon-v-right"></span></div>
             </div>
           </div>
         </li>
       </ul>
     </div>
-    <div class="connect_box">
+    <div class="connect_box fontsize18">
       <div class="walletBox" v-if="getIstrue">
         <div class="connect_triangle">
-          <span class="span2 fontsize18">{{ getSubtringAccount }}</span>
+          <span class="span2">{{ getSubtringAccount }}</span>
           <span class="connect_icon"></span>
         </div>
         <div class="wallet_hover">
           <div class="lastbox_hover">
             <div class="hover_span1" @click.stop="signOutFun">
-              <span class="span_exit fontsize18">Disconnect</span>
+              <span class="span_exit">Disconnect</span>
               <img :src="`${$store.state.imgUrl}exit.png`" class="exit_class" />
             </div>
           </div>
         </div>
       </div>
-      <span class="span1 fontsize18" @click="commonLink" v-else>Connect</span>
-      <div class="lang_box">
-        <span class="lang_txt fontsize18">EN</span>
-      </div>
+      <span class="span1" @click="commonLink" v-else>Connect</span>
+      <div class="lang_box"><span class="lang_txt">EN</span></div>
     </div>
     <div class="mobile_menu">
       <div class="top_line" :class="{ mobile_border: !InitialStatus }">
@@ -62,29 +51,14 @@
             </div>
           </div>
           <span class="span1 fontsize18" @click="commonLink" v-else>Connect </span>
-          <img
-            :src="`${$store.state.imgUrl}mobilemenu.png`"
-            class="mobile_menu_class"
-            v-if="InitialStatus"
-            @click="mobilemenuClick"
-          />
-          <img
-            :src="`${$store.state.imgUrl}proupclose.png`"
-            class="mobile_menu_class"
-            v-else
-            @click="mobilemenuClick"
-          />
+          <img :src="`${$store.state.imgUrl}mobilemenu.png`" class="mobile_menu_class" v-if="InitialStatus" @click="mobilemenuClick" />
+          <img :src="`${$store.state.imgUrl}proupclose.png`" class="mobile_menu_class" v-else @click="mobilemenuClick" />
         </div>
       </div>
       <div class="mobile_fixed_menu" v-if="mobilemenu" @click="mobilemenu = false">
         <div class="mobile_box">
-          <ul class="ul_">
-            <li
-              :class="[index == getMenuIndex ? 'mobile_activeClass' : '', 'fontsize16']"
-              v-for="(item, index) in navarr"
-              :key="index"
-              @click.stop="menuClick(index)"
-            >
+          <ul class="ul_ fontsize16">
+            <li :class="[index == menuIndex ? 'mobile_activeClass' : '']" v-for="(item, index) in navarr" :key="index" @click.stop="menuClick(index)">
               <div class="mobile_line">
                 {{ $t(item) }}
                 <span
@@ -105,18 +79,14 @@
                 </div>
               </div>
             </li>
+            <li><div class="mobile_line">EN</div></li>
           </ul>
-          <div class="mobile_lang fontsize16">EN</div>
         </div>
         <div class="dispear_box"></div>
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
-    <WalletComponents
-      :walletdis="walletdis"
-      @closewalletpage="walletClose"
-      @walletClick="walletClick"
-    ></WalletComponents>
+    <WalletComponents :walletdis="walletdis" @closewalletpage="walletClose" @walletClick="walletClick"></WalletComponents>
   </div>
 </template>
 <script>
@@ -140,13 +110,46 @@ export default {
         "message.nav.txt6",
         "message.nav.txt4",
         "message.nav.txt5",
+        "message.nav.txt10",
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
+      menuIndex: -1,
     };
   },
   computed: {
-    ...mapGetters(["getMenuIndex", "getSubtringAccount", "getIstrue", "getMenuBG", "getAccount"]),
+    ...mapGetters(["getSubtringAccount", "getIstrue", "getMenuBG", "getAccount"]),
+    // ...mapGetters(["getMenuIndex", "getSubtringAccount", "getIstrue", "getMenuBG", "getAccount"]),
+  },
+  watch: {
+    $route(to) {
+      switch (to.name) {
+        case "Home":
+          this.menuIndex = -1;
+          break;
+        case "Buy" || "NFTmining":
+          this.menuIndex = 0;
+          break;
+        case "GameFi":
+          this.menuIndex = 1;
+          break;
+        case "Hclp":
+          this.menuIndex = 2;
+          break;
+        case "Market":
+          this.menuIndex = 3;
+          break;
+        case "Dao":
+          this.menuIndex = 4;
+          break;
+        case "gameFiDownload":
+          this.menuIndex = 6;
+          break;
+        default:
+          this.menuIndex = -1;
+          break;
+      }
+    },
   },
   mounted() {
     if (this.getAccount) {
@@ -201,7 +204,6 @@ export default {
     },
     // 菜单栏切换状态
     menuClick(index) {
-
       if (index == 0) {
         this.mobile_menuDis = !this.mobile_menuDis;
         this.InitialStatus = false;
@@ -211,7 +213,6 @@ export default {
       sessionStorage.setItem("menuBG", "yes");
       this.$store.commit("HashMenu", index);
       sessionStorage.setItem("HashMenu", index);
-
       this.InitialStatus = true;
       this.mobilemenu = false;
       switch (index) {
@@ -240,6 +241,9 @@ export default {
           break;
         case 5:
           window.location.href = "https://land-hash.gitbook.io/official/white-paper/abstract";
+          break;
+        case 6:
+          this.$router.push("/gameFi-download");
           break;
         default:
           this.$common.selectLang("敬请期待", "Coming soon", this);
@@ -287,12 +291,8 @@ export default {
       }
     },
     async walletClick(item) {
-      if (
-        item.name.toLowerCase() == "coin98" ||
-        item.name.toLowerCase() == "onto" ||
-        item.name.toLowerCase() == "bitkeep"
-      ) {
-        console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
+      if (item.name.toLowerCase() == "coin98" || item.name.toLowerCase() == "onto" || item.name.toLowerCase() == "bitkeep") {
+        // console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
         this.metamaskLink("metamask");
       } else {
         this.metamaskLink(item.name.toLowerCase());
@@ -678,7 +678,7 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 0.2rem;
-          padding-bottom: 0.26rem;
+          // padding-bottom: 0.26rem;
           background: #021c3a;
           .ul_ {
             width: 100%;
@@ -692,6 +692,11 @@ export default {
               justify-content: space-between;
               align-items: center;
               margin-bottom: 0.24rem;
+              &:last-child {
+                .mobile_line {
+                  margin-bottom: 0;
+                }
+              }
               .mobile_line {
                 width: 100%;
                 display: flex;

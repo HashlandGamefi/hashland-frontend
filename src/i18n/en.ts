@@ -41,8 +41,7 @@ export const message = {
     txt7: "NFT Card",
     txt8: "NFT Mining",
     txt9: "League",
-    txt10: "Sign in",
-    txt11: "register",
+    txt10: "Play",
   },
   footer: {
     // footer
