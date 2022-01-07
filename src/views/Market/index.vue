@@ -18,12 +18,12 @@
       <!-- 排序  卡牌信息 -->
       <div class="leftboxs">
         <div class="add_leftbox">
-          <!-- 类型排序 -->
+          <!-- 系列排序 -->
           <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
-            <span class="span1 fontsize16">{{ $t(ultraTxt) }}</span>
+            <span class="span1 fontsize16">{{ $t(seriesTxt) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover">
-              <span class="span1 fontsize16" @click="ultraFun(ele)" v-for="(ele, index) in ultraArr" :key="index">{{ $t(ele.label) }}</span>
+              <span class="span1 fontsize16" @click="seriesFun(ele)" v-for="(ele, index) in seriesArr" :key="index">{{ $t(ele.label) }}</span>
             </div>
           </div>
           <!-- 等级排序 -->
@@ -44,12 +44,12 @@
               <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{ $t(ele.name) }}</span>
             </div>
           </div>
-          <!-- 系列排序 -->
+          <!-- 类型排序 -->
           <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
-            <span class="span1 fontsize16">{{ $t(seriesTxt) }}</span>
+            <span class="span1 fontsize16">{{ $t(ultraTxt) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover">
-              <span class="span1 fontsize16" @click="seriesFun(ele)" v-for="(ele, index) in seriesArr" :key="index">{{ $t(ele.label) }}</span>
+              <span class="span1 fontsize16" @click="ultraFun(ele)" v-for="(ele, index) in ultraArr" :key="index">{{ $t(ele.label) }}</span>
             </div>
           </div>
         </div>

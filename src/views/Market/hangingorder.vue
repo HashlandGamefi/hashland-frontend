@@ -16,6 +16,15 @@
     <div class="content" v-if="tabIndex == 0">
       <!-- 几阶对应数量 -->
       <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
+        <span class="span1 fontsize16">{{ $t(seriesTxt) }}</span>
+        <div class="span2"></div>
+        <div class="left_content_hover">
+          <span class="span1 fontsize16" @click="selectSeriesTxtClik(ele)" v-for="(ele, index) in seriesArr" :key="index">
+            {{ $t(ele.label) }}
+          </span>
+        </div>
+      </div>
+      <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
         <span class="span1 fontsize16">
           {{ $t("message.synthesis.txt4") }} {{ queryParams.level }} ({{ $t("message.synthesis.txt8") }} {{ queryParams.amount }})
         </span>
@@ -31,15 +40,7 @@
           </span>
         </div>
       </div>
-      <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
-        <span class="span1 fontsize16">{{ $t(seriesTxt) }}</span>
-        <div class="span2"></div>
-        <div class="left_content_hover">
-          <span class="span1 fontsize16" @click="selectSeriesTxtClik(ele)" v-for="(ele, index) in seriesArr" :key="index">
-            {{ $t(ele.label) }}
-          </span>
-        </div>
-      </div>
+
       <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
         <span class="span1 fontsize16">{{ $t(ultraTxt) }}</span>
         <div class="span2"></div>
