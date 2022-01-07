@@ -13,12 +13,12 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
-    <Banner :timeData="timeData" :starttime="starttime" v-if="false" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
+    <!-- <Banner :timeData="timeData" :starttime="starttime" v-if="false" @closebanner="bannerClick" @besureclcik="besureClick"></Banner> -->
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import Banner from './components/banner.vue'
+// import Banner from './components/banner.vue'
 import Nav from "./components/nav.vue";
 import Footer from "./components/footer.vue";
 import WinningPopup from "./components/winningpopup.vue";
@@ -27,7 +27,7 @@ export default {
     Nav,
     Footer,
     WinningPopup,
-    Banner
+    // Banner
   },
   watch: {
     $route(to, from) {
