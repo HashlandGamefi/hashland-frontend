@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <Nav></Nav>
-    <transition name="fade">
+    <!-- <transition name="fade"> -->
       <router-view v-if="isRouterAlive" />
-    </transition>
+    <!-- </transition> -->
     <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop">Top</div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup

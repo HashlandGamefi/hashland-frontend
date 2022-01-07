@@ -658,7 +658,6 @@ export default {
       // ultra    ultra不传就是全部卡牌类型，传true就是ultra卡，传false就是普通卡
       return new Promise((resolve, reject) => {
         hnMarketInfo
-          // .getSellInfo(sortObj.first, sortObj.skip, sortObj.orderBy, sortObj.orderDirection, sortObj.level, sortObj.hnClass, sortObj.seller, sortObj.series)
           .getSellInfo(
             sortObj.first,
             sortObj.skip,
@@ -671,11 +670,10 @@ export default {
             sortObj.ultra
           )
           .then((res) => {
-            // console.log("合约数据库返回信息res: ", res);
+            console.log("合约数据库返回信息res: ", res);
             if (res.data.sellInfos.length > 0) {
               const arr = JSON.parse(JSON.stringify(res.data.sellInfos));
               arr.forEach((element) => {
-                // console.log("element.series---element.ultra", element.series, element.ultra);
                 element.loading = false; // 图片加载的loading
                 element.isstatus = false; // 授权以及其他按钮操作的loading
                 element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate]);
