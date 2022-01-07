@@ -309,6 +309,9 @@ export default {
           this.slotArr.forEach(item => {
             item.status = true
           })
+          this.newCardArr.forEach(item => {
+            item.status = true
+          })
           this.getUserAllCard()
           this.getCardSlotInfo();
           clearInterval(this.time_btn)
@@ -335,6 +338,10 @@ export default {
           }, 1000)
         } else {
           this.slotArr.forEach(item => {
+            item.num = 0
+            item.status = false
+          })
+          this.newCardArr.forEach(item => {
             item.num = 0
             item.status = false
           })
