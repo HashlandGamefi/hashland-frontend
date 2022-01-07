@@ -511,11 +511,13 @@ export default {
     },
     // 选择系列
     selectSeriesTxtClik(data) {
+      this.seriesTxt = data.label;
       this.queryParams.series = data.value;
       this.filterCardArr();
     },
     // 选择类型
     selectUltraTxtClik(data) {
+      this.ultraTxt = data.label;
       this.queryParams.ultra = data.value;
       this.filterCardArr();
     },
