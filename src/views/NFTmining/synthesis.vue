@@ -423,107 +423,55 @@ export default {
     },
     // sdk一系列方法---------判断是否授权
     getSDKInfo(){
-      if(this.seriesTxt == 1){
-        this.$common.isApproveFun(1,this.getAccount, contract().HNUpgrade).then(res => {
-          if (res) {
-            this.isApproveHN = true
-          } else {
-            this.isApproveHN = false
-          }
-        }).catch(err => {
+      this.$common.isApproveFun(1,this.getAccount, contract().HNUpgradeV2).then(res => {
+        if (res) {
+          this.isApproveHN = true
+        } else {
           this.isApproveHN = false
-        })
-        this.$common.isApproveFun(2,this.getAccount,contract().HNUpgrade).then(res => {
-          if(res.toString() > 0){
-            this.isApproveHC = true
-          }else{
-            this.isApproveHC = false
-          }
-        }).catch( err => {
+        }
+      }).catch(err => {
+        this.isApproveHN = false
+      })
+      this.$common.isApproveFun(2,this.getAccount,contract().HNUpgradeV2).then(res => {
+        if(res.toString() > 0){
+          this.isApproveHC = true
+        }else{
           this.isApproveHC = false
-        })
-      }else{
-        this.$common.isApproveFun(1,this.getAccount, contract().HNUpgradeV2).then(res => {
-          if (res) {
-            this.isApproveHN = true
-          } else {
-            this.isApproveHN = false
-          }
-        }).catch(err => {
-          this.isApproveHN = false
-        })
-        this.$common.isApproveFun(2,this.getAccount,contract().HNUpgradeV2).then(res => {
-          if(res.toString() > 0){
-            this.isApproveHC = true
-          }else{
-            this.isApproveHC = false
-          }
-        }).catch( err => {
-          this.isApproveHC = false
-        })
-      }
+        }
+      }).catch( err => {
+        this.isApproveHC = false
+      })
     },
     // 授权操作
     authorizationClick(data){
       if(data == 'hn'){
-        if(this.seriesTxt == 1){
-          if(!this.isApproveHN){
-            this.hnisloading = true
-            this.$common.delegatingFun(1, contract().HNUpgrade).then(async res => {
-              // console.log('hn授权res: ', res);
-              const etReceipt = await res.wait();
-              if (etReceipt.status == 1) {
-                this.isApproveHN = true
-                this.hnisloading = false
-              }
-            }).catch(err => {
-              // console.log('hn授权err: ', err);
-              this.isApproveHN = false
+        if(!this.isApproveHN){
+          this.hnisloading = true
+          this.$common.delegatingFun(1, contract().HNUpgradeV2).then(async res => {
+            // console.log('hn授权res: ', res);
+            const etReceipt = await res.wait();
+            if (etReceipt.status == 1) {
+              this.isApproveHN = true
               this.hnisloading = false
-            })
-          }
-        }else{
-          if(!this.isApproveHN){
-            this.hnisloading = true
-            this.$common.delegatingFun(1, contract().HNUpgradeV2).then(async res => {
-              // console.log('hn授权res: ', res);
-              const etReceipt = await res.wait();
-              if (etReceipt.status == 1) {
-                this.isApproveHN = true
-                this.hnisloading = false
-              }
-            }).catch(err => {
-              // console.log('hn授权err: ', err);
-              this.isApproveHN = false
-              this.hnisloading = false
-            })
-          }
+            }
+          }).catch(err => {
+            // console.log('hn授权err: ', err);
+            this.isApproveHN = false
+            this.hnisloading = false
+          })
         }
       }else{
-        if(this.seriesTxt == 1){
-          if(!this.isApproveHC){
-            this.hcisloading = true
-            this.$common.delegatingFun(2,contract().HNUpgrade).then(res => {
-              this.isApproveHC = true
-              this.hcisloading = false
-            }).catch(err => {
-              this.isApproveHC = false
-              this.hcisloading = false
-            })
-          }
-        }else{
-          if(!this.isApproveHC){
-            this.hcisloading = true
-            this.$common.delegatingFun(2,contract().HNUpgradeV2).then(res => {
-              // console.log('hc授权res: ', res);
-              this.isApproveHC = true
-              this.hcisloading = false
-            }).catch(err => {
-              // console.log('hc授权err: ', err);
-              this.isApproveHC = false
-              this.hcisloading = false
-            })
-          }
+        if(!this.isApproveHC){
+          this.hcisloading = true
+          this.$common.delegatingFun(2,contract().HNUpgradeV2).then(res => {
+            // console.log('hc授权res: ', res);
+            this.isApproveHC = true
+            this.hcisloading = false
+          }).catch(err => {
+            // console.log('hc授权err: ', err);
+            this.isApproveHC = false
+            this.hcisloading = false
+          })
         }
       }
     },
