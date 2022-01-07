@@ -15,7 +15,7 @@
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
     "echarts": "^5.2.2",
-    "hashland-sdk": "^1.1.28",
+    "hashland-sdk": "^1.1.29",
     "lottie-web": "^5.8.1",
     "react": "^17.0.2",
     "vue": "^2.6.11",

@@ -8,13 +8,11 @@
     />
     <div class="boxarr">
       <div class="onebox" v-for="(item, index) in boxarr" :key="index">
-        <img
-          :src="
-            item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`
-          "
+        <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`"
           class="imgcard"
           :class="{ blindBox_drop_anim: item.loading }"
         />
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
       </div>
     </div>
     <div class="Suspension_btnbox">
@@ -29,6 +27,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   props: {
     minserdis: {
@@ -43,6 +42,14 @@ export default {
       type: String,
       default: ''
     }
+  },
+  data(){
+    return {
+      anmationArr:[]
+    }
+  },
+  computed: {
+    ...mapGetters(["getIsMobile"])
   },
   watch: {
     'boxarr': {
@@ -67,6 +74,14 @@ export default {
     winbtnsure () {
       this.$emit('winbtnsure')
     }
+  },
+  mounted(){
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
   }
 }
 </script>
@@ -120,6 +135,11 @@ export default {
       .imgcard {
         width: 100%;
         object-fit: contain;
+      }
+      .positon_absoult{
+        position: absolute;
+        top: 0;
+        left: 0;
       }
       .blindBox_drop_anim {
         animation: blindBox_drop_anim 0.6s ease-in;
