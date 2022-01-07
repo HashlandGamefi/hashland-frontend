@@ -40,8 +40,7 @@ export const message = {
     txt7: "NFT卡牌",
     txt8: "NFT挖矿",
     txt9: "邀请",
-    txt10: "登录",
-    txt11: "注册",
+    txt10: "Play",
   },
   footer: {
     // footer
@@ -225,6 +224,12 @@ export const message = {
       "80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.",
     txt34: "撤单",
     txt35: "实际收益",
+    txt36: "All Series",
+    txt37: "Series 1",
+    txt38: "Series 2",
+    txt39: "All Type",
+    txt40: "Normal",
+    txt41: "Ultra",
   },
   dao: {
     txt1: "Hashland Dao Governance",

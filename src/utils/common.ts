@@ -8,7 +8,6 @@ export default {
   setCookie(key: string, value: any, time: any) {
     // 1h = 60m = 60s = 1000ms   60*60*1000代表1小时
     let num = new Date(new Date().getTime() + time * 60 * 1000 * 60);
-    console.log("🚗🚗🚗 ~~~ num", num, num.toUTCString());
     document.cookie =
       `${key} = ${value};expires = ` + num.toUTCString() + ";path = /";
   },
@@ -246,10 +245,10 @@ export default {
     // @ts-ignore
     time = parseInt(time / 1000);
     if (time <= endtime) {
-      console.log(
-        "还未到时间,结束时间:%s",
-        new Date(endtime * 1000).toLocaleString()
-      );
+      // console.log(
+      //   "还未到时间,结束时间:%s",
+      //   new Date(endtime * 1000).toLocaleString()
+      // );
       let timernull = setInterval(() => {
         if (time == endtime) {
           clearInterval(timernull);
@@ -260,10 +259,10 @@ export default {
         calback(timernull);
       }, 1000);
     } else {
-      console.log(
-        "已到设置的结束时间,结束时间:%s",
-        new Date(endtime * 1000).toLocaleString()
-      );
+      // console.log(
+      //   "已到设置的结束时间,结束时间:%s",
+      //   new Date(endtime * 1000).toLocaleString()
+      // );
       calback(1);
     }
   },
@@ -328,7 +327,6 @@ export default {
   },
   // 函数节流
   flowFun(fn: any, that: any) {
-    console.log("节流函数");
     let canRun = true; // 通过闭包保存一个标记
     return function () {
       if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return

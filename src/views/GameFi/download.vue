@@ -154,7 +154,6 @@ export default {
   created() {
     this.downloadData = GameDownloadData;
     this.updateLog = GameUpdateLog;
-    console.log(this.downloadData, this.updateLog);
     if (this.updateLog.length > 0) this.versionData = this.updateLog[0];
     this.updateLog.forEach((element) => {
       this.versionlist.push(element.version);
