@@ -8,7 +8,7 @@
     />
     <div class="boxarr">
       <div class="onebox" v-for="(item, index) in boxarr" :key="index">
-        <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`"
+        <img :src="item.src"
           class="imgcard"
           :class="{ blindBox_drop_anim: item.loading }"
         />
@@ -56,7 +56,7 @@ export default {
       handler: function (newValue) {
         newValue.map(item => {
           let newImg = new Image()
-          newImg.src = item.src
+          // newImg.src = item.src
           newImg.onload = () => { // 图片加载成功后把地址给原来的img
             item.loading = true
           }

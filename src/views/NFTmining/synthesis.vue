@@ -412,7 +412,7 @@ export default {
           return b.ultra - a.ultra
         }
       }) // 页面展示的卡牌数组重新置换
-      // console.log('合成完成后,页面展示的数组的this.pageshowarr: ', this.cardarr);
+      console.log('选择等级展示的数组信息this.pageshowarr: ', this.pageshowarr);
       this.isshowArr = true
       this.selectedArr = [] // 页面展示的选中的数组
       this.selectALLBtn = false // 全选按钮的展示
