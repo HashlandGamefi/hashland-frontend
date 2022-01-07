@@ -17,7 +17,7 @@ export default {
   },
   methods:{
     nothingfun () {
-      this.$router.push('/buy/0/1')
+      this.$router.push('/buy/1/1')
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
     },

@@ -220,8 +220,26 @@ export default {
         owtime -= 1
       },1000)
     },
+    async DisplayCardAnimationMethods(){
+      let arr = []
+      for (let lv = 1; lv < 6; lv++) {
+        for (let type = 1; type < 5; type++) {
+          await this.$common.getDatCardJson(type,lv).then(res => {//  1----卡牌人物类型 2---等级
+            let obj = {
+              level:lv,
+              type:type,
+              dataJson:{}
+            }
+            obj.dataJson = res.data
+            arr.push(obj)
+          })
+        }
+      }
+      localStorage.setItem('Animation',JSON.stringify(arr))
+    }
   },
   created() {
+    this.DisplayCardAnimationMethods()
     this.getCurrenciesPrices();
     setTimeout(() => {
       if(this.$route.name == "Buy"){

@@ -232,8 +232,12 @@ export default {
     // 监听盲盒开奖结果
     watchResult(){
       let filter = hnBlindBoxS2().filters.SpawnHns(this.getAccount)
-      hnBlindBoxS2().on(filter, (user, boxslengths, boxarrID,events) => {
-        console.log('监听盲盒开奖结果: ', user, boxslengths, boxarrID,events);
+      hnBlindBoxS2().on(filter, (user, boxslengths, boxarrID,events,ultras) => {
+        console.log('监听盲盒开奖结果: user', user)
+        console.log('监听盲盒开奖结果: boxslengths',boxslengths)
+        console.log('监听盲盒开奖结果: boxarrID', boxarrID);
+        console.log('监听盲盒开奖结果: events',events);
+        console.log('监听盲盒开奖结果: ultras',ultras);
         this.getTokenInfoFun(this.tokenID)
         let str = boxarrID.toString()
         let arr = str.split(',')

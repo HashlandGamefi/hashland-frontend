@@ -8,7 +8,7 @@
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
 
-        <!-- <Lottie :options="type1_lv1_dataanimationData" v-if="item.level == 1 && item.type == 1" :width="getIsMobile?256:'50%'" class="positon_absoult"></Lottie> -->
+        <Lottie :options="type1_lv1_dataanimationData" v-if="item.level == 1 && item.type == 1" :width="getIsMobile?256:'50%'" class="positon_absoult"></Lottie>
       </div>
       <div class="loadingbox fontsize16" v-if="boxarr.length == 0 && pageshowLoading">
         Loading...
@@ -31,7 +31,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getUserCardInfo","getIsMobile","getIsMobile"])
+    ...mapGetters(["getIstrue","getUserCardInfo","getIsMobile"])
   },
   watch:{
     'getIstrue':{

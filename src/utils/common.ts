@@ -384,7 +384,7 @@ export default {
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
             obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
-            console.log('obj.ultra: ', obj.ultra);
+            // console.log('obj.ultra: ', obj.ultra);
             let race = await hn().getHashrates(item) // 算力数组
             // @ts-ignore
             obj.src = getHnImg(Number(obj.cardID), obj.level, race,obj.ultra)
