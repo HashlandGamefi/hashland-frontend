@@ -290,8 +290,8 @@ export default {
           let obj = {}
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
-          obj.src = getHnImg(Number(item),Number(obj.level),race)
           obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
+          obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
           obj.type = (
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
