@@ -63,6 +63,7 @@
       </div>
       <NoData v-else-if="pageshowarr.length == 0 && selectedArr.length == 0 && !pageshowLoading"></NoData>
     </div>
+    <!-- 按钮 -->
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0 || selectedArr.length > 0">
       <span class="bottom_title fontsize12">{{$t("message.consumption")}} {{hcnum}} HC !</span>
       <div class="btn_box fontsize16" @click="synthesisFun" v-if="isApproveHN && isApproveHC ">
@@ -91,7 +92,6 @@ export default {
       seriesTxt:1,
       seriesTxt1:1,
       seriesTxt2:2,
-      isshowArr:false,// 页面暂时不显示nodata
       hnisloading:false,// hn 授权loading
       hcisloading:false,// hc 授权loading
       powerNumber:0,//合成卡牌提升算力
@@ -114,7 +114,9 @@ export default {
       synthesisDis:false,// 合成按钮loading
       timerll:null,
       timerll_result:null,
-      infoArr:[] // 选中的卡牌过滤以后的数组信息
+      infoArr:[], // 选中的卡牌过滤以后的数组信息
+      isFlag:true,// 是否开启flag--新卡合成
+      maximumNumberOfCards:4,// 新卡牌在isFlag为true的情况下  最多选择合成数
     }
   },
   computed: {
@@ -178,9 +180,11 @@ export default {
       if(data == 1){
         this.seriesTxt = this.seriesTxt1
         this.SeparateMethodToGetData(1,this.rank)
+        this.selectedCardnum = 10000000000
       }else{
         this.seriesTxt = this.seriesTxt2
         this.SeparateMethodToGetData(2,this.rank)
+        this.selectedCardnum = 4
       }
       this.getSDKInfo() // 重新判断是否授权
     },
@@ -214,8 +218,6 @@ export default {
       this.pageshowarr = arr.filter(item => {
         return item.series == series
       })
-      // console.log('当前系列展示的数组信息: ',  this.pageshowarr);
-      this.pageshowLoading = true
       this.amount = this.pageshowarr.filter(item => { return item.level == level}).length
       this.pageshowLoading = false
     },
@@ -281,8 +283,6 @@ export default {
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
-          }else{
-            sessionStorage.setItem("count",1)
           }
         })
         let imgarr = []
@@ -323,7 +323,7 @@ export default {
         this.timerll_result = setInterval(() => {
           if(sessionStorage.getItem('count')){
             clearInterval(this.timerll_result)
-            this.selectRankClik(this.rank,2)
+            this.selectRankClik(this.rank)
           }
           // console.log("合成以后获取用户信息:",sessionStorage.getItem('count'))
         }, 1000);
@@ -365,18 +365,18 @@ export default {
     },
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引
-      // console.log('data: ', data);
+      console.log('当前数组的索引data,index: ', data,index,this.seriesTxt);
+      if(this.seriesTxt == 2 && this.isFlag){
+        if(this.selectedNUM >= this.maximumNumberOfCards)return
+      }
       data.status = true
       this.selectedNUM++
       this.compose = parseInt(this.selectedNUM / 4)
-
       this.selectedArr.push(data)
-      // console.log('选中的数组this.selectedArr: ', this.selectedArr);
-
       this.pageshowarr.splice(index,1)
     },
     // 选择阶数
-    selectRankClik(data,type = 1){
+    selectRankClik(data){
       this.disablehover = true
       setTimeout(() => {
         this.disablehover = false
@@ -386,21 +386,9 @@ export default {
       this.compose = 0 // 选中的卡牌可以合成多少张更高以及的卡牌
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
       this.rank = data // 当前几阶
-      if(type == 2){
-        this.cardarr = JSON.parse(this.getUserCardInfo).filter((item => {item.series == this.seriesTxt})).sort((a, b) => {
-          if(a.ultra == b.ultra == true){
-            if(b.type == a.type){
-              return b.type - a.type
-            }else{
-              return a.type - b.type
-            }
-          }else{
-            return b.ultra - a.ultra
-          }
-        })
-      }
-      this.amount = this.cardarr.filter(item => { return item.level == data}).length
-      this.isshowArr = false
+
+      this.cardarr = JSON.parse(this.getUserCardInfo)
+      this.amount = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).length
       this.pageshowarr = this.cardarr.filter(item => { return item.series == this.seriesTxt && item.level == data}).sort((a, b) => {
         if(a.ultra == b.ultra == true){
           if(b.type == a.type){
@@ -411,9 +399,7 @@ export default {
         }else{
           return b.ultra - a.ultra
         }
-      }) // 页面展示的卡牌数组重新置换
-      console.log('选择等级展示的数组信息this.pageshowarr: ', this.pageshowarr);
-      this.isshowArr = true
+      })
       this.selectedArr = [] // 页面展示的选中的数组
       this.selectALLBtn = false // 全选按钮的展示
       this.selectedCardnum = 100000000000
@@ -483,6 +469,11 @@ export default {
         clearInterval(timerObject)
       }
     },1000)
+    hnUpgradeV2().vrfFlag().then(res => {
+      console.log('是否开启了LINK随机数功能res: ', res);
+      this.isFlag = res
+      // this.isFlag = true
+    })
   }
 }
 </script>
