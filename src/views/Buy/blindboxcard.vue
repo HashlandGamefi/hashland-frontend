@@ -233,11 +233,11 @@ export default {
     watchResult(){
       let filter = hnBlindBoxS2().filters.SpawnHns(this.getAccount)
       hnBlindBoxS2().on(filter, (user, boxslengths, boxarrID,events,ultras) => {
-        console.log('监听盲盒开奖结果: user', user)
-        console.log('监听盲盒开奖结果: boxslengths',boxslengths)
-        console.log('监听盲盒开奖结果: boxarrID', boxarrID);
-        console.log('监听盲盒开奖结果: events',events);
-        console.log('监听盲盒开奖结果: ultras',ultras);
+        // console.log('监听盲盒开奖结果: user', user)
+        // console.log('监听盲盒开奖结果: boxslengths',boxslengths)
+        // console.log('监听盲盒开奖结果: boxarrID', boxarrID);
+        // console.log('监听盲盒开奖结果: events',events);
+        // console.log('监听盲盒开奖结果: ultras',ultras);
         this.getTokenInfoFun(this.tokenID)
         let str = boxarrID.toString()
         let arr = str.split(',')
@@ -248,22 +248,38 @@ export default {
           let race = await hn().getHashrates(item) // 算力数组
           obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
           obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
+          obj.type = (
+              await hn().getRandomNumber(item, "class", 1, 4)
+            ).toString();
           obj.loading = false
           imgarr.push(obj)
         })
-        let lastObj = {
-          minserDis:true,
-          boxarr:imgarr,
-          proupTitle:'Purchase Detail',
-        }
-        this.$store.commit("setrewardsInfo", lastObj);
-        this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+        let lotteryObject = setInterval(() => {
+          if(imgarr.length > 0){
+            console.log('抽奖获取到的imgarr: ', imgarr);
+            clearInterval(lotteryObject)
+            let transferArr = imgarr.sort((a,b) => {
+            if(a.ultra == b.ultra == true){
+              return a.level > b.level ?1:-1
+            }else{
+              return b.ultra - a.ultra
+            }
+          })
+          let lastObj = {
+            minserDis:true,
+            boxarr:transferArr,
+            proupTitle:'Purchase Detail',
+          }
+          this.$store.commit("setrewardsInfo", lastObj);
+          this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
           }else{
             sessionStorage.setItem("count",1)
           }
         })
+          }
+        },1000)
       });
     },
     // 买盲盒

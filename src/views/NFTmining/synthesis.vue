@@ -81,7 +81,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSigner, hnUpgrade, hnUpgradeV2, util, hc, hn, contract, getHnImg } from 'hashland-sdk';
+import { getSigner, hnUpgradeV2, util, hc, hn, contract, getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -142,7 +142,7 @@ export default {
           let arr = this.selectedArr.map(item => {
             return item.cardID
           })
-          this.hcnum = (await hnUpgrade().getUpgradePrice(arr) / 1e18).toString()
+          this.hcnum = (await hnUpgradeV2().getUpgradePrice(arr) / 1e18).toString()
         }
       },
       deep: true,
@@ -168,6 +168,7 @@ export default {
       setTimeout(() => {
         this.disablehover = false
       },600)
+      if(this.pageshowLoading)return
       this.selectimgArr = [] //选中的卡牌的信息
       this.selectedArr = [] // 页面展示的选中的数组
       this.selectALLBtn = false // 全选按钮的展示
@@ -264,36 +265,19 @@ export default {
         return
       }
       this.proupDis = false
-      if(this.seriesTxt == 1){
-        this.cardSynthesisMethods1()
-      }else{
-        this.cardSynthesisMethods2()
-      }
-    },
-    // 卡牌系列1合成方法
-    cardSynthesisMethods1(){
-      hnUpgrade().connect(getSigner()).upgrade(this.infoArr).then(res => {
-        console.log('卡牌系列1合成方法res: ', res);
-        this.watchResult()
-      }).catch(err => {
-        console.log('卡牌系列1合成方法err: ', err);
-        this.synthesisDis = false
-      })
-    },
-    cardSynthesisMethods2(){
       hnUpgradeV2().connect(getSigner()).upgrade(this.infoArr).then(res => {
-        console.log('卡牌系列2合成方法res: ', res);
+        console.log('卡牌系列合成方法res: ', res);
         this.watchResult()
       }).catch(err => {
-        console.log('卡牌系列2合成方法err: ', err);
+        console.log('卡牌系列合成方法err: ', err);
         this.synthesisDis = false
       })
     },
     // 合成结果
     watchResult(){
-      let filter = hnUpgrade().filters.UpgradeHns(this.getAccount)
-      hnUpgrade().on(filter, (user, boxslengths, boxarrID,events) => {
-        console.log("合成结果监听方法",user, boxslengths, boxarrID,events)
+      let filter = hnUpgradeV2().filters.UpgradeHns(this.getAccount)
+      hnUpgradeV2().on(filter, (user, boxslengths, boxarrID,events,isUcard) => {
+        console.log("合成结果监听方法",user, boxslengths, boxarrID,events,isUcard)
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
@@ -307,16 +291,34 @@ export default {
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.src = getHnImg(Number(item),Number(obj.level),race)
+          obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
+          obj.type = (
+              await hn().getRandomNumber(item, "class", 1, 4)
+            ).toString();
           obj.loading = false
           imgarr.push(obj)
         })
-        let lastObj = {
-          minserDis:true,
-          boxarr:imgarr,
-          proupTitle:'Craft Detail',
-        }
-        this.$store.commit("setrewardsInfo", lastObj);
-        this.synthesisDis = false
+        let lotteryObject = setInterval(() => {
+          if(imgarr.length > 0){
+            console.log('抽奖获取到的imgarr: ', imgarr);
+            clearInterval(lotteryObject)
+            let transferArr = imgarr.sort((a,b) => {
+              if(a.ultra == b.ultra == true){
+                return a.level > b.level ?1:-1
+              }else{
+                return b.ultra - a.ultra
+              }
+            })
+            let lastObj = {
+              minserDis:true,
+              boxarr:transferArr ,
+              proupTitle:'Craft Detail',
+            }
+            this.$store.commit("setrewardsInfo", lastObj);
+            this.synthesisDis = false
+          }
+        },1000)
+
         clearInterval(this.timerll_result)
         this.timerll_result = setInterval(() => {
           if(sessionStorage.getItem('count')){
