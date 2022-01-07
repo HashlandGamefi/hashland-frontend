@@ -174,18 +174,18 @@ export default {
         level: 1, // 按等级筛选，填1-5
         hnClass: "", // 按职业筛选，填1-4
         seller: "", // 按卖家筛选，填钱包地址
-        series: "",
-        ultra: "",
+        series: null,
+        ultra: null,
       },
       seriesTxt: "message.market.txt36",
       seriesArr: [
-        { label: "message.market.txt36", value: "" },
+        { label: "message.market.txt36", value: null },
         { label: "message.market.txt37", value: 1 },
         { label: "message.market.txt38", value: 2 },
       ],
       ultraTxt: "message.market.txt39",
       ultraArr: [
-        { label: "message.market.txt39", value: "" },
+        { label: "message.market.txt39", value: null },
         { label: "message.market.txt40", value: false },
         { label: "message.market.txt41", value: true },
       ],
@@ -408,7 +408,7 @@ export default {
         this.disablehover = false;
       }, 600);
       this.seriesTxt = ele.label;
-      this.sortObj.series = ele.value !== "" ? ele.value : "";
+      this.sortObj.series = ele.value;
       this.sortObj.skip = 0;
       this.encapsulationFun();
     },
@@ -419,7 +419,7 @@ export default {
         this.disablehover = false;
       }, 600);
       this.ultraTxt = ele.label;
-      this.sortObj.ultra = ele.value !== "" ? ele.value : "";
+      this.sortObj.ultra = ele.value;
       this.sortObj.skip = 0;
       this.encapsulationFun();
     },
@@ -658,7 +658,6 @@ export default {
       // ultra    ultra不传就是全部卡牌类型，传true就是ultra卡，传false就是普通卡
       return new Promise((resolve, reject) => {
         hnMarketInfo
-          // .getSellInfo(sortObj.first, sortObj.skip, sortObj.orderBy, sortObj.orderDirection, sortObj.level, sortObj.hnClass, sortObj.seller, sortObj.series)
           .getSellInfo(
             sortObj.first,
             sortObj.skip,
@@ -671,11 +670,10 @@ export default {
             sortObj.ultra
           )
           .then((res) => {
-            // console.log("合约数据库返回信息res: ", res);
+            console.log("合约数据库返回信息res: ", res);
             if (res.data.sellInfos.length > 0) {
               const arr = JSON.parse(JSON.stringify(res.data.sellInfos));
               arr.forEach((element) => {
-                // console.log("element.series---element.ultra", element.series, element.ultra);
                 element.loading = false; // 图片加载的loading
                 element.isstatus = false; // 授权以及其他按钮操作的loading
                 element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate]);
