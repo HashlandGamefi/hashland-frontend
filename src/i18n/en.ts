@@ -233,6 +233,12 @@ export const message = {
       "80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.",
     txt34: "Cancel",
     txt35: "Income",
+    txt36: "All Series",
+    txt37: "Series 1",
+    txt38: "Series 2",
+    txt39: "All Type",
+    txt40: "Normal",
+    txt41: "Ultra",
   },
   dao: {
     txt1: "Hashland DAO Governance",

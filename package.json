@@ -15,7 +15,7 @@
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
     "echarts": "^5.2.2",
-    "hashland-sdk": "^1.1.16",
+    "hashland-sdk": "^1.1.28",
     "react": "^17.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
