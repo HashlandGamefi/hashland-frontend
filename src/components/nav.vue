@@ -128,7 +128,10 @@ export default {
         case "Home":
           this.menuIndex = -1;
           break;
-        case "Buy" || "NFTmining":
+        case "Buy":
+          this.menuIndex = 0;
+          break;
+        case "NFTmining":
           this.menuIndex = 0;
           break;
         case "GameFi":
