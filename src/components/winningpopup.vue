@@ -51,7 +51,6 @@ export default {
           let newImg = new Image()
           newImg.src = item.src
           newImg.onload = () => { // 图片加载成功后把地址给原来的img
-            // console.log("图片加载完成")
             item.loading = true
           }
         })

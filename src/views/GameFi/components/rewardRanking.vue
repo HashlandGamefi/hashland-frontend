@@ -796,15 +796,15 @@ export default {
           height: 50px;
           margin-bottom: 5px;
         }
-        &:nth-child(2) {
-          min-height: 100px;
-          height: 200px;
-        }
       }
+    }
+    .col1 div:nth-child(2),
+    .col2 .row:nth-child(2) {
+      min-height: 100px;
+      height: 300px;
     }
     .col2 {
       width: calc(100% / 6 * 5);
-
       .row {
         width: 100%;
         border-radius: 6px;
@@ -822,10 +822,7 @@ export default {
             padding: 5px;
           }
         }
-
         &:nth-child(2) {
-          min-height: 100px;
-          height: 200px;
           ul {
             width: 100%;
             height: 100%;
@@ -837,6 +834,10 @@ export default {
               width: 100%;
               display: flex;
               align-items: center;
+              &:hover {
+                background: #021c3b;
+                // color: #00e7f0;
+              }
               > div {
                 height: 100%;
                 padding: 5px 0;

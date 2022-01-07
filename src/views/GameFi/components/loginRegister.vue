@@ -9,7 +9,7 @@
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
-            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model="loginForm.mailAccount" @keyup.enter="manuallyLogin" />
+            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model.trim="loginForm.mailAccount" @keyup.enter="manuallyLogin" />
           </div>
           <div class="input_prompt fontsize12" v-show="loginForm.prompt1">* {{ loginForm.prompt1 }}</div>
         </li>
@@ -19,7 +19,7 @@
             <input
               :type="isShowPassword ? 'text' : 'password'"
               :placeholder="$t('message.gameFi.text12')"
-              v-model="loginForm.password"
+              v-model.trim="loginForm.password"
               @keyup.enter="manuallyLogin"
             />
             <div class="eye">
@@ -47,14 +47,14 @@
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
-            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model="registerForm.mailAccount" @keyup.enter="toRegistered" />
+            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model.trim="registerForm.mailAccount" @keyup.enter="toRegistered" />
           </div>
           <div class="input_prompt fontsize12" v-show="registerForm.prompt1">* {{ registerForm.prompt1 }}</div>
         </li>
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text16") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
-            <input type="text" :placeholder="$t('message.gameFi.text17')" v-model="registerForm.verifyCode" @keyup.enter="toRegistered" />
+            <input type="text" :placeholder="$t('message.gameFi.text17')" v-model.trim="registerForm.verifyCode" @keyup.enter="toRegistered" />
             <div class="verification ban_select fontsize14" @click="getCode">
               <span v-if="showCountdown">{{ minutes + " : " + seconds }}</span>
               <span v-else>{{ $t("message.gameFi.text18") }}</span>
@@ -69,7 +69,7 @@
             <input
               :type="isShowPassword ? 'text' : 'password'"
               :placeholder="$t('message.gameFi.text12')"
-              v-model="registerForm.password"
+              v-model.trim="registerForm.password"
               @keyup.enter="toRegistered"
             />
             <div class="eye">
@@ -84,7 +84,7 @@
             <input
               :type="isShowPassword2 ? 'text' : 'password'"
               :placeholder="$t('message.gameFi.text12')"
-              v-model="registerForm.password2"
+              v-model.trim="registerForm.password2"
               @keyup.enter="toRegistered"
             />
             <div class="eye">
