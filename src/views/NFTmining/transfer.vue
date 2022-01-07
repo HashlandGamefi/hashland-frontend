@@ -6,12 +6,22 @@
     <div class="title_title fontsize32">{{$t("message.transfer.txt1")}}</div>
     <div class="title_son1 fontsize12_400">{{$t("message.transfer.txt2")}}</div>
     <div class="content">
-      <!-- 几阶对应数量 -->
-      <div class="left_content">
-        <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
-        <div class="span2"></div>
-        <div class="left_content_hover">
-          <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.level == ele}).length}})</span>
+      <div class="add_content_box">
+        <div class="left_content" :class="[disablehover?'clear_hover':'']">
+          <span class="span1 fontsize16">系列 {{seriesTxt}}</span>
+          <div class="span2"></div>
+          <div class="left_content_hover">
+            <span class="span1 fontsize16" @click="selectSeries(1)">系列 {{seriesTxt1}}</span>
+            <span class="span1 fontsize16" @click="selectSeries(2)">系列 {{seriesTxt2}}</span>
+          </div>
+        </div>
+        <!-- 几阶对应数量 -->
+        <div class="left_content" :class="[disablehover?'clear_hover':'']">
+          <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
+          <div class="span2"></div>
+          <div class="left_content_hover">
+            <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.series == seriesTxt && data.level == ele}).length}})</span>
+          </div>
         </div>
       </div>
       <!-- 全选按钮 -->
@@ -35,10 +45,14 @@
     <div class="cardarr_class">
       <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?237:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
-      <NoData v-if="pageshowarr.length == 0 && isshowArr"></NoData>
+      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+        Loading...
+      </div>
+      <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">
       <span class="bottom_title fontsize12">{{$t("message.transfer.txt5")}}</span>
@@ -73,6 +87,12 @@ import { getSigner, hn } from 'hashland-sdk';
 export default {
   data () {
     return {
+      disablehover:false,
+      anmationArr:[],//动画数组的json
+      pageshowLoading:true,
+      seriesTxt:1,
+      seriesTxt1:1,
+      seriesTxt2:2,
       dangerTxtModel:'',
       isdanger:false,//转账提示框
       isshowArr:false,// 页面暂时不显示nodata
@@ -115,7 +135,7 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          this.getUserAllCard(1)
+          this.getUserAllCard()
         }else{
           this.cardarr = []//所有卡牌信息的数组
           this.pageshowarr = []//页面展示的数组
@@ -155,9 +175,12 @@ export default {
             }else{
               sessionStorage.setItem("count",1)
             }
-            this.getUserAllCard(this.rank) // 重新获取最新用户信息
+            // this.getUserAllCard() // 重新获取最新用户信息
+            this.SeparateMethodToGetData(this.seriesTxt,this.rank)
             this.$common.selectLang('转账成功','Gifted Successfully',this)
             arr = []
+            this.selectALLBtn = this.selectStatus = false
+            this.selectedNUM = 0
           })
         }else{
           this.selectALLBtn = this.selectStatus = false
@@ -173,26 +196,56 @@ export default {
       })
     },
     // 用户总卡牌数据获取
-    getUserAllCard(level){
+    getUserAllCard(){
       clearInterval(this.timerll)
       this.timerll = setInterval(() => {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
-          this.cardarr = JSON.parse(this.getUserCardInfo)
-          let arr = this.cardarr.filter(item => { return item.level == level})
-          arr.sort((a, b) => {
-            return Number(a.type) > Number(b.type) ? 1 : -1;
-          })
-          this.pageshowarr = arr
-          this.isshowArr = true
-          this.amount = this.cardarr.filter(item => { return item.level == level}).length
-          this.synthesisDis = false
-          this.selectALLBtn = this.selectStatus = false
-          this.selectedNUM = 0
-          this.selectimgArr = []
+          this.pageshowLoading = true
+          this.SeparateMethodToGetData(1,1)
         }
         console.log("获取用户信息")
       }, 1000);
+    },
+    selectSeries(data){
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
+      if(this.pageshowLoading)return
+      this.selectimgArr = [] //选中的卡牌的信息
+      this.selectALLBtn = false // 全选按钮的展示
+      this.selectedNUM = 0//选中的卡牌数量
+      this.pageshowLoading = true
+      this.pageshowarr = []
+      if(data == 1){
+        this.seriesTxt = this.seriesTxt1
+        this.SeparateMethodToGetData(1,this.rank)
+      }else{
+        this.seriesTxt = this.seriesTxt2
+        this.SeparateMethodToGetData(2,this.rank)
+      }
+    },
+    // 获取对应系列的卡牌
+    SeparateMethodToGetData(series,level = 1){
+      this.cardarr = JSON.parse(this.getUserCardInfo)
+      let arr = this.cardarr.filter(item => { return item.level == level})
+      arr.sort((a, b) => {
+        if(a.ultra == b.ultra == true){
+          if(b.type == a.type){
+            return b.type - a.type
+          }else{
+            return a.type - b.type
+          }
+        }else{
+          return b.ultra - a.ultra
+        }
+      })
+      this.pageshowarr = arr.filter(item => {
+        return item.series == series
+      })
+      this.amount = this.pageshowarr.filter(item => { return item.level == level}).length
+      this.pageshowLoading = false
     },
     // 全选按钮选中事件
     selectAllClick(){
@@ -288,6 +341,10 @@ export default {
     },
     // 选择阶数
     selectRankClik(data){
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
       this.selectALLBtn = false
       this.selectedNUM = 0 // 选中的卡牌数量
       this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
@@ -295,14 +352,30 @@ export default {
       this.pageshowarr.forEach(item => {
         item.status = false
       })
-      this.amount = this.cardarr.filter(item => { return item.level == data}).length
-      this.pageshowarr = this.cardarr.filter(item => { return item.level == data}).sort((a, b) => {
-        return Number(a.type) > Number(b.type) ? 1 : -1;
+      this.amount = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).length
+      this.pageshowarr = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).sort((a, b) => {
+        if(a.ultra == b.ultra == true){
+          if(b.type == a.type){
+            return b.type - a.type
+          }else{
+            return a.type - b.type
+          }
+        }else{
+          return b.ultra - a.ultra
+        }
       })
     },
     back(){
       this.$router.go(-1)
     }
+  },
+  mounted(){
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
   }
 }
 </script>
@@ -338,57 +411,62 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-top: 90px;
-    .left_content{
-      position: relative;
-      width: 204px;
-      height: 48px;
-      border-radius: 15px;
+    .add_content_box{
+      width: 50%;
       display: flex;
       align-items: center;
-      justify-content: center;
-      background: linear-gradient(90deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
-      .span1{
-        color: #FFFFFF;
-        margin-right: 10px;
-        cursor: pointer;
-      }
-      .span2{
-        border-width: 7px;
-        border-color: #00E7F0;
-        border-bottom-width: 0;
-        border-style: dashed;
-        border-top-style: solid;
-        border-left-color: transparent;
-        border-right-color: transparent;
-      }
-      .left_content_hover{
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 9;
+      .left_content{
+        position: relative;
         width: 204px;
-        display: none;
-        flex-direction: column;
+        height: 48px;
+        border-radius: 15px;
+        display: flex;
         align-items: center;
-        justify-content: space-between;
-        background: rgba(0, 0, 0, 0.9);
-        box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
-        filter: blur(0px);
-        border-radius: 4px;
-        padding: 10px 0;
-        margin-top:47px;
-        line-height: 39px;
+        justify-content: center;
+        background: linear-gradient(90deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
         .span1{
-          color: #E2DADA;
+          color: #FFFFFF;
+          margin-right: 10px;
           cursor: pointer;
         }
+        .span2{
+          border-width: 7px;
+          border-color: #00E7F0;
+          border-bottom-width: 0;
+          border-style: dashed;
+          border-top-style: solid;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+        .left_content_hover{
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 9;
+          width: 204px;
+          display: none;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          background: rgba(0, 0, 0, 0.9);
+          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+          filter: blur(0px);
+          border-radius: 4px;
+          padding: 10px 0;
+          margin-top:47px;
+          line-height: 39px;
+          .span1{
+            color: #E2DADA;
+            cursor: pointer;
+          }
+        }
       }
-    }
-    .left_content:hover{
-      .left_content_hover{
-        display: flex;
-        .span1:hover{
-          color: #00E7F0;
+      .left_content:hover{
+        .left_content_hover{
+          display: flex;
+          .span1:hover{
+            color: #00E7F0;
+          }
         }
       }
     }
@@ -456,6 +534,19 @@ export default {
         width: 31px;
         object-fit: contain;
       }
+      .positon_absoult{
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+    .loadingbox {
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
     }
   }
   .Suspension_btnbox{

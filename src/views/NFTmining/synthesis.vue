@@ -472,7 +472,6 @@ export default {
     hnUpgradeV2().vrfFlag().then(res => {
       console.log('是否开启了LINK随机数功能res: ', res);
       this.isFlag = res
-      // this.isFlag = true
     })
   }
 }

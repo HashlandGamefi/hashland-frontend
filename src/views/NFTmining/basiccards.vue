@@ -15,11 +15,40 @@
       </div>
       <span class="span2 fontsize12_400">{{$t("message.nftMining.txt4")}}</span>
     </div>
-    <!-- 我的卡牌轮播 -->
+    <!-- 我的新卡牌轮播 -->
     <div class="swiper-container swiper-container1">
       <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="(item, index) in newCardArr" :key="index">
+          <div class="content_box" @click="jumpDetails(item,2)">
+            <img :src="item.src" class="swiper_img" />
+            <div class="grade_box">
+              <div class="five_pointed_star">
+                <img
+                  :src="`${$store.state.imgUrl}cardlevel${item.level}.png`"
+                  class="start_img"
+                />
+                <span class="level_class fontsize16">LV{{ item.level }}</span>
+              </div>
+              <div class="num_details">
+                <div class="card_grade_loading fontsize16" v-if="item.status"><NewLoading></NewLoading></div>
+                <span class="card_grade fontsize16" v-else>{{ item.num }}</span>
+                <span class="details fontsize12">{{
+                  $t("message.nftMining.txt6")
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 如果需要导航按钮 -->
+      <div class="swiper-button-prev" slot="button-prev"></div>
+      <div class="swiper-button-next" slot="button-next"></div>
+    </div>
+    <!-- 我的卡牌轮播 -->
+    <div class="swiper-container add_mynewCard swiper-container3">
+      <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in slotArr" :key="index">
-          <div class="content_box" @click="jumpDetails(item)">
+          <div class="content_box" @click="jumpDetails(item,1)">
             <img :src="item.src" class="swiper_img" />
             <div class="grade_box">
               <div class="five_pointed_star">
@@ -131,6 +160,38 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      newCardArr:[
+        {
+          level: 1,
+          src: `${this.$store.state.imgUrl}level1.png`,
+          num: 0,
+          status:true
+        },
+        {
+          level: 2,
+          src: `${this.$store.state.imgUrl}level2.png`,
+          num: 0,
+          status:true
+        },
+        {
+          level: 3,
+          src: `${this.$store.state.imgUrl}level3.png`,
+          num: 0,
+          status:true
+        },
+        {
+          level: 4,
+          src: `${this.$store.state.imgUrl}level4.png`,
+          num: 0,
+          status:true
+        },
+        {
+          level: 5,
+          src: `${this.$store.state.imgUrl}level5.png`,
+          num: 0,
+          status:true
+        },
+      ],
       changeAddress:true,//切换账号时此变量变换
       isapprove: false,// 是否授权busd
       btntxt: "", // 弹窗页面的确认按钮
@@ -224,6 +285,14 @@ export default {
         initialSlide: 0,
       });
       this.swiper2 = new Swiper(".swiper-container2", {
+        nextButton: ".swiper-button-next",
+        prevButton: ".swiper-button-prev",
+        slidesPerView: document.body.clientWidth > 980 ? 4 : 2,
+        observer: true, // 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
+        observeParents: true, // 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
+        initialSlide: 0,
+      });
+      this.swiper2 = new Swiper(".swiper-container3", {
         nextButton: ".swiper-button-next",
         prevButton: ".swiper-button-prev",
         slidesPerView: document.body.clientWidth > 980 ? 4 : 2,
@@ -326,7 +395,7 @@ export default {
               level: 1,
               src: `${this.$store.state.imgUrl}level1.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                return data.level == 1;
+                return data.level == 1 && data.series == 1;
               }).length,
               status:false
             },
@@ -334,7 +403,7 @@ export default {
               level: 2,
               src: `${this.$store.state.imgUrl}level2.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                return data.level == 2;
+                return data.level == 2 && data.series == 1;
               }).length,
               status:false
             },
@@ -342,7 +411,7 @@ export default {
               level: 3,
               src: `${this.$store.state.imgUrl}level3.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                return data.level == 3;
+                return data.level == 3 && data.series == 1;
               }).length,
               status:false
             },
@@ -350,7 +419,7 @@ export default {
               level: 4,
               src: `${this.$store.state.imgUrl}level4.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                return data.level == 4;
+                return data.level == 4 && data.series == 1;
               }).length,
               status:false
             },
@@ -358,7 +427,49 @@ export default {
               level: 5,
               src: `${this.$store.state.imgUrl}level5.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
-                return data.level == 5;
+                return data.level == 5 && data.series == 1;
+              }).length,
+              status:false
+            },
+          ]
+          this.newCardArr = [
+            {
+              level: 1,
+              src: `${this.$store.state.imgUrl}level1.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 1 && data.series == 2;
+              }).length,
+              status:false
+            },
+            {
+              level: 2,
+              src: `${this.$store.state.imgUrl}level2.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 2 && data.series == 2;
+              }).length,
+              status:false
+            },
+            {
+              level: 3,
+              src: `${this.$store.state.imgUrl}level3.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 3 && data.series == 2;
+              }).length,
+              status:false
+            },
+            {
+              level: 4,
+              src: `${this.$store.state.imgUrl}level4.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 4 && data.series == 2;
+              }).length,
+              status:false
+            },
+            {
+              level: 5,
+              src: `${this.$store.state.imgUrl}level5.png`,
+              num: JSON.parse(this.getUserCardInfo).filter((data) => {
+                return data.level == 5 && data.series == 2;
               }).length,
               status:false
             },
@@ -484,10 +595,10 @@ export default {
       this.$router.push("/transfer");
     },
     // 我的卡牌跳转
-    jumpDetails (item) {
+    jumpDetails (item,data) {
       this.$router.push({
         path: "/carddetails",
-        query: { level: item.level, num: item.num },
+        query: { level: item.level, num: item.num, serise:data }
       });
     },
     // 链接钱包才能拿到的数据获取方法
@@ -622,6 +733,9 @@ export default {
     .span2 {
       color: #ccbebe;
     }
+  }
+  .add_mynewCard{
+    margin-top: 60px;
   }
   .swiper-container {
     width: 100%;

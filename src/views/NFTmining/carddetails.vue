@@ -7,8 +7,7 @@
     <div class="boxarr">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-
-        <Lottie :options="type1_lv1_dataanimationData" v-if="item.level == 1 && item.type == 1" :width="getIsMobile?256:'50%'" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
       </div>
       <div class="loadingbox fontsize16" v-if="boxarr.length == 0 && pageshowLoading">
         Loading...
@@ -23,10 +22,9 @@ import { mapGetters } from "vuex";
 export default {
   data () {
     return {
-      type1_lv1_dataanimationData:{},
+      anmationArr:[],//动画数组的json
       pageshowLoading:true,
       boxarr:[],
-      type4_lv2_dataanimationData: {},
       timerll:null
     }
   },
@@ -55,9 +53,17 @@ export default {
       this.timerll = setInterval(() => {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
-          let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.level == this.$route.query.level})
+          let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.series == this.$route.query.serise && data.level == this.$route.query.level})
           this.boxarr = arr.sort((a, b) => {
-            return Number(a.type) > Number(b.type) ? 1 : -1;
+            if(a.ultra == b.ultra == true){
+              if(b.type == a.type){
+                return b.type - a.type
+              }else{
+                return a.type - b.type
+              }
+            }else{
+              return b.ultra - a.ultra
+            }
           })
           console.log("卡牌详情页面展示的数组:",this.boxarr)
           this.pageshowLoading = false
@@ -67,17 +73,14 @@ export default {
     back(){
       this.$router.go(-1)
     },
-    getDatCardJson(){
-      this.$common.getDatCardJson(1,1).then(res => {//  1----卡牌人物类型 2---等级
-        console.log('封装api获取到的res: ', res);
-        this.type1_lv1_dataanimationData = res.data
-      }).catch(err => {
-        console.log('封装api获取到的--err: ', err);
-      })
-    }
   },
   mounted(){
-    this.getDatCardJson()
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
   }
 }
 </script>
