@@ -187,7 +187,7 @@ export default {
       }else{
         this.seriesTxt = this.seriesTxt2
         this.SeparateMethodToGetData(2,this.rank)
-        this.selectedCardnum = 4
+        this.selectedCardnum = this.maximumNumberOfCards
       }
       this.getSDKInfo() // 重新判断是否授权
     },
@@ -242,12 +242,12 @@ export default {
         this.selectedNUM = 0
         this.compose = 0
       }
-      // this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      if(this.seriesTxt == 2 && this.isFlag){
-        this.selectedCardnum = this.maximumNumberOfCards
-      }else{
-        this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      }
+      this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      // if(this.seriesTxt == 2 && this.isFlag){
+      //   this.selectedCardnum = this.maximumNumberOfCards
+      // }else{
+      //   this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      // }
       if(this.selectALLBtn){//选中的状态下
         if(this.selectedCardnum == this.pageshowarr.length){
           this.selectedArr = this.pageshowarr
