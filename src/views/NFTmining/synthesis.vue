@@ -116,7 +116,7 @@ export default {
       timerll_result:null,
       infoArr:[], // 选中的卡牌过滤以后的数组信息
       isFlag:true,// 是否开启flag--新卡合成
-      maximumNumberOfCards:4,// 新卡牌在isFlag为true的情况下  最多选择合成数
+      maximumNumberOfCards:256,// 新卡牌在isFlag为true的情况下  最多选择合成数
     }
   },
   computed: {
