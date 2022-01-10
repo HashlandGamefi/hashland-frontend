@@ -163,6 +163,8 @@ export default {
       this.compose = 0//合成的卡牌数量
       this.selectimgArr = []//选中的卡牌的信息
       this.seriesTxt = 1
+      this.selectALLBtn = false
+      this.hcnum = 0
     },
     // 选择卡牌系列
     selectSeries(data){
@@ -177,6 +179,7 @@ export default {
       this.selectedNUM = 0//选中的卡牌数量
       this.pageshowLoading = true
       this.pageshowarr = []
+      this.hcnum = 0
       if(data == 1){
         this.seriesTxt = this.seriesTxt1
         this.SeparateMethodToGetData(1,this.rank)
