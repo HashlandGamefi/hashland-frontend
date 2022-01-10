@@ -239,8 +239,12 @@ export default {
         this.selectedNUM = 0
         this.compose = 0
       }
-      this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      // console.log('本次全选可以选中的卡牌数量this.selectedCardnum: ', this.selectedCardnum);
+      // this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      if(this.seriesTxt == 2 && this.isFlag){
+        this.selectedCardnum = this.maximumNumberOfCards
+      }else{
+        this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      }
       if(this.selectALLBtn){//选中的状态下
         if(this.selectedCardnum == this.pageshowarr.length){
           this.selectedArr = this.pageshowarr
