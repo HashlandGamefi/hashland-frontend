@@ -384,8 +384,13 @@ export default {
             obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
             // console.log('obj.ultra: ', obj.ultra);
             let race = await hn().getHashrates(item) // 算力数组
-            // @ts-ignore
-            obj.src = getHnImg(Number(obj.cardID), obj.level, race,obj.ultra)
+            if(obj.series == '1'){
+              // @ts-ignore
+              obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra)
+            }else if(obj.series == '2'){
+              // @ts-ignore
+              obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra,true)
+            }
             infoArr.push(obj)
             if (count == res[0].length) {
               store.commit("setCardInfo", JSON.stringify(infoArr))
@@ -465,12 +470,12 @@ export default {
   },
   getDatCardJson(type:number,level:number){
     const CARD_API = process.env.VUE_APP_NEWCARD;
-    const arguments_card = '?image_process=resize,w_512/crop,mid,w_410,h_512'
+    // const arguments_card = '?image_process=resize,w_512/crop,mid,w_410,h_512'
     return new Promise((resolve,reject) => {
       api.getDataJson(`type${type}/${level}/data.json`).then(res => {
         res.data.assets.forEach((element:any) => {
           element.u = ''
-          element.p = `${CARD_API}type${type}/${level}/images/` + element.p + arguments_card
+          element.p = `${CARD_API}type${type}/${level}/images/` + element.p
         });
         resolve({"status":true,'data':res.data})
       }).catch(err => {

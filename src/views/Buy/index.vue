@@ -44,14 +44,7 @@ export default {
   },
   watch:{
     $route(to){
-      console.log('盲盒tab页面路由to: ', to);
       this.tabIndex = to.params.id
-      // if(){
-      // }
-      // this.$store.commit("menuBG", "yes");
-      // sessionStorage.setItem("menuBG", "yes");
-      // this.$store.commit("HashMenu", index);
-      // sessionStorage.setItem("HashMenu", index);
     }
   },
   methods:{
