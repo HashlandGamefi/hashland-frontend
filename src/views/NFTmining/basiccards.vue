@@ -348,6 +348,7 @@ export default {
           this.cardsoltArr = this.resetCardsoltArr
           this.initSwiper(1);
           this.initSwiper(2);
+          clearInterval(this.time_btn)
         }
       },
       deep: true,
@@ -696,6 +697,7 @@ export default {
   },
   beforeDestroy(){
     clearInterval(this.timerll)
+    clearInterval(this.time_btn)
   }
 };
 </script>
