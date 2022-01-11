@@ -10,8 +10,16 @@
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
-              <div class="row">
-                <div>{{ $t("message.gameFi.text91") }}</div>
+              <div class="row select_list">
+                <div>
+                  <span>{{ $t("message.gameFi.text91") }}</span>
+                  <!-- <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                  <ul class="list">
+                    <li>第1赛季</li>
+                    <li>第2赛季</li>
+                    <li>第3赛季</li>
+                  </ul> -->
+                </div>
               </div>
               <div class="row">
                 <div>{{ $t("message.gameFi.text92") }}</div>
@@ -58,11 +66,19 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row">
-              <div>{{ $t("message.gameFi.text91") }}</div>
+            <div class="row select_list">
+              <div>
+                <span>{{ $t("message.gameFi.text91") }}</span>
+                <!-- <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                <ul class="list">
+                  <li>第1赛季</li>
+                  <li>第2赛季</li>
+                  <li>第3赛季</li>
+                </ul> -->
+              </div>
             </div>
             <div class="row">
-              <ul>
+              <ul class="rank_list">
                 <li>
                   <div></div>
                   <div>{{ $t("message.gameFi.text92") }}</div>
@@ -106,9 +122,15 @@
           <div class="ranking_content">
             <div class="col1">
               <div class="row">
-                <div>
+                <div class="select_list">
                   <div>
-                    <span> {{ $t("message.gameFi.text91") }}</span>
+                    <span>{{ $t("message.gameFi.text91") }}</span>
+                    <!-- <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                    <ul class="list">
+                      <li>第1赛季</li>
+                      <li>第2赛季</li>
+                      <li>第3赛季</li>
+                    </ul> -->
                   </div>
                 </div>
                 <div>
@@ -174,11 +196,19 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row">
-              <div>{{ $t("message.gameFi.text91") }}</div>
+            <div class="row select_list">
+              <div>
+                <span>{{ $t("message.gameFi.text91") }}</span>
+                <!-- <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                <ul class="list">
+                  <li>第1赛季</li>
+                  <li>第2赛季</li>
+                  <li>第3赛季</li>
+                </ul> -->
+              </div>
             </div>
             <div class="row">
-              <ul>
+              <ul class="rank_list">
                 <li>
                   <div></div>
                   <div>{{ $t("message.gameFi.text99") }}</div>
@@ -212,11 +242,21 @@
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
-              <div>
-                <span> {{ $t("message.gameFi.text91") }}</span>
+              <div class="select_list">
+                <div>
+                  <span>{{ $t("message.gameFi.text91") }}</span>
+                  <!-- <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                  <ul class="list">
+                    <li>第1赛季</li>
+                    <li>第2赛季</li>
+                    <li>第3赛季</li>
+                  </ul> -->
+                </div>
               </div>
               <div>
-                <span> {{ $t("message.gameFi.text35") }}</span>
+                <div>
+                  <span>{{ $t("message.gameFi.text35") }}</span>
+                </div>
               </div>
             </div>
             <div class="col2">
@@ -232,7 +272,7 @@
                 </div>
               </div>
               <div class="row">
-                <ul>
+                <ul class="rank_list">
                   <li class="row_col" v-for="(item, index) in PVPData2" :key="index">
                     <div>
                       <span>{{ item.rank }}</span>
@@ -262,9 +302,15 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row">
+            <div class="row select_list">
               <div>
                 <span>{{ $t("message.gameFi.text91") }}</span>
+                <!-- <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
+                <ul class="list">
+                  <li>第1赛季</li>
+                  <li>第2赛季</li>
+                  <li>第3赛季</li>
+                </ul> -->
               </div>
             </div>
             <div class="row">
@@ -276,7 +322,7 @@
                 <div>{{ $t("message.gameFi.text103") }}</div>
                 <div>{{ $t("message.gameFi.text104") }}</div>
               </div>
-              <ul>
+              <ul class="rank_list">
                 <li class="row_col" v-for="(item, index) in PVPData2" :key="index">
                   <div>{{ item.rank }}</div>
                   <div>{{ item.walletAddress | ellipsis }}</div>
@@ -785,7 +831,7 @@ export default {
       margin-right: 5px;
       font-size: 16px;
       font-weight: bold;
-      div {
+      > div {
         background: #082545;
         border-radius: 6px;
         padding: 5px;
@@ -823,7 +869,7 @@ export default {
           }
         }
         &:nth-child(2) {
-          ul {
+          .rank_list {
             width: 100%;
             height: 100%;
             overflow-y: auto;
@@ -869,7 +915,52 @@ export default {
     }
   }
 }
-
+.select_list {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > div {
+    .accrow {
+      margin-left: 10px;
+      width: 15px;
+      height: auto;
+      transform: rotate(-90deg);
+      transition: all 0.3s;
+    }
+    .list {
+      width: 100%;
+      height: auto;
+      background: #082545;
+      box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: top center;
+      li {
+        font-size: 16px;
+        padding: 5px;
+        &:hover {
+          // background: #00e7f0;
+          color: #00e7f0;
+        }
+      }
+    }
+  }
+  &:hover {
+    .accrow {
+      transform: rotate(0);
+    }
+    .list {
+      transform: scaleY(1);
+    }
+  }
+}
 @media screen and (max-width: 980px) {
   // 重置滚动条样式
   ::-webkit-scrollbar {
@@ -940,13 +1031,14 @@ export default {
           margin-bottom: 0.05rem;
         }
       }
-      ul {
+      .rank_list {
         width: 100%;
         padding: 0.05rem;
         li {
           width: 100%;
           display: flex;
           align-items: center;
+          justify-content: center;
           &:nth-child(1) div {
             height: 0.3rem;
             background: transparent;
@@ -991,11 +1083,12 @@ export default {
           margin-bottom: 0.05rem;
         }
       }
-      ul {
+      .rank_list {
         overflow-x: auto;
         li {
           display: flex;
           align-items: center;
+          justify-content: center;
           &:nth-child(1) div {
             height: 0.6rem;
             background: transparent;
@@ -1064,7 +1157,7 @@ export default {
           }
         }
       }
-      ul {
+      .rank_list {
         width: 100%;
         // height: 0.5rem;
         min-height: 1rem;
@@ -1079,6 +1172,20 @@ export default {
             align-items: center;
             justify-content: center;
           }
+        }
+      }
+    }
+  }
+  .select_list {
+    > div {
+      .accrow {
+        margin-left: 0.1rem;
+        width: 0.12rem;
+      }
+      .list {
+        li {
+          font-size: 12px;
+          padding: 0.05rem;
         }
       }
     }
