@@ -602,6 +602,11 @@ export default {
         .title_onebox{
           min-width: 80px;
           color: #ffffff;
+          display: flex;
+          .champion_box{
+            display: flex;
+            color: #ffffff;
+          }
         }
       }
       .bottomline{
@@ -628,13 +633,18 @@ export default {
           }
           .title_onebox{
             min-width: 80px;
+            display: flex;
             color: #ffffff;
+            .champion_box{
+              display: flex;
+              color: #ffffff;
+            }
             .sort1_img{
               width: 27px;
               object-fit: contain;
             }
             .pad_left{
-              padding-left: 10px;
+              padding-left: 5px;
             }
           }
         }
