@@ -8,11 +8,11 @@
     <div class="content">
       <div class="add_content_box">
         <div class="left_content" :class="[disablehover?'clear_hover':'']">
-          <span class="span1 fontsize16">系列 {{seriesTxt}}</span>
+          <span class="span1 fontsize16">{{$t("message.series")}} {{seriesTxt}}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectSeries(1)">系列 {{seriesTxt1}}</span>
-            <span class="span1 fontsize16" @click="selectSeries(2)">系列 {{seriesTxt2}}</span>
+            <span class="span1 fontsize16" @click="selectSeries(1)">{{$t("message.series")}} {{seriesTxt1}}</span>
+            <span class="span1 fontsize16" @click="selectSeries(2)">{{$t("message.series")}} {{seriesTxt2}}</span>
           </div>
         </div>
         <div class="left_content" :class="[disablehover?'clear_hover':'']">
@@ -48,7 +48,7 @@
         <!-- && item.ultra -->
         <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?237:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
         <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
-        <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" v-if="index % 4 == 0" />
+        <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" :class="{newCardMaster:item.series == 2}" v-if="index % 4 == 0" />
       </div>
     </div>
     <!-- 页面展示数组 -->
@@ -347,6 +347,10 @@ export default {
     },
     // 合成方法
     async synthesisFun(){
+      if(this.rank == 5){
+        this.$common.selectLang('已经是最高等级','Already the highest level',this)
+        return
+      }
       if(this.synthesisDis)return
       if(this.selectedArr.length < 4){
         this.$common.selectLang('至少选择4张卡牌','You need to select a minimal of 4 cards',this)
@@ -662,6 +666,9 @@ export default {
         width: 78px;
         object-fit: contain;
       }
+      .newCardMaster{
+        width: 40px;
+      }
       .positon_absoult{
         position: absolute;
         top: 0;
@@ -692,7 +699,7 @@ export default {
     background: linear-gradient(180deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5), -1px 18px 14px -2px #041D3A;
     border-radius: 79px;
-    padding-top: 24px;
+    padding: 12px 0;
     .bottom_title{
       color: #ffffff;
     }
@@ -888,6 +895,9 @@ export default {
           right: 0.1rem;
           width: 0.55rem;
           object-fit: contain;
+        }
+        .newCardMaster{
+          width: 0.25rem;
         }
       }
     }

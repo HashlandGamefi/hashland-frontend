@@ -36,6 +36,7 @@ export default {
       handler: function (newValue) {
         if(newValue){
           this.pageshowLoading = true
+          this.boxarr = []
           this.getUserAllCard()
         }else{
           this.pageshowLoading = false

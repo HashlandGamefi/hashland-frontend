@@ -8,11 +8,11 @@
     <div class="content">
       <div class="add_content_box">
         <div class="left_content" :class="[disablehover?'clear_hover':'']">
-          <span class="span1 fontsize16">系列 {{seriesTxt}}</span>
+          <span class="span1 fontsize16">{{$t("message.series")}} {{seriesTxt}}</span>
           <div class="span2"></div>
           <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectSeries(1)">系列 {{seriesTxt1}}</span>
-            <span class="span1 fontsize16" @click="selectSeries(2)">系列 {{seriesTxt2}}</span>
+            <span class="span1 fontsize16" @click="selectSeries(1)">{{$t("message.series")}} {{seriesTxt1}}</span>
+            <span class="span1 fontsize16" @click="selectSeries(2)">{{$t("message.series")}} {{seriesTxt2}}</span>
           </div>
         </div>
         <!-- 几阶对应数量 -->
@@ -226,7 +226,7 @@ export default {
         this.SeparateMethodToGetData(2,this.rank)
       }
     },
-    // 获取对应系列的卡牌
+    // 获取对应{{$t("message.series")}}的卡牌
     SeparateMethodToGetData(series,level = 1){
       this.cardarr = JSON.parse(this.getUserCardInfo)
       let arr = this.cardarr.filter(item => { return item.level == level})

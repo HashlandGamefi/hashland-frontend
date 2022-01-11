@@ -156,28 +156,20 @@ export default {
       if(type == 'btc'){
         if(this.btc_isloading)return
         this.btc_isloading = true
-        hnPool().connect(getSigner()).harvestTokens([1]).then(async res => {
-          // console.log('提取btcres: ', res);
-          const etReceipt = await res.wait();
-          if(etReceipt.status == 1){
-            this.$common.selectLang('提取成功','Claim Successful',this)
-            this.btc_isloading = false
-            this.addyieldFun()
-          }
+        hnPool().connect(getSigner()).harvestTokens([1]).then(res => {
+          this.$common.selectLang('提取成功','Claim Successful',this)
+          this.btc_isloading = false
+          this.addyieldFun()
         }).catch(() => {
           this.btc_isloading = false
         })
       }else{
         if(this.hc_isloading)return
         this.hc_isloading = true
-        hnPool().connect(getSigner()).harvestTokens([0]).then(async res => {
-          const etReceipt = await res.wait();
-          // console.log('提取hcres: ', res);
-          if(etReceipt.status == 1){
-            this.$common.selectLang('提取成功','Claim Successful',this)
-            this.hc_isloading = false
-            this.addyieldFun()
-          }
+        hnPool().connect(getSigner()).harvestTokens([0]).then(res => {
+          this.$common.selectLang('提取成功','Claim Successful',this)
+          this.hc_isloading = false
+          this.addyieldFun()
         }).catch(() => {
           this.hc_isloading = false
         })
@@ -219,7 +211,7 @@ export default {
             this.btcnum = Number(num)
           }
         })
-      },5000)
+      },2500)
     },
     // sdk一系列信息
     async getSDKInfo(){

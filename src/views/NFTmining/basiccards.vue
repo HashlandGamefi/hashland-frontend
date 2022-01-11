@@ -292,7 +292,7 @@ export default {
         observeParents: true, // 将observe应用于Swiper的祖先元素。当Swiper的祖先元素变化时，例如window.resize，Swiper更新。
         initialSlide: 0,
       });
-      this.swiper2 = new Swiper(".swiper-container3", {
+      this.swiper3 = new Swiper(".swiper-container3", {
         nextButton: ".swiper-button-next",
         prevButton: ".swiper-button-prev",
         slidesPerView: document.body.clientWidth > 980 ? 4 : 2,

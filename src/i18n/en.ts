@@ -306,6 +306,7 @@ export const message = {
   button2: "To Buy",
   consumption: "Craft needs to consume ", // 合成消耗hc数量
   text79: "Connect Wallet",
+  series:'Series',
   gameFi: {
     text1: "Personal Center",
     text2: "Sign Out",

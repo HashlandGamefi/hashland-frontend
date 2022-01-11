@@ -286,6 +286,7 @@ export const message = {
   button1: "确认",
   nothing: "暂无数据",
   text79: "连接钱包",
+  series:'系列',
   gameFi: {
     text1: "个人中心",
     text2: "退出登录",
