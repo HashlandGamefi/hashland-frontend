@@ -180,14 +180,17 @@ export default {
       this.pageshowLoading = true
       this.pageshowarr = []
       this.hcnum = 0
+      if(this.isFlag){
+        this.selectedCardnum = this.maximumNumberOfCards // 开启link的情况下,老卡新卡最大合成数为16张
+      }else{
+        this.selectedCardnum = 10000000000
+      }
       if(data == 1){
         this.seriesTxt = this.seriesTxt1
         this.SeparateMethodToGetData(1,this.rank)
-        this.selectedCardnum = 10000000000
       }else{
         this.seriesTxt = this.seriesTxt2
         this.SeparateMethodToGetData(2,this.rank)
-        this.selectedCardnum = this.maximumNumberOfCards
       }
       this.getSDKInfo() // 重新判断是否授权
     },
@@ -242,8 +245,8 @@ export default {
         this.compose = 0
       }
       // this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      if(this.seriesTxt == 2 && this.isFlag){
-        this.selectedCardnum = this.maximumNumberOfCards
+      if(this.isFlag){
+        this.selectedCardnum = this.maximumNumberOfCards // 开启link的情况下,老卡新卡最大合成数为16张
       }else{
         this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
       }
@@ -376,7 +379,7 @@ export default {
     },
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引
-      if(this.seriesTxt == 2 && this.isFlag){
+      if(this.isFlag){
         if(this.selectedNUM >= this.maximumNumberOfCards)return
       }
       data.status = true
@@ -476,7 +479,7 @@ export default {
       }
     },1000)
     hnUpgradeV2().vrfFlag().then(res => {
-      // console.log('是否开启了LINK随机数功能res: ', res);
+      console.log('是否开启了LINK随机数功能res: ', res);
       this.isFlag = res
     })
   }
