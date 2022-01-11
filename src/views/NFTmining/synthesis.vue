@@ -116,7 +116,7 @@ export default {
       timerll_result:null,
       infoArr:[], // 选中的卡牌过滤以后的数组信息
       isFlag:true,// 是否开启flag--新卡合成
-      maximumNumberOfCards:256,// 新卡牌在isFlag为true的情况下  最多选择合成数
+      maximumNumberOfCards:16,// 新卡牌在isFlag为true的情况下  最多选择合成数
     }
   },
   computed: {
@@ -200,7 +200,6 @@ export default {
           this.pageshowLoading = true
           this.SeparateMethodToGetData(1,1)
         }
-        // console.log("获取用户信息")
       }, 1000);
     },
     // 获取对应系列的卡牌
@@ -242,12 +241,12 @@ export default {
         this.selectedNUM = 0
         this.compose = 0
       }
-      this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      // if(this.seriesTxt == 2 && this.isFlag){
-      //   this.selectedCardnum = this.maximumNumberOfCards
-      // }else{
-      //   this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      // }
+      // this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      if(this.seriesTxt == 2 && this.isFlag){
+        this.selectedCardnum = this.maximumNumberOfCards
+      }else{
+        this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      }
       if(this.selectALLBtn){//选中的状态下
         if(this.selectedCardnum == this.pageshowarr.length){
           this.selectedArr = this.pageshowarr
@@ -275,7 +274,6 @@ export default {
       }
       this.proupDis = false
       hnUpgradeV2().connect(getSigner()).upgrade(this.infoArr).then(res => {
-        console.log('卡牌系列合成方法res: ', res);
         this.watchResult()
       }).catch(err => {
         console.log('卡牌系列合成方法err: ', err);
@@ -286,7 +284,6 @@ export default {
     watchResult(){
       let filter = hnUpgradeV2().filters.UpgradeHns(this.getAccount)
       hnUpgradeV2().on(filter, (user, boxslengths, boxarrID,events,isUcard) => {
-        console.log("合成结果监听方法",user, boxslengths, boxarrID,events,isUcard)
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
@@ -312,17 +309,12 @@ export default {
         })
         let lotteryObject = setInterval(() => {
           if(imgarr.length > 0){
-            console.log('抽奖获取到的imgarr: ', imgarr);
             clearInterval(lotteryObject)
             let transferArr = imgarr.sort((a,b) => {
               if(a.ultra == b.ultra == true){
-                if(b.level == a.level){
-                  return b.level - a.level
-                }else{
-                  return a.level - b.level
-                }
+                return a.type > b.type?1:-1
               }else{
-                return b.ultra - a.ultra
+                return a.type > b.type?1:-1
               }
             })
             let lastObj = {
@@ -365,7 +357,6 @@ export default {
       }
       // 获取用户的hc余额
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      // console.log('balance:%s', balance);
 
       if(Number(this.hcnum) <= Number(balance)){
         this.synthesisDis = true
@@ -385,7 +376,6 @@ export default {
     },
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引
-      console.log('当前数组的索引data,index: ', data,index,this.seriesTxt);
       if(this.seriesTxt == 2 && this.isFlag){
         if(this.selectedNUM >= this.maximumNumberOfCards)return
       }
@@ -454,14 +444,12 @@ export default {
         if(!this.isApproveHN){
           this.hnisloading = true
           this.$common.delegatingFun(1, contract().HNUpgradeV2).then(async res => {
-            // console.log('hn授权res: ', res);
             const etReceipt = await res.wait();
             if (etReceipt.status == 1) {
               this.isApproveHN = true
               this.hnisloading = false
             }
           }).catch(err => {
-            // console.log('hn授权err: ', err);
             this.isApproveHN = false
             this.hnisloading = false
           })
@@ -470,11 +458,9 @@ export default {
         if(!this.isApproveHC){
           this.hcisloading = true
           this.$common.delegatingFun(2,contract().HNUpgradeV2).then(res => {
-            // console.log('hc授权res: ', res);
             this.isApproveHC = true
             this.hcisloading = false
           }).catch(err => {
-            // console.log('hc授权err: ', err);
             this.isApproveHC = false
             this.hcisloading = false
           })
@@ -490,7 +476,7 @@ export default {
       }
     },1000)
     hnUpgradeV2().vrfFlag().then(res => {
-      console.log('是否开启了LINK随机数功能res: ', res);
+      // console.log('是否开启了LINK随机数功能res: ', res);
       this.isFlag = res
     })
   }
