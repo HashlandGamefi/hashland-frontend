@@ -246,7 +246,7 @@ export default {
       }
       // this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
       if(this.isFlag){
-        this.selectedCardnum = this.maximumNumberOfCards // 开启link的情况下,老卡新卡最大合成数为16张
+        this.selectedCardnum = this.pageshowarr.length >= 16?this.maximumNumberOfCards:this.pageshowarr.length - this.pageshowarr.length % 4 // 开启link的情况下,老卡新卡最大合成数为16张
       }else{
         this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
       }
