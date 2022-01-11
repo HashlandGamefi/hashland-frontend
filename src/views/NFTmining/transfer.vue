@@ -113,7 +113,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo","getIsMobile"]),
     selectStatus: {
       get() {
         if(this.selectedNUM == 0){
@@ -157,18 +157,18 @@ export default {
     },
     // 确认转账
     sureDangerClick(){
-      console.log('this.dangerTxtModel: ', this.dangerTxtModel);
+      // console.log('this.dangerTxtModel: ', this.dangerTxtModel);
       if(this.dangerTxtModel == '')return
       this.synthesisDis = true
       let arr = this.selectimgArr.map(item => {
         return item.id
       })
-      console.log('向合约传的id数组arr: ', arr);
+      // console.log('向合约传的id数组arr: ', arr);
       hn().connect(getSigner()).safeTransferFromBatch(this.getAccount,this.dangerTxtModel,arr).then(async res => {
         const etReceipt = await res.wait();
         if(etReceipt.status == 1){
           this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-            console.log('重新获取用户卡牌信息res1: ', res1);
+            // console.log('重新获取用户卡牌信息res1: ', res1);
             sessionStorage.removeItem('count')
             if(res1 > 1){
               sessionStorage.setItem("count",res1)
@@ -179,11 +179,11 @@ export default {
             this.SeparateMethodToGetData(this.seriesTxt,this.rank)
             this.$common.selectLang('转账成功','Gifted Successfully',this)
             arr = []
-            this.selectALLBtn = this.selectStatus = false
+            this.selectALLBtn = this.selectStatus = this.synthesisDis =false
             this.selectedNUM = 0
           })
         }else{
-          this.selectALLBtn = this.selectStatus = false
+          this.selectALLBtn = this.selectStatus = this.synthesisDis = false
           this.selectedNUM = 0
         }
         this.isdanger = false
@@ -204,7 +204,7 @@ export default {
           this.pageshowLoading = true
           this.SeparateMethodToGetData(1,1)
         }
-        console.log("获取用户信息")
+        // console.log("获取用户信息")
       }, 1000);
     },
     selectSeries(data){
@@ -303,7 +303,7 @@ export default {
     },
     //选择当前卡牌
     cardClick(data,index){
-      console.log('选择当前卡牌: ', data,index);
+      // console.log('选择当前卡牌: ', data,index);
       if(this.selectedNUM >= 100){
         if(data.status){
           data.status = false
@@ -322,14 +322,14 @@ export default {
       data.status = !data.status
 
       if(data.status){
-        console.log("status为true的状态")
+        // console.log("status为true的状态")
         this.selectedNUM++
         let obj = {}
         obj.id = data.cardID
         obj.index = index
         this.selectimgArr.push(obj)
       }else{
-        console.log("status为false的状态")
+        // console.log("status为false的状态")
         for(let i = 0; i < this.selectimgArr.length; i++){
           if(this.selectimgArr[i].index == index){
             this.selectimgArr.splice(i,1)
