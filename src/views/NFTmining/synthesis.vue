@@ -58,9 +58,10 @@
         <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?237:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
       </div>
-      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+      <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
+      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
-      </div>
+      </div> -->
       <NoData v-else-if="pageshowarr.length == 0 && selectedArr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <!-- 按钮 -->
@@ -288,6 +289,11 @@ export default {
     watchResult(){
       let filter = hnUpgradeV2().filters.UpgradeHns(this.getAccount)
       hnUpgradeV2().on(filter, (user, boxslengths, boxarrID,events,isUcard) => {
+        console.log('合成结果:user', user);
+        console.log('合成结果:boxslengths', boxslengths);
+        console.log('合成结果:boxarrID', boxarrID);
+        console.log('合成结果:events', events);
+        console.log('合成结果:isUcard',isUcard);
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
@@ -298,7 +304,10 @@ export default {
           let obj = {}
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
-          obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
+          // obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
+          isUcard.forEach(item => {
+            obj.ultra = item
+          })
           obj.series = (await hn().series(item)).toString() // 系列
           if(obj.series == '1'){
             obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
@@ -312,7 +321,7 @@ export default {
           imgarr.push(obj)
         })
         let lotteryObject = setInterval(() => {
-          if(imgarr.length > 0){
+          if(imgarr.length == events.length){
             clearInterval(lotteryObject)
             let transferArr = imgarr.sort((a,b) => {
               if(a.ultra == b.ultra == true){

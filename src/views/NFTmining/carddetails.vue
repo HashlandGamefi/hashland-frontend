@@ -9,9 +9,10 @@
         <img :src="item.src" class="imgcard" />
         <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
       </div>
-      <div class="loadingbox fontsize16" v-if="boxarr.length == 0 && pageshowLoading">
+      <!-- <div class="loadingbox fontsize16" v-if="boxarr.length == 0 && pageshowLoading">
         Loading...
-      </div>
+      </div> -->
+      <LoadingAnmation v-if="boxarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="boxarr.length == 0 && !pageshowLoading"></NoData>
     </div>
   </div>

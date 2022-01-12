@@ -110,9 +110,10 @@
               <div class="insertbox2 fontsize16">{{item.ratio}}%</div>
             </div>
           </div>
-          <div class="loadingbox fontsize16" v-if="list.length == 0 && pageshowLoading" >
+          <!-- <div class="loadingbox fontsize16" v-if="list.length == 0 && pageshowLoading" >
             Loading...
-          </div>
+          </div> -->
+          <LoadingAnmation v-if="list.length == 0 && pageshowLoading"></LoadingAnmation>
           <NoData v-else-if="list.length == 0 && !pageshowLoading" :isshow="false"></NoData>
         </div>
       </div>

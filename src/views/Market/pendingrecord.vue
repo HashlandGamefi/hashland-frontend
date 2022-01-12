@@ -18,9 +18,10 @@
           </div>
         </div>
       </div>
-      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
-      </div>
+      </div> -->
+      <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -192,7 +193,7 @@ export default {
   }
   .title1_txt {
     color: #ffffff;
-    margin-top: 208px;
+    margin-top: 160px;
   }
   .show_gameArr{
     margin-top: 40px;

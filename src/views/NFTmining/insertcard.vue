@@ -60,9 +60,10 @@
         </div>
       </div>
     </div>
-    <div class="loadingbox fontsize16" v-else-if="starArr.length == 0 && pageshowLoading">
+    <!-- <div class="loadingbox fontsize16" v-else-if="starArr.length == 0 && pageshowLoading">
       Loading...
-    </div>
+    </div> -->
+    <LoadingAnmation v-if="starArr.length == 0 && pageshowLoading"></LoadingAnmation>
     <div class="content_box" v-else>
       <NoData></NoData>
     </div>

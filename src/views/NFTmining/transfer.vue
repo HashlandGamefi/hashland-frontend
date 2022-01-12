@@ -49,9 +49,10 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
-      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
+      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
         Loading...
-      </div>
+      </div> -->
+      <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <div class="Suspension_btnbox" v-if="pageshowarr.length > 0">

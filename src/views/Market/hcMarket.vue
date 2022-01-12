@@ -36,10 +36,10 @@
             </div>
           </div>
           <!-- 职业排序 -->
-          <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
+          <div class="left_content sercise_content" :class="[disablehover ? 'clear_hover' : '']">
             <span class="span1 fontsize16">{{ $t(occupationTxt) }}</span>
             <div class="span2"></div>
-            <div class="left_content_hover">
+            <div class="left_content_hover sercise_content_hover">
               <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{ $t(ele.name) }}</span>
             </div>
           </div>
@@ -115,7 +115,8 @@
           </div>
         </div>
       </div>
-      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">Loading...</div>
+      <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
+      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">Loading...</div> -->
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
       <div class="bottom_loading" v-if="pageshowarr.length > 10">
         <span class="fontsize16" v-if="!nodata && pulldown">Pull up to load more</span>
@@ -799,7 +800,7 @@ export default {
         }
         .left_content_price {
           margin-right: 15px;
-          width: 240px;
+          width: 260px;
           position: relative;
           height: 44px;
           background: #031224;
@@ -828,7 +829,7 @@ export default {
             top: -3px;
             left: 0;
             z-index: 9;
-            width: 240px;
+            width: 260px;
             display: none;
             flex-direction: column;
             justify-content: space-between;
