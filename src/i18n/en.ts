@@ -219,7 +219,7 @@ export const message = {
     txt22: "Please enter price",
     txt23: "Order cancelled successfully",
     txt25: "Price",
-    txt26: "You can insert NFTs to the slot to mine  BTC/HC before pending.",
+    txt26: "You can insert NFTs to the slot to mine before pending.",
     txt27:
       "The pending order will be cancelled once the NFT of the pending order in the card slot is withdrew.",
     txt27_1: "The NFT in the card slot is still in it when pending.",
@@ -239,6 +239,8 @@ export const message = {
     txt39: "All Type",
     txt40: "Normal",
     txt41: "Ultra",
+    txt42: "BUSD Market",
+    txt43: "HC Market",
   },
   dao: {
     txt1: "Hashland DAO Governance",

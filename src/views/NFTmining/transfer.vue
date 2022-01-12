@@ -135,14 +135,12 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
+          this.pageshowLoading = true
+          this.resetData()
           this.getUserAllCard()
         }else{
-          this.cardarr = []//所有卡牌信息的数组
-          this.pageshowarr = []//页面展示的数组
-          this.rank = 1//1阶
-          this.amount = 0//阶对应的卡牌数量
-          this.selectedNUM = 0//选中的卡牌数量
-          this.selectimgArr = []//选中的卡牌的信息
+          this.pageshowLoading = false
+          this.resetData()
         }
       },
       deep: true,
@@ -150,6 +148,17 @@ export default {
     }
   },
   methods: {
+    // 重置数据
+    resetData(){
+      this.seriesTxt = 1
+      this.cardarr = []//所有卡牌信息的数组
+      this.pageshowarr = []//页面展示的数组
+      this.rank = 1//1阶
+      this.selectALLBtn = false
+      this.amount = 0//阶对应的卡牌数量
+      this.selectedNUM = 0//选中的卡牌数量
+      this.selectimgArr = []//选中的卡牌的信息
+    },
     // 取消转账
     dangerClick(){
       this.dangerTxtModel = ''
@@ -212,6 +221,7 @@ export default {
       setTimeout(() => {
         this.disablehover = false
       },600)
+      if(!this.getIstrue)return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this)
       if(this.pageshowLoading)return
       this.selectimgArr = [] //选中的卡牌的信息
       this.selectALLBtn = false // 全选按钮的展示

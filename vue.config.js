@@ -16,5 +16,5 @@ module.exports = {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     }
   },
-  productionSourceMap: process.env.NODE_ENV === 'production' ? false : true
+  productionSourceMap:false
 }

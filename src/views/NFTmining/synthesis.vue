@@ -172,6 +172,7 @@ export default {
       setTimeout(() => {
         this.disablehover = false
       },600)
+      if(!this.getIstrue)return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this)
       if(this.pageshowLoading)return
       this.selectimgArr = [] //选中的卡牌的信息
       this.selectedArr = [] // 页面展示的选中的数组

@@ -4,24 +4,7 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="title1_txt fontsize32">{{$t("message.market.txt4")}}</span>
-    <div class="tab_box">
-      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
-        My Wallet Cards
-      </div>
-      <div
-        class="oneTab fontsize16"
-        :class="{ activeTab: tabIndex == 1 }"
-        @click="tabFun(1)"
-      >
-        My Sloted Cards
-      </div>
-    </div>
-    <div class="add_title fontsize18" v-if="tabIndex == 0">{{$t("message.market.txt26")}}</div>
-    <div class="add_title" v-if="tabIndex == 1">
-      <span class="fontsize18">{{$t("message.market.txt27")}}</span>
-      <span class="fontsize18">{{$t("message.market.txt27_1")}}</span>
-    </div>
-    <div class="content" v-if="tabIndex == 0">
+    <div class="content">
       <div class="add_content_box">
         <!-- 选择系列 -->
         <div class="left_content" :class="[disablehover?'clear_hover':'']">
@@ -85,23 +68,24 @@
             <span class="span1 fontsize18">{{$t("message.market.txt30")}}:</span>
             <div class="inputbox">
               <input class="input_" type="text" oninput="value=value.replace(/[^\d]/g, '')" @input="inputchangeFun" v-model="dangerTxtModel" :placeholder='$t("message.market.txt22")'>
-              <span class="input_txt fontsize18">BUSD</span>
+              <span class="input_txt fontsize18">HC</span>
             </div>
           </div>
           <div class="line_outbox">
             <div class="hoverboxs">
               <span class="span1 fontsize18">{{fee}}% {{$t("message.market.txt31")}}:</span>
+
             </div>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{HandlingFee}}</span>
-              <span class="fee_span2 fontsize18">BUSD</span>
+              <span class="fee_span2 fontsize18">HC</span>
             </div>
           </div>
           <div class="line_outbox">
             <span class="span1 fontsize18">{{$t("message.market.txt35")}}:</span>
             <div class="Handling_fee">
               <span class="fee_span1 fontsize18">{{actualMoney}}</span>
-              <span class="fee_span2 fontsize18">BUSD</span>
+              <span class="fee_span2 fontsize18">HC</span>
             </div>
           </div>
           <div class="tip_txt fontsize18">{{$t("message.market.txt32")}}</div>
@@ -118,7 +102,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { contract,hnMarket,getSigner,hnPool,hn,getHnImg } from 'hashland-sdk';
+import { contract,hnMarketV2,getSigner } from 'hashland-sdk';
 export default {
   data () {
     return {
@@ -138,7 +122,6 @@ export default {
       actualMoney:0,// 实际收益
       isdanger:false,// 售卖价格弹窗
       pageshowLoading:true,//数据没有加载完之前显示loading
-      tabIndex:0,
       dangerTxtModel:'',
       powerNumber:0,//合成卡牌提升算力
       btntxt:'',// 弹窗页面的确认按钮
@@ -147,7 +130,6 @@ export default {
       cardslotArr:[],// 卡槽数据
       cardarr:[],//所有卡牌信息的数组
       pageshowarr:[],//页面展示的数组
-      waletArr:[],//钱包数据
       rank:1,//1阶
       amount:0,//阶对应的卡牌数量
       selectedNUM:0,//选中的卡牌数量
@@ -182,17 +164,15 @@ export default {
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          this.tabIndex = 0
           this.pageshowLoading = true
           this.resetData()
-          this.getConnectInfo()
-          this.getUserAllCard()
-          this.getUserPledgeInfo()
+          this.getConnectInfo() // 获取手续费
+          this.getUserAllCard() // 用户总卡牌获取
           clearInterval(this.time_arrNull)
           this.time_arrNull = setInterval(() => {
             if(this.pageshowarr.length > 0){
               clearInterval(this.time_arrNull)
-              this.$refs.mychild.isApproveFun('hn',contract().HNMarket).then(res => {
+              this.$refs.mychild.isApproveFun('hn',contract().HNMarketV2).then(res => {
                 if(res){
                   this.isApproveHN = true
                 }else{
@@ -215,12 +195,22 @@ export default {
     resetData(){
       this.cardarr = []//所有卡牌信息的数组
       this.pageshowarr = []//页面展示的数组
-      this.waletArr = []
       this.cardslotArr = []
       this.rank = 1//1阶
       this.amount = 0//阶对应的卡牌数量
       this.selectedNUM = 0//选中的卡牌数量
       this.selectimgArr = []//选中的卡牌的信息
+    },
+    // 用户钱包总卡牌数据获取
+    getUserAllCard(){
+      clearInterval(this.timerll)
+      this.timerll = setInterval(() => {
+        if(sessionStorage.getItem('count')){
+          clearInterval(this.timerll)
+          this.pageshowLoading = true
+          this.SeparateMethodToGetData(1,1)
+        }
+      }, 1000);
     },
     // 选择u卡
     selectUltraTxtClik(data){
@@ -257,31 +247,31 @@ export default {
         this.SeparateMethodToGetData(2,this.rank)
       }
     },
-    // 获取对应系列的卡牌
+    // 获取对应的卡牌
     SeparateMethodToGetData(series,level = 1){
       this.cardarr = JSON.parse(this.getUserCardInfo)
       let arr = this.cardarr.filter(item => { return item.level == level})
-      this.pageshowarr = this.waletArr = arr.filter(item => {
+      // arr.sort((a, b) => {
+      //   if(a.ultra == b.ultra == true){
+      //     if(b.type == a.type){
+      //       return b.type - a.type
+      //     }else{
+      //       return a.type - b.type
+      //     }
+      //   }else{
+      //     return b.ultra - a.ultra
+      //   }
+      // })
+      this.pageshowarr = arr.filter(item => {
         return item.series == series
       })
       this.pageshowLoading = false
       this.amount = this.pageshowarr.filter(item => { return item.level == level}).length
+      // this.amount = this.cardarr.filter(item => { return item.level == level}).length
       this.synthesisDis = false
       this.selectALLBtn = this.selectStatus = false
       this.selectedNUM = 0
       this.selectimgArr = []
-    },
-    // 用户钱包总卡牌数据获取
-    getUserAllCard(){
-      clearInterval(this.timerll)
-      this.timerll = setInterval(() => {
-        if(sessionStorage.getItem('count')){
-          clearInterval(this.timerll)
-          this.pageshowLoading = true
-          this.SeparateMethodToGetData(1,1)
-        }
-        console.log("获取用户信息")
-      }, 1000);
     },
     imgclick(){
       this.ishover = true
@@ -291,47 +281,11 @@ export default {
       this.HandlingFee = Number(this.dangerTxtModel) * (Number(this.fee / 100))
       this.actualMoney = Number(this.dangerTxtModel) - Number(this.HandlingFee)
     },
-    tabFun(index){
-      if(this.tabIndex == index)return //在当前tab上点击 组织掉
-      if(this.pageshowLoading)return
-      this.tabIndex = index
-      this.selectALLBtn = false
-      this.selectedNUM = 0 // 选中的卡牌数量
-      this.selectimgArr = [] // 清掉原来选中卡牌的数组信息
-      this.rank = 1 // 当前几阶
-      this.amount = this.cardarr.filter(item => { return item.level == 1 && item.series == this.seriesTxt}).length
-      this.waletArr.forEach(item => {
-        item.status = false
-      })
-      this.cardslotArr.forEach(item => {
-        item.status = false
-      })
-      if(index == 0){
-        this.pageshowarr = this.waletArr//钱包数据
-      }else{
-        this.pageshowLoading = true
-        this.pageshowarr = []
-        this.getUserPledgeInfo().then(res => {
-          console.log('重新获取用户卡槽中的卡res: ', res);
-          if(res.istrue){
-            this.pageshowarr = this.cardslotArr
-            this.pageshowLoading = false
-          }else{
-            this.isdanger = false
-            this.pageshowarr = []
-            this.pageshowLoading = false
-          }
-        }).catch(() => {
-          this.pageshowarr = []
-          this.pageshowLoading = false
-        })
-      }
-    },
     sonapprove(){
       if(this.synthesisDis)return
       this.synthesisDis = true
       console.log('父组件页面调用子组件的授权方法,授权hn')
-      this.$refs.mychild.goApproveFun('hn',contract().HNMarket).then(res => {
+      this.$refs.mychild.goApproveFun('hn',contract().HNMarketV2).then(res => {
         if(res){
           this.isApproveHN = true
           this.synthesisDis = false
@@ -343,6 +297,9 @@ export default {
         this.isApproveHN = false
         this.synthesisDis = false
       })
+    },
+    back(){
+      this.$router.go(-1)
     },
     // 取消转账
     dangerClick(){
@@ -402,7 +359,7 @@ export default {
       }
       this.synthesisDis = true
       this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
-        console.log('合约需要的数组已经处理完毕: ', info);
+        console.log('数组已经处理完毕结果: ', this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18));
         let cardIDArr = info.map(item => {
           return item.cardID
         })
@@ -412,43 +369,25 @@ export default {
         let sellArr = info.map(item => {
           return item.issell
         })
-        hnMarket().connect(getSigner()).sell(cardIDArr, priceArr, sellArr).then(async res => {
+        console.log('卖家批量出售HN卡牌给合约传的参数: ', cardIDArr, priceArr, sellArr);
+        hnMarketV2().connect(getSigner()).sell(cardIDArr, priceArr, sellArr).then(async res => {
+          console.log('卖家批量出售HN卡牌res:', res);
           const etReceipt = await res.wait();
           if(etReceipt.status == 1){
-            if(this.tabIndex == 0){
-              this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-                console.log('重新获取用户卡牌信息res1: ', res1);
-                sessionStorage.removeItem('count')
-                if(res1 > 1){
-                  sessionStorage.setItem("count",res1)
-                }else{
-                  sessionStorage.setItem("count",1)
-                }
-                this.synthesisDis = false
-                // this.getUserAllCard(this.rank) // 重新获取最新用户信息
-                this.SeparateMethodToGetData(this.seriesTxt,this.rank)
-                this.$common.selectLang('出售成功','Success',this)
-                this.isdanger = false
-              })
-            }else{
-              this.getUserPledgeInfo().then(res => {
-                console.log('重新获取用户卡槽中的卡res: ', res);
-                if(res.istrue){
-                  this.$common.selectLang('出售成功','Success',this)
-                  this.isdanger = false
-                  this.synthesisDis = false
-                  this.pageshowarr = this.cardslotArr = res.arr
-                  this.selectimgArr = []
-                }else{
-                  this.isdanger = false
-                  this.synthesisDis = false
-                  this.selectimgArr = []
-                }
-              }).catch(() => {
-                this.synthesisDis = false
-                this.selectimgArr = []
-              })
-            }
+            this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
+              console.log('重新获取用户卡牌信息res1: ', res1);
+              sessionStorage.removeItem('count')
+              if(res1 > 1){
+                sessionStorage.setItem("count",res1)
+              }else{
+                sessionStorage.setItem("count",1)
+              }
+              this.synthesisDis = false
+              // this.getUserAllCard() // 重新获取最新用户信息
+              this.SeparateMethodToGetData(this.seriesTxt,this.rank)
+              this.$common.selectLang('出售成功','Success',this)
+              this.isdanger = false
+            })
           }else{
             this.synthesisDis = false
           }
@@ -472,7 +411,7 @@ export default {
     },
     // 合约需要的三个数组处理方法
     processingArrayFun(arr,price){
-      console.log('arr: ', arr);
+      // console.log('arr: ', arr);
       return new Promise((resolve) => {
         let count = 1
         let arr_cardinfo = []
@@ -480,7 +419,7 @@ export default {
           let obj = {
             cardID:'',
             prices:'',
-            issell:this.tabIndex == 0?false:true //获取某卖家的某HN卡牌是否正在出售
+            issell:false //获取某卖家的某HN卡牌是否在质押槽中
           }
           obj.cardID = item.id
           obj.prices = price
@@ -494,10 +433,6 @@ export default {
     },
     //选择当前卡牌
     cardClick(data,index){
-      console.log('选择当前卡牌: ', data,index);
-      if(this.tabIndex == 1){
-        if(data.issell)return
-      }
       if(this.selectedNUM >= 10){
         if(data.status){
           data.status = false
@@ -548,52 +483,28 @@ export default {
       })
       this.amount = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).length
       this.pageshowarr = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt})
+      // .sort((a, b) => {
+      //   if(a.ultra == b.ultra == true){
+      //     if(b.type == a.type){
+      //       return b.type - a.type
+      //     }else{
+      //       return a.type - b.type
+      //     }
+      //   }else{
+      //     return b.ultra - a.ultra
+      //   }
+      // })
     },
     back(){
       this.$router.go(-1)
     },
-    // 获取用户在质押中的卡牌信息
-    getUserPledgeInfo(){
-      return new Promise((resolve) => {
-        hnPool().getUserHnIdsBySize(this.getAccount,0,1000).then(res => {
-          console.log('获取用户在质押中的卡牌信息res: ', res);
-          if(res[0].length == 0){
-            this.cardslotArr = []
-            resolve({'istrue':true,'arr':[]})
-            return
-          }
-          let count = 1
-          let arr = []
-          res[0].map(async (item) => {
-            let obj = {
-              src: "",
-              cardID: "",
-              level: "",
-              issell:false, // 是否在售卖
-              status:false
-            };
-            obj.cardID = item.toString(); // 卡牌的id
-            obj.level = (await hn().level(item.toString())).toString(); // 等级
-            let race = await hn().getHashrates(item) // 算力数组
-            obj.src = getHnImg(Number(item),Number(obj.level),race)
-            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount,obj.cardID)
-            arr.push(obj)
-            if (count == res[0].length) {
-              this.cardslotArr = arr
-              resolve({'istrue':true,'arr':arr})
-            }
-            count++;
-          })
-        })
-      })
-    },
     getConnectInfo(){
-      hnMarket().feeRatio().then(res => {
-        console.log('busd----获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)
+      hnMarketV2().feeRatio().then(res => {
+        console.log('HC----获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)
         this.fee = (res.toNumber() / 1e4) * 100
       }).catch(err => {
         this.fee = 0
-        console.log('busd----获取手续费率，除1e4，乘100err: ', err);
+        console.log('HC----获取手续费率，除1e4，乘100err: ', err);
       })
     }
   }
@@ -660,7 +571,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 35px;
+    margin-top: 60px;
     .add_content_box{
       width: 50%;
       display: flex;

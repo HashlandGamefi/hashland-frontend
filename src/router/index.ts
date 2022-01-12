@@ -52,9 +52,13 @@ let routes: Array<RouteConfig> = [
     component: () => import("../views/HClp/index.vue"),
   },
   {
-    path: "/market",
+    path: "/market/:id",
     name: "Market",
     component: () => import("../views/Market/index.vue"),
+  },
+  {
+    path: "/market",
+    redirect: "/market/0",
   },
   {
     path: "/invite",
@@ -65,6 +69,11 @@ let routes: Array<RouteConfig> = [
     path: "/hangingorder",
     name: "HangingOrder",
     component: () => import("../views/Market/hangingorder.vue"),
+  },
+  {
+    path: "/hangingorderV2",
+    name: "HangingOrderV2",
+    component: () => import("../views/Market/hangingorderV2.vue"),
   },
   {
     path: "/pendingrecord",
