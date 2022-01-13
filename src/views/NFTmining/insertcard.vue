@@ -5,11 +5,22 @@
     </div>
     <div class="title_title fontsize32">{{ $t("message.insert.txt1") }}</div>
     <span class="title1_txt title2_txt fontsize12_400">{{ $t("message.insert.txt3") }}</span>
-    <div class="content_box" v-if="starArr.length > 0">
-      <div class="stratbox" v-for="(ele,index1) in 5" :key="index1">
-        <div class="top_line" v-if="starArr.filter((data) => {
-                return data.level == ele;
-              }).length > 0">
+    <div class="content">
+      <div class="add_content_box">
+        <!-- 选择系列 -->
+        <div class="left_content" :class="[disablehover?'clear_hover':'']">
+          <span class="span1 fontsize16">{{$t("message.series")}} {{seriesTxt}}</span>
+          <div class="span2"></div>
+          <div class="left_content_hover">
+            <span class="span1 fontsize16" @click="selectSeries(1)">{{$t("message.series")}} {{seriesTxt1}}</span>
+            <span class="span1 fontsize16" @click="selectSeries(2)">{{$t("message.series")}} {{seriesTxt2}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content_box">
+      <div class="stratbox" v-for="(ele,index1) in numArr" :key="index1">
+        <div class="top_line" v-if="starArr.filter((data) => {return data.level == ele}).length > 0">
           <span class="span1 fontsize22">{{ $t("message.synthesis.txt4")}} {{ ele }} ({{ $t("message.synthesis.txt8")}} {{
               starArr.filter((data) => {
                 return data.level == ele;
@@ -35,37 +46,14 @@
                 @click="cardClick(item, index, index1)"
               >
                 <img :src="item.src" class="swiper_img" />
-                <!-- <div class="bottom">
-                  <div class="five_pointed_star">
-                    <img :src="`${$store.state.imgUrl}start.png`" v-for="item1 in ele" :key="item1" class="start_img" />
-                  </div>
-                  <div class="hc_btc_box">
-                    <div class="hc_coefficient">
-                      <img :src="`${$store.state.imgUrl}hclogo.png`" class="imgcard" />
-                      <span class="span1 fontsize12_400">{{item.hc}}</span>
-                    </div>
-                    <div class="hc_coefficient">
-                      <img :src="`${$store.state.imgUrl}btclogo.png`" class="imgcard" />
-                      <span class="span1 fontsize12_400">{{item.btc}}</span>
-                    </div>
-                  </div>
-                </div> -->
                 <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
               </div>
             </div>
           </div>
-          <!-- 如果需要导航按钮 -->
-          <!-- <div class="swiper-button-prev" slot="button-prev"></div>
-          <div class="swiper-button-next" slot="button-next"></div> -->
         </div>
       </div>
-    </div>
-    <!-- <div class="loadingbox fontsize16" v-else-if="starArr.length == 0 && pageshowLoading">
-      Loading...
-    </div> -->
-    <LoadingAnmation v-if="starArr.length == 0 && pageshowLoading"></LoadingAnmation>
-    <div class="content_box" v-else>
-      <NoData></NoData>
+      <LoadingAnmation v-if="starArr.length == 0 && pageshowLoading"></LoadingAnmation>
+      <NoData v-else-if="starArr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <div class="btn_box fontsize18" v-if="starArr.length > 0" @click="insertFun">
       <span v-if="!getIstrue">Connect</span>
@@ -90,6 +78,11 @@ import { contract, hnPool, getSigner } from 'hashland-sdk'
 export default {
   data () {
     return {
+      disablehover:false,
+      seriesTxt:1,
+      seriesTxt1:1,
+      seriesTxt2:2,
+      numArr:[5,4,3,2,1],
       pageshowLoading:true,
       btntxt: '',// 弹窗页面的确认按钮
       word: '',//弹窗提示文字
@@ -99,6 +92,7 @@ export default {
       isbtnstatus: false,// 按钮的文字状态
       approve_isloading: false,// 按钮的loading
       swiper1: 0,//swiper对象
+      timerll:null
     }
   },
   computed: {
@@ -107,27 +101,73 @@ export default {
   watch: {
     'getIstrue':{
       handler: function (newValue) {
-        // console.log('插入页面的连接:', newValue,oldValue);
         if(newValue){
-          this.starArr = []
           this.pageshowLoading = true
+          this.resetData()
           this.getconnetFun()
           this.getUserAllCard()
         }else{
-          this.proupDis = false// 弹窗展示消失变量
-          this.starArr = []//用户卡牌数组
-          this.cardIdArr = []// 选中的卡牌id数组
-          this.isbtnstatus = false// 按钮的文字状态
-          this.approve_isloading = false// 按钮的loading
-          this.swiper1 = 0//swiper对象
+          this.pageshowLoading = false
+          this.resetData()
         }
       },
       deep: true,
       immediate: true,
-      timerll:null
     }
   },
   methods: {
+    // 重置数据
+    resetData(){
+      this.proupDis = false// 弹窗展示消失变量
+      this.starArr = []//用户卡牌数组
+      this.cardIdArr = []// 选中的卡牌id数组
+      this.isbtnstatus = false// 按钮的文字状态
+      this.approve_isloading = false// 按钮的loading
+      this.swiper1 = 0//swiper对象
+    },
+    // 选择系列
+    selectSeries(data){
+      this.disablehover = true
+      setTimeout(() => {
+        this.disablehover = false
+      },600)
+      if(!this.getIstrue)return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this)
+      if(this.pageshowLoading)return
+      this.cardIdArr = [] //选中的卡牌的信息
+      this.pageshowLoading = true
+      this.starArr = []
+      if(data == 1){
+        this.seriesTxt = this.seriesTxt1
+        this.SeparateMethodToGetData(1)
+      }else{
+        this.seriesTxt = this.seriesTxt2
+        this.SeparateMethodToGetData(2)
+      }
+    },
+    // 获取对应的卡牌
+    SeparateMethodToGetData(series){
+      let arr = JSON.parse(this.getUserCardInfo)
+      if(series == 2){
+        arr.sort((a, b) => {
+          if(a.ultra == b.ultra == true){
+            return a.ultra > b.ultra?1:-1
+          }
+          return a.ultra > b.ultra?1:-1
+        })
+      }
+      this.starArr = arr.filter(item => {
+        return item.series == series
+      })
+      this.pageshowLoading = false
+      this.$nextTick(() => {
+        this.swiper1 = new Swiper('.swiper-container', {
+          slidesPerView: 'auto',
+          observer: true,
+          observeParents: true,
+          initialSlide:0
+        })
+      });
+    },
     // 用户总卡牌数据获取
     getUserAllCard(){
       console.log("用户总卡牌数获取")
@@ -136,20 +176,7 @@ export default {
         if(sessionStorage.getItem('count')){
           clearInterval(this.timerll)
           this.pageshowLoading = true
-          let arr = JSON.parse(this.getUserCardInfo)
-          arr.sort((a, b) => {
-            return Number(a.type) > Number(b.type) ? 1 : -1;
-          })
-          this.starArr = arr
-          this.pageshowLoading = false
-          this.$nextTick(() => {
-            this.swiper1 = new Swiper('.swiper-container', {
-              slidesPerView: 'auto',
-              observer: true,
-              observeParents: true,
-              initialSlide:0
-            })
-          });
+          this.SeparateMethodToGetData(1)
         }
       }, 1000);
     },
@@ -277,14 +304,82 @@ export default {
   .title2_txt {
     margin-top: 10px;
   }
+  .content{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px;
+    // padding: 0 100px;
+    .add_content_box{
+      width: 50%;
+      display: flex;
+      align-items: center;
+      .left_content{
+        position: relative;
+        width: 204px;
+        height: 48px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(90deg, #06366D 0%, rgba(7, 31, 58, 0) 100%, #034088 100%);
+        .span1{
+          color: #FFFFFF;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+        .span2{
+          border-width: 7px;
+          border-color: #00E7F0;
+          border-bottom-width: 0;
+          border-style: dashed;
+          border-top-style: solid;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+        .left_content_hover{
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 9;
+          width: 204px;
+          display: none;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          background: rgba(0, 0, 0, 0.9);
+          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
+          filter: blur(0px);
+          border-radius: 4px;
+          padding: 10px 0;
+          margin-top:47px;
+          line-height: 39px;
+          .span1{
+            color: #E2DADA;
+            cursor: pointer;
+          }
+        }
+      }
+      .left_content:hover{
+        .left_content_hover{
+          display: flex;
+          .span1:hover{
+            color: #00E7F0;
+          }
+        }
+      }
+    }
+  }
   .content_box {
     width: 100%;
     max-height: 1093px;
     overflow: auto;
-    padding: 50px 100px;
+    padding: 50px 0;
     padding-bottom: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
     .stratbox {
       width: 100%;
       display: flex;
@@ -309,7 +404,6 @@ export default {
           .swiper-slide {
             width: 25%;
             height: 100%;
-            margin-right: 20px;
             .swiper_content_box {
               position: relative;
               width: 100%;
@@ -318,59 +412,18 @@ export default {
               align-items: center;
               margin-top: 40px;
               .swiper_img {
-                width: 237px;
+                width: 256px;
                 object-fit: contain;
-              }
-              .bottom{
-                position: absolute;
-                top: 0;
-                display: flex;
-                align-items: center;
-                padding:10px 8px;
-                transform: scale(0.5);
-                .five_pointed_star{
-                  display: flex;
-                  align-items: center;
-                  .start_img{
-                    width: 26px;
-                    object-fit: contain;
-                  }
-                }
-                .hc_btc_box{
-                  display: flex;
-                  align-items: center;
-                  .hc_coefficient{
-                    display: flex;
-                    align-items: center;
-                    border-radius: 4px;
-                    margin-right: 5px;
-                    background: rgba(5, 24, 44, 0.88);
-                    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-                    border-radius: 11px;
-                    opacity: 0.56;
-                    .imgcard{
-                      width: 43px;
-                      object-fit: contain;
-                    }
-                    .span1{
-                      color: #FFFFFF;
-                    }
-                  }
-                }
               }
               .select_img {
                 position: absolute;
-                right: 0;
+                right: 22px;
                 top: 0;
                 width: 31px;
                 object-fit: contain;
               }
             }
           }
-          // .swiper-slide-active {
-          //   transform: scale(1.2);
-          //   margin: 0 30px;
-          // }
         }
         .swiper-button-prev {
           width: 70px;
@@ -386,14 +439,6 @@ export default {
         }
       }
     }
-  }
-  .loadingbox {
-    width: 100%;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff;
   }
   .btn_box {
     width: 274px;
@@ -443,6 +488,71 @@ export default {
     .title2_txt {
       margin-top: 0;
     }
+    .content{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 0.33rem;
+      .add_content_box{
+        width: 100%;
+        flex-wrap: wrap;
+        .left_content{
+          position: relative;
+          width: 50%;
+          margin-bottom: 0.15rem;
+          height: 0.34rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
+          box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
+          .span1{
+            font-size: 0.12rem;
+            color: #FFFFFF;
+            margin-right: 0.1rem;
+            cursor: pointer;
+          }
+          .span2{
+            border-width: 0.06rem;
+            border-color: #00E7F0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9;
+            width: 1.71rem;
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.74);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
+            filter: blur(0px);
+            border-radius: 0.04rem;
+            padding: 0.05rem 0 0.05rem 0.2rem;
+            margin-top: 0.35rem;
+            .span1{
+              color: #E2DADA;
+              cursor: pointer;
+              margin-right: 0;
+            }
+          }
+        }
+        .left_content:hover{
+          .left_content_hover{
+            display: flex;
+          }
+        }
+      }
+    }
     .content_box {
       width: 100%;
       max-height: 6rem;
@@ -474,7 +584,6 @@ export default {
             .swiper-slide {
               width: 40%;
               height: 100%;
-              margin-right: 0;
               .swiper_content_box {
                 position: relative;
                 width: 100%;

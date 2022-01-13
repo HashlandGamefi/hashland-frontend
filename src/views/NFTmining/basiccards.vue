@@ -675,7 +675,8 @@ export default {
             obj.cardID = item.toString(); // 卡牌的id
             obj.level = (await hn().level(item.toString())).toString(); // 等级
             let race = await hn().getHashrates(item) // 算力数组
-            obj.src = getHnImg(Number(item),Number(obj.level),race)
+            obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString();
             infoarr.push(obj)
             if (count == res[0].length) {
@@ -825,45 +826,8 @@ export default {
               top: 6%;
               left: 48%;
               transform: translate(-50%, -50%);
-              width: 237px;
+              width: 210px;
               object-fit: contain;
-            }
-            .bottom {
-              position: absolute;
-              top: -139px;
-              display: flex;
-              align-items: center;
-              padding: 10px 8px;
-              transform: scale(0.6);
-              .five_pointed_star {
-                display: flex;
-                align-items: center;
-                .start_img {
-                  width: 26px;
-                  object-fit: contain;
-                }
-              }
-              .hc_btc_box {
-                display: flex;
-                align-items: center;
-                .hc_coefficient {
-                  display: flex;
-                  align-items: center;
-                  border-radius: 4px;
-                  margin-right: 5px;
-                  background: rgba(5, 24, 44, 0.88);
-                  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-                  border-radius: 11px;
-                  opacity: 0.56;
-                  .imgcard {
-                    width: 43px;
-                    object-fit: contain;
-                  }
-                  .span1 {
-                    color: #ffffff;
-                  }
-                }
-              }
             }
             .lock_swiper_img {
               position: absolute;
@@ -1064,42 +1028,6 @@ export default {
                 transform: translate(-50%, -50%);
                 width: 100%;
                 object-fit: contain;
-              }
-              .bottom {
-                position: absolute;
-                top: -0.88rem;
-                display: flex;
-                align-items: center;
-                padding: 0.1rem 0.08rem;
-                transform: translate(0, -50%) scale(0.4);
-                .five_pointed_star {
-                  display: flex;
-                  align-items: center;
-                  .start_img {
-                    width: 0.18rem;
-                    object-fit: contain;
-                  }
-                }
-                .hc_btc_box {
-                  display: flex;
-                  align-items: center;
-                  .hc_coefficient {
-                    display: flex;
-                    align-items: center;
-                    margin-right: 0.05rem;
-                    background: rgba(5, 24, 44, 0.88);
-                    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-                    border-radius: 0.1rem;
-                    opacity: 0.56;
-                    .imgcard {
-                      width: 0.21rem;
-                      object-fit: contain;
-                    }
-                    .span1 {
-                      color: #ffffff;
-                    }
-                  }
-                }
               }
               .base_img {
                 width: 100%;

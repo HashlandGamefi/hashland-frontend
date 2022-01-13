@@ -66,15 +66,13 @@
     </div>
     <!-- 页面展示数组 -->
     <div class="cardarr_class">
-      <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
         <span class="pending fontsize14" v-if="item.issell">Pending</span>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-else-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
       </div>
-      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
-        Loading...
-      </div> -->
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
     </div>
@@ -129,6 +127,7 @@ import { contract,hnMarket,getSigner,hnPool,hn,getHnImg } from 'hashland-sdk';
 export default {
   data () {
     return {
+      anmationArr:[],//动画数组的json
       seriesTxt:1,
       seriesTxt1:1,
       seriesTxt2:2,
@@ -169,7 +168,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount","getUserCardInfo"]),
+    ...mapGetters(["getIstrue","getAccount","getUserCardInfo","getIsMobile"]),
     selectStatus: {
       get() {
         if(this.selectedNUM == 0){
@@ -583,8 +582,9 @@ export default {
             obj.cardID = item.toString(); // 卡牌的id
             obj.level = (await hn().level(item.toString())).toString(); // 等级
             let race = await hn().getHashrates(item) // 算力数组
-            obj.src = getHnImg(Number(item),Number(obj.level),race)
-            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount,obj.cardID)
+            obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
+            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount,obj.cardID,)
             arr.push(obj)
             if (count == res[0].length) {
               this.cardslotArr = arr
@@ -604,6 +604,14 @@ export default {
         console.log('busd----获取手续费率，除1e4，乘100err: ', err);
       })
     }
+  },
+  mounted(){
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
   }
 }
 </script>
@@ -759,12 +767,12 @@ export default {
     overflow-y: auto;
     .onebox{
       position: relative;
-      width: 237px;
+      width: 256px;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-top: 20px;
-      margin-right: 46px;
+      margin-right: 40px;
       cursor: pointer;
       .card_picture{
         width: 100%;
@@ -786,14 +794,6 @@ export default {
         border-radius: 20px;
         background: rgba(0,0,0,0.5);
       }
-    }
-    .loadingbox{
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
     }
   }
   .Suspension_btnbox{

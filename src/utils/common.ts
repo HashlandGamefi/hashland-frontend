@@ -468,6 +468,7 @@ export default {
       );
     }
   },
+  // 获取cdn上动图的json
   getDatCardJson(type:number,level:number){
     const CARD_API = process.env.VUE_APP_NEWCARD;
     // const arguments_card = '?image_process=resize,w_512/crop,mid,w_410,h_512'

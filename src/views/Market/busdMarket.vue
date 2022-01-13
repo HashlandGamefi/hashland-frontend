@@ -94,8 +94,7 @@
     </div>
     <!-- 页面展示卡牌盒子 -->
     <div class="show_gameArr" ref="showBoxRef">
-      <div class="onebox" v-for="(item, index) in pageshowarr" :key="index">
-        <!-- <img :src="getsrc(item)" /> -->
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item, index) in pageshowarr" :key="index">
         <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" />
         <div class="bottom_box">
           <div class="left_price">
@@ -116,7 +115,6 @@
         </div>
       </div>
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
-      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">Loading...</div> -->
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
       <div class="bottom_loading" v-if="pageshowarr.length > 10">
         <span class="fontsize16" v-if="!nodata && pulldown">Pull up to load more</span>
@@ -667,7 +665,7 @@ export default {
               arr.forEach((element) => {
                 element.loading = false; // 图片加载的loading
                 element.isstatus = false; // 授权以及其他按钮操作的loading
-                element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate]);
+                element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate],element.ultra);
                 element.price = this.$common.convertBigNumberToNormal(element.price.toString(), 2);
               });
               resolve({ status: 0, arr: arr, msg: "Success" });
@@ -879,22 +877,22 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
-    // max-height: 425px;
-    // max-height: 370px;
     max-height: 850px;
     .onebox {
-      width: 228px;
+      width: 256px;
       display: flex;
       flex-direction: column;
-      margin-right: 60px;
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 40px;
       margin-bottom: 30px;
       .img {
-        width: 228px;
+        width: 100%;
         object-fit: contain;
         min-height: 280px;
       }
       .bottom_box {
-        width: 100%;
+        width: 90%;
         margin-top: 20px;
         border-radius: 15px;
         display: flex;
@@ -926,14 +924,6 @@ export default {
           cursor: pointer;
         }
       }
-    }
-    .loadingbox {
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
     }
     .bottom_loading {
       width: 100%;
@@ -1208,14 +1198,6 @@ export default {
             min-width: 0.9rem;
           }
         }
-      }
-      .loadingbox {
-        width: 100%;
-        height: 300px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
       }
       .bottom_loading {
         width: 100%;

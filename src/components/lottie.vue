@@ -1,6 +1,6 @@
 
 <template>
-    <div :style="style" ref="lavContainer"></div>
+    <div :style="style" class="positon_absoult" ref="lavContainer"></div>
 </template>
 
 <script>
@@ -48,3 +48,10 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+.positon_absoult{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>

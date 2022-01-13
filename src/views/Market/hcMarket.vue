@@ -94,8 +94,7 @@
     </div>
     <!-- 页面展示卡牌盒子 -->
     <div class="show_gameArr" ref="showBoxRef">
-      <div class="onebox" v-for="(item, index) in pageshowarr" :key="index">
-        <!-- <img :src="getsrc(item)" /> -->
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item, index) in pageshowarr" :key="index">
         <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" />
         <div class="bottom_box">
           <div class="left_price">
@@ -667,7 +666,7 @@ export default {
               arr.forEach((element) => {
                 element.loading = false; // 图片加载的loading
                 element.isstatus = false; // 授权以及其他按钮操作的loading
-                element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate]);
+                element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate],element.ultra);
                 element.price = this.$common.convertBigNumberToNormal(element.price.toString(), 2);
               });
               resolve({ status: 0, arr: arr, msg: "Success" });
@@ -879,22 +878,22 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
-    // max-height: 425px;
-    // max-height: 370px;
     max-height: 850px;
     .onebox {
-      width: 228px;
+      width: 256px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       margin-right: 60px;
       margin-bottom: 30px;
       .img {
-        width: 228px;
+        width: 100%;
         object-fit: contain;
         min-height: 280px;
       }
       .bottom_box {
-        width: 100%;
+        width: 90%;
         margin-top: 20px;
         border-radius: 15px;
         display: flex;

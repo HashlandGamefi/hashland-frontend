@@ -142,7 +142,8 @@ export default {
           let obj = {}
           obj.level = (await hn().level(item)).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
-          obj.src = getHnImg(Number(item),Number(obj.level),race)
+          obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+          obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
           obj.loading = false
           imgarr.push(obj)
         })

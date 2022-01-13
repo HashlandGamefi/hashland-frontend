@@ -214,6 +214,7 @@ export default {
       for (let lv = 1; lv < 6; lv++) {
         for (let type = 1; type < 5; type++) {
           await this.$common.getDatCardJson(type,lv).then(res => {//  1----卡牌人物类型 2---等级
+          console.log('cdn返回动画res: ', res);
             let obj = {
               level:lv,
               type:type,

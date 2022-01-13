@@ -43,15 +43,12 @@
     </div>
     <!-- 页面展示数组 -->
     <div class="cardarr_class">
-      <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?237:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
-      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
-        Loading...
-      </div> -->
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading"></NoData>
     </div>
@@ -527,12 +524,12 @@ export default {
     padding-bottom: 120px;
     .onebox{
       position: relative;
-      width: 237px;
+      width: 256px;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
-      margin-right: 46px;
+      margin-right: 40px;
       cursor: pointer;
       .card_picture{
         width: 100%;
@@ -550,14 +547,6 @@ export default {
         top: 0;
         left: 0;
       }
-    }
-    .loadingbox {
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
     }
   }
   .Suspension_btnbox{

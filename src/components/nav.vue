@@ -143,12 +143,22 @@ export default {
         case "Market":
           this.menuIndex = 3;
           break;
+        case "Pendingrecord":
+          this.menuIndex = 3;
+          break;
+        case "HangingOrder":
+          this.menuIndex = 3;
+          break;
+        case "HangingOrderV2":
+          this.menuIndex = 3;
+          break;
         case "Dao":
           this.menuIndex = 4;
           break;
         case "gameFiDownload":
           this.menuIndex = 6;
           break;
+
         default:
           this.menuIndex = -1;
           break;
