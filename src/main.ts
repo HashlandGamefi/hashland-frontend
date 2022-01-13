@@ -40,6 +40,9 @@ Vue.component("BtnLoading", BtnLoading);
 import countTo from "vue-count-to";
 Vue.component("countTo", countTo);
 
+import LoadingAnmation from '@/components/loadingAnmation.vue'
+Vue.component("LoadingAnmation", LoadingAnmation);
+
 Vue.config.productionTip = false;
 
 new Vue({

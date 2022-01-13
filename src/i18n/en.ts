@@ -219,7 +219,7 @@ export const message = {
     txt22: "Please enter price",
     txt23: "Order cancelled successfully",
     txt25: "Price",
-    txt26: "You can insert NFTs to the slot to mine  BTC/HC before pending.",
+    txt26: "You can insert NFTs to the slot to mine before pending.",
     txt27:
       "The pending order will be cancelled once the NFT of the pending order in the card slot is withdrew.",
     txt27_1: "The NFT in the card slot is still in it when pending.",
@@ -233,6 +233,14 @@ export const message = {
       "80% of the transaction fee will be burnt, and the other 20% will be distributed by DAO.",
     txt34: "Cancel",
     txt35: "Income",
+    txt36: "All Series",
+    txt37: "Series 1",
+    txt38: "Series 2",
+    txt39: "All Type",
+    txt40: "Normal",
+    txt41: "Ultra",
+    txt42: "BUSD Market",
+    txt43: "HC Market",
   },
   dao: {
     txt1: "Hashland DAO Governance",
@@ -300,6 +308,7 @@ export const message = {
   button2: "To Buy",
   consumption: "Craft needs to consume ", // 合成消耗hc数量
   text79: "Connect Wallet",
+  series:'Series',
   gameFi: {
     text1: "Personal Center",
     text2: "Sign Out",
