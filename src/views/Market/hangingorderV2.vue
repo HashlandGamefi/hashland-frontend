@@ -16,21 +16,11 @@
           </div>
         </div>
         <!-- 几阶对应数量 -->
-        <div class="left_content">
+        <div class="left_content" :class="[disablehover?'clear_hover':'']">
           <span class="span1 fontsize16">{{$t("message.synthesis.txt4")}} {{rank}} ({{$t("message.synthesis.txt8")}} {{amount}})</span>
           <div class="span2"></div>
           <div class="left_content_hover">
             <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.series == seriesTxt && data.level == ele}).length}})</span>
-          </div>
-        </div>
-        <!-- 选择U卡 -->
-        <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
-          <span class="span1 fontsize16">{{ $t(ultraTxt) }}</span>
-          <div class="span2"></div>
-          <div class="left_content_hover">
-            <span class="span1 fontsize16" @click="selectUltraTxtClik(ele)" v-for="(ele, index) in ultraArr" :key="index">
-              {{ $t(ele.label) }}
-            </span>
           </div>
         </div>
         <!-- 移动端的全选按钮 (pc不展示) -->
@@ -115,12 +105,6 @@ export default {
       seriesTxt:1,
       seriesTxt1:1,
       seriesTxt2:2,
-      ultraTxt: "message.market.txt39",
-      ultraArr: [
-        { label: "message.market.txt39", value: 0 },
-        { label: "message.market.txt40", value: 1 },
-        { label: "message.market.txt41", value: 2 },
-      ],// 选择u卡
       disablehover:false,
       ishover:false,// hover 手续费弹窗
       fee:0,// 手续费率
@@ -200,6 +184,7 @@ export default {
   methods: {
     // 重置数据
     resetData(){
+      this.seriesTxt = 1
       this.cardarr = []//所有卡牌信息的数组
       this.pageshowarr = []//页面展示的数组
       this.cardslotArr = []
@@ -218,20 +203,6 @@ export default {
           this.SeparateMethodToGetData(1,1)
         }
       }, 1000);
-    },
-    // 选择u卡
-    selectUltraTxtClik(data){
-      console.log('选择u卡data: ', data);
-      this.ultraTxt = data.label
-      if(this.seriesTxt == 2){
-        if(data.value == 0){
-          this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank && item.series == 2})
-        }else if(data.value == 1){
-          this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank && item.ultra == false && item.series == 2})
-        }else if(data.value == 2){
-          this.pageshowarr = this.cardarr.filter(item => { return item.level == this.rank && item.ultra == true && item.series == 2})
-        }
-      }
     },
     // 选择系列
     selectSeries(data){
@@ -257,18 +228,12 @@ export default {
     // 获取对应的卡牌
     SeparateMethodToGetData(series,level = 1){
       this.cardarr = JSON.parse(this.getUserCardInfo)
-      let arr = this.cardarr.filter(item => { return item.level == level})
-      // arr.sort((a, b) => {
-      //   if(a.ultra == b.ultra == true){
-      //     if(b.type == a.type){
-      //       return b.type - a.type
-      //     }else{
-      //       return a.type - b.type
-      //     }
-      //   }else{
-      //     return b.ultra - a.ultra
-      //   }
-      // })
+      let arr = this.cardarr.filter(item => { return item.level == level}).sort((a, b) => {
+        if(a.ultra == b.ultra == true){
+          return a.type > b.type? 1:-1
+        }
+        return a.ultra > b.ultra? -1:1
+      })
       this.pageshowarr = arr.filter(item => {
         return item.series == series
       })
@@ -488,7 +453,12 @@ export default {
         item.status = false
       })
       this.amount = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).length
-      this.pageshowarr = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt})
+      this.pageshowarr = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).sort((a, b) => {
+        if(a.ultra == b.ultra == true){
+          return a.type > b.type? 1:-1
+        }
+        return a.ultra > b.ultra? -1:1
+      })
     },
     back(){
       this.$router.go(-1)
