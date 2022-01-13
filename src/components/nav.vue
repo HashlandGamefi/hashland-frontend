@@ -131,6 +131,12 @@ export default {
         case "Buy":
           this.menuIndex = 0;
           break;
+        case "Synthesis":
+          this.menuIndex = 0;
+          break;
+        case "Transfer":
+          this.menuIndex = 0;
+          break;
         case "NFTmining":
           this.menuIndex = 0;
           break;
