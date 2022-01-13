@@ -98,7 +98,7 @@
         <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" />
         <div class="bottom_box">
           <div class="left_price">
-            <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
+            <img :src="`${$store.state.imgUrl}hc.png`" class="bsc_img" />
             <span class="span1 fontsize16">{{ item.price }} HC</span>
           </div>
           <div class="btn fontsize12" :class="{ authorize_class: !isapprove && item.isstatus }">
@@ -115,7 +115,6 @@
         </div>
       </div>
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
-      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">Loading...</div> -->
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
       <div class="bottom_loading" v-if="pageshowarr.length > 10">
         <span class="fontsize16" v-if="!nodata && pulldown">Pull up to load more</span>
@@ -236,7 +235,7 @@ export default {
             if (this.pageshowarr.length > 0) {
               clearInterval(this.time_btn);
               for (let index = 0; index < this.$refs.mychild.length; index++) {
-                this.$refs.mychild[index].isApproveFun("hc", contract().HNMarket).then((res) => {
+                this.$refs.mychild[index].isApproveFun("hc", contract().HNMarketV2).then((res) => {
                   // console.log("shishou:",res)
                   if (res) {
                     this.isapprove = true;
@@ -281,7 +280,7 @@ export default {
         element.isstatus = true;
       }
       this.$refs.mychild[0]
-        .goApproveFun("hc", contract().HNMarket)
+        .goApproveFun("hc", contract().HNMarketV2)
         .then((res) => {
           if (res) {
             for (let index = 0; index < this.pageshowarr.length; index++) {
@@ -926,14 +925,6 @@ export default {
         }
       }
     }
-    .loadingbox {
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
-    }
     .bottom_loading {
       width: 100%;
       display: flex;
@@ -1207,14 +1198,6 @@ export default {
             min-width: 0.9rem;
           }
         }
-      }
-      .loadingbox {
-        width: 100%;
-        height: 300px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
       }
       .bottom_loading {
         width: 100%;
