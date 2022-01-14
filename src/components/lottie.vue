@@ -1,55 +1,59 @@
 
 <template>
-    <div :style="style" class="positon_absoult" ref="lavContainer"></div>
+  <div :style="style" class="positon_absoult" ref="lavContainer"></div>
 </template>
 
 <script>
-  import lottie from 'lottie-web';
-  export default {
-    props: {
-      options: {
-        type: Object,
-        required: true
+import lottie from 'lottie-web';
+export default {
+  props: {
+    options: {
+      type: Object,
+      required: true
+    },
+    height: Number,
+    width: Number,
+  },
+  watch: {
+    'options': {
+      handler: function (newValue) {
+        if (newValue) this.loadAnimation(newValue)
       },
-      height: Number,
-      width: Number,
-    },
-    data () {
-      return {
-        style: {
-          width: this.width ? `${this.width}px` : '100%',
-          height: this.height ? `${this.height}px` : '100%',
-          overflow: 'hidden',
-          margin: '0 auto'
-        }
-      }
-    },
-    mounted () {
-      // this.anim = lottie.loadAnimation({
-      //     container: this.$refs.lavContainer,
-      //     renderer: 'svg',
-      //     loop: this.options.loop !== false,
-      //     autoplay: this.options.autoplay !== false,
-      //     animationData: this.options.animationData,
-      //     rendererSettings: this.options.rendererSettings
-      //   }
-      // );
-      // this.$emit('animCreated', this.anim)
-
-      this.anim = lottie.loadAnimation({
-          container: this.$refs.lavContainer,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          animationData: this.options,
-          // rendererSettings: this.options.rendererSettings
-        }
-      )
+      deep: true,
+      immediate: true
+    }
+  },
+  data () {
+    return {
+      style: {
+        width: this.width ? `${this.width}px` : '100%',
+        height: this.height ? `${this.height}px` : '100%',
+        overflow: 'hidden',
+        margin: '0 auto',
+      },
+      ani: null
+    }
+  },
+  mounted () {
+    this.loadAnimation(this.options)
+  },
+  methods: {
+    loadAnimation (options) {
+      if (this.ani) this.ani.destroy()
+      this.ani = lottie.loadAnimation({
+        container: this.$refs.lavContainer,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: options
+      })
     }
   }
+
+}
 </script>
 <style lang="scss" scoped>
-.positon_absoult{
+.positon_absoult {
   position: absolute;
   top: 0;
   left: 0;

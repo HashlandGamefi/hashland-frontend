@@ -59,9 +59,6 @@
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
       </div>
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
-      <!-- <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
-        Loading...
-      </div> -->
       <NoData v-else-if="pageshowarr.length == 0 && selectedArr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <!-- 按钮 -->
@@ -673,14 +670,6 @@ export default {
         top: 0;
         left: 0;
       }
-    }
-    .loadingbox {
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
     }
   }
   .cardarr_class_selected{
