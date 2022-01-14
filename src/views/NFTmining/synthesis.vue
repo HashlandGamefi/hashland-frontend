@@ -22,6 +22,12 @@
             <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.series == seriesTxt && data.level == ele}).length}})</span>
           </div>
         </div>
+        <!-- 移动端的全选按钮 (pc不展示) -->
+        <div class="right_content pc_right_content" @click="selectAllClick">
+          <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectStatus" />
+          <img :src="`${$store.state.imgUrl}select.png`" class="selectimg" v-else />
+          <span class="select_ttx fontsize16">{{$t("message.synthesis.txt5")}}</span>
+        </div>
       </div>
       <div class="right_content" @click="selectAllClick">
         <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
@@ -46,7 +52,7 @@
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
         <!-- && item.ultra -->
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
         <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
         <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" :class="{newCardMaster:item.series == 2}" v-if="index % 4 == 0" />
       </div>
@@ -55,7 +61,7 @@
     <div class="cardarr_class">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
       </div>
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
@@ -665,11 +671,6 @@ export default {
       .newCardMaster{
         width: 40px;
       }
-      .positon_absoult{
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
     }
   }
   .cardarr_class_selected{
@@ -744,73 +745,85 @@ export default {
     .content{
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      margin-top: 0.4rem;
-      .left_content{
-        position: relative;
-        width: 1.71rem;
-        height: 0.34rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
-        box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
-        .span1{
-          font-size: 0.12rem;
-          color: #FFFFFF;
-          margin-right: 0.1rem;
-          cursor: pointer;
-        }
-        .span2{
-          border-width: 0.06rem;
-          border-color: #00E7F0;
-          border-bottom-width: 0;
-          border-style: dashed;
-          border-top-style: solid;
-          border-left-color: transparent;
-          border-right-color: transparent;
-        }
-        .left_content_hover{
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 9;
-          width: 1.71rem;
-          display: none;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: space-between;
-          background: rgba(0, 0, 0, 0.74);
-          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
-          filter: blur(0px);
-          border-radius: 0.04rem;
-          padding: 0.05rem 0 0.05rem 0.2rem;
-          margin-top: 0.35rem;
+      margin-top: 0.33rem;
+      .add_content_box{
+        width: 100%;
+        flex-wrap: wrap;
+        .left_content{
+          position: relative;
+          width: 50%;
+          height: 0.34rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
+          box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
           .span1{
-            color: #E2DADA;
+            font-size: 0.12rem;
+            color: #FFFFFF;
+            margin-right: 0.1rem;
             cursor: pointer;
-            margin-right: 0;
+          }
+          .span2{
+            border-width: 0.06rem;
+            border-color: #00E7F0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9;
+            width: 1.71rem;
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.74);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
+            filter: blur(0px);
+            border-radius: 0.04rem;
+            padding: 0.05rem 0 0.05rem 0.2rem;
+            margin-top: 0.35rem;
+            .span1{
+              color: #E2DADA;
+              cursor: pointer;
+              margin-right: 0;
+            }
+          }
+        }
+        .left_content:hover{
+          .left_content_hover{
+            display: flex;
+          }
+        }
+        .pc_right_content{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin-right: 0.2rem;
+          margin-top: 0.1rem;
+          .selectimg{
+            width: 0.2rem;
+            object-fit: contain;
+            margin-right: 0.05rem;
+          }
+          .select_ttx{
+            font-size: 0.12rem;
+            color: #FFFFFF;
           }
         }
       }
-      .left_content:hover{
-        .left_content_hover{
-          display: flex;
-        }
-      }
       .right_content{
-        display: flex;
-        align-items: center;
-        .selectimg{
-          width: 0.2rem;
-          object-fit: contain;
-          margin-right: 0.05rem;
-        }
-        .select_ttx{
-          font-size: 0.12rem;
-          color: #FFFFFF;
-        }
+        display: none;
       }
     }
     .bottom_txtbox {

@@ -97,6 +97,7 @@
                 class="swiper_img"
                 v-if="item.btnstatus !== 3"
               />
+              <Lottie :left="getIsMobile?'48%':'50%'" :transform="true" :top="getIsMobile?'6%':'-3%'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?210:''" v-if="item.ultra"></Lottie>
               <img
                 :src="item.src"
                 class="lock_swiper_img"
@@ -160,6 +161,7 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      anmationArr:[],//动画数组的json
       newCardArr:[
         {
           level: 1,
@@ -275,6 +277,12 @@ export default {
     };
   },
   mounted () {
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
     this.$nextTick(() => {
       this.swiper1 = new Swiper(".swiper-container1", {
         nextButton: ".swiper-button-next",
@@ -356,7 +364,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
+    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo","getIsMobile"]),
   },
   methods: {
     sonapprove (item) {

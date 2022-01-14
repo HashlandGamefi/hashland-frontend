@@ -46,6 +46,8 @@
                 @click="cardClick(item, index, index1)"
               >
                 <img :src="item.src" class="swiper_img" />
+                <Lottie :left="getIsMobile?'6%':'0'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
+                <!-- <Lottie :left="getIsMobile?'48%':'0'" :transform="true" :top="getIsMobile?'6%':'0'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie> -->
                 <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
               </div>
             </div>
@@ -78,6 +80,7 @@ import { contract, hnPool, getSigner } from 'hashland-sdk'
 export default {
   data () {
     return {
+      anmationArr:[],//动画数组的json
       disablehover:false,
       seriesTxt:1,
       seriesTxt1:1,
@@ -96,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"])
+    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo","getIsMobile"])
   },
   watch: {
     'getIstrue':{
@@ -118,6 +121,7 @@ export default {
   methods: {
     // 重置数据
     resetData(){
+      this.seriesTxt = 1
       this.proupDis = false// 弹窗展示消失变量
       this.starArr = []//用户卡牌数组
       this.cardIdArr = []// 选中的卡牌id数组
@@ -150,9 +154,9 @@ export default {
       if(series == 2){
         arr.sort((a, b) => {
           if(a.ultra == b.ultra == true){
-            return a.ultra > b.ultra?1:-1
+            return a.ultra > b.ultra?-1:1
           }
-          return a.ultra > b.ultra?1:-1
+          return a.ultra > b.ultra?-1:1
         })
       }
       this.starArr = arr.filter(item => {
@@ -274,6 +278,14 @@ export default {
       })
     },
   },
+  mounted(){
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
+  }
 }
 </script>
 
@@ -384,7 +396,6 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-bottom: 20px;
       .top_line {
         width: 100%;
         display: flex;
@@ -400,6 +411,7 @@ export default {
       .swiper-container {
         width: 100%;
         height: auto;
+        margin-bottom: 20px;
         .swiper-wrapper {
           .swiper-slide {
             width: 25%;
@@ -565,7 +577,6 @@ export default {
         width: 100%;
         display: flex;
         flex-direction: column;
-        margin-bottom: 0.4rem;
         .top_line {
           width: 100%;
           display: flex;
@@ -580,6 +591,7 @@ export default {
         .swiper-container {
           width: 100%;
           height: auto;
+          margin-bottom: 0.4rem;
           .swiper-wrapper {
             .swiper-slide {
               width: 40%;
