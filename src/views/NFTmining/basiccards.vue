@@ -163,31 +163,31 @@ export default {
       newCardArr:[
         {
           level: 1,
-          src: `${this.$store.state.imgUrl}level1.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel1.png`,
           num: 0,
           status:true
         },
         {
           level: 2,
-          src: `${this.$store.state.imgUrl}level2.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel2.png`,
           num: 0,
           status:true
         },
         {
           level: 3,
-          src: `${this.$store.state.imgUrl}level3.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel3.png`,
           num: 0,
           status:true
         },
         {
           level: 4,
-          src: `${this.$store.state.imgUrl}level4.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel4.png`,
           num: 0,
           status:true
         },
         {
           level: 5,
-          src: `${this.$store.state.imgUrl}level5.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel5.png`,
           num: 0,
           status:true
         },
@@ -443,7 +443,7 @@ export default {
           this.newCardArr = [
             {
               level: 1,
-              src: `${this.$store.state.imgUrl}level1.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel1.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 1 && data.series == 2;
               }).length,
@@ -451,7 +451,7 @@ export default {
             },
             {
               level: 2,
-              src: `${this.$store.state.imgUrl}level2.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel2.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 2 && data.series == 2;
               }).length,
@@ -459,7 +459,7 @@ export default {
             },
             {
               level: 3,
-              src: `${this.$store.state.imgUrl}level3.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel3.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 3 && data.series == 2;
               }).length,
@@ -467,7 +467,7 @@ export default {
             },
             {
               level: 4,
-              src: `${this.$store.state.imgUrl}level4.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel4.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 4 && data.series == 2;
               }).length,
@@ -475,7 +475,7 @@ export default {
             },
             {
               level: 5,
-              src: `${this.$store.state.imgUrl}level5.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel5.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 5 && data.series == 2;
               }).length,
