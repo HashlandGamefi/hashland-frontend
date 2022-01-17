@@ -322,7 +322,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-top: 60px;
-    // padding: 0 100px;
     .add_content_box{
       width: 50%;
       display: flex;
@@ -507,6 +506,7 @@ export default {
       justify-content: flex-start;
       align-items: center;
       margin-top: 0.33rem;
+      padding-left: 0.2rem;
       .add_content_box{
         width: 100%;
         flex-wrap: wrap;
@@ -543,13 +543,13 @@ export default {
             width: 1.71rem;
             display: none;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
             background: rgba(0, 0, 0, 0.74);
             box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
             filter: blur(0px);
             border-radius: 0.04rem;
-            padding: 0.05rem 0 0.05rem 0.2rem;
+            padding: 0.05rem 0 0.05rem 0;
             margin-top: 0.35rem;
             .span1{
               color: #E2DADA;
@@ -570,7 +570,7 @@ export default {
       max-height: 6rem;
       overflow: auto;
       padding: 0.2rem;
-      padding-top: 0.4rem;
+      padding-top: 0.1rem;
       display: flex;
       flex-direction: column;
       .stratbox {

@@ -588,6 +588,9 @@ export default {
           }
         }
       }
+      .pc_right_content{
+        display: none;
+      }
     }
     .right_content{
       display: flex;
