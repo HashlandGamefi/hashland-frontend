@@ -4,38 +4,22 @@
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="backimg" />
     </div>
     <span class="title1_txt fontsize32">{{$t("message.market.txt28")}}</span>
-    <!-- <div class="tab_box">
-      <div class="oneTab fontsize16" :class="{ activeTab: tabIndex == 0}" @click="tabFun(0)" >
-        出售中
-      </div>
-      <div
-        class="oneTab fontsize16"
-        :class="{ activeTab: tabIndex == 1 }"
-        @click="tabFun(1)"
-      >
-        已完成
-      </div>
-    </div> -->
     <div class="show_gameArr">
-      <div class="onebox" v-for="(item,index) in pageshowarr" :key="index">
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index">
         <img :src="item.src" class="img" />
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
         <div class="bottom_box">
           <div class="left_price">
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
-            <span class="span1 fontsize16">{{item.price}} BUSD</span>
+            <span class="span1 fontsize16" v-if="$route.query.type == 'busd'">{{item.price}} BUSD</span>
+            <span class="span1 fontsize16" v-if="$route.query.type == 'hc'">{{item.price}} HC</span>
           </div>
-          <!-- <Btn :word="'购买'" ref="mychild" @sonapprove="sonapprove" @dosomething="buy"/> -->
           <div class="btn fontsize12" @click="cancleOrder(item)">
             {{$t("message.market.txt34")}}<BtnLoading :isloading="item.isloading"></BtnLoading>
           </div>
-          <!-- <div class="btn fontsize12" @click="collect(item)" v-else>
-            收取<BtnLoading :isloading="item.isloading"></BtnLoading>
-          </div> -->
         </div>
       </div>
-      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
-        Loading...
-      </div>
+      <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
@@ -44,31 +28,32 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hnMarket,hn,getHnImg,getSigner } from 'hashland-sdk';
+import { hnMarket,hnMarketV2,hn,getHnImg,getSigner } from 'hashland-sdk';
 export default {
   data () {
     return {
+      anmationArr:[],//动画数组的json
       pageshowLoading:true,//数据没有加载完之前显示loading
       btntxt:'',// 弹窗页面的确认按钮
       word:'',//弹窗提示文字
       proupDis:false,// 弹窗展示消失变量
       tabIndex: 0,//tab索引
       pageshowarr:[],// 页面展示数组
-      cardInfoArr:[]
     }
   },
   computed: {
-    ...mapGetters(["getIstrue","getAccount"])
+    ...mapGetters(["getIstrue","getAccount","getIsMobile"])
   },
   watch:{
     'getIstrue':{
       handler: function (newValue) {
         if(newValue){
-          this.connectInfo()
+          this.pageshowLoading = true//数据没有加载完之前显示loading
+          this.resetData()
+          this.connectInfo(this.$route.query.type)
         }else{
-          this.pageshowLoading = false,//数据没有加载完之前显示loading
-          this.pageshowarr = [],// 页面展示数组
-          this.cardInfoArr = []
+          this.pageshowLoading = false//数据没有加载完之前显示loading
+          this.resetData()
         }
       },
       deep: true,
@@ -76,43 +61,44 @@ export default {
     }
   },
   methods:{
-    // tabFun(index){
-    //   this.tabIndex = index
-    //   if(index == 0){
-    //     this.pageshowarr = this.cardInfoArr.filter(item => {
-    //       return item.issell
-    //     })
-    //   }else{
-    //       console.log('this.pageshowarr: ', this.pageshowarr);
-    //     this.pageshowarr = this.cardInfoArr.filter(item => {
-    //       return !item.issell
-    //     })
-    //   }
-    // },
+    // 重置数据
+    resetData(){
+      this.pageshowarr = []// 页面展示数组
+    },
     // 撤单
     cancleOrder(item){
       if(item.isloading)return
       item.isloading = true
-      console.log("取消订单:",item)
-      hnMarket().connect(getSigner()).cancel([item.cardID]).then(async res => {
-        console.log('卖家批量取消出售卡牌res: ', res);
-        const etReceipt = await res.wait();
-          if(etReceipt.status == 1){
-            this.$common.selectLang('撤单成功','Cancel Successfully',this)
-            this.connectInfo()
-            item.isloading = false
-          }else{
-            item.isloading = false
-          }
-      }).catch(() => {
-        item.isloading = false
-      })
-    },
-    // 收取
-    collect(item){
-      if(item.isloading)return
-      item.isloading = true
-      console.log("收取:",item)
+      // console.log("取消订单:",item)
+      if(this.$route.query.type == 'busd'){
+        hnMarket().connect(getSigner()).cancel([item.cardID]).then(async res => {
+          // console.log('卖家批量取消出售卡牌(busd售卖的)res: ', res);
+          const etReceipt = await res.wait();
+            if(etReceipt.status == 1){
+              this.$common.selectLang('撤单成功','Cancel Successfully',this)
+              this.connectInfo('busd')
+              item.isloading = false
+            }else{
+              item.isloading = false
+            }
+        }).catch(() => {
+          item.isloading = false
+        })
+      }else{
+        hnMarketV2().connect(getSigner()).cancel([item.cardID]).then(async res => {
+          // console.log('卖家批量取消出售卡牌(hc售卖的)res: ', res);
+          const etReceipt = await res.wait();
+            if(etReceipt.status == 1){
+              this.$common.selectLang('撤单成功','Cancel Successfully',this)
+              this.connectInfo('hc')
+              item.isloading = false
+            }else{
+              item.isloading = false
+            }
+        }).catch(() => {
+          item.isloading = false
+        })
+      }
     },
     // 取消按钮(关闭弹窗)
     CloseFun(){
@@ -121,19 +107,34 @@ export default {
     back(){
       this.$router.go(-1)
     },
-    connectInfo(){
-      this.getMarketCardInfo().then(res =>{
-        this.pageshowLoading = false
-        if(res.istrue){
-          this.cardInfoArr = this.pageshowarr = this.pageArrInfo(res.arr)
-        }
-      })
+    connectInfo(type){
+      if(type == 'busd'){
+        this.getMarketCardInfo(hnMarket).then(res =>{
+          this.pageshowLoading = false
+          if(res.istrue){
+            this.pageshowarr = res.arr
+          }
+        })
+      }else if(type == 'hc'){
+        this.getMarketCardInfo(hnMarketV2).then(res =>{
+          // console.log('获取到的卖家正在出售的卡牌res: ', res);
+          this.pageshowLoading = false
+          if(res.istrue){
+            this.pageshowarr = res.arr.sort((a, b) => {
+              if(a.ultra == b.ultra == true){
+                return a.level > b.level?1 :-1
+              }
+              return a.ultra > b.ultra?-1 :1
+            })
+          }
+        })
+      }
     },
     // 获取某卖家正在出售卡牌id数组
-    getMarketCardInfo(){
+    getMarketCardInfo(funName){
       return new Promise((resolve) => {
-        hnMarket().getSellerHnIdsBySize(this.getAccount,0,10000000).then(res => {
-          console.log('获取某卖家正在出售卡牌id数组res: ', res);
+        funName().getSellerHnIdsBySize(this.getAccount,0,10000000).then(res => {
+          // console.log('获取某卖家正在出售卡牌id数组res: ', res);
           if(res[0].length == 0){
             resolve({'istrue':true,'arr':[]})
             return
@@ -152,12 +153,11 @@ export default {
             obj.cardID = item.toString() // 卡牌的id
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
             obj.level = (await hn().level(item)).toString() // 等级
-            let card_price = (await hnMarket().hnPrice(item)).toString()
-            console.log('card_price: ', card_price);
+            let card_price = (await funName().hnPrice(item)).toString()
             obj.price = this.$common.convertBigNumberToNormal(card_price,0)
+            obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
             let race = await hn().getHashrates(item) // 算力数组
-            // @ts-ignore
-            obj.src = getHnImg(Number(item), obj.level, race);
+            obj.src = getHnImg(Number(item), obj.level, race,obj.ultra);
             arr.push(obj)
             if (count == res[0].length) {
               resolve({'istrue':true,'arr':arr})
@@ -166,16 +166,15 @@ export default {
           })
         })
       })
-    },
-    // 页面数组信息--排序
-    pageArrInfo(arr){
-      return arr.sort((a, b) => {
-        if(a.type === b.type){
-　　　　  return Number(a.price) > Number(b.price) ? 1 : -1
-        }
-        return Number(a.type) > Number(b.type) ? 1 : -1;
-      })
-    },
+    }
+  },
+  mounted(){
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
   }
 }
 </script>
@@ -199,49 +198,29 @@ export default {
   }
   .title1_txt {
     color: #ffffff;
-    margin-top: 208px;
+    margin-top: 160px;
   }
-  // .tab_box {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   margin-top: 65px;
-  //   .oneTab {
-  //     width: 158px;
-  //     height: 40px;
-  //     line-height: 40px;
-  //     text-align: center;
-  //     color: #ffffff;
-  //     border-radius: 5px;
-  //     cursor: pointer;
-  //     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
-  //       -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-  //   }
-  //   .activeTab {
-  //     background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
-  //     box-shadow: 0 9px 2px #23447c;
-  //   }
-  // }
   .show_gameArr{
     margin-top: 40px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    // min-height: 550px;
     overflow-y: auto;
     max-height: 800px;
     .onebox{
-      width: 228px;
+      position: relative;
+      width: 256px;
       display: flex;
       flex-direction: column;
-      margin-right: 60px;
+      align-items: center;
+      margin-right: 40px;
       margin-bottom: 57px;
       .img{
-        width: 228px;
+        width: 256px;
         object-fit: contain;
       }
       .bottom_box{
-        width: 100%;
+        width: 90%;
         margin-top: 20px;
         border-radius: 15px;
         display: flex;
@@ -274,14 +253,6 @@ export default {
           cursor: pointer;
         }
       }
-    }
-    .loadingbox{
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
     }
   }
 }
@@ -367,37 +338,7 @@ export default {
           }
         }
       }
-      .loadingbox{
-        width: 100%;
-        height: 3rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
-      }
     }
-    // .tab_box {
-    //   display: flex;
-    //   align-items: center;
-    //   justify-content: center;
-    //   margin-top: 0.33rem;
-    //   .oneTab {
-    //     width: 1rem;
-    //     height: 0.24rem;
-    //     font-size: 0.12rem;
-    //     line-height: 0.24rem;
-    //     text-align: center;
-    //     color: #ffffff;
-    //     border-radius: 5px;
-    //     cursor: pointer;
-    //     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5),
-    //       -2px 1px 22px 0px rgba(194, 190, 190, 0.52) inset;
-    //   }
-    //   .activeTab {
-    //     background: #29cdda; //linear-gradient(to right,#2445C1,#1E9694);
-    //     box-shadow: 0 0.06rem 2px #23447c;
-    //   }
-    // }
   }
 }
 </style>

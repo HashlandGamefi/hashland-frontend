@@ -211,9 +211,10 @@ export default {
     },
     async DisplayCardAnimationMethods(){
       let arr = []
-      for (let lv = 1; lv < 6; lv++) {
+
         for (let type = 1; type < 5; type++) {
-          await this.$common.getDatCardJson(type,lv).then(res => {//  1----卡牌人物类型 2---等级
+          for (let lv = 1; lv < 6; lv++) {
+            let res = await this.$common.getDatCardJson(type,lv)
             let obj = {
               level:lv,
               type:type,
@@ -221,9 +222,9 @@ export default {
             }
             obj.dataJson = res.data
             arr.push(obj)
-          })
+          }
         }
-      }
+      console.log("获取到的动画json:",arr)
       localStorage.setItem('Animation',JSON.stringify(arr))
     }
   },

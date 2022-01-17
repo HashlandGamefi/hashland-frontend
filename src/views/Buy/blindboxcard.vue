@@ -233,11 +233,11 @@ export default {
     watchResult(){
       let filter = hnBlindBoxS2().filters.SpawnHns(this.getAccount)
       hnBlindBoxS2().on(filter, (user, boxslengths, boxarrID,events,ultras) => {
-        console.log('监听盲盒开奖结果: user', user)
-        console.log('监听盲盒开奖结果: boxslengths',boxslengths)
-        console.log('监听盲盒开奖结果: boxarrID', boxarrID);
-        console.log('监听盲盒开奖结果: events',events);
-        console.log('监听盲盒开奖结果: ultras',ultras);
+        // console.log('监听盲盒开奖结果: user', user)
+        // console.log('监听盲盒开奖结果: boxslengths',boxslengths)
+        // console.log('监听盲盒开奖结果: boxarrID', boxarrID);
+        // console.log('监听盲盒开奖结果: events',events);
+        // console.log('监听盲盒开奖结果: ultras',ultras);
         this.getTokenInfoFun(this.tokenID)
         let arr = boxarrID.toString().split(',')
         let imgarr = []
@@ -246,12 +246,7 @@ export default {
           obj.level = (await hn().level(item)).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
           obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
-          obj.series = (await hn().series(item)).toString() // 系列
-          if(obj.series == '1'){
-            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
-          }else if(obj.series == '2'){
-            obj.src = getHnImg(Number(item), obj.level,race,obj.ultra,true)
-          }
+          obj.src = getHnImg(Number(item), obj.level,race,obj.ultra,true)
           obj.type = (
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
@@ -259,18 +254,14 @@ export default {
           imgarr.push(obj)
         })
         let lotteryObject = setInterval(() => {
-          if(imgarr.length > 0){
-            console.log('抽奖获取到的imgarr: ', imgarr);
+          if(imgarr.length == arr.length){
+            console.log('抽奖获取到的imgarr:', imgarr,arr);
             clearInterval(lotteryObject)
             let transferArr = imgarr.sort((a,b) => {
             if(a.ultra == b.ultra == true){
-              if(b.level == a.level){
-                return b.level - a.level
-              }else{
-                return a.level - b.level
-              }
+              return a.level > b.level?1:-1
             }else{
-              return b.ultra - a.ultra
+              return a.level > b.level?1:-1
             }
           })
           let lastObj = {

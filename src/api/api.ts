@@ -37,6 +37,7 @@ export default {
     return axios.get(`${GAME_API}/va_cent/hc_info?${data}`);
   },
   getDataJson(data:any){
+    // console.log("${CARD_API}${data}",`${CARD_API}${data}`)
     return axios.get( `${CARD_API}${data}`);
   }
 };

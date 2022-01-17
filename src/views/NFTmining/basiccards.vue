@@ -97,6 +97,7 @@
                 class="swiper_img"
                 v-if="item.btnstatus !== 3"
               />
+              <Lottie :left="getIsMobile?'48%':'50%'" :transform="true" :top="getIsMobile?'6%':'-3%'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?210:''" v-if="item.ultra"></Lottie>
               <img
                 :src="item.src"
                 class="lock_swiper_img"
@@ -160,34 +161,35 @@ import { hnPool, hn, getSigner, hc, util, contract, getHnImg } from "hashland-sd
 export default {
   data () {
     return {
+      anmationArr:[],//动画数组的json
       newCardArr:[
         {
           level: 1,
-          src: `${this.$store.state.imgUrl}level1.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel1.png`,
           num: 0,
           status:true
         },
         {
           level: 2,
-          src: `${this.$store.state.imgUrl}level2.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel2.png`,
           num: 0,
           status:true
         },
         {
           level: 3,
-          src: `${this.$store.state.imgUrl}level3.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel3.png`,
           num: 0,
           status:true
         },
         {
           level: 4,
-          src: `${this.$store.state.imgUrl}level4.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel4.png`,
           num: 0,
           status:true
         },
         {
           level: 5,
-          src: `${this.$store.state.imgUrl}level5.png`,
+          src: `${this.$store.state.imgUrl}newCardLevel5.png`,
           num: 0,
           status:true
         },
@@ -275,6 +277,12 @@ export default {
     };
   },
   mounted () {
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
     this.$nextTick(() => {
       this.swiper1 = new Swiper(".swiper-container1", {
         nextButton: ".swiper-button-next",
@@ -356,7 +364,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo"]),
+    ...mapGetters(["getIstrue", "getAccount", "getUserCardInfo","getIsMobile"]),
   },
   methods: {
     sonapprove (item) {
@@ -443,7 +451,7 @@ export default {
           this.newCardArr = [
             {
               level: 1,
-              src: `${this.$store.state.imgUrl}level1.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel1.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 1 && data.series == 2;
               }).length,
@@ -451,7 +459,7 @@ export default {
             },
             {
               level: 2,
-              src: `${this.$store.state.imgUrl}level2.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel2.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 2 && data.series == 2;
               }).length,
@@ -459,7 +467,7 @@ export default {
             },
             {
               level: 3,
-              src: `${this.$store.state.imgUrl}level3.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel3.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 3 && data.series == 2;
               }).length,
@@ -467,7 +475,7 @@ export default {
             },
             {
               level: 4,
-              src: `${this.$store.state.imgUrl}level4.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel4.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 4 && data.series == 2;
               }).length,
@@ -475,7 +483,7 @@ export default {
             },
             {
               level: 5,
-              src: `${this.$store.state.imgUrl}level5.png`,
+              src: `${this.$store.state.imgUrl}newCardLevel5.png`,
               num: JSON.parse(this.getUserCardInfo).filter((data) => {
                 return data.level == 5 && data.series == 2;
               }).length,
@@ -675,7 +683,8 @@ export default {
             obj.cardID = item.toString(); // 卡牌的id
             obj.level = (await hn().level(item.toString())).toString(); // 等级
             let race = await hn().getHashrates(item) // 算力数组
-            obj.src = getHnImg(Number(item),Number(obj.level),race)
+            obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString();
             infoarr.push(obj)
             if (count == res[0].length) {
@@ -825,45 +834,8 @@ export default {
               top: 6%;
               left: 48%;
               transform: translate(-50%, -50%);
-              width: 237px;
+              width: 210px;
               object-fit: contain;
-            }
-            .bottom {
-              position: absolute;
-              top: -139px;
-              display: flex;
-              align-items: center;
-              padding: 10px 8px;
-              transform: scale(0.6);
-              .five_pointed_star {
-                display: flex;
-                align-items: center;
-                .start_img {
-                  width: 26px;
-                  object-fit: contain;
-                }
-              }
-              .hc_btc_box {
-                display: flex;
-                align-items: center;
-                .hc_coefficient {
-                  display: flex;
-                  align-items: center;
-                  border-radius: 4px;
-                  margin-right: 5px;
-                  background: rgba(5, 24, 44, 0.88);
-                  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-                  border-radius: 11px;
-                  opacity: 0.56;
-                  .imgcard {
-                    width: 43px;
-                    object-fit: contain;
-                  }
-                  .span1 {
-                    color: #ffffff;
-                  }
-                }
-              }
             }
             .lock_swiper_img {
               position: absolute;
@@ -1064,42 +1036,6 @@ export default {
                 transform: translate(-50%, -50%);
                 width: 100%;
                 object-fit: contain;
-              }
-              .bottom {
-                position: absolute;
-                top: -0.88rem;
-                display: flex;
-                align-items: center;
-                padding: 0.1rem 0.08rem;
-                transform: translate(0, -50%) scale(0.4);
-                .five_pointed_star {
-                  display: flex;
-                  align-items: center;
-                  .start_img {
-                    width: 0.18rem;
-                    object-fit: contain;
-                  }
-                }
-                .hc_btc_box {
-                  display: flex;
-                  align-items: center;
-                  .hc_coefficient {
-                    display: flex;
-                    align-items: center;
-                    margin-right: 0.05rem;
-                    background: rgba(5, 24, 44, 0.88);
-                    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.22);
-                    border-radius: 0.1rem;
-                    opacity: 0.56;
-                    .imgcard {
-                      width: 0.21rem;
-                      object-fit: contain;
-                    }
-                    .span1 {
-                      color: #ffffff;
-                    }
-                  }
-                }
               }
               .base_img {
                 width: 100%;

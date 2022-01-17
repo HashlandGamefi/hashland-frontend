@@ -110,9 +110,10 @@
               <div class="insertbox2 fontsize16">{{item.ratio}}%</div>
             </div>
           </div>
-          <div class="loadingbox fontsize16" v-if="list.length == 0 && pageshowLoading" >
+          <!-- <div class="loadingbox fontsize16" v-if="list.length == 0 && pageshowLoading" >
             Loading...
-          </div>
+          </div> -->
+          <LoadingAnmation v-if="list.length == 0 && pageshowLoading"></LoadingAnmation>
           <NoData v-else-if="list.length == 0 && !pageshowLoading" :isshow="false"></NoData>
         </div>
       </div>
@@ -602,6 +603,11 @@ export default {
         .title_onebox{
           min-width: 80px;
           color: #ffffff;
+          display: flex;
+          .champion_box{
+            display: flex;
+            color: #ffffff;
+          }
         }
       }
       .bottomline{
@@ -628,13 +634,18 @@ export default {
           }
           .title_onebox{
             min-width: 80px;
+            display: flex;
             color: #ffffff;
+            .champion_box{
+              display: flex;
+              color: #ffffff;
+            }
             .sort1_img{
               width: 27px;
               object-fit: contain;
             }
             .pad_left{
-              padding-left: 10px;
+              padding-left: 5px;
             }
           }
         }

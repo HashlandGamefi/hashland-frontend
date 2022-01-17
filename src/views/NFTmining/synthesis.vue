@@ -22,6 +22,12 @@
             <span class="span1 fontsize16" @click="selectRankClik(ele)" v-for="ele in 5" :key="ele">{{$t("message.synthesis.txt4")}} {{ele}} ({{$t("message.synthesis.txt8")}} {{cardarr.filter(data => {return data.series == seriesTxt && data.level == ele}).length}})</span>
           </div>
         </div>
+        <!-- 移动端的全选按钮 (pc不展示) -->
+        <div class="right_content pc_right_content" @click="selectAllClick">
+          <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectStatus" />
+          <img :src="`${$store.state.imgUrl}select.png`" class="selectimg" v-else />
+          <span class="select_ttx fontsize16">{{$t("message.synthesis.txt5")}}</span>
+        </div>
       </div>
       <div class="right_content" @click="selectAllClick">
         <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
@@ -43,24 +49,22 @@
     </div>
     <!-- 选中以后的卡牌数组 -->
     <div class="cardarr_class cardarr_class_selected" v-if="selectedArr.length > 0">
-      <div class="onebox" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
         <!-- && item.ultra -->
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?237:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
         <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
         <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" :class="{newCardMaster:item.series == 2}" v-if="index % 4 == 0" />
       </div>
     </div>
     <!-- 页面展示数组 -->
     <div class="cardarr_class">
-      <div class="onebox" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
+      <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?237:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" />
       </div>
-      <div class="loadingbox fontsize16" v-if="pageshowarr.length == 0 && pageshowLoading">
-        Loading...
-      </div>
+      <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && selectedArr.length == 0 && !pageshowLoading"></NoData>
     </div>
     <!-- 按钮 -->
@@ -116,7 +120,7 @@ export default {
       timerll_result:null,
       infoArr:[], // 选中的卡牌过滤以后的数组信息
       isFlag:true,// 是否开启flag--新卡合成
-      maximumNumberOfCards:256,// 新卡牌在isFlag为true的情况下  最多选择合成数
+      maximumNumberOfCards:16,// 新卡牌在isFlag为true的情况下  最多选择合成数
     }
   },
   computed: {
@@ -172,6 +176,7 @@ export default {
       setTimeout(() => {
         this.disablehover = false
       },600)
+      if(!this.getIstrue)return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this)
       if(this.pageshowLoading)return
       this.selectimgArr = [] //选中的卡牌的信息
       this.selectedArr = [] // 页面展示的选中的数组
@@ -180,14 +185,17 @@ export default {
       this.pageshowLoading = true
       this.pageshowarr = []
       this.hcnum = 0
+      if(this.isFlag){
+        this.selectedCardnum = this.maximumNumberOfCards // 开启link的情况下,老卡新卡最大合成数为16张
+      }else{
+        this.selectedCardnum = 10000000000
+      }
       if(data == 1){
         this.seriesTxt = this.seriesTxt1
         this.SeparateMethodToGetData(1,this.rank)
-        this.selectedCardnum = 10000000000
       }else{
         this.seriesTxt = this.seriesTxt2
         this.SeparateMethodToGetData(2,this.rank)
-        this.selectedCardnum = this.maximumNumberOfCards
       }
       this.getSDKInfo() // 重新判断是否授权
     },
@@ -200,7 +208,6 @@ export default {
           this.pageshowLoading = true
           this.SeparateMethodToGetData(1,1)
         }
-        // console.log("获取用户信息")
       }, 1000);
     },
     // 获取对应系列的卡牌
@@ -242,12 +249,12 @@ export default {
         this.selectedNUM = 0
         this.compose = 0
       }
-      this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      // if(this.seriesTxt == 2 && this.isFlag){
-      //   this.selectedCardnum = this.maximumNumberOfCards
-      // }else{
-      //   this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
-      // }
+      // this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      if(this.isFlag){
+        this.selectedCardnum = this.pageshowarr.length >= 16?this.maximumNumberOfCards:this.pageshowarr.length - this.pageshowarr.length % 4 // 开启link的情况下,老卡新卡最大合成数为16张
+      }else{
+        this.selectedCardnum = this.pageshowarr.length - this.pageshowarr.length % 4
+      }
       if(this.selectALLBtn){//选中的状态下
         if(this.selectedCardnum == this.pageshowarr.length){
           this.selectedArr = this.pageshowarr
@@ -275,7 +282,6 @@ export default {
       }
       this.proupDis = false
       hnUpgradeV2().connect(getSigner()).upgrade(this.infoArr).then(res => {
-        console.log('卡牌系列合成方法res: ', res);
         this.watchResult()
       }).catch(err => {
         console.log('卡牌系列合成方法err: ', err);
@@ -286,7 +292,11 @@ export default {
     watchResult(){
       let filter = hnUpgradeV2().filters.UpgradeHns(this.getAccount)
       hnUpgradeV2().on(filter, (user, boxslengths, boxarrID,events,isUcard) => {
-        console.log("合成结果监听方法",user, boxslengths, boxarrID,events,isUcard)
+        console.log('合成结果:user', user);
+        console.log('合成结果:boxslengths', boxslengths);
+        console.log('合成结果:boxarrID', boxarrID);
+        console.log('合成结果:events', events);
+        console.log('合成结果:isUcard',isUcard);
         this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
           if(res1 > 1){
             sessionStorage.setItem("count",res1)
@@ -297,7 +307,10 @@ export default {
           let obj = {}
           obj.level = (await hn().level(item.toString())).toString() // 卡牌等级
           let race = await hn().getHashrates(item) // 算力数组
-          obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
+          // obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
+          isUcard.forEach(item => {
+            obj.ultra = item
+          })
           obj.series = (await hn().series(item)).toString() // 系列
           if(obj.series == '1'){
             obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
@@ -311,18 +324,13 @@ export default {
           imgarr.push(obj)
         })
         let lotteryObject = setInterval(() => {
-          if(imgarr.length > 0){
-            console.log('抽奖获取到的imgarr: ', imgarr);
+          if(imgarr.length == events.length){
             clearInterval(lotteryObject)
             let transferArr = imgarr.sort((a,b) => {
               if(a.ultra == b.ultra == true){
-                if(b.level == a.level){
-                  return b.level - a.level
-                }else{
-                  return a.level - b.level
-                }
+                return a.type > b.type?1:-1
               }else{
-                return b.ultra - a.ultra
+                return a.type > b.type?1:-1
               }
             })
             let lastObj = {
@@ -365,7 +373,6 @@ export default {
       }
       // 获取用户的hc余额
       let balance = util.formatEther(await hc().balanceOf(this.getAccount))
-      // console.log('balance:%s', balance);
 
       if(Number(this.hcnum) <= Number(balance)){
         this.synthesisDis = true
@@ -385,8 +392,7 @@ export default {
     },
     //选择单张卡牌
     cardClick(data,index){ // index---当前数组的索引
-      console.log('当前数组的索引data,index: ', data,index,this.seriesTxt);
-      if(this.seriesTxt == 2 && this.isFlag){
+      if(this.isFlag){
         if(this.selectedNUM >= this.maximumNumberOfCards)return
       }
       data.status = true
@@ -454,14 +460,12 @@ export default {
         if(!this.isApproveHN){
           this.hnisloading = true
           this.$common.delegatingFun(1, contract().HNUpgradeV2).then(async res => {
-            // console.log('hn授权res: ', res);
             const etReceipt = await res.wait();
             if (etReceipt.status == 1) {
               this.isApproveHN = true
               this.hnisloading = false
             }
           }).catch(err => {
-            // console.log('hn授权err: ', err);
             this.isApproveHN = false
             this.hnisloading = false
           })
@@ -470,11 +474,9 @@ export default {
         if(!this.isApproveHC){
           this.hcisloading = true
           this.$common.delegatingFun(2,contract().HNUpgradeV2).then(res => {
-            // console.log('hc授权res: ', res);
             this.isApproveHC = true
             this.hcisloading = false
           }).catch(err => {
-            // console.log('hc授权err: ', err);
             this.isApproveHC = false
             this.hcisloading = false
           })
@@ -633,12 +635,12 @@ export default {
     padding-bottom: 120px;
     .onebox{
       position: relative;
-      width: 237px;
+      width: 256px;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
-      margin-right: 46px;
+      margin-right: 40px;
       cursor: pointer;
       .card_picture{
         width: 100%;
@@ -669,19 +671,6 @@ export default {
       .newCardMaster{
         width: 40px;
       }
-      .positon_absoult{
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-    }
-    .loadingbox {
-      width: 100%;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
     }
   }
   .cardarr_class_selected{
@@ -756,73 +745,85 @@ export default {
     .content{
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
-      margin-top: 0.4rem;
-      .left_content{
-        position: relative;
-        width: 1.71rem;
-        height: 0.34rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
-        box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
-        .span1{
-          font-size: 0.12rem;
-          color: #FFFFFF;
-          margin-right: 0.1rem;
-          cursor: pointer;
-        }
-        .span2{
-          border-width: 0.06rem;
-          border-color: #00E7F0;
-          border-bottom-width: 0;
-          border-style: dashed;
-          border-top-style: solid;
-          border-left-color: transparent;
-          border-right-color: transparent;
-        }
-        .left_content_hover{
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 9;
-          width: 1.71rem;
-          display: none;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: space-between;
-          background: rgba(0, 0, 0, 0.74);
-          box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
-          filter: blur(0px);
-          border-radius: 0.04rem;
-          padding: 0.05rem 0 0.05rem 0.2rem;
-          margin-top: 0.35rem;
+      margin-top: 0.33rem;
+      .add_content_box{
+        width: 100%;
+        flex-wrap: wrap;
+        .left_content{
+          position: relative;
+          width: 50%;
+          height: 0.34rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.54) linear-gradient(180deg, #24345D 0%, rgba(35, 52, 98, 0.18) 100%);
+          box-shadow: -1px 14px 9px -9px rgba(0, 0, 0, 0.82) inset;
           .span1{
-            color: #E2DADA;
+            font-size: 0.12rem;
+            color: #FFFFFF;
+            margin-right: 0.1rem;
             cursor: pointer;
-            margin-right: 0;
+          }
+          .span2{
+            border-width: 0.06rem;
+            border-color: #00E7F0;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-top-style: solid;
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          .left_content_hover{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9;
+            width: 1.71rem;
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.74);
+            box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56) inset;
+            filter: blur(0px);
+            border-radius: 0.04rem;
+            padding: 0.05rem 0 0.05rem 0.2rem;
+            margin-top: 0.35rem;
+            .span1{
+              color: #E2DADA;
+              cursor: pointer;
+              margin-right: 0;
+            }
+          }
+        }
+        .left_content:hover{
+          .left_content_hover{
+            display: flex;
+          }
+        }
+        .pc_right_content{
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin-right: 0.2rem;
+          margin-top: 0.1rem;
+          .selectimg{
+            width: 0.2rem;
+            object-fit: contain;
+            margin-right: 0.05rem;
+          }
+          .select_ttx{
+            font-size: 0.12rem;
+            color: #FFFFFF;
           }
         }
       }
-      .left_content:hover{
-        .left_content_hover{
-          display: flex;
-        }
-      }
       .right_content{
-        display: flex;
-        align-items: center;
-        .selectimg{
-          width: 0.2rem;
-          object-fit: contain;
-          margin-right: 0.05rem;
-        }
-        .select_ttx{
-          font-size: 0.12rem;
-          color: #FFFFFF;
-        }
+        display: none;
       }
     }
     .bottom_txtbox {
