@@ -19,46 +19,46 @@
         <div class="add_leftbox">
           <!-- 系列排序 -->
           <div class="left_content sercise_content" :class="[disablehover ? 'clear_hover' : '']">
-            <span class="span1 fontsize16">{{ $t(seriesTxt) }}</span>
+            <span class="span1 fontsize14">{{ $t(seriesTxt) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover sercise_content_hover">
-              <span class="span1 fontsize16" @click="seriesFun(ele)" v-for="(ele, index) in seriesArr" :key="index">{{ $t(ele.label) }}</span>
+              <span class="span1 fontsize14" @click="seriesFun(ele)" v-for="(ele, index) in seriesArr" :key="index">{{ $t(ele.label) }}</span>
             </div>
           </div>
           <!-- 等级排序 -->
           <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
-            <span class="span1 fontsize16">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{ $t("message.synthesis.txt8") }} {{ amount }})</span>
+            <span class="span1 fontsize14">{{ $t("message.synthesis.txt4") }} {{ rank }} ({{ $t("message.synthesis.txt8") }} {{ amount }})</span>
             <div class="span2"></div>
             <div class="left_content_hover">
-              <span class="span1 fontsize16" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">
+              <span class="span1 fontsize14" @click="selectRankClik(ele, index)" v-for="(ele, index) in cardLengthArr" :key="index">
                 {{ $t("message.synthesis.txt4") }} {{ index + 1 }} ({{ $t("message.synthesis.txt8") }} {{ ele }})
               </span>
             </div>
           </div>
           <!-- 职业排序 -->
           <div class="left_content sercise_content" :class="[disablehover ? 'clear_hover' : '']">
-            <span class="span1 fontsize16">{{ $t(occupationTxt) }}</span>
+            <span class="span1 fontsize14">{{ $t(occupationTxt) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover sercise_content_hover">
-              <span class="span1 fontsize16" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{ $t(ele.name) }}</span>
+              <span class="span1 fontsize14" @click="occupationFun(ele)" v-for="(ele, index) in occupationArr" :key="index">{{ $t(ele.name) }}</span>
             </div>
           </div>
           <!-- 类型排序 -->
           <div class="left_content" :class="[disablehover ? 'clear_hover' : '']">
-            <span class="span1 fontsize16">{{ $t(ultraTxt) }}</span>
+            <span class="span1 fontsize14">{{ $t(ultraTxt) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover">
-              <span class="span1 fontsize16" @click="ultraFun(ele)" v-for="(ele, index) in ultraArr" :key="index">{{ $t(ele.label) }}</span>
+              <span class="span1 fontsize14" @click="ultraFun(ele)" v-for="(ele, index) in ultraArr" :key="index">{{ $t(ele.label) }}</span>
             </div>
           </div>
         </div>
         <div class="add_leftbox pc_add_leftbox">
           <!-- 筛选-->
           <div class="left_content_price" :class="[disablehover ? 'clear_hover' : '']" v-for="(item, index) in orderArr" :key="index">
-            <span class="span1 fontsize16">{{ $t(item.name) }}</span>
+            <span class="span1 fontsize14">{{ $t(item.name) }}</span>
             <div class="span2"></div>
             <div class="left_content_hover">
-              <span class="span1 fontsize16" v-for="(ele, index1) in item.arr" :key="index1" @click="sortPriceClik(item, ele)">
+              <span class="span1 fontsize14" v-for="(ele, index1) in item.arr" :key="index1" @click="sortPriceClik(item, ele)">
                 {{ $t(ele.name) }}
               </span>
             </div>
@@ -77,10 +77,10 @@
     <div class="mobile_add_leftbox">
       <!-- 筛选-->
       <div class="left_content_price" :class="[disablehover ? 'clear_hover' : '']" v-for="(item, index) in orderArr" :key="index">
-        <span class="span1 fontsize16">{{ $t(item.name) }}</span>
+        <span class="span1 fontsize14">{{ $t(item.name) }}</span>
         <div class="span2"></div>
         <div class="left_content_hover">
-          <span class="span1 fontsize16" v-for="(ele, index1) in item.arr" :key="index1" @click="sortPriceClik(item, ele)">
+          <span class="span1 fontsize14" v-for="(ele, index1) in item.arr" :key="index1" @click="sortPriceClik(item, ele)">
             {{ $t(ele.name) }}
           </span>
         </div>
@@ -749,6 +749,7 @@ export default {
           margin-right: 15px;
           .span1 {
             color: #ffffff;
+            font-weight: bold;
           }
           .span2 {
             border-width: 7px;
@@ -777,6 +778,7 @@ export default {
             line-height: 39px;
             .span1 {
               color: #e2dada;
+              font-weight: bold;
               cursor: pointer;
             }
           }
@@ -811,6 +813,7 @@ export default {
           cursor: pointer;
           .span1 {
             color: #ffffff;
+            font-weight: bold;
             margin-right: 10px;
           }
           .span2 {
@@ -840,6 +843,7 @@ export default {
             line-height: 39px;
             .span1 {
               color: #e2dada;
+              font-weight: bold;
               cursor: pointer;
             }
           }
@@ -1003,6 +1007,7 @@ export default {
             margin-bottom: 0.1rem;
             .span1 {
               color: #ffffff;
+              font-weight: bold;
               margin-right: 0.1rem;
               font-size: 0.12rem;
             }
@@ -1033,6 +1038,7 @@ export default {
               line-height: 0.3rem;
               .span1 {
                 color: #e2dada;
+                font-weight: bold;
                 cursor: pointer;
                 font-size: 0.12rem;
               }
@@ -1085,6 +1091,7 @@ export default {
         cursor: pointer;
         .span1 {
           color: #ffffff;
+          font-weight: bold;
           margin-right: 0;
           font-size: 0.12rem;
         }
@@ -1115,6 +1122,7 @@ export default {
           line-height: 0.39rem;
           .span1 {
             color: #e2dada;
+            font-weight: bold;
             cursor: pointer;
             font-size: 0.12rem;
           }
