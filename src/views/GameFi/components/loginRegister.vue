@@ -301,7 +301,11 @@ export default {
       this.$parent.mailAccount = mailAccount;
       this.closeLoginRegister();
       document.querySelector("#gamefi_top").scrollIntoView(true);
-      location.reload();
+      // location.reload();
+      this.$parent.isShowRewardRanking = false;
+      this.$nextTick(() => {
+        this.$parent.isShowRewardRanking = true;
+      });
     },
     /**关闭本弹窗 */
     closeLoginRegister() {

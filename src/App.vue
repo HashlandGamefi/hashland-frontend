@@ -224,7 +224,6 @@ export default {
             arr.push(obj)
           }
         }
-      console.log("获取到的动画json:",arr)
       localStorage.setItem('Animation',JSON.stringify(arr))
     }
   },

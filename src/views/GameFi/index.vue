@@ -82,7 +82,7 @@
           </ul>
         </div>
       </div>
-      <RewardRanking></RewardRanking>
+      <RewardRanking v-if="isShowRewardRanking"></RewardRanking>
     </div>
     <transition name="fade">
       <LoginRegister v-if="showLoginRegister"></LoginRegister>
@@ -109,6 +109,7 @@ export default {
       loginRegisterStatus: false,
       mailAccount: "",
       ranking1select: "",
+      isShowRewardRanking: true,
     };
   },
   computed: {
@@ -140,6 +141,10 @@ export default {
     toLogOut() {
       localStorage.removeItem("hashlandGameFiInfo");
       this.loginRegisterStatus = false; // 未登录
+      this.isShowRewardRanking = false;
+      this.$nextTick(() => {
+        this.isShowRewardRanking = true;
+      });
     },
     /**打开充值 */
     openRecharge() {
@@ -432,6 +437,8 @@ export default {
       }
     }
     .player_box1 {
+      width: 60vw;
+      height: 35vw;
       margin: 0.2rem auto;
       padding: 2vw 1.5vw;
     }
