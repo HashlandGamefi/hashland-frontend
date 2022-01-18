@@ -11,19 +11,19 @@
       </div>
       <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
       <div class="add_select_box" :class="[disablehover?'clear_hover':'']">
-        <span class="add_accrow" v-if="tokenID == 1 || tokenID == 3"></span>
+        <!-- <span class="add_accrow" v-if="tokenID == 1 || tokenID == 3"></span> -->
         <span class="add_composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
         <span class="add_composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
         <span class="add_composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
         <span class="add_composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
         <span class="add_composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
         <span class="add_composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
-        <div class="nft_hover" v-if="tokenID == 1 || tokenID == 3">
+        <!-- <div class="nft_hover" v-if="tokenID == 1 || tokenID == 3">
           <div class="box_nft">
             <span class="add_span1 fontsize16" v-if="tokenID == 3" @click="BuyboxClick(1)">{{hc_boxprice}} HC</span>
             <span class="add_span1 fontsize16" v-if="tokenID == 1" @click="BuyboxClick(3)">{{busd_boxprice}} BUSD</span>
           </div>
-        </div>
+        </div> -->
       </div>
       <span class="composite_line_color"></span>
       <span class="composite_span1 amount_class fontsize12">{{$t("message.nftCard.txt9")}}</span>
@@ -70,19 +70,19 @@
       <div class="mobile_line">
         <span class="composite_span1 fontsize12">{{$t("message.nftCard.txt8")}}</span>
         <div class="add_select_box" :class="[disablehover?'clear_hover':'']">
-          <span class="add_accrow" v-if="tokenID == 1 || tokenID == 3"></span>
+          <!-- <span class="add_accrow" v-if="tokenID == 1 || tokenID == 3"></span> -->
           <span class="composite_span2 fontsize16" v-if="tokenID == 0">{{boxPrice}} BNB</span>
           <span class="composite_span2 fontsize16" v-if="tokenID == 1">{{boxPrice}} HC</span>
           <span class="composite_span2 fontsize16" v-if="tokenID == 2">{{boxPrice}} HCLP</span>
           <span class="composite_span2 fontsize16" v-if="tokenID == 3">{{boxPrice}} BUSD</span>
           <span class="composite_span2 fontsize16" v-if="tokenID == 4">{{boxPrice}} HT</span>
           <span class="composite_span2 fontsize16" v-if="tokenID >= 5">{{boxPrice}} BUSD</span>
-          <div class="nft_hover" v-if="tokenID == 1 || tokenID == 3">
+          <!-- <div class="nft_hover" v-if="tokenID == 1 || tokenID == 3">
             <div class="box_nft">
               <span class="add_span1 fontsize16" v-if="tokenID == 3" @click="BuyboxClick(1)">{{hc_boxprice}} HC</span>
               <span class="add_span1 fontsize16" v-if="tokenID == 1" @click="BuyboxClick(3)">{{busd_boxprice}} BUSD</span>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <span class="composite_line_color"></span>
@@ -142,7 +142,7 @@ export default {
       cardNumber:'0',//卡牌的编号
       originalPrice:0,// 合约返回的原始盲盒价格数据 可以直接用的传给合约
       isapprove:false,//是否授权
-      tokenID:1, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
+      tokenID:3, // 代币id------0 bnb  1 hc 2 hclp  3 busd 4 ht
       maxbuy:0, // 最大购买数量
       disable:true,//购买按钮是否禁用(是否在白名单)
     }
