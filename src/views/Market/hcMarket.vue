@@ -888,7 +888,7 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      margin-right: 60px;
+      margin-right: 40px;
       margin-bottom: 30px;
       .img {
         width: 100%;
