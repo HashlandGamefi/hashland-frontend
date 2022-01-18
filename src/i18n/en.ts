@@ -42,6 +42,7 @@ export const message = {
     txt8: "NFT Mining",
     txt9: "League",
     txt10: "Play",
+    txt11: "Mysterious-Box",
   },
   footer: {
     // footer

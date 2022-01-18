@@ -6,7 +6,10 @@
     <div class="menu_box">
       <ul class="ul_ fontsize18">
         <li v-for="(item, index) in navarr" :key="index" :class="[index == menuIndex ? 'activeClass' : '']" @click="menuClick(index)">
-          {{ $t(item) }}
+          <div class="add_fire">
+            {{ $t(item) }}
+            <img :src="`${$store.state.imgUrl}fire.png`" class="bindbox_img" v-if="index == 7"/>
+          </div>
           <div class="nft_hover" v-show="index == 0" :class="[disablehover?'clear_hover':'']">
             <div class="box_nft">
               <div class="span1" @click.stop="nftFun('card')">{{ $t("message.nav.txt7") }} <span class="icon-v-right"></span></div>
@@ -60,7 +63,10 @@
           <ul class="ul_ fontsize16">
             <li :class="[index == menuIndex ? 'mobile_activeClass' : '']" v-for="(item, index) in navarr" :key="index" @click.stop="menuClick(index)">
               <div class="mobile_line">
-                {{ $t(item) }}
+                <div class="add_fire">
+                  {{ $t(item) }}
+                  <img :src="`${$store.state.imgUrl}fire.png`" class="bindbox_img" v-if="index == 7"/>
+                </div>
                 <span
                   class="mobile_triangle"
                   :class="{
@@ -112,6 +118,7 @@ export default {
         "message.nav.txt4",
         "message.nav.txt5",
         "message.nav.txt10",
+        "message.nav.txt11",
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
@@ -219,7 +226,7 @@ export default {
       this.$store.commit("HashMenu", 0);
       sessionStorage.setItem("HashMenu", 0);
       if (data == "card") {
-        this.$router.push("/buy/0/1");
+        this.$router.push("/buy/0/3");
       } else if (data == "mining") {
         this.$router.push("/nftmining");
       }
@@ -268,6 +275,9 @@ export default {
           break;
         case 6:
           this.$router.push("/gameFi-download");
+          break;
+        case 7:
+          this.$router.push("/buy/1/3");
           break;
         default:
           this.$common.selectLang("敬请期待", "Coming soon", this);
@@ -375,7 +385,6 @@ export default {
       li {
         position: relative;
         padding: 0 18px;
-        color: #ffffff;
         cursor: pointer;
         .nft_hover {
           display: none;
@@ -425,6 +434,18 @@ export default {
             }
           }
         }
+        .add_fire{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          .bindbox_img{
+            width: 19px;
+            object-fit: contain;
+            margin-left: 4px;
+            margin-top: -5px;
+          }
+        }
       }
       li:hover {
         .nft_hover {
@@ -432,7 +453,9 @@ export default {
         }
       }
       .activeClass {
-        color: #00e7f0;
+        .add_fire{
+          color: #00e7f0;
+        }
       }
     }
   }
@@ -544,10 +567,10 @@ export default {
 @media screen and (min-width: 981px) and (max-width: 1439px) {
   .nav_box {
     .menu_box {
-      width: calc(100% - 300px);
+      width: calc(100% - 100px);
       .ul_ {
         li {
-          padding: 0 15px;
+          padding: 0 10px;
         }
       }
     }
@@ -716,6 +739,17 @@ export default {
               justify-content: space-between;
               align-items: center;
               margin-bottom: 0.24rem;
+              .add_fire{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .bindbox_img{
+                  width: 0.19rem;
+                  object-fit: contain;
+                  margin-left: 0.05rem;
+                  margin-top: -0.05rem;
+                }
+              }
               &:last-child {
                 .mobile_line {
                   margin-bottom: 0;
@@ -761,7 +795,9 @@ export default {
               }
             }
             .mobile_activeClass {
-              color: #00e7f0;
+              .add_fire{
+                color: #00e7f0;
+              }
             }
           }
           .mobile_lang {
