@@ -77,7 +77,7 @@ export default {
       temArr: [],
       istopshow:false,//鼠标移入移除
       scrollTimeer:null,
-      bannershow:'istrue', // banner展示由此变量控制,默认为'istrue
+      bannershow:'isfalse', // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
