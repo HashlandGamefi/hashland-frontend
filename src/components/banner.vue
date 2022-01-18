@@ -1,5 +1,5 @@
 <template>
-  <div class="banner_page" v-if="bannershow == 'istrue'" @click="closebanner">
+  <div class="banner_page" v-if="bannershow == 'istrue'">
     <div class="banner_box">
       <img :src="`${$store.state.imgUrl}bannerimg.png`" class="bannerimg" @click.stop="ConfirClick"/>
       <img :src="`${$store.state.imgUrl}proupclose.png`" class="closeimg" @click.stop="closebanner"/>
