@@ -14,30 +14,28 @@ export default {
       `${BASE_API}/api/v3/simple/price/?ids=${data}&vs_currencies=usd`
     );
   },
-  /**1、获取邮箱验证码接口 */
+  /**1、获取邮箱验证码 */
   gameMailCode: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/get_mail_code?${data}`);
   },
-  /**2、邮箱注册游戏接口 */
+  /**2、邮箱注册游戏 */
   gameMailRegister: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/mail_register?${data}`);
   },
-  /**3、邮箱登录接口 */
+  /**3、邮箱登录 */
   gameMailLogin: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/mail_login?${data}`);
   },
-  /**4、绑定钱包接口 */
+  /**4、绑定钱包 */
   gameBindWallet: (data: any) => {
     return axios.get(`${GAME_API}/va_cent/bind_wallet?${data}`);
   },
-  /**获取pve章节hc发放详情
-   * http://hw-api-test.hashland.com/va_cent/hc_info?queryType=pve_list&issue=1
-   * */
-  getPVEandPVPinfo(data: any){
+  /**5、赛季信息 */
+  gameIssueInfo(data: any) {
     return axios.get(`${GAME_API}/va_cent/hc_info?${data}`);
   },
-  getDataJson(data:any){
+  getDataJson(data: any) {
     // console.log("${CARD_API}${data}",`${CARD_API}${data}`)
-    return axios.get( `${CARD_API}${data}`);
-  }
+    return axios.get(`${CARD_API}${data}`);
+  },
 };
