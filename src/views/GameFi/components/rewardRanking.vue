@@ -366,6 +366,7 @@ export default {
       poolCurrentSeason: "",
       pveCurrentSeason: "",
       pvpCurrentSeason: "",
+      disablehover: false,
       // 奖励池
       rewardPoolData: [
         { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 0, personalR: 0, loading: false }, // PVE
@@ -461,6 +462,10 @@ export default {
     },
     /**奖池切换赛季 */
     poolSelectSeason(ite) {
+      this.disablehover = true;
+      setTimeout(() => {
+        this.disablehover = false;
+      }, 600);
       let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
       if (!obj) return;
       this.poolCurrentSeason = obj.currentIssue;
@@ -474,19 +479,27 @@ export default {
     },
     /**PVE切换赛季 */
     pveSelectSeason(ite) {
+      this.disablehover = true;
+      setTimeout(() => {
+        this.disablehover = false;
+      }, 600);
       let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
       if (!obj) return;
       this.pveCurrentSeason = obj.currentIssue;
-      this.PVEData = element.pve; // PVE
+      this.PVEData = obj.pve; // PVE
     },
     /**PVP切换赛季 */
     pvpSelectSeason(ite) {
+      this.disablehover = true;
+      setTimeout(() => {
+        this.disablehover = false;
+      }, 600);
       let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
       if (!obj) return;
       this.pvpCurrentSeason = obj.currentIssue;
-      this.PVPData = element.pvp; // PVP
-      this.PVPPersonalData.rank = element.pvpIndividualRank; // PVP个人
-      this.PVPPersonalData.totalHc = element.pvpIndividualRewardHc; // PVP个人
+      this.PVPData = obj.pvp; // PVP
+      this.PVPPersonalData.rank = obj.pvpIndividualRank; // PVP个人
+      this.PVPPersonalData.totalHc = obj.pvpIndividualRewardHc; // PVP个人
     },
     /**查询世界池余额 */
     queryHWWEPoolTotal() {
@@ -1170,7 +1183,7 @@ export default {
       .list {
         li {
           font-size: 12px;
-          padding: 0.05rem;
+          padding: 0.1rem;
         }
       }
     }
