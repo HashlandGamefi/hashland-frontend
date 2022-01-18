@@ -24,7 +24,7 @@
         </div>
         <!-- 移动端的全选按钮 (pc不展示) -->
         <div class="right_content pc_right_content" @click="selectAllClick">
-          <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectStatus" />
+          <img :src="`${$store.state.imgUrl}selected.png`" class="selectimg" v-if="selectALLBtn || selectedArr.length >= selectedCardnum " />
           <img :src="`${$store.state.imgUrl}select.png`" class="selectimg" v-else />
           <span class="select_ttx fontsize16">{{$t("message.synthesis.txt5")}}</span>
         </div>
@@ -587,6 +587,9 @@ export default {
             color: #00E7F0;
           }
         }
+      }
+      .pc_right_content{
+        display: none;
       }
     }
     .right_content{

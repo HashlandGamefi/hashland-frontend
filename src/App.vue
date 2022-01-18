@@ -13,12 +13,12 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
-    <!-- <Banner :timeData="timeData" :starttime="starttime" v-if="false" @closebanner="bannerClick" @besureclcik="besureClick"></Banner> -->
+    <Banner :bannershow="bannershow" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-// import Banner from './components/banner.vue'
+import Banner from './components/banner.vue'
 import Nav from "./components/nav.vue";
 import Footer from "./components/footer.vue";
 import WinningPopup from "./components/winningpopup.vue";
@@ -27,7 +27,7 @@ export default {
     Nav,
     Footer,
     WinningPopup,
-    // Banner
+    Banner
   },
   watch: {
     $route(to, from) {
@@ -77,7 +77,7 @@ export default {
       temArr: [],
       istopshow:false,//鼠标移入移除
       scrollTimeer:null,
-      bannershow:'isfalse', // banner展示由此变量控制,默认为'istrue
+      bannershow:'istrue', // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
@@ -185,13 +185,13 @@ export default {
     // 首页弹窗banner  ---  关闭方法
     bannerClick(){
       this.bannershow = 'isfalse'
-      clearInterval(this.timeer)
+      // clearInterval(this.timeer)
       // 传1代表1小时后过期,传24代表1天后过期
-      this.$common.setCookie('showbanner','isfalse',1)
+      // this.$common.setCookie('showbanner','isfalse',1)
     },
     besureClick(){
       this.bannerClick()
-      this.$router.push(`/buy/1/1`)
+      this.$router.push("/buy/1/3");
     },
     settimeoutFun(){
       clearInterval(this.timeer)

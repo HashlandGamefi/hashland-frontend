@@ -52,7 +52,7 @@ export default {
       if(localStorage.getItem('routerIndex')){
         this.$router.push(`/buy/${index}/${localStorage.getItem('routerIndex')}`)
       }else{
-        this.$router.push(`/buy/${index}/1`)
+        this.$router.push(`/buy/${index}/3`)
       }
     }
   },
