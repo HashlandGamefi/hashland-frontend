@@ -10,7 +10,8 @@
         <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
         <div class="bottom_box">
           <div class="left_price">
-            <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
+            <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" v-if="$route.query.type == 'busd'"/>
+            <img :src="`${$store.state.imgUrl}hc.png`" class="bsc_img" v-if="$route.query.type == 'hc'"/>
             <span class="span1 fontsize16" v-if="$route.query.type == 'busd'">{{item.price}} BUSD</span>
             <span class="span1 fontsize16" v-if="$route.query.type == 'hc'">{{item.price}} HC</span>
           </div>
