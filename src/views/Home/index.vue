@@ -433,7 +433,7 @@ export default {
       this.$common.checkNumber(hn_issued.toString(), (res) => {
         this.nftArr[0].num = res;
       });
-      this.$common.checkNumber((60000 - hn_issued.toNumber()).toString(), (res1) => {
+      this.$common.checkNumber((70000 - hn_issued.toNumber()).toString(), (res1) => {
         this.nftArr[1].num = res1;
       });
 
