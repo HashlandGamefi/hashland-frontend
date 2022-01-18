@@ -264,7 +264,7 @@ export default {
           this.$router.push("/hclp");
           break;
         case 3:
-          this.$router.push("/market");
+          this.$router.push("/market/1");
           break;
         case 4:
           this.$router.push("/dao");
