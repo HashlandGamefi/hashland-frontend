@@ -19,5 +19,5 @@ module.exports = {
     if (production)
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
   },
-  // productionSourceMap: false,
+  productionSourceMap: false,
 };
