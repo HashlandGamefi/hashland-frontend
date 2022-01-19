@@ -105,7 +105,7 @@ export default {
   },
   watch:{
     'getIstrue':{
-      handler: function (newValue, oldValue) {
+      handler: function (newValue) {
         if(newValue){
           this.addyieldFun() // 可提取数量
           this.getSDKInfo() // 个人apr

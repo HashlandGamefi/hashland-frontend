@@ -26,7 +26,7 @@
                 class="fontsize14"
                 v-for="(item, index) in quickInput"
                 :key="index"
-                @click="quickInputHC(item, index)"
+                @click="quickInputHC(item)"
                 :class="{ active: HCValue == item }"
               >
                 {{ item }}{{ $t("message.gameFi.text71") }}
@@ -192,7 +192,7 @@ export default {
       window.location.href = `https://pancakeswap.finance/add/${token().HC}/${token().BUSD}`;
     },
     /**快捷输入 */
-    quickInputHC(item, index) {
+    quickInputHC(item) {
       if (this.buy_isloading) return;
       this.HCValue = item;
       // this.HCValue = this.keep4DecimalPlaces(item);

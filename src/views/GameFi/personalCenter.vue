@@ -33,7 +33,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { hc, hn, token, getSigner } from "hashland-sdk";
+import { getSigner } from "hashland-sdk";
 export default {
   data() {
     return {
@@ -70,21 +70,17 @@ export default {
               this.$common.selectLang(res.data.msg, res.data.msg, this);
             }
           })
-          .catch((err) => {});
+          .catch((err) => {
+            console.log("againAutoLogin", err);
+          });
       }
     },
     /**绑定钱包 */
     bindingThePurse() {
-      if (!localStorage.getItem("hashlandGameFiInfo"))
-        return this.$common.selectLang("请先登录！", "please log in first!", this);
-      if (!this.getAccount || this.getAccount == "no")
-        return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
+      if (!localStorage.getItem("hashlandGameFiInfo")) return this.$common.selectLang("请先登录！", "please log in first!", this);
+      if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect to the wallet!", this);
       if (this.walletAddresses.some((item) => item === this.getAccount))
-        return this.$common.selectLang(
-          "该钱包已绑定，请切换其他钱包！",
-          "This wallet has been bound, please switch to another wallet!",
-          this
-        );
+        return this.$common.selectLang("该钱包已绑定，请切换其他钱包！", "This wallet has been bound, please switch to another wallet!", this);
       if (this.bindingloading) return;
       this.bindingloading = true;
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
@@ -101,9 +97,7 @@ export default {
             return;
           }
           // console.log("前端签名：", signature);
-          const url = `mailAccount=${
-            gameFiInfo.mailAccount
-          }&walletAddress=${this.getAccount.toLowerCase()}&signature=${signature}`;
+          const url = `mailAccount=${gameFiInfo.mailAccount}&walletAddress=${this.getAccount.toLowerCase()}&signature=${signature}`;
           this.$api
             .gameBindWallet(url)
             .then((res) => {
@@ -116,10 +110,12 @@ export default {
               }
             })
             .catch((err) => {
+              console.log("gameBindWallet", err);
               this.bindingloading = false;
             });
         })
         .catch((err) => {
+          console.log("signMessage", err);
           this.bindingloading = false;
         });
     },
@@ -182,14 +178,7 @@ export default {
       padding: 20px 0;
       overflow: hidden;
       border-bottom: 1px solid;
-      border-image: linear-gradient(
-          22deg,
-          rgba(43, 217, 229, 0),
-          rgba(43, 217, 229, 1),
-          rgba(23, 184, 203, 0.17),
-          rgba(19, 177, 198, 0)
-        )
-        1 1;
+      border-image: linear-gradient(22deg, rgba(43, 217, 229, 0), rgba(43, 217, 229, 1), rgba(23, 184, 203, 0.17), rgba(19, 177, 198, 0)) 1 1;
       &:last-child {
         border-bottom: none;
       }

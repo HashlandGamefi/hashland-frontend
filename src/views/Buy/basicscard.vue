@@ -112,8 +112,8 @@ export default {
   },
   watch:{
     'getIstrue':{
-      handler: function (newValue, oldValue) {
-        // console.log('合成卡牌页面是否链接:', newValue,oldValue);
+      handler: function (newValue) {
+        // console.log('合成卡牌页面是否链接:', newValue);
         if(newValue){
           setTimeout(() => {
             this.connectGetInfo()

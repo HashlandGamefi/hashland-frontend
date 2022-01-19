@@ -460,9 +460,6 @@ export default {
         return a.ultra > b.ultra? -1:1
       })
     },
-    back(){
-      this.$router.go(-1)
-    },
     getConnectInfo(){
       hnMarketV2().feeRatio().then(res => {
         console.log('HC----获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)

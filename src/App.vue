@@ -30,7 +30,7 @@ export default {
     Banner
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       window.scrollTo(0, 0);
       this.istopshow = false
       if (to.path == "/synthesis" || to.path == "/transfer") {

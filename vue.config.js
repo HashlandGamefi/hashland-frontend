@@ -1,7 +1,7 @@
 const production = process.env.NODE_ENV === "production";
 
 module.exports = {
-  lintOnSave: false,
+  lintOnSave: true,
   chainWebpack: (config) => {
     config.plugins.delete("prefetch"),
       config.module

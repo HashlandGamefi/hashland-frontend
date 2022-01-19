@@ -154,13 +154,13 @@ export default {
   computed: {
     ...mapGetters(["getIstrue", "getAccount", "getCoinPrice"]),
   },
-  watch: {
-    getIstrue: {
-      handler: function (newValue, oldValue) {},
-      deep: true,
-      immediate: true,
-    },
-  },
+  // watch: {
+  //   getIstrue: {
+  //     handler: function (newValue, oldValue) {},
+  //     deep: true,
+  //     immediate: true,
+  //   },
+  // },
   methods: {
     btcClick() {
       window.location.href = "https://bscscan.com/address/0x5461348662229e316fCa1880890946338100731B";

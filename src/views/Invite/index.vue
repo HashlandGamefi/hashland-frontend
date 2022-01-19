@@ -299,7 +299,7 @@ export default {
         this.add_rewards = this.$common.useBigNumberDiv(res.toString())
       })
       // 可提取奖励
-      invitePool().getTokenRewards(this.getAccount).then(res => {;
+      invitePool().getTokenRewards(this.getAccount).then(res => {
         if ((res.toString() / 1e18) < 1e-8) {
           this.rewards = 0
         }else{
