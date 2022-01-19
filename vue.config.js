@@ -2,7 +2,7 @@ const production = process.env.NODE_ENV === "production";
 
 module.exports = {
   productionSourceMap: production ? false : true, // 生产环境去掉后缀为.map的文件
-  lintOnSave: true,
+  lintOnSave: false,
   chainWebpack: (config) => {
     config.plugins.delete("prefetch"),
       config.module
