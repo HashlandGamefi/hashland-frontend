@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import i18n from "../i18n/index";
-import { hn, getSigner, hc, getHnImg } from "hashland-sdk";
+import { hn,hnPool,hnMarket, getSigner, hc, getHnImg } from "hashland-sdk";
 import store from "@/store";
 import api from '@/api/api'
 export default {
@@ -484,5 +484,60 @@ export default {
       })
     })
 
-  }
+  },
+  // 获取用户在质押中的卡牌信息
+  getUserPledgeInfo(account = ''){
+    return new Promise((resolve) => {
+      hnPool().getUserHnIdsBySize(account,0,1000).then(res => {
+        if(res[0].length == 0){
+          resolve({'istrue':true,'arr':[]})
+          return
+        }
+        let count = 1
+        let arr:any = []
+        res[0].map(async (item) => {
+          let obj = {
+            src: "",
+            cardID: "",
+            level: "",
+            issell:false, // 是否在售卖
+            status:false,
+            type:'',
+            series:'',//获取某HN的系列
+            ultra:false
+          };
+          obj.series = (await hn().series(item)).toString() // 系列
+          obj.cardID = item.toString(); // 卡牌的id
+          obj.level = (await hn().level(item.toString())).toString(); // 等级
+          let race = await hn().getHashrates(item) // 算力数组
+          // @ts-ignore
+          obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+          obj.type = (
+            await hn().getRandomNumber(item, "class", 1, 4)
+          ).toString();
+          if(obj.series == '1'){
+            // @ts-ignore
+            obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra)
+          }else if(obj.series == '2'){
+            // @ts-ignore
+            obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra,true)
+          }
+          // obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
+          obj.issell = await hnMarket().getSellerHnIdExistence(account,obj.cardID,)
+          arr.push(obj)
+          if (count == res[0].length) {
+            // @ts-ignore
+            arr.sort((a, b) => {
+              if(a.ultra == b.ultra == true){
+                return a.level > b.level?1 :-1
+              }
+              return a.ultra > b.ultra?-1 :1
+            })
+            resolve({'istrue':true,'arr':arr})
+          }
+          count++;
+        })
+      })
+    })
+  },
 };

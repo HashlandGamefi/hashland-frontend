@@ -46,20 +46,26 @@ export default {
       //   }
       // },500)
     },
-    // 'bannershow':{
-    //   handler: function (newValue) {
-    //     if(newValue == 'istrue'){
-    //       document.body.style.overflow = 'hidden';
-    //     }else{
-    //       document.body.style.overflow = '';
-    //     }
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // }
+    'getIstrue':{
+      handler: function (newValue) {
+        if(newValue){
+          this.$common.getUserPledgeInfo(this.getAccount).then(res => {
+            if(res.istrue){
+              localStorage.setItem('pledgeArr',JSON.stringify(res.arr))
+            }else{
+              localStorage.setItem('pledgeArr',JSON.stringify([]))
+            }
+          }).catch(() => {
+            localStorage.setItem('pledgeArr',JSON.stringify([]))
+          })
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   computed: {
-    ...mapGetters(["getrewardsInfo", "getAccount"]),
+    ...mapGetters(["getrewardsInfo", "getAccount","getIstrue","getIsMobile"]),
   },
   provide() {
     //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
@@ -211,7 +217,6 @@ export default {
     },
     async DisplayCardAnimationMethods(){
       let arr = []
-
         for (let type = 1; type < 5; type++) {
           for (let lv = 1; lv < 6; lv++) {
             let res = await this.$common.getDatCardJson(type,lv)
@@ -224,25 +229,15 @@ export default {
             arr.push(obj)
           }
         }
-      console.log("获取到的动画json:",arr)
       localStorage.setItem('Animation',JSON.stringify(arr))
-    }
+    },
+
   },
   created() {
     this.DisplayCardAnimationMethods()
-    this.getCurrenciesPrices();
-    // setTimeout(() => {
-    //   if(this.$route.name == "Buy"){
-    //     this.bannershow = 'isfalse'
-    //   }else{
-    //     this.bannershow = this.$common.getCookie('showbanner') || 'istrue'
-    //   }
-    // },500)
+    this.getCurrenciesPrices()
   },
   mounted() {
-    // if(Date.parse(new Date()) / 1000 >= this.starttime){
-    //   this.bannershow = 'isfalse'
-    // }
     window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);

@@ -1,6 +1,6 @@
 {
   "name": "HashLand",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
@@ -15,7 +15,7 @@
     "bignumber.js": "^9.0.1",
     "core-js": "^3.6.5",
     "echarts": "^5.2.2",
-    "hashland-sdk": "^1.1.41",
+    "hashland-sdk": "^1.1.42",
     "lottie-web": "^5.8.1",
     "react": "^17.0.2",
     "vue": "^2.6.11",
