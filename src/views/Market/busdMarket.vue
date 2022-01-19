@@ -95,7 +95,10 @@
     <!-- 页面展示卡牌盒子 -->
     <div class="show_gameArr" ref="showBoxRef">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item, index) in pageshowarr" :key="index">
-        <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" />
+        <div class="imgbox">
+          <img :src="item.loading ? item.src : `${$store.state.imgUrl}defaultcard.png`" class="img" :class="{serise2Img:item.series == 1}"/>
+          <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.hnClass})[0].dataJson" :width="getIsMobile?256:''" v-if="item.ultra && item.loading"></Lottie>
+        </div>
         <div class="bottom_box">
           <div class="left_price">
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" />
@@ -132,6 +135,7 @@ import { hnMarketInfo, hnMarket, getHnImg, erc20, token, contract, getSigner, ut
 export default {
   data() {
     return {
+      anmationArr:[],//动画数组的json
       disablehover: false,
       occupationTxt: "message.market.txt9", //职业排序
       occupationArr: [
@@ -190,7 +194,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getIstrue", "getAccount", "getCoinPrice"]),
+    ...mapGetters(["getIstrue", "getAccount", "getCoinPrice","getIsMobile"]),
     orderArr() {
       if (this.rank == 1) {
         return [
@@ -410,8 +414,9 @@ export default {
       this.sortObj.skip = 0;
       this.encapsulationFun();
     },
-    // 筛选全部卡牌类型
+    // 筛选是否u卡
     ultraFun(ele) {
+      console.log('筛选全部卡牌类型ele: ', ele);
       this.disablehover = true;
       setTimeout(() => {
         this.disablehover = false;
@@ -551,7 +556,7 @@ export default {
             .then((data) => {
               // console.log('手续费金额data: ', data);
               let fee = this.$common.convertBigNumberToNormal(data.toString(), 2);
-              this.infoArr[1].num = Number(amount) + Number(fee);
+              this.infoArr[1].num = this.$common.getBit(Number(amount) + Number(fee));
               this.infoArr[1].loading = false;
             });
         })
@@ -634,7 +639,7 @@ export default {
     },
     // 合约数据库信息
     getDatabaseaFun(sortObj) {
-      // console.log("sortObj.series-sortObj.ultra", sortObj.series, sortObj.ultra);
+      console.log("sortObj.series-sortObj.ultra", sortObj.series, sortObj.ultra);
       //first?: number,  //查询结果数量，比如填10，就展示前10个结果
       //skip?: number,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
       //orderBy?: string,  // 排序字段，填字段名，所有字段见下文查询结果
@@ -665,7 +670,7 @@ export default {
               arr.forEach((element) => {
                 element.loading = false; // 图片加载的loading
                 element.isstatus = false; // 授权以及其他按钮操作的loading
-                element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate],element.ultra);
+                element.src = getHnImg(element.hnId, element.level, [element.hcHashrate, element.btcHashrate],element.ultra,element.series == 1?'':true);
                 element.price = this.$common.convertBigNumberToNormal(element.price.toString(), 2);
               });
               resolve({ status: 0, arr: arr, msg: "Success" });
@@ -680,6 +685,12 @@ export default {
     }
   },
   mounted() {
+    let timerObject = setInterval(() => {
+      if(localStorage.getItem('Animation')){
+        this.anmationArr = JSON.parse(localStorage.getItem('Animation'))
+        clearInterval(timerObject)
+      }
+    },1000)
     this.getSDKInfo()
     this.$nextTick(() => {
       this.listenerBoxScroll()
@@ -888,10 +899,19 @@ export default {
       align-items: center;
       margin-right: 40px;
       margin-bottom: 30px;
-      .img {
-        width: 100%;
-        object-fit: contain;
-        min-height: 280px;
+      min-height: 250px;
+      .imgbox{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .img {
+          width: 100%;
+          object-fit: contain;
+        }
+        .serise2Img{
+          width: 213px;
+        }
       }
       .bottom_box {
         width: 90%;
@@ -1145,23 +1165,32 @@ export default {
       }
     }
     .show_gameArr {
-      margin-top: 40px;
+      margin-top: 0.3rem;
       width: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       overflow-y: scroll;
-      max-height: 720px;
+      max-height: 7rem;
       .onebox {
         width: 1.6rem;
         display: flex;
         flex-direction: column;
         margin-right: 0;
         margin-bottom: 0.2rem;
-        .img {
-          width: 100%;
-          min-height: 1rem;
-          object-fit: contain;
+        min-height: 1.5rem;
+        .imgbox{
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .img {
+            width: 100%;
+            object-fit: contain;
+          }
+          .serise2Img{
+            width: 80%;
+          }
         }
         .bottom_box {
           width: 100%;

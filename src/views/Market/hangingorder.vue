@@ -57,7 +57,7 @@
     <!-- 页面展示数组 -->
     <div class="cardarr_class">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
-        <img :src="item.src" class="card_picture" />
+        <img :src="item.src" class="card_picture" :class="{serise2Img:item.series == 1}" />
         <span class="pending fontsize14" v-if="item.issell">Pending</span>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-else-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
@@ -178,7 +178,12 @@ export default {
           this.resetData()
           this.getConnectInfo()
           this.getUserAllCard()
-          this.getUserPledgeInfo()
+          let pledgeTimer = setInterval(() => {
+            if(localStorage.getItem('pledgeArr')){
+              this.cardslotArr = JSON.parse(localStorage.getItem('pledgeArr'))
+              clearInterval(pledgeTimer)
+            }
+          },1000)
           clearInterval(this.time_arrNull)
           this.time_arrNull = setInterval(() => {
             if(this.pageshowarr.length > 0){
@@ -292,22 +297,7 @@ export default {
       if(index == 0){
         this.pageshowarr = this.waletArr//钱包数据
       }else{
-        this.pageshowLoading = true
-        this.pageshowarr = []
-        this.getUserPledgeInfo().then(res => {
-          console.log('重新获取用户卡槽中的卡res: ', res);
-          if(res.istrue){
-            this.pageshowarr = this.cardslotArr
-            this.pageshowLoading = false
-          }else{
-            this.isdanger = false
-            this.pageshowarr = []
-            this.pageshowLoading = false
-          }
-        }).catch(() => {
-          this.pageshowarr = []
-          this.pageshowLoading = false
-        })
+        this.pageshowarr = this.cardslotArr
       }
     },
     sonapprove(){
@@ -414,8 +404,8 @@ export default {
                 this.isdanger = false
               })
             }else{
-              this.getUserPledgeInfo().then(res => {
-                console.log('重新获取用户卡槽中的卡res: ', res);
+              this.$common.getUserPledgeInfo(this.getAccount).then(res => {
+                console.log('出售成功重新获取用户卡槽中的卡res: ', res);
                 if(res.istrue){
                   this.$common.selectLang('出售成功','Success',this)
                   this.isdanger = false
@@ -539,42 +529,6 @@ export default {
     },
     back(){
       this.$router.go(-1)
-    },
-    // 获取用户在质押中的卡牌信息
-    getUserPledgeInfo(){
-      return new Promise((resolve) => {
-        hnPool().getUserHnIdsBySize(this.getAccount,0,1000).then(res => {
-          console.log('获取用户在质押中的卡牌信息res: ', res);
-          if(res[0].length == 0){
-            this.cardslotArr = []
-            resolve({'istrue':true,'arr':[]})
-            return
-          }
-          let count = 1
-          let arr = []
-          res[0].map(async (item) => {
-            let obj = {
-              src: "",
-              cardID: "",
-              level: "",
-              issell:false, // 是否在售卖
-              status:false
-            };
-            obj.cardID = item.toString(); // 卡牌的id
-            obj.level = (await hn().level(item.toString())).toString(); // 等级
-            let race = await hn().getHashrates(item) // 算力数组
-            obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
-            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
-            obj.issell = await hnMarket().getSellerHnIdExistence(this.getAccount,obj.cardID,)
-            arr.push(obj)
-            if (count == res[0].length) {
-              this.cardslotArr = arr
-              resolve({'istrue':true,'arr':arr})
-            }
-            count++;
-          })
-        })
-      })
     },
     getConnectInfo(){
       hnMarket().feeRatio().then(res => {
@@ -759,6 +713,10 @@ export default {
         width: 100%;
         object-fit: contain;
       }
+      .serise2Img{
+        width: 213px;
+        object-fit: contain;
+      }
       .select_img{
         position: absolute;
         top: 0;
@@ -769,10 +727,10 @@ export default {
       .pending{
         position: absolute;
         bottom: 10px;
-        right: 18px;
+        right: 38px;
         padding: 10px;
         color: #ffffff;
-        border-radius: 20px;
+        border-radius: 7px;
         background: rgba(0,0,0,0.5);
       }
     }
@@ -1133,6 +1091,10 @@ export default {
           width: 100%;
           object-fit: contain;
         }
+        .serise2Img{
+          width: 1.4rem;
+          object-fit: contain;
+        }
         .select_img{
           position: absolute;
           top: 0;
@@ -1142,11 +1104,11 @@ export default {
         }
         .pending{
           position: absolute;
-          bottom: 0.08rem;
-          right: 0.1rem;
-          padding: 0.05rem;
+          bottom: 0.06rem;
+          right: 0.2rem;
+          padding: 0.02rem 0.06rem;
           color: #ffffff;
-          border-radius: 0.2rem;
+          border-radius: 0.08rem;
           background: rgba(0,0,0,0.5);
         }
       }

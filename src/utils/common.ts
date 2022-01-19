@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import i18n from "../i18n/index";
-import { hn, getSigner, hc, getHnImg } from "hashland-sdk";
+import { hn,hnPool,hnMarket, getSigner, hc, getHnImg } from "hashland-sdk";
 import store from "@/store";
-import api from "@/api/api";
+import api from '@/api/api'
 export default {
   // 设置cookie过期时间
   setCookie(key: string, value: any, time: any) {
@@ -116,7 +116,7 @@ export default {
     }
     return old;
   },
-  // 去除e
+  // 去除e
   editE(num: any) {
     if (!num) return num;
     num = num.toString();
@@ -326,19 +326,19 @@ export default {
     }
   },
   // 函数节流
-  // flowFun(fn: any, that: any) {
-  //   let canRun = true; // 通过闭包保存一个标记
-  //   return function () {
-  //     if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
-  //     canRun = false; // 立即设置为false
-  //     setTimeout(() => {
-  //       // 将外部传入的函数的执行放在setTimeout中
-  //       fn.apply(that, arguments);//   336:24  error    Use the rest parameters instead of 'arguments'  prefer-rest-params
-  //       // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
-  //       canRun = true;
-  //     }, 500);
-  //   };
-  // },
+  flowFun(fn: any, that: any) {
+    let canRun = true; // 通过闭包保存一个标记
+    return function () {
+      if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
+      canRun = false; // 立即设置为false
+      setTimeout(() => {
+        // 将外部传入的函数的执行放在setTimeout中
+        fn.apply(that, arguments);
+        // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
+        canRun = true;
+      }, 500);
+    };
+  },
   // 字符串前边按规定字符补齐规定位数 complementString('123',8,'0')------result:00000123
   complementString(str: string, nums: number, rule: string) {
     return str.padStart(nums, rule);
@@ -353,7 +353,7 @@ export default {
       let count = 1;
       hn()
         .tokensOfOwnerBySize(account, 0, 100000000)
-        .then(async (res: any) => {
+        .then(async (res:any) => {
           //0代表第一次拿数据  100000000代表用户所拥有的全部卡的id
           if (res[0].length == 0) {
             store.commit("setCardInfo", JSON.stringify([]));
@@ -372,45 +372,35 @@ export default {
               src: "",
               status: false, // 选中与未选中
               ismaster: false, //主牌设置
-              series: "", //获取某HN的系列
-              ultra: false, // 是否是特殊卡
-            };
-            obj.series = (await hn().series(item)).toString(); // 系列
+              series:'',//获取某HN的系列
+              ultra:false // 是否是特殊卡
+            }
+            obj.series = (await hn().series(item)).toString() // 系列
             obj.cardID = item.toString(); // 卡牌的id
-            obj.level = (await hn().level(item)).toString(); // 等级
+            obj.level = (await hn().level(item)).toString() // 等级
             obj.type = (
               await hn().getRandomNumber(item, "class", 1, 4)
             ).toString();
-            obj.ultra =
-              (await hn().data(item, "ultra")).toNumber() >= 1 ? true : false;
+            obj.ultra = (await hn().data(item, 'ultra')).toNumber() >= 1?true:false
             // console.log('obj.ultra: ', obj.ultra);
-            let race: any = await hn().getHashrates(item); // 算力数组
-            if (obj.series == "1") {
-              obj.src = getHnImg(
-                Number(obj.cardID),
-                obj.level,
-                race,
-                obj.ultra
-              );
-            } else if (obj.series == "2") {
-              obj.src = getHnImg(
-                Number(obj.cardID),
-                obj.level,
-                race,
-                obj.ultra,
-                true
-              );
+            let race = await hn().getHashrates(item) // 算力数组
+            if(obj.series == '1'){
+              // @ts-ignore
+              obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra)
+            }else if(obj.series == '2'){
+              // @ts-ignore
+              obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra,true)
             }
-            infoArr.push(obj);
+            infoArr.push(obj)
             if (count == res[0].length) {
-              store.commit("setCardInfo", JSON.stringify(infoArr));
-              sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr));
-              resolve(count);
+              store.commit("setCardInfo", JSON.stringify(infoArr))
+              sessionStorage.setItem("setCardInfo", JSON.stringify(infoArr))
+              resolve(count)
             }
-            count++;
-          });
-        });
-    });
+            count++
+          })
+        })
+    })
   },
   // 一个数乘以1e18   eg:convertNormalToBigNumber('input num',18)
   convertNormalToBigNumber(num: any, decimals = 18, fix = 0) {
@@ -422,16 +412,14 @@ export default {
   /**
    * 一个数除以1e18,默认保留8位小数
    */
-  convertBigNumberToNormal(bigNumber: any, bit = 8, decimals = 18) {
-    let result = new BigNumber(bigNumber).dividedBy(
-      new BigNumber(Math.pow(10, decimals))
-    );
-    return this.getBit(result, bit);
+  convertBigNumberToNormal(bigNumber:any, bit = 8,decimals = 18) {
+    let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(Math.pow(10, decimals))));
+    return this.getBit(result,bit)
   },
-  divBigNumber(bigNumber: any, decimals: any, bit = 8) {
+  divBigNumber(bigNumber:any, decimals:any,bit = 8){
     // console.log('bigNumber: ', bigNumber,decimals,bit);
-    let result = new BigNumber(bigNumber).dividedBy(new BigNumber(decimals));
-    return this.getBit(result, bit);
+    let result = (new BigNumber(bigNumber).dividedBy(new BigNumber(decimals)));
+    return this.getBit(result,bit)
   },
   // sdkZutZeroFun(str:any) {
   //   if (!Boolean(str)) return '0';
@@ -481,22 +469,75 @@ export default {
     }
   },
   // 获取cdn上动图的json
-  getDatCardJson(type: number, level: number) {
+  getDatCardJson(type:number,level:number){
     const CARD_API = process.env.VUE_APP_NEWCARD;
     // const arguments_card = '?image_process=resize,w_512/crop,mid,w_410,h_512'
-    return new Promise((resolve, reject) => {
-      api
-        .getDataJson(`type${type}/${level}/data.json`)
-        .then((res) => {
-          res.data.assets.forEach((element: any) => {
-            element.u = "";
-            element.p = `${CARD_API}type${type}/${level}/images/` + element.p;
-          });
-          resolve({ status: true, data: res.data });
-        })
-        .catch((err) => {
-          reject({ status: false, data: {} });
+    return new Promise((resolve,reject) => {
+      api.getDataJson(`type${type}/${level}/data.json`).then(res => {
+        res.data.assets.forEach((element:any) => {
+          element.u = ''
+          element.p = `${CARD_API}type${type}/${level}/images/` + element.p
         });
-    });
+        resolve({"status":true,'data':res.data})
+      }).catch(err => {
+        reject({"status":false,'data':{}})
+      })
+    })
+
+  },
+  // 获取用户在质押中的卡牌信息
+  getUserPledgeInfo(account = ''){
+    return new Promise((resolve) => {
+      hnPool().getUserHnIdsBySize(account,0,1000).then(res => {
+        if(res[0].length == 0){
+          resolve({'istrue':true,'arr':[]})
+          return
+        }
+        let count = 1
+        let arr:any = []
+        res[0].map(async (item:any) => {
+          let obj = {
+            src: "",
+            cardID: "",
+            level: "",
+            issell:false, // 是否在售卖
+            status:false,
+            type:'',
+            series:'',//获取某HN的系列
+            ultra:false
+          };
+          obj.series = (await hn().series(item)).toString() // 系列
+          obj.cardID = item.toString(); // 卡牌的id
+          obj.level = (await hn().level(item.toString())).toString(); // 等级
+          let race = await hn().getHashrates(item) // 算力数组
+          // @ts-ignore
+          obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
+          obj.type = (
+            await hn().getRandomNumber(item, "class", 1, 4)
+          ).toString();
+          if(obj.series == '1'){
+            // @ts-ignore
+            obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra)
+          }else if(obj.series == '2'){
+            // @ts-ignore
+            obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra,true)
+          }
+          // obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
+          obj.issell = await hnMarket().getSellerHnIdExistence(account,obj.cardID,)
+          arr.push(obj)
+          if (count == res[0].length) {
+            // @ts-ignore
+            arr.sort((a, b) => {
+              if(a.ultra == b.ultra == true){
+                return a.level > b.level?1 :-1
+              }
+              return a.ultra > b.ultra?-1 :1
+            })
+            resolve({'istrue':true,'arr':arr})
+          }
+          count++;
+        })
+      })
+    })
   },
 };
