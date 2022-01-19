@@ -1,5 +1,5 @@
 <template>
-  <div class="page" ref="ranking_page">
+  <div class="page" ref="ranking_page" @touchstart="showPoolSelect = showPveSelect = showPvpSelect = false">
     <!-- Reward Vault -->
     <div class="ranking_box ranking_box_box1 pc">
       <div class="ranking_title">
@@ -10,16 +10,18 @@
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
-              <div class="row select_list">
+              <div class="row select_list" @mouseover="showPoolSelect = true" @mouseleave="showPoolSelect = false">
                 <div>
                   <span>{{ $t("message.gameFi.text91") }} {{ poolCurrentSeason }}</span>
                   <template v-if="issueList.length > 1">
-                    <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                    <ul class="list">
-                      <li v-for="(item, index) in issueList" :key="index" @click="poolSelectSeason(item)">
-                        {{ $t("message.gameFi.text91") }} {{ item.issue }}
-                      </li>
-                    </ul>
+                    <img class="accrow" :class="{ active: showPoolSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
+                    <transition name="select-scaleY" appear>
+                      <ul class="list" v-show="showPoolSelect">
+                        <li v-for="(item, index) in issueList" :key="index" @click="poolSelectSeason(item)">
+                          {{ $t("message.gameFi.text91") }} {{ item.issue }}
+                        </li>
+                      </ul>
+                    </transition>
                   </template>
                 </div>
               </div>
@@ -68,16 +70,18 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row select_list">
+            <div class="row select_list" @touchstart.stop="showPoolSelect = true">
               <div>
                 <span>{{ $t("message.gameFi.text91") }} {{ poolCurrentSeason }}</span>
                 <template v-if="issueList.length > 1">
-                  <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                  <ul class="list">
-                    <li v-for="(item, index) in issueList" :key="index" @click="poolSelectSeason(item)">
-                      {{ $t("message.gameFi.text91") }} {{ item.issue }}
-                    </li>
-                  </ul>
+                  <img class="accrow" :class="{ active: showPoolSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
+                  <transition name="select-scaleY" appear>
+                    <ul class="list" v-show="showPoolSelect">
+                      <li v-for="(item, index) in issueList" :key="index" @click="poolSelectSeason(item)">
+                        {{ $t("message.gameFi.text91") }} {{ item.issue }}
+                      </li>
+                    </ul>
+                  </transition>
                 </template>
               </div>
             </div>
@@ -125,39 +129,39 @@
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
-              <div class="row">
-                <div class="select_list">
-                  <div>
-                    <span>{{ $t("message.gameFi.text91") }} {{ pveCurrentSeason }}</span>
-                    <template v-if="issueList.length > 1">
-                      <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                      <ul class="list">
+              <div class="select_list" @mouseover="showPveSelect = true" @mouseleave="showPveSelect = false">
+                <div>
+                  <span>{{ $t("message.gameFi.text91") }} {{ pveCurrentSeason }}</span>
+                  <template v-if="issueList.length > 1">
+                    <img class="accrow" :class="{ active: showPveSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
+                    <transition name="select-scaleY" appear>
+                      <ul class="list" v-show="showPveSelect">
                         <li v-for="(item, index) in issueList" :key="index" @click="pveSelectSeason(item)">
                           {{ $t("message.gameFi.text91") }} {{ item.issue }}
                         </li>
                       </ul>
-                    </template>
-                  </div>
+                    </transition>
+                  </template>
                 </div>
+              </div>
+              <div>
                 <div>
-                  <div>
-                    <span>{{ $t("message.gameFi.text99") }}</span>
-                  </div>
+                  <span>{{ $t("message.gameFi.text99") }}</span>
                 </div>
+              </div>
+              <div>
                 <div>
-                  <div>
-                    <span>{{ $t("message.gameFi.text100") }}</span>
-                  </div>
+                  <span>{{ $t("message.gameFi.text100") }}</span>
                 </div>
+              </div>
+              <div>
                 <div>
-                  <div>
-                    <span>{{ $t("message.gameFi.text94") }}</span>
-                  </div>
+                  <span>{{ $t("message.gameFi.text94") }}</span>
                 </div>
+              </div>
+              <div>
                 <div>
-                  <div>
-                    <span>{{ $t("message.gameFi.text95") }}</span>
-                  </div>
+                  <span>{{ $t("message.gameFi.text95") }}</span>
                 </div>
               </div>
             </div>
@@ -202,16 +206,18 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row select_list">
+            <div class="row select_list" @touchstart.stop="showPveSelect = true">
               <div>
                 <span>{{ $t("message.gameFi.text91") }} {{ pveCurrentSeason }}</span>
                 <template v-if="issueList.length > 1">
-                  <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                  <ul class="list">
-                    <li v-for="(item, index) in issueList" :key="index" @click="pveSelectSeason(item)">
-                      {{ $t("message.gameFi.text91") }} {{ item.issue }}
-                    </li>
-                  </ul>
+                  <img class="accrow" :class="{ active: showPveSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
+                  <transition name="select-scaleY" appear>
+                    <ul class="list" v-show="showPveSelect">
+                      <li v-for="(item, index) in issueList" :key="index" @click="pveSelectSeason(item)">
+                        {{ $t("message.gameFi.text91") }} {{ item.issue }}
+                      </li>
+                    </ul>
+                  </transition>
                 </template>
               </div>
             </div>
@@ -250,16 +256,18 @@
         <div class="in_box">
           <div class="ranking_content">
             <div class="col1">
-              <div class="select_list">
+              <div class="select_list" @mouseover="showPvpSelect = true" @mouseleave="showPvpSelect = false">
                 <div>
                   <span>{{ $t("message.gameFi.text91") }} {{ pvpCurrentSeason }}</span>
                   <template v-if="issueList.length > 1">
-                    <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                    <ul class="list">
-                      <li v-for="(item, index) in issueList" :key="index" @click="pvpSelectSeason(item)">
-                        {{ $t("message.gameFi.text91") }} {{ item.issue }}
-                      </li>
-                    </ul>
+                    <img class="accrow" :class="{ active: showPvpSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
+                    <transition name="select-scaleY" appear>
+                      <ul class="list" v-show="showPvpSelect">
+                        <li v-for="(item, index) in issueList" :key="index" @click="pvpSelectSeason(item)">
+                          {{ $t("message.gameFi.text91") }} {{ item.issue }}
+                        </li>
+                      </ul>
+                    </transition>
                   </template>
                 </div>
               </div>
@@ -313,16 +321,18 @@
       <div class="outside_box">
         <div class="in_box">
           <div class="ranking_content">
-            <div class="row select_list">
+            <div class="row select_list" @touchstart.stop="showPvpSelect = true">
               <div>
                 <span>{{ $t("message.gameFi.text91") }} {{ pvpCurrentSeason }}</span>
                 <template v-if="issueList.length > 1">
-                  <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
-                  <ul class="list">
-                    <li v-for="item in issueList" :key="item.issue" @click="pvpSelectSeason(item)">
-                      {{ $t("message.gameFi.text91") }} {{ item.issue }}
-                    </li>
-                  </ul>
+                  <img class="accrow" :class="{ active: showPvpSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
+                  <transition name="select-scaleY" appear>
+                    <ul class="list" v-show="showPvpSelect">
+                      <li v-for="item in issueList" :key="item.issue" @click="pvpSelectSeason(item)">
+                        {{ $t("message.gameFi.text91") }} {{ item.issue }}
+                      </li>
+                    </ul>
+                  </transition>
                 </template>
               </div>
             </div>
@@ -366,7 +376,9 @@ export default {
       poolCurrentSeason: "",
       pveCurrentSeason: "",
       pvpCurrentSeason: "",
-      disablehover: false,
+      showPoolSelect: false,
+      showPveSelect: false,
+      showPvpSelect: false,
       // 奖励池
       rewardPoolData: [
         { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 0, personalR: 0, loading: false }, // PVE
@@ -462,12 +474,9 @@ export default {
     },
     /**奖池切换赛季 */
     poolSelectSeason(ite) {
-      this.disablehover = true;
-      setTimeout(() => {
-        this.disablehover = false;
-      }, 600);
       let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
       if (!obj) return;
+      this.showPoolSelect = false;
       this.poolCurrentSeason = obj.currentIssue;
       this.rewardPoolData.forEach((item) => {
         if (item.pool == 1) {
@@ -479,23 +488,17 @@ export default {
     },
     /**PVE切换赛季 */
     pveSelectSeason(ite) {
-      this.disablehover = true;
-      setTimeout(() => {
-        this.disablehover = false;
-      }, 600);
       let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
       if (!obj) return;
+      this.showPveSelect = false;
       this.pveCurrentSeason = obj.currentIssue;
       this.PVEData = obj.pve; // PVE
     },
     /**PVP切换赛季 */
     pvpSelectSeason(ite) {
-      this.disablehover = true;
-      setTimeout(() => {
-        this.disablehover = false;
-      }, 600);
       let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
       if (!obj) return;
+      this.showPvpSelect = false;
       this.pvpCurrentSeason = obj.currentIssue;
       this.PVPData = obj.pvp; // PVP
       this.PVPPersonalData.rank = obj.pvpIndividualRank; // PVP个人
@@ -668,6 +671,7 @@ export default {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .pc {
   display: block;
 }
@@ -790,20 +794,18 @@ export default {
       margin-right: 5px;
       font-size: 16px;
       font-weight: bold;
-      .row {
+      > div {
+        width: 100%;
+        height: 50px;
+        padding: 5px;
         > div {
           width: 100%;
-          height: 50px;
-          padding: 5px;
-          > div {
-            width: 100%;
-            height: 100%;
-            background: #3d4f64;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
+          height: 100%;
+          background: #3d4f64;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
     }
@@ -933,6 +935,9 @@ export default {
       height: auto;
       transform: rotate(-90deg);
       transition: all 0.3s;
+      &.active {
+        transform: rotate(0);
+      }
     }
     .list {
       width: 100%;
@@ -944,27 +949,34 @@ export default {
       position: absolute;
       top: 100%;
       left: 0;
-      transform: scaleY(0);
+      // transform: scaleY(0);
       transition: transform 0.2s;
       transform-origin: top center;
       li {
         font-size: 16px;
-        padding: 5px;
+        padding: 10px;
         &:hover {
-          // background: #00e7f0;
           color: #00e7f0;
         }
       }
     }
   }
-  &:hover {
-    .accrow {
-      transform: rotate(0);
-    }
-    .list {
-      transform: scaleY(1);
-    }
-  }
+  // &:hover {
+  //   .accrow {
+  //     transform: rotate(0);
+  //   }
+  //   .list {
+  //     transform: scaleY(1);
+  //   }
+  // }
+}
+.select-scaleY-enter,
+.select-scaleY-leave-to {
+  transform: scaleY(0);
+}
+.select-scaleY-enter-to,
+.select-scaleY-leave {
+  transform: scaleY(1);
 }
 @media screen and (max-width: 980px) {
   // 重置滚动条样式
