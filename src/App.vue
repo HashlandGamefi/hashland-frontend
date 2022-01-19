@@ -238,6 +238,9 @@ export default {
     this.getCurrenciesPrices()
   },
   mounted() {
+    if(process.env.NODE_ENV != 'production'){
+      this.bannershow = 'false'
+    }
     window.addEventListener('mousewheel', this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);

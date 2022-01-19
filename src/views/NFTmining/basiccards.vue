@@ -95,6 +95,7 @@
               <img
                 :src="item.src"
                 class="swiper_img"
+                :class="{serise2Img:item.series == 1}"
                 v-if="item.btnstatus !== 3"
               />
               <Lottie :left="getIsMobile?'48%':'50%'" :transform="true" :top="getIsMobile?'6%':'-3%'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?210:''" v-if="item.ultra"></Lottie>
@@ -678,14 +679,17 @@ export default {
               btc: "",
               btnstatus: 2, //设置一个状态供需要的地方使用
               isloading: false, //按钮的loading
-              type:''
+              type:'',
+              series:''
             };
             obj.cardID = item.toString(); // 卡牌的id
             obj.level = (await hn().level(item.toString())).toString(); // 等级
             let race = await hn().getHashrates(item) // 算力数组
             obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
-            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra)
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString();
+            obj.series = (await hn().series(item)).toString() // 系列
+            obj.src = getHnImg(Number(item),Number(obj.level),race,obj.ultra,obj.series == 1?'':true)
+
             infoarr.push(obj)
             if (count == res[0].length) {
               infoarr.sort((a, b) => {
@@ -765,6 +769,7 @@ export default {
         height: 100%;
         .content_box {
           width: 100%;
+          min-height: 250px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -836,6 +841,9 @@ export default {
               transform: translate(-50%, -50%);
               width: 210px;
               object-fit: contain;
+            }
+            .serise2Img{
+              width:173px
             }
             .lock_swiper_img {
               position: absolute;
@@ -950,6 +958,7 @@ export default {
           height: 100%;
           .content_box {
             width: 100%;
+            min-height: 1rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -1036,6 +1045,9 @@ export default {
                 transform: translate(-50%, -50%);
                 width: 100%;
                 object-fit: contain;
+              }
+              .serise2Img{
+                width: 85%;
               }
               .base_img {
                 width: 100%;

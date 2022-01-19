@@ -495,7 +495,7 @@ export default {
         }
         let count = 1
         let arr:any = []
-        res[0].map(async (item) => {
+        res[0].map(async (item:any) => {
           let obj = {
             src: "",
             cardID: "",
