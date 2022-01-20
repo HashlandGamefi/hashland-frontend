@@ -281,10 +281,9 @@ export default {
         return
       }
       this.proupDis = false
-      hnUpgradeV2().connect(getSigner()).upgrade(this.infoArr).then(res => {
+      hnUpgradeV2().connect(getSigner()).upgrade(this.infoArr).then(() => {
         this.watchResult()
-      }).catch(err => {
-        console.log('卡牌系列合成方法err: ', err);
+      }).catch(() => {
         this.synthesisDis = false
       })
     },
@@ -441,7 +440,7 @@ export default {
         } else {
           this.isApproveHN = false
         }
-      }).catch(err => {
+      }).catch(() => {
         this.isApproveHN = false
       })
       this.$common.isApproveFun(2,this.getAccount,contract().HNUpgradeV2).then(res => {
@@ -450,7 +449,7 @@ export default {
         }else{
           this.isApproveHC = false
         }
-      }).catch( err => {
+      }).catch(() => {
         this.isApproveHC = false
       })
     },
@@ -465,7 +464,7 @@ export default {
               this.isApproveHN = true
               this.hnisloading = false
             }
-          }).catch(err => {
+          }).catch(() => {
             this.isApproveHN = false
             this.hnisloading = false
           })
@@ -476,7 +475,7 @@ export default {
           this.$common.delegatingFun(2,contract().HNUpgradeV2).then(res => {
             this.isApproveHC = true
             this.hcisloading = false
-          }).catch(err => {
+          }).catch(() => {
             this.isApproveHC = false
             this.hcisloading = false
           })

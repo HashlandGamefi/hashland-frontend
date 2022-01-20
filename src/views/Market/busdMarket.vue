@@ -300,14 +300,13 @@ export default {
             this.isapprove = false;
           }
         })
-        .catch((err) => {
+        .catch(() => {
           for (let index = 0; index < this.pageshowarr.length; index++) {
             const element = this.pageshowarr[index];
             element.isstatus = false;
           }
           this.isapprove = false;
         });
-      // this.$refs.mychild[0].goApproveFun('busd',contract().HNMarket);
     },
     // 购买卡牌
     async buyCard(item) {
@@ -356,9 +355,8 @@ export default {
               item.isstatus = false;
             }
           })
-          .catch((err) => {
+          .catch(() => {
             item.isstatus = false;
-            // console.log('买家批量购买卡牌err: ', err);
           });
       } else {
         item.isstatus = false
@@ -576,8 +574,7 @@ export default {
           this.infoArr[3].num = this.$common.convertBigNumberToNormal(res.data.buyInfos[0].price.toString(), 2);
           this.infoArr[3].loading = false;
         })
-        .catch((err) => {
-          // console.log('最新成交价err: ', err);
+        .catch(() => {
           this.infoArr[3].num = 0;
           this.infoArr[3].loading = false;
         });
@@ -628,7 +625,7 @@ export default {
             this.nodata = true;
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.pageshowarr = [];
           this.nodata = true;
         });

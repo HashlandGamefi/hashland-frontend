@@ -190,8 +190,7 @@ export default {
         this.boxnums = ''
         this.total = 0
         this.getSDKInfo()
-      }).catch(err => {
-        console.log('购买盒子err: ', err);
+      }).catch(() => {
         this.buy_isloading = false
       })
     },
@@ -252,8 +251,7 @@ export default {
         }else{
           this.isapprove = false
         }
-      }).catch(err => {
-        console.log('是否授权busderr: ', err);
+      }).catch(() => {
         this.isapprove = false
       })
     }

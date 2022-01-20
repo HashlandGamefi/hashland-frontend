@@ -425,9 +425,8 @@ export default {
           }else{
             this.synthesisDis = false
           }
-        }).catch(err => {
+        }).catch(() => {
           this.synthesisDis = false
-          console.log('卖家批量出售HN卡牌err: ', err);
         })
       })
     },
@@ -534,9 +533,8 @@ export default {
       hnMarket().feeRatio().then(res => {
         console.log('busd----获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)
         this.fee = (res.toNumber() / 1e4) * 100
-      }).catch(err => {
+      }).catch(() => {
         this.fee = 0
-        console.log('busd----获取手续费率，除1e4，乘100err: ', err);
       })
     }
   },
