@@ -46,7 +46,7 @@
                 @click="cardClick(item, index, index1)"
               >
                 <img :src="item.src" class="swiper_img" />
-                <Lottie :left="getIsMobile?'6%':'0'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
+                <Lottie :left="getIsMobile?'6%':'0'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
                 <!-- <Lottie :left="getIsMobile?'48%':'0'" :transform="true" :top="getIsMobile?'6%':'0'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie> -->
                 <img :src=" item.status ? `${$store.state.imgUrl}selected.png` : `${$store.state.imgUrl}select.png`" class="select_img" />
               </div>

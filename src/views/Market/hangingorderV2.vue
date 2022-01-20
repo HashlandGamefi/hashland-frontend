@@ -44,7 +44,7 @@
         <span class="pending fontsize14" v-if="item.issell">Pending</span>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-else-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
       </div>
       <LoadingAnmation v-if="pageshowarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="pageshowarr.length == 0 && !pageshowLoading" :isshow="false"></NoData>

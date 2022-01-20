@@ -311,26 +311,21 @@ export default {
     },
     // 购买卡牌
     async buyCard(item) {
-      // console.log('item: ', item);
-      if (item.isstatus) return;
-      let issell = await hnMarketV2().getSellerHnIdExistence(item.seller, item.hnId);
-      // console.log('判断当前卡是否正在出售issell: ', issell);
+      if (item.isstatus) return
+      item.isstatus = true
+      let issell = await hnMarketV2().getSellerHnIdExistence(item.seller, item.hnId)
       if (!issell) {
+        item.isstatus = false
         this.$common.selectLang("当前卡牌已售出", "The NFT has been sold. Choose another.", this);
         return;
       } // 判断当前卡是否正在出售
       if (Number(this.user_busd_balance) >= Number(item.price)) {
-        item.isstatus = true;
-        let arr = [];
-        // this.pageshowarr.forEach(item => {
-        //   arr.push(item.cardID)
-        // })
+        let arr = []
         arr.push(item.hnId);
         hnMarketV2()
           .connect(getSigner())
           .buy(arr)
           .then(async (ele) => {
-            // console.log('买家批量购买卡牌res: ', ele);
             const etReceipt = await ele.wait();
             if (etReceipt.status == 1) {
               this.$common.newgetUserCardInfoFun(this.getAccount).then((res1) => {
@@ -366,6 +361,7 @@ export default {
             // console.log('买家批量购买卡牌err: ', err);
           });
       } else {
+        item.isstatus = false
         this.$common.selectLang("余额不足", "Insufficent Balance", this);
       }
     },

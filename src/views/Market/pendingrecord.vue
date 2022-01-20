@@ -7,7 +7,7 @@
     <div class="show_gameArr">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index">
         <img :src="item.src" class="img" />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
         <div class="bottom_box">
           <div class="left_price">
             <img :src="`${$store.state.imgUrl}bsc.png`" class="bsc_img" v-if="$route.query.type == 'busd'"/>

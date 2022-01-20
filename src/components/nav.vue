@@ -138,6 +138,9 @@ export default {
         case "Buy":
           this.menuIndex = 0;
           break;
+        case "CardDetails":
+          this.menuIndex = 0;
+          break;
         case "Synthesis":
           this.menuIndex = 0;
           break;

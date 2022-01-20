@@ -98,7 +98,7 @@
                 :class="{serise2Img:item.series == 1}"
                 v-if="item.btnstatus !== 3"
               />
-              <Lottie :left="getIsMobile?'48%':'50%'" :transform="true" :top="getIsMobile?'6%':'-3%'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?210:''" v-if="item.ultra"></Lottie>
+              <Lottie :left="getIsMobile?'48%':'50%'" :transform="true" :top="getIsMobile?'6%':'-3%'" :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?210:''" v-if="item.ultra && anmationArr.length > 0"></Lottie>
               <img
                 :src="item.src"
                 class="lock_swiper_img"

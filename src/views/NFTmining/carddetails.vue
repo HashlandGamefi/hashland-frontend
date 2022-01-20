@@ -7,7 +7,7 @@
     <div class="boxarr">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in boxarr" :key="index">
         <img :src="item.src" class="imgcard" />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
       </div>
       <LoadingAnmation v-if="boxarr.length == 0 && pageshowLoading"></LoadingAnmation>
       <NoData v-else-if="boxarr.length == 0 && !pageshowLoading"></NoData>
@@ -64,7 +64,7 @@ export default {
               return b.ultra - a.ultra
             }
           })
-          console.log("卡牌详情页面展示的数组:",this.boxarr)
+          // console.log("卡牌详情页面展示的数组:",this.boxarr)
           this.pageshowLoading = false
         }
       }, 500);

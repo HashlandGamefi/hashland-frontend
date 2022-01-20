@@ -52,7 +52,7 @@
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in selectedArr" :key="index" @click="selectedCardClick(item,index)">
         <img :src="item.src" class="card_picture" :class="{scaleimg:index % 4 == 0}" />
         <!-- && item.ultra -->
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
         <img :src="`${$store.state.imgUrl}selected.png`" class="selected_img" />
         <img :src="`${$store.state.imgUrl}zhu.png`" class="master_img" :class="{newCardMaster:item.series == 2}" v-if="index % 4 == 0" />
       </div>

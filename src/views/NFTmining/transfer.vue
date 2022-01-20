@@ -51,7 +51,7 @@
     <div class="cardarr_class">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index" @click="cardClick(item,index)">
         <img :src="item.src" class="card_picture" />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
         <img :src="`${$store.state.imgUrl}select.png`" class="select_img" v-if="!item.status"/>
         <img :src="`${$store.state.imgUrl}selected.png`" class="select_img" v-else/>
       </div>
@@ -550,11 +550,6 @@ export default {
         right: 0;
         width: 31px;
         object-fit: contain;
-      }
-      .positon_absoult{
-        position: absolute;
-        top: 0;
-        left: 0;
       }
     }
   }

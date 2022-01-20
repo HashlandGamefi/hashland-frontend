@@ -12,7 +12,7 @@
           class="imgcard"
           :class="{ blindBox_drop_anim: item.loading }"
         />
-        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra" class="positon_absoult"></Lottie>
+        <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
       </div>
     </div>
     <div class="Suspension_btnbox">
@@ -135,11 +135,6 @@ export default {
       .imgcard {
         width: 100%;
         object-fit: contain;
-      }
-      .positon_absoult{
-        position: absolute;
-        top: 0;
-        left: 0;
       }
       .blindBox_drop_anim {
         animation: blindBox_drop_anim 0.6s ease-in;
