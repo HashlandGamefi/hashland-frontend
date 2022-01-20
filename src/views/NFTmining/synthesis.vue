@@ -472,7 +472,7 @@ export default {
       }else{
         if(!this.isApproveHC){
           this.hcisloading = true
-          this.$common.delegatingFun(2,contract().HNUpgradeV2).then(res => {
+          this.$common.delegatingFun(2,contract().HNUpgradeV2).then(() => {
             this.isApproveHC = true
             this.hcisloading = false
           }).catch(() => {
