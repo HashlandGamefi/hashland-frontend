@@ -6,7 +6,7 @@ export const GameDownloadData = [
         isShow: true,
         imgUrl: "https://cdn.hashland.com/images/android.png",
         application: "Android(APK)",
-        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.9.apk",
+        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.2.0.apk",
       },
       {
         isShow: true, // 是否显示该平台
@@ -50,21 +50,23 @@ export const GameDownloadData = [
 ];
 export const GameUpdateLog = [
   {
+    version: "1.2.0",
+    update: "21-01-2022",
+    log: "Season 2: Summoner level cap 40, Chapter 1-15, lasts 12 days",
+  },
+  {
     version: "1.1.9",
     update: "25-12-2021",
     log: "Season 1: Summoner level cap 26, Chapter 1-9, lasts 15 days",
-    // downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.9.apk", // 用不着
   },
   {
     version: "1.1.7",
     update: "18-12-2021",
     log: "Update Chapter 3-9",
-    // downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.7.apk",
   },
   {
     version: "1.1.6",
     update: "16-12-2021",
     log: "Update Chapter 1-2",
-    // downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.1.6.apk",
   },
 ];
