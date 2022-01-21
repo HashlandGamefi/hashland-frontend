@@ -380,7 +380,7 @@ export default {
     }
   }
   .menu_box {
-    width: calc(100% - 430px);
+    width: calc(100% - 230px);
     .ul_ {
       width: 100%;
       display: flex;
