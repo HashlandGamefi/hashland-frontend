@@ -12,7 +12,7 @@
             <div class="col1">
               <div class="row select_list" @mouseover="showPoolSelect = true" @mouseleave="showPoolSelect = false">
                 <div>
-                  <span>{{ $t("message.gameFi.text91") }} {{ poolCurrentSeason }}</span>
+                  <span>{{ $t("message.gameFi.text91") }} {{ currentIssue }}</span>
                   <template v-if="issueList.length > 1">
                     <img class="accrow" :class="{ active: showPoolSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
                     <transition name="select-scaleY" appear>
@@ -72,7 +72,7 @@
           <div class="ranking_content">
             <div class="row select_list" @touchstart.stop="showPoolSelect = true">
               <div>
-                <span>{{ $t("message.gameFi.text91") }} {{ poolCurrentSeason }}</span>
+                <span>{{ $t("message.gameFi.text91") }} {{ currentIssue }}</span>
                 <template v-if="issueList.length > 1">
                   <img class="accrow" :class="{ active: showPoolSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
                   <transition name="select-scaleY" appear>
@@ -131,7 +131,7 @@
             <div class="col1">
               <div class="select_list" @mouseover="showPveSelect = true" @mouseleave="showPveSelect = false">
                 <div>
-                  <span>{{ $t("message.gameFi.text91") }} {{ pveCurrentSeason }}</span>
+                  <span>{{ $t("message.gameFi.text91") }} {{ currentIssue }}</span>
                   <template v-if="issueList.length > 1">
                     <img class="accrow" :class="{ active: showPveSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
                     <transition name="select-scaleY" appear>
@@ -208,7 +208,7 @@
           <div class="ranking_content">
             <div class="row select_list" @touchstart.stop="showPveSelect = true">
               <div>
-                <span>{{ $t("message.gameFi.text91") }} {{ pveCurrentSeason }}</span>
+                <span>{{ $t("message.gameFi.text91") }} {{ currentIssue }}</span>
                 <template v-if="issueList.length > 1">
                   <img class="accrow" :class="{ active: showPveSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
                   <transition name="select-scaleY" appear>
@@ -258,7 +258,7 @@
             <div class="col1">
               <div class="select_list" @mouseover="showPvpSelect = true" @mouseleave="showPvpSelect = false">
                 <div>
-                  <span>{{ $t("message.gameFi.text91") }} {{ pvpCurrentSeason }}</span>
+                  <span>{{ $t("message.gameFi.text91") }} {{ currentIssue }}</span>
                   <template v-if="issueList.length > 1">
                     <img class="accrow" :class="{ active: showPvpSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
                     <transition name="select-scaleY" appear>
@@ -323,7 +323,7 @@
           <div class="ranking_content">
             <div class="row select_list" @touchstart.stop="showPvpSelect = true">
               <div>
-                <span>{{ $t("message.gameFi.text91") }} {{ pvpCurrentSeason }}</span>
+                <span>{{ $t("message.gameFi.text91") }} {{ currentIssue }}</span>
                 <template v-if="issueList.length > 1">
                   <img class="accrow" :class="{ active: showPvpSelect }" :src="`${$store.state.imgUrl}accrow.png`" />
                   <transition name="select-scaleY" appear>
@@ -370,16 +370,12 @@ export default {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
-      rewardData: [],
       issueList: [], // 赛季列表
-      maxIssue: null, // 当前赛季
-      poolCurrentSeason: "",
-      pveCurrentSeason: "",
-      pvpCurrentSeason: "",
+      queryAccount: null,
+      currentIssue: null, // 当前赛季
       showPoolSelect: false,
       showPveSelect: false,
       showPvpSelect: false,
-      // 奖励池
       rewardPoolData: [
         { title: `${this.$t("message.gameFi.text33")}`, pool: 1, totalR: 0, personalR: 0, loading: false }, // PVE
         { title: `${this.$t("message.gameFi.text35")}`, pool: 2, totalR: 0, personalR: 0, loading: false }, // PVP
@@ -388,15 +384,6 @@ export default {
         { title: `${this.$t("message.gameFi.text88")}`, pool: 5, totalR: 0, personalR: 0, loading: false }, // World BOSS
       ],
       PVEData: [], // PVE
-      // { charpterId: 1, totalPassed: 0, passedOrNot: false, totalR: 10.8 * 15, personalR: 0 },
-      // { charpterId: 2, totalPassed: 0, passedOrNot: false, totalR: 21.6 * 15, personalR: 0 },
-      // { charpterId: 3, totalPassed: 0, passedOrNot: false, totalR: 54 * 15, personalR: 0 },
-      // { charpterId: 4, totalPassed: 0, passedOrNot: false, totalR: 108 * 15, personalR: 0 },
-      // { charpterId: 5, totalPassed: 0, passedOrNot: false, totalR: 108 * 15, personalR: 0 },
-      // { charpterId: 6, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
-      // { charpterId: 7, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
-      // { charpterId: 8, totalPassed: 0, passedOrNot: false, totalR: 216 * 15, personalR: 0 },
-      // { charpterId: 9, totalPassed: 0, passedOrNot: false, totalR: 129.6 * 15, personalR: 0 },
       PVPData: [], // PVP
       PVPPersonalData: { rank: 0, totalHc: 0 }, // PVP个人
       updateTime: "",
@@ -425,47 +412,29 @@ export default {
   methods: {
     /**获取赛季列表 */
     queryRewardData() {
+      this.currentIssue = this.currentIssue ? this.currentIssue : "2";
+      this.queryAccount = this.queryAccount
+        ? this.queryAccount
+        : localStorage.getItem("hashlandGameFiInfo")
+        ? JSON.parse(localStorage.getItem("hashlandGameFiInfo")).mailAccount
+        : "";
+
       this.$api
-        .gameIssueInfo(`queryType=issue_info&queryAccount=&issue=`)
+        .gameIssueInfo(`queryType=issue_info&queryAccount=${this.queryAccount}&issue=${this.currentIssue}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             this.issueList = res.data.data.issueList;
-            this.maxIssue = res.data.data.maxIssue;
-            if (this.issueList.length > 0) {
-              let queryAccount = localStorage.getItem("hashlandGameFiInfo") ? JSON.parse(localStorage.getItem("hashlandGameFiInfo")).mailAccount : "";
-              this.issueList.forEach((item) => {
-                this.queryRewardIssueData(queryAccount, item.issue);
-              });
-            }
-          }
-        })
-        .catch((err) => {
-          console.warn("rewardRanking", err);
-        });
-    },
-    /**获取每赛季数据 */
-    queryRewardIssueData(queryAccount, issue) {
-      this.$api
-        .gameIssueInfo(`queryType=issue_info&queryAccount=${queryAccount}&issue=${issue}`)
-        .then((res) => {
-          if (res.data.result == "SUCCESS") {
-            res.data.data.currentIssue = issue;
-            this.rewardData = [...this.rewardData, ...[res.data.data]];
-            if (this.rewardData.length !== this.issueList.length) return;
-            let obj = this.rewardData.find((item) => item.currentIssue == this.maxIssue);
-            if (!obj) return;
-            this.poolCurrentSeason = this.pveCurrentSeason = this.pvpCurrentSeason = obj.currentIssue;
             this.rewardPoolData.forEach((item) => {
               if (item.pool == 1) {
-                item.totalR = obj.totalRewardPveHc; // 奖池
+                item.totalR = res.data.data.totalRewardPveHc; // 奖池
               } else if (item.pool == 2) {
-                item.totalR = obj.totalRewardPvpHc;
+                item.totalR = res.data.data.totalRewardPvpHc;
               }
             });
-            this.PVEData = obj.pve; // PVE
-            this.PVPData = obj.pvp; // PVP
-            this.PVPPersonalData.rank = obj.pvpIndividualRank; // PVP个人
-            this.PVPPersonalData.totalHc = obj.pvpIndividualRewardHc; // PVP个人
+            this.PVEData = res.data.data.pve; // PVE
+            this.PVPData = res.data.data.pvp; // PVP
+            this.PVPPersonalData.rank = res.data.data.pvpIndividualRank; // PVP个人
+            this.PVPPersonalData.totalHc = res.data.data.pvpIndividualRewardHc; // PVP个人
           }
         })
         .catch((err) => {
@@ -474,35 +443,24 @@ export default {
     },
     /**奖池切换赛季 */
     poolSelectSeason(ite) {
-      let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
-      if (!obj) return;
+      if (this.currentIssue == ite.issue) return;
       this.showPoolSelect = false;
-      this.poolCurrentSeason = obj.currentIssue;
-      this.rewardPoolData.forEach((item) => {
-        if (item.pool == 1) {
-          item.totalR = obj.totalRewardPveHc; // 奖池
-        } else if (item.pool == 2) {
-          item.totalR = obj.totalRewardPvpHc;
-        }
-      });
+      this.currentIssue = ite.issue;
+      this.queryRewardData();
     },
     /**PVE切换赛季 */
     pveSelectSeason(ite) {
-      let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
-      if (!obj) return;
+      if (this.currentIssue == ite.issue) return;
       this.showPveSelect = false;
-      this.pveCurrentSeason = obj.currentIssue;
-      this.PVEData = obj.pve; // PVE
+      this.currentIssue = ite.issue;
+      this.queryRewardData();
     },
     /**PVP切换赛季 */
     pvpSelectSeason(ite) {
-      let obj = this.rewardData.find((item) => item.currentIssue == ite.issue);
-      if (!obj) return;
+      if (this.currentIssue == ite.issue) return;
       this.showPvpSelect = false;
-      this.pvpCurrentSeason = obj.currentIssue;
-      this.PVPData = obj.pvp; // PVP
-      this.PVPPersonalData.rank = obj.pvpIndividualRank; // PVP个人
-      this.PVPPersonalData.totalHc = obj.pvpIndividualRewardHc; // PVP个人
+      this.currentIssue = ite.issue;
+      this.queryRewardData();
     },
     /**查询世界池余额 */
     queryHWWEPoolTotal() {
