@@ -371,8 +371,8 @@ export default {
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
       issueList: [], // 赛季列表
-      queryAccount: null,
-      currentIssue: null, // 当前赛季
+      queryAccount: "",
+      currentIssue: "", // 当前赛季
       showPoolSelect: false,
       showPveSelect: false,
       showPvpSelect: false,
@@ -406,24 +406,24 @@ export default {
   created() {
     // 只显示UTC 0点12点整点时间
     this.updateTime = new Date(Math.floor(new Date().getTime() / 43200000) * 43200000).toLocaleString("en");
+    this.queryAccount = this.queryAccount
+      ? this.queryAccount
+      : localStorage.getItem("hashlandGameFiInfo")
+      ? JSON.parse(localStorage.getItem("hashlandGameFiInfo")).mailAccount
+      : "";
     this.queryHWWEPoolTotal();
     this.queryRewardData();
   },
   methods: {
     /**获取赛季列表 */
     queryRewardData() {
-      this.currentIssue = this.currentIssue ? this.currentIssue : "2";
-      this.queryAccount = this.queryAccount
-        ? this.queryAccount
-        : localStorage.getItem("hashlandGameFiInfo")
-        ? JSON.parse(localStorage.getItem("hashlandGameFiInfo")).mailAccount
-        : "";
-
       this.$api
         .gameIssueInfo(`queryType=issue_info&queryAccount=${this.queryAccount}&issue=${this.currentIssue}`)
         .then((res) => {
           if (res.data.result == "SUCCESS") {
             this.issueList = res.data.data.issueList;
+            this.currentIssue = this.currentIssue ? this.currentIssue : res.data.data.maxIssue;
+
             this.rewardPoolData.forEach((item) => {
               if (item.pool == 1) {
                 item.totalR = res.data.data.totalRewardPveHc; // 奖池
@@ -444,22 +444,22 @@ export default {
     /**奖池切换赛季 */
     poolSelectSeason(ite) {
       if (this.currentIssue == ite.issue) return;
-      this.showPoolSelect = false;
       this.currentIssue = ite.issue;
+      this.showPoolSelect = false;
       this.queryRewardData();
     },
     /**PVE切换赛季 */
     pveSelectSeason(ite) {
       if (this.currentIssue == ite.issue) return;
-      this.showPveSelect = false;
       this.currentIssue = ite.issue;
+      this.showPveSelect = false;
       this.queryRewardData();
     },
     /**PVP切换赛季 */
     pvpSelectSeason(ite) {
       if (this.currentIssue == ite.issue) return;
-      this.showPvpSelect = false;
       this.currentIssue = ite.issue;
+      this.showPvpSelect = false;
       this.queryRewardData();
     },
     /**查询世界池余额 */
