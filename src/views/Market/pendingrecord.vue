@@ -221,6 +221,7 @@ export default {
         object-fit: contain;
       }
       .bottom_box{
+        z-index: 99;
         width: 90%;
         margin-top: 20px;
         border-radius: 15px;
@@ -305,6 +306,7 @@ export default {
           object-fit: contain;
         }
         .bottom_box{
+          z-index: 99;
           width: 100%;
           margin-top: 0.1rem;
           border-radius: 0.15rem;
