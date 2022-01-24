@@ -150,16 +150,6 @@ export default {
             sessionStorage.setItem("hcprice", this.$common.getBit(res1.data["hashland-coin"].usd));
           });
         })
-        .catch((err) => {
-          // console.log('获取各种币的价格err:',err)
-        });
-      // hc价格
-      // this.$api.getCurrencyFun('0xA6e78aD3c9B4a79A01366D01ec4016EB3075d7A0').then(res => {
-      //   this.$store.commit("setCurrenciesPrice",{'hc':this.$common.getBit(res.price)})
-      //   sessionStorage.setItem('hcprice',this.$common.getBit(res.price))
-      // }).catch(err => {
-      //   console.log('获取各种币的价格err:',err)
-      // })
     },
     handleScroll (e) {
       let direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
@@ -230,8 +220,7 @@ export default {
           }
         }
       localStorage.setItem('Animation',JSON.stringify(arr))
-    },
-
+    }
   },
   created() {
     this.DisplayCardAnimationMethods()
