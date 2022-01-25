@@ -655,7 +655,7 @@ export default {
             sortObj.ultra
           )
           .then((res) => {
-            console.log("合约数据库返回信息res: ", res);
+            // console.log("合约数据库返回信息res: ", res);
             if (res.data.sellInfos.length > 0) {
               const arr = JSON.parse(JSON.stringify(res.data.sellInfos));
               arr.forEach((element) => {
