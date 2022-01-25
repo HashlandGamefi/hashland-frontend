@@ -268,14 +268,14 @@ export default {
           this.pageshowLoading = true
           this.SeparateMethodToGetData(1,1)
         }
-        console.log("获取用户信息")
+        // console.log("获取用户信息")
       }, 1000);
     },
     imgclick(){
       this.ishover = true
     },
     inputchangeFun(){
-      console.log('this.fee',this.fee)
+      // console.log('this.fee',this.fee)
       this.HandlingFee = Number(this.dangerTxtModel) * (Number(this.fee / 100))
       this.actualMoney = Number(this.dangerTxtModel) - Number(this.HandlingFee)
     },
@@ -303,7 +303,7 @@ export default {
     sonapprove(){
       if(this.synthesisDis)return
       this.synthesisDis = true
-      console.log('父组件页面调用子组件的授权方法,授权hn')
+      // console.log('父组件页面调用子组件的授权方法,授权hn')
       this.$refs.mychild.goApproveFun('hn',contract().HNMarket).then(res => {
         if(res){
           this.isApproveHN = true
@@ -375,7 +375,7 @@ export default {
       }
       this.synthesisDis = true
       this.processingArrayFun(this.selectimgArr,this.$common.convertNormalToBigNumber(this.dangerTxtModel,18)).then(info => {
-        console.log('合约需要的数组已经处理完毕: ', info);
+        // console.log('合约需要的数组已经处理完毕: ', info);
         let cardIDArr = info.map(item => {
           return item.cardID
         })
@@ -390,7 +390,7 @@ export default {
           if(etReceipt.status == 1){
             if(this.tabIndex == 0){
               this.$common.newgetUserCardInfoFun(this.getAccount).then(res1 => {
-                console.log('重新获取用户卡牌信息res1: ', res1);
+                // console.log('重新获取用户卡牌信息res1: ', res1);
                 sessionStorage.removeItem('count')
                 if(res1 > 1){
                   sessionStorage.setItem("count",res1)
@@ -405,7 +405,7 @@ export default {
               })
             }else{
               this.$common.getUserPledgeInfo(this.getAccount).then(res => {
-                console.log('出售成功重新获取用户卡槽中的卡res: ', res);
+                // console.log('出售成功重新获取用户卡槽中的卡res: ', res);
                 if(res.istrue){
                   this.$common.selectLang('出售成功','Success',this)
                   this.isdanger = false
@@ -444,7 +444,7 @@ export default {
     },
     // 合约需要的三个数组处理方法
     processingArrayFun(arr,price){
-      console.log('arr: ', arr);
+      // console.log('arr: ', arr);
       return new Promise((resolve) => {
         let count = 1
         let arr_cardinfo = []
@@ -466,7 +466,7 @@ export default {
     },
     //选择当前卡牌
     cardClick(data,index){
-      console.log('选择当前卡牌: ', data,index);
+      // console.log('选择当前卡牌: ', data,index);
       if(this.tabIndex == 1){
         if(data.issell)return
       }
@@ -487,14 +487,14 @@ export default {
       }
       data.status = !data.status
       if(data.status){
-        console.log("status为true的状态")
+        // console.log("status为true的状态")
         this.selectedNUM++
         let obj = {}
         obj.id = data.cardID
         obj.index = index
         this.selectimgArr.push(obj)
       }else{
-        console.log("status为false的状态")
+        // console.log("status为false的状态")
         for(let i = 0; i < this.selectimgArr.length; i++){
           if(this.selectimgArr[i].index == index){
             this.selectimgArr.splice(i,1)
@@ -531,7 +531,7 @@ export default {
     },
     getConnectInfo(){
       hnMarket().feeRatio().then(res => {
-        console.log('busd----获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)
+        // console.log('busd----获取手续费率，除1e4，乘100%res: ', res.toNumber() / 1e4)
         this.fee = (res.toNumber() / 1e4) * 100
       }).catch(() => {
         this.fee = 0

@@ -164,7 +164,7 @@ export default {
             if (count == res[0].length) {
               arr.sort((a, b) => {
                 if(a.ultra == b.ultra == true){
-                  return a.level > b.level?1 :-1
+                  return a.level > b.level?-1:1
                 }
                 return a.ultra > b.ultra?-1 :1
               })

@@ -410,7 +410,7 @@ export default {
     },
     // 筛选是否u卡
     ultraFun(ele) {
-      console.log('筛选全部卡牌类型ele: ', ele);
+      // console.log('筛选全部卡牌类型ele: ', ele);
       this.disablehover = true;
       setTimeout(() => {
         this.disablehover = false;
@@ -632,7 +632,7 @@ export default {
     },
     // 合约数据库信息
     getDatabaseaFun(sortObj) {
-      console.log("sortObj.series-sortObj.ultra", sortObj.series, sortObj.ultra);
+      // console.log("sortObj.series-sortObj.ultra", sortObj.series, sortObj.ultra);
       //first?: number,  //查询结果数量，比如填10，就展示前10个结果
       //skip?: number,  //跳过结果数量，用于分页，比如填50，相当于从第6页开始
       //orderBy?: string,  // 排序字段，填字段名，所有字段见下文查询结果
@@ -657,7 +657,7 @@ export default {
             sortObj.ultra
           )
           .then((res) => {
-            console.log("合约数据库返回信息res: ", res);
+            // console.log("合约数据库返回信息res: ", res);
             if (res.data.sellInfos.length > 0) {
               const arr = JSON.parse(JSON.stringify(res.data.sellInfos));
               arr.forEach((element) => {
