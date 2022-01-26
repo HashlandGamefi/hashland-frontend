@@ -426,7 +426,7 @@ export const message = {
     text106: "Last Update Time: ",
     text107: "HC reward updates every 12 hours",
     text108: "Register Now",
-    text109: "Reset Password",
+    text109: "Forgot Password?",
     text110: "Reset",
   },
 };
