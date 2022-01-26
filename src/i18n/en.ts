@@ -272,15 +272,15 @@ export const message = {
     txt21: "DAO Vault Contract:",
     txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
     txt23: "Total Power Value",
-    txt24:"Hashland's official voting page is coming soon.",
-    txt25:'Please go to ',
-    txt26:'Snapshot',
-    txt27:' to start voting.'
+    txt24: "Hashland's official voting page is coming soon.",
+    txt25: "Please go to ",
+    txt26: "Snapshot",
+    txt27: " to start voting.",
   },
-  banner:{
-    txt1:'Mystery Box Announcement',
-    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
-    txt3:'Confirm'
+  banner: {
+    txt1: "Mystery Box Announcement",
+    txt2: "Raffle off 1500 mystery boxes for 500BUSD/6HC each",
+    txt3: "Confirm",
   },
   buy1: "Purchase History",
   buy2: "Purchase NFT Card",
@@ -309,7 +309,7 @@ export const message = {
   button2: "To Buy",
   consumption: "Craft needs to consume ", // 合成消耗hc数量
   text79: "Connect Wallet",
-  series:'Series',
+  series: "Series",
   gameFi: {
     text1: "Personal Center",
     text2: "Sign Out",
@@ -425,5 +425,8 @@ export const message = {
     text105: "Rewards distributes every half season",
     text106: "Last Update Time: ",
     text107: "HC reward updates every 12 hours",
+    text108: "Register Now",
+    text109: "Reset Password",
+    text110: "Reset",
   },
 };
