@@ -36,7 +36,7 @@
         <li class="login_footer fontsize14">
           <span class="register_entrance">
             <span @click="registerNow">{{ $t("message.gameFi.text108") }} </span>
-            <span @click="forgotPassword"> {{ $t("message.gameFi.text109") }}</span>
+            <span @click="forgotPassword"> {{ $t("message.gameFi.text109") }}?</span>
           </span>
         </li>
       </ul>
