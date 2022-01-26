@@ -129,10 +129,6 @@ export default {
     openLoginOrRegistered() {
       this.showLoginRegister = true;
     },
-    /**关闭登录与注册 */
-    // closeLoginRegister() {
-    //   this.showLoginRegister = false;
-    // },
     /**个人中心 */
     toPersonalCenter() {
       this.$router.push("/gameFi-personalCenter");

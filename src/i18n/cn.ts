@@ -254,12 +254,12 @@ export const message = {
     txt19: "20% of the HC that the player recharges in the game",
     txt20: "For market promotion",
     txt22: "Hash Power Output: 60P/200P, 1P=1000T, 1T=$100",
-    txt23: "Total Power Value"
+    txt23: "Total Power Value",
   },
-  banner:{
-    txt1:'Mystery Box Announce',
-    txt2:'Raffle off 1500 mystery boxes for 500BUSD/6HC each',
-    txt3:'Confirm'
+  banner: {
+    txt1: "Mystery Box Announce",
+    txt2: "Raffle off 1500 mystery boxes for 500BUSD/6HC each",
+    txt3: "Confirm",
   },
   buy1: "购买记录",
   buy2: "购买NFT卡牌",
@@ -286,7 +286,7 @@ export const message = {
   button1: "确认",
   nothing: "暂无数据",
   text79: "连接钱包",
-  series:'系列',
+  series: "系列",
   gameFi: {
     text1: "个人中心",
     text2: "退出登录",
@@ -398,5 +398,8 @@ export const message = {
     text105: "Rewards distributes every half season",
     text106: "Last Update Time: ",
     text107: "HC reward updates every 12 hours",
+    text108: "Register Now",
+    text109: "Reset Password",
+    text110: "Reset",
   },
 };

@@ -2,10 +2,11 @@
   <div class="login_registered">
     <div class="outside_box">
       <img class="close" :src="`${$store.state.imgUrl}proupclose.png`" @click="closeLoginRegister" />
-      <ul class="in_box" v-if="showLogin">
-        <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text13") }}</li>
+      <!-- 登录窗口 -->
+      <ul class="in_box" v-if="showLogin == 1">
+        <li class="header_title fontsize22">{{ $t("message.gameFi.text13") }}</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select fontsize12">{{ $t("message.gameFi.text8") }}</li>
+        <li class="prompt fontsize12">{{ $t("message.gameFi.text8") }}</li>
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
           <div class="input_box_box" :class="{ active: loginForm.prompt1 }">
@@ -28,22 +29,22 @@
           </div>
           <div class="input_prompt fontsize12" v-show="loginForm.prompt2">* {{ loginForm.prompt2 }}</div>
         </li>
-        <li class="btn ban_select fontsize14" @click="manuallyLogin">
+        <li class="btn fontsize14" @click="manuallyLogin">
           <span>{{ $t("message.gameFi.text13") }}</span>
           <BtnLoading :isloading="loginbtnloading"></BtnLoading>
         </li>
-        <li class="login_footer fontsize16">
-          <!-- 注册入口 -->
-          <span class="register_entrance" @click="registerNow">
-            <span>{{ $t("message.gameFi.text14") }} </span>
-            <span> {{ $t("message.gameFi.text7") }}</span>
+        <li class="login_footer fontsize14">
+          <span class="register_entrance">
+            <span @click="registerNow">{{ $t("message.gameFi.text108") }} </span>
+            <span @click="forgotPassword"> {{ $t("message.gameFi.text109") }}</span>
           </span>
         </li>
       </ul>
-      <ul class="in_box" v-if="!showLogin">
-        <li class="header_title ban_select fontsize22">{{ $t("message.gameFi.text15") }}</li>
+      <!-- 注册窗口 -->
+      <ul class="in_box" v-if="showLogin == 2">
+        <li class="header_title fontsize22">{{ $t("message.gameFi.text15") }}</li>
         <li class="logo_img"></li>
-        <li class="prompt ban_select fontsize12">{{ $t("message.gameFi.text8") }}</li>
+        <li class="prompt fontsize12">{{ $t("message.gameFi.text8") }}</li>
         <li class="input_box fontsize16">
           <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt1 }">
@@ -55,7 +56,7 @@
           <div class="input_title">{{ $t("message.gameFi.text16") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt2 }">
             <input type="text" :placeholder="$t('message.gameFi.text17')" v-model.trim="registerForm.verifyCode" @keyup.enter="toRegistered" />
-            <div class="verification ban_select fontsize14" @click="getCode">
+            <div class="verification fontsize14" @click="registerGetCode">
               <span v-if="showCountdown">{{ minutes + " : " + seconds }}</span>
               <span v-else>{{ $t("message.gameFi.text18") }}</span>
               <BtnLoading :isloading="codebtnloading"></BtnLoading>
@@ -82,32 +83,88 @@
           <div class="input_title">{{ $t("message.gameFi.text19") }}</div>
           <div class="input_box_box" :class="{ active: registerForm.prompt4 }">
             <input
-              :type="isShowPassword2 ? 'text' : 'password'"
+              :type="isShowPassword ? 'text' : 'password'"
               :placeholder="$t('message.gameFi.text12')"
               v-model.trim="registerForm.password2"
               @keyup.enter="toRegistered"
             />
             <div class="eye">
-              <div @click="isShowPassword2 = !isShowPassword2" :class="{ active: isShowPassword2 }"></div>
+              <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
             </div>
           </div>
           <div class="input_prompt fontsize12" v-show="registerForm.prompt4">* {{ registerForm.prompt4 }}</div>
         </li>
-        <li class="checkoutside_box ban_select" @click="readTheTreaty">
-          <div>
-            <div v-if="isRead"></div>
-          </div>
+        <li class="checkoutside_box" @click="readTheTreaty">
+          <div><div v-if="isRead"></div></div>
           <div class="fontsize12">
             {{ $t("message.gameFi.text20") }}
-            <!-- <span @click="openTreaty"> {{ $t("message.gameFi.text21") }}</span> -->
             <a href="//cdn.hashland.com/singlehtml/gameFi-register-treaty.html" target="_blank">
               {{ $t("message.gameFi.text21") }}
             </a>
           </div>
         </li>
-        <li class="btn ban_select fontsize16" @click="toRegistered">
+        <li class="btn fontsize16" @click="toRegistered">
           <span>{{ $t("message.gameFi.text22") }}</span>
           <BtnLoading :isloading="registerbtnloading"></BtnLoading>
+        </li>
+      </ul>
+      <!-- 重置密码窗口 -->
+      <ul class="in_box" v-if="showLogin == 3">
+        <li class="header_title fontsize22">{{ $t("message.gameFi.text109") }}</li>
+        <li class="logo_img"></li>
+        <li class="prompt fontsize12">{{ $t("message.gameFi.text8") }}</li>
+        <li class="input_box fontsize16">
+          <div class="input_title">{{ $t("message.gameFi.text9") }}</div>
+          <div class="input_box_box" :class="{ active: resetForm.prompt1 }">
+            <input type="text" :placeholder="$t('message.gameFi.text10')" v-model.trim="resetForm.mailAccount" @keyup.enter="toReset" />
+          </div>
+          <div class="input_prompt fontsize12" v-show="resetForm.prompt1">* {{ resetForm.prompt1 }}</div>
+        </li>
+        <li class="input_box fontsize16">
+          <div class="input_title">{{ $t("message.gameFi.text16") }}</div>
+          <div class="input_box_box" :class="{ active: resetForm.prompt2 }">
+            <input type="text" :placeholder="$t('message.gameFi.text17')" v-model.trim="resetForm.verifyCode" @keyup.enter="toReset" />
+            <div class="verification fontsize14" @click="resetGetCode">
+              <span v-if="showCountdown">{{ minutes + " : " + seconds }}</span>
+              <span v-else>{{ $t("message.gameFi.text18") }}</span>
+              <BtnLoading :isloading="codebtnloading"></BtnLoading>
+            </div>
+          </div>
+          <div class="input_prompt fontsize12" v-show="resetForm.prompt2">* {{ resetForm.prompt2 }}</div>
+        </li>
+        <li class="input_box fontsize16">
+          <div class="input_title">{{ $t("message.gameFi.text11") }}</div>
+          <div class="input_box_box" :class="{ active: resetForm.prompt3 }">
+            <input
+              :type="isShowPassword ? 'text' : 'password'"
+              :placeholder="$t('message.gameFi.text12')"
+              v-model.trim="resetForm.password"
+              @keyup.enter="toReset"
+            />
+            <div class="eye">
+              <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
+            </div>
+          </div>
+          <div class="input_prompt fontsize12" v-show="resetForm.prompt3">* {{ resetForm.prompt3 }}</div>
+        </li>
+        <li class="input_box fontsize16">
+          <div class="input_title">{{ $t("message.gameFi.text19") }}</div>
+          <div class="input_box_box" :class="{ active: resetForm.prompt4 }">
+            <input
+              :type="isShowPassword ? 'text' : 'password'"
+              :placeholder="$t('message.gameFi.text12')"
+              v-model.trim="resetForm.password2"
+              @keyup.enter="toReset"
+            />
+            <div class="eye">
+              <div @click="isShowPassword = !isShowPassword" :class="{ active: isShowPassword }"></div>
+            </div>
+          </div>
+          <div class="input_prompt fontsize12" v-show="resetForm.prompt4">* {{ resetForm.prompt4 }}</div>
+        </li>
+        <li class="btn fontsize16" @click="toReset">
+          <span>{{ $t("message.gameFi.text110") }}</span>
+          <BtnLoading :isloading="resetbtnloading"></BtnLoading>
         </li>
       </ul>
     </div>
@@ -125,10 +182,17 @@ export default {
       btntxt: "", // 弹窗页面的确认按钮
       word: "", //弹窗提示文字
       proupDis: false, // 弹窗展示消失变量
+      showLogin: 1,
       isShowPassword: false,
-      isShowPassword2: false,
       isRead: false,
-      showLogin: true,
+      loginbtnloading: false,
+      registerbtnloading: false,
+      resetbtnloading: false,
+      codebtnloading: false,
+      showCountdown: false,
+      minutes: 0,
+      seconds: 0,
+
       loginForm: {
         mailAccount: "",
         password: "",
@@ -145,12 +209,16 @@ export default {
         prompt3: "",
         prompt4: "",
       },
-      loginbtnloading: false,
-      codebtnloading: false,
-      registerbtnloading: false,
-      showCountdown: false,
-      minutes: 0,
-      seconds: 0,
+      resetForm: {
+        mailAccount: "",
+        password: "",
+        password2: "",
+        verifyCode: "",
+        prompt1: "",
+        prompt2: "",
+        prompt3: "",
+        prompt4: "",
+      },
     };
   },
   computed: {
@@ -175,46 +243,39 @@ export default {
       this.registerForm.prompt3 = "";
       this.registerForm.prompt4 = "";
       if (!this.isRead) return this.$common.selectLang("请先确认条款！", "Please confirm terms first", this);
-
       this.registerbtnloading = true;
       const url = `mailAccount=${this.registerForm.mailAccount}&password=${this.registerForm.password}&verifyCode=${this.registerForm.verifyCode}`;
       this.$api
         .gameMailRegister(url)
         .then((res) => {
-          // console.log("注册账号：", res.data);
           this.registerbtnloading = false;
           this.showCountdown = false; // console.log("倒计时结束");
-          localStorage.removeItem("hashlandGameFiGetCodeEndTime");
+          localStorage.removeItem("hashlandGameFiRegisterGetCode");
           if (res.data.result === "SUCCESS") {
             this.firstAutoLogin(res.data.mailAccount, res.data.token);
           } else if (res.data.result === "FAIL") {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.registerbtnloading = false;
         });
     },
     /**注册后自动登录，使用邮箱账号和token令牌 */
     firstAutoLogin(mailAccount, token) {
       const url = `mailAccount=${mailAccount}&token=${token}`;
-      this.$api
-        .gameMailLogin(url)
-        .then((res) => {
-          // console.log("注册后自动登录，使用邮箱账号和token令牌：", res.data);
-          if (res.data.result === "SUCCESS") {
-            localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
-            this.loginRegisterSucc(res.data.mailAccount);
-            this.$router.push("/gameFi-personalCenter");
-          } else if (res.data.result === "FAIL") {
-            this.$common.selectLang(res.data.msg, res.data.msg, this);
-          }
-        })
-        .catch((err) => {});
+      this.$api.gameMailLogin(url).then((res) => {
+        if (res.data.result === "SUCCESS") {
+          localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
+          this.loginRegisterSucc(res.data.mailAccount);
+          this.$router.push("/gameFi-personalCenter");
+        } else if (res.data.result === "FAIL") {
+          this.$common.selectLang(res.data.msg, res.data.msg, this);
+        }
+      });
     },
     /**手动登录，使用账号和密码 */
     manuallyLogin() {
-      console.log("aaaa");
       if (this.loginbtnloading) return;
       if (!this.loginForm.mailAccount) return (this.loginForm.prompt1 = "Enter email"); // 填写邮箱
       if (!mailReg.test(this.loginForm.mailAccount)) return (this.loginForm.prompt1 = "Invalid email"); // 邮箱不合法
@@ -227,7 +288,6 @@ export default {
       this.$api
         .gameMailLogin(url)
         .then((res) => {
-          // console.log("手动登录，使用账号和密码：", res.data);
           this.loginbtnloading = false;
           if (res.data.result === "SUCCESS") {
             localStorage.setItem("hashlandGameFiInfo", JSON.stringify(res.data));
@@ -236,84 +296,134 @@ export default {
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.loginbtnloading = false;
         });
     },
-    /**没有账号？立即注册 */
-    registerNow() {
-      this.showLogin = false;
+
+    // 5、重置密码接口 请求 url: http://center服域名:端口号/va_cent/password_reset
+    // 请求示例：http://vov2021.mynatapp.cc/va_cent/password_reset?mailAccount=123456@163.com&password=123456&verifyCode=123456
+    // 请求参数：mailAccount 邮箱账号   password重置后的密码  verifyCode邮箱获取到的验证码
+    // 返回参数：
+    //  result(值为SUCCESS注册成功  FAIL注册失败) msg (注册失败相关提示语)
+    //  发送成功时会返回以下参数：
+    //  mailAccount邮箱账号  password密码
+    // get_mail_code  增加一个参数  codeType ( 注册获取验证码传入 register  重置密码获取验证码传入 passwordReset )
+
+    /**重置密码 */
+    toReset() {
+      if (this.resetbtnloading) return;
+      if (!this.resetForm.mailAccount) return (this.resetForm.prompt1 = "Enter email"); // 填写邮箱
+      if (!mailReg.test(this.resetForm.mailAccount)) return (this.resetForm.prompt1 = "Invalid email"); // 邮箱不合法
+      this.resetForm.prompt1 = "";
+      if (!this.resetForm.verifyCode) return (this.resetForm.prompt2 = "Enter verification code"); // 填写验证码
+      this.resetForm.prompt2 = "";
+      if (!this.resetForm.password) return (this.resetForm.prompt3 = "Enter password"); // 填写密码
+      if (!pwReg.test(this.resetForm.password)) return (this.resetForm.prompt3 = "6-16 letters and numbers"); // 6-16位数字英文组合
+      this.resetForm.prompt3 = "";
+      if (!this.resetForm.password2) return (this.resetForm.prompt4 = "Repeat password"); // 再次填写密码
+      if (!pwReg.test(this.resetForm.password2)) return (this.resetForm.prompt4 = "6-16 letters and numbers"); // 6-16位数字英文组合
+      if (this.resetForm.password2 !== this.resetForm.password)
+        return (this.resetForm.prompt3 = this.resetForm.prompt4 = "Password verification failed"); // 密码校验不通过
+      this.resetForm.prompt3 = "";
+      this.resetForm.prompt4 = "";
+      this.resetbtnloading = true;
+      const url = `mailAccount=${this.resetForm.mailAccount}&password=${this.resetForm.password}&verifyCode=${this.resetForm.verifyCode}`;
+      this.$api
+        .gameResetPassword(url)
+        .then((res) => {
+          this.resetbtnloading = false;
+          this.showCountdown = false; // console.log("倒计时结束");
+          localStorage.removeItem("hashlandGameFiRegisterGetCode");
+          if (res.data.result === "SUCCESS") {
+            this.isShowPassword = false;
+            this.showLogin = 1;
+            this.loginForm.mailAccount = res.data.mailAccount;
+            this.loginForm.password = res.data.password;
+          } else if (res.data.result === "FAIL") {
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
+          }
+        })
+        .catch(() => {
+          this.resetbtnloading = false;
+        });
     },
-    /**忘记密码 */
-    // forgotPassword() {
-    //   this.$common.selectLang("忘记密码", "Forgot Password", this);
-    // },
     /**获取验证码 */
-    getCode() {
+    registerGetCode() {
       if (this.codebtnloading || this.showCountdown) return;
       if (!this.registerForm.mailAccount) return (this.registerForm.prompt1 = "Enter email"); // 填写邮箱
       if (!mailReg.test(this.registerForm.mailAccount)) return (this.registerForm.prompt1 = "Invalid email"); // 邮箱不合法
       this.registerForm.prompt1 = "";
-      if (localStorage.getItem("hashlandGameFiGetCodeEndTime")) {
+      if (localStorage.getItem("hashlandGameFiRegisterGetCode")) {
         this.showCountdown = true;
-        const end = JSON.parse(localStorage.getItem("hashlandGameFiGetCodeEndTime"));
-        this.countdown(end);
+        const end = JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode"));
+        this.countdownFun("register", end);
       } else {
         this.codebtnloading = true;
-        const url = `mailAccount=${this.registerForm.mailAccount}`;
+        const url = `codeType=register&mailAccount=${this.registerForm.mailAccount}`;
         this.$api
           .gameMailCode(url)
           .then((res) => {
-            // console.log("获取验证码：", res.data);
             this.codebtnloading = false;
             if (res.data.result === "SUCCESS") {
-              // res.data.msg; // "已发送验证码邮件，请到邮箱中查收"
               this.showCountdown = true;
               const end = Date.parse(new Date()) + 10 * 60 * 1000;
-              localStorage.setItem("hashlandGameFiGetCodeEndTime", JSON.stringify(end));
-              this.countdown(end);
-            } else if (res.data.result === "FAIL") {
-              // res.data.msg; // "10分钟内只能发送一次确认码"
+              localStorage.setItem("hashlandGameFiRegisterGetCode", JSON.stringify(end));
+              this.countdownFun("register", end);
             }
             this.$common.selectLang(res.data.msg, res.data.msg, this);
           })
-          .catch((err) => {
+          .catch(() => {
+            this.codebtnloading = false;
+          });
+      }
+    },
+    /**获取验证码 */
+    resetGetCode() {
+      if (this.codebtnloading || this.showCountdown) return;
+      if (!this.resetForm.mailAccount) return (this.resetForm.prompt1 = "Enter email"); // 填写邮箱
+      if (!mailReg.test(this.resetForm.mailAccount)) return (this.resetForm.prompt1 = "Invalid email"); // 邮箱不合法
+      this.resetForm.prompt1 = "";
+      if (localStorage.getItem("hashlandGameFiResetGetCode")) {
+        this.showCountdown = true;
+        const end = JSON.parse(localStorage.getItem("hashlandGameFiResetGetCode"));
+        this.countdownFun("passwordReset", end);
+      } else {
+        this.codebtnloading = true;
+        const url = `codeType=passwordReset&mailAccount=${this.resetForm.mailAccount}`;
+        this.$api
+          .gameMailCode(url)
+          .then((res) => {
+            this.codebtnloading = false;
+            if (res.data.result === "SUCCESS") {
+              this.showCountdown = true;
+              const end = Date.parse(new Date()) + 10 * 60 * 1000;
+              localStorage.setItem("hashlandGameFiResetGetCode", JSON.stringify(end));
+              this.countdownFun("passwordReset", end);
+            }
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
+          })
+          .catch(() => {
             this.codebtnloading = false;
           });
       }
     },
 
-    /**阅读条约 */
-    readTheTreaty() {
-      this.isRead = !this.isRead;
-    },
-    /**打开条约 */
-    // openTreaty() {
-    //   window.open("//cdn.hashland.com/singlehtml/gameFi-register-treaty.html", "_blank");
-    // },
-    /**是否显示密码 */
-    showPassword() {
-      this.isShowPassword = !this.isShowPassword;
-    },
     /**登录成功*/
     loginRegisterSucc(mailAccount) {
+      localStorage.removeItem("hashlandGameFiRegisterGetCode");
+      localStorage.removeItem("hashlandGameFiResetGetCode");
       this.$parent.loginRegisterStatus = true;
       this.$parent.mailAccount = mailAccount;
       this.closeLoginRegister();
       document.querySelector("#gamefi_top").scrollIntoView(true);
-      // location.reload();
       this.$parent.isShowRewardRanking = false;
       this.$nextTick(() => {
         this.$parent.isShowRewardRanking = true;
       });
     },
-    /**关闭本弹窗 */
-    closeLoginRegister() {
-      this.showCountdown = false;
-      this.$parent.showLoginRegister = false;
-    },
     //倒计时
-    countdown(end) {
+    countdownFun(type, end) {
       const msec = end - Date.parse(new Date());
       if (msec < 0) return;
       // let day = parseInt(msec / 1000 / 60 / 60 / 24);
@@ -326,15 +436,42 @@ export default {
       this.seconds = sec > 9 ? sec : "0" + sec;
       if (min >= 0 && sec >= 0) {
         if (min == 0 && sec == 0) {
-          localStorage.removeItem("hashlandGameFiGetCodeEndTime");
-          this.showCountdown = false; // console.log("倒计时结束");
+          if (type == "register") {
+            localStorage.removeItem("hashlandGameFiRegisterGetCode");
+            this.showCountdown = false;
+          } else if (type == "passwordReset") {
+            localStorage.removeItem("hashlandGameFiResetGetCode");
+            this.showCountdown = false;
+          }
           return;
         }
         setTimeout(() => {
-          this.countdown(JSON.parse(localStorage.getItem("hashlandGameFiGetCodeEndTime")));
+          let endTime =
+            type == "register" ? localStorage.getItem("hashlandGameFiRegisterGetCode") : localStorage.getItem("hashlandGameFiResetGetCode");
+          this.countdownFun(type, JSON.parse(endTime));
         }, 1000);
       }
     },
+    /**立即注册 */
+    registerNow() {
+      this.isShowPassword = false;
+      this.showLogin = 2;
+    },
+    /**忘记密码 */
+    forgotPassword() {
+      this.isShowPassword = false;
+      this.showLogin = 3;
+    },
+    /**阅读条约 */
+    readTheTreaty() {
+      this.isRead = !this.isRead;
+    },
+    /**关闭本弹窗 */
+    closeLoginRegister() {
+      this.showCountdown = false;
+      this.$parent.showLoginRegister = false;
+    },
+
     /**公用提示框（关闭方法）*/
     CloseFun() {
       this.proupDis = false;
@@ -397,7 +534,7 @@ input:-moz-placeholder {
   height: 100%;
   border-radius: 14px;
   background: linear-gradient(180deg, #010f20 0%, #021c3b 100%);
-  padding: 30px 80px;
+  padding: 30px 0;
   text-align: center;
   > .header_title {
     letter-spacing: 1px;
@@ -530,13 +667,15 @@ input:-moz-placeholder {
   }
 
   .login_footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     .register_entrance {
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
       span {
-        &:nth-child(2) {
+        cursor: pointer;
+        font-weight: 100;
+        text-decoration: underline;
+        &:hover {
           color: #00e7f0;
         }
       }
