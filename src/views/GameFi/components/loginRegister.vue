@@ -456,11 +456,31 @@ export default {
     registerNow() {
       this.isShowPassword = false;
       this.showLogin = 2;
+      this.registerForm = {
+        mailAccount: "",
+        password: "",
+        password2: "",
+        verifyCode: "",
+        prompt1: "",
+        prompt2: "",
+        prompt3: "",
+        prompt4: "",
+      };
     },
     /**忘记密码 */
     forgotPassword() {
       this.isShowPassword = false;
       this.showLogin = 3;
+      this.resetForm = {
+        mailAccount: "",
+        password: "",
+        password2: "",
+        verifyCode: "",
+        prompt1: "",
+        prompt2: "",
+        prompt3: "",
+        prompt4: "",
+      };
     },
     /**阅读条约 */
     readTheTreaty() {
