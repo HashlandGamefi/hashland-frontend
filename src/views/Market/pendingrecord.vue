@@ -6,7 +6,7 @@
     <span class="title1_txt fontsize32">{{$t("message.market.txt28")}}</span>
     <div class="show_gameArr">
       <div class="onebox" :class="{margin0:index % 4 == 3 }" v-for="(item,index) in pageshowarr" :key="index">
-        <img :src="item.src" class="img" />
+        <img :src="item.src" class="img" :class="{serise2Img:item.series == 1}" />
         <Lottie :options="anmationArr.filter(ele => {return ele.level == item.level && ele.type == item.type})[0].dataJson" :width="getIsMobile?256:'50%'" v-if="item.ultra && anmationArr.length > 0"></Lottie>
         <div class="bottom_box">
           <div class="left_price">
@@ -121,12 +121,7 @@ export default {
           // console.log('获取到的卖家正在出售的卡牌res: ', res);
           this.pageshowLoading = false
           if(res.istrue){
-            this.pageshowarr = res.arr.sort((a, b) => {
-              if(a.ultra == b.ultra == true){
-                return a.level > b.level?1 :-1
-              }
-              return a.ultra > b.ultra?-1 :1
-            })
+            this.pageshowarr = res.arr
           }
         })
       }
@@ -149,8 +144,10 @@ export default {
               type: "", // 卡牌的种类
               src: "",
               price:"",
+              series:'',//获取某HN的系列
               isloading:false
             }
+            obj.series = (await hn().series(item)).toString() // 系列
             obj.cardID = item.toString() // 卡牌的id
             obj.type = (await hn().getRandomNumber(item, "class", 1, 4)).toString()
             obj.level = (await hn().level(item)).toString() // 等级
@@ -158,9 +155,19 @@ export default {
             obj.price = this.$common.convertBigNumberToNormal(card_price,0)
             obj.ultra = (await hn().data(item, 'ultra')) >= 1?true:false
             let race = await hn().getHashrates(item) // 算力数组
-            obj.src = getHnImg(Number(item), obj.level, race,obj.ultra);
+            if(obj.series == '1'){
+              obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra)
+            }else if(obj.series == '2'){
+              obj.src = getHnImg(Number(obj.cardID), obj.level,race,obj.ultra,true)
+            }
             arr.push(obj)
             if (count == res[0].length) {
+              arr.sort((a, b) => {
+                if(a.ultra == b.ultra == true){
+                  return a.level > b.level?1 :-1
+                }
+                return a.ultra > b.ultra?-1 :1
+              })
               resolve({'istrue':true,'arr':arr})
             }
             count++;
@@ -214,11 +221,15 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       margin-right: 40px;
       margin-bottom: 57px;
       .img{
         width: 256px;
         object-fit: contain;
+      }
+      .serise2Img{
+        width: 213px;
       }
       .bottom_box{
         z-index: 99;
@@ -304,6 +315,9 @@ export default {
         .img{
           width: 100%;
           object-fit: contain;
+        }
+        .serise2Img{
+          width: 80%;
         }
         .bottom_box{
           z-index: 99;
