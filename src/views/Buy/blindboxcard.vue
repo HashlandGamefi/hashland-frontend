@@ -259,10 +259,9 @@ export default {
             clearInterval(lotteryObject)
             let transferArr = imgarr.sort((a,b) => {
             if(a.ultra == b.ultra == true){
-              return a.level > b.level?1:-1
-            }else{
-              return a.level > b.level?1:-1
+              return a.level > b.level?-1:1
             }
+            return a.ultra > b.ultra?-1 :1
           })
           let lastObj = {
             minserDis:true,

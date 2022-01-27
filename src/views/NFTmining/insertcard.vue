@@ -154,7 +154,7 @@ export default {
       if(series == 2){
         arr.sort((a, b) => {
           if(a.ultra == b.ultra == true){
-            return a.ultra > b.ultra?-1:1
+            return a.type > b.type?-1:1
           }
           return a.ultra > b.ultra?-1:1
         })

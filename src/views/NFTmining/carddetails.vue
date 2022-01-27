@@ -55,14 +55,9 @@ export default {
           let arr = JSON.parse(this.getUserCardInfo).filter(data => {return data.series == this.$route.query.serise && data.level == this.$route.query.level})
           this.boxarr = arr.sort((a, b) => {
             if(a.ultra == b.ultra == true){
-              if(b.type == a.type){
-                return b.type - a.type
-              }else{
-                return a.type - b.type
-              }
-            }else{
-              return b.ultra - a.ultra
+              return a.type > b.type?-1:1
             }
+            return a.ultra > b.ultra?-1 :1
           })
           // console.log("卡牌详情页面展示的数组:",this.boxarr)
           this.pageshowLoading = false

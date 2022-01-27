@@ -246,14 +246,9 @@ export default {
       let arr = this.cardarr.filter(item => { return item.level == level})
       arr.sort((a, b) => {
         if(a.ultra == b.ultra == true){
-          if(b.type == a.type){
-            return b.type - a.type
-          }else{
-            return a.type - b.type
-          }
-        }else{
-          return b.ultra - a.ultra
+          return a.type > b.type?-1:1
         }
+        return a.ultra > b.ultra?-1 :1
       })
       this.pageshowarr = arr.filter(item => {
         return item.series == series
@@ -369,14 +364,9 @@ export default {
       this.amount = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).length
       this.pageshowarr = this.cardarr.filter(item => { return item.level == data && item.series == this.seriesTxt}).sort((a, b) => {
         if(a.ultra == b.ultra == true){
-          if(b.type == a.type){
-            return b.type - a.type
-          }else{
-            return a.type - b.type
-          }
-        }else{
-          return b.ultra - a.ultra
+          return a.type > b.type?-1:1
         }
+        return a.ultra > b.ultra?-1 :1
       })
     },
     back(){
