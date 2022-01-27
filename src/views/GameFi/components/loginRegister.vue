@@ -423,34 +423,46 @@ export default {
         this.$parent.isShowRewardRanking = true;
       });
     },
-    //倒计时
+    /**倒计时 */
     countdownFun(type, end) {
       const msec = end - Date.parse(new Date());
-      if (msec < 0) return;
-      // let day = parseInt(msec / 1000 / 60 / 60 / 24);
-      // let hr = parseInt((msec / 1000 / 60 / 60) % 24);
-      let min = parseInt((msec / 1000 / 60) % 60);
-      let sec = parseInt((msec / 1000) % 60);
-      // this.day = day;
-      // this.hr = hr > 9 ? hr : "0" + hr;
-      this.minutes = min > 9 ? min : "0" + min;
-      this.seconds = sec > 9 ? sec : "0" + sec;
-      if (min >= 0 && sec >= 0) {
-        if (min == 0 && sec == 0) {
-          if (type == "register") {
-            localStorage.removeItem("hashlandGameFiRegisterGetCode");
-            this.showCountdown = false;
-          } else if (type == "passwordReset") {
-            localStorage.removeItem("hashlandGameFiResetGetCode");
-            this.showCountdown = false;
+      // if (msec < 0) return;
+      if (msec < 0) {
+        this.removeItemGetCode(type);
+      } else {
+        // let day = parseInt(msec / 1000 / 60 / 60 / 24);
+        // let hr = parseInt((msec / 1000 / 60 / 60) % 24);
+        let min = parseInt((msec / 1000 / 60) % 60);
+        let sec = parseInt((msec / 1000) % 60);
+        // this.day = day;
+        // this.hr = hr > 9 ? hr : "0" + hr;
+        this.minutes = min > 9 ? min : "0" + min;
+        this.seconds = sec > 9 ? sec : "0" + sec;
+        if (min >= 0 && sec >= 0) {
+          if (min == 0 && sec == 0) {
+            this.removeItemGetCode(type);
+          } else {
+            setTimeout(() => {
+              let endTime = "";
+              if (type == "register") {
+                endTime = JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode"));
+              } else if (type == "passwordReset") {
+                endTime = JSON.parse(localStorage.getItem("hashlandGameFiResetGetCode"));
+              }
+              this.countdownFun(type, endTime);
+            }, 1000);
           }
-          return;
         }
-        setTimeout(() => {
-          let endTime =
-            type == "register" ? localStorage.getItem("hashlandGameFiRegisterGetCode") : localStorage.getItem("hashlandGameFiResetGetCode");
-          this.countdownFun(type, JSON.parse(endTime));
-        }, 1000);
+      }
+    },
+    /**倒计时结束移除 */
+    removeItemGetCode(type) {
+      if (type == "register") {
+        localStorage.removeItem("hashlandGameFiRegisterGetCode");
+        this.showCountdown = false;
+      } else if (type == "passwordReset") {
+        localStorage.removeItem("hashlandGameFiResetGetCode");
+        this.showCountdown = false;
       }
     },
     /**立即注册 */
