@@ -281,9 +281,15 @@ export default {
       if (!mailReg.test(this.registerForm.mailAccount)) return (this.registerForm.prompt1 = "Invalid email"); // 邮箱不合法
       this.registerForm.prompt1 = "";
       if (localStorage.getItem("hashlandGameFiRegisterGetCode")) {
-        this.showCountdown = true;
         const end = JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode"));
-        this.countdownFun("register", end);
+        const msec = end - Date.parse(new Date());
+        if (msec <= 0) {
+          localStorage.removeItem("hashlandGameFiRegisterGetCode");
+          this.resetGetCode();
+        } else {
+          this.showCountdown = true;
+          this.countdownFun("register", end);
+        }
       } else {
         this.codebtnloading = true;
         const url = `codeType=register&mailAccount=${this.registerForm.mailAccount}`;
@@ -386,9 +392,15 @@ export default {
       if (!mailReg.test(this.resetForm.mailAccount)) return (this.resetForm.prompt1 = "Invalid email"); // 邮箱不合法
       this.resetForm.prompt1 = "";
       if (localStorage.getItem("hashlandGameFiResetGetCode")) {
-        this.showCountdown = true;
         const end = JSON.parse(localStorage.getItem("hashlandGameFiResetGetCode"));
-        this.countdownFun("passwordReset", end);
+        const msec = end - Date.parse(new Date());
+        if (msec <= 0) {
+          localStorage.removeItem("hashlandGameFiResetGetCode");
+          this.resetGetCode();
+        } else {
+          this.showCountdown = true;
+          this.countdownFun("passwordReset", end);
+        }
       } else {
         this.codebtnloading = true;
         const url = `codeType=passwordReset&mailAccount=${this.resetForm.mailAccount}`;
@@ -427,7 +439,7 @@ export default {
     countdownFun(type, end) {
       const msec = end - Date.parse(new Date());
       // if (msec < 0) return;
-      if (msec < 0) {
+      if (msec <= 0) {
         this.removeItemGetCode(type);
       } else {
         // let day = parseInt(msec / 1000 / 60 / 60 / 24);
@@ -443,13 +455,11 @@ export default {
             this.removeItemGetCode(type);
           } else {
             setTimeout(() => {
-              let endTime = "";
               if (type == "register") {
-                endTime = JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode"));
+                this.countdownFun(type, JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode")));
               } else if (type == "passwordReset") {
-                endTime = JSON.parse(localStorage.getItem("hashlandGameFiResetGetCode"));
+                this.countdownFun(type, JSON.parse(localStorage.getItem("hashlandGameFiResetGetCode")));
               }
-              this.countdownFun(type, endTime);
             }, 1000);
           }
         }
