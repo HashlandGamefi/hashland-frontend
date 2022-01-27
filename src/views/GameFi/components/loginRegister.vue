@@ -274,6 +274,36 @@ export default {
         }
       });
     },
+    /**获取验证码 */
+    registerGetCode() {
+      if (this.codebtnloading || this.showCountdown) return;
+      if (!this.registerForm.mailAccount) return (this.registerForm.prompt1 = "Enter email"); // 填写邮箱
+      if (!mailReg.test(this.registerForm.mailAccount)) return (this.registerForm.prompt1 = "Invalid email"); // 邮箱不合法
+      this.registerForm.prompt1 = "";
+      if (localStorage.getItem("hashlandGameFiRegisterGetCode")) {
+        this.showCountdown = true;
+        const end = JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode"));
+        this.countdownFun("register", end);
+      } else {
+        this.codebtnloading = true;
+        const url = `codeType=register&mailAccount=${this.registerForm.mailAccount}`;
+        this.$api
+          .gameMailCode(url)
+          .then((res) => {
+            this.codebtnloading = false;
+            if (res.data.result === "SUCCESS") {
+              this.showCountdown = true;
+              const end = Date.parse(new Date()) + 10 * 60 * 1000;
+              localStorage.setItem("hashlandGameFiRegisterGetCode", JSON.stringify(end));
+              this.countdownFun("register", end);
+            }
+            this.$common.selectLang(res.data.msg, res.data.msg, this);
+          })
+          .catch(() => {
+            this.codebtnloading = false;
+          });
+      }
+    },
     /**手动登录，使用账号和密码 */
     manuallyLogin() {
       if (this.loginbtnloading) return;
@@ -333,8 +363,8 @@ export default {
         .gameResetPassword(url)
         .then((res) => {
           this.resetbtnloading = false;
-          this.showCountdown = false; // console.log("倒计时结束");
-          localStorage.removeItem("hashlandGameFiRegisterGetCode");
+          this.showCountdown = false;
+          localStorage.removeItem("hashlandGameFiResetGetCode");
           if (res.data.result === "SUCCESS") {
             this.isShowPassword = false;
             this.showLogin = 1;
@@ -348,36 +378,7 @@ export default {
           this.resetbtnloading = false;
         });
     },
-    /**获取验证码 */
-    registerGetCode() {
-      if (this.codebtnloading || this.showCountdown) return;
-      if (!this.registerForm.mailAccount) return (this.registerForm.prompt1 = "Enter email"); // 填写邮箱
-      if (!mailReg.test(this.registerForm.mailAccount)) return (this.registerForm.prompt1 = "Invalid email"); // 邮箱不合法
-      this.registerForm.prompt1 = "";
-      if (localStorage.getItem("hashlandGameFiRegisterGetCode")) {
-        this.showCountdown = true;
-        const end = JSON.parse(localStorage.getItem("hashlandGameFiRegisterGetCode"));
-        this.countdownFun("register", end);
-      } else {
-        this.codebtnloading = true;
-        const url = `codeType=register&mailAccount=${this.registerForm.mailAccount}`;
-        this.$api
-          .gameMailCode(url)
-          .then((res) => {
-            this.codebtnloading = false;
-            if (res.data.result === "SUCCESS") {
-              this.showCountdown = true;
-              const end = Date.parse(new Date()) + 10 * 60 * 1000;
-              localStorage.setItem("hashlandGameFiRegisterGetCode", JSON.stringify(end));
-              this.countdownFun("register", end);
-            }
-            this.$common.selectLang(res.data.msg, res.data.msg, this);
-          })
-          .catch(() => {
-            this.codebtnloading = false;
-          });
-      }
-    },
+
     /**获取验证码 */
     resetGetCode() {
       if (this.codebtnloading || this.showCountdown) return;
