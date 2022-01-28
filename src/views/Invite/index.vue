@@ -154,6 +154,7 @@ export default {
       peopleAddress: "",
       redonlyDis: false, //input输入框  是否只读
       dis: false, // 确认按钮 是否禁用
+      // 公会邀请
       start_userlist:[
         '0x9CFCb45df3759503863bca02DCEF403699A7e508',
         '0x5c15d8bE6A1dcb715d998d60ed06732f71DCf432',
@@ -162,6 +163,7 @@ export default {
         '0x4f37da26433287DF61F4CE4367dBA0D8eCEfeAAE',
         '0xc23Ff3E6C1ad7C02d9ECC76A24d2e7697A01Cae5',
         '0xd4fAceb9277a92E63fd16CF8430406420aF7F6fC',
+        '0x223eE54226a6B66E9fd58AE01c297c2619ba50d8'
       ]
     }
   },
