@@ -379,11 +379,7 @@ export default {
       hnBlindBoxS2()
         .getTokenInfo(tokenID)
         .then((res) => {
-          if (tokenID == "3") {
-            this.boxPrice = 0;
-          } else {
-            this.boxPrice = res[0].toString() / 1e18;
-          }
+          this.boxPrice = res[0].toString() / 1e18;
           this.currencyAddress = res[1];
           this.getuserBalance(res[1]);
           this.vrfFlag = res[5];
