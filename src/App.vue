@@ -13,7 +13,7 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
-    <Banner :bannershow="bannershow" @closebanner="bannerClick" @besureclcik="besureClick"></Banner>
+    <!-- <Banner :bannershow="bannershow" @closebanner="bannerClick" @besureclcik="besureClick"></Banner> -->
   </div>
 </template>
 <script>
@@ -38,13 +38,6 @@ export default {
       } else {
         this.isshowFooter = true;
       }
-      // setTimeout(() => {
-      //   if(to.name == "Buy"){
-      //     this.bannershow = 'isfalse'
-      //   }else{
-      //     this.settimeoutFun()
-      //   }
-      // },500)
     },
     getIstrue: {
       handler: function (newValue) {
@@ -86,7 +79,7 @@ export default {
       temArr: [],
       istopshow: false, //鼠标移入移除
       scrollTimeer: null,
-      bannershow: "istrue", // banner展示由此变量控制,默认为'istrue
+      // bannershow: "istrue", // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
@@ -181,16 +174,16 @@ export default {
       }
     },
     // 首页弹窗banner  ---  关闭方法
-    bannerClick() {
-      this.bannershow = "isfalse";
-      // clearInterval(this.timeer)
-      // 传1代表1小时后过期,传24代表1天后过期
-      // this.$common.setCookie('showbanner','isfalse',1)
-    },
-    besureClick() {
-      this.bannerClick();
-      this.$router.push("/buy/1/3");
-    },
+    // bannerClick() {
+    //   // this.bannershow = "isfalse";
+    //   // clearInterval(this.timeer)
+    //   // 传1代表1小时后过期,传24代表1天后过期
+    //   // this.$common.setCookie('showbanner','isfalse',1)
+    // },
+    // besureClick() {
+    //   // this.bannerClick();
+    //   this.$router.push("/buy/1/3");
+    // },
     settimeoutFun() {
       clearInterval(this.timeer);
       let time = Date.parse(new Date()) / 1000;
@@ -230,7 +223,6 @@ export default {
   },
   mounted() {
     // if (process.env.NODE_ENV != "production") this.bannershow = "false";
-    this.bannershow = "false";
     window.addEventListener("mousewheel", this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);

@@ -8,9 +8,9 @@
         <li v-for="(item, index) in navarr" :key="index" :class="[index == menuIndex ? 'activeClass' : '']" @click="menuClick(index)">
           <div class="add_fire">
             {{ $t(item) }}
-            <img :src="`${$store.state.imgUrl}fire.png`" class="bindbox_img" v-if="index == 7"/>
+            <img :src="`${$store.state.imgUrl}fire.png`" class="bindbox_img" v-if="index == 7" />
           </div>
-          <div class="nft_hover" v-show="index == 0" :class="[disablehover?'clear_hover':'']">
+          <div class="nft_hover" v-show="index == 0" :class="[disablehover ? 'clear_hover' : '']">
             <div class="box_nft">
               <div class="span1" @click.stop="nftFun('card')">{{ $t("message.nav.txt7") }} <span class="icon-v-right"></span></div>
               <div class="span1" @click.stop="nftFun('mining')">{{ $t("message.nav.txt8") }} <span class="icon-v-right"></span></div>
@@ -65,7 +65,7 @@
               <div class="mobile_line">
                 <div class="add_fire">
                   {{ $t(item) }}
-                  <img :src="`${$store.state.imgUrl}fire.png`" class="bindbox_img" v-if="index == 7"/>
+                  <img :src="`${$store.state.imgUrl}fire.png`" class="bindbox_img" v-if="index == 7" />
                 </div>
                 <span
                   class="mobile_triangle"
@@ -104,7 +104,7 @@ export default {
   inject: ["reload"],
   data() {
     return {
-      disablehover:false,
+      disablehover: false,
       walletdis: false, //选择钱包
       InitialStatus: true, // 移动端菜单栏按钮转换变量
       btntxt: "", // 弹窗页面的确认按钮
@@ -118,7 +118,7 @@ export default {
         "message.nav.txt4",
         "message.nav.txt5",
         "message.nav.txt10",
-        "message.nav.txt11",
+        // "message.nav.txt11",
       ],
       mobilemenu: false, //移动端菜单
       mobile_menuDis: false, // nfts展开菜单,
@@ -219,10 +219,10 @@ export default {
     },
     // nfts子菜单选择项
     nftFun(data) {
-      this.disablehover = true
+      this.disablehover = true;
       setTimeout(() => {
-        this.disablehover = false
-      },600)
+        this.disablehover = false;
+      }, 600);
       this.$store.commit("menuBG", "yes");
       sessionStorage.setItem("menuBG", "yes");
       this.InitialStatus = true;
@@ -279,9 +279,9 @@ export default {
         case 6:
           this.$router.push("/gameFi-download");
           break;
-        case 7:
-          this.$router.push("/buy/1/3");
-          break;
+        // case 7:
+        //   this.$router.push("/buy/1/3");
+        //   break;
         default:
           this.$common.selectLang("敬请期待", "Coming soon", this);
           break;
@@ -437,12 +437,12 @@ export default {
             }
           }
         }
-        .add_fire{
+        .add_fire {
           display: flex;
           align-items: center;
           justify-content: center;
           color: #ffffff;
-          .bindbox_img{
+          .bindbox_img {
             width: 19px;
             object-fit: contain;
             margin-left: 4px;
@@ -456,7 +456,7 @@ export default {
         }
       }
       .activeClass {
-        .add_fire{
+        .add_fire {
           color: #00e7f0;
         }
       }
@@ -742,11 +742,11 @@ export default {
               justify-content: space-between;
               align-items: center;
               margin-bottom: 0.24rem;
-              .add_fire{
+              .add_fire {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                .bindbox_img{
+                .bindbox_img {
                   width: 0.19rem;
                   object-fit: contain;
                   margin-left: 0.05rem;
@@ -798,7 +798,7 @@ export default {
               }
             }
             .mobile_activeClass {
-              .add_fire{
+              .add_fire {
                 color: #00e7f0;
               }
             }
