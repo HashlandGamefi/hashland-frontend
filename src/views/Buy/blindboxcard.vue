@@ -470,6 +470,7 @@ export default {
       .add_composite_span2 {
         color: #29cdda;
         line-height: 40px;
+        margin-top: 20px;
       }
       .nft_hover {
         display: none;
