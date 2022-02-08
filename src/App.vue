@@ -2,9 +2,9 @@
   <div id="app">
     <Nav></Nav>
     <!-- <transition name="fade"> -->
-      <router-view v-if="isRouterAlive" />
+    <router-view v-if="isRouterAlive" />
     <!-- </transition> -->
-    <div class="top_btn fontsize16" :class="{istop:istopshow}" @click="gotop">Top</div>
+    <div class="top_btn fontsize16" :class="{ istop: istopshow }" @click="gotop">Top</div>
     <Footer v-if="isshowFooter"></Footer>
     <WinningPopup
       :proupTitle="getrewardsInfo.proupTitle"
@@ -18,7 +18,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import Banner from './components/banner.vue'
+import Banner from "./components/banner.vue";
 import Nav from "./components/nav.vue";
 import Footer from "./components/footer.vue";
 import WinningPopup from "./components/winningpopup.vue";
@@ -27,12 +27,12 @@ export default {
     Nav,
     Footer,
     WinningPopup,
-    Banner
+    Banner,
   },
   watch: {
     $route(to) {
       window.scrollTo(0, 0);
-      this.istopshow = false
+      this.istopshow = false;
       if (to.path == "/synthesis" || to.path == "/transfer") {
         this.isshowFooter = false;
       } else {
@@ -46,26 +46,29 @@ export default {
       //   }
       // },500)
     },
-    'getIstrue':{
+    getIstrue: {
       handler: function (newValue) {
-        if(newValue){
-          this.$common.getUserPledgeInfo(this.getAccount).then(res => {
-            if(res.istrue){
-              localStorage.setItem('pledgeArr',JSON.stringify(res.arr))
-            }else{
-              localStorage.setItem('pledgeArr',JSON.stringify([]))
-            }
-          }).catch(() => {
-            localStorage.setItem('pledgeArr',JSON.stringify([]))
-          })
+        if (newValue) {
+          this.$common
+            .getUserPledgeInfo(this.getAccount)
+            .then((res) => {
+              if (res.istrue) {
+                localStorage.setItem("pledgeArr", JSON.stringify(res.arr));
+              } else {
+                localStorage.setItem("pledgeArr", JSON.stringify([]));
+              }
+            })
+            .catch(() => {
+              localStorage.setItem("pledgeArr", JSON.stringify([]));
+            });
         }
       },
       deep: true,
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   computed: {
-    ...mapGetters(["getrewardsInfo", "getAccount","getIstrue","getIsMobile"]),
+    ...mapGetters(["getrewardsInfo", "getAccount", "getIstrue", "getIsMobile"]),
   },
   provide() {
     //父组件中通过provide来提供变量，在子组件中通过inject来注入变量。
@@ -75,15 +78,15 @@ export default {
   },
   data() {
     return {
-      timeer:null,
-      timeData:{ h: "00", m: "00", s: "00" },
-      starttime:'1641117600',//开始时间  1641031200
+      timeer: null,
+      timeData: { h: "00", m: "00", s: "00" },
+      starttime: "1641117600", //开始时间  1641031200
       isRouterAlive: true, //控制视图是否显示的变量
       isshowFooter: true, // 合成页面底部不显示变量
       temArr: [],
-      istopshow:false,//鼠标移入移除
-      scrollTimeer:null,
-      bannershow:'istrue', // banner展示由此变量控制,默认为'istrue
+      istopshow: false, //鼠标移入移除
+      scrollTimeer: null,
+      bannershow: "istrue", // banner展示由此变量控制,默认为'istrue
     };
   },
   methods: {
@@ -93,7 +96,7 @@ export default {
       this.temArr.forEach((element) => {
         element.scrollTop = 0;
       });
-      this.istopshow = false
+      this.istopshow = false;
     },
     addDom(dom) {
       [...dom.children].forEach((v) => {
@@ -136,101 +139,99 @@ export default {
     // 获取各种币的价格
     getCurrenciesPrices() {
       // 比特币价格
-      this.$api
-        .getCurrencyFun("bitcoin")
-        .then((res) => {
-          // console.log('btc的价格---res: ', res.data.bitcoin.usd);
-          this.$api.getCurrencyFun("hashland-coin").then((res1) => {
-            // console.log('hc的价格--res1: ', res1.data['hashland-coin'].usd);
-            this.$store.commit("setCurrenciesPrice", {
-              btc: this.$common.getBit(res.data.bitcoin.usd),
-              hc: this.$common.getBit(res1.data["hashland-coin"].usd),
-            });
-            sessionStorage.setItem("btcprice", this.$common.getBit(res.data.bitcoin.usd));
-            sessionStorage.setItem("hcprice", this.$common.getBit(res1.data["hashland-coin"].usd));
+      this.$api.getCurrencyFun("bitcoin").then((res) => {
+        // console.log('btc的价格---res: ', res.data.bitcoin.usd);
+        this.$api.getCurrencyFun("hashland-coin").then((res1) => {
+          // console.log('hc的价格--res1: ', res1.data['hashland-coin'].usd);
+          this.$store.commit("setCurrenciesPrice", {
+            btc: this.$common.getBit(res.data.bitcoin.usd),
+            hc: this.$common.getBit(res1.data["hashland-coin"].usd),
           });
-        })
+          sessionStorage.setItem("btcprice", this.$common.getBit(res.data.bitcoin.usd));
+          sessionStorage.setItem("hcprice", this.$common.getBit(res1.data["hashland-coin"].usd));
+        });
+      });
     },
-    handleScroll (e) {
-      let direction = e.deltaY > 0 ? 'down' : 'up';  //deltaY为正则滚轮向下，为负滚轮向上
-      if(this.scrollTimeer){
-        clearTimeout(this.scrollTimeer)
+    handleScroll(e) {
+      let direction = e.deltaY > 0 ? "down" : "up"; //deltaY为正则滚轮向下，为负滚轮向上
+      if (this.scrollTimeer) {
+        clearTimeout(this.scrollTimeer);
         this.scrollTimeer = setTimeout(() => {
-          this.isshowTop(direction)
-        },500)
-      }else{
+          this.isshowTop(direction);
+        }, 500);
+      } else {
         this.scrollTimeer = setTimeout(() => {
-          this.isshowTop(direction)
-        },500)
+          this.isshowTop(direction);
+        }, 500);
       }
     },
     // 是否展示top按钮
-    isshowTop(direction){
-      let scroll_top = document.documentElement.scrollTop||document.body.scrollTop
-      if (direction == 'down') { //125为用户一次滚动鼠标的wheelDelta的值
-        if(!this.istopshow){
-          this.istopshow = true
+    isshowTop(direction) {
+      let scroll_top = document.documentElement.scrollTop || document.body.scrollTop;
+      if (direction == "down") {
+        //125为用户一次滚动鼠标的wheelDelta的值
+        if (!this.istopshow) {
+          this.istopshow = true;
         }
       }
-      if (direction == 'up' && scroll_top == 0) {
-        if(this.istopshow){
-          this.istopshow = false
+      if (direction == "up" && scroll_top == 0) {
+        if (this.istopshow) {
+          this.istopshow = false;
         }
       }
     },
     // 首页弹窗banner  ---  关闭方法
-    bannerClick(){
-      this.bannershow = 'isfalse'
+    bannerClick() {
+      this.bannershow = "isfalse";
       // clearInterval(this.timeer)
       // 传1代表1小时后过期,传24代表1天后过期
       // this.$common.setCookie('showbanner','isfalse',1)
     },
-    besureClick(){
-      this.bannerClick()
+    besureClick() {
+      this.bannerClick();
       this.$router.push("/buy/1/3");
     },
-    settimeoutFun(){
-      clearInterval(this.timeer)
-      let time = Date.parse(new Date()) / 1000
-      let owtime = this.starttime - time
+    settimeoutFun() {
+      clearInterval(this.timeer);
+      let time = Date.parse(new Date()) / 1000;
+      let owtime = this.starttime - time;
       this.timeer = setInterval(() => {
-        if(owtime <= 0){
-          clearInterval(this.timeer)
-          this.timeData = { h: "00", m: "00", s: "00" }
-          return
+        if (owtime <= 0) {
+          clearInterval(this.timeer);
+          this.timeData = { h: "00", m: "00", s: "00" };
+          return;
         }
-        this.$common.afferentTime(owtime,res => {
-          this.timeData = res
-        })
-        owtime -= 1
-      },1000)
+        this.$common.afferentTime(owtime, (res) => {
+          this.timeData = res;
+        });
+        owtime -= 1;
+      }, 1000);
     },
-    async DisplayCardAnimationMethods(){
-      let arr = []
-        for (let type = 1; type < 5; type++) {
-          for (let lv = 1; lv < 6; lv++) {
-            let res = await this.$common.getDatCardJson(type,lv)
-            let obj = {
-              level:lv,
-              type:type,
-              dataJson:{}
-            }
-            obj.dataJson = res.data
-            arr.push(obj)
-          }
+    async DisplayCardAnimationMethods() {
+      let arr = [];
+      for (let type = 1; type < 5; type++) {
+        for (let lv = 1; lv < 6; lv++) {
+          let res = await this.$common.getDatCardJson(type, lv);
+          let obj = {
+            level: lv,
+            type: type,
+            dataJson: {},
+          };
+          obj.dataJson = res.data;
+          arr.push(obj);
         }
-      localStorage.setItem('Animation',JSON.stringify(arr))
-    }
+      }
+      localStorage.setItem("Animation", JSON.stringify(arr));
+    },
   },
   created() {
-    this.DisplayCardAnimationMethods()
-    this.getCurrenciesPrices()
+    this.DisplayCardAnimationMethods();
+    this.getCurrenciesPrices();
   },
   mounted() {
-    if(process.env.NODE_ENV != 'production'){
-      this.bannershow = 'false'
-    }
-    window.addEventListener('mousewheel', this.handleScroll);
+    // if (process.env.NODE_ENV != "production") this.bannershow = "false";
+    this.bannershow = "false";
+    window.addEventListener("mousewheel", this.handleScroll);
     window.addEventListener("load", this.setRem);
     window.addEventListener("resize", this.setRem);
   },
@@ -245,13 +246,13 @@ export default {
   height: 60px;
   text-align: center;
   line-height: 60px;
-  background: #0072BD;
+  background: #0072bd;
   color: #ffffff;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.5s;
 }
-.istop{
+.istop {
   right: 10px;
   background: linear-gradient(60deg, #0873ec 40%, #3a96ff 60%);
 }
