@@ -15,7 +15,6 @@ export default {
     );
   },
   getDataJson(data: any) {
-    // console.log("${CARD_API}${data}",`${CARD_API}${data}`)
     return axios.get(`${CARD_API}${data}`);
   },
   /**获取邮箱验证码 */

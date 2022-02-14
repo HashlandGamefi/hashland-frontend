@@ -54,7 +54,6 @@ export default {
   },
   // 截取字符串  已开头字符串中间....尾部字符串显示   eg:wsx....efdf   参数解释str:需要展示的字符串;num:开头结尾需要展示几位
   getSubStr(str: any, num: number) {
-    // console.log('str: ', str);
     let str1 = str.toString();
     if (str1) {
       const subStr1 = str1.substr(0, num);

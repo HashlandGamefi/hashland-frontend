@@ -47,7 +47,6 @@ import LoadingAnmation from '@/components/loadingAnmation.vue'
 Vue.component("LoadingAnmation", LoadingAnmation);
 
 Vue.config.productionTip = false;
-// console.log = function() {}
 new Vue({
   router,
   store,

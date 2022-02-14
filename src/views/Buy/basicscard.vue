@@ -173,7 +173,6 @@ export default {
       }
       // console.log('this.boxnums: ', this.boxnums,this.surplusNums);
       if(Number(this.boxnums) > Number(this.surplusNums)){
-        console.log('可购买数量不足')
         this.$common.selectLang('可购买数量不足','Insufficent quantity left',this)
         return
       }

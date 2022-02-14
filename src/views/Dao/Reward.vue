@@ -180,7 +180,6 @@ export default {
       this.proupDis = false;
     },
     personalClick(item) {
-      console.log("item: ", item);
       if (item.loading) return;
       if (item.num == 0) {
         this.$common.selectLang("没有可提取余额", "No Remaining Balance to Claim", this);
