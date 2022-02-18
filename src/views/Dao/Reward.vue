@@ -33,7 +33,7 @@
         <p class="fontsize22 total_num_color" v-else>$ {{ item.num }}</p>
       </div>
     </div>
-    <div class="add_title">
+    <!-- <div class="add_title">
       <h1 class="h1 fontsize22">{{ $t("message.dao.txt7") }}</h1>
       <div class="left_content">
         <span class="span1 fontsize22">{{ $t("message.dao.txt12") }}</span>
@@ -42,8 +42,8 @@
           <span class="span1 fontsize16" v-for="ele in seasonArr" :key="ele">{{ $t("message.dao.txt12_1") }} {{ ele }}</span>
         </div>
       </div>
-    </div>
-    <div class="personal_infobox">
+    </div> -->
+    <!-- <div class="personal_infobox">
       <div class="onebox" :class="{ sum_box: index == 2 }" v-for="(item, index) in personalInfoArr" :key="index">
         <p class="fontsize16_400" :class="{ btc_num_color: index == 0, hc_num_color: index == 1, personal_num_color: index == 2 }">
           {{ $t(item.title) }}
@@ -56,7 +56,7 @@
           {{ $t("message.dao.txt13") }}<BtnLoading :isloading="item.loading"></BtnLoading>
         </button>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="add_title">
       <h1 class="h1 fontsize22">{{ $t("message.dao.txt8") }}</h1>
       <div class="left_content">
