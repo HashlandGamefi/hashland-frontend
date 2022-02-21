@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import i18n from "../i18n/index";
-import { hn,hnPool,hnMarket, getSigner, hc, getHnImg } from "hashland-sdk";
+import { hn,hnPool,hnMarket, getSigner, hc, getHnImg, wallet, network} from "hashland-sdk";
 import store from "@/store";
 import api from '@/api/api'
 export default {
@@ -540,4 +540,63 @@ export default {
       })
     })
   },
+  // 链接钱包方法封装
+  connectWallet(data:string){
+    return new Promise(async resolve => {
+      let obj = {
+        account:'',
+        chainID:'',
+        status:false
+      }
+      let acc = await wallet.getAccount(data); //链接钱包
+      obj.account = acc[0]
+      obj.chainID = await wallet.getChainId(); // 连接网络
+      let net = network(); // 获取sdk返回的当前的环境
+      if(obj.chainID == net.chainId){
+        obj.status = true
+        store.commit("setnewinfo",  JSON.stringify(obj))
+        sessionStorage.setItem("setnewinfo",JSON.stringify(obj));
+        resolve(obj)
+      }else{
+        wallet.addChain()
+        resolve(obj)
+      }
+      wallet.onAccountChanged((res:any) => {
+        if(res.length == 0){
+          obj.account = ''
+          obj.status = false
+          store.commit("setnewinfo",  JSON.stringify(obj))
+          sessionStorage.setItem("setnewinfo",JSON.stringify(obj))
+          resolve(obj)
+        }else{
+          obj.account = res[0]
+          if(obj.chainID == net.chainId){
+            obj.status = true
+            store.commit("setnewinfo",  JSON.stringify(obj))
+            sessionStorage.setItem("setnewinfo",JSON.stringify(obj));
+            resolve(obj)
+          }else{
+            obj.status = false
+            store.commit("setnewinfo",  JSON.stringify(obj))
+            sessionStorage.setItem("setnewinfo",JSON.stringify(obj));
+            resolve(obj)
+          }
+        }
+      })
+      wallet.onChainChanged((res:any) => {
+        obj.chainID = res
+        if(obj.chainID == net.chainId){
+          obj.status = true
+          store.commit("setnewinfo",  JSON.stringify(obj))
+          sessionStorage.setItem("setnewinfo",JSON.stringify(obj));
+          resolve(obj)
+        }else{
+          obj.status = false
+          store.commit("setnewinfo",  JSON.stringify(obj))
+          sessionStorage.setItem("setnewinfo",JSON.stringify(obj));
+          resolve(obj)
+        }
+      })
+    })
+  }
 };

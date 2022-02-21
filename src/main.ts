@@ -22,6 +22,9 @@ Vue.prototype.$common = common;
 import Input from "@/components/inputcomponents.vue";
 Vue.component("Input", Input);
 
+import WalletComponents from "@/components/walletcomponents.vue";
+Vue.component("WalletComponents", WalletComponents);
+
 import Btn from "@/components/btn.vue";
 Vue.component("Btn", Btn);
 

@@ -13,6 +13,10 @@
       @winbtnsure="winbtnsure"
       @closepage="closepageFun"
     ></WinningPopup>
+    <WalletComponents
+      @closewalletpage="walletClose"
+      @walletClick="walletClick"
+    ></WalletComponents>
     <!-- <Banner :bannershow="bannershow" @closebanner="bannerClick" @besureclcik="besureClick"></Banner> -->
   </div>
 </template>
@@ -83,6 +87,27 @@ export default {
     };
   },
   methods: {
+    walletClose() {
+      this.$store.commit("setwalletstatus", false);
+    },
+    async walletClick(item) {
+      if (
+        item.name.toLowerCase() == "coin98" ||
+        item.name.toLowerCase() == "onto" ||
+        item.name.toLowerCase() == "bitkeep"
+      ) {
+        console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
+        this.$common.connectWallet("metamask").then(res => {
+          console.log('方法返回res: ', res);
+          this.$store.commit("setwalletstatus", false);
+        })
+      } else {
+        this.$common.connectWallet(item.name.toLowerCase()).then(res => {
+          console.log('方法返回res: ', res);
+          this.$store.commit("setwalletstatus", false);
+        })
+      }
+    },
     gotop() {
       window.scrollTo(0, 0);
       this.addDom(document);

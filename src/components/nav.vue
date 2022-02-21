@@ -92,12 +92,11 @@
       </div>
     </div>
     <Proup :btntxt="btntxt" :word="word" @besurefun="CloseFun" :proupDis="proupDis" @closedis="CloseFun"></Proup>
-    <WalletComponents :walletdis="walletdis" @closewalletpage="walletClose" @walletClick="walletClick"></WalletComponents>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { wallet, network } from "hashland-sdk";
+import { wallet } from "hashland-sdk";
 import WalletComponents from "./walletcomponents.vue";
 export default {
   components: { WalletComponents },
@@ -126,8 +125,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getSubtringAccount", "getIstrue", "getMenuBG", "getAccount"]),
-    // ...mapGetters(["getMenuIndex", "getSubtringAccount", "getIstrue", "getMenuBG", "getAccount"]),
+    ...mapGetters(["getSubtringAccount", "getIstrue", "getMenuBG", "getAccount"])
   },
   watch: {
     $route(to) {
@@ -191,27 +189,19 @@ export default {
         }
       });
     }
-    wallet.onAccountChanged(this.connectFun); // 监听账号
-    wallet.onChainChanged(this.OnNetworkFun); // 监听网络
+    // wallet.onAccountChanged(this.connectFun); // 监听账号
+    // wallet.onChainChanged(this.OnNetworkFun); // 监听网络
     wallet.onDisconnect(this.signOutFun);
   },
   methods: {
     // 退出钱包
     async signOutFun() {
-      sessionStorage.removeItem("setAccount");
-      sessionStorage.removeItem("setCardInfo");
-      sessionStorage.removeItem("setChain");
+      sessionStorage.removeItem("setnewinfo");
       sessionStorage.removeItem("count");
       if (localStorage.getItem("walletType") == "walletconnect") {
         wallet.disconnect();
       }
-      this.$store.commit("setAccount", "no");
-      this.$store.commit("setCardInfo", JSON.stringify([]));
-      this.$store.commit("setChain", "");
-    },
-    // 关闭链接钱包弹窗
-    walletClose() {
-      this.walletdis = false;
+      this.$store.commit("setnewinfo", JSON.stringify({}));
     },
     // 取消按钮(关闭弹窗)
     CloseFun() {
@@ -287,65 +277,10 @@ export default {
           break;
       }
     },
-    // 账号链接抽离方法
-    connectFun(res) {
-      if (res.length == 0) {
-        this.$store.commit("setAccount", "no");
-        sessionStorage.setItem("setAccount", "no");
-        this.$store.commit("setCardInfo", JSON.stringify([]));
-        sessionStorage.setItem("setCardInfo", JSON.stringify([]));
-      } else {
-        this.$store.commit("setAccount", res[0]);
-        sessionStorage.setItem("setAccount", res[0]);
-        this.$common.newgetUserCardInfoFun(res[0]).then((res1) => {
-          if (res1 > 1) {
-            sessionStorage.setItem("count", res1);
-          } else {
-            sessionStorage.setItem("count", 1);
-          }
-        });
-      }
-    },
-    // 网络链接抽离方法(第一次连接,用户网络不对的情况下帮他切换网络)
-    networkFun(chainID) {
-      let net = network(); // 获取sdk返回的当前的环境
-      if (chainID == net.chainId) {
-        this.$store.commit("setChain", chainID);
-        sessionStorage.setItem("setChain", chainID);
-      } else {
-        wallet.addChain();
-      }
-    },
-    // 网络链接抽离方法(用户自己手动切换其他网络的操作)
-    OnNetworkFun(res) {
-      let net = network(); // 获取sdk返回的当前的环境
-      if (res == net.chainId) {
-        this.$store.commit("setChain", res);
-        sessionStorage.setItem("setChain", res);
-      } else {
-        this.$store.commit("setChain", "");
-        sessionStorage.removeItem("setChain");
-      }
-    },
-    async walletClick(item) {
-      if (item.name.toLowerCase() == "coin98" || item.name.toLowerCase() == "onto" || item.name.toLowerCase() == "bitkeep") {
-        // console.log("当前点击的是%s,传的是metamask", item.name.toLowerCase());
-        this.metamaskLink("metamask");
-      } else {
-        this.metamaskLink(item.name.toLowerCase());
-      }
-    },
     // 链接钱包方法
     commonLink() {
-      this.walletdis = true;
-    },
-    // 小狐狸链接
-    async metamaskLink(data) {
-      const account = await wallet.getAccount(data); //链接钱包
-      this.connectFun(account);
-      const chainID = await wallet.getChainId(); // 连接网络
-      this.networkFun(chainID);
-      this.walletdis = false;
+      console.log("链接钱包")
+      this.$store.commit("setwalletstatus", true);
     },
     // 移动端展开菜单
     mobilemenuClick() {
