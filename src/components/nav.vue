@@ -201,6 +201,7 @@ export default {
       if (localStorage.getItem("walletType") == "walletconnect") {
         wallet.disconnect();
       }
+      localStorage.removeItem('walletType')
       this.$store.commit("setnewinfo", JSON.stringify({}));
     },
     // 取消按钮(关闭弹窗)

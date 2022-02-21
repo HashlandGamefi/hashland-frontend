@@ -246,6 +246,11 @@ export default {
     this.getCurrenciesPrices();
   },
   mounted() {
+    if(localStorage.getItem('walletType')){
+      this.$common.connectWallet(localStorage.getItem('walletType')).then(res => {
+        console.log('方法返回res: ', res);
+      })
+    }
     // if (process.env.NODE_ENV != "production") this.bannershow = "false";
     window.addEventListener("mousewheel", this.handleScroll);
     window.addEventListener("load", this.setRem);
