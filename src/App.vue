@@ -90,7 +90,8 @@ export default {
     walletClose() {
       this.$store.commit("setwalletstatus", false);
     },
-    async walletClick(item) {
+    walletClick(item) {
+      console.log('app.vue[--------]item: ', item);
       if (
         item.name.toLowerCase() == "coin98" ||
         item.name.toLowerCase() == "onto" ||

@@ -279,7 +279,6 @@ export default {
     },
     // 链接钱包方法
     commonLink() {
-      console.log("链接钱包")
       this.$store.commit("setwalletstatus", true);
     },
     // 移动端展开菜单

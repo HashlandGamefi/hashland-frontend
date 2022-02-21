@@ -513,6 +513,9 @@ export default {
     },
     // 确认按钮(弹窗)
     sureBtnFun () {
+      if(!this.getIstrue){
+        this.$store.commit("setwalletstatus", true);
+      }
       if (this.proupBtnstatus) {
         this.proupDis = false;
         return;
