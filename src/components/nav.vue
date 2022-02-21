@@ -97,9 +97,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { wallet } from "hashland-sdk";
-import WalletComponents from "./walletcomponents.vue";
 export default {
-  components: { WalletComponents },
   inject: ["reload"],
   data() {
     return {
