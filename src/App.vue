@@ -91,7 +91,6 @@ export default {
       this.$store.commit("setwalletstatus", false);
     },
     walletClick(item) {
-      console.log('app.vue[--------]item: ', item);
       if (
         item.name.toLowerCase() == "coin98" ||
         item.name.toLowerCase() == "onto" ||
@@ -104,7 +103,6 @@ export default {
         })
       } else {
         this.$common.connectWallet(item.name.toLowerCase()).then(res => {
-          console.log('方法返回res: ', res);
           this.$store.commit("setwalletstatus", false);
         })
       }
