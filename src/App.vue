@@ -22,7 +22,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import Banner from "./components/banner.vue";
+// import Banner from "./components/banner.vue";
 import Nav from "./components/nav.vue";
 import Footer from "./components/footer.vue";
 import WinningPopup from "./components/winningpopup.vue";
@@ -31,7 +31,7 @@ export default {
     Nav,
     Footer,
     WinningPopup,
-    Banner,
+    // Banner,
   },
   watch: {
     $route(to) {
@@ -247,9 +247,7 @@ export default {
   },
   mounted() {
     if(localStorage.getItem('walletType')){
-      this.$common.connectWallet(localStorage.getItem('walletType')).then(res => {
-        console.log('方法返回res: ', res);
-      })
+      this.$common.connectWallet(localStorage.getItem('walletType'))
     }
     // if (process.env.NODE_ENV != "production") this.bannershow = "false";
     window.addEventListener("mousewheel", this.handleScroll);
