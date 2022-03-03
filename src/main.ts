@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import "./style/reset.scss";
 import "./style/style.scss";
+import './plugins/element.js'
 
 import i18n from "./i18n/index";
 

@@ -31,7 +31,8 @@
     </div>
     <div class="game_main">
       <div class="game_introduction">
-        <div class="game_title fontsize32">{{ $t("message.gameFi.text3") }}</div>
+        <div class="fontsize32">{{ $t("message.gameFi.text3") }}</div>
+        <!-- 三大块---讲解 -->
         <div class="game_tab">
           <div>
             <div>{{ $t("message.gameFi.text50") }}</div>
@@ -46,6 +47,7 @@
             <div>{{ $t("message.gameFi.text83") }}</div>
           </div>
         </div>
+        <!-- 视频 -->
         <div class="player_box1">
           <iframe
             class="player"
@@ -56,8 +58,9 @@
             allowfullscreen
           ></iframe>
         </div>
+        <!-- 游戏模式 -->
+        <div class="game_title fontsize22">{{ $t("message.gameFi.text4") }}</div>
         <div class="game_model">
-          <div class="fontsize32">{{ $t("message.gameFi.text4") }}</div>
           <ul>
             <li>
               <span class="fontsize16"> {{ $t("message.gameFi.text33") }} </span>
@@ -74,10 +77,6 @@
             <li>
               <span class="fontsize16"> {{ $t("message.gameFi.text39") }} </span>
               <div class="fontsize12">{{ $t("message.gameFi.text40") }}</div>
-            </li>
-            <li>
-              <span class="fontsize16">{{ $t("message.gameFi.text88") }}</span>
-              <div class="fontsize12">{{ $t("message.gameFi.text89") }}</div>
             </li>
           </ul>
         </div>
@@ -96,7 +95,7 @@
 import { mapGetters } from "vuex";
 import LoginRegister from "./components/loginRegister.vue";
 import Recharge from "./components/recharge.vue";
-import RewardRanking from "./components/rewardRanking.vue";
+import RewardRanking from "./components/pvpandpveRanking.vue";
 export default {
   components: { LoginRegister, Recharge, RewardRanking },
   data() {
@@ -109,7 +108,7 @@ export default {
       loginRegisterStatus: false,
       mailAccount: "",
       ranking1select: "",
-      isShowRewardRanking: true,
+      isShowRewardRanking: true
     };
   },
   computed: {
@@ -296,8 +295,17 @@ export default {
     }
   }
 }
+.game_title{
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .game_main {
-  width: 90vw;
+  // width: 80vw;
+  width: 100%;
+  padding: 0 172px;
   margin: 0 auto;
   color: #ffffff;
 }
@@ -311,7 +319,6 @@ export default {
     align-items: center;
     justify-content: space-around;
     text-align: center;
-
     > div {
       width: 25%;
       max-width: 300px;
@@ -354,10 +361,30 @@ export default {
     background: #021c3b;
     box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
     border-radius: 6px;
-    margin-top: 50px;
+    margin-top: 10px;
     padding: 20px;
     > div {
       margin-bottom: 20px;
+    }
+    .Reward_Pool_box{
+      width: 100%;
+      background: #01162D;
+      border-radius: 7px;
+      border: 1px solid #FFBE03;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .onebox{
+        flex: 1;
+        height: 80px;
+        padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        color: #ffffff;
+      }
     }
     ul {
       display: flex;
@@ -371,10 +398,108 @@ export default {
     }
   }
 }
-
+.ranking_box {
+  width: 100%;
+  background: #021c3b;
+  box-shadow: -13px 10px 11px -2px rgba(2, 12, 23, 0.4), -2px -33px 101px 0px rgba(25, 47, 74, 0.5);
+  border-radius: 6px;
+  padding: 20px;
+  margin-top: 30px;
+  font-size: 0;
+  .ranking_title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > span {
+      &:nth-child(1) {
+        font-size: 26px;
+      }
+      &:nth-child(2) {
+        font-size: 18px;
+      }
+    }
+  }
+  .ranking_content {
+    width: 100%;
+    display: flex;
+    text-align: center;
+  }
+}
+.ranking_box_box2.pc {
+  .ranking_content {
+    display: flex;
+    text-align: center;
+    font-size: 12px;
+    .col1 {
+      width: calc(100% / 6);
+      background: #082545;
+      border-radius: 6px;
+      padding: 5px;
+      margin-right: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      > div {
+        width: 100%;
+        height: 50px;
+        padding: 5px;
+        > div {
+          width: 100%;
+          height: 100%;
+          background: #3d4f64;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    .col2 {
+      width: calc(100% / 6 * 5);
+      background: #082545;
+      border-radius: 6px;
+      padding: 5px;
+      display: flex;
+      overflow-x: scroll;
+      .row {
+        min-width: 90px;
+        width: calc(100% / 9);
+        > div {
+          height: 50px;
+          padding: 5px;
+          > div {
+            width: 100%;
+            height: 100%;
+            background: #103763;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}
+.pc {
+  display: block;
+}
+.mobile {
+  display: none;
+}
 @media screen and (max-width: 980px) {
   .game_page {
     padding: 60px 0;
+  }
+  .game_main {
+    width: 86vw;
+    padding: 0;
+  }
+  .game_title{
+    margin-top: 0.2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .game_banner {
     .info_tool {
