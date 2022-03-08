@@ -6,7 +6,7 @@ export const GameDownloadData = [
         isShow: true,
         imgUrl: "https://cdn.hashland.com/images/android.png",
         application: "Android(APK)",
-        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.4.0.apk",
+        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.5.4.apk",
       },
       {
         isShow: true, // 是否显示该平台
@@ -49,6 +49,11 @@ export const GameDownloadData = [
   },
 ];
 export const GameUpdateLog = [
+  {
+    version: "1.5.4",
+    update: "07-03-2022",
+    log: "Free Server: Free to Play to Earn, lasts 10 days",
+  },
   {
     version: "1.4.0",
     update: "21-02-2022",
