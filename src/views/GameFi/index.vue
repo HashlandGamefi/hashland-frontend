@@ -155,7 +155,7 @@ export default {
       if (!this.getAccount || this.getAccount == "no") return this.$common.selectLang("请连接钱包！", "Please connect the wallet!", this);
 
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
-      const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === this.getAccount); //不存在：-1
+      const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item == this.getAccount.toLowerCase()); //不存在：-1
       // console.log("当前钱包：", this.getAccount);
       // console.log("本账号绑定的钱包", gameFiInfo.walletAddresses);
       // console.log("-1为没有", hasThisAccount);
