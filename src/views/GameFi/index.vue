@@ -156,10 +156,6 @@ export default {
 
       const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
       const hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item == this.getAccount.toLowerCase()); //不存在：-1
-      // console.log("当前钱包：", this.getAccount);
-      // console.log("本账号绑定的钱包", gameFiInfo.walletAddresses);
-      // console.log("-1为没有", hasThisAccount);
-
       if (hasThisAccount == -1)
         return this.$common.selectLang(
           "请切换至本游戏账号绑定的钱包，否则充值无法到账！",

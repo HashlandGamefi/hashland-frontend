@@ -105,7 +105,7 @@ export default {
       handler: function (newValue) {
         if (newValue) {
           const gameFiInfo = JSON.parse(localStorage.getItem("hashlandGameFiInfo"));
-          this.hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item === newValue); //不存在：-1
+          this.hasThisAccount = gameFiInfo.walletAddresses.findIndex((item) => item == newValue.toLowerCase()); //不存在：-1
           if (this.hasThisAccount == -1) {
             this.$common.selectLang(
               "请切换至本游戏账号绑定的钱包，否则充值无法到账！",
