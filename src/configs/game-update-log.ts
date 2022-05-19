@@ -6,7 +6,7 @@ export const GameDownloadData = [
         isShow: true,
         imgUrl: "https://cdn.hashland.com/images/android.png",
         application: "Android(APK)",
-        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.7.0.apk",
+        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.8.0.apk",
       },
       {
         isShow: true, // 是否显示该平台
@@ -49,6 +49,11 @@ export const GameDownloadData = [
   },
 ];
 export const GameUpdateLog = [
+  {
+    version: "1.8.0",
+    update: "19-05-2022",
+    log: "Season 7: Summoner level cap 40, Chapter 1-15, lasts 12 days",
+  },
   {
     version: "1.7.0",
     update: "25-04-2022",

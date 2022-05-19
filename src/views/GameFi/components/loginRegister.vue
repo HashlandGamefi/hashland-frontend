@@ -274,7 +274,7 @@ export default {
         }
       });
     },
-    /**获取验证码 */
+    /**注册获取验证码 */
     registerGetCode() {
       if (this.codebtnloading || this.showCountdown) return;
       if (!this.registerForm.mailAccount) return (this.registerForm.prompt1 = "Enter email"); // 填写邮箱
@@ -285,7 +285,7 @@ export default {
         const msec = end - Date.parse(new Date());
         if (msec <= 0) {
           localStorage.removeItem("hashlandGameFiRegisterGetCode");
-          this.resetGetCode();
+          this.registerGetCode();
         } else {
           this.showCountdown = true;
           this.countdownFun("register", end);
@@ -385,7 +385,7 @@ export default {
         });
     },
 
-    /**获取验证码 */
+    /**重置验证码 */
     resetGetCode() {
       if (this.codebtnloading || this.showCountdown) return;
       if (!this.resetForm.mailAccount) return (this.resetForm.prompt1 = "Enter email"); // 填写邮箱
