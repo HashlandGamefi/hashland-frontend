@@ -4,24 +4,24 @@
     <div class="banner">
       <img class="left_img" :src="`${$store.state.imgUrl}gamefi_downloadbg1.png`" alt="" />
       <ul class="banner_center">
-        <li>{{ $t("message.gameFi.text47") }}</li>
+        <li>{{ $t('message.gameFi.text47') }}</li>
         <li>
           <div>
-            <span></span><span>{{ $t("message.gameFi.text48") }}</span>
+            <span></span><span>{{ $t('message.gameFi.text48') }}</span>
           </div>
           <div>
-            <span></span><span>{{ $t("message.gameFi.text49") }}</span>
+            <span></span><span>{{ $t('message.gameFi.text49') }}</span>
           </div>
           <div>
-            <span></span><span>{{ $t("message.gameFi.text50") }}</span>
+            <span></span><span>{{ $t('message.gameFi.text50') }}</span>
           </div>
         </li>
-        <li>{{ $t("message.gameFi.text51") }}</li>
+        <li>{{ $t('message.gameFi.text51') }}</li>
       </ul>
       <img class="right_img" :src="`${$store.state.imgUrl}gamefi_downloadbg2.png`" alt="" />
     </div>
     <div class="page_main">
-      <div class="main_title">{{ $t("message.gameFi.text52") }}</div>
+      <div class="main_title">{{ $t('message.gameFi.text52') }}</div>
       <div class="box">
         <div class="item" v-for="(item, index) in downloadData" :key="index">
           <div class="item_title">{{ item.mobileDesktop }}</div>
@@ -31,7 +31,7 @@
                 <img :src="it.imgUrl" alt="" />
                 <div>
                   <div>{{ it.application }}</div>
-                  <div v-if="!it.downloadLink">{{ $t("message.gameFi.text79") }}</div>
+                  <div v-if="!it.downloadLink">{{ $t('message.gameFi.text79') }}</div>
                 </div>
                 <p v-if="it.prompt">{{ it.prompt }}</p>
               </div>
@@ -40,15 +40,15 @@
           </div>
         </div>
       </div>
-      <div class="main_title">{{ $t("message.gameFi.text53") }}</div>
+      <div class="main_title">{{ $t('message.gameFi.text53') }}</div>
       <div class="main_title2">
-        {{ $t("message.gameFi.text54") }}
-        <a href="https://land-hash.gitbook.io/hashland/gamefi/hash-warfare">{{ $t("message.gameFi.text55") }}</a>
+        {{ $t('message.gameFi.text54') }}
+        <a href="https://land-hash.gitbook.io/hashland/gamefi/hash-warfare">{{ $t('message.gameFi.text55') }}</a>
       </div>
-      <div class="main_title">{{ $t("message.gameFi.text84") }}</div>
+      <div class="main_title">{{ $t('message.gameFi.text84') }}</div>
       <div class="box2">
         <div class="item">
-          <div>{{ $t("message.gameFi.text85") }}</div>
+          <div>{{ $t('message.gameFi.text85') }}</div>
           <div class="select_list" v-if="versionData.version">
             <span>{{ versionData.version }}</span>
             <img class="accrow" :src="`${$store.state.imgUrl}accrow.png`" />
@@ -58,11 +58,11 @@
           </div>
         </div>
         <div class="item">
-          <div>{{ $t("message.gameFi.text86") }}</div>
+          <div>{{ $t('message.gameFi.text86') }}</div>
           <div v-if="versionData.update">{{ versionData.update }}</div>
         </div>
         <div class="item">
-          <div>{{ $t("message.gameFi.text87") }}</div>
+          <div>{{ $t('message.gameFi.text87') }}</div>
           <div v-if="versionData.log">
             {{ versionData.log }}
           </div>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { GameDownloadData, GameUpdateLog } from "@/configs/game-update-log";
+import { GameDownloadData, GameUpdateLog } from '@/configs/game-update-log';
 export default {
   data() {
     return {
@@ -81,9 +81,9 @@ export default {
       updateLog: [],
       versionlist: [],
       versionData: {
-        version: "",
-        update: "",
-        log: "",
+        version: '',
+        update: '',
+        log: '',
       },
       // downloadData: [
       //   {
@@ -414,13 +414,14 @@ export default {
         transform: rotate(-90deg);
         transition: all 0.3s;
       }
-      ul {
+      .list {
         width: 100%;
-        height: auto;
+        height: 250px;
         background: #082545;
         box-shadow: -1px 14px 9px -9px rgba(24, 24, 24, 0.56);
         border-radius: 0 0 6px 6px;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
         position: absolute;
         top: calc(100% + 5px);
         left: 0;
@@ -440,7 +441,7 @@ export default {
         .accrow {
           transform: rotate(0);
         }
-        ul {
+        .list {
           transform: scaleY(1);
         }
       }
