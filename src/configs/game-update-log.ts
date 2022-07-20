@@ -6,7 +6,7 @@ export const GameDownloadData = [
         isShow: true,
         imgUrl: "https://cdn.hashland.com/images/android.png",
         application: "Android(APK)",
-        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_1.9.0.apk",
+        downloadLink: "https://cdn.hashland.com/apk/HashWarfare_main_2.0.0.apk",
       },
       {
         isShow: true, // 是否显示该平台
@@ -49,6 +49,11 @@ export const GameDownloadData = [
   },
 ];
 export const GameUpdateLog = [
+  {
+    version: "2.0.0",
+    update: "20-07-2022",
+    log: "Season 9: Summoner level cap 50, Chapter 1-20, lasts 12 days",
+  },
   {
     version: "1.9.0",
     update: "13-06-2022",
